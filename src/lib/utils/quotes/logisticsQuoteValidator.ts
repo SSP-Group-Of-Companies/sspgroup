@@ -1,0 +1,631 @@
+// src/lib/utils/quotes/logisticsQuoteValidator.ts
+import {
+  EBrokerType,
+  ECustomerIdentity,
+  EDimensionUnit,
+  EInternationalMode,
+  ELogisticsPrimaryService,
+  EOceanContainerType,
+  EOceanLoadType,
+  EPreferredContactMethod,
+  EFTLAddon,
+  EFTLEquipmentType,
+  ELTLAddon,
+  ELTLEquipmentType,
+  EWarehousingDuration,
+  EWarehousingVolumeType,
+  EWeightUnit,
+  type CargoLine,
+  type LogisticsAddress,
+  type LogisticsDimensions,
+  type OceanContainerLine,
+  type QuoteServiceDetails,
+} from "@/types/logisticsQuote.types";
+
+import { NORTH_AMERICAN_COUNTRY_CODES } from "@/config/countries";
+import { trim, lowerTrim, upperTrim } from "@/lib/utils/stringUtils";
+import type { IFileAsset } from "@/types/shared.types";
+
+const MAX_ATTACHMENTS = 10;
+
+function isObj(v: unknown): v is Record<string, any> {
+  return Boolean(v && typeof v === "object" && !Array.isArray(v));
+}
+
+function isFinitePos(n: unknown) {
+  const x = Number(n);
+  return Number.isFinite(x) && x > 0;
+}
+
+function assert(cond: unknown, msg: string): asserts cond {
+  if (!cond) throw new Error(msg);
+}
+
+function isNorthAmerica(code?: string) {
+  if (!code) return false;
+  return (NORTH_AMERICAN_COUNTRY_CODES as readonly string[]).includes(code.toUpperCase());
+}
+
+function validateAddress(a: unknown, label: string) {
+  assert(isObj(a), `${label} is required`);
+
+  const street1 = trim(a.street1);
+  const city = trim(a.city);
+  const region = trim(a.region);
+  const postalCode = trim(a.postalCode);
+  const countryCode = upperTrim(a.countryCode);
+
+  assert(street1, `${label}.street1 is required`);
+  assert(city, `${label}.city is required`);
+  assert(region, `${label}.region is required`);
+  assert(postalCode, `${label}.postalCode is required`);
+  assert(countryCode && countryCode.length === 2, `${label}.countryCode must be ISO-2 (2 letters)`);
+
+  (a as LogisticsAddress).street1 = street1;
+  if (a.street2 != null) a.street2 = trim(a.street2);
+  (a as LogisticsAddress).city = city;
+  (a as LogisticsAddress).region = region;
+  (a as LogisticsAddress).postalCode = postalCode;
+  (a as LogisticsAddress).countryCode = countryCode;
+}
+
+function validateWeightUnit(unit: unknown, label: string): EWeightUnit {
+  const normalized = String(unit || "");
+  assert(
+    Object.values(EWeightUnit).includes(normalized as EWeightUnit),
+    `${label} must be KG or LB`,
+  );
+  return normalized as EWeightUnit;
+}
+
+function validateDimensionUnit(unit: unknown, label: string): EDimensionUnit {
+  const normalized = String(unit || "");
+  assert(
+    Object.values(EDimensionUnit).includes(normalized as EDimensionUnit),
+    `${label} must be IN or CM`,
+  );
+  return normalized as EDimensionUnit;
+}
+
+function validatePositiveNumber(value: unknown, label: string): number {
+  assert(isFinitePos(value), `${label} must be a positive number`);
+  return Number(value);
+}
+
+function validateDims(d: unknown, label: string) {
+  assert(isObj(d), `${label} is required`);
+  assert(isFinitePos(d.length), `${label}.length must be a positive number`);
+  assert(isFinitePos(d.width), `${label}.width must be a positive number`);
+  assert(isFinitePos(d.height), `${label}.height must be a positive number`);
+
+  (d as LogisticsDimensions).length = Number(d.length);
+  (d as LogisticsDimensions).width = Number(d.width);
+  (d as LogisticsDimensions).height = Number(d.height);
+}
+
+function validateDate(v: unknown, label: string) {
+  const d = v instanceof Date ? v : new Date(String(v));
+  assert(!Number.isNaN(d.getTime()), `${label} must be a valid date`);
+  return d;
+}
+
+function validateCargoLines(lines: unknown, label: string): CargoLine[] {
+  assert(Array.isArray(lines) && lines.length > 0, `${label} must be a non-empty array`);
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    assert(isObj(line), `${label}[${i}] must be an object`);
+
+    assert(isFinitePos(line.quantity), `${label}[${i}].quantity must be >= 1`);
+    assert(isFinitePos(line.length), `${label}[${i}].length must be a positive number`);
+    assert(isFinitePos(line.width), `${label}[${i}].width must be a positive number`);
+    assert(isFinitePos(line.height), `${label}[${i}].height must be a positive number`);
+    assert(
+      isFinitePos(line.weightPerUnit),
+      `${label}[${i}].weightPerUnit must be a positive number`,
+    );
+
+    (line as CargoLine).quantity = Number(line.quantity);
+    (line as CargoLine).length = Number(line.length);
+    (line as CargoLine).width = Number(line.width);
+    (line as CargoLine).height = Number(line.height);
+    (line as CargoLine).weightPerUnit = Number(line.weightPerUnit);
+  }
+
+  return lines as CargoLine[];
+}
+
+function computeApproximateTotalWeight(lines: CargoLine[]): number {
+  return lines.reduce((sum, line) => {
+    return sum + Number(line.quantity) * Number(line.weightPerUnit);
+  }, 0);
+}
+
+function validateContainerLines(lines: unknown, label: string): OceanContainerLine[] {
+  assert(Array.isArray(lines) && lines.length > 0, `${label} must be a non-empty array`);
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    assert(isObj(line), `${label}[${i}] must be an object`);
+
+    assert(isFinitePos(line.quantity), `${label}[${i}].quantity must be >= 1`);
+
+    const containerType = String(line.containerType || "");
+    assert(
+      Object.values(EOceanContainerType).includes(containerType as EOceanContainerType),
+      `${label}[${i}].containerType is invalid`,
+    );
+
+    (line as OceanContainerLine).quantity = Number(line.quantity);
+    (line as OceanContainerLine).containerType = containerType as EOceanContainerType;
+  }
+
+  return lines as OceanContainerLine[];
+}
+
+function validateIdentification(id: unknown) {
+  assert(isObj(id), "identification is required");
+
+  const identity = String(id.identity || "");
+  assert(
+    Object.values(ECustomerIdentity).includes(identity as ECustomerIdentity),
+    "identification.identity is invalid",
+  );
+
+  if (identity === ECustomerIdentity.BROKER) {
+    const bt = String(id.brokerType || "");
+    assert(
+      Object.values(EBrokerType).includes(bt as EBrokerType),
+      "identification.brokerType is required and invalid",
+    );
+    id.brokerType = bt;
+  } else {
+    assert(
+      id.brokerType == null,
+      "identification.brokerType must not be set when identity is SHIPPER",
+    );
+  }
+
+  id.identity = identity;
+}
+
+function validateContact(c: unknown) {
+  assert(isObj(c), "contact is required");
+
+  const firstName = trim(c.firstName);
+  const lastName = trim(c.lastName);
+  const email = lowerTrim(c.email);
+  const company = trim(c.company);
+
+  assert(firstName, "contact.firstName is required");
+  assert(lastName, "contact.lastName is required");
+  assert(email, "contact.email is required");
+  assert(company, "contact.company is required");
+
+  c.firstName = firstName;
+  c.lastName = lastName;
+  c.email = email;
+  c.company = company;
+
+  if (c.phone != null) c.phone = trim(c.phone);
+
+  if (c.preferredContactMethod != null) {
+    const pcm = String(c.preferredContactMethod);
+    assert(
+      Object.values(EPreferredContactMethod).includes(pcm as EPreferredContactMethod),
+      "contact.preferredContactMethod is invalid",
+    );
+    c.preferredContactMethod = pcm;
+  }
+
+  if (c.companyAddress != null) {
+    const ca = trim(String(c.companyAddress));
+    c.companyAddress = ca || undefined;
+
+    if (c.companyAddress && c.companyAddress.length > 400) {
+      throw new Error("contact.companyAddress exceeds maximum length (400)");
+    }
+  }
+}
+
+function validateAttachments(arr: unknown) {
+  if (arr == null) return [];
+  assert(Array.isArray(arr), "attachments must be an array");
+  assert(
+    arr.length <= MAX_ATTACHMENTS,
+    `attachments must contain at most ${MAX_ATTACHMENTS} files`,
+  );
+
+  const out: IFileAsset[] = [];
+  for (let i = 0; i < arr.length; i++) {
+    const a = arr[i];
+    assert(isObj(a), `attachments[${i}] must be an object`);
+    assert(trim(a.url), `attachments[${i}].url is required`);
+    assert(trim(a.s3Key), `attachments[${i}].s3Key is required`);
+    assert(a.mimeType, `attachments[${i}].mimeType is required`);
+
+    out.push({
+      url: String(a.url),
+      s3Key: String(a.s3Key),
+      mimeType: a.mimeType,
+      sizeBytes: typeof a.sizeBytes === "number" ? a.sizeBytes : undefined,
+      originalName: typeof a.originalName === "string" ? a.originalName : undefined,
+    });
+  }
+
+  return out;
+}
+
+/** FTL Equipment -> allowed add-ons */
+const FTL_ADDON_COMPAT: Record<EFTLEquipmentType, readonly EFTLAddon[]> = {
+  [EFTLEquipmentType.DRY_VAN]: [
+    EFTLAddon.EXPEDITED,
+    EFTLAddon.TEAM_DRIVERS,
+    EFTLAddon.HAZARDOUS_MATERIALS,
+    EFTLAddon.APPOINTMENT_REQUIRED,
+  ],
+  [EFTLEquipmentType.REEFER]: [
+    EFTLAddon.EXPEDITED,
+    EFTLAddon.TEAM_DRIVERS,
+    EFTLAddon.HAZARDOUS_MATERIALS,
+    EFTLAddon.APPOINTMENT_REQUIRED,
+  ],
+  [EFTLEquipmentType.FLATBED]: [
+    EFTLAddon.OVERSIZED_OVERWEIGHT,
+    EFTLAddon.ESCORT_VEHICLES_REQUIRED,
+    EFTLAddon.EXPEDITED,
+    EFTLAddon.TEAM_DRIVERS,
+    EFTLAddon.HAZARDOUS_MATERIALS,
+    EFTLAddon.APPOINTMENT_REQUIRED,
+  ],
+  [EFTLEquipmentType.STEP_DECK]: [
+    EFTLAddon.OVERSIZED_OVERWEIGHT,
+    EFTLAddon.ESCORT_VEHICLES_REQUIRED,
+    EFTLAddon.EXPEDITED,
+    EFTLAddon.TEAM_DRIVERS,
+    EFTLAddon.HAZARDOUS_MATERIALS,
+    EFTLAddon.APPOINTMENT_REQUIRED,
+  ],
+  [EFTLEquipmentType.RGN_LOWBOY]: [
+    EFTLAddon.OVERSIZED_OVERWEIGHT,
+    EFTLAddon.ESCORT_VEHICLES_REQUIRED,
+    EFTLAddon.EXPEDITED,
+    EFTLAddon.APPOINTMENT_REQUIRED,
+  ],
+  [EFTLEquipmentType.CONESTOGA]: [
+    EFTLAddon.EXPEDITED,
+    EFTLAddon.TEAM_DRIVERS,
+    EFTLAddon.HAZARDOUS_MATERIALS,
+    EFTLAddon.APPOINTMENT_REQUIRED,
+  ],
+};
+
+/** LTL Equipment -> allowed add-ons */
+const LTL_ADDON_COMPAT: Record<ELTLEquipmentType, readonly ELTLAddon[]> = {
+  [ELTLEquipmentType.DRY_VAN]: [
+    ELTLAddon.LIFTGATE_REQUIRED,
+    ELTLAddon.RESIDENTIAL_DELIVERY,
+    ELTLAddon.APPOINTMENT_REQUIRED,
+    ELTLAddon.EXPEDITED,
+    ELTLAddon.TEAM_DRIVERS,
+    ELTLAddon.HAZARDOUS_MATERIALS,
+  ],
+  [ELTLEquipmentType.FLATBED]: [
+    ELTLAddon.LIFTGATE_REQUIRED,
+    ELTLAddon.RESIDENTIAL_DELIVERY,
+    ELTLAddon.APPOINTMENT_REQUIRED,
+    ELTLAddon.OVERSIZED_OVERWEIGHT,
+    ELTLAddon.ESCORT_VEHICLES_REQUIRED,
+    ELTLAddon.EXPEDITED,
+    ELTLAddon.TEAM_DRIVERS,
+    ELTLAddon.HAZARDOUS_MATERIALS,
+  ],
+  [ELTLEquipmentType.STEP_DECK]: [
+    ELTLAddon.LIFTGATE_REQUIRED,
+    ELTLAddon.RESIDENTIAL_DELIVERY,
+    ELTLAddon.APPOINTMENT_REQUIRED,
+    ELTLAddon.OVERSIZED_OVERWEIGHT,
+    ELTLAddon.ESCORT_VEHICLES_REQUIRED,
+    ELTLAddon.EXPEDITED,
+    ELTLAddon.TEAM_DRIVERS,
+    ELTLAddon.HAZARDOUS_MATERIALS,
+  ],
+  [ELTLEquipmentType.CONESTOGA]: [
+    ELTLAddon.LIFTGATE_REQUIRED,
+    ELTLAddon.RESIDENTIAL_DELIVERY,
+    ELTLAddon.APPOINTMENT_REQUIRED,
+    ELTLAddon.EXPEDITED,
+    ELTLAddon.TEAM_DRIVERS,
+    ELTLAddon.HAZARDOUS_MATERIALS,
+  ],
+};
+
+export function validateLogisticsQuoteRequest(input: {
+  serviceDetails: QuoteServiceDetails;
+  identification: unknown;
+  contact: unknown;
+  finalNotes?: unknown;
+  attachments?: unknown;
+  marketingEmailConsent?: unknown;
+}): {
+  serviceDetails: QuoteServiceDetails;
+  identification: unknown;
+  contact: unknown;
+  finalNotes?: string;
+  attachments: IFileAsset[];
+  marketingEmailConsent?: boolean;
+} {
+  assert(isObj(input), "Invalid body");
+
+  const service = input.serviceDetails as any;
+  assert(isObj(service), "serviceDetails is required");
+
+  const ps = String(service.primaryService || "");
+  assert(
+    Object.values(ELogisticsPrimaryService).includes(ps as ELogisticsPrimaryService),
+    "serviceDetails.primaryService is invalid",
+  );
+
+  switch (ps as ELogisticsPrimaryService) {
+    case ELogisticsPrimaryService.FTL: {
+      const equipment = String(service.equipment || "");
+      assert(
+        Object.values(EFTLEquipmentType).includes(equipment as EFTLEquipmentType),
+        "serviceDetails.equipment is invalid",
+      );
+
+      validateAddress(service.origin, "serviceDetails.origin");
+      validateAddress(service.destination, "serviceDetails.destination");
+      assert(isNorthAmerica(service.origin.countryCode), "FTL origin must be CA/US/MX");
+      assert(isNorthAmerica(service.destination.countryCode), "FTL destination must be CA/US/MX");
+
+      service.pickupDate = validateDate(service.pickupDate, "serviceDetails.pickupDate");
+      service.commodityDescription = trim(service.commodityDescription);
+      assert(service.commodityDescription, "serviceDetails.commodityDescription is required");
+
+      service.approximateTotalWeight = validatePositiveNumber(
+        service.approximateTotalWeight,
+        "serviceDetails.approximateTotalWeight",
+      );
+      service.weightUnit = validateWeightUnit(service.weightUnit, "serviceDetails.weightUnit");
+
+      if (service.estimatedPalletCount != null) {
+        assert(
+          isFinitePos(service.estimatedPalletCount),
+          "serviceDetails.estimatedPalletCount must be >= 1",
+        );
+        service.estimatedPalletCount = Number(service.estimatedPalletCount);
+      }
+
+      if (service.dimensions != null) {
+        validateDims(service.dimensions, "serviceDetails.dimensions");
+        service.dimensionUnit = validateDimensionUnit(
+          service.dimensionUnit,
+          "serviceDetails.dimensionUnit",
+        );
+      } else if (service.dimensionUnit != null) {
+        throw new Error(
+          "serviceDetails.dimensionUnit must not be set without serviceDetails.dimensions",
+        );
+      }
+
+      if (service.pickupDateFlexible != null) {
+        service.pickupDateFlexible = Boolean(service.pickupDateFlexible);
+      }
+
+      if (service.addons == null) {
+        service.addons = [];
+      } else {
+        assert(Array.isArray(service.addons), "serviceDetails.addons must be an array");
+        for (const a of service.addons) {
+          assert(
+            Object.values(EFTLAddon).includes(a as EFTLAddon),
+            "serviceDetails.addons contains invalid value",
+          );
+        }
+
+        const allowed = new Set(FTL_ADDON_COMPAT[equipment as EFTLEquipmentType] || []);
+        for (const a of service.addons as EFTLAddon[]) {
+          assert(allowed.has(a), `FTL add-on ${a} is not compatible with equipment ${equipment}`);
+        }
+      }
+
+      service.primaryService = ps;
+      service.equipment = equipment;
+      break;
+    }
+
+    case ELogisticsPrimaryService.LTL: {
+      const equipment = String(service.equipment || "");
+      assert(
+        Object.values(ELTLEquipmentType).includes(equipment as ELTLEquipmentType),
+        "serviceDetails.equipment is invalid",
+      );
+
+      validateAddress(service.origin, "serviceDetails.origin");
+      validateAddress(service.destination, "serviceDetails.destination");
+      assert(isNorthAmerica(service.origin.countryCode), "LTL origin must be CA/US/MX");
+      assert(isNorthAmerica(service.destination.countryCode), "LTL destination must be CA/US/MX");
+
+      service.pickupDate = validateDate(service.pickupDate, "serviceDetails.pickupDate");
+      service.commodityDescription = trim(service.commodityDescription);
+      assert(service.commodityDescription, "serviceDetails.commodityDescription is required");
+
+      service.weightUnit = validateWeightUnit(service.weightUnit, "serviceDetails.weightUnit");
+      service.dimensionUnit = validateDimensionUnit(
+        service.dimensionUnit,
+        "serviceDetails.dimensionUnit",
+      );
+
+      service.stackable = Boolean(service.stackable);
+
+      service.cargoLines = validateCargoLines(service.cargoLines, "serviceDetails.cargoLines");
+      service.approximateTotalWeight = computeApproximateTotalWeight(service.cargoLines);
+
+      if (service.addons == null) {
+        service.addons = [];
+      } else {
+        assert(Array.isArray(service.addons), "serviceDetails.addons must be an array");
+        for (const a of service.addons) {
+          assert(
+            Object.values(ELTLAddon).includes(a as ELTLAddon),
+            "serviceDetails.addons contains invalid value",
+          );
+        }
+
+        const allowed = new Set(LTL_ADDON_COMPAT[equipment as ELTLEquipmentType] || []);
+        for (const a of service.addons as ELTLAddon[]) {
+          assert(allowed.has(a), `LTL add-on ${a} is not compatible with equipment ${equipment}`);
+        }
+      }
+
+      service.primaryService = ps;
+      service.equipment = equipment;
+      break;
+    }
+
+    case ELogisticsPrimaryService.INTERNATIONAL: {
+      const mode = String(service.mode || "");
+      assert(
+        Object.values(EInternationalMode).includes(mode as EInternationalMode),
+        "serviceDetails.mode is invalid",
+      );
+
+      validateAddress(service.origin, "serviceDetails.origin");
+      validateAddress(service.destination, "serviceDetails.destination");
+
+      service.pickupDate = validateDate(service.pickupDate, "serviceDetails.pickupDate");
+      service.commodityDescription = trim(service.commodityDescription);
+      assert(service.commodityDescription, "serviceDetails.commodityDescription is required");
+
+      service.primaryService = ps;
+      service.mode = mode;
+
+      if (mode === EInternationalMode.AIR) {
+        service.weightUnit = validateWeightUnit(service.weightUnit, "serviceDetails.weightUnit");
+        service.dimensionUnit = validateDimensionUnit(
+          service.dimensionUnit,
+          "serviceDetails.dimensionUnit",
+        );
+
+        service.cargoLines = validateCargoLines(service.cargoLines, "serviceDetails.cargoLines");
+        service.approximateTotalWeight = computeApproximateTotalWeight(service.cargoLines);
+
+        if (service.oceanLoadType != null) {
+          throw new Error("serviceDetails.oceanLoadType is not allowed for AIR");
+        }
+        if (service.containerLines != null) {
+          throw new Error("serviceDetails.containerLines is not allowed for AIR");
+        }
+      }
+
+      if (mode === EInternationalMode.OCEAN) {
+        const oceanLoadType = String(service.oceanLoadType || "");
+        assert(
+          Object.values(EOceanLoadType).includes(oceanLoadType as EOceanLoadType),
+          "serviceDetails.oceanLoadType is invalid",
+        );
+
+        service.oceanLoadType = oceanLoadType;
+
+        if (oceanLoadType === EOceanLoadType.LCL) {
+          service.weightUnit = validateWeightUnit(service.weightUnit, "serviceDetails.weightUnit");
+          service.dimensionUnit = validateDimensionUnit(
+            service.dimensionUnit,
+            "serviceDetails.dimensionUnit",
+          );
+
+          service.cargoLines = validateCargoLines(service.cargoLines, "serviceDetails.cargoLines");
+          service.approximateTotalWeight = computeApproximateTotalWeight(service.cargoLines);
+
+          if (service.containerLines != null) {
+            throw new Error("serviceDetails.containerLines is not allowed for OCEAN LCL");
+          }
+        }
+
+        if (oceanLoadType === EOceanLoadType.FCL) {
+          service.containerLines = validateContainerLines(
+            service.containerLines,
+            "serviceDetails.containerLines",
+          );
+
+          if (service.weightUnit != null) {
+            throw new Error("serviceDetails.weightUnit is not allowed for OCEAN FCL");
+          }
+          if (service.dimensionUnit != null) {
+            throw new Error("serviceDetails.dimensionUnit is not allowed for OCEAN FCL");
+          }
+          if (service.cargoLines != null) {
+            throw new Error("serviceDetails.cargoLines is not allowed for OCEAN FCL");
+          }
+          if (service.approximateTotalWeight != null) {
+            throw new Error("serviceDetails.approximateTotalWeight is not allowed for OCEAN FCL");
+          }
+        }
+      }
+
+      break;
+    }
+
+    case ELogisticsPrimaryService.WAREHOUSING: {
+      validateAddress(service.requiredLocation, "serviceDetails.requiredLocation");
+      assert(
+        isNorthAmerica(service.requiredLocation.countryCode),
+        "Warehousing requiredLocation must be CA/US/MX",
+      );
+
+      assert(isObj(service.estimatedVolume), "serviceDetails.estimatedVolume is required");
+
+      const vt = String(service.estimatedVolume.volumeType || "");
+      assert(
+        Object.values(EWarehousingVolumeType).includes(vt as EWarehousingVolumeType),
+        "estimatedVolume.volumeType is invalid",
+      );
+
+      assert(
+        isFinitePos(service.estimatedVolume.value),
+        "estimatedVolume.value must be a positive number",
+      );
+
+      service.estimatedVolume.volumeType = vt;
+      service.estimatedVolume.value = Number(service.estimatedVolume.value);
+
+      const dur = String(service.expectedDuration || "");
+      assert(
+        Object.values(EWarehousingDuration).includes(dur as EWarehousingDuration),
+        "serviceDetails.expectedDuration is invalid",
+      );
+
+      service.primaryService = ps;
+      service.expectedDuration = dur;
+      break;
+    }
+
+    default:
+      throw new Error("Unsupported primaryService");
+  }
+
+  validateIdentification(input.identification);
+  validateContact(input.contact);
+
+  const finalNotes = input.finalNotes != null ? trim(String(input.finalNotes)) : undefined;
+  if (finalNotes && finalNotes.length > 6000) {
+    throw new Error("finalNotes exceeds maximum length (6000)");
+  }
+
+  const attachments = validateAttachments(input.attachments);
+
+  let marketingEmailConsent: boolean | undefined;
+  if (input.marketingEmailConsent != null) {
+    marketingEmailConsent = Boolean(input.marketingEmailConsent);
+  }
+
+  return {
+    serviceDetails: service as QuoteServiceDetails,
+    identification: input.identification,
+    contact: input.contact,
+    finalNotes,
+    attachments,
+    marketingEmailConsent,
+  };
+}
