@@ -7,7 +7,7 @@ const jsonLd = [
     "@id": `${SITE_URL}#organization`,
     name: SITE_NAME,
     url: SITE_URL,
-    logo: toAbsoluteUrl("/_optimized/brand/NPTlogo2.webp"),
+    logo: toAbsoluteUrl("/_optimized/brand/SSPlogo.png"),
     email: COMPANY_CONTACT.email,
     telephone: COMPANY_CONTACT.phoneE164,
     areaServed: ["Canada", "United States", "Mexico"],

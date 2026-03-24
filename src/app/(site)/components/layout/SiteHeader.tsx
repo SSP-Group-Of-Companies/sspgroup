@@ -21,7 +21,7 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 isolate",
+        "sticky top-0 isolate z-40",
         "border-b border-[color:var(--color-nav-border)]",
         "bg-[color:var(--color-nav-bg)]/85",
         "supports-[backdrop-filter]:bg-[color:var(--color-nav-bg)]/70",
@@ -58,11 +58,11 @@ export function SiteHeader() {
             aria-label="NPT Logistics home"
           >
             <LogoImage
-              src="/_optimized/brand/NPTlogo2.webp"
+              src="/_optimized/brand/SSPlogo.png"
               alt="NPT Logistics"
               width={220}
               height={80}
-              className="h-auto w-[50px] object-contain sm:w-[50px] md:w-[50px]"
+              className="h-auto w-[90px] object-contain sm:w-[90px] md:w-[90px]"
             />
           </Link>
 

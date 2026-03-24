@@ -44,7 +44,7 @@ function BotLogoAvatar() {
   return (
     <span className="npt-chatbot-logo-avatar" aria-hidden="true">
       <Image
-        src="/_optimized/brand/NPTlogo2.webp"
+        src="/_optimized/brand/SSPlogo.png"
         alt="NPT"
         fill
         sizes="34px"

@@ -225,7 +225,7 @@ export function MobileNav() {
             initial={false}
             animate={{ opacity: open ? 1 : 0 }}
             transition={{
-              duration: 0.50,
+              duration: 0.5,
               ease: [0.16, 1, 0.3, 1],
             }}
           />
@@ -256,7 +256,7 @@ export function MobileNav() {
                 opacity: open ? 1 : 0,
               }}
               transition={{
-                duration: 0.50,
+                duration: 0.5,
                 ease: [0.16, 1, 0.3, 1],
               }}
               style={{ transformOrigin: "top", willChange: "transform, opacity" }}
@@ -270,7 +270,7 @@ export function MobileNav() {
                     onClick={closeAll}
                   >
                     <LogoImage
-                      src="/_optimized/brand/NPTlogo2.webp"
+                      src="/_optimized/brand/SSPlogo.png"
                       alt="NPT Logistics"
                       width={220}
                       height={80}
@@ -298,191 +298,117 @@ export function MobileNav() {
               <div className="mt-4 px-5 pb-6">
                 {/* CTAs */}
                 <div className="grid gap-3">
-                    <div className="grid grid-cols-2 gap-3">
-                      <Link
-                        href="/tracking"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => {
-                          closeAll();
-                          trackCtaClick({
-                            ctaId: "nav_mobile_track_shipment",
-                            location: "nav_mobile:actions",
-                            destination: "/tracking",
-                            label: "Track Shipment",
-                          });
-                        }}
-                        className={cn(
-                          "inline-flex h-11 items-center justify-center rounded-xl border px-4 text-sm font-semibold",
-                          "border border-[color:var(--color-nav-border)]",
-                          "text-white hover:bg-white/10",
-                          focusRingNav,
-                        )}
-                      >
-                        Track Shipment
-                      </Link>
-
-                      <Link
-                        href="/employee-portal"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => {
-                          closeAll();
-                          trackCtaClick({
-                            ctaId: "nav_mobile_employee_portal",
-                            location: "nav_mobile:actions",
-                            destination: "/employee-portal",
-                            label: "Employee Portal",
-                          });
-                        }}
-                        className={cn(
-                          "inline-flex h-11 items-center justify-center rounded-xl border px-4 text-sm font-semibold",
-                          "border border-[color:var(--color-nav-border)]",
-                          "text-white hover:bg-white/10",
-                          focusRingNav,
-                        )}
-                      >
-                        Employee Portal
-                      </Link>
-                    </div>
-
+                  <div className="grid grid-cols-2 gap-3">
                     <Link
-                      href="/quote"
+                      href="/tracking"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       onClick={() => {
                         closeAll();
                         trackCtaClick({
-                          ctaId: "nav_mobile_request_quote",
+                          ctaId: "nav_mobile_track_shipment",
                           location: "nav_mobile:actions",
-                          destination: "/quote",
-                          label: "Request a Quote",
+                          destination: "/tracking",
+                          label: "Track Shipment",
                         });
                       }}
                       className={cn(
-                        "inline-flex h-11 items-center justify-center rounded-xl px-4 text-sm font-semibold",
-                        "bg-[color:var(--color-brand-600)] text-white hover:bg-[color:var(--color-brand-700)]",
+                        "inline-flex h-11 items-center justify-center rounded-xl border px-4 text-sm font-semibold",
+                        "border border-[color:var(--color-nav-border)]",
+                        "text-white hover:bg-white/10",
                         focusRingNav,
                       )}
                     >
-                      Request a Quote
+                      Track Shipment
+                    </Link>
+
+                    <Link
+                      href="/employee-portal"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => {
+                        closeAll();
+                        trackCtaClick({
+                          ctaId: "nav_mobile_employee_portal",
+                          location: "nav_mobile:actions",
+                          destination: "/employee-portal",
+                          label: "Employee Portal",
+                        });
+                      }}
+                      className={cn(
+                        "inline-flex h-11 items-center justify-center rounded-xl border px-4 text-sm font-semibold",
+                        "border border-[color:var(--color-nav-border)]",
+                        "text-white hover:bg-white/10",
+                        focusRingNav,
+                      )}
+                    >
+                      Employee Portal
                     </Link>
                   </div>
 
-                  {/* Scrollable accordion list */}
-                  <div className="mt-4 max-h-[calc(100svh-220px)] overflow-y-auto pb-2">
-                    <Accordion.Root
-                      type="single"
-                      collapsible
-                      value={active}
-                      onValueChange={setActive}
-                      className="space-y-3"
-                    >
-                      <Accordion.Item value="solutions" className="rounded-xl">
-                        <Accordion.Header>
-                          <SectionTrigger
-                            label={NAV.solutions.label}
-                            value="solutions"
-                            icon="truck"
-                            openValue={active}
-                          />
-                        </Accordion.Header>
+                  <Link
+                    href="/quote"
+                    onClick={() => {
+                      closeAll();
+                      trackCtaClick({
+                        ctaId: "nav_mobile_request_quote",
+                        location: "nav_mobile:actions",
+                        destination: "/quote",
+                        label: "Request a Quote",
+                      });
+                    }}
+                    className={cn(
+                      "inline-flex h-11 items-center justify-center rounded-xl px-4 text-sm font-semibold",
+                      "bg-[color:var(--color-brand-600)] text-white hover:bg-[color:var(--color-brand-700)]",
+                      focusRingNav,
+                    )}
+                  >
+                    Request a Quote
+                  </Link>
+                </div>
 
-                        <Accordion.Content className="pt-3" asChild>
-                          <motion.div
-                            initial={{ scaleY: 0, opacity: 0 }}
-                            animate={{ scaleY: 1, opacity: 1 }}
-                            exit={{ scaleY: 0, opacity: 0 }}
-                            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                            style={{ transformOrigin: "top" }}
-                          >
-                            {/* ✅ WHITE dropdown panel on navy */}
-                            <div className="rounded-2xl border border-[color:var(--color-menu-border)] bg-[color:var(--color-menu-bg)] p-4">
-                              <div className="text-xs leading-5 text-[color:var(--color-menu-muted)]">
-                                {NAV.solutions.intro.description}
-                              </div>
+                {/* Scrollable accordion list */}
+                <div className="mt-4 max-h-[calc(100svh-220px)] overflow-y-auto pb-2">
+                  <Accordion.Root
+                    type="single"
+                    collapsible
+                    value={active}
+                    onValueChange={setActive}
+                    className="space-y-3"
+                  >
+                    <Accordion.Item value="solutions" className="rounded-xl">
+                      <Accordion.Header>
+                        <SectionTrigger
+                          label={NAV.solutions.label}
+                          value="solutions"
+                          icon="truck"
+                          openValue={active}
+                        />
+                      </Accordion.Header>
 
-                              <div className="mt-4 space-y-4">
-                                {NAV.solutions.categories.map((cat) => (
-                                  <div key={cat.title}>
-                                    <div className="text-xs font-semibold tracking-wide text-[color:var(--color-menu-subtle)]">
-                                      {cat.title}
-                                    </div>
-
-                                    <div className="mt-2 space-y-1">
-                                      {cat.links.map((l) => (
-                                        <MobileRowLink
-                                          key={l.href}
-                                          href={l.href}
-                                          label={l.label}
-                                          icon={l.icon}
-                                          onNavigate={closeAll}
-                                        />
-                                      ))}
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-
-                              <Link
-                                href={NAV.solutions.intro.ctaHref}
-                                onClick={() => {
-                                  closeAll();
-                                  trackCtaClick({
-                                    ctaId: `nav_mobile_intro_${NAV.solutions.intro.ctaLabel}`,
-                                    location: "nav_mobile:intro",
-                                    destination: NAV.solutions.intro.ctaHref,
-                                    label: NAV.solutions.intro.ctaLabel,
-                                  });
-                                }}
-                                className={cn(
-                                  "mt-5 inline-flex items-center gap-2 text-sm font-semibold",
-                                  "text-[color:var(--color-menu-accent)] hover:text-[color:var(--color-menu-accent-hover)]",
-                                  "underline-offset-4 hover:underline",
-                                  focusRingMenu,
-                                )}
-                              >
-                                {NAV.solutions.intro.ctaLabel} <span aria-hidden>→</span>
-                              </Link>
+                      <Accordion.Content className="pt-3" asChild>
+                        <motion.div
+                          initial={{ scaleY: 0, opacity: 0 }}
+                          animate={{ scaleY: 1, opacity: 1 }}
+                          exit={{ scaleY: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                          style={{ transformOrigin: "top" }}
+                        >
+                          {/* ✅ WHITE dropdown panel on navy */}
+                          <div className="rounded-2xl border border-[color:var(--color-menu-border)] bg-[color:var(--color-menu-bg)] p-4">
+                            <div className="text-xs leading-5 text-[color:var(--color-menu-muted)]">
+                              {NAV.solutions.intro.description}
                             </div>
-                          </motion.div>
-                        </Accordion.Content>
-                      </Accordion.Item>
 
-                      {(["industries", "company", "careers"] as const).map((key) => {
-                        const section = NAV[key];
-
-                        const sectionIcon: NavLink["icon"] =
-                          key === "industries"
-                            ? "warehouse"
-                            : key === "company"
-                              ? "building"
-                              : "briefcase";
-
-                        return (
-                          <Accordion.Item key={key} value={key} className="rounded-xl">
-                            <Accordion.Header>
-                              <SectionTrigger
-                                label={section.label}
-                                value={key}
-                                icon={sectionIcon}
-                                openValue={active}
-                              />
-                            </Accordion.Header>
-
-                            <Accordion.Content className="pt-3" asChild>
-                              <motion.div
-                                initial={{ scaleY: 0, opacity: 0 }}
-                                animate={{ scaleY: 1, opacity: 1 }}
-                                exit={{ scaleY: 0, opacity: 0 }}
-                                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                                style={{ transformOrigin: "top" }}
-                              >
-                                <div className="rounded-2xl border border-[color:var(--color-menu-border)] bg-[color:var(--color-menu-bg)] p-4">
-                                  <div className="text-xs leading-5 text-[color:var(--color-menu-muted)]">
-                                    {section.intro.description}
+                            <div className="mt-4 space-y-4">
+                              {NAV.solutions.categories.map((cat) => (
+                                <div key={cat.title}>
+                                  <div className="text-xs font-semibold tracking-wide text-[color:var(--color-menu-subtle)]">
+                                    {cat.title}
                                   </div>
 
-                                  <div className="mt-4 space-y-1">
-                                    {section.links.map((l) => (
+                                  <div className="mt-2 space-y-1">
+                                    {cat.links.map((l) => (
                                       <MobileRowLink
                                         key={l.href}
                                         href={l.href}
@@ -492,42 +418,115 @@ export function MobileNav() {
                                       />
                                     ))}
                                   </div>
-
-                                  <Link
-                                    href={section.intro.ctaHref}
-                                    onClick={() => {
-                                      closeAll();
-                                      trackCtaClick({
-                                        ctaId: `nav_mobile_intro_${section.intro.ctaLabel}`,
-                                        location: "nav_mobile:intro",
-                                        destination: section.intro.ctaHref,
-                                        label: section.intro.ctaLabel,
-                                      });
-                                    }}
-                                    className={cn(
-                                      "mt-5 inline-flex items-center gap-2 text-sm font-semibold",
-                                      "text-[color:var(--color-menu-accent)] hover:text-[color:var(--color-menu-accent-hover)]",
-                                      "underline-offset-4 hover:underline",
-                                      focusRingMenu,
-                                    )}
-                                  >
-                                    {section.intro.ctaLabel} <span aria-hidden>→</span>
-                                  </Link>
                                 </div>
-                              </motion.div>
-                            </Accordion.Content>
-                          </Accordion.Item>
-                        );
-                      })}
-                    </Accordion.Root>
+                              ))}
+                            </div>
 
-                    {/* Footer note */}
-                    <div className="mt-6 border-t border-white/10 pt-4 text-center text-xs text-white/60">
-                      For full site navigation and advanced options, please visit the desktop
-                      version.
-                    </div>
+                            <Link
+                              href={NAV.solutions.intro.ctaHref}
+                              onClick={() => {
+                                closeAll();
+                                trackCtaClick({
+                                  ctaId: `nav_mobile_intro_${NAV.solutions.intro.ctaLabel}`,
+                                  location: "nav_mobile:intro",
+                                  destination: NAV.solutions.intro.ctaHref,
+                                  label: NAV.solutions.intro.ctaLabel,
+                                });
+                              }}
+                              className={cn(
+                                "mt-5 inline-flex items-center gap-2 text-sm font-semibold",
+                                "text-[color:var(--color-menu-accent)] hover:text-[color:var(--color-menu-accent-hover)]",
+                                "underline-offset-4 hover:underline",
+                                focusRingMenu,
+                              )}
+                            >
+                              {NAV.solutions.intro.ctaLabel} <span aria-hidden>→</span>
+                            </Link>
+                          </div>
+                        </motion.div>
+                      </Accordion.Content>
+                    </Accordion.Item>
+
+                    {(["industries", "company", "careers"] as const).map((key) => {
+                      const section = NAV[key];
+
+                      const sectionIcon: NavLink["icon"] =
+                        key === "industries"
+                          ? "warehouse"
+                          : key === "company"
+                            ? "building"
+                            : "briefcase";
+
+                      return (
+                        <Accordion.Item key={key} value={key} className="rounded-xl">
+                          <Accordion.Header>
+                            <SectionTrigger
+                              label={section.label}
+                              value={key}
+                              icon={sectionIcon}
+                              openValue={active}
+                            />
+                          </Accordion.Header>
+
+                          <Accordion.Content className="pt-3" asChild>
+                            <motion.div
+                              initial={{ scaleY: 0, opacity: 0 }}
+                              animate={{ scaleY: 1, opacity: 1 }}
+                              exit={{ scaleY: 0, opacity: 0 }}
+                              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                              style={{ transformOrigin: "top" }}
+                            >
+                              <div className="rounded-2xl border border-[color:var(--color-menu-border)] bg-[color:var(--color-menu-bg)] p-4">
+                                <div className="text-xs leading-5 text-[color:var(--color-menu-muted)]">
+                                  {section.intro.description}
+                                </div>
+
+                                <div className="mt-4 space-y-1">
+                                  {section.links.map((l) => (
+                                    <MobileRowLink
+                                      key={l.href}
+                                      href={l.href}
+                                      label={l.label}
+                                      icon={l.icon}
+                                      onNavigate={closeAll}
+                                    />
+                                  ))}
+                                </div>
+
+                                <Link
+                                  href={section.intro.ctaHref}
+                                  onClick={() => {
+                                    closeAll();
+                                    trackCtaClick({
+                                      ctaId: `nav_mobile_intro_${section.intro.ctaLabel}`,
+                                      location: "nav_mobile:intro",
+                                      destination: section.intro.ctaHref,
+                                      label: section.intro.ctaLabel,
+                                    });
+                                  }}
+                                  className={cn(
+                                    "mt-5 inline-flex items-center gap-2 text-sm font-semibold",
+                                    "text-[color:var(--color-menu-accent)] hover:text-[color:var(--color-menu-accent-hover)]",
+                                    "underline-offset-4 hover:underline",
+                                    focusRingMenu,
+                                  )}
+                                >
+                                  {section.intro.ctaLabel} <span aria-hidden>→</span>
+                                </Link>
+                              </div>
+                            </motion.div>
+                          </Accordion.Content>
+                        </Accordion.Item>
+                      );
+                    })}
+                  </Accordion.Root>
+
+                  {/* Footer note */}
+                  <div className="mt-6 border-t border-white/10 pt-4 text-center text-xs text-white/60">
+                    For full site navigation and advanced options, please visit the desktop version.
                   </div>
                 </div>
+              </div>
             </motion.div>
           </div>
         </Dialog.Content>

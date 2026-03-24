@@ -233,13 +233,13 @@ function VideoCard({
             )}
           >
             <LogoImage
-              src="/_optimized/brand/NPTlogo2.webp"
-              alt="NPT logo"
+              src="/_optimized/brand/SSPlogo.png"
+              alt="SSP logo"
               width={16}
               height={16}
-              className="h-4 w-4 rounded-sm object-contain"
+              className="h-8 w-8 rounded-sm object-contain"
             />
-            <span className="truncate">NPT Logistics</span>
+            <span className="truncate">SSP Group</span>
           </a>
           <div className="flex items-center gap-2">
             <button
@@ -516,10 +516,7 @@ export function TrustProofSection() {
                       transition={{ duration: 0.28, ease: "easeOut" }}
                     >
                       {orderedItems[leftIndex].type === "video" ? (
-                        <VideoCard
-                          item={orderedItems[leftIndex]}
-                          isActive={false}
-                        />
+                        <VideoCard item={orderedItems[leftIndex]} isActive={false} />
                       ) : (
                         <TestimonialCard item={orderedItems[leftIndex]} />
                       )}
@@ -561,10 +558,7 @@ export function TrustProofSection() {
                       transition={{ duration: 0.28, ease: "easeOut" }}
                     >
                       {orderedItems[rightIndex].type === "video" ? (
-                        <VideoCard
-                          item={orderedItems[rightIndex]}
-                          isActive={false}
-                        />
+                        <VideoCard item={orderedItems[rightIndex]} isActive={false} />
                       ) : (
                         <TestimonialCard item={orderedItems[rightIndex]} />
                       )}
@@ -634,7 +628,9 @@ export function TrustProofSection() {
                 "focus-ring-light",
               )}
               aria-pressed={isMarqueePaused}
-              aria-label={isMarqueePaused ? "Resume partner logo motion" : "Pause partner logo motion"}
+              aria-label={
+                isMarqueePaused ? "Resume partner logo motion" : "Pause partner logo motion"
+              }
             >
               {isMarqueePaused ? "Play motion" : "Pause motion"}
             </button>

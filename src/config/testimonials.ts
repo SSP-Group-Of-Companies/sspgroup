@@ -3,7 +3,7 @@
 export type TestimonialItem =
   | {
       type: "video";
-      id: "npt-youtube";
+      id: "ssp-youtube";
       eyebrow: string;
       title: string;
       description?: string;
@@ -29,25 +29,25 @@ export const TRUST_PROOF_SECTION = {
   kicker: "Trust & Proof",
   title: "Proof in Every Mile. Trusted on Every Load",
   description:
-    "NPT ensures effective, dependable, and proactive communication and accountability from pick-up to final delivery. Additionally, provide sustainable supply chain solutions that link businesses with customers across the globe.",
+    "SSP ensures effective, dependable, and proactive communication and accountability from pick-up to final delivery. Additionally, provide sustainable supply chain solutions that link businesses with customers across the globe.",
 } as const;
 
 export const TRUST_PROOF_ITEMS: TestimonialItem[] = [
   {
     type: "video",
-    id: "npt-youtube",
+    id: "ssp-youtube",
     eyebrow: "Featured Testimonial",
-    title: "Watch NPT in Action",
+    title: "Watch SSP in Action",
     description: "A quick look at how our team executes with speed, control, and consistency.",
-    youtubeUrl: "https://www.youtube.com/watch?v=TFn2RSY_XBM",
-    channelUrl: "https://www.youtube.com/@NPT-Youtube",
+    youtubeUrl: "https://www.youtube.com/watch?v=mQv-1GA-HYo&t=6s",
+    channelUrl: "https://www.youtube.com/@SSPGroupofCompanies",
   },
   {
     type: "testimonial",
     id: "ben-horther",
     rating: 5,
     quote:
-      "Our partnership with NPT has been excellent. They are consistently on time, provide clear updates, and step up quickly on special projects. They are one of our most reliable carrier partners in Canada.",
+      "Our partnership with SSP has been excellent. They are consistently on time, provide clear updates, and step up quickly on special projects. They are one of our most reliable carrier partners in Canada.",
     name: "Ben Horther",
   },
   {

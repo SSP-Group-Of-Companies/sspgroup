@@ -216,7 +216,7 @@ export default function GuidedChatbot() {
                 aria-hidden="true"
               >
                 <Image
-                  src="/_optimized/brand/NPTlogo2.webp"
+                  src="/_optimized/brand/SSPlogo.png"
                   alt="NPT"
                   fill
                   sizes="32px"

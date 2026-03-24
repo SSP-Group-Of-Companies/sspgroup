@@ -29,11 +29,11 @@ export default function AdminLoginClient({
       <div className="w-full max-w-md">
         <div className="mb-6 flex flex-col items-center">
           <LogoImage
-            src="/_optimized/brand/NPTlogo2.webp"
+            src="/_optimized/brand/SSPlogo.png"
             alt="NPT Logistics"
             width={220}
             height={80}
-            className="h-auto w-[50px] object-contain sm:w-[50px] md:w-[50px]"
+            className="h-auto w-[90px] object-contain sm:w-[90px] md:w-[90px]"
           />
           <h1 className="mt-4 text-center text-2xl font-bold text-gray-900">Admin Portal</h1>
           <p className="mt-1 text-center text-sm text-gray-600">

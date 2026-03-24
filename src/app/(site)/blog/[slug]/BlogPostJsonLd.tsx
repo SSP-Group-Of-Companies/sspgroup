@@ -30,7 +30,7 @@ export function BlogPostJsonLd({ post, slug }: Props) {
       name: SITE_NAME,
       logo: {
         "@type": "ImageObject",
-        url: toAbsoluteUrl("/_optimized/brand/NPTlogo2.webp"),
+        url: toAbsoluteUrl("/_optimized/brand/SSPlogo.png"),
       },
     },
     mainEntityOfPage: {
@@ -47,4 +47,3 @@ export function BlogPostJsonLd({ post, slug }: Props) {
     />
   );
 }
-

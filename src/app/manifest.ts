@@ -15,7 +15,7 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["business", "logistics", "transportation"],
     icons: [
       {
-        src: "/_optimized/brand/NPTlogo2.webp",
+        src: "/_optimized/brand/favicon.png",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",

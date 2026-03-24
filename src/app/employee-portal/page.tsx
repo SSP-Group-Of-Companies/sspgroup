@@ -24,7 +24,7 @@ export default function EmployeePortalLoginPage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#061127]">
       <HeroImage
-        src="/_optimized/brand/loginPgBg.webp"
+        src="/_optimized/brand/loginPgBg.png"
         alt="Employee portal background"
         fill
         priority
@@ -37,7 +37,7 @@ export default function EmployeePortalLoginPage() {
         <div className="w-full max-w-[390px] rounded-2xl border border-white/15 bg-[rgba(7,20,46,0.65)] p-6 shadow-[0_18px_48px_rgba(2,8,23,0.45)] backdrop-blur-md sm:p-7">
           <div className="mb-5 flex items-center justify-center">
             <LogoImage
-              src="/_optimized/brand/NPTlogo2.webp"
+              src="/_optimized/brand/SSPlogo.png"
               alt="NPT Logistics"
               width={120}
               height={44}
@@ -54,14 +54,14 @@ export default function EmployeePortalLoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="employee@email.com"
-              className="focus-ring-light w-full rounded-md border border-white/12 bg-[#061b3d]/90 px-3 py-2.5 text-sm text-white placeholder:text-white/45 outline-none"
+              className="focus-ring-light w-full rounded-md border border-white/12 bg-[#061b3d]/90 px-3 py-2.5 text-sm text-white outline-none placeholder:text-white/45"
             />
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="your password"
-              className="focus-ring-light w-full rounded-md border border-white/12 bg-[#061b3d]/90 px-3 py-2.5 text-sm text-white placeholder:text-white/45 outline-none"
+              className="focus-ring-light w-full rounded-md border border-white/12 bg-[#061b3d]/90 px-3 py-2.5 text-sm text-white outline-none placeholder:text-white/45"
             />
 
             {error ? (

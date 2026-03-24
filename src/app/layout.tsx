@@ -31,11 +31,11 @@ export const metadata: Metadata = {
   applicationName: "NPT Logistics",
   icons: {
     icon: [
-      { url: "/_optimized/brand/NPTlogo2.webp", type: "image/png" },
+      { url: "/_optimized/brand/favicon.png", type: "image/png" },
       { url: "/_optimized/brand/nptLogo-glow.webp", type: "image/png" },
     ],
-    shortcut: ["/_optimized/brand/NPTlogo2.webp"],
-    apple: [{ url: "/_optimized/brand/NPTlogo2.webp", type: "image/png" }],
+    shortcut: ["/_optimized/brand/favicon.png"],
+    apple: [{ url: "/_optimized/brand/favicon.png", type: "image/png" }],
   },
   manifest: "/manifest.webmanifest",
   category: "business",
@@ -134,7 +134,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   "@id": `${SITE_URL}#organization`,
                   name: SITE_NAME,
                   url: SITE_URL,
-                  logo: toAbsoluteUrl("/_optimized/brand/NPTlogo2.webp"),
+                  logo: toAbsoluteUrl("/_optimized/brand/SSPlogo.png"),
                   email: COMPANY_CONTACT.email,
                   telephone: COMPANY_CONTACT.phoneE164,
                   contactPoint: [
