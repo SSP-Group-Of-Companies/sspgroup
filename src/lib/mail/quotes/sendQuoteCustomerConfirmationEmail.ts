@@ -2,7 +2,7 @@
 import { sendMailAppOnly } from "@/lib/mail/mailer";
 import { escapeHtml } from "@/lib/mail/utils";
 import { buildDefaultEmailTemplate } from "@/lib/mail/templates/defaultTemplate";
-import { NEXT_PUBLIC_NPT_LOGISTICS_EMAIL } from "@/config/env";
+import { NEXT_PUBLIC_SSP_EMAIL } from "@/config/env";
 
 import type { ILogisticsQuote } from "@/types/logisticsQuote.types";
 import { PRIMARY_SERVICE_LABEL, labelFromMap } from "@/lib/utils/enums/logisticsLabels";
@@ -69,8 +69,8 @@ export async function sendQuoteCustomerConfirmationEmail(
 
     <p style="margin:0 0 24px 0;">
       — NPT Logistics<br/>
-      <a href="mailto:${escapeHtml(NEXT_PUBLIC_NPT_LOGISTICS_EMAIL)}" style="color:#2563eb; text-decoration:none;">${escapeHtml(
-        NEXT_PUBLIC_NPT_LOGISTICS_EMAIL,
+      <a href="mailto:${escapeHtml(NEXT_PUBLIC_SSP_EMAIL)}" style="color:#2563eb; text-decoration:none;">${escapeHtml(
+        NEXT_PUBLIC_SSP_EMAIL,
       )}</a>
     </p>
   `;
@@ -80,11 +80,11 @@ export async function sendQuoteCustomerConfirmationEmail(
     heading: "We’ve got it!",
     subtitle: `Reference ID: ${safeId}`,
     bodyHtml,
-    footerContactEmail: NEXT_PUBLIC_NPT_LOGISTICS_EMAIL,
+    footerContactEmail: NEXT_PUBLIC_SSP_EMAIL,
   });
 
   await sendMailAppOnly({
-    from: NEXT_PUBLIC_NPT_LOGISTICS_EMAIL,
+    from: NEXT_PUBLIC_SSP_EMAIL,
     to: [String(toAddr)],
     subject,
     html,
