@@ -28,7 +28,7 @@ import { Section } from "@/app/(site)/components/layout/Section";
 import { Select } from "@/app/(site)/components/ui/Select";
 import { HeroImage } from "@/components/media/HeroImage";
 import { cn } from "@/lib/cn";
-import { NEXT_PUBLIC_NPT_HR_EMAIL } from "@/config/env";
+import { NEXT_PUBLIC_SSP_HR_EMAIL } from "@/config/env";
 
 type SortBy = "publishedAt" | "title" | "createdAt";
 type SortDir = "asc" | "desc";
@@ -685,12 +685,12 @@ export default function CareersClient({
                 </p>
 
                 <a
-                  href={`mailto:${NEXT_PUBLIC_NPT_HR_EMAIL}`}
+                  href={`mailto:${NEXT_PUBLIC_SSP_HR_EMAIL}`}
                   onClick={() =>
                     trackCtaClick({
                       ctaId: "email_hr",
                       location: "careers_drive_card",
-                      destination: `mailto:${NEXT_PUBLIC_NPT_HR_EMAIL}`,
+                      destination: `mailto:${NEXT_PUBLIC_SSP_HR_EMAIL}`,
                       label: "Email HR about driver opportunities",
                     })
                   }
@@ -706,7 +706,7 @@ export default function CareersClient({
                       Email HR to apply
                     </span>
                     <span className="block truncate text-xs text-white/80">
-                      {NEXT_PUBLIC_NPT_HR_EMAIL}
+                      {NEXT_PUBLIC_SSP_HR_EMAIL}
                     </span>
                   </span>
 
