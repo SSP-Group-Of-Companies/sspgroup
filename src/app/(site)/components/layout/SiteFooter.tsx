@@ -1,63 +1,42 @@
-// src/components/layout/SiteFooter.tsx
+// src/app/(site)/components/layout/SiteFooter.tsx
 
 import Link from "next/link";
+import { ArrowUpRight, ChevronDown, Facebook, Instagram, Linkedin, Mail, Youtube } from "lucide-react";
+import { CardImage } from "@/components/media/CardImage";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { TrackedLink } from "@/app/(site)/components/analytics/TrackedLink";
-import { NAV } from "@/config/navigation";
+import { FOOTER_LEGAL_LINKS, FOOTER_QUICK_ACTIONS, FOOTER_SECTIONS, FOOTER_SOCIALS, type FooterSocial } from "@/config/footer";
 import { cn } from "@/lib/cn";
 import { FooterLegalLane } from "./footer/FooterLegalLane";
 
 const footerLink = cn(
-  "text-sm text-[color:var(--color-footer-muted)] transition-colors",
-  "hover:text-[color:var(--color-footer-hover)]",
+  "relative inline-flex w-fit items-center pb-0.5 text-[13px] leading-6 font-normal text-[color:var(--color-footer-link)] transition-colors duration-200",
+  "after:absolute after:right-0 after:-bottom-0.5 after:left-0 after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[color:var(--color-menu-accent)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
+  "hover:text-[color:var(--color-footer-link-hover)] hover:after:scale-x-100",
+  "focus-visible:text-[color:var(--color-footer-link-hover)] focus-visible:after:scale-x-100",
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)]",
 );
 
-type FooterLink = { label: string; href: string };
+const footerHeading = "text-[11px] font-bold tracking-[0.08em] text-[color:var(--color-footer-heading)] uppercase sm:text-[12px]";
+const mobileFooterLink = cn(
+  "inline-flex w-fit items-center text-[13px] leading-6 font-normal text-[color:var(--color-footer-link)] transition-colors",
+  "hover:text-[color:var(--color-footer-link-hover)]",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)]",
+);
 
-function normalizeLinks(links: readonly { label: string; href: string }[]): FooterLink[] {
-  return links
-    .filter((l) => typeof l?.label === "string" && l.label && typeof l?.href === "string" && l.href)
-    .map((l) => ({ label: l.label, href: l.href }));
-}
+const footerLegalLink = cn(
+  "text-[13px] text-[color:var(--color-footer-legal-muted)] transition-colors",
+  "hover:text-[color:var(--color-footer-legal-hover)]",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-legal-bg)]",
+);
 
-/**
- * Curated footer “top 8” solutions, ordered for conversion + clarity.
- * Falls back to flattened NAV if anything is missing.
- */
-function getSolutionsFooterLinks(): FooterLink[] {
-  const flattened: FooterLink[] = [];
-  NAV.solutions.categories.forEach((cat) => {
-    cat.links.forEach((l) => {
-      if (l?.label && l?.href) flattened.push({ label: l.label, href: l.href });
-    });
-  });
-
-  const curatedOrder: FooterLink[] = [
-    { label: "Truckload (FTL)", href: "/services/truckload" },
-    { label: "Less-Than-Truckload (LTL)", href: "/services/ltl" },
-    // { label: "Intermodal", href: "/services/intermodal" }, // COMMENTED OUT - uncomment to restore
-    { label: "Expedited & Specialized (ES)", href: "/services/expedited-specialized" },
-    { label: "Hazardous Materials (HAZMAT)", href: "/services/hazmat" },
-    { label: "Temperature-Controlled", href: "/services/temperature-controlled" },
-    { label: "Cross-Border & Global", href: "/services/cross-border" },
-    { label: "Logistics & Value-Added", href: "/services/value-added" },
-  ];
-
-  const flattenedByHref = new Map(flattened.map((l) => [l.href, l]));
-  const curated = curatedOrder
-    .map((c) => flattenedByHref.get(c.href) ?? c)
-    .filter((l) => l.label && l.href);
-
-  // If NAV changes and curated becomes invalid, fallback to first 8 flattened.
-  if (curated.length < 6) return flattened.slice(0, 8);
-
-  // De-dupe by href, keep order.
-  const seen = new Set<string>();
-  return curated.filter((l) => (seen.has(l.href) ? false : (seen.add(l.href), true)));
-}
-
-const SOLUTIONS_LINKS = getSolutionsFooterLinks();
+const SOCIAL_ICON_MAP: Record<FooterSocial["icon"], typeof Facebook> = {
+  facebook: Facebook,
+  linkedin: Linkedin,
+  instagram: Instagram,
+  youtube: Youtube,
+  mail: Mail,
+};
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -70,54 +49,19 @@ export function SiteFooter() {
         "border-t border-[color:var(--color-footer-border)]",
       )}
     >
-      {/* Gradient orbs — visible warmth top-right and bottom-left */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div
-          className={cn(
-            "absolute -top-20 -right-20 h-72 w-72 rounded-full",
-            "bg-[color:var(--color-brand-600)]/12 blur-[70px]",
-          )}
-        />
-        <div
-          className={cn(
-            "absolute -bottom-24 -left-24 h-80 w-80 rounded-full",
-            "bg-[color:var(--color-brand-600)]/10 blur-[80px]",
-          )}
-        />
-        <div
-          className={cn(
-            "absolute top-0 right-0 h-48 w-64 bg-gradient-to-bl from-[color:var(--color-brand-600)]/8 to-transparent",
-          )}
-        />
-        <div
-          className={cn(
-            "absolute bottom-0 left-0 h-56 w-72 bg-gradient-to-tr from-[color:var(--color-brand-600)]/6 to-transparent",
-          )}
-        />
-      </div>
-
-      {/* Top edge line */}
-      <div
-        className={cn(
-          "pointer-events-none absolute inset-x-0 top-0 h-px",
-          "bg-gradient-to-r from-transparent via-white/15 to-transparent",
-        )}
-        aria-hidden="true"
-      />
-
-      <Container className="relative max-w-[1440px] px-4 py-14 sm:px-6 sm:py-16 lg:px-6">
-        {/* Footer navigation (desktop only, unchanged layout) */}
+      <Container className="relative max-w-[1440px] px-4 pt-14 pb-14 sm:px-6 sm:pt-16 sm:pb-16 lg:px-6">
+        {/* Footer navigation (desktop/tablet) */}
         <nav aria-label="Footer">
-          <div className="hidden gap-8 md:grid md:grid-cols-2 md:gap-x-10 md:gap-y-8 xl:grid-cols-5 xl:gap-8">
+          <div className="hidden gap-8 md:grid md:grid-cols-2 md:gap-x-12 md:gap-y-10 lg:grid-cols-3 xl:grid-cols-[repeat(5,minmax(0,1fr))_minmax(220px,0.95fr)] xl:gap-x-9 xl:gap-y-10">
             {/* Solutions */}
             <div>
-              <h3 className="text-xs font-semibold tracking-wider text-[color:var(--color-footer-text)]/90 uppercase">
+              <h3 className={footerHeading}>
                 Solutions
               </h3>
-              <ul className="mt-4 space-y-2.5">
+              <ul className="mt-4 space-y-3">
                 <li>
                   <TrackedLink
-                    href="/#solutions"
+                    href="/solutions"
                     ctaId="footer_view_all_solutions"
                     location="footer:solutions"
                     label="View all solutions"
@@ -126,8 +70,8 @@ export function SiteFooter() {
                     View all solutions →
                   </TrackedLink>
                 </li>
-                {normalizeLinks(SOLUTIONS_LINKS).map((item) => (
-                  <li key={item.href}>
+                {FOOTER_SECTIONS.solutions.links.map((item, idx) => (
+                  <li key={`${item.href}-${idx}`}>
                     <TrackedLink
                       href={item.href}
                       ctaId={`footer_solution_${item.label}`}
@@ -144,13 +88,13 @@ export function SiteFooter() {
 
             {/* Industries */}
             <div>
-              <h3 className="text-xs font-semibold tracking-wider text-[color:var(--color-footer-text)]/90 uppercase">
+              <h3 className={footerHeading}>
                 Industries
               </h3>
-              <ul className="mt-4 space-y-2.5">
+              <ul className="mt-4 space-y-3">
                 <li>
                   <TrackedLink
-                    href="/#industries"
+                    href="/industries"
                     ctaId="footer_view_all_industries"
                     location="footer:industries"
                     label="View all industries"
@@ -159,8 +103,8 @@ export function SiteFooter() {
                     View all industries →
                   </TrackedLink>
                 </li>
-                {normalizeLinks(NAV.industries.links).map((l) => (
-                  <li key={l.href}>
+                {FOOTER_SECTIONS.industries.links.map((l, idx) => (
+                  <li key={`${l.href}-${idx}`}>
                     <TrackedLink
                       href={l.href}
                       ctaId={`footer_industry_${l.label}`}
@@ -177,12 +121,12 @@ export function SiteFooter() {
 
             {/* Company */}
             <div>
-              <h3 className="text-xs font-semibold tracking-wider text-[color:var(--color-footer-text)]/90 uppercase">
+              <h3 className={footerHeading}>
                 Company
               </h3>
-              <ul className="mt-4 space-y-2.5">
-                {normalizeLinks(NAV.company.links).map((l) => (
-                  <li key={l.href}>
+              <ul className="mt-4 space-y-3">
+                {FOOTER_SECTIONS.company.links.map((l, idx) => (
+                  <li key={`${l.href}-${idx}`}>
                     <TrackedLink
                       href={l.href}
                       ctaId={`footer_company_${l.label}`}
@@ -199,12 +143,12 @@ export function SiteFooter() {
 
             {/* Careers */}
             <div>
-              <h3 className="text-xs font-semibold tracking-wider text-[color:var(--color-footer-text)]/90 uppercase">
+              <h3 className={footerHeading}>
                 Careers
               </h3>
-              <ul className="mt-4 space-y-2.5">
-                {normalizeLinks(NAV.careers.links).map((l) => (
-                  <li key={l.href}>
+              <ul className="mt-4 space-y-3">
+                {FOOTER_SECTIONS.careers.links.map((l, idx) => (
+                  <li key={`${l.href}-${idx}`}>
                     <TrackedLink
                       href={l.href}
                       ctaId={`footer_careers_${l.label}`}
@@ -221,127 +165,242 @@ export function SiteFooter() {
 
             {/* Quick actions */}
             <div>
-              <h3 className="text-xs font-semibold tracking-wider text-[color:var(--color-footer-text)]/90 uppercase">
+              <h3 className={footerHeading}>
                 Quick actions
               </h3>
-              <ul className="mt-4 space-y-2.5">
-                <li>
-                  <TrackedLink
-                    href="/tracking"
-                    ctaId="footer_track_shipment"
-                    location="footer:quick_actions"
-                    label="Track Shipment"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={footerLink}
-                  >
-                    Track Shipment
-                  </TrackedLink>
-                </li>
-                <li>
-                  <TrackedLink
-                    href="/locations"
-                    ctaId="footer_freight_by_location"
-                    location="footer:quick_actions"
-                    label="Freight by location"
-                    className={footerLink}
-                  >
-                    Freight by location
-                  </TrackedLink>
-                </li>
-                <li>
-                  <TrackedLink
-                    href="/lanes"
-                    ctaId="footer_freight_lanes"
-                    location="footer:quick_actions"
-                    label="Freight lanes"
-                    className={footerLink}
-                  >
-                    Freight lanes
-                  </TrackedLink>
-                </li>
-                <li>
-                  <TrackedLink
-                    href="/employee-portal"
-                    ctaId="footer_employee_portal"
-                    location="footer:quick_actions"
-                    label="Employee Portal"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={footerLink}
-                  >
-                    Employee Portal
-                  </TrackedLink>
-                </li>
-                <li>
-                  <TrackedLink
-                    href="/quote"
-                    ctaId="footer_request_quote"
-                    location="footer:quick_actions"
-                    label="Request a Quote"
-                    className={cn(
-                      "inline-flex text-sm font-semibold text-[color:var(--color-brand-500)]",
-                      "hover:text-[color:var(--color-brand-500)]",
-                      "focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)] focus-visible:outline-none",
-                    )}
-                  >
-                    Request a Quote →
-                  </TrackedLink>
-                </li>
+              <ul className="mt-4 space-y-3">
+                {FOOTER_QUICK_ACTIONS.map((action) => (
+                  <li key={action.href}>
+                    <TrackedLink
+                      href={action.href}
+                      ctaId={action.ctaIdDesktop}
+                      location="footer:quick_actions"
+                      label={action.label}
+                      className={
+                        action.highlight
+                          ? cn(
+                              "inline-flex items-center gap-1 text-[13px] leading-6 font-semibold text-[color:var(--color-brand-500)]",
+                              "hover:text-[color:var(--color-brand-500)]",
+                              "focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)] focus-visible:outline-none",
+                            )
+                          : cn(footerLink, action.externalCue && "inline-flex items-center gap-1")
+                      }
+                    >
+                      {action.label}
+                      {action.externalCue ? <ArrowUpRight className="h-3.5 w-3.5 opacity-80" aria-hidden="true" /> : null}
+                    </TrackedLink>
+                  </li>
+                ))}
               </ul>
+            </div>
+
+            {/* Brand rail */}
+            <aside className="hidden md:block md:col-span-2 md:border-t md:border-[color:var(--color-footer-card-border)] md:pt-5 lg:col-span-3 xl:col-span-1 xl:border-t-0 xl:pt-0 xl:pl-4">
+              <Link
+                href="/"
+                className={cn(
+                  "inline-flex items-center",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)]",
+                )}
+              >
+                <CardImage
+                  src="/_optimized/brand/SSPlogo.png"
+                  alt="SSP Group"
+                  width={150}
+                  height={44}
+                  className="h-10 w-auto object-contain"
+                />
+              </Link>
+
+              <p className="mt-4 max-w-[16rem] text-[11px] font-semibold tracking-[0.11em] text-[color:var(--color-footer-tagline)] uppercase">
+                Your Success is our success
+              </p>
+              <p className="mt-2 max-w-[18rem] text-[12px] leading-6 text-[color:var(--color-footer-description)]">
+                Trusted by leading companies for over 10 years across North America.
+              </p>
+
+              <div className="mt-5 flex items-center gap-2.5">
+                {FOOTER_SOCIALS.map((social) => {
+                  const Icon = SOCIAL_ICON_MAP[social.icon];
+                  return (
+                    <Link
+                      key={social.href}
+                      href={social.href}
+                      target={social.external ? "_blank" : undefined}
+                      rel={social.external ? "noopener noreferrer" : undefined}
+                      aria-label={social.label}
+                      className={cn(
+                        "inline-flex h-8 w-8 items-center justify-center rounded-full border border-[color:var(--color-footer-social-border)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)]",
+                        social.toneClass,
+                        social.hoverClass,
+                      )}
+                    >
+                      <Icon className="h-4 w-4" />
+                    </Link>
+                  );
+                })}
+              </div>
+            </aside>
+          </div>
+
+          {/* Footer navigation (mobile) — clean accordion matching nav premium feel */}
+          <div className="md:hidden">
+            <div className="border-t border-[color:var(--color-footer-border)]">
+              <details className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between py-3.5">
+                  <span className={footerHeading}>Solutions</span>
+                  <ChevronDown className="h-4 w-4 text-[color:var(--color-footer-icon-muted)] transition-transform duration-200 group-open:rotate-180" />
+                </summary>
+                <ul className="pb-4 space-y-2">
+                  <li>
+                    <TrackedLink href="/solutions" ctaId="footer_m_solutions_all" location="footer:mobile_solutions" label="View all solutions" className={mobileFooterLink}>
+                      View all solutions →
+                    </TrackedLink>
+                  </li>
+                  {FOOTER_SECTIONS.solutions.links.slice(0, 6).map((item, idx) => (
+                    <li key={`m-sol-${item.href}-${idx}`}>
+                      <TrackedLink href={item.href} ctaId={`footer_m_solution_${item.label}`} location="footer:mobile_solutions" label={item.label} className={mobileFooterLink}>
+                        {item.label}
+                      </TrackedLink>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </div>
+
+            <div className="border-t border-[color:var(--color-footer-border)]">
+              <details className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between py-3.5">
+                  <span className={footerHeading}>Industries</span>
+                  <ChevronDown className="h-4 w-4 text-[color:var(--color-footer-icon-muted)] transition-transform duration-200 group-open:rotate-180" />
+                </summary>
+                <ul className="pb-4 space-y-2">
+                  <li>
+                    <TrackedLink href="/industries" ctaId="footer_m_industries_all" location="footer:mobile_industries" label="View all industries" className={mobileFooterLink}>
+                      View all industries →
+                    </TrackedLink>
+                  </li>
+                  {FOOTER_SECTIONS.industries.links.slice(0, 6).map((item, idx) => (
+                    <li key={`m-ind-${item.href}-${idx}`}>
+                      <TrackedLink href={item.href} ctaId={`footer_m_industry_${item.label}`} location="footer:mobile_industries" label={item.label} className={mobileFooterLink}>
+                        {item.label}
+                      </TrackedLink>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </div>
+
+            <div className="border-t border-[color:var(--color-footer-border)]">
+              <details className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between py-3.5">
+                  <span className={footerHeading}>Quick actions</span>
+                  <ChevronDown className="h-4 w-4 text-[color:var(--color-footer-icon-muted)] transition-transform duration-200 group-open:rotate-180" />
+                </summary>
+                <ul className="pb-4 space-y-2">
+                  {FOOTER_QUICK_ACTIONS.filter((action) => action.mobileVisible).map((action) => (
+                    <li key={`m-${action.href}`}>
+                      <TrackedLink
+                        href={action.href}
+                        ctaId={action.ctaIdMobile}
+                        location="footer:mobile_actions"
+                        label={action.label}
+                        className={
+                          action.highlight
+                            ? "inline-flex items-center gap-1 text-[13px] leading-6 font-semibold text-[color:var(--color-brand-500)]"
+                            : cn(mobileFooterLink, action.externalCue && "inline-flex items-center gap-1")
+                        }
+                      >
+                        {action.label}
+                        {action.externalCue ? <ArrowUpRight className="h-3.5 w-3.5 opacity-80" aria-hidden="true" /> : null}
+                      </TrackedLink>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </div>
+
+            {/* Brand strip */}
+            <div className="border-t border-[color:var(--color-footer-border)] pt-5 pb-2">
+              <Link href="/" className="inline-flex items-center">
+                <CardImage src="/_optimized/brand/SSPlogo.png" alt="SSP Group" width={138} height={40} className="h-9 w-auto object-contain" />
+              </Link>
+              <p className="mt-3 text-[11px] font-semibold tracking-[0.08em] text-[color:var(--color-footer-tagline)] uppercase">
+                Your Success is our success
+              </p>
+              <div className="mt-3 flex items-center gap-2.5">
+                {FOOTER_SOCIALS.map((social) => {
+                  const Icon = SOCIAL_ICON_MAP[social.icon];
+                  return (
+                    <Link
+                      key={`m-${social.href}`}
+                      href={social.href}
+                      target={social.external ? "_blank" : undefined}
+                      rel={social.external ? "noopener noreferrer" : undefined}
+                      aria-label={social.label}
+                      className={cn(
+                        "inline-flex h-8 w-8 items-center justify-center rounded-full border border-[color:var(--color-footer-social-border)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)]",
+                        social.toneClass,
+                        social.hoverClass,
+                      )}
+                    >
+                      <Icon className="h-4 w-4" />
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </nav>
 
-        {/* Bottom bar (client island only for measuring lane width + trucks) */}
-        <FooterLegalLane
-          className={cn(
-            "relative mt-4 flex flex-col items-center gap-5 overflow-visible pt-6 text-center",
-            "sm:mt-12 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-6 sm:pt-8 sm:text-left",
-          )}
-        >
-          <div className="min-w-0">
-            <Link
-              href="/"
-              className={cn(
-                "text-sm font-semibold text-[color:var(--color-footer-text)]",
-                "hover:text-[color:var(--color-footer-hover)]",
-                "focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)] focus-visible:outline-none",
-              )}
+        {/* Single oversized watermark on the light quick-links surface */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-4 z-0 hidden md:block" aria-hidden="true">
+          <div className="relative h-64">
+            <div className="absolute -right-10 -bottom-3 lg:-right-14">
+              <CardImage
+                src="/_optimized/brand/favicon.png"
+                alt="SSP watermark"
+                width={1400}
+                height={1400}
+                className="h-[240px] w-[240px] object-contain opacity-[0.029] lg:h-[300px] lg:w-[300px]"
+              />
+            </div>
+          </div>
+        </div>
+
+      </Container>
+
+      <FooterLegalLane className="mt-0">
+        <Container className="max-w-[1440px] px-4 pt-7 pb-12 sm:px-6 sm:py-7 lg:px-6">
+          <div
+            className={cn(
+              "flex flex-col items-center gap-6 text-center",
+              "sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-6 sm:text-left",
+            )}
+          >
+            <div className="min-w-0">
+              <p className="max-w-sm text-[13px] font-medium text-[color:var(--color-footer-legal-muted)]/92 sm:max-w-none sm:text-xs sm:font-normal">
+                Milton, ON HQ • Canada, U.S. & Mexico coverage • 24/7 support
+              </p>
+            </div>
+
+            <nav
+              aria-label="Legal"
+              className="flex max-w-[22rem] flex-wrap justify-center gap-x-5 gap-y-2.5 pr-12 text-center sm:max-w-none sm:justify-start sm:gap-x-6 sm:gap-y-2 sm:pr-0"
             >
-              NPT Logistics
-            </Link>
-            <p className="mt-1 max-w-sm text-xs text-[color:var(--color-footer-muted)] sm:max-w-none">
-              Modern logistics built on reliability, compliance, and clear communication.
+              {FOOTER_LEGAL_LINKS.map((link) => (
+                <Link key={link.href} href={link.href} className={footerLegalLink}>
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+
+            <p className="pr-14 text-[13px] text-[color:var(--color-footer-legal-muted)] sm:pr-0 sm:text-sm">
+              © {year} SSP Group. All rights reserved.
             </p>
           </div>
-
-          <nav
-            aria-label="Legal"
-            className="flex flex-wrap justify-center gap-x-6 gap-y-2 sm:justify-start"
-          >
-            <Link href="/privacy" className={cn(footerLink, "text-sm")}>
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className={cn(footerLink, "text-sm")}>
-              Terms of Service
-            </Link>
-            <Link href="/cookies" className={cn(footerLink, "text-sm")}>
-              Cookie Policy
-            </Link>
-            <Link href="/cookie-preferences" className={cn(footerLink, "text-sm")}>
-              Cookie Preferences
-            </Link>
-            <Link href="/accessibility" className={cn(footerLink, "text-sm")}>
-              Accessibility
-            </Link>
-          </nav>
-
-          <p className="text-sm text-[color:var(--color-footer-muted)]">
-            © {year} NPT Logistics. All rights reserved.
-          </p>
-        </FooterLegalLane>
-      </Container>
+        </Container>
+      </FooterLegalLane>
     </footer>
   );
 }

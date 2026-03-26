@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { Mail, MapPin, PhoneCall, Search } from "lucide-react";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { LogoImage } from "@/components/media/LogoImage";
 import { cn } from "@/lib/cn";
@@ -10,23 +10,63 @@ import { trackCtaClick } from "@/lib/analytics/cta";
 import { DesktopNav } from "./header/DesktopNav";
 import { MobileNav } from "./header/MobileNav";
 import { MobileSearchBubble } from "./header/MobileSearchBubble";
+import { HeaderSearchMode } from "./header/HeaderSearchMode";
+import { HEADER_ACTIONS, HEADER_UTILITY } from "@/config/header";
 
 const focusRing =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)] focus-visible:ring-offset-0";
 
 export function SiteHeader() {
+  const SEARCH_SHEET_CLOSE_MS = 320;
+  const UTILITY_COLLAPSE_AT = 64;
+  const UTILITY_EXPAND_AT = 20;
+  const [isCondensed, setIsCondensed] = React.useState(false);
+  const [desktopSearchOpen, setDesktopSearchOpen] = React.useState(false);
+  const [desktopSearchVisible, setDesktopSearchVisible] = React.useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = React.useState(false);
   const mobileSearchTriggerRef = React.useRef<HTMLButtonElement | null>(null);
+  const desktopSearchTriggerRef = React.useRef<HTMLButtonElement | null>(null);
+
+  React.useEffect(() => {
+    let rafId: number | null = null;
+
+    const handleScroll = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
+        if (document.body.style.position === "fixed") return;
+        const y = window.scrollY;
+        setIsCondensed((prev) => {
+          if (!prev && y >= UTILITY_COLLAPSE_AT) return true;
+          if (prev && y <= UTILITY_EXPAND_AT) return false;
+          return prev;
+        });
+      });
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    if (desktopSearchOpen || !desktopSearchVisible) return;
+    const id = window.setTimeout(() => {
+      setDesktopSearchVisible(false);
+    }, SEARCH_SHEET_CLOSE_MS);
+    return () => window.clearTimeout(id);
+  }, [desktopSearchOpen, desktopSearchVisible, SEARCH_SHEET_CLOSE_MS]);
 
   return (
     <header
       className={cn(
-        "sticky top-0 isolate z-40",
+        "sticky top-0 isolate z-[65]",
         "border-b border-[color:var(--color-nav-border)]",
-        "bg-[color:var(--color-nav-bg)]/85",
-        "supports-[backdrop-filter]:bg-[color:var(--color-nav-bg)]/70",
-        "backdrop-blur-md",
-        "shadow-[0_1px_0_rgba(255,255,255,0.04)]",
+        "bg-[color:var(--color-nav-bg)]",
+        "shadow-[0_10px_26px_rgba(2,6,23,0.08)]",
       )}
     >
       <Link
@@ -41,8 +81,93 @@ export function SiteHeader() {
         Skip to content
       </Link>
 
+      <div
+        className={cn(
+          "overflow-hidden border-b border-white/12 bg-[color:var(--color-utility-bg)] text-[color:var(--color-utility-text)] transition-all duration-300 will-change-[max-height,opacity]",
+          isCondensed ? "max-h-0 opacity-0" : "max-h-14 opacity-100",
+        )}
+      >
+        <Container className="site-page-container">
+          <div className="flex min-h-11 items-center justify-between gap-4 py-2">
+            <div className="hidden min-w-0 items-center gap-5 text-xs tracking-wide text-[color:var(--color-utility-text)]/90 lg:flex">
+              <a
+                href={HEADER_UTILITY.mailtoHref}
+                className={cn("inline-flex items-center gap-1.5 truncate hover:text-white", focusRing)}
+              >
+                <Mail className="h-3.5 w-3.5 text-[color:var(--color-utility-icon)]" aria-hidden />
+                <span>{HEADER_UTILITY.email}</span>
+              </a>
+              <span className="h-3.5 w-px bg-[color:var(--color-utility-divider)]" aria-hidden />
+              <span className="inline-flex items-center gap-1.5 truncate">
+                <MapPin className="h-3.5 w-3.5 text-[color:var(--color-utility-icon)]" aria-hidden />
+                <span>{HEADER_UTILITY.address}</span>
+              </span>
+              <span className="h-3.5 w-px bg-[color:var(--color-utility-divider)]" aria-hidden />
+              <a href={HEADER_UTILITY.telHref} className={cn("inline-flex items-center gap-1.5 hover:text-white", focusRing)}>
+                <PhoneCall className="h-3.5 w-3.5 text-[color:var(--color-utility-icon)]" aria-hidden />
+                <span>{HEADER_UTILITY.phone}</span>
+                <span className="mx-1 h-1 w-1 rounded-full bg-[color:var(--color-utility-dot)]" aria-hidden />
+                <span className="text-[color:var(--color-utility-icon)]">{HEADER_UTILITY.availability}</span>
+              </a>
+            </div>
+
+            <div className="flex min-w-0 items-center gap-3 text-[11px] tracking-wide text-[color:var(--color-utility-text)]/90 lg:hidden">
+              <a
+                href={HEADER_UTILITY.mailtoHref}
+                className={cn("inline-flex items-center gap-1.5 truncate hover:text-white", focusRing)}
+              >
+                <Mail className="h-3.5 w-3.5 text-[color:var(--color-utility-icon)]" aria-hidden />
+                <span>{HEADER_UTILITY.email}</span>
+              </a>
+              <span className="h-3.5 w-px bg-[color:var(--color-utility-divider)]" aria-hidden />
+              <a
+                href={HEADER_UTILITY.telHref}
+                className={cn("inline-flex items-center gap-1.5 truncate hover:text-white", focusRing)}
+              >
+                <PhoneCall className="h-3.5 w-3.5 text-[color:var(--color-utility-icon)]" aria-hidden />
+                <span>{HEADER_UTILITY.phone}</span>
+              </a>
+              <span className="mx-1 h-1 w-1 rounded-full bg-[color:var(--color-utility-dot)]" aria-hidden />
+              <span className="text-[color:var(--color-utility-icon)]">{HEADER_UTILITY.availability}</span>
+            </div>
+
+            <div className="ml-auto hidden items-center lg:flex">
+              <button
+                ref={desktopSearchTriggerRef}
+                type="button"
+                onClick={() => {
+                  const next = desktopSearchVisible ? !desktopSearchOpen : true;
+                  setDesktopSearchVisible(true);
+                  setDesktopSearchOpen(next);
+                  trackCtaClick({
+                    ctaId: next ? "header_utility_search_open" : "header_utility_search_close",
+                    location: "site_header:utility_strip",
+                    destination: "site_search_mode",
+                    label: next ? "Open site search" : "Close site search",
+                  });
+                }}
+                className={cn(
+                  "hidden h-8 w-8 items-center justify-center rounded-full text-[color:var(--color-utility-text)] transition hover:bg-white/15 lg:inline-flex",
+                  focusRing,
+                )}
+                aria-expanded={desktopSearchVisible}
+                aria-label="Search site"
+              >
+                <Search className="h-4 w-4" aria-hidden />
+              </button>
+            </div>
+          </div>
+        </Container>
+      </div>
+
       <Container className="site-page-container">
-        <div className="flex h-16 items-center justify-between gap-4">
+        <div
+          data-header-mainbar
+          className={cn(
+            "flex items-center justify-between gap-4 transition-[height,padding] duration-300",
+            isCondensed ? "h-[60px] py-1.5" : "h-[72px] py-2",
+          )}
+        >
           {/* Logo (NO hover background) */}
           <Link
             href="/"
@@ -51,96 +176,84 @@ export function SiteHeader() {
                 ctaId: "header_home_logo",
                 location: "site_header:brand",
                 destination: "/",
-                label: "NPT Logistics",
+                label: "SSP Group",
               })
             }
             className={cn("flex cursor-pointer items-center rounded-md px-2 py-1.5", focusRing)}
-            aria-label="NPT Logistics home"
+            aria-label="SSP Group home"
           >
             <LogoImage
               src="/_optimized/brand/SSPlogo.png"
-              alt="NPT Logistics"
+              alt="SSP Group"
               width={220}
               height={80}
-              className="h-auto w-[90px] object-contain sm:w-[90px] md:w-[90px]"
+              className="h-auto w-[88px] object-contain sm:w-[88px] md:w-[88px]"
             />
           </Link>
 
-          {/* Desktop nav */}
-          <DesktopNav />
+          {/* Desktop nav / desktop search mode */}
+          <div className={cn("min-w-0 flex-1", desktopSearchVisible && "hidden")}>
+            <DesktopNav />
+          </div>
+          {desktopSearchVisible ? (
+            <HeaderSearchMode
+              open={desktopSearchOpen}
+              onOpenChange={(open) => {
+                setDesktopSearchOpen(open);
+                if (open) setDesktopSearchVisible(true);
+              }}
+            />
+          ) : null}
 
           {/* Desktop actions + Mobile hamburger */}
           <div className="flex items-center gap-2">
             {/* Desktop-only CTAs */}
-            <div className="hidden items-center gap-2 lg:flex">
-              {/* Track Shipment */}
-              <Link
-                href="/tracking"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() =>
-                  trackCtaClick({
-                    ctaId: "header_track_shipment",
-                    location: "site_header:actions",
-                    destination: "/tracking",
-                    label: "Track Shipment",
-                  })
-                }
-                className={cn(
-                  "hidden h-10 cursor-pointer items-center justify-center rounded-md px-4 text-sm font-medium lg:inline-flex",
-                  "border border-[color:var(--color-nav-border)]",
-                  "text-[color:var(--color-nav-text)]",
-                  "hover:bg-[color:var(--color-nav-hover)]",
-                  focusRing,
-                )}
-              >
-                Track Shipment
-              </Link>
-
-              {/* Employee Portal */}
-              <Link
-                href="/employee-portal"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() =>
-                  trackCtaClick({
-                    ctaId: "header_employee_portal",
-                    location: "site_header:actions",
-                    destination: "/employee-portal",
-                    label: "Employee Portal",
-                  })
-                }
-                className={cn(
-                  "hidden h-10 cursor-pointer items-center justify-center rounded-md px-4 text-sm font-medium lg:inline-flex",
-                  "border border-[color:var(--color-nav-border)]",
-                  "text-[color:var(--color-nav-muted)] hover:text-[color:var(--color-nav-text)]",
-                  "hover:bg-[color:var(--color-nav-hover)]",
-                  focusRing,
-                )}
-              >
-                Employee Portal
-              </Link>
-
-              {/* Request a Quote (LAST) */}
-              <Link
-                href="/quote"
-                onClick={() =>
-                  trackCtaClick({
-                    ctaId: "header_request_quote",
-                    location: "site_header:actions",
-                    destination: "/quote",
-                    label: "Request a Quote",
-                  })
-                }
-                className={cn(
-                  "inline-flex h-10 cursor-pointer items-center justify-center rounded-md px-4 text-sm font-semibold",
-                  "bg-[color:var(--color-brand-600)] text-white hover:bg-[color:var(--color-brand-700)]",
-                  "shadow-sm shadow-black/20",
-                  focusRing,
-                )}
-              >
-                Request a Quote
-              </Link>
+            <div className={cn("hidden items-center gap-2 lg:flex", desktopSearchVisible && "lg:hidden")}>
+              {HEADER_ACTIONS.filter((action) => !action.primary).map((action) => (
+                <Link
+                  key={action.href}
+                  href={action.href}
+                  onClick={() =>
+                    trackCtaClick({
+                      ctaId: action.ctaIdDesktop,
+                      location: "site_header:actions",
+                      destination: action.href,
+                      label: action.label,
+                    })
+                  }
+                  className={cn(
+                    "hidden h-10 cursor-pointer items-center justify-center rounded-md px-4 text-sm font-medium lg:inline-flex",
+                    "border border-[color:var(--color-nav-border)]",
+                    "text-[color:var(--color-nav-text)]",
+                    "hover:bg-[color:var(--color-nav-hover)]",
+                    focusRing,
+                  )}
+                >
+                  {action.label}
+                </Link>
+              ))}
+              {HEADER_ACTIONS.filter((action) => action.primary).map((action) => (
+                <Link
+                  key={action.href}
+                  href={action.href}
+                  onClick={() =>
+                    trackCtaClick({
+                      ctaId: action.ctaIdDesktop,
+                      location: "site_header:actions",
+                      destination: action.href,
+                      label: action.label,
+                    })
+                  }
+                  className={cn(
+                    "inline-flex h-10 cursor-pointer items-center justify-center rounded-md px-4 text-sm font-semibold",
+                    "bg-[color:var(--color-brand-600)] text-white hover:bg-[color:var(--color-brand-700)]",
+                    "shadow-sm shadow-black/20",
+                    focusRing,
+                  )}
+                >
+                  {action.label}
+                </Link>
+              ))}
             </div>
 
             {/* Mobile only */}
@@ -153,15 +266,15 @@ export function SiteHeader() {
                   trackCtaClick({
                     ctaId: next ? "nav_mobile_search_open" : "nav_mobile_search_close",
                     location: "site_header:mobile_search_trigger",
-                    destination: "mobile_search_bubble",
+                    destination: "mobile_search_mode",
                     label: next ? "Open mobile search" : "Close mobile search",
                   });
                   return next;
                 });
               }}
               className={cn(
-                "inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full lg:hidden",
-                "text-[color:var(--color-nav-text)] hover:bg-white/10",
+                "inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-md lg:hidden",
+                "text-[color:var(--color-ssp-ink-800)] hover:bg-[color:var(--color-nav-hover)]",
                 focusRing,
               )}
               aria-label="Search site"

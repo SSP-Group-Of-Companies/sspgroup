@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { SERVICES } from "@/config/services";
 import { getIndustrySlugs } from "@/config/industryPages";
 import { getSeoLocationPriority, getSeoLocationSlugs } from "@/config/seoLocations";
 import { getSeoLanePriority, getSeoLaneSlugs } from "@/config/seoLanes";
@@ -48,16 +47,25 @@ async function getCareersRoutes() {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "/",
-    "/services",
+    "/solutions",
     "/industries",
     "/locations",
     "/lanes",
-    "/about-us",
-    "/about-us/faqs",
+    "/company",
+    "/company/about-ssp",
+    "/company/our-history",
+    "/company/mission-vision-values",
+    "/company/our-companies",
+    "/company/coverage-network",
+    "/company/safety-compliance",
+    "/company/video-gallery",
+    "/company/faqs",
     "/careers",
-    "/blog",
+    "/insights",
     "/contact",
     "/quote",
+    "/track-shipment",
+    "/carrier-portal",
     "/privacy",
     "/terms",
     "/cookies",
@@ -65,7 +73,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/accessibility",
   ];
 
-  const serviceRoutes = Object.values(SERVICES).map((service) => `/services/${service.slug}`);
+  const solutionRoutes = [
+    "/solutions/truckload",
+    "/solutions/dry-van",
+    "/solutions/flatbed",
+    "/solutions/step-deck",
+    "/solutions/rgn-heavy-haul",
+    "/solutions/conestoga-roll-tite",
+    "/solutions/ltl",
+    "/solutions/expedited",
+    "/solutions/specialized-vehicles",
+    "/solutions/hazmat",
+    "/solutions/temperature-controlled",
+    "/solutions/cross-border",
+    "/solutions/cross-border/canada-usa",
+    "/solutions/cross-border/mexico",
+    "/solutions/cross-border/air-freight",
+    "/solutions/cross-border/ocean-freight",
+    "/solutions/air-freight",
+    "/solutions/ocean-freight",
+    "/solutions/warehousing-distribution",
+    "/solutions/managed-capacity",
+    "/solutions/dedicated-contract",
+    "/solutions/project-freight",
+  ];
   const industryRoutes = getIndustrySlugs().map((slug) => `/industries/${slug}`);
   const locationRoutes = getSeoLocationSlugs().map((slug) => `/locations/${slug}`);
   const laneRoutes = getSeoLaneSlugs().map((slug) => `/lanes/${slug}`);
@@ -73,7 +104,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const getPriority = (path: string) => {
     if (path === "/") return 1;
-    if (path.startsWith("/services/")) return 0.9;
+    if (path.startsWith("/solutions/")) return 0.9;
     if (path.startsWith("/locations/")) {
       const slug = path.replace("/locations/", "");
       const rank = getSeoLocationPriority(slug);
@@ -90,7 +121,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     ...staticRoutes,
-    ...serviceRoutes,
+    ...solutionRoutes,
     ...industryRoutes,
     ...locationRoutes,
     ...laneRoutes,
@@ -99,7 +130,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ].map((path) => ({
     url: toAbsolute(path),
     lastModified: new Date(),
-    changeFrequency: path === "/" ? "daily" : path.startsWith("/blog/") ? "weekly" : "monthly",
+    changeFrequency:
+      path === "/" ? "daily" : path.startsWith("/insights/") || path.startsWith("/blog/") ? "weekly" : "monthly",
     priority: getPriority(path),
   }));
 }

@@ -1,28 +1,38 @@
 @theme {
   /* =========================
-     Brand (logo red)
+     SSP Core Palette
+     ========================= */
+  --color-ssp-ink-900: #0b3e5e;
+  --color-ssp-ink-800: #0d4f78;
+  --color-ssp-cloud-50: #f5f7fa;
+  --color-ssp-cloud-100: #f2f4f7;
+  --color-ssp-cyan-500: #10a7d8;
+  --color-ssp-cyan-600: #0b8fbb;
+
+  /* =========================
+     Brand (logo red — matched to SSP star mark)
      ========================= */
   --color-brand-50: #fff1f2;
   --color-brand-100: #ffe4e6;
-  --color-brand-500: #ef4444;
-  --color-brand-600: #dc2626;
-  --color-brand-700: #b91c1c;
+  --color-brand-500: #e02b35;
+  --color-brand-600: #d71920;
+  --color-brand-700: #b91519;
 
   /* =========================
-     App Surfaces (dark site)
+     App Surfaces (light-first premium)
      ========================= */
-  --color-surface-0: #070a12; /* page background (very dark navy) */
-  --color-surface-1: #0b1020; /* elevated dark */
-  --color-surface-2: #0f172a; /* panels */
+  --color-surface-0: #f5f7fa; /* default canvas */
+  --color-surface-1: #ffffff; /* elevated paper */
+  --color-surface-2: #eef2f6; /* soft section tint */
 
-  --color-border: rgba(255, 255, 255, 0.14);
+  --color-border: rgba(15, 23, 42, 0.12);
   --color-ring: rgba(220, 38, 38, 0.3);
 
-  --color-text: rgba(255, 255, 255, 0.92);
-  --color-muted: rgba(255, 255, 255, 0.72);
-  --color-subtle: rgba(255, 255, 255, 0.56);
-  --color-text-strong: #ffffff;
-  --color-muted-strong: rgba(255, 255, 255, 0.8);
+  --color-text: rgba(12, 23, 38, 0.94);
+  --color-muted: rgba(12, 23, 38, 0.7);
+  --color-subtle: rgba(15, 23, 42, 0.54);
+  --color-text-strong: #0f172a;
+  --color-muted-strong: rgba(15, 23, 42, 0.8);
 
   /* =========================
      Shared dark hero ornaments + actions
@@ -30,15 +40,15 @@
   --color-ornament-accent-border: rgba(252, 165, 165, 0.34);
   --color-ornament-accent-bg: rgba(239, 68, 68, 0.14);
   --color-ornament-accent-bg-soft: rgba(239, 68, 68, 0.11);
-  --color-ornament-neutral-border: rgba(226, 232, 240, 0.24);
-  --color-ornament-neutral-bg: rgba(226, 232, 240, 0.1);
+  --color-ornament-neutral-border: rgba(16, 167, 216, 0.26);
+  --color-ornament-neutral-bg: rgba(16, 167, 216, 0.11);
 
-  --color-action-secondary-border: rgba(255, 255, 255, 0.34);
-  --color-action-secondary-bg: rgba(2, 6, 23, 0.32);
-  --color-action-secondary-hover: rgba(255, 255, 255, 0.16);
+  --color-action-secondary-border: rgba(12, 23, 38, 0.2);
+  --color-action-secondary-bg: rgba(12, 23, 38, 0.02);
+  --color-action-secondary-hover: rgba(16, 167, 216, 0.1);
 
   --shadow-action-primary: 0 14px 28px rgba(185, 28, 28, 0.34);
-  --shadow-action-secondary: 0 8px 22px rgba(2, 6, 23, 0.2);
+  --shadow-action-secondary: 0 8px 22px rgba(2, 6, 23, 0.1);
   --shadow-action-accent: 0 12px 24px rgba(234, 88, 12, 0.28);
 
   --color-action-accent-500: #f97316;
@@ -57,7 +67,7 @@
   --color-border-light-soft: rgba(15, 23, 42, 0.06);
 
   /* Section ambient glow — brand red at ultra-low opacity */
-  --color-section-glow-brand: rgba(220, 38, 38, 0.04);
+  --color-section-glow-brand: rgba(16, 167, 216, 0.05);
 
   /* =========================
      Dark glass cards (Mission / Vision section)
@@ -78,7 +88,7 @@
   /* =========================
      Light section surfaces
      ========================= */
-  --color-surface-0-light: #f6f8fc;
+  --color-surface-0-light: #f2f4f7;
   --color-surface-1-light: #ffffff;
   --color-border-light: rgba(15, 23, 42, 0.1);
 
@@ -87,22 +97,72 @@
   --color-subtle-light: rgba(15, 23, 42, 0.55);
 
   /* =========================
+     Cross-Border Page (hero / dark corridor sections)
+     ========================= */
+  --color-cb-hero-ink: #0b6799;
+  --color-cb-hero-ink-deep: #0b3e5e;
+  --color-cb-corridor-border: #174a6a;
+  --color-cb-link-light: #84dbf6;
+
+  /* =========================
+     Ocean Freight page accents (backgrounds use SSP brand blues)
+     ========================= */
+  --color-ocean-600: #1a5276;
+  --color-ocean-500: #1e6fa0;
+  --color-ocean-400: #2d8bc9;
+  --color-ocean-300: #5ab4e5;
+  --color-ocean-200: #9dd3f0;
+  --color-ocean-100: #d6eef8;
+  --color-ocean-50: #eaf5fb;
+
+  /* =========================
+     Canada–USA / Mexico corridor accents (indigo)
+     ========================= */
+  --color-corridor-600: #1a2e5e;
+  --color-corridor-500: #213972;
+  --color-corridor-400: #2b4a8e;
+  --color-corridor-300: #5272b8;
+  --color-corridor-200: #8da4d4;
+  --color-corridor-100: #c8d4ea;
+  --color-corridor-50: #e9eef6;
+
+  /* =========================
+     Air Freight page accents (backgrounds use SSP brand blues)
+     ========================= */
+  --color-air-600: #3064a8;
+  --color-air-500: #3d7dc6;
+  --color-air-400: #5b9be5;
+  --color-air-300: #8bb8f0;
+  --color-air-200: #b8d4f7;
+  --color-air-100: #dce9fa;
+  --color-air-50: #eef4fd;
+
+  /* =========================
+     Utility Strip (above nav)
+     ========================= */
+  --color-utility-bg: #0971AA;
+  --color-utility-text: #F5FAFF;
+  --color-utility-icon: #EAF4FF;
+  --color-utility-divider: rgba(255, 255, 255, 0.30);
+  --color-utility-dot: rgba(234, 244, 255, 0.80);
+
+  /* =========================
      NAV BAR (top)
      ========================= */
-  --color-nav-bg: #070a12; /* very dark navy */
-  --color-nav-border: rgba(255, 255, 255, 0.14);
-  --color-nav-ring: rgba(255, 255, 255, 0.22);
+  --color-nav-bg: #f6f8fb; /* premium soft white */
+  --color-nav-border: rgba(15, 23, 42, 0.1);
+  --color-nav-ring: rgba(15, 23, 42, 0.24);
 
-  --color-nav-text: rgba(255, 255, 255, 0.92);
-  --color-nav-muted: rgba(255, 255, 255, 0.72);
+  --color-nav-text: rgba(15, 23, 42, 0.92);
+  --color-nav-muted: rgba(15, 23, 42, 0.64);
 
-  --color-nav-hover: rgba(255, 255, 255, 0.06);
+  --color-nav-hover: rgba(16, 167, 216, 0.08);
 
   /* =========================
      MENU (dropdown / mobile sheet) - LIGHT PAPER
      ========================= */
-  --color-menu-bg: #ffffff;
-  --color-menu-panel: #eef3fb;
+  --color-menu-bg: #f6f8fb;
+  --color-menu-panel: #f6f8fb;
   --color-menu-border: rgba(15, 23, 42, 0.1);
   --color-menu-ring: rgba(15, 23, 42, 0.2);
 
@@ -116,15 +176,15 @@
   /* =========================
      MENU Accents (icons, dots, links)
      ========================= */
-  --color-menu-accent: #b91c1c; /* deep red */
-  --color-menu-accent-hover: #dc2626; /* hover red */
+  --color-menu-accent: #10a7d8;
+  --color-menu-accent-hover: #0b8fbb;
 
   --color-menu-icon-bg: rgba(185, 28, 28, 0.08); /* faint red tint */
 
   /* =========================
      About page — Operating Model section (locked)
      ========================= */
-  --color-about-operating-bg: #0b1120; /* dark navy, distinct from hero surface-0 */
+  --color-about-operating-bg: #0d4f78; /* brand-blue deep */
 
   /* About page — Safety & Compliance (champagne white beige) */
   --color-about-safety-bg: #f0eeeb;
@@ -137,13 +197,28 @@
   --audience-muted: rgba(15, 23, 42, 0.62);
 
   /* =========================
-     Footer (navy, elegant)
+     Footer (two-tone premium)
      ========================= */
-  --color-footer-bg: #0a0f1a;
-  --color-footer-border: rgba(255, 255, 255, 0.08);
-  --color-footer-text: rgba(255, 255, 255, 0.92);
-  --color-footer-muted: rgba(255, 255, 255, 0.65);
-  --color-footer-hover: rgba(255, 255, 255, 0.9);
+  --color-footer-bg: #f7f8fa;
+  --color-footer-border: rgba(12, 23, 38, 0.1);
+
+  /* Light section — link columns, brand rail */
+  --color-footer-link: #2d4359;
+  --color-footer-link-hover: #0b1e31;
+  --color-footer-heading: #10283d;
+  --color-footer-tagline: rgba(15, 34, 53, 0.85);
+  --color-footer-description: rgba(49, 72, 95, 0.90);
+  --color-footer-icon-muted: #425a72;
+  --color-footer-card-border: #d8e1eb;
+  --color-footer-social-border: #cfd8e3;
+
+  /* Dark legal lane */
+  --color-footer-legal-bg: #0a2f4a;
+  --color-footer-legal-text: rgba(255, 255, 255, 0.92);
+  --color-footer-legal-muted: rgba(255, 255, 255, 0.65);
+  --color-footer-legal-hover: rgba(255, 255, 255, 0.9);
+  --color-footer-pause-bg: rgba(15, 58, 90, 0.88);
+  --color-footer-pause-hover: #144668;
 }
 
 /* Shared homepage layout container rhythm */

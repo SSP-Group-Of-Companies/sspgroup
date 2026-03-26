@@ -1,7 +1,8 @@
-// src/components/layout/footer/FooterLegalLane.tsx
+// src/app/(site)/components/layout/footer/FooterLegalLane.tsx
 "use client";
 
 import * as React from "react";
+import { Pause, Play } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { CardImage } from "@/components/media/CardImage";
 
@@ -14,15 +15,13 @@ export function FooterLegalLane({
 }) {
   const laneRef = React.useRef<HTMLDivElement | null>(null);
   const [laneWidth, setLaneWidth] = React.useState(1200);
-  const [isMotionPaused, setIsMotionPaused] = React.useState(false);
+  const [isTrucksPaused, setIsTrucksPaused] = React.useState(false);
 
   React.useEffect(() => {
     const el = laneRef.current;
     if (!el) return;
-
     const update = () => setLaneWidth(el.clientWidth || 1200);
     update();
-
     const observer = new ResizeObserver(update);
     observer.observe(el);
     return () => observer.disconnect();
@@ -31,73 +30,65 @@ export function FooterLegalLane({
   return (
     <div
       ref={laneRef}
-      style={
-        {
-          "--footer-lane-width": `${laneWidth}px`,
-        } as React.CSSProperties
-      }
-      className={cn("relative", className)}
+      style={{ "--footer-lane-width": `${laneWidth}px` } as React.CSSProperties}
+      className={cn("relative bg-[color:var(--color-footer-legal-bg)]", className)}
     >
-      {/* Divider line (unchanged visual) */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/34 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/22 to-transparent"
         aria-hidden="true"
       />
 
-      {/* Trucks (explicitly aria-hidden) */}
+      {/* Subtle moving trucks on legal lane divider */}
       <div
         className="footer-legal-truck footer-legal-truck-right pointer-events-none absolute top-0 left-0 z-10 hidden sm:block"
-        style={{ animationPlayState: isMotionPaused ? "paused" : "running" }}
+        style={{ animationPlayState: isTrucksPaused ? "paused" : "running" }}
         aria-hidden="true"
       >
         <CardImage
           src="/_optimized/brand/footerTruckMovingRight.png"
-          alt="Moving truck animation"
-          width={140}
-          height={50}
-          className="h-[30px] w-auto object-contain opacity-95 drop-shadow-[0_6px_12px_rgba(2,6,23,0.45)]"
+          alt="Moving truck"
+          width={136}
+          height={48}
+          className="h-[28px] w-auto object-contain opacity-95 drop-shadow-[0_6px_12px_rgba(2,6,23,0.4)]"
         />
       </div>
 
       <div
         className="footer-legal-truck footer-legal-truck-left pointer-events-none absolute top-0 left-0 z-10 hidden sm:block"
-        style={{ animationPlayState: isMotionPaused ? "paused" : "running" }}
+        style={{ animationPlayState: isTrucksPaused ? "paused" : "running" }}
         aria-hidden="true"
       >
         <CardImage
           src="/_optimized/brand/footerTruckMovingLeft.png"
-          alt="Moving truck animation"
-          width={140}
-          height={50}
-          className="h-[30px] w-auto object-contain opacity-90 drop-shadow-[0_6px_10px_rgba(2,6,23,0.42)]"
+          alt="Moving truck"
+          width={136}
+          height={48}
+          className="h-[28px] w-auto object-contain opacity-95 drop-shadow-[0_6px_12px_rgba(2,6,23,0.4)]"
         />
       </div>
 
+      {children}
+
       <button
         type="button"
-        onClick={() => setIsMotionPaused((prev) => !prev)}
-        className={cn(
-          "absolute top-0 right-0 z-20 hidden -translate-y-1/2 rounded-full border border-white/20 bg-[color:var(--color-footer-bg)] px-2.5 py-1 text-[10px] font-semibold text-[color:var(--color-footer-muted)] shadow-[0_6px_18px_rgba(2,6,23,0.35)] transition-colors",
-          "hover:text-[color:var(--color-footer-text)] sm:inline-flex",
-          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)]",
-        )}
-        aria-pressed={isMotionPaused}
-        aria-label={isMotionPaused ? "Resume footer lane motion" : "Pause footer lane motion"}
+        onClick={() => setIsTrucksPaused((prev) => !prev)}
+        className="absolute top-0 right-24 z-20 hidden -translate-y-1/2 items-center gap-1 rounded-full border border-white/30 bg-[color:var(--color-footer-pause-bg)] px-2 py-1 text-[11px] font-medium text-white/90 backdrop-blur-sm transition-colors hover:bg-[color:var(--color-footer-pause-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-legal-bg)] sm:inline-flex lg:right-32"
+        aria-label={isTrucksPaused ? "Play trucks animation" : "Pause trucks animation"}
+        aria-pressed={isTrucksPaused}
       >
-        {isMotionPaused ? "Play motion" : "Pause motion"}
+        {isTrucksPaused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
+        {isTrucksPaused ? "Play" : "Pause"}
       </button>
-
-      {children}
 
       <style jsx>{`
         .footer-legal-truck {
           will-change: transform, opacity;
-          transform: translate3d(0, 0, 0);
         }
 
         .footer-legal-truck-right {
           animation: footerTruckRight 20s linear infinite;
         }
+
         .footer-legal-truck-left {
           animation: footerTruckLeft 18s linear infinite;
         }
@@ -108,10 +99,10 @@ export function FooterLegalLane({
             opacity: 0;
           }
           8% {
-            opacity: 1;
+            opacity: 0.92;
           }
           92% {
-            opacity: 1;
+            opacity: 0.92;
           }
           100% {
             transform: translate3d(calc(var(--footer-lane-width) + 10px), -96%, 0);
@@ -125,10 +116,10 @@ export function FooterLegalLane({
             opacity: 0;
           }
           8% {
-            opacity: 1;
+            opacity: 0.9;
           }
           92% {
-            opacity: 1;
+            opacity: 0.9;
           }
           100% {
             transform: translate3d(-170px, -96%, 0);

@@ -22,31 +22,31 @@ type SearchCandidate = {
 const SMART_ALIASES: Array<Omit<SearchCandidate, "keywords"> & { keywords: string[] }> = [
   {
     label: "Flatbed",
-    href: "/services/truckload#section-flatbed",
+    href: "/solutions/flatbed",
     description: "Open-deck securement freight",
     keywords: ["flatbed", "flat bed", "open deck", "open-deck"],
   },
   {
     label: "Step Deck",
-    href: "/services/truckload#section-step-deck",
+    href: "/solutions/step-deck",
     description: "Drop-deck for tall cargo",
     keywords: ["stepdeck", "step deck", "drop deck", "drop-deck"],
   },
   {
     label: "Dry Van",
-    href: "/services/truckload#section-dry-van",
+    href: "/solutions/dry-van",
     description: "Enclosed truckload freight",
     keywords: ["dryvan", "dry van", "van freight"],
   },
   {
-    label: "RGN (Oversize)",
-    href: "/services/truckload#section-rgn-oversize",
+    label: "RGN / Heavy Haul",
+    href: "/solutions/rgn-heavy-haul",
     description: "Permit and heavy-haul freight",
     keywords: ["rgn", "oversize", "heavy haul", "oversized"],
   },
   {
-    label: "Roll-Tite / Conestoga",
-    href: "/services/truckload#section-roll-tite-conestoga",
+    label: "Conestoga / Roll-Tite",
+    href: "/solutions/conestoga-roll-tite",
     description: "Covered-deck protection",
     keywords: ["conestoga", "roll tite", "roll-tite", "covered deck"],
   },
@@ -55,6 +55,12 @@ const SMART_ALIASES: Array<Omit<SearchCandidate, "keywords"> & { keywords: strin
     href: "/quote",
     description: "Get pricing and planning support",
     keywords: ["quote", "pricing", "rate", "rfq"],
+  },
+  {
+    label: "Track Shipment",
+    href: "/track-shipment",
+    description: "Track your active freight status",
+    keywords: ["track", "tracking", "shipment", "status"],
   },
 ];
 
@@ -100,11 +106,78 @@ const INDUSTRY_CANDIDATES: SearchCandidate[] = getIndustrySlugs()
     ].filter(Boolean),
   }));
 
+const STATIC_DESTINATIONS: SearchCandidate[] = [
+  {
+    label: "Solutions",
+    href: "/solutions",
+    description: "Explore all freight solutions",
+    keywords: ["solutions", "services", "freight modes"],
+  },
+  {
+    label: "Industries",
+    href: "/industries",
+    description: "Industry programs and vertical expertise",
+    keywords: ["industries", "verticals", "sectors"],
+  },
+  {
+    label: "Company",
+    href: "/company",
+    description: "SSP profile, standards, and network",
+    keywords: ["company", "about", "ssp group"],
+  },
+  {
+    label: "Insights",
+    href: "/insights",
+    description: "Editorial logistics insights and updates",
+    keywords: ["insights", "articles", "blog", "news"],
+  },
+  {
+    label: "Careers",
+    href: "/careers",
+    description: "Open roles across SSP Group",
+    keywords: ["careers", "jobs", "hiring", "opportunities"],
+  },
+];
+
+function resolveSolutionHref(serviceSlug: string, sectionKey?: string) {
+  if (serviceSlug === "truckload") {
+    if (sectionKey === "dry-van") return "/solutions/dry-van";
+    if (sectionKey === "flatbed") return "/solutions/flatbed";
+    if (sectionKey === "step-deck") return "/solutions/step-deck";
+    if (sectionKey === "rgn-oversize") return "/solutions/rgn-heavy-haul";
+    if (sectionKey === "roll-tite-conestoga") return "/solutions/conestoga-roll-tite";
+    return "/solutions/truckload";
+  }
+
+  if (serviceSlug === "expedited-specialized") {
+    if (sectionKey === "specialized-vehicle-programs") return "/solutions/specialized-vehicles";
+    return "/solutions/expedited";
+  }
+
+  if (serviceSlug === "cross-border") {
+    if (sectionKey === "ocean-freight") return "/solutions/ocean-freight";
+    if (sectionKey === "air-freight") return "/solutions/air-freight";
+    return "/solutions/cross-border";
+  }
+
+  if (serviceSlug === "value-added") {
+    if (sectionKey === "managed-capacity") return "/solutions/managed-capacity";
+    if (sectionKey === "dedicated-contract") return "/solutions/dedicated-contract";
+    if (sectionKey === "project-oversize-programs") return "/solutions/project-freight";
+    return "/solutions/warehousing-distribution";
+  }
+
+  if (serviceSlug === "ltl") return "/solutions/ltl";
+  if (serviceSlug === "hazmat") return "/solutions/hazmat";
+  if (serviceSlug === "temperature-controlled") return "/solutions/temperature-controlled";
+  return "/solutions";
+}
+
 const SERVICE_SECTION_CANDIDATES: SearchCandidate[] = Object.values(SERVICES).flatMap((service) => {
   const base: SearchCandidate[] = [
     {
       label: service.hero.kicker,
-      href: `/services/${service.slug}`,
+      href: resolveSolutionHref(service.slug),
       description: service.hero.title,
       keywords: [
         service.slug.toLowerCase(),
@@ -116,7 +189,7 @@ const SERVICE_SECTION_CANDIDATES: SearchCandidate[] = Object.values(SERVICES).fl
 
   const sectionCandidates = (service.sections ?? []).map((section) => ({
     label: section.label,
-    href: `/services/${service.slug}#section-${section.key}`,
+    href: resolveSolutionHref(service.slug, section.key),
     description: section.trustSnippet?.title ?? section.title,
     keywords: [
       section.key.toLowerCase(),
@@ -137,6 +210,7 @@ const NAV_CANDIDATES: SearchCandidate[] = NAV_INDEX.map((n) => ({
 }));
 
 const CANDIDATES: SearchCandidate[] = [
+  ...STATIC_DESTINATIONS,
   ...SMART_ALIASES,
   ...NAV_CANDIDATES,
   ...SERVICE_SECTION_CANDIDATES,
@@ -194,9 +268,6 @@ export function getSiteSearchResults(query: string, limit = 6): SiteSearchResult
       if (hrefN.includes(t)) score += 2;
       if (keyN.some((k) => k.includes(t))) score += 6;
     }
-
-    // Prefer specific anchored destinations for service intent.
-    if (candidate.href.includes("#section-")) score += 3;
 
     return { candidate, score };
   })
