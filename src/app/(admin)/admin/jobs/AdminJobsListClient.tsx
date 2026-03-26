@@ -240,7 +240,7 @@ export default function AdminJobsListClient({
   }
 
   function openPublic(slug: string) {
-    window.open(`/jobs/${encodeURIComponent(slug)}`, "_blank", "noopener,noreferrer");
+    window.open(`/careers/${encodeURIComponent(slug)}`, "_blank", "noopener,noreferrer");
   }
 
   const allChecked = items.length > 0 && selected.length === items.length;
@@ -337,12 +337,6 @@ export default function AdminJobsListClient({
                     <RefreshCw className={cn("h-4 w-4", (busy || isPending) && "animate-spin")} />
                   }
                   label="Refresh"
-                />
-                <SoftButton
-                  disabled={busy || isPending}
-                  onClick={() => router.push("/admin/jobs/new")}
-                  icon={<Upload className="h-4 w-4" />}
-                  label="New posting"
                 />
               </div>
             </div>
