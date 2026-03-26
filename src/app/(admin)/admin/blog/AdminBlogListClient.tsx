@@ -112,7 +112,7 @@ function RowMenu({
               onArchive();
             }}
             className={cn(
-              "flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition",
+              "flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition enabled:hover:cursor-pointer",
               "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
             )}
             role="menuitem"
@@ -131,7 +131,7 @@ function RowMenu({
               onDelete();
             }}
             className={cn(
-              "flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition",
+              "flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition enabled:hover:cursor-pointer",
               "text-red-600 hover:bg-red-500/10 disabled:opacity-50",
               "dark:text-red-300",
             )}
@@ -366,7 +366,7 @@ export default function AdminBlogListClient({
                   type="button"
                   onClick={() => setErr(null)}
                   className={cn(
-                    "rounded-2xl p-1.5 transition",
+                    "rounded-2xl p-1.5 transition enabled:hover:cursor-pointer",
                     "text-inherit hover:bg-black/5",
                     isDark && "hover:bg-white/5",
                   )}
@@ -398,7 +398,7 @@ export default function AdminBlogListClient({
                     type="button"
                     onClick={() => handleQChange("")}
                     className={cn(
-                      "rounded-2xl p-1.5 text-[var(--dash-muted)] transition",
+                      "rounded-2xl p-1.5 text-[var(--dash-muted)] transition enabled:hover:cursor-pointer",
                       "hover:bg-[var(--dash-surface-2)] hover:text-[var(--dash-text)]",
                     )}
                     aria-label="Clear search"
@@ -460,7 +460,7 @@ export default function AdminBlogListClient({
                     })
                   }
                   className={cn(
-                    "inline-flex h-10 items-center gap-2 rounded-2xl border px-3 text-sm font-semibold transition",
+                    "inline-flex h-10 items-center gap-2 rounded-2xl border px-3 text-sm font-semibold transition enabled:hover:cursor-pointer",
                     "focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30",
                     "disabled:cursor-not-allowed disabled:opacity-50",
                     isDark
@@ -667,7 +667,7 @@ export default function AdminBlogListClient({
                 disabled={!meta?.hasPrev || busy || isPending}
                 onClick={() => pushQuery({ page: String(Math.max(1, (meta.page ?? 1) - 1)) })}
                 className={cn(
-                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition",
+                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition enabled:hover:cursor-pointer",
                   "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
                   "hover:bg-[var(--dash-surface-2)]",
                   "disabled:cursor-not-allowed disabled:opacity-50",
@@ -680,7 +680,7 @@ export default function AdminBlogListClient({
                 disabled={!meta?.hasNext || busy || isPending}
                 onClick={() => pushQuery({ page: String((meta.page ?? 1) + 1) })}
                 className={cn(
-                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition",
+                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition enabled:hover:cursor-pointer",
                   "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
                   "hover:bg-[var(--dash-surface-2)]",
                   "disabled:cursor-not-allowed disabled:opacity-50",

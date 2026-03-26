@@ -227,7 +227,7 @@ export default function AdminJobApplicationsForJobClient({
                   type="button"
                   onClick={() => setErr(null)}
                   className={cn(
-                    "rounded-2xl p-1.5 transition",
+                    "rounded-2xl p-1.5 transition enabled:hover:cursor-pointer",
                     "text-inherit hover:bg-black/5",
                     isDark && "hover:bg-white/5",
                   )}
@@ -258,7 +258,7 @@ export default function AdminJobApplicationsForJobClient({
                     type="button"
                     onClick={() => handleQChange("")}
                     className={cn(
-                      "rounded-2xl p-1.5 text-[var(--dash-muted)] transition",
+                      "rounded-2xl p-1.5 text-[var(--dash-muted)] transition enabled:hover:cursor-pointer",
                       "hover:bg-[var(--dash-surface-2)] hover:text-[var(--dash-text)]",
                     )}
                     aria-label="Clear search"
@@ -435,7 +435,7 @@ export default function AdminJobApplicationsForJobClient({
                 disabled={!meta?.hasPrev || busy || isPending}
                 onClick={() => pushQuery({ page: String(Math.max(1, (meta.page ?? 1) - 1)) })}
                 className={cn(
-                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition",
+                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition enabled:hover:cursor-pointer",
                   "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
                   "hover:bg-[var(--dash-surface-2)]",
                   "disabled:cursor-not-allowed disabled:opacity-50",
@@ -448,7 +448,7 @@ export default function AdminJobApplicationsForJobClient({
                 disabled={!meta?.hasNext || busy || isPending}
                 onClick={() => pushQuery({ page: String((meta.page ?? 1) + 1) })}
                 className={cn(
-                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition",
+                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition enabled:hover:cursor-pointer",
                   "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
                   "hover:bg-[var(--dash-surface-2)]",
                   "disabled:cursor-not-allowed disabled:opacity-50",

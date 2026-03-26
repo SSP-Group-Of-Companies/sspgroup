@@ -218,6 +218,11 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
     "file:mr-3 file:rounded-lg file:border-0 file:bg-slate-900 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white " +
     "hover:file:bg-slate-800";
 
+  const resetTurnstileChallenge = React.useCallback(() => {
+    setTurnstileToken("");
+    setTurnstileInstanceKey((k) => k + 1);
+  }, []);
+
   function resetFormAfterSuccess() {
     setErr(null);
 
@@ -245,8 +250,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
     if (resumeInputRef.current) resumeInputRef.current.value = "";
     if (photoInputRef.current) photoInputRef.current.value = "";
 
-    setTurnstileToken("");
-    setTurnstileInstanceKey((k) => k + 1);
+    resetTurnstileChallenge();
   }
 
   async function uploadResumeIfNeeded() {
@@ -334,11 +338,13 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
       return;
     }
 
+    let attemptedServerSubmit = false;
     setBusy(true);
     try {
       const resume = await uploadResumeIfNeeded();
       const photo = await uploadPhotoIfNeeded();
 
+      attemptedServerSubmit = true;
       const res = await fetch(`/api/v1/jobs/${encodeURIComponent(job.slug)}/apply`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -383,6 +389,10 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
       const msg = e?.message || "Failed to submit application";
       setErr(msg);
       scrollToNotice();
+      if (attemptedServerSubmit) {
+        // Turnstile tokens are single-use; keep widget and parent token in sync after failed submit.
+        resetTurnstileChallenge();
+      }
 
       trackCtaClick({
         ctaId: "job_apply_submit_failed",
