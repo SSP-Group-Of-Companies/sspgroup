@@ -145,7 +145,7 @@ function QuoteAssurance() {
         <div className="mx-auto max-w-3xl text-center">
           <div className="mx-auto mb-3 h-[2px] w-12 bg-[color:var(--color-brand-500)]" />
           <p className="text-[10.5px] font-semibold tracking-[0.14em] text-[color:var(--color-brand-500)] uppercase">
-            Why shippers trust NPT
+            Why shippers trust SSP
           </p>
           <h2 className="mt-3 text-[1.55rem] font-semibold tracking-tight text-white sm:text-[1.9rem]">
             Built for confidence at every step

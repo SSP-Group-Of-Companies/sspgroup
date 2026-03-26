@@ -17,7 +17,6 @@ import {
   Eye,
   MoreHorizontal,
   Pencil,
-  RefreshCw,
   Search,
   Trash2,
   Upload,
@@ -196,15 +195,74 @@ export default function AdminJobsListClient({
   const [confirmTitle, setConfirmTitle] = React.useState("");
   const [confirmDesc, setConfirmDesc] = React.useState<React.ReactNode>(null);
   const [confirmLabel, setConfirmLabel] = React.useState("Confirm");
+  const latestFilterRequestRef = React.useRef<{ q: string; status: string } | null>(null);
+  const lastUserInputAtRef = React.useRef(0);
 
-  function pushQuery(next: Record<string, string | null | undefined>) {
+  function pushQuery(
+    next: Record<string, string | null | undefined>,
+    opts?: { replace?: boolean },
+  ) {
     const qs = new URLSearchParams(sp.toString());
     for (const [k, v] of Object.entries(next)) {
       if (!v) qs.delete(k);
       else qs.set(k, v);
     }
-    startTransition(() => router.push(`/admin/jobs?${qs.toString()}`));
+    const href = `/admin/jobs?${qs.toString()}`;
+    startTransition(() => {
+      if (opts?.replace) router.replace(href);
+      else router.push(href);
+    });
   }
+
+  React.useEffect(() => {
+    const urlQ = sp.get("q") ?? "";
+    const urlStatus = sp.get("status") ?? "";
+
+    // Never let URL sync interrupt active typing/select changes.
+    if (Date.now() - lastUserInputAtRef.current < 450) return;
+
+    const latest = latestFilterRequestRef.current;
+
+    // Ignore stale URL updates from older in-flight filter requests.
+    if (latest) {
+      const isLatestRequestedUrl = latest.q === urlQ && latest.status === urlStatus;
+      if (!isLatestRequestedUrl) return;
+      latestFilterRequestRef.current = null;
+    }
+
+    if (q !== urlQ) setQ(urlQ);
+    if (status !== urlStatus) setStatus(urlStatus);
+  }, [sp]);
+
+  function handleQChange(next: string) {
+    lastUserInputAtRef.current = Date.now();
+    setQ(next);
+  }
+
+  function handleStatusChange(next: string) {
+    lastUserInputAtRef.current = Date.now();
+    setStatus(next);
+  }
+
+  function clearFilters() {
+    lastUserInputAtRef.current = Date.now();
+    setQ("");
+    setStatus("");
+  }
+
+  React.useEffect(() => {
+    const id = window.setTimeout(() => {
+      const nextQ = q.trim();
+      const currentQ = (sp.get("q") ?? "").trim();
+      const currentStatus = sp.get("status") ?? "";
+
+      if (nextQ === currentQ && status === currentStatus) return;
+      latestFilterRequestRef.current = { q: nextQ, status };
+      pushQuery({ q: nextQ || null, status: status || null, page: "1" }, { replace: true });
+    }, 350);
+
+    return () => window.clearTimeout(id);
+  }, [q, status, sp]);
 
   function toggle(id: string) {
     setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
@@ -329,16 +387,7 @@ export default function AdminJobsListClient({
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <SoftButton
-                  disabled={busy || isPending}
-                  onClick={() => startTransition(() => router.refresh())}
-                  icon={
-                    <RefreshCw className={cn("h-4 w-4", (busy || isPending) && "animate-spin")} />
-                  }
-                  label="Refresh"
-                />
-              </div>
+              <div className="flex items-center gap-2" />
             </div>
 
             {err ? (
@@ -367,7 +416,7 @@ export default function AdminJobsListClient({
               </div>
             ) : null}
 
-            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-[1fr_220px_160px]">
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-[1fr_220px_140px]">
               <div
                 className={cn(
                   "group flex items-center gap-2 rounded-2xl border px-3 py-2 transition",
@@ -378,14 +427,14 @@ export default function AdminJobsListClient({
                 <Search className="h-4 w-4 text-[var(--dash-muted)]" />
                 <input
                   value={q}
-                  onChange={(e) => setQ(e.target.value)}
+                  onChange={(e) => handleQChange(e.target.value)}
                   placeholder="Search title, department, tags…"
                   className="w-full bg-transparent text-sm text-[var(--dash-text)] outline-none placeholder:text-[var(--dash-muted)]"
                 />
                 {q.trim() ? (
                   <button
                     type="button"
-                    onClick={() => setQ("")}
+                    onClick={() => handleQChange("")}
                     className={cn(
                       "rounded-2xl p-1.5 text-[var(--dash-muted)] transition",
                       "hover:bg-[var(--dash-surface-2)] hover:text-[var(--dash-text)]",
@@ -399,7 +448,7 @@ export default function AdminJobsListClient({
 
               <Select
                 value={status}
-                onChange={setStatus}
+                onChange={handleStatusChange}
                 placeholder="All statuses"
                 disabled={busy || isPending}
                 options={[
@@ -412,11 +461,9 @@ export default function AdminJobsListClient({
 
               <SoftButton
                 disabled={busy || isPending}
-                onClick={() =>
-                  pushQuery({ q: q.trim() || null, status: status || null, page: "1" })
-                }
-                icon={<Search className="h-4 w-4" />}
-                label="Search"
+                onClick={clearFilters}
+                icon={<X className="h-4 w-4" />}
+                label="Clear"
               />
             </div>
           </div>
