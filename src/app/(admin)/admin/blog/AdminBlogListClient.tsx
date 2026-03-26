@@ -20,6 +20,7 @@ import { Select } from "@/app/(admin)/components/ui/Select";
 import { SoftButton, IconButton } from "@/app/(admin)/components/ui/Buttons";
 
 import {
+  Briefcase,
   MoreHorizontal,
   Pencil,
   Eye,
@@ -30,7 +31,6 @@ import {
   Search,
   X,
   AlertTriangle,
-  RefreshCw,
 } from "lucide-react";
 
 function statusPill(status: string, isDark: boolean) {
@@ -112,7 +112,7 @@ function RowMenu({
               onArchive();
             }}
             className={cn(
-              "flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition",
+              "flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition enabled:hover:cursor-pointer",
               "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
             )}
             role="menuitem"
@@ -131,7 +131,7 @@ function RowMenu({
               onDelete();
             }}
             className={cn(
-              "flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition",
+              "flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition enabled:hover:cursor-pointer",
               "text-red-600 hover:bg-red-500/10 disabled:opacity-50",
               "dark:text-red-300",
             )}
@@ -177,17 +177,74 @@ export default function AdminBlogListClient({
   const [confirmTitle, setConfirmTitle] = React.useState("");
   const [confirmDesc, setConfirmDesc] = React.useState<React.ReactNode>(null);
   const [confirmLabel, setConfirmLabel] = React.useState("Confirm");
+  const latestFilterRequestRef = React.useRef<{ q: string; status: string } | null>(null);
+  const lastUserInputAtRef = React.useRef(0);
 
-  function pushQuery(next: Record<string, string | null | undefined>) {
+  function pushQuery(
+    next: Record<string, string | null | undefined>,
+    opts?: { replace?: boolean },
+  ) {
     const qs = new URLSearchParams(sp.toString());
     for (const [k, v] of Object.entries(next)) {
       if (!v) qs.delete(k);
       else qs.set(k, v);
     }
+    const href = `/admin/blog?${qs.toString()}`;
     startTransition(() => {
-      router.push(`/admin/blog?${qs.toString()}`);
+      if (opts?.replace) router.replace(href);
+      else router.push(href);
     });
   }
+
+  React.useEffect(() => {
+    const urlQ = sp.get("q") ?? "";
+    const urlStatus = sp.get("status") ?? "";
+
+    // Never let URL sync interrupt active typing/select changes.
+    if (Date.now() - lastUserInputAtRef.current < 450) return;
+
+    const latest = latestFilterRequestRef.current;
+
+    // Ignore stale URL updates from older in-flight filter requests.
+    if (latest) {
+      const isLatestRequestedUrl = latest.q === urlQ && latest.status === urlStatus;
+      if (!isLatestRequestedUrl) return;
+      latestFilterRequestRef.current = null;
+    }
+
+    if (q !== urlQ) setQ(urlQ);
+    if (status !== urlStatus) setStatus(urlStatus);
+  }, [sp]);
+
+  function handleQChange(next: string) {
+    lastUserInputAtRef.current = Date.now();
+    setQ(next);
+  }
+
+  function handleStatusChange(next: string) {
+    lastUserInputAtRef.current = Date.now();
+    setStatus(next);
+  }
+
+  function clearFilters() {
+    lastUserInputAtRef.current = Date.now();
+    setQ("");
+    setStatus("");
+  }
+
+  React.useEffect(() => {
+    const id = window.setTimeout(() => {
+      const nextQ = q.trim();
+      const currentQ = (sp.get("q") ?? "").trim();
+      const currentStatus = sp.get("status") ?? "";
+
+      if (nextQ === currentQ && status === currentStatus) return;
+      latestFilterRequestRef.current = { q: nextQ, status };
+      pushQuery({ q: nextQ || null, status: status || null, page: "1" }, { replace: true });
+    }, 350);
+
+    return () => window.clearTimeout(id);
+  }, [q, status, sp]);
 
   function toggle(id: string) {
     setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
@@ -270,27 +327,28 @@ export default function AdminBlogListClient({
         >
           <div className="p-5">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div>
-                <div className="text-2xl font-semibold tracking-tight text-[var(--dash-text)]">
-                  Blog posts
-                </div>
-                <div className="mt-1 text-sm text-[var(--dash-muted)]">
-                  Manage drafts, publishing, archive, deletions.
+              <div className="min-w-0">
+                <div className="flex items-center gap-3">
+                  <div
+                    className={cn(
+                      "inline-flex h-10 w-10 items-center justify-center rounded-2xl border",
+                      "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
+                    )}
+                  >
+                    <Briefcase className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-semibold tracking-tight text-[var(--dash-text)]">
+                      Blog posts
+                    </div>
+                    <div className="mt-1 text-sm text-[var(--dash-muted)]">
+                      Manage drafts, publishing, archive, deletions.
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <SoftButton
-                disabled={busy || isPending}
-                onClick={() =>
-                  startTransition(() => {
-                    router.refresh();
-                  })
-                }
-                icon={
-                  <RefreshCw className={cn("h-4 w-4", (busy || isPending) && "animate-spin")} />
-                }
-                label="Refresh"
-              />
+              <div />
             </div>
 
             {err ? (
@@ -308,7 +366,7 @@ export default function AdminBlogListClient({
                   type="button"
                   onClick={() => setErr(null)}
                   className={cn(
-                    "rounded-2xl p-1.5 transition",
+                    "rounded-2xl p-1.5 transition enabled:hover:cursor-pointer",
                     "text-inherit hover:bg-black/5",
                     isDark && "hover:bg-white/5",
                   )}
@@ -319,7 +377,7 @@ export default function AdminBlogListClient({
               </div>
             ) : null}
 
-            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-[1fr_220px_160px]">
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-[1fr_220px_140px]">
               {/* Search input */}
               <div
                 className={cn(
@@ -331,16 +389,16 @@ export default function AdminBlogListClient({
                 <Search className="h-4 w-4 text-[var(--dash-muted)]" />
                 <input
                   value={q}
-                  onChange={(e) => setQ(e.target.value)}
+                  onChange={(e) => handleQChange(e.target.value)}
                   placeholder="Search title, slug…"
                   className="w-full bg-transparent text-sm text-[var(--dash-text)] outline-none placeholder:text-[var(--dash-muted)]"
                 />
                 {q.trim() ? (
                   <button
                     type="button"
-                    onClick={() => setQ("")}
+                    onClick={() => handleQChange("")}
                     className={cn(
-                      "rounded-2xl p-1.5 text-[var(--dash-muted)] transition",
+                      "rounded-2xl p-1.5 text-[var(--dash-muted)] transition enabled:hover:cursor-pointer",
                       "hover:bg-[var(--dash-surface-2)] hover:text-[var(--dash-text)]",
                     )}
                     aria-label="Clear search"
@@ -352,7 +410,7 @@ export default function AdminBlogListClient({
 
               <Select
                 value={status}
-                onChange={setStatus}
+                onChange={handleStatusChange}
                 placeholder="All statuses"
                 disabled={busy || isPending}
                 options={[
@@ -364,11 +422,9 @@ export default function AdminBlogListClient({
 
               <SoftButton
                 disabled={busy || isPending}
-                onClick={() =>
-                  pushQuery({ q: q.trim() || null, status: status || null, page: "1" })
-                }
-                icon={<Search className="h-4 w-4" />}
-                label="Search"
+                onClick={clearFilters}
+                icon={<X className="h-4 w-4" />}
+                label="Clear"
               />
             </div>
           </div>
@@ -404,7 +460,7 @@ export default function AdminBlogListClient({
                     })
                   }
                   className={cn(
-                    "inline-flex h-10 items-center gap-2 rounded-2xl border px-3 text-sm font-semibold transition",
+                    "inline-flex h-10 items-center gap-2 rounded-2xl border px-3 text-sm font-semibold transition enabled:hover:cursor-pointer",
                     "focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30",
                     "disabled:cursor-not-allowed disabled:opacity-50",
                     isDark
@@ -611,7 +667,7 @@ export default function AdminBlogListClient({
                 disabled={!meta?.hasPrev || busy || isPending}
                 onClick={() => pushQuery({ page: String(Math.max(1, (meta.page ?? 1) - 1)) })}
                 className={cn(
-                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition",
+                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition enabled:hover:cursor-pointer",
                   "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
                   "hover:bg-[var(--dash-surface-2)]",
                   "disabled:cursor-not-allowed disabled:opacity-50",
@@ -624,7 +680,7 @@ export default function AdminBlogListClient({
                 disabled={!meta?.hasNext || busy || isPending}
                 onClick={() => pushQuery({ page: String((meta.page ?? 1) + 1) })}
                 className={cn(
-                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition",
+                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition enabled:hover:cursor-pointer",
                   "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
                   "hover:bg-[var(--dash-surface-2)]",
                   "disabled:cursor-not-allowed disabled:opacity-50",

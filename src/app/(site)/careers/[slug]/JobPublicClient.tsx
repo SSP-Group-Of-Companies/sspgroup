@@ -27,7 +27,7 @@ import { ES3Namespace, ES3Folder } from "@/types/aws.types";
 
 import TurnstileWidget from "@/components/TurnstileWidget";
 import { uploadToS3PresignedPublic } from "@/lib/utils/s3Helper/client";
-import { NEXT_PUBLIC_NPT_HR_EMAIL } from "@/config/env";
+import { NEXT_PUBLIC_SSP_HR_EMAIL } from "@/config/env";
 import { publicCountJobView } from "@/lib/utils/jobs/publicJobsApi";
 import { trackCtaClick } from "@/lib/analytics/cta";
 import { CheckBox } from "../../components/ui/CheckBox";
@@ -218,6 +218,11 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
     "file:mr-3 file:rounded-lg file:border-0 file:bg-slate-900 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white " +
     "hover:file:bg-slate-800";
 
+  const resetTurnstileChallenge = React.useCallback(() => {
+    setTurnstileToken("");
+    setTurnstileInstanceKey((k) => k + 1);
+  }, []);
+
   function resetFormAfterSuccess() {
     setErr(null);
 
@@ -245,8 +250,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
     if (resumeInputRef.current) resumeInputRef.current.value = "";
     if (photoInputRef.current) photoInputRef.current.value = "";
 
-    setTurnstileToken("");
-    setTurnstileInstanceKey((k) => k + 1);
+    resetTurnstileChallenge();
   }
 
   async function uploadResumeIfNeeded() {
@@ -334,11 +338,13 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
       return;
     }
 
+    let attemptedServerSubmit = false;
     setBusy(true);
     try {
       const resume = await uploadResumeIfNeeded();
       const photo = await uploadPhotoIfNeeded();
 
+      attemptedServerSubmit = true;
       const res = await fetch(`/api/v1/jobs/${encodeURIComponent(job.slug)}/apply`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -383,6 +389,10 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
       const msg = e?.message || "Failed to submit application";
       setErr(msg);
       scrollToNotice();
+      if (attemptedServerSubmit) {
+        // Turnstile tokens are single-use; keep widget and parent token in sync after failed submit.
+        resetTurnstileChallenge();
+      }
 
       trackCtaClick({
         ctaId: "job_apply_submit_failed",
@@ -821,20 +831,20 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
               <div className="mt-2 min-w-0 break-words">
                 If you need help applying, contact{" "}
                 <a
-                  href={`mailto:${NEXT_PUBLIC_NPT_HR_EMAIL}?subject=${encodeURIComponent(
+                  href={`mailto:${NEXT_PUBLIC_SSP_HR_EMAIL}?subject=${encodeURIComponent(
                     `Question about ${job.title}`,
                   )}`}
                   onClick={() =>
                     trackCtaClick({
                       ctaId: "job_contact_hr_email",
                       location: "job_contact_card",
-                      destination: `mailto:${NEXT_PUBLIC_NPT_HR_EMAIL}`,
+                      destination: `mailto:${NEXT_PUBLIC_SSP_HR_EMAIL}`,
                       label: "Email HR (mailto)",
                     })
                   }
                   className="font-medium break-words text-[color:var(--color-brand-600)] hover:underline"
                 >
-                  {NEXT_PUBLIC_NPT_HR_EMAIL}
+                  {NEXT_PUBLIC_SSP_HR_EMAIL}
                 </a>
                 .
               </div>

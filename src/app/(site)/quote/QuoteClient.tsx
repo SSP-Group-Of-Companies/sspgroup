@@ -7,7 +7,7 @@ import { Container } from "../components/layout/Container";
 import { Section } from "../components/layout/Section";
 import LogisticsQuoteForm from "../components/forms/LogisticsQuoteForm";
 import { cn } from "@/lib/cn";
-import { NEXT_PUBLIC_NPT_PHONE } from "@/config/env";
+import { NEXT_PUBLIC_SSP_PHONE } from "@/config/env";
 import { NAV_OFFSET } from "@/constants/ui";
 
 function QuoteHero() {
@@ -78,24 +78,24 @@ function QuoteCallout() {
             </span>
             Reach us at{" "}
             <a
-              href={toTelHref(NEXT_PUBLIC_NPT_PHONE)}
+              href={toTelHref(NEXT_PUBLIC_SSP_PHONE)}
               className="font-semibold text-white underline decoration-white/25 underline-offset-4 transition hover:decoration-white/60"
             >
-              {NEXT_PUBLIC_NPT_PHONE}
+              {NEXT_PUBLIC_SSP_PHONE}
             </a>
             .
           </p>
 
           <div className="flex shrink-0 gap-2">
             <a
-              href={toTelHref(NEXT_PUBLIC_NPT_PHONE)}
+              href={toTelHref(NEXT_PUBLIC_SSP_PHONE)}
               className={cn(
                 "inline-flex h-8.5 items-center justify-center gap-2 rounded-md px-3.5 text-[12px] font-semibold sm:text-[13px]",
                 "border border-[color:var(--color-brand-600)] bg-[linear-gradient(180deg,var(--color-brand-600),var(--color-brand-700))] text-white",
                 "shadow-[0_6px_16px_rgba(220,38,38,0.18)] transition hover:-translate-y-[1px] hover:shadow-[0_10px_22px_rgba(220,38,38,0.24)]",
                 "focus-ring-surface",
               )}
-              aria-label={`Call NPT Logistics at ${NEXT_PUBLIC_NPT_PHONE}`}
+              aria-label={`Call NPT Logistics at ${NEXT_PUBLIC_SSP_PHONE}`}
             >
               <PhoneCall className="h-3.5 w-3.5" />
               Call
@@ -145,7 +145,7 @@ function QuoteAssurance() {
         <div className="mx-auto max-w-3xl text-center">
           <div className="mx-auto mb-3 h-[2px] w-12 bg-[color:var(--color-brand-500)]" />
           <p className="text-[10.5px] font-semibold tracking-[0.14em] text-[color:var(--color-brand-500)] uppercase">
-            Why shippers trust NPT
+            Why shippers trust SSP
           </p>
           <h2 className="mt-3 text-[1.55rem] font-semibold tracking-tight text-white sm:text-[1.9rem]">
             Built for confidence at every step

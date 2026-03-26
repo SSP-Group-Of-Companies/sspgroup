@@ -34,7 +34,7 @@ export function SubmitSection({ turnstileRef }: SubmitSectionProps) {
         fieldPathAttr="marketingEmailConsent"
         label={
           <span className="text-sm font-medium text-[color:var(--color-text-light)]">
-            I agree to receive marketing communications from NPT Logistics
+            I agree to receive marketing communications from SSP
           </span>
         }
         hint="Optional. You can unsubscribe anytime using the link in our emails."

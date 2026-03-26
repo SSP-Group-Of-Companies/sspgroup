@@ -2,7 +2,7 @@
 import { sendMailAppOnly, type GraphAttachment } from "@/lib/mail/mailer";
 import { escapeHtml } from "@/lib/mail/utils";
 import { buildDefaultEmailTemplate } from "@/lib/mail/templates/defaultTemplate";
-import { NEXT_PUBLIC_NPT_HR_EMAIL } from "@/config/env";
+import { NEXT_PUBLIC_SSP_HR_EMAIL } from "@/config/env";
 import type { IFileAsset } from "@/types/shared.types";
 import { filenameForAsset } from "@/lib/utils/files/mime";
 
@@ -89,7 +89,7 @@ async function assetToAttachment(
 export async function sendJobApplicantHrNotificationEmail(
   params: SendJobApplicantHrNotificationEmailParams,
 ): Promise<void> {
-  const toAddr = params.to || NEXT_PUBLIC_NPT_HR_EMAIL;
+  const toAddr = params.to || NEXT_PUBLIC_SSP_HR_EMAIL;
 
   const jobTitle = params.job?.title?.trim() || "Job Application";
   const safeJobTitle = escapeHtml(jobTitle);
@@ -251,11 +251,11 @@ export async function sendJobApplicantHrNotificationEmail(
     heading: "New application received",
     subtitle: safeJobTitle,
     bodyHtml,
-    footerContactEmail: NEXT_PUBLIC_NPT_HR_EMAIL,
+    footerContactEmail: NEXT_PUBLIC_SSP_HR_EMAIL,
   });
 
   await sendMailAppOnly({
-    from: NEXT_PUBLIC_NPT_HR_EMAIL,
+    from: NEXT_PUBLIC_SSP_HR_EMAIL,
     to: [toAddr],
     subject,
     html,

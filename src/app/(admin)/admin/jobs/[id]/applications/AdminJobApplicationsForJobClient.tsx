@@ -9,16 +9,7 @@ import { ConfirmModal, type ConfirmTone } from "@/app/(admin)/components/ui/Conf
 import { Select } from "@/app/(admin)/components/ui/Select";
 import { SoftButton, IconButton } from "@/app/(admin)/components/ui/Buttons";
 import { JobApplicationDetailsModal } from "@/app/(admin)/components/jobs/JobApplicationDetailsModal";
-import {
-  Search,
-  RefreshCw,
-  X,
-  Users,
-  Eye,
-  Archive,
-  AlertTriangle,
-  ArchiveRestore,
-} from "lucide-react";
+import { Search, X, Users, Eye, Archive, AlertTriangle, ArchiveRestore } from "lucide-react";
 import { EJobApplicationStatus } from "@/types/jobApplication.types";
 import { adminSetApplicationStatus } from "@/lib/utils/jobs/adminJobsApi";
 
@@ -54,17 +45,71 @@ export default function AdminJobApplicationsForJobClient({
   const [confirmTitle, setConfirmTitle] = React.useState("");
   const [confirmDesc, setConfirmDesc] = React.useState<React.ReactNode>(null);
   const [confirmLabel, setConfirmLabel] = React.useState("Confirm");
+  const latestFilterRequestRef = React.useRef<{ q: string; status: string } | null>(null);
+  const lastUserInputAtRef = React.useRef(0);
 
-  function pushQuery(next: Record<string, string | null | undefined>) {
+  function pushQuery(
+    next: Record<string, string | null | undefined>,
+    opts?: { replace?: boolean },
+  ) {
     const qs = new URLSearchParams(sp.toString());
     for (const [k, v] of Object.entries(next)) {
       if (!v) qs.delete(k);
       else qs.set(k, v);
     }
-    startTransition(() =>
-      router.push(`/admin/jobs/${encodeURIComponent(jobId)}/applications?${qs.toString()}`),
-    );
+    const href = `/admin/jobs/${encodeURIComponent(jobId)}/applications?${qs.toString()}`;
+    startTransition(() => {
+      if (opts?.replace) router.replace(href);
+      else router.push(href);
+    });
   }
+
+  React.useEffect(() => {
+    const urlQ = sp.get("q") ?? "";
+    const urlStatus = sp.get("status") ?? "";
+
+    if (Date.now() - lastUserInputAtRef.current < 450) return;
+
+    const latest = latestFilterRequestRef.current;
+    if (latest) {
+      const isLatestRequestedUrl = latest.q === urlQ && latest.status === urlStatus;
+      if (!isLatestRequestedUrl) return;
+      latestFilterRequestRef.current = null;
+    }
+
+    if (q !== urlQ) setQ(urlQ);
+    if (status !== urlStatus) setStatus(urlStatus);
+  }, [sp]);
+
+  function handleQChange(next: string) {
+    lastUserInputAtRef.current = Date.now();
+    setQ(next);
+  }
+
+  function handleStatusChange(next: string) {
+    lastUserInputAtRef.current = Date.now();
+    setStatus(next);
+  }
+
+  function clearFilters() {
+    lastUserInputAtRef.current = Date.now();
+    setQ("");
+    setStatus("");
+  }
+
+  React.useEffect(() => {
+    const id = window.setTimeout(() => {
+      const nextQ = q.trim();
+      const currentQ = (sp.get("q") ?? "").trim();
+      const currentStatus = sp.get("status") ?? "";
+
+      if (nextQ === currentQ && status === currentStatus) return;
+      latestFilterRequestRef.current = { q: nextQ, status };
+      pushQuery({ q: nextQ || null, status: status || null, page: "1" }, { replace: true });
+    }, 350);
+
+    return () => window.clearTimeout(id);
+  }, [q, status, sp]);
 
   async function run(fn: () => Promise<void>) {
     setErr(null);
@@ -164,14 +209,7 @@ export default function AdminJobApplicationsForJobClient({
                 </div>
               </div>
 
-              <SoftButton
-                disabled={busy || isPending}
-                onClick={() => startTransition(() => router.refresh())}
-                icon={
-                  <RefreshCw className={cn("h-4 w-4", (busy || isPending) && "animate-spin")} />
-                }
-                label="Refresh"
-              />
+              <div className="flex items-center gap-2" />
             </div>
 
             {err ? (
@@ -189,7 +227,7 @@ export default function AdminJobApplicationsForJobClient({
                   type="button"
                   onClick={() => setErr(null)}
                   className={cn(
-                    "rounded-2xl p-1.5 transition",
+                    "rounded-2xl p-1.5 transition enabled:hover:cursor-pointer",
                     "text-inherit hover:bg-black/5",
                     isDark && "hover:bg-white/5",
                   )}
@@ -200,7 +238,7 @@ export default function AdminJobApplicationsForJobClient({
               </div>
             ) : null}
 
-            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-[1fr_220px_160px]">
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-[1fr_220px_140px]">
               <div
                 className={cn(
                   "group flex items-center gap-2 rounded-2xl border px-3 py-2 transition",
@@ -211,16 +249,16 @@ export default function AdminJobApplicationsForJobClient({
                 <Search className="h-4 w-4 text-[var(--dash-muted)]" />
                 <input
                   value={q}
-                  onChange={(e) => setQ(e.target.value)}
-                  placeholder="Search name, email..."
+                  onChange={(e) => handleQChange(e.target.value)}
+                  placeholder="Search name, email…"
                   className="w-full bg-transparent text-sm text-[var(--dash-text)] outline-none placeholder:text-[var(--dash-muted)]"
                 />
                 {q.trim() ? (
                   <button
                     type="button"
-                    onClick={() => setQ("")}
+                    onClick={() => handleQChange("")}
                     className={cn(
-                      "rounded-2xl p-1.5 text-[var(--dash-muted)] transition",
+                      "rounded-2xl p-1.5 text-[var(--dash-muted)] transition enabled:hover:cursor-pointer",
                       "hover:bg-[var(--dash-surface-2)] hover:text-[var(--dash-text)]",
                     )}
                     aria-label="Clear search"
@@ -232,7 +270,7 @@ export default function AdminJobApplicationsForJobClient({
 
               <Select
                 value={status}
-                onChange={setStatus}
+                onChange={handleStatusChange}
                 placeholder="All statuses"
                 disabled={busy || isPending}
                 options={[
@@ -244,11 +282,9 @@ export default function AdminJobApplicationsForJobClient({
 
               <SoftButton
                 disabled={busy || isPending}
-                onClick={() =>
-                  pushQuery({ q: q.trim() || null, status: status || null, page: "1" })
-                }
-                icon={<Search className="h-4 w-4" />}
-                label="Search"
+                onClick={clearFilters}
+                icon={<X className="h-4 w-4" />}
+                label="Clear"
               />
             </div>
           </div>
@@ -399,7 +435,7 @@ export default function AdminJobApplicationsForJobClient({
                 disabled={!meta?.hasPrev || busy || isPending}
                 onClick={() => pushQuery({ page: String(Math.max(1, (meta.page ?? 1) - 1)) })}
                 className={cn(
-                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition",
+                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition enabled:hover:cursor-pointer",
                   "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
                   "hover:bg-[var(--dash-surface-2)]",
                   "disabled:cursor-not-allowed disabled:opacity-50",
@@ -412,7 +448,7 @@ export default function AdminJobApplicationsForJobClient({
                 disabled={!meta?.hasNext || busy || isPending}
                 onClick={() => pushQuery({ page: String((meta.page ?? 1) + 1) })}
                 className={cn(
-                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition",
+                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition enabled:hover:cursor-pointer",
                   "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
                   "hover:bg-[var(--dash-surface-2)]",
                   "disabled:cursor-not-allowed disabled:opacity-50",

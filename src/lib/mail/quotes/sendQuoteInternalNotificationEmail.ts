@@ -2,7 +2,7 @@
 import { sendMailAppOnly, type GraphAttachment } from "@/lib/mail/mailer";
 import { escapeHtml } from "@/lib/mail/utils";
 import { buildDefaultEmailTemplate } from "@/lib/mail/templates/defaultTemplate";
-import { NEXT_PUBLIC_NPT_LOGISTICS_EMAIL } from "@/config/env";
+import { NEXT_PUBLIC_SSP_EMAIL } from "@/config/env";
 
 import type { IFileAsset } from "@/types/shared.types";
 import {
@@ -475,7 +475,7 @@ export type SendQuoteNotificationEmailParams = {
 export async function sendQuoteInternalNotificationEmail(
   params: SendQuoteNotificationEmailParams,
 ): Promise<void> {
-  const toAddr = params.to || NEXT_PUBLIC_NPT_LOGISTICS_EMAIL;
+  const toAddr = params.to || NEXT_PUBLIC_SSP_EMAIL;
 
   const q = params.quote;
   const service = q.serviceDetails;
@@ -591,11 +591,11 @@ export async function sendQuoteInternalNotificationEmail(
     heading: "New quote received",
     subtitle: safePrimary,
     bodyHtml,
-    footerContactEmail: NEXT_PUBLIC_NPT_LOGISTICS_EMAIL,
+    footerContactEmail: NEXT_PUBLIC_SSP_EMAIL,
   });
 
   await sendMailAppOnly({
-    from: NEXT_PUBLIC_NPT_LOGISTICS_EMAIL,
+    from: NEXT_PUBLIC_SSP_EMAIL,
     to: [toAddr],
     subject,
     html,

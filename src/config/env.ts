@@ -39,16 +39,16 @@ export const TURNSTILE_DEV_BYPASS_TOKEN = process.env.TURNSTILE_DEV_BYPASS_TOKEN
 // Google Analytics
 export const NEXT_PUBLIC_GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!;
 
-// NPT Emails (Public so they can be used in UI if needed)
-export const NEXT_PUBLIC_NPT_LOGISTICS_EMAIL = process.env.NEXT_PUBLIC_NPT_LOGISTICS_EMAIL!;
-export const NEXT_PUBLIC_NPT_DISPATCH_EMAIL = process.env.NEXT_PUBLIC_NPT_DISPATCH_EMAIL!;
-export const NEXT_PUBLIC_NPT_SAFETY_EMAIL = process.env.NEXT_PUBLIC_NPT_SAFETY_EMAIL!;
-export const NEXT_PUBLIC_NPT_CS_EMAIL = process.env.NEXT_PUBLIC_NPT_CS_EMAIL!;
-export const NEXT_PUBLIC_NPT_HR_EMAIL = process.env.NEXT_PUBLIC_NPT_HR_EMAIL!;
-export const NEXT_PUBLIC_NPT_IT_EMAIL = process.env.NEXT_PUBLIC_NPT_IT_EMAIL!;
+// SSP Emails (Public so they can be used in UI if needed)
+export const NEXT_PUBLIC_SSP_EMAIL = process.env.NEXT_PUBLIC_SSP_EMAIL!;
+export const NEXT_PUBLIC_SSP_DISPATCH_EMAIL = process.env.NEXT_PUBLIC_SSP_DISPATCH_EMAIL!;
+export const NEXT_PUBLIC_SSP_SAFETY_EMAIL = process.env.NEXT_PUBLIC_SSP_SAFETY_EMAIL!;
+export const NEXT_PUBLIC_SSP_CS_EMAIL = process.env.NEXT_PUBLIC_SSP_CS_EMAIL!;
+export const NEXT_PUBLIC_SSP_HR_EMAIL = process.env.NEXT_PUBLIC_SSP_HR_EMAIL!;
+export const NEXT_PUBLIC_SSP_IT_EMAIL = process.env.NEXT_PUBLIC_SSP_IT_EMAIL!;
 
-// NPT Phone Number
-export const NEXT_PUBLIC_NPT_PHONE = process.env.NEXT_PUBLIC_NPT_PHONE!;
+// SSP Phone Number
+export const NEXT_PUBLIC_SSP_PHONE = process.env.NEXT_PUBLIC_SSP_PHONE!;
 
 // Application Environment
 export const isProd = process.env.NODE_ENV === "production";
