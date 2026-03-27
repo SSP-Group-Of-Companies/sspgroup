@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { IndustriesCarouselSection } from "@/app/(site)/components/home/IndustriesCarouselSection";
+import { IndustriesHub } from "./_components/IndustriesHub";
 
 export const metadata: Metadata = {
-  title: "Industries",
+  title: "Industries | SSP Group",
   description:
-    "Discover industry logistics programs by NPT Logistics for automotive, manufacturing, retail, food and beverage, industrial energy, and steel/aluminum freight.",
+    "Industry-specific logistics programs purpose-built for automotive, manufacturing, retail, food & beverage, steel, construction, and chemical freight across North America.",
   alternates: {
     canonical: "/industries",
   },
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function IndustriesHubPage() {
   return (
     <div className="bg-[color:var(--color-surface-0)]">
-      <IndustriesCarouselSection />
+      <IndustriesHub />
     </div>
   );
 }

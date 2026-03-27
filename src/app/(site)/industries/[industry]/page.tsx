@@ -20,19 +20,19 @@ export async function generateMetadata({
   return {
     title: model.meta.title,
     description: model.meta.description,
-    alternates: { canonical: `https://nptlogistics.com/industries/${model.slug}` },
+    alternates: { canonical: `https://sspgroup.com/industries/${model.slug}` },
     openGraph: {
       title: model.meta.title,
       description: model.meta.description,
       type: "website",
-      url: `https://nptlogistics.com/industries/${model.slug}`,
-      images: model.meta.ogImage ? [model.meta.ogImage] : ["/_optimized/brand/nptLogo-glow.webp"],
+      url: `https://sspgroup.com/industries/${model.slug}`,
+      images: model.meta.ogImage ? [model.meta.ogImage] : [],
     },
     twitter: {
       card: "summary_large_image",
       title: model.meta.title,
       description: model.meta.description,
-      images: model.meta.ogImage ? [model.meta.ogImage] : ["/_optimized/brand/nptLogo-glow.webp"],
+      images: model.meta.ogImage ? [model.meta.ogImage] : [],
     },
   };
 }

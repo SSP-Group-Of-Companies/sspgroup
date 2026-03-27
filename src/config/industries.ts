@@ -1,23 +1,22 @@
-// src/config/industries.ts
-
 export type IndustryKey =
   | "automotive"
   | "manufacturing"
   | "retail"
   | "food"
-  | "industrial-energy"
-  | "steel-aluminum";
+  | "construction"
+  | "steel-aluminum"
+  | "chemical-plastics";
 
 export type IndustrySlide = {
   key: IndustryKey;
-  label: string; // short nav label
-  title: string; // big headline
-  subtitle: string; // 1–2 lines
-  mobileTitle?: string; // compact mobile headline
-  mobileSubtitle?: string; // compact mobile support copy
-  href: string; // dedicated page
-  image: string; // background image
-  accent?: "red" | "blue" | "slate"; // subtle styling variations
+  label: string;
+  title: string;
+  subtitle: string;
+  mobileTitle?: string;
+  mobileSubtitle?: string;
+  href: string;
+  image: string;
+  accent?: "red" | "blue" | "slate";
 };
 
 export const INDUSTRIES_SECTION = {
@@ -25,31 +24,31 @@ export const INDUSTRIES_SECTION = {
   kicker: "Industries",
   heading: "Industries We Serve",
   description:
-    "Specialized execution across industries where timing, compliance, and communication decide outcomes.",
+    "Sector-specific logistics programs for the industries where timing, compliance, and precision define outcomes.",
 } as const;
 
 export const INDUSTRY_SLIDES: IndustrySlide[] = [
   {
     key: "automotive",
     label: "Automotive",
-    title: "Automotive freight that stays on schedule.",
+    title: "Automotive freight engineered for precision.",
     subtitle:
-      "Specialized exotic hauling leads our automotive model, backed by reliable vehicle-unit delivery and component-lane continuity.",
-    mobileTitle: "Exotic-first automotive transport.",
-    mobileSubtitle: "Specialized exotic hauling, plus dependable vehicle and parts flows.",
+      "From specialty vehicle transport to production-line sequencing, automotive logistics built around asset protection and schedule integrity.",
+    mobileTitle: "Precision automotive logistics.",
+    mobileSubtitle: "Specialty vehicles, OEM parts, and production-line sequencing.",
     href: "/industries/automotive",
     image: "/_optimized/industries/Automotives.webp",
     accent: "red",
   },
   {
     key: "manufacturing",
-    label: "Manufacturing & Materials",
+    label: "Manufacturing",
     title: "Manufacturing supply chains require control.",
     subtitle:
-      "Raw materials and production-critical freight moved with consistency, visibility, and recovery when conditions shift.",
+      "Raw materials and production-critical freight moved with inbound rhythm, handling discipline, and exception ownership.",
     mobileTitle: "Manufacturing supply chains require control.",
     mobileSubtitle:
-      "Raw materials and production-critical freight moved with consistency and visibility.",
+      "Production-critical freight moved with consistency and real-time visibility.",
     href: "/industries/manufacturing-materials",
     image: "/_optimized/industries/Manufacturing.webp",
     accent: "slate",
@@ -71,38 +70,51 @@ export const INDUSTRY_SLIDES: IndustrySlide[] = [
     label: "Food & Beverage",
     title: "Food & beverage moves on precision.",
     subtitle:
-      "Temperature-aware handling, clean documentation, and on-time execution to protect shelf life and brand trust.",
+      "Temperature-governed execution, transit-time discipline, and compliance-ready documentation protecting product quality.",
     mobileTitle: "Food & beverage moves on precision.",
     mobileSubtitle:
-      "Temperature-aware handling and on-time execution to protect shelf life and trust.",
+      "Temperature-aware handling and on-time execution protecting shelf life and trust.",
     href: "/industries/food-beverage",
     image: "/_optimized/industries/food.webp",
     accent: "red",
   },
   {
-    key: "industrial-energy",
-    label: "Industrial & Energy",
-    title: "Industrial & energy lanes need reliability.",
+    key: "steel-aluminum",
+    label: "Steel & Metals",
+    title: "Heavy freight handled with discipline.",
     subtitle:
-      "Equipment and site-critical freight moved with safety-first execution, clear ownership, and accurate status.",
-    mobileTitle: "Industrial and energy lanes need reliability.",
+      "Metal coils, plate, and high-density loads moved with engineered securement, compliance rigor, and accountable execution.",
+    mobileTitle: "Heavy freight handled with discipline.",
     mobileSubtitle:
-      "Equipment and site-critical freight moved with safety-first execution and clear ownership.",
-    href: "/industries/industrial-energy",
+      "Metal coils and plate moved with proper equipment, securement, and accountability.",
+    href: "/industries/steel-aluminum",
+    image: "/_optimized/industries/Steel.webp",
+    accent: "slate",
+  },
+  {
+    key: "construction",
+    label: "Construction & Building Materials",
+    title: "Project cargo delivered to site on schedule.",
+    subtitle:
+      "Heavy equipment, building materials, and site-critical freight moved with permit-aware planning and safety-governed execution.",
+    mobileTitle: "Project cargo delivered on schedule.",
+    mobileSubtitle:
+      "Building materials and heavy equipment moved with safety-first execution.",
+    href: "/industries/construction-building-materials",
     image: "/_optimized/industries/Industry&Energy.webp",
     accent: "slate",
   },
   {
-    key: "steel-aluminum",
-    label: "Steel & Aluminum",
-    title: "Heavy freight handled with discipline.",
+    key: "chemical-plastics",
+    label: "Chemical & Plastics",
+    title: "Chemical and plastics freight with controlled execution.",
     subtitle:
-      "Metal coils, plate, and high-density loads moved with the right equipment, securement, and accountable execution.",
-    mobileTitle: "Heavy freight handled with discipline.",
+      "Regulated freight programs built around carrier qualification, document control, and classification-specific handling across North America.",
+    mobileTitle: "Chemical freight with compliance discipline.",
     mobileSubtitle:
-      "Metal coils and plate moved with proper equipment, securement, and accountable execution.",
-    href: "/industries/steel-aluminum",
-    image: "/_optimized/industries/Steel.webp",
-    accent: "blue",
+      "Controlled regulated-freight execution with stronger document and handling discipline.",
+    href: "/industries/chemical-plastics",
+    image: "/_optimized/industries/Manufacturing.webp",
+    accent: "slate",
   },
 ];

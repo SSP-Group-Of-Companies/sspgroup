@@ -209,7 +209,7 @@ export function LoadOptimizationWidget({ accentColor }: { accentColor?: string }
           </div>
         </div>
       }
-      controls={<></>}
+      controls={null}
     />
   );
 }

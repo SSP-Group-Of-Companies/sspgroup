@@ -52,8 +52,8 @@ export default function GuidedChatbot() {
       openChat();
     }
 
-    window.addEventListener("npt:open-live-chat", onOpenLiveChat);
-    return () => window.removeEventListener("npt:open-live-chat", onOpenLiveChat);
+    window.addEventListener("ssp:open-live-chat", onOpenLiveChat);
+    return () => window.removeEventListener("ssp:open-live-chat", onOpenLiveChat);
   }, []);
 
   React.useEffect(() => {

@@ -246,7 +246,7 @@ export function DemandSurgeWidget({ accentColor }: { accentColor?: string }) {
           </div>
         </div>
       }
-      controls={<></>}
+      controls={null}
     />
   );
 }

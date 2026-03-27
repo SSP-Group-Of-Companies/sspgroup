@@ -67,7 +67,7 @@ export function WidgetCard({
       <div className={cn(fillHeight ? "flex-1 min-h-0 flex flex-col px-4 pb-2 sm:px-5 sm:pb-3" : "px-4 pb-3 sm:px-5 sm:pb-4")}>
         {visual}
       </div>
-      {React.Children.count(controls) > 0 ? (
+      {controls != null ? (
         <div className="px-4 py-3 sm:px-5 sm:py-4">
           {controls}
         </div>

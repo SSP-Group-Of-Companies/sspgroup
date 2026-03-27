@@ -217,7 +217,7 @@ export function HeavyHaulRouteWidget({ accentColor }: { accentColor?: string }) 
           </div>
         </div>
       }
-      controls={<></>}
+      controls={null}
     />
   );
 }

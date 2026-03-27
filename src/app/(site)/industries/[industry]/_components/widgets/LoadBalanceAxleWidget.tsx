@@ -261,7 +261,7 @@ export function LoadBalanceAxleWidget({ accentColor }: { accentColor?: string })
           </div>
         </div>
       }
-      controls={<></>}
+      controls={null}
     />
   );
 }

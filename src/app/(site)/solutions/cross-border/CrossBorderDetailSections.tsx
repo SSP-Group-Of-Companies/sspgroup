@@ -5,7 +5,7 @@ import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { Container } from "@/app/(site)/components/layout/Container";
-import { SectionSignalEyebrow } from "./SectionSignalEyebrow";
+import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 
 const focusRing =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)] focus-visible:ring-offset-1";

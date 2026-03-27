@@ -23,7 +23,7 @@ const LIVE_CHAT_HREF = "#live-chat";
 
 function openLiveChat() {
   if (typeof window !== "undefined") {
-    window.dispatchEvent(new CustomEvent("npt:open-live-chat"));
+    window.dispatchEvent(new CustomEvent("ssp:open-live-chat"));
   }
 }
 

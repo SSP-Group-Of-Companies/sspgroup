@@ -10,8 +10,9 @@ export type IndustrySlug =
   | "manufacturing-materials"
   | "retail-consumer-goods"
   | "food-beverage"
-  | "industrial-energy"
-  | "steel-aluminum";
+  | "construction-building-materials"
+  | "steel-aluminum"
+  | "chemical-plastics";
 
 /** Decisive hero color theme per industry — drives background and gradient accents */
 export type IndustryHeroTheme =
@@ -19,8 +20,9 @@ export type IndustryHeroTheme =
   | "red" // Automotive — power, brand
   | "blue" // Retail — trust, calm
   | "slate" // Manufacturing — industrial
-  | "amber" // Industrial & Energy — energy, power
-  | "steel"; // Steel & Aluminum — metal, strength
+  | "amber" // Construction & Building Materials — earth, structure
+  | "steel" // Steel & Aluminum — metal, strength
+  | "teal"; // Chemical & Plastics — precision, science
 
 export type IndustryHero = {
   kicker?: string;
@@ -28,9 +30,13 @@ export type IndustryHero = {
   title: string;
   description: string;
   cta: { label: string; href: string; ctaId: string };
+  secondaryCta?: { label: string; href: string; ctaId: string };
   /** Decisive theme: sets hero background color and gradient overlays */
   theme: IndustryHeroTheme;
-  iconKeys?: string[]; // e.g. ["truck", "package"] for scattered hero icons
+  /** Signal chips shown below the hero description */
+  signals?: string[];
+  /** Proof metric strip shown below the hero content */
+  proofStrip?: Array<{ value: string; label: string }>;
 };
 
 /** Unique interactive widget per industry — one per industry page */
@@ -43,7 +49,7 @@ export type IndustryWidgetType =
   | "load-balance-axle"; // Steel & Aluminum
 
 export type IndustryWhatMatters = {
-  variant?: "timeline" | "control-board" | "ops-grid";
+  eyebrowLabel?: string;
   sectionTitle: string;
   intro: string;
   items: Array<{ title: string; body: string }>;
@@ -65,11 +71,19 @@ export type IndustryHowWeSupportCard = {
   metric?: string;
 };
 
+export type IndustryHowWeSupportAside = {
+  badge: string;
+  title: string;
+  body: string;
+  bullets: string[];
+  stats: Array<{ value: string; label: string }>;
+};
+
 export type IndustryHowWeSupport = {
   sectionTitle: string;
   intro: string;
   cards: IndustryHowWeSupportCard[];
-  cta?: { label: string; href: string; ctaId: string };
+  aside?: IndustryHowWeSupportAside;
 };
 
 export type IndustryTrustProof = {
@@ -80,15 +94,16 @@ export type IndustryTrustProof = {
     title: string;
     icon: string;
     industryBaseline: string;
-    nptStandard: string;
+    sspStandard: string;
     evidence: string;
     industryScore: number;
-    nptScore: number;
+    sspScore: number;
   }>;
   evidenceNote?: string;
 };
 
 export type IndustryRelatedServices = {
+  eyebrowLabel?: string;
   sectionTitle: string;
   intro?: string;
   modeFit?: Array<{
@@ -112,7 +127,7 @@ export type IndustryFinalCta = {
   trustSignals?: string[];
   ctas: {
     primary: { label: string; href: string; ctaId: string };
-    secondary: { label: string; href: string; ctaId: string };
+    secondary: { label: string; href?: string; ctaId: string; action?: "live-chat" };
   };
 };
 
@@ -137,202 +152,226 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     key: "automotive",
     slug: "automotive",
     meta: {
-      title: "Automotive Logistics | Inbound & Outbound Freight | NPT Logistics",
+      title: "Automotive Logistics | JIT, Enclosed & Cross-Border Freight | SSP Group",
       description:
-        "Exotic and specialty vehicle transport supported by disciplined car-hauler execution, plus vehicle-unit and inbound component freight across North America.",
+        "Automotive logistics for OEMs, Tier-1 suppliers, and specialty vehicle programs across Canada, the United States, and Mexico. JIT inbound sequencing, enclosed transport, and cross-border freight managed with control.",
       ogImage: "/_optimized/services/specialized&time-sensitive/exoticCarhaulingImg2.webp",
     },
     hero: {
-      kicker: "Industry Logistics Programs",
+      kicker: "Automotive Logistics",
       valueHeadline: "Production continuity.",
-      title: "Automotive Logistics",
+      title: "Automotive Logistics for Production-Critical Freight",
       description:
-        "Our automotive operation is led by specialized and exotic vehicle hauling, backed by disciplined vehicle-unit moves and inbound component freight for unfinished manufacturing. Every lane is managed with accountable ownership, controlled handoffs, and decision-ready visibility.",
-      cta: { label: "Contact us", href: "/contact", ctaId: "industry_automotive_hero_contact" },
+        "From JIT inbound sequencing to enclosed vehicle transport and North American cross-border execution, SSP runs automotive freight with the control, documentation discipline, and exception ownership serious shippers expect.",
+      cta: { label: "Review Your Automotive Network", href: "/contact", ctaId: "industry_automotive_hero_contact" },
+      secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_automotive_hero_capabilities" },
       theme: "red",
-      iconKeys: ["car", "truck", "gear", "factory"],
+      signals: ["OEM and Tier-1 operating discipline", "Enclosed and high-value vehicle handling", "USMCA-ready corridor execution"],
+      proofStrip: [
+        { value: "24 / 7", label: "Operations coverage" },
+        { value: "CA / US / MX", label: "Automotive corridors" },
+        { value: "JIT / JIS", label: "Production-fit execution" },
+      ],
     },
     whatMatters: {
-      variant: "timeline",
-      sectionTitle: "Operational Priorities for Automotive Freight",
+      eyebrowLabel: "Industry Demands",
+      sectionTitle: "Where Automotive Freight Fails First",
       intro:
-        "Automotive execution requires different controls across three realities: high-value exotic/specialty units, finished-vehicle flows, and inbound parts feeding production. Our operating model is intentionally weighted toward premium-asset risk control while preserving appointment precision for unit distribution and sequence reliability for manufacturing support.",
+        "Automotive freight does not break in the same way on every move. For most OEM, Tier-1, and specialty vehicle programs, exposure concentrates in three places: sequence integrity, cargo protection, and border readiness.",
 
       items: [
         {
-          title: "Exotic and Specialty Asset Protection",
-          body: "High-value vehicles are planned with route-aware, enclosed transport controls, low-touch handling discipline, and delivery-condition accountability from origin through final handoff.",
+          title: "Inbound Sequencing",
+          body: "Assembly lines run on sequence, not broad appointment windows. A single missed component handoff can create line-stop exposure, labor disruption, and downstream schedule pressure across the plant.",
         },
         {
-          title: "Vehicle Program Timing Discipline",
-          body: "Pickup appointments, delivery windows, and handoff timing are confirmed before dispatch and actively managed against milestone checkpoints through completion.",
+          title: "High-Value Vehicle Protection",
+          body: "Finished vehicles, prototypes, and specialty units require low-touch handling, controlled custody, and equipment matched to asset value. Damage is not just a claim event. It is a brand and delivery failure.",
         },
         {
-          title: "Parts Flow Continuity for Manufacturing",
-          body: "Inbound component lanes are managed with sequence-sensitive controls, structured exception response, and audit-ready shipment records to protect production cadence.",
+          title: "Cross-Border Regulatory Precision",
+          body: "Automotive cross-border freight depends on pre-cleared documents, broker coordination, and rules-of-origin discipline. Border issues rarely stay at the border. They move directly into production risk.",
         },
       ],
 
       interactiveWidget: "transport-protection",
 
-      widgetSupportTitle: "Production-Risk Controls in Motion",
+      widgetSupportTitle: "Protection Standards by Cargo Profile",
 
       widgetSupportBody:
-        "Automotive risk profile changes by shipment type. Exotic units demand premium exposure control, vehicle programs demand timing precision, and parts lanes demand sequence continuity. This model shows how protection choices shift control posture before dispatch.",
+        "Protection requirements shift materially between components, finished vehicles, and cross-border movements. SSP aligns equipment, handling controls, and documentation posture to the actual exposure on the lane.",
 
       widgetSupportBullets: [
-        "Exotic units: enclosed, low-touch handling and condition-verification workflows reduce exposure risk.",
-        "Vehicle programs: timing checkpoints and appointment governance protect dealer and destination commitments.",
-        "Component freight: handling controls and escalation ownership preserve unfinished manufacturing flow.",
+        "Vehicle units: enclosed transport decisions are driven by exposure, custody points, and delivery-condition expectations.",
+        "Component freight: securement, stack stability, and moisture protection protect sequence integrity at destination.",
+        "Cross-border freight: customs dwell and additional handoffs increase risk unless controls are set before dispatch.",
       ],
 
-      widgetSupportFooter: "Control design before dispatch. Visibility through delivery.",
+      widgetSupportFooter: "Controls are defined before movement starts, not after something goes wrong.",
     },
     howWeSupport: {
-      sectionTitle: "How NPT Supports Automotive Programs",
+      sectionTitle: "How SSP Runs Automotive Freight",
       intro:
-        "We structure automotive support around a clear concentration: specialized/exotic vehicle hauling first, then finished-vehicle program execution, then inbound parts continuity. The result is a controlled model that protects premium assets and keeps production and distribution lanes stable.",
+        "SSP's automotive model is built around four control points that matter most to buyers: sequence discipline, asset protection, cross-border readiness, and decision-ready visibility.",
       cards: [
         {
-          eyebrow: "Plan with us",
-          title: "Exotic-focused transport design",
-          summary: "Specialized lanes are engineered for enclosed transport, route-fit feasibility, and low-touch handoffs before first movement.",
+          eyebrow: "Production-Sensitive Inbound",
+          title: "Sequence discipline at plant level",
+          summary: "JIT and JIS programs managed to plant timing, receiving constraints, and component criticality, with immediate escalation when tolerance begins to tighten.",
           details:
-            "Your team receives a documented operating blueprint for condition-sensitive vehicles, with checkpoint ownership aligned across planning, dispatch, and receiving.",
-          metric: "Exotic-control model",
+            "Movement plans are built around production timing, named ownership, and recovery logic that protects line-side continuity when conditions shift.",
+          metric: "Plant-level timing",
         },
         {
-          eyebrow: "Execute it",
-          title: "Vehicle-unit execution reliability",
-          summary: "Finished-vehicle dispatch, handoff control, and exception escalation are managed under a single accountable operations lead.",
+          eyebrow: "Asset Protection",
+          title: "Enclosed vehicle transport",
+          summary: "Specialty vehicles and high-value units moved under low-touch operating plans with route controls, custody verification, and delivery-condition documentation.",
           details:
-            "When a vehicle lane moves off plan, corrective pathing is activated immediately with revised milestones and clear ownership through delivery closeout.",
-          metric: "Unit-flow control",
+            "Protection posture is matched to the asset, the lane, and the delivery expectation before dispatch, not left to generic operating assumptions in transit.",
+          metric: "Asset-fit handling",
         },
         {
-          eyebrow: "Monitor in real time",
-          title: "Decision-ready lane visibility",
-          summary: "Milestone reporting is structured for premium-asset moves, distribution lanes, and production-facing teams.",
+          eyebrow: "Cross-Border Execution",
+          title: "Canada-US-Mexico corridor control",
+          summary: "Border-facing automotive freight moves with document validation, broker coordination, and handoff discipline before crossing risk becomes transit risk.",
           details:
-            "Status, exception context, and completion confirmation are shared in one consistent format so teams can act early and without ambiguity.",
-          metric: "Reporting cadence",
+            "Automotive cross-border programs are structured around document readiness, customs coordination, and corridor visibility so border variability does not become production variability.",
+          metric: "Border-ready execution",
         },
         {
-          eyebrow: "Strengthen resilience",
-          title: "Parts continuity and recovery paths",
-          summary: "Contingency routing and alternate capacity are prepared in advance for component-lane and sequence disruptions.",
+          eyebrow: "Visibility & Control",
+          title: "Decision-ready reporting",
+          summary: "Milestones, exceptions, and corrective actions are delivered in a format buyers can act on, not a stream of disconnected tracking events.",
           details:
-            "The objective is continuity: contain disruption quickly, restore sequence integrity, and protect unfinished manufacturing commitments downstream.",
-          metric: "Production continuity",
+            "Reporting cadence is aligned to planning, receiving, and commercial escalation windows, with context that supports action before the issue expands.",
+          metric: "Actionable visibility",
         },
       ],
-      cta: { label: "Plan your automotive lanes", href: "/contact", ctaId: "industry_automotive_support_contact" },
+      aside: {
+        badge: "Premium operating model",
+        title: "Execution that feels managed, not merely dispatched.",
+        body: "Automotive buyers need a partner that can protect production timing, preserve asset condition, and surface exceptions before they become line-side problems. This section turns the operating model into a clearer, faster-to-scan story.",
+        bullets: [
+          "Named ownership across pickup, linehaul, and delivery milestones",
+          "Production-aligned reporting cadence, not generic tracking events",
+          "Recovery options defined before disruption reaches the plant floor",
+        ],
+        stats: [
+          { value: "JIT / JIS", label: "Program fit" },
+          { value: "Enclosed", label: "Vehicle protocol" },
+          { value: "USMCA", label: "Border discipline" },
+          { value: "24 / 7", label: "Ops coverage" },
+        ],
+      },
     },
     trustProof: {
-      sectionTitle: "Why Teams Choose NPT",
-      comparisonHeading: "NPT relative to typical market practice",
+      sectionTitle: "Control Standards Buyers Can Audit",
+      comparisonHeading: "SSP operating standards vs. common market practice",
       intro:
-        "Automotive teams usually compare providers on risk transfer, compliance discipline, and visibility quality. This is how our operating standard is structured in practice.",
+        "The difference between a standard carrier relationship and a production-critical automotive program shows up in operating discipline, not marketing language.",
       pillars: [
         {
-          title: "Insurance Coverage",
-          icon: "IC",
-          industryBaseline: "Coverage often sits at minimum requirement with limited lane-specific review before dispatch.",
-          nptStandard: "Coverage is reviewed against load profile before movement, with program-fit confirmation at onboarding.",
-          evidence: "Carrier insurance verification log attached to pre-dispatch checklist.",
-          industryScore: 42,
-          nptScore: 82,
+          title: "Asset Protection",
+          icon: "AP",
+          industryBaseline: "Coverage and cargo protection are often treated as a dispatch prerequisite rather than a lane-specific control standard.",
+          sspStandard: "Protection posture is matched to lane, equipment, custody points, and asset value before movement begins.",
+          evidence: "Shipment files retain pre-dispatch verification, condition documentation, and delivery-closeout records.",
+          industryScore: 38,
+          sspScore: 88,
         },
         {
-          title: "Regulatory Compliance",
+          title: "Cross-Border Compliance",
           icon: "RC",
-          industryBaseline: "Compliance checks are frequently periodic instead of embedded in day-to-day shipment execution.",
-          nptStandard: "DOT/FMCSA controls are built into dispatch and escalation workflow with named ownership.",
-          evidence: "Compliance checkpoint record retained with shipment closeout file.",
-          industryScore: 48,
-          nptScore: 86,
+          industryBaseline: "Documentation quality varies by movement and is often finalized too late in the process to protect the lane.",
+          sspStandard: "Border-facing automotive freight moves with document validation, broker coordination, and named ownership before crossing risk becomes transit risk.",
+          evidence: "Shipment files retain compliance checkpoints and document-confirmation workflows.",
+          industryScore: 42,
+          sspScore: 90,
         },
         {
-          title: "Shipment Visibility",
+          title: "Exception Visibility",
           icon: "SV",
-          industryBaseline: "Updates are commonly event-only and late for operational decision windows.",
-          nptStandard: "Milestone and exception updates are structured for planning, receiving, and leadership response timing.",
-          evidence: "Timeline-based exception log with timestamped corrective actions.",
-          industryScore: 39,
-          nptScore: 84,
+          industryBaseline: "Updates often arrive after decision windows narrow, with limited context for corrective action.",
+          sspStandard: "Exception reporting is aligned to production planning, receiving, and commercial escalation needs.",
+          evidence: "Corrective-action timelines and owner-led updates are retained through closeout.",
+          industryScore: 35,
+          sspScore: 86,
         },
       ],
       evidenceNote:
-        "Sample documents and operating artifacts are available during implementation review.",
+        "Examples of operating records and control artifacts can be reviewed during program qualification.",
     },
     relatedServices: {
-      sectionTitle: "Mode Fit and Coverage",
+      eyebrowLabel: "Mode Selection",
+      sectionTitle: "Automotive Programs by Freight Profile",
       intro:
-        "Select transport approach by lane behavior, sequence criticality, and recovery tolerance.",
+        "The right operating model depends on the cargo, the recovery tolerance, and the border exposure on the lane.",
       modeFit: [
         {
-          scenario: "Production-sequence inbound lanes",
-          recommendation: "Truckload + Expedited fallback",
-          rationale: "Protects appointment reliability while preserving a rapid recovery path when exceptions emerge.",
+          scenario: "Production-sequence inbound",
+          recommendation: "Dedicated truckload with expedited recovery support",
+          rationale: "Protects timing, preserves plant-facing discipline, and creates a clear recovery path for critical exceptions.",
         },
         {
-          scenario: "Exotic and specialty vehicle moves",
-          recommendation: "Specialized protected transport",
-          rationale: "Aligns enclosed equipment, route feasibility, and low-touch handling controls to premium-asset sensitivity.",
+          scenario: "Finished vehicles and specialty units",
+          recommendation: "Enclosed specialized transport",
+          rationale: "Aligns equipment, custody control, and delivery-condition expectations to asset value.",
         },
         {
-          scenario: "Cross-border automotive flows",
-          recommendation: "Cross-Border + milestone governance",
-          rationale: "Combines customs readiness with structured handoff visibility across CA-US-MX lanes.",
+          scenario: "Canada-US-Mexico automotive lanes",
+          recommendation: "Cross-border execution with documentation governance",
+          rationale: "Reduces border variability and supports controlled handoffs across the corridor.",
         },
       ],
       links: [
         { label: "Expedited & Specialized", href: "/services/expedited-specialized" },
         { label: "Truckload", href: "/services/truckload" },
-        { label: "Cross-Border", href: "/services/cross-border" },
+        { label: "Cross-Border", href: "/solutions/cross-border" },
+        { label: "LTL & Consolidation", href: "/services/ltl-consolidation" },
       ],
     },
     finalCta: {
-      kicker: "Ready to move your automotive freight?",
-      title: "Let's get your lanes on plan.",
-      body: "Talk to our team about your inbound, outbound, or vehicle-unit moves. We'll align on your windows, requirements, and how we deliver.",
+      kicker: "Ready to review the network",
+      title: "Review Your Automotive Network with SSP",
+      body: "If production timing, vehicle condition, or border reliability are carrying too much risk in your network, we can review the freight model with you and define where tighter control will matter most.",
       implementationSteps: [
         {
           step: "01",
-          title: "Lane and sequence discovery",
-          body: "We map windows, dependencies, and risk points across your automotive flow.",
+          title: "Network and lane review",
+          body: "We assess production sensitivity, freight profile, corridor structure, and exposure points.",
         },
         {
           step: "02",
-          title: "Control-model setup",
-          body: "We configure milestone governance, escalation ownership, and reporting cadence.",
+          title: "Operating model design",
+          body: "We align escalation paths, visibility cadence, handling standards, and border controls to the network.",
         },
         {
           step: "03",
-          title: "Launch with active oversight",
-          body: "Execution begins with real-time control and structured performance review loops.",
+          title: "Launch and governance",
+          body: "Execution begins with active oversight, defined ownership, and structured review once the lanes are live.",
         },
       ],
       proof: [
-        { value: "≤ 15 min", label: "Initial response" },
-        { value: "24/7", label: "Operations coverage" },
-        { value: "CA–US–MX", label: "Lane scope" },
+        { value: "≤ 15 min", label: "Response time" },
+        { value: "24 / 7", label: "Operations desk" },
+        { value: "CA / US / MX", label: "Corridor coverage" },
       ],
       trustSignals: [
-        "Single point of accountability",
-        "Proactive updates",
+        "Named account ownership",
+        "Production-aligned visibility",
         "Audit-ready documentation",
+        "Pre-staged recovery support",
       ],
       ctas: {
         primary: {
-          label: "Contact us",
-          href: "/contact",
-          ctaId: "industry_automotive_final_contact",
+          label: "Request an Automotive Review",
+          href: "/quote",
+          ctaId: "industry_automotive_final_quote",
         },
         secondary: {
-          label: "Speak with a live agent",
-          href: "#live-chat",
-          ctaId: "industry_automotive_final_live_agent",
+          label: "Speak with an Automotive Specialist",
+          ctaId: "industry_automotive_final_chat",
+          action: "live-chat",
         },
       },
     },
@@ -342,22 +381,28 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     key: "manufacturing",
     slug: "manufacturing-materials",
     meta: {
-      title: "Manufacturing & Materials Logistics | Industrial Supply Chain | NPT Logistics",
+      title: "Manufacturing & Materials Logistics | Industrial Supply Chain | SSP Group",
       description:
         "Raw materials and production-critical freight moved with consistency, visibility, and recovery when conditions shift. Industrial supply chain execution across North America.",
+      ogImage: "/_optimized/industries/manufacturing-hero-premium-v1.png",
     },
     hero: {
-      kicker: "Industry Logistics Programs",
-      valueHeadline: "Throughput stability.",
-      title: "Manufacturing & Materials",
+      kicker: "Manufacturing & Materials Logistics",
+      valueHeadline: "Throughput stability, protected.",
+      title: "Supply Continuity Starts at the Loading Dock",
       description:
-        "Raw materials and production-critical freight executed with lane discipline, handling controls, and exception ownership that help keep manufacturing flow stable and predictable.",
-      cta: { label: "Contact us", href: "/contact", ctaId: "industry_manufacturing_hero_contact" },
+        "From raw materials and production-critical inputs to repeat industrial replenishment across North America, SSP manages manufacturing and materials freight with lane discipline, commodity-fit handling, and owner-led exception control that keeps flow stable when conditions tighten.",
+      cta: { label: "Review Your Manufacturing Network", href: "/contact", ctaId: "industry_manufacturing_hero_quote" },
+      secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_manufacturing_hero_capabilities" },
       theme: "slate",
-      iconKeys: ["factory", "cube-stack", "wrench", "gear"],
+      signals: ["Plant-aligned inbound cadence", "Commodity-fit handling controls", "Owner-led exception governance"],
+      proofStrip: [
+        { value: "Milestone-safe", label: "Inbound rhythm" },
+        { value: "Commodity-fit", label: "Handling controls" },
+        { value: "Owner-led", label: "Exception governance" },
+      ],
     },
     whatMatters: {
-      variant: "ops-grid",
       sectionTitle: "What Keeps Manufacturing Running",
       intro:
         "Manufacturing performance depends on inbound rhythm, not last-minute firefighting. Late or compromised materials create downstream pressure across labor, equipment, and customer delivery commitments. This model prioritizes lane stability, controlled exception response, and handling standards that protect throughput.",
@@ -387,7 +432,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       widgetSupportFooter: "Engineered utilization. Controlled stress. Documented execution.",
     },
     howWeSupport: {
-      sectionTitle: "How NPT Supports Manufacturing & Materials",
+      sectionTitle: "How SSP Supports Manufacturing & Materials",
       intro:
         "Building on these throughput priorities, we support manufacturing operations with a control-first model focused on inbound rhythm, handling discipline, exception ownership, and execution transparency.",
       cards: [
@@ -424,11 +469,26 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
           metric: "Exception governance",
         },
       ],
-      cta: { label: "Stabilize your supply flow", href: "/contact", ctaId: "industry_manufacturing_support_contact" },
+      aside: {
+        badge: "Manufacturing operating model",
+        title: "Execution built for inbound rhythm, materials control, and production-facing visibility.",
+        body: "Manufacturing freight performs best when lane cadence, handling posture, and exception ownership are aligned before the load begins to move. SSP runs industrial programs with cleaner planning discipline and clearer operational control when schedule pressure starts to build.",
+        bullets: [
+          "Inbound planning aligned to production timing, receiving limits, and material criticality",
+          "Commodity-fit handling that protects cargo condition and receiving readiness across industrial lanes",
+          "Milestone and exception reporting structured for planners, receiving teams, and operations leaders",
+        ],
+        stats: [
+          { value: "Plant-ready", label: "Inbound cadence" },
+          { value: "Commodity-fit", label: "Handling posture" },
+          { value: "Owner-led", label: "Exception control" },
+          { value: "24 / 7", label: "Ops coverage" },
+        ],
+      },
     },
     trustProof: {
-      sectionTitle: "Why Teams Choose NPT",
-      comparisonHeading: "NPT relative to typical market practice",
+      sectionTitle: "The SSP Standard",
+      comparisonHeading: "SSP vs. typical market practice",
       intro:
         "Manufacturing buyers benchmark partners on risk coverage, process compliance, and operational visibility under schedule pressure.",
       pillars: [
@@ -436,28 +496,28 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
           title: "Insurance Coverage",
           icon: "IC",
           industryBaseline: "Insurance is often validated once, with limited linkage to commodity-specific risk.",
-          nptStandard: "Coverage verification is tied to lane and material profile before dispatch authorization.",
+          sspStandard: "Coverage verification is tied to lane and material profile before dispatch authorization.",
           evidence: "Pre-dispatch risk and insurance check attached to lane execution brief.",
           industryScore: 44,
-          nptScore: 81,
+          sspScore: 81,
         },
         {
           title: "Regulatory Compliance",
           icon: "RC",
           industryBaseline: "Compliance is frequently handled as a separate audit track from daily operations.",
-          nptStandard: "Compliance controls are embedded in dispatch, handoff, and exception closure workflow.",
+          sspStandard: "Compliance controls are embedded in dispatch, handoff, and exception closure workflow.",
           evidence: "Shipment closeout includes compliance checkpoints and owner signoff.",
           industryScore: 46,
-          nptScore: 85,
+          sspScore: 85,
         },
         {
           title: "Shipment Visibility",
           icon: "SV",
           industryBaseline: "Visibility tends to be reactive when receiving windows are already at risk.",
-          nptStandard: "Milestone cadence and exception alerts are structured for production-facing decisions.",
+          sspStandard: "Milestone cadence and exception alerts are structured for production-facing decisions.",
           evidence: "Timestamped milestone and recovery log retained per load.",
           industryScore: 41,
-          nptScore: 83,
+          sspScore: 83,
         },
       ],
       evidenceNote:
@@ -519,14 +579,14 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       trustSignals: ["Lane-level control", "Proactive updates", "Audit-ready documentation"],
       ctas: {
         primary: {
-          label: "Contact us",
-          href: "/contact",
-          ctaId: "industry_manufacturing_final_contact",
+          label: "Request a Quote",
+          href: "/quote",
+          ctaId: "industry_manufacturing_final_quote",
         },
         secondary: {
-          label: "Speak with a live agent",
-          href: "#live-chat",
+          label: "Speak to a Live Agent",
           ctaId: "industry_manufacturing_final_live_agent",
+          action: "live-chat",
         },
       },
     },
@@ -536,191 +596,215 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     key: "retail",
     slug: "retail-consumer-goods",
     meta: {
-      title: "Retail & Consumer Goods Logistics | Store & DC Replenishment | NPT Logistics",
+      title: "Retail & Consumer Goods Logistics | Cross-Border Replenishment | SSP Group",
       description:
-        "Store replenishment and DC lanes with predictable execution, clear updates, and service-level discipline. Retail freight delivered with zero drama.",
+        "Retail and consumer goods logistics for store replenishment, distribution centers, and cross-border freight across Canada, the United States, and Mexico. SSP manages retail freight with window control, visibility, and surge-ready execution.",
+      ogImage: "/_optimized/industries/retail-hero-premium-v3.png",
     },
     hero: {
-      kicker: "Industry Logistics Programs",
-      valueHeadline: "Shelf availability.",
-      title: "Retail & Consumer Goods",
+      kicker: "Retail & Consumer Goods Logistics",
+      valueHeadline: "Shelf availability, protected.",
+      title: "Shelf Availability Starts with Lane Discipline",
       description:
-        "Store replenishment and DC freight managed with service-level discipline, transparent status, and surge-aware execution built to protect product availability and customer commitments.",
-      cta: { label: "Contact us", href: "/contact", ctaId: "industry_retail_hero_contact" },
+        "From store replenishment and DC freight to promotion-driven surges and cross-border retail flows across Canada, the United States, and Mexico, SSP runs consumer goods logistics with delivery-window control, escalation discipline, and decision-ready visibility.",
+      cta: { label: "Review Your Retail Network", href: "/contact", ctaId: "industry_retail_hero_quote" },
+      secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_retail_hero_capabilities" },
       theme: "blue",
-      iconKeys: ["store", "rectangle-stack", "truck", "route"],
+      signals: ["Window-governed store and DC delivery", "Campaign-aware surge planning", "Cross-border retail flow control"],
+      proofStrip: [
+        { value: "Window-safe", label: "Store and DC execution" },
+        { value: "Border-ready", label: "CA / US / MX retail lanes" },
+        { value: "Decision-ready", label: "Retail visibility" },
+      ],
     },
     whatMatters: {
-      variant: "ops-grid",
-      sectionTitle: "What Protects Shelf Availability",
+      eyebrowLabel: "Industry Demands",
+      sectionTitle: "Where Retail Availability Breaks Down First",
       intro:
-        "Retail execution depends on replenishment reliability across stores, DCs, and promotional windows. Delays and unclear status create stock risk, service penalties, and preventable escalation. The operating focus here is window compliance, decision-ready visibility, and accountable service governance.",
+        "Retail service failure rarely begins at the shelf. It starts earlier in missed delivery windows, weak exception control, and avoidable friction across North American replenishment lanes. For retailers and consumer goods brands, availability depends on disciplined execution across stores, DCs, and cross-border flow.",
       items: [
         {
-          title: "Window Compliance at Store and DC",
-          body: "Appointments and delivery windows are confirmed in advance, then managed to milestone checkpoints to reduce service misses at receiving locations.",
+          title: "Delivery-Window Control Across Stores and DCs",
+          body: "Retail networks are judged on clean appointments, receiving readiness, and dependable replenishment timing. A late or poorly managed delivery creates pressure at the dock, in inventory positions, and eventually in market.",
         },
         {
-          title: "Operational Visibility Buyers Can Act On",
-          body: "Status updates are structured around key moments in transit, with clear exception communication and a named owner responsible for corrective actions.",
+          title: "Decision-Ready Exception Visibility",
+          body: "Updates only matter when they arrive early enough to protect allocation, labor planning, and in-stock performance. Retail teams need concise status, clear ownership, and corrective action they can trust.",
         },
         {
-          title: "Service Governance That Protects Commitments",
-          body: "Proof of delivery quality, exception logs, and communication discipline are maintained so retail teams have traceable performance and accountable execution.",
+          title: "Cross-Border and Surge Readiness",
+          body: "Campaign periods, seasonal peaks, and Canada-US-Mexico retail freight flows expose weak operating discipline quickly. Capacity, documentation, and escalation rules need to be set before the network tightens, not while it is already slipping.",
         },
       ],
       interactiveWidget: "demand-surge",
-      widgetSupportTitle: "Surge Readiness for Retail Networks",
+      widgetSupportTitle: "Surge Exposure Across Retail Networks",
       widgetSupportBody:
-        "Demand volatility, channel mix, and node coverage can shift fulfillment pressure quickly. This model helps teams see where queue risk builds and how distribution choices stabilize service.",
+        "Demand volatility, node density, and border exposure shift pressure unevenly across retail networks. SSP uses the same planning logic to identify where queue risk, stockout exposure, and service deterioration are most likely to build first.",
       widgetSupportBullets: [
-        "Store-heavy demand typically moves with steadier cadence; e-commerce-heavy demand increases peak volatility.",
-        "Additional distribution nodes can reduce queue concentration and improve response flexibility.",
-        "Surge response relies on clear priority rules, active load balancing, and disciplined status communication.",
+        "Store-led replenishment often follows a steadier cadence, while omnichannel volume introduces sharper peaks and less forgiving node pressure.",
+        "More nodes can reduce queue concentration, but only when routing logic, appointment control, and visibility remain aligned.",
+        "Surge response is strongest when priority rules, capacity posture, and border-facing ownership are defined before the peak begins.",
       ],
-      widgetSupportFooter: "Surge-aware planning. Service continuity. Faster response.",
+      widgetSupportFooter: "Pressure mapped early. Service protected before the network tightens.",
     },
     howWeSupport: {
-      sectionTitle: "How NPT Supports Retail & Consumer Goods",
+      sectionTitle: "How SSP Governs Retail and Consumer Goods Freight",
       intro:
-        "Building on these service-level priorities, we support retail performance with service-governed execution: promotion-aware planning, delivery-window discipline, transparent status, and controlled surge response.",
+        "SSP's retail model is built around four controls that matter most to buyers: replenishment planning, delivery-window performance, cross-border continuity, and escalation discipline when the network comes under pressure.",
       cards: [
         {
-          eyebrow: "Plan with us",
-          title: "Promotion and replenishment planning",
-          summary: "Capacity and routing plans are aligned to campaign calendars, replenishment cycles, and node-level demand patterns.",
+          eyebrow: "Network Planning",
+          title: "Replenishment and campaign alignment",
+          summary: "Capacity, routing, and service posture are aligned to replenishment cadence, promotional calendars, and node-level demand before the network tightens.",
           details:
-            "Surge assumptions are addressed before peak windows begin, reducing ad-hoc decisions during high-pressure fulfillment periods.",
-          metric: "Demand planning",
+            "Retail freight performs best when store cadence, DC throughput, and campaign timing are managed as one operating system rather than separate transportation events.",
+          metric: "Cadence planning",
         },
         {
-          eyebrow: "Execute it",
-          title: "Window-compliant execution",
-          summary: "Appointments and delivery windows are managed with strict handoff discipline across store and DC receiving points.",
+          eyebrow: "Store & DC Execution",
+          title: "Delivery-window control",
+          summary: "Appointments and receiving windows are managed with disciplined handoffs across stores, distribution centers, and replenishment lanes.",
           details:
-            "The focus is consistency at the dock: disciplined arrivals, clean delivery confirmation, and fewer preventable service exceptions.",
-          metric: "Service control",
+            "Dock performance is treated as a commercial service issue, not simply a dispatch milestone. Clean arrivals, clean PODs, and clean closeout protect availability.",
+          metric: "Dock governance",
         },
         {
-          eyebrow: "Monitor in real time",
-          title: "Decision-ready status visibility",
-          summary: "Retail operations receive concise milestone updates and clear exception context at the moments that matter.",
+          eyebrow: "Cross-Border Control",
+          title: "Canada-US-Mexico retail corridor execution",
+          summary: "Border-facing retail freight moves with document readiness, broker coordination, and handoff discipline before customs variability becomes shelf risk.",
           details:
-            "Escalations include ownership and corrective action so merchandising, transportation, and operations teams can move quickly.",
+            "For retail and consumer goods programs, cross-border discipline protects replenishment timing, receiving confidence, and product flow across North America.",
+          metric: "Border continuity",
+        },
+        {
+          eyebrow: "Operational Visibility",
+          title: "Decision-ready exception reporting",
+          summary: "Retail teams receive concise milestone updates, owner-led escalations, and corrective-action context at the moments that matter most.",
+          details:
+            "Reporting is structured for merchandising, transportation, and operations leaders who need to protect receiving windows and in-market availability before issues compound.",
           metric: "Exception clarity",
         },
-        {
-          eyebrow: "Strengthen resilience",
-          title: "Surge and disruption response",
-          summary: "When demand spikes or lane conditions tighten, execution plans are adjusted without losing service governance.",
-          details:
-            "Routing, coverage, and communication are rebalanced in flight to protect product availability and customer experience.",
-          metric: "Continuity response",
-        },
       ],
-      cta: { label: "Support your retail network", href: "/contact", ctaId: "industry_retail_support_contact" },
+      aside: {
+        badge: "Retail operating model",
+        title: "Execution built for shelf availability, window discipline, and network control.",
+        body: "Retail freight is judged at receiving, in inventory positions, and during peak periods when the margin for error narrows. SSP runs retail programs with planned cadence, clean handoffs, and escalation ownership that holds under pressure.",
+        bullets: [
+          "Campaign-aware planning across stores, DCs, and replenishment lanes",
+          "Cross-border coordination that protects Canada-US-Mexico retail flow",
+          "Exception reporting retail teams can act on before pressure compounds",
+        ],
+        stats: [
+          { value: "Stores / DCs", label: "Network flow" },
+          { value: "CA / US / MX", label: "Cross-border lanes" },
+          { value: "Peak-ready", label: "Surge posture" },
+          { value: "24 / 7", label: "Ops coverage" },
+        ],
+      },
     },
     trustProof: {
-      sectionTitle: "Why Teams Choose NPT",
-      comparisonHeading: "NPT relative to typical market practice",
+      sectionTitle: "Operating Standards Buyers Can Verify",
+      comparisonHeading: "SSP operating standards vs. common retail freight practice",
       intro:
-        "Retail performance is judged by consistency during promotions and peaks. This comparison shows operating-standard differences that affect shelf availability.",
+        "Retail freight is not judged by how many modes a provider lists. It is judged by whether replenishment, receiving, and cross-border execution stay controlled when the network comes under pressure.",
       pillars: [
         {
-          title: "Insurance Coverage",
-          icon: "IC",
-          industryBaseline: "Coverage confirmation is often generic and disconnected from promotion-risk periods.",
-          nptStandard: "Coverage and liability readiness are reviewed against lane profile and surge risk timing.",
-          evidence: "Risk review entry included in pre-peak execution checklist.",
+          title: "Delivery-Window Governance",
+          icon: "DG",
+          industryBaseline: "Appointments and service expectations are often managed broadly, with limited linkage to specific store, DC, or campaign pressure points.",
+          sspStandard: "Execution standards are set by receiving profile, delivery window, and service sensitivity before freight enters the cycle.",
+          evidence: "Lane playbooks retain appointment logic, service triggers, and owner-led escalation paths.",
           industryScore: 43,
-          nptScore: 80,
+          sspScore: 83,
         },
         {
-          title: "Regulatory Compliance",
-          icon: "RC",
-          industryBaseline: "Compliance workflows are commonly separate from day-of-operation ownership.",
-          nptStandard: "Compliance controls are integrated into dispatch and exception escalation paths.",
-          evidence: "Compliance and dispatch checkpoints captured in shipment closure report.",
-          industryScore: 45,
-          nptScore: 84,
+          title: "Cross-Border Control",
+          icon: "CB",
+          industryBaseline: "Retail cross-border freight is often treated as ordinary linehaul until customs, document, or handoff issues begin to slow replenishment.",
+          sspStandard: "Canada-US-Mexico retail lanes move with document readiness, broker coordination, and named ownership before border variability turns into shelf risk.",
+          evidence: "Shipment files retain document checkpoints, broker coordination notes, and border-facing exception workflows.",
+          industryScore: 41,
+          sspScore: 89,
         },
         {
-          title: "Shipment Visibility",
-          icon: "SV",
-          industryBaseline: "Visibility is frequently delayed during high-volume periods when decisions matter most.",
-          nptStandard: "Milestone updates and escalation context are issued in decision-ready cadence.",
-          evidence: "Service-window variance log with owner, trigger, and corrective timeline.",
-          industryScore: 40,
-          nptScore: 86,
+          title: "Exception Visibility",
+          icon: "EV",
+          industryBaseline: "Updates frequently arrive after delivery windows tighten or inventory exposure is already expanding.",
+          sspStandard: "Milestone reporting and corrective-action updates are issued in a cadence retail teams can use to protect receiving, allocation, and in-market availability.",
+          evidence: "Variance logs capture owner, impact, and recovery timeline through closeout.",
+          industryScore: 39,
+          sspScore: 86,
         },
       ],
       evidenceNote:
-        "Document samples and evidence artifacts can be reviewed as part of implementation planning.",
+        "Examples of lane playbooks, service logs, and border-control records can be reviewed during qualification.",
     },
     relatedServices: {
-      sectionTitle: "Mode Fit and Coverage",
-      intro: "Choose service mix based on replenishment speed, network spread, and product profile.",
+      eyebrowLabel: "Mode Selection",
+      sectionTitle: "Retail Programs by Lane and Network Need",
+      intro: "The right retail operating model depends on replenishment cadence, order profile, product sensitivity, and cross-border exposure.",
       modeFit: [
         {
-          scenario: "Store and DC replenishment corridors",
-          recommendation: "Truckload + appointment governance",
-          rationale: "Supports predictable dock performance and cleaner service-level execution.",
+          scenario: "Store and DC replenishment across Canada and the US",
+          recommendation: "Truckload with appointment governance",
+          rationale: "Supports predictable receiving performance, cleaner delivery windows, and steadier replenishment flow across the network.",
         },
         {
-          scenario: "Mixed-volume replenishment needs",
-          recommendation: "LTL with milestone visibility",
-          rationale: "Improves cost efficiency while preserving exception transparency.",
+          scenario: "Mixed-volume retail and consumer goods moves",
+          recommendation: "LTL and consolidation with milestone visibility",
+          rationale: "Balances cost and service while preserving shipment transparency and cleaner exception handling.",
         },
         {
-          scenario: "Sensitive or seasonal product lanes",
-          recommendation: "Temperature-controlled and value-added support",
-          rationale: "Protects product quality and receiving readiness in variable-demand periods.",
+          scenario: "Mexico-origin consumer goods and seasonal retail programs",
+          recommendation: "Cross-border execution with temperature-controlled or value-added support",
+          rationale: "Protects border continuity, product condition, and receiving readiness when demand and handoff pressure rise.",
         },
       ],
       links: [
         { label: "Truckload", href: "/services/truckload" },
         { label: "LTL", href: "/services/ltl" },
+        { label: "Cross-Border", href: "/solutions/cross-border" },
         { label: "Temperature-Controlled", href: "/services/temperature-controlled" },
-        { label: "Value-Added", href: "/services/value-added" },
       ],
     },
     finalCta: {
-      kicker: "Ready to simplify your retail freight?",
-      title: "Let's get your shelves stocked.",
-      body: "Talk to our team about your store and DC lanes. We'll outline how we deliver predictable execution and clear communication.",
+      kicker: "Ready to review the network",
+      title: "Review Your Retail and Consumer Goods Network with SSP",
+      body: "If shelf availability, receiving performance, or cross-border retail freight are carrying too much risk in your network, we can review the lanes with you and identify where tighter control, cleaner visibility, and stronger escalation discipline will have the most impact.",
       implementationSteps: [
         {
           step: "01",
-          title: "Demand and lane review",
-          body: "We align on campaign windows, replenishment cadence, and service risk points.",
+          title: "Network and lane assessment",
+          body: "We map replenishment cadence, delivery windows, product sensitivity, and Canada-US-Mexico lane exposure.",
         },
         {
           step: "02",
-          title: "Service-governance setup",
-          body: "We configure appointment controls, visibility standards, and escalation ownership.",
+          title: "Operating model design",
+          body: "We define appointment controls, visibility cadence, border workflows, and escalation ownership by lane.",
         },
         {
           step: "03",
-          title: "Launch with surge readiness",
-          body: "Operations run with active balancing and structured communication during peaks.",
+          title: "Launch and governance",
+          body: "Execution starts with active oversight, service review, and structured adjustment as the network stabilizes.",
         },
       ],
       proof: [
-        { value: "≤ 15 min", label: "Initial response" },
-        { value: "24/7", label: "Operations coverage" },
-        { value: "CA–US–MX", label: "Lane scope" },
+        { value: "≤ 15 min", label: "Response time" },
+        { value: "24 / 7", label: "Operations desk" },
+        { value: "CA / US / MX", label: "Corridor coverage" },
       ],
       trustSignals: [
-        "Predictable execution",
-        "Proactive updates",
+        "Window-controlled execution",
+        "Decision-ready updates",
         "Single point of accountability",
+        "Border-ready documentation",
       ],
       ctas: {
-        primary: { label: "Contact us", href: "/contact", ctaId: "industry_retail_final_contact" },
+        primary: { label: "Request a Retail Network Review", href: "/quote", ctaId: "industry_retail_final_quote" },
         secondary: {
-          label: "Speak with a live agent",
-          href: "#live-chat",
+          label: "Speak with a Retail Specialist",
           ctaId: "industry_retail_final_live_agent",
+          action: "live-chat",
         },
       },
     },
@@ -730,22 +814,28 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     key: "food",
     slug: "food-beverage",
     meta: {
-      title: "Food & Beverage Logistics | Cold Chain & Temperature-Controlled | NPT Logistics",
+      title: "Food & Beverage Logistics | Cold Chain & Temperature-Controlled | SSP Group",
       description:
         "Temperature-aware handling, clean documentation, and on-time execution to protect shelf life and brand trust. Food and beverage freight with precision.",
+      ogImage: "/_optimized/industries/food-hero-premium-v6.png",
     },
     hero: {
-      kicker: "Industry Logistics Programs",
-      valueHeadline: "Integrity protected.",
-      title: "Food & Beverage",
+      kicker: "Food & Beverage Logistics",
+      valueHeadline: "Freshness integrity, protected.",
+      title: "Cold-Chain Integrity from Origin to Receiving",
       description:
-        "Cold-chain and food freight managed through temperature-governed execution, transit-time discipline, and compliance-ready documentation that protects product quality and brand trust.",
-      cta: { label: "Contact us", href: "/contact", ctaId: "industry_food_hero_contact" },
+        "From temperature-controlled replenishment and retail-ready food freight to freshness-sensitive cross-border lanes across North America, SSP manages food and beverage logistics with temperature discipline, transit-time control, and compliance-ready records that protect product quality in motion.",
+      cta: { label: "Review Your Cold-Chain Network", href: "/contact", ctaId: "industry_food_hero_quote" },
+      secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_food_hero_capabilities" },
       theme: "green",
-      iconKeys: ["snowflake", "thermometer", "document-check", "clock"],
+      signals: ["Temperature-governed lane execution", "Freshness-window and dwell control", "Compliance-ready cold-chain records"],
+      proofStrip: [
+        { value: "Cold-chain", label: "Temperature posture" },
+        { value: "Freshness-safe", label: "Transit discipline" },
+        { value: "Audit-ready", label: "Traceability" },
+      ],
     },
     whatMatters: {
-      variant: "control-board",
       sectionTitle: "What Protects Product Integrity",
       intro:
         "Food and beverage freight is governed by three non-negotiables: temperature control, transit-time discipline, and documentation quality. When one fails, product integrity and brand trust are exposed. The operating model prioritizes cold-chain stability, controlled handoffs, and compliance-ready records.",
@@ -775,7 +865,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       widgetSupportFooter: "Temperature governance. Time control. Compliance-ready records.",
     },
     howWeSupport: {
-      sectionTitle: "How NPT Supports Food & Beverage Logistics",
+      sectionTitle: "How SSP Supports Food & Beverage Logistics",
       intro:
         "Building on these integrity priorities, we protect food and beverage shipments through temperature-governed execution, transit-time control, and documentation discipline across cold-chain lanes.",
       cards: [
@@ -812,11 +902,26 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
           metric: "Risk containment",
         },
       ],
-      cta: { label: "Protect your cold chain", href: "/contact", ctaId: "industry_food_support_contact" },
+      aside: {
+        badge: "Cold-chain operating model",
+        title: "Execution built for temperature discipline, freshness protection, and traceable control.",
+        body: "Food and beverage freight is judged by what happens between pickup, transit, and receiving when temperature drift or time-at-risk begins to expand. SSP runs cold-chain programs with tighter thermal governance, cleaner handoffs, and visibility teams can use before integrity risk compounds.",
+        bullets: [
+          "Lane planning aligned to product sensitivity, temperature band, and receiving-window requirements",
+          "Cold-chain execution designed to reduce dwell, protect freshness windows, and preserve product condition",
+          "Milestone and exception reporting structured for operations, QA, and compliance stakeholders together",
+        ],
+        stats: [
+          { value: "Cold-chain", label: "Thermal posture" },
+          { value: "Freshness-safe", label: "Transit control" },
+          { value: "Traceable", label: "QA visibility" },
+          { value: "24 / 7", label: "Ops coverage" },
+        ],
+      },
     },
     trustProof: {
-      sectionTitle: "Why Teams Choose NPT",
-      comparisonHeading: "NPT relative to typical market practice",
+      sectionTitle: "The SSP Standard",
+      comparisonHeading: "SSP vs. typical market practice",
       intro:
         "Food and beverage teams compare partners on cold-chain exposure controls, compliance rigor, and visibility during freshness-sensitive windows.",
       pillars: [
@@ -824,28 +929,28 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
           title: "Insurance Coverage",
           icon: "IC",
           industryBaseline: "Coverage checks are often broad and not tied to thermal or shelf-life exposure conditions.",
-          nptStandard: "Coverage validation is tied to product sensitivity and route risk before movement starts.",
+          sspStandard: "Coverage validation is tied to product sensitivity and route risk before movement starts.",
           evidence: "Product-profile risk sheet included in dispatch readiness packet.",
           industryScore: 42,
-          nptScore: 83,
+          sspScore: 83,
         },
         {
           title: "Regulatory Compliance",
           icon: "RC",
           industryBaseline: "Compliance controls are frequently treated as periodic documentation tasks.",
-          nptStandard: "Compliance checkpoints are enforced in daily cold-chain execution and exception closure.",
+          sspStandard: "Compliance checkpoints are enforced in daily cold-chain execution and exception closure.",
           evidence: "Temperature and handling checkpoint log retained with load records.",
           industryScore: 47,
-          nptScore: 87,
+          sspScore: 87,
         },
         {
           title: "Shipment Visibility",
           icon: "SV",
           industryBaseline: "Status updates may not arrive in time for freshness-window intervention.",
-          nptStandard: "Milestone and deviation reporting is structured for immediate QA and operations response.",
+          sspStandard: "Milestone and deviation reporting is structured for immediate QA and operations response.",
           evidence: "Exception-to-recovery timeline with timestamps and assigned owner.",
           industryScore: 38,
-          nptScore: 85,
+          sspScore: 85,
         },
       ],
       evidenceNote:
@@ -906,40 +1011,46 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       ],
       trustSignals: ["Temperature documentation", "Proactive updates", "Audit-ready paperwork"],
       ctas: {
-        primary: { label: "Contact us", href: "/contact", ctaId: "industry_food_final_contact" },
+        primary: { label: "Request a Quote", href: "/quote", ctaId: "industry_food_final_quote" },
         secondary: {
-          label: "Speak with a live agent",
-          href: "#live-chat",
+          label: "Speak to a Live Agent",
           ctaId: "industry_food_final_live_agent",
+          action: "live-chat",
         },
       },
     },
   },
 
-  "industrial-energy": {
-    key: "industrial-energy",
-    slug: "industrial-energy",
+  construction: {
+    key: "construction",
+    slug: "construction-building-materials",
     meta: {
-      title: "Industrial & Energy Logistics | Equipment & Project Freight | NPT Logistics",
+      title: "Construction & Building Materials Logistics | Project Freight | SSP Group",
       description:
-        "Equipment and site-critical freight moved with safety-first execution, clear ownership, and accurate status. Industrial and energy lanes need reliability.",
+        "Heavy equipment, building materials, and site-critical freight delivered with permit-aware planning, safety governance, and checkpoint visibility across North America.",
+      ogImage: "/_optimized/industries/construction-hero-premium-v1.png",
     },
     hero: {
-      kicker: "Industry Logistics Programs",
-      valueHeadline: "Critical delivery certainty.",
-      title: "Industrial & Energy",
+      kicker: "Construction & Building Materials Logistics",
+      valueHeadline: "Project schedules, protected.",
+      title: "Site-Critical Freight, Delivered on Schedule",
       description:
-        "Site-critical and project freight delivered through permit-aware planning, safety-governed execution, and checkpoint visibility that supports schedule certainty in high-consequence environments.",
+        "From heavy equipment and structural steel to building materials and oversized loads across North America, SSP manages construction freight with permit-aware route engineering, safety-governed execution, and checkpoint visibility that keeps project timelines intact.",
       cta: {
-        label: "Contact us",
+        label: "Review Your Project Freight",
         href: "/contact",
-        ctaId: "industry_industrial_energy_hero_contact",
+        ctaId: "industry_construction_hero_quote",
       },
+      secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_construction_hero_capabilities" },
       theme: "amber",
-      iconKeys: ["bolt", "route", "cube", "shield"],
+      signals: ["Permit-aware route and load engineering", "Safety-governed heavy-haul execution", "Checkpoint-based project visibility"],
+      proofStrip: [
+        { value: "Permit-ready", label: "Route compliance" },
+        { value: "Safety-led", label: "Execution governance" },
+        { value: "Project-fit", label: "Schedule protection" },
+      ],
     },
     whatMatters: {
-      variant: "timeline",
       sectionTitle: "What Secures Site-Critical Delivery",
       intro:
         "Industrial and energy freight carries schedule and safety consequences that extend beyond transportation. Permit constraints, route complexity, and site timing must be engineered before movement begins. The operating priority is safety-led control, checkpoint governance, and execution ownership from dispatch to handoff.",
@@ -969,9 +1080,9 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       widgetSupportFooter: "Permit-aware planning. Safety governance. Schedule protection.",
     },
     howWeSupport: {
-      sectionTitle: "How NPT Supports Industrial & Energy Projects",
+      sectionTitle: "How SSP Supports Construction & Building Materials",
       intro:
-        "Building on these site-critical priorities, we apply a project-control model built on permit-aware planning, safety governance, checkpoint visibility, and accountable recovery.",
+        "Our construction logistics model applies project-level control: permit-aware planning, safety governance, checkpoint visibility, and accountable recovery for every movement.",
       cards: [
         {
           eyebrow: "Plan with us",
@@ -1006,15 +1117,26 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
           metric: "Recovery control",
         },
       ],
-      cta: {
-        label: "Coordinate your project freight",
-        href: "/contact",
-        ctaId: "industry_industrial_energy_support_contact",
+      aside: {
+        badge: "Project freight operating model",
+        title: "Execution built for permit control, safety governance, and schedule-protected delivery.",
+        body: "Construction freight is judged at the site gate, during permit windows, and when project schedules compress. SSP runs project freight with engineered route planning, safety-governed execution, and checkpoint ownership that holds when conditions shift across the corridor.",
+        bullets: [
+          "Permit and route engineering completed before heavy-haul or oversized loads are released to move",
+          "Safety-governed execution with clear operational command from dispatch through site delivery",
+          "Checkpoint reporting structured for project managers, procurement, and site operations teams",
+        ],
+        stats: [
+          { value: "Permit-ready", label: "Route engineering" },
+          { value: "Safety-led", label: "Execution control" },
+          { value: "Project-fit", label: "Schedule posture" },
+          { value: "24 / 7", label: "Ops coverage" },
+        ],
       },
     },
     trustProof: {
-      sectionTitle: "Why Teams Choose NPT",
-      comparisonHeading: "NPT relative to typical market practice",
+      sectionTitle: "The SSP Standard",
+      comparisonHeading: "SSP vs. typical market practice",
       intro:
         "Industrial and energy moves are judged by permit readiness, compliance discipline, and checkpoint-level visibility under project pressure.",
       pillars: [
@@ -1022,28 +1144,28 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
           title: "Insurance Coverage",
           icon: "IC",
           industryBaseline: "Coverage verification is often handled as a static prerequisite rather than project-specific risk control.",
-          nptStandard: "Coverage is reviewed against load class, route constraints, and project consequence before mobilization.",
+          sspStandard: "Coverage is reviewed against load class, route constraints, and project consequence before mobilization.",
           evidence: "Project risk-coverage review recorded in pre-move readiness file.",
           industryScore: 41,
-          nptScore: 82,
+          sspScore: 82,
         },
         {
           title: "Regulatory Compliance",
           icon: "RC",
           industryBaseline: "Permit and regulatory checks are sometimes fragmented across teams.",
-          nptStandard: "Permit, compliance, and dispatch checkpoints are unified under clear operational ownership.",
+          sspStandard: "Permit, compliance, and dispatch checkpoints are unified under clear operational ownership.",
           evidence: "Permit/compliance signoff trail retained for each movement stage.",
           industryScore: 44,
-          nptScore: 88,
+          sspScore: 88,
         },
         {
           title: "Shipment Visibility",
           icon: "SV",
           industryBaseline: "Stakeholder updates are often inconsistent across project checkpoints.",
-          nptStandard: "Checkpoint reporting cadence is structured for project, site, and procurement decisions.",
+          sspStandard: "Checkpoint reporting cadence is structured for project, site, and procurement decisions.",
           evidence: "Checkpoint variance and recovery log maintained through final handoff.",
           industryScore: 40,
-          nptScore: 84,
+          sspScore: 84,
         },
       ],
       evidenceNote:
@@ -1077,9 +1199,9 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       ],
     },
     finalCta: {
-      kicker: "Ready to move your industrial & energy freight?",
-      title: "Let's get your equipment there.",
-      body: "Talk to our team about your project and lane requirements. We'll outline how we deliver safety-first execution and clear ownership.",
+      kicker: "Start the conversation",
+      title: "Let's get your materials to site.",
+      body: "Whether you're moving heavy equipment, structural materials, or managing phased project freight, our team is ready to align on your requirements.",
       implementationSteps: [
         {
           step: "01",
@@ -1105,14 +1227,14 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       trustSignals: ["Safety-first execution", "Proactive updates", "Right equipment"],
       ctas: {
         primary: {
-          label: "Contact us",
-          href: "/contact",
-          ctaId: "industry_industrial_energy_final_contact",
+          label: "Request a Quote",
+          href: "/quote",
+          ctaId: "industry_construction_final_quote",
         },
         secondary: {
-          label: "Speak with a live agent",
-          href: "#live-chat",
-          ctaId: "industry_industrial_energy_final_live_agent",
+          label: "Speak to a Live Agent",
+          ctaId: "industry_construction_final_live_agent",
+          action: "live-chat",
         },
       },
     },
@@ -1122,191 +1244,444 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     key: "steel-aluminum",
     slug: "steel-aluminum",
     meta: {
-      title: "Steel & Aluminum Logistics | Heavy Freight & Metal Shipping | NPT Logistics",
+      title: "Steel & Aluminum Logistics | Flatbed, Heavy Freight & Cross-Border Metals | SSP Group",
       description:
-        "Metal coils, plate, and high-density loads moved with the right equipment, securement, and accountable execution. Heavy freight handled with discipline.",
+        "Steel and aluminum logistics for coils, plate, extrusions, and high-density freight across Canada, the United States, and Mexico. SSP manages metal freight with engineered securement, route control, and accountable execution.",
+      ogImage: "/_optimized/industries/steel-hero-premium-v1.png",
     },
     hero: {
-      kicker: "Industry Logistics Programs",
-      valueHeadline: "Heavy-freight control.",
-      title: "Steel & Aluminum",
+      kicker: "Steel & Aluminum Logistics",
+      valueHeadline: "Load integrity protected.",
+      title: "Heavy Freight Engineered for Safe Arrival",
       description:
-        "Metal coils, plate, and high-density freight executed with engineered load planning, compliance-rigorous routing, and accountable operating control from origin handoff through delivery.",
-      cta: { label: "Contact us", href: "/contact", ctaId: "industry_steel_aluminum_hero_contact" },
+        "From coils, plate, and extrusions to high-density mill freight and cross-border metal flows across Canada, the United States, and Mexico, SSP manages steel and aluminum logistics with engineered load planning, route discipline, and clear operational ownership from pickup through delivery.",
+      cta: {
+        label: "Review Your Metal Freight Network",
+        href: "/contact",
+        ctaId: "industry_steel_aluminum_hero_quote",
+      },
+      secondaryCta: {
+        label: "See the Operating Model",
+        href: "#how-we-support",
+        ctaId: "industry_steel_aluminum_hero_capabilities",
+      },
       theme: "steel",
-      iconKeys: ["coil", "cube", "shield", "gear"],
+      signals: ["Engineered load securement", "Heavy-freight route compliance", "Receiving-coordinated delivery"],
+      proofStrip: [
+        { value: "Load-safe", label: "Engineered securement" },
+        { value: "Route-ready", label: "Heavy-freight compliance" },
+        { value: "CA / US / MX", label: "Metal corridors" },
+      ],
     },
     whatMatters: {
-      variant: "control-board",
-      sectionTitle: "What Controls Heavy-Metal Risk",
+      eyebrowLabel: "Industry Demands",
+      sectionTitle: "Where Metal Freight Exposure Builds First",
       intro:
-        "Steel and aluminum freight is governed by load physics, route constraints, and securement discipline. Misalignment in any of those areas increases exposure to damage, delay, and compliance failure. Execution here is centered on engineered load control, route readiness, and traceable ownership.",
+        "Steel and aluminum freight starts to fail when load physics, route readiness, and handoff control are treated as separate tasks. For mills, service centers, and metal buyers, delivery confidence depends on engineered loading, compliant routing, and accountable execution across every custody point.",
       items: [
         {
-          title: "Securement and Distribution Engineered to Load",
-          body: "Equipment selection, axle distribution, and securement approach are matched to commodity profile before pickup to reduce in-transit risk.",
+          title: "Load Engineering and Securement Discipline",
+          body: "Coils, plate, billets, and extrusions require equipment, axle distribution, and securement matched to the actual load profile before pickup. Heavy-freight risk is often decided before the trailer leaves the shipper.",
         },
         {
-          title: "Route and Compliance Rigor Before Dispatch",
-          body: "Weight, dimension, and routing requirements are confirmed up front, with documentation maintained for site, safety, and audit expectations.",
+          title: "Route and Compliance Readiness Before Dispatch",
+          body: "Weight, dimension, permit, and site-access requirements need to be resolved before movement begins. Constraints discovered too late create dwell, compliance exposure, and missed receiving windows.",
         },
         {
-          title: "Traceable Execution from Mill to Delivery",
-          body: "One accountable operations lead manages milestone updates, exception handling, and shipment documentation from origin handoff to final receipt.",
+          title: "Traceable Control from Mill to Delivery",
+          body: "Metal buyers need one operating thread from origin handoff through final receipt. Ownership, milestone visibility, and corrective action need to stay clear when handling, timing, or destination conditions change.",
         },
       ],
       interactiveWidget: "load-balance-axle",
-      widgetSupportTitle: "Axle and Stability Control",
+      widgetSupportTitle: "Load Balance and Axle-Control Planning",
       widgetSupportBody:
-        "For high-density metal freight, load distribution and center-of-gravity discipline determine axle pressure and stability. This model surfaces imbalance risk before movement.",
+        "For high-density metal freight, load distribution and center-of-gravity control directly shape axle pressure, handling stability, and route feasibility. SSP uses this planning logic to identify imbalance risk before the load is released to move.",
       widgetSupportBullets: [
-        "Balanced distribution stabilizes axle pressure and improves transport control margins.",
-        "As weight rises, axle load tolerance narrows and requires tighter placement discipline.",
-        "When overstress appears, load placement and equipment strategy are adjusted before execution.",
+        "Balanced distribution protects axle pressure, trailer behavior, and securement performance under heavy load.",
+        "As total weight rises, tolerance narrows and placement discipline becomes more important than generic dispatch assumptions.",
+        "When overstress appears, load placement, equipment choice, and route posture are adjusted before execution begins.",
       ],
-      widgetSupportFooter: "Balanced load physics. Compliance discipline. Controlled delivery.",
+      widgetSupportFooter: "Engineered load posture. Route-ready execution. Controlled delivery.",
     },
     howWeSupport: {
-      sectionTitle: "How NPT Supports Steel & Aluminum Shippers",
+      sectionTitle: "How SSP Governs Steel & Aluminum Freight",
       intro:
-        "Building on these heavy-freight priorities, we support metal programs with engineered load control, compliance-rigorous routing, and execution accountability from mill handoff through delivery.",
+        "SSP's steel and aluminum model is built around four controls buyers feel first: load engineering, route readiness, cross-border continuity, and owner-led exception handling when dense freight conditions start to shift.",
       cards: [
         {
-          eyebrow: "Plan with us",
-          title: "Load and lane engineering",
-          summary: "Move plans are built around weight profile, securement requirements, and destination handling constraints.",
+          eyebrow: "Load Engineering",
+          title: "Equipment and securement matched to the load",
+          summary: "Move plans are built around weight profile, commodity behavior, securement requirements, and destination handling constraints before dispatch.",
           details:
-            "Each shipment is pre-structured for equipment fit, route feasibility, and risk controls tailored to metal cargo characteristics.",
-          metric: "Load planning",
+            "Each shipment is structured for trailer fit, load balance, route feasibility, and risk controls appropriate to metal cargo rather than left to generic heavy-freight assumptions.",
+          metric: "Load-fit planning",
         },
         {
-          eyebrow: "Execute it",
-          title: "Heavy-freight execution discipline",
-          summary: "Dispatch and handoffs are managed with the precision required for dense, high-consequence metal loads.",
+          eyebrow: "Route Compliance",
+          title: "Route, permit, and site-readiness control",
+          summary: "Routing, dimensional considerations, and receiving constraints are reviewed before movement so compliance issues do not surface mid-lane.",
           details:
-            "Operational control prioritizes secure loading, balanced distribution, and compliance integrity through final delivery.",
-          metric: "Execution rigor",
+            "Heavy-freight execution depends on route discipline, permit awareness, and site-facing readiness being defined before the shipment is in motion.",
+          metric: "Route-ready execution",
         },
         {
-          eyebrow: "Monitor in real time",
-          title: "Transparent milestone oversight",
-          summary: "Status, timing, and exception handling are reported at each milestone in a consistent operating format.",
+          eyebrow: "Cross-Border Continuity",
+          title: "Canada-US-Mexico metal corridor control",
+          summary: "Border-facing steel and aluminum freight moves with document readiness, broker coordination, and named ownership before corridor variability becomes delivery risk.",
           details:
-            "Communication cadence is designed to support mill, warehouse, and project coordination without uncertainty.",
-          metric: "Operational visibility",
+            "For North American metal programs, cross-border discipline protects transit consistency, receiving readiness, and commercial confidence across mills, processors, and destination sites.",
+          metric: "Corridor control",
         },
         {
-          eyebrow: "Strengthen resilience",
-          title: "Risk-contained recovery execution",
-          summary: "When lane constraints emerge, alternate routing and escalation controls are activated to preserve delivery commitments.",
+          eyebrow: "Operational Visibility",
+          title: "Decision-ready milestone and exception reporting",
+          summary: "Status, variance, and corrective action are reported in a format operations, procurement, and receiving teams can act on quickly.",
           details:
-            "Recovery decisions remain anchored to safety, compliance, and arrival certainty across heavy-freight programs.",
-          metric: "Recovery governance",
+            "Communication cadence is designed for mill, warehouse, fabricator, and project-site coordination, with clear ownership when conditions tighten.",
+          metric: "Owner-led visibility",
         },
       ],
-      cta: { label: "Move your metal with confidence", href: "/contact", ctaId: "industry_steel_support_contact" },
+      aside: {
+        badge: "Metal freight operating model",
+        title: "Execution built for load physics, route discipline, and controlled delivery.",
+        body: "Steel and aluminum freight is judged by what happens before dispatch, during handoff, and at receiving. SSP runs metal programs with engineered loading posture, route-ready planning, and owner-led control when heavy-freight conditions start to shift.",
+        bullets: [
+          "Load planning built around securement, axle balance, and destination handling constraints",
+          "Route and site-readiness checked before dense freight is released to move",
+          "Exception ownership that keeps mills, yards, and receiving teams aligned in motion",
+        ],
+        stats: [
+          { value: "Coil / Plate", label: "Load profile" },
+          { value: "CA / US / MX", label: "Metal corridors" },
+          { value: "Route-ready", label: "Compliance posture" },
+          { value: "24 / 7", label: "Ops coverage" },
+        ],
+      },
     },
     trustProof: {
-      sectionTitle: "Why Teams Choose NPT",
-      comparisonHeading: "NPT relative to typical market practice",
+      sectionTitle: "Operating Standards Buyers Can Verify",
+      comparisonHeading: "SSP operating standards vs. common heavy-freight practice",
       intro:
-        "Steel and aluminum shippers evaluate partners by risk control discipline, route compliance rigor, and visibility through heavy-load constraints.",
+        "Steel and aluminum buyers do not judge partners by whether they can move heavy freight in theory. They judge them by whether load control, route discipline, and execution ownership hold when dense cargo and restrictive lanes leave less margin for error.",
       pillars: [
         {
-          title: "Insurance Coverage",
-          icon: "IC",
-          industryBaseline: "Coverage checks are often generic and not always aligned to high-density load risk profile.",
-          nptStandard: "Coverage and liability posture are validated against lane constraints and cargo behavior before dispatch.",
-          evidence: "Load-risk and coverage assessment attached to execution release checklist.",
+          title: "Load Engineering",
+          icon: "LE",
+          industryBaseline: "Equipment and securement decisions are often treated as routine dispatch setup instead of lane-specific engineering for dense metal freight.",
+          sspStandard: "Equipment fit, axle distribution, and securement posture are aligned to the load profile before the shipment is released to move.",
+          evidence: "Shipment files retain load-planning assumptions, equipment selection, and release controls before dispatch.",
           industryScore: 43,
-          nptScore: 81,
+          sspScore: 85,
         },
         {
-          title: "Regulatory Compliance",
+          title: "Route and Compliance Control",
           icon: "RC",
-          industryBaseline: "Compliance can be treated as separate paperwork instead of a live execution control.",
-          nptStandard: "Route, dimension, and regulatory controls are embedded in planning and in-transit governance.",
-          evidence: "Route-compliance checkpoint trail stored with shipment records.",
+          industryBaseline: "Route, dimension, permit, and site constraints are often checked too late, creating avoidable friction once the load is already in motion.",
+          sspStandard: "Route and compliance controls are embedded in pre-dispatch planning and owner-led execution governance.",
+          evidence: "Route, permit, and constraint checkpoints are retained with shipment-level operating records.",
           industryScore: 46,
-          nptScore: 87,
+          sspScore: 89,
         },
         {
-          title: "Shipment Visibility",
-          icon: "SV",
-          industryBaseline: "Heavy-load visibility is often event-only with limited context for corrective decisions.",
-          nptStandard: "Milestone reporting includes variance context and owner-led recovery actions.",
-          evidence: "Checkpoint exception log with timestamped correction path.",
-          industryScore: 39,
-          nptScore: 83,
+          title: "Exception Visibility",
+          icon: "EV",
+          industryBaseline: "Heavy-load visibility is often event-only, with limited context when receiving timing, route issues, or destination conditions begin to shift.",
+          sspStandard: "Milestone reporting includes impact context, named ownership, and corrective-action logic buyers can use before the issue expands.",
+          evidence: "Exception logs capture owner, trigger, and recovery path through closeout.",
+          industryScore: 38,
+          sspScore: 86,
         },
       ],
       evidenceNote:
-        "Evidence files and operating-control examples are available during heavy-freight program onboarding.",
+        "Examples of load-control files, route checkpoints, and exception records can be reviewed during qualification.",
     },
     relatedServices: {
-      sectionTitle: "Mode Fit and Coverage",
-      intro: "Map each metal movement to equipment fit, route constraints, and risk controls.",
+      eyebrowLabel: "Mode Selection",
+      sectionTitle: "Steel & Aluminum Programs by Load and Lane Need",
+      intro: "The right operating model depends on commodity form, equipment fit, route complexity, and border exposure across the lane.",
       modeFit: [
         {
-          scenario: "Coil and plate heavy-load lanes",
-          recommendation: "Flatbed / Step Deck / RGN (Oversize) with engineered securement",
-          rationale: "Aligns deck and securement strategy to high-density load behavior and stability limits.",
+          scenario: "Coils, plate, and slit-stock lanes",
+          recommendation: "Flatbed or step deck with engineered securement",
+          rationale: "Aligns trailer choice, load balance, and securement method to high-density metal behavior and receiving requirements.",
         },
         {
-          scenario: "Time-sensitive heavy freight corridors",
-          recommendation: "Truckload + expedited contingency",
-          rationale: "Protects schedule commitments while preserving controlled recovery options.",
+          scenario: "Oversize, high-density, or route-sensitive metal moves",
+          recommendation: "RGN or specialized heavy-haul execution with route compliance planning",
+          rationale: "Supports restrictive dimensions, route constraints, and controlled movement where standard deck assumptions are not enough.",
         },
         {
-          scenario: "Complex destination handling requirements",
-          recommendation: "Value-Added operational coordination",
-          rationale: "Improves handoff quality and exception ownership at receiving sites.",
+          scenario: "Canada-US-Mexico steel and aluminum supply lanes",
+          recommendation: "Cross-border execution with document and handoff control",
+          rationale: "Reduces corridor variability and protects continuity across mills, processors, and downstream receiving points.",
         },
       ],
       links: [
         { label: "Truckload", href: "/services/truckload" },
         { label: "Flatbed, Step Deck & RGN (Oversize)", href: "/services/truckload#section-flatbed" },
+        { label: "Cross-Border", href: "/solutions/cross-border" },
         { label: "Expedited & Specialized", href: "/services/expedited-specialized" },
-        { label: "Value-Added", href: "/services/value-added" },
       ],
     },
     finalCta: {
-      kicker: "Ready to move your steel & aluminum freight?",
-      title: "Let's get your metal there.",
-      body: "Talk to our team about your coils, plate, and heavy loads. We'll outline how we deliver the right equipment and accountable execution.",
+      kicker: "Ready to review the network",
+      title: "Review Your Steel & Aluminum Freight Program with SSP",
+      body: "If load control, route readiness, or cross-border metal freight are carrying too much risk in your network, we can review the lanes with you and identify where stronger engineering, clearer visibility, and tighter operating discipline will matter most.",
       implementationSteps: [
         {
           step: "01",
-          title: "Load and route qualification",
-          body: "We assess weight profile, securement requirements, and compliance constraints by lane.",
+          title: "Load and lane assessment",
+          body: "We evaluate commodity form, weight profile, route constraints, receiving conditions, and corridor exposure by lane.",
         },
         {
           step: "02",
-          title: "Execution-control setup",
-          body: "We define handling standards, milestone reporting, and exception ownership.",
+          title: "Operating model design",
+          body: "We define equipment posture, load controls, visibility cadence, compliance checkpoints, and escalation ownership.",
         },
         {
           step: "03",
-          title: "Launch with heavy-freight oversight",
-          body: "Operations begin with disciplined control loops focused on stability and arrival certainty.",
+          title: "Launch and governance",
+          body: "Execution starts with active oversight, shipment-level control, and structured review as the program stabilizes.",
         },
       ],
       proof: [
-        { value: "≤ 15 min", label: "Initial response" },
-        { value: "24/7", label: "Operations coverage" },
-        { value: "CA–US–MX", label: "Lane scope" },
+        { value: "≤ 15 min", label: "Response time" },
+        { value: "24 / 7", label: "Operations desk" },
+        { value: "CA / US / MX", label: "Corridor coverage" },
       ],
-      trustSignals: ["Right equipment", "Proactive updates", "Audit-ready documentation"],
+      trustSignals: [
+        "Engineered load planning",
+        "Named operational ownership",
+        "Route-ready compliance",
+        "Decision-ready updates",
+      ],
       ctas: {
         primary: {
-          label: "Contact us",
-          href: "/contact",
-          ctaId: "industry_steel_aluminum_final_contact",
+          label: "Request a Steel Freight Review",
+          href: "/quote",
+          ctaId: "industry_steel_aluminum_final_quote",
         },
         secondary: {
-          label: "Speak with a live agent",
-          href: "#live-chat",
+          label: "Speak with a Metal Freight Specialist",
           ctaId: "industry_steel_aluminum_final_live_agent",
+          action: "live-chat",
+        },
+      },
+    },
+  },
+
+  "chemical-plastics": {
+    key: "chemical-plastics",
+    slug: "chemical-plastics",
+    meta: {
+      title: "Chemical & Plastics Logistics | Hazmat, Compliant Freight & Cross-Border Control | SSP Group",
+      description:
+        "Chemical and plastics logistics across Canada, the United States, and Mexico. SSP manages regulated freight with carrier qualification, documentation governance, classification-specific handling, and controlled cross-border execution.",
+      ogImage: "/_optimized/industries/chemical-hero-premium-v1.png",
+    },
+    hero: {
+      kicker: "Chemical & Plastics Logistics",
+      valueHeadline: "Compliance controlled.",
+      title: "Regulated Freight Under Governed Control",
+      description:
+        "From resins and specialty compounds to cross-border regulated freight across Canada, the United States, and Mexico, SSP manages chemical and plastics shipments with carrier qualification, document control, and disciplined execution.",
+      cta: { label: "Review Your Chemical Network", href: "/contact", ctaId: "industry_chemical_hero_quote" },
+      secondaryCta: {
+        label: "See the Operating Model",
+        href: "#how-we-support",
+        ctaId: "industry_chemical_hero_capabilities",
+      },
+      theme: "teal",
+      signals: ["Hazmat-qualified carrier release controls", "DOT / TDG aligned document governance", "Cross-border regulated freight oversight"],
+      proofStrip: [
+        { value: "DOT / TDG", label: "Compliance posture" },
+        { value: "CA / US / MX", label: "Regulated corridors" },
+        { value: "Owner-led", label: "Exception control" },
+      ],
+    },
+    whatMatters: {
+      eyebrowLabel: "Industry Demands",
+      sectionTitle: "Where Chemical Freight Risk Builds First",
+      intro:
+        "Chemical and plastics freight starts to fail when qualification, documentation, and handling controls drift apart. For regulated shipments, execution confidence depends on disciplined carrier selection, classification accuracy, and controlled custody from origin through final delivery.",
+      items: [
+        {
+          title: "Carrier and Equipment Qualification",
+          body: "Regulated freight depends on the right carrier, the right equipment, and the right certification posture before the load is released to move. Qualification cannot be treated as a one-time onboarding step.",
+        },
+        {
+          title: "Classification and Documentation Accuracy",
+          body: "Shipping papers, SDS records, placarding requirements, and border-facing documentation need to align to the actual product classification before dispatch. Clean paperwork protects the lane before the shipment is in motion.",
+        },
+        {
+          title: "Controlled Handling and Custody Transfer",
+          body: "Loading method, securement, temperature controls, and custody-transfer discipline have to match the product, packaging, and regulatory profile. Generic handling assumptions create unnecessary exposure quickly.",
+        },
+      ],
+      interactiveWidget: null,
+    },
+    howWeSupport: {
+      sectionTitle: "How SSP Governs Chemical & Plastics Freight",
+      intro:
+        "SSP's chemical and plastics model is built around four controls buyers feel first: carrier qualification, document governance, classification-specific execution, and decision-ready visibility when regulated freight conditions begin to shift.",
+      cards: [
+        {
+          eyebrow: "Carrier Qualification",
+          title: "Qualified hazmat carrier coverage",
+          summary: "Carriers are qualified for hazmat certification, safety posture, and equipment fit before they are used on chemical or plastics freight.",
+          details:
+            "Ongoing review keeps certification, insurance, and operating status aligned to the shipment before dispatch decisions are made.",
+          metric: "Qualified coverage",
+        },
+        {
+          eyebrow: "Documentation Governance",
+          title: "Compliance paperwork controlled before dispatch",
+          summary: "Shipping documents, SDS records, placarding requirements, and classification checks are verified before freight is released to the carrier.",
+          details:
+            "Documentation governance is treated as an operating control, not back-office cleanup after the load is already moving.",
+          metric: "Document control",
+        },
+        {
+          eyebrow: "Execution Control",
+          title: "Classification-specific handling and transit posture",
+          summary: "Loading protocols, securement standards, and transit controls are adapted to the specific classification, packaging, and temperature requirements of the freight.",
+          details:
+            "Sensitive chemical and plastics programs move with handling instructions that reflect the actual product profile, not a generic regulated-freight checklist.",
+          metric: "Handling precision",
+        },
+        {
+          eyebrow: "Operational Visibility",
+          title: "Decision-ready compliance visibility",
+          summary: "Milestone updates and exception alerts are structured for operations, safety, and compliance leaders who need to intervene before issues widen.",
+          details:
+            "Status reporting includes document checkpoints, owner-led escalation, and corrective-action context so your team can act early on any gaps.",
+          metric: "Exception clarity",
+        },
+      ],
+      aside: {
+        badge: "Regulated freight operating model",
+        title: "Execution built for qualification control, document discipline, and governed escalation.",
+        body: "Chemical and plastics buyers feel risk before the truck even moves. SSP runs regulated freight with carrier release controls, shipment-level documentation checks, and escalation ownership that stays clear when conditions tighten across the lane.",
+        bullets: [
+          "Carrier qualification and release controls reviewed against the actual shipment before dispatch",
+          "Documentation checkpoints designed to catch classification, placarding, and border-facing gaps early",
+          "Operational visibility structured for safety, compliance, and logistics stakeholders together",
+        ],
+        stats: [
+          { value: "Hazmat", label: "Qualified release" },
+          { value: "DOT / TDG", label: "Document posture" },
+          { value: "CA / US / MX", label: "Regulated corridors" },
+          { value: "24 / 7", label: "Ops coverage" },
+        ],
+      },
+    },
+    trustProof: {
+      sectionTitle: "Operating Standards Buyers Can Verify",
+      comparisonHeading: "SSP operating standards vs. common regulated-freight practice",
+      intro:
+        "Chemical and plastics buyers do not judge partners by whether they claim compliance. They judge them by whether qualification, documentation, and handling controls still hold when regulated freight is moving across jurisdictions and decision windows tighten.",
+      pillars: [
+        {
+          title: "Carrier Qualification",
+          icon: "CQ",
+          industryBaseline: "Carrier hazmat qualification is often checked at onboarding but not treated as a live dispatch control before every regulated move.",
+          sspStandard: "Hazmat certification, safety posture, and equipment fit are verified against the shipment before each chemical dispatch.",
+          evidence: "Pre-dispatch carrier qualification and release controls are retained with shipment records.",
+          industryScore: 40,
+          sspScore: 85,
+        },
+        {
+          title: "Documentation Governance",
+          icon: "DC",
+          industryBaseline: "Shipping paper accuracy often depends on manual process adherence with limited verification before freight moves.",
+          sspStandard: "Document completeness, classification alignment, and placarding requirements are verified before release to carrier.",
+          evidence: "Documentation checkpoints are recorded in dispatch workflow before movement begins.",
+          industryScore: 45,
+          sspScore: 88,
+        },
+        {
+          title: "Handling & Transit Controls",
+          icon: "HC",
+          industryBaseline: "Handling instructions are frequently broad, even when classifications, packaging requirements, or temperature exposure materially differ.",
+          sspStandard: "Loading protocols and transit controls are matched to classification, packaging, and temperature requirements before dispatch.",
+          evidence: "Classification-specific handling instructions and shipment controls are retained with the operating record.",
+          industryScore: 42,
+          sspScore: 84,
+        },
+      ],
+      evidenceNote:
+        "Examples of qualification files, documentation controls, and handling records can be reviewed during qualification.",
+    },
+    relatedServices: {
+      eyebrowLabel: "Mode Selection",
+      sectionTitle: "Chemical & Plastics Programs by Shipment Need",
+      intro: "The right operating model depends on product classification, shipment profile, handling sensitivity, and cross-border regulatory exposure.",
+      modeFit: [
+        {
+          scenario: "Packaged or bulk regulated chemical shipments",
+          recommendation: "Truckload with hazmat-qualified carrier coverage",
+          rationale: "Supports dedicated equipment, controlled custody, and stronger compliance governance for regulated freight.",
+        },
+        {
+          scenario: "Mixed plastics, resins, and non-bulk regulated freight",
+          recommendation: "LTL with classification-specific handling controls",
+          rationale: "Balances cost and service while maintaining segregation, documentation accuracy, and shipment visibility.",
+        },
+        {
+          scenario: "Canada-US-Mexico regulated chemical corridors",
+          recommendation: "Cross-border execution with regulatory coordination",
+          rationale: "Protects continuity through customs alignment, TDG/DOT coordination, and controlled cross-border handoff.",
+        },
+      ],
+      links: [
+        { label: "Truckload", href: "/services/truckload" },
+        { label: "Hazmat", href: "/services/hazmat" },
+        { label: "LTL", href: "/services/ltl" },
+        { label: "Cross-Border", href: "/solutions/cross-border" },
+      ],
+    },
+    finalCta: {
+      kicker: "Ready to review the network",
+      title: "Review Your Chemical & Plastics Network with SSP",
+      body: "If carrier qualification, document control, or cross-border chemical freight are carrying too much risk in your network, we can review the lanes with you and identify where tighter governance, clearer visibility, and stronger shipment control will matter most.",
+      implementationSteps: [
+        {
+          step: "01",
+          title: "Classification and lane assessment",
+          body: "We assess product profiles, documentation requirements, handling needs, and corridor exposure by lane.",
+        },
+        {
+          step: "02",
+          title: "Compliance model design",
+          body: "We define carrier standards, handling controls, documentation checkpoints, and escalation ownership around the freight.",
+        },
+        {
+          step: "03",
+          title: "Launch and governance",
+          body: "Execution starts with pre-dispatch verification, shipment-level oversight, and structured review through live operation.",
+        },
+      ],
+      proof: [
+        { value: "≤ 15 min", label: "Response time" },
+        { value: "24 / 7", label: "Operations desk" },
+        { value: "CA / US / MX", label: "Corridor coverage" },
+      ],
+      trustSignals: [
+        "Qualified hazmat coverage",
+        "Audit-ready documentation",
+        "Classification-specific handling",
+        "Owner-led escalation",
+      ],
+      ctas: {
+        primary: {
+          label: "Request a Chemical Freight Review",
+          href: "/quote",
+          ctaId: "industry_chemical_final_quote",
+        },
+        secondary: {
+          label: "Speak with a Chemical Logistics Specialist",
+          ctaId: "industry_chemical_final_live_agent",
+          action: "live-chat",
         },
       },
     },
@@ -1318,8 +1693,9 @@ const SLUG_TO_KEY: Record<IndustrySlug, IndustryKey> = {
   "manufacturing-materials": "manufacturing",
   "retail-consumer-goods": "retail",
   "food-beverage": "food",
-  "industrial-energy": "industrial-energy",
+  "construction-building-materials": "construction",
   "steel-aluminum": "steel-aluminum",
+  "chemical-plastics": "chemical-plastics",
 };
 
 export function getIndustryBySlug(slug: string): IndustryPageModel | null {

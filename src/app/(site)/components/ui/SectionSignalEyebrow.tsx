@@ -6,6 +6,10 @@ type SectionSignalEyebrowProps = {
   className?: string;
 };
 
+/**
+ * SSP brand-level section eyebrow — uses SSP cyan / menu accent tokens.
+ * For theme-customizable eyebrows (per-industry accent), use SectionEyebrow instead.
+ */
 export function SectionSignalEyebrow({ label, light = false, className }: SectionSignalEyebrowProps) {
   return (
     <div className={cn("inline-flex items-center gap-2.5", className)}>

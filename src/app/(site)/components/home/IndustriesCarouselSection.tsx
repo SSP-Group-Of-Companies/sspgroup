@@ -101,10 +101,12 @@ function bottomIndustryTint(key: IndustrySlide["key"]) {
       return "linear-gradient(180deg, transparent 0%, rgba(100,116,139,0.32) 50%, rgba(13,28,49,0.9) 100%)";
     case "food":
       return "linear-gradient(180deg, transparent 0%, rgba(161,98,7,0.32) 50%, rgba(13,28,49,0.9) 100%)";
-    case "industrial-energy":
+    case "construction":
       return "linear-gradient(180deg, transparent 0%, rgba(37,99,235,0.3) 50%, rgba(13,28,49,0.9) 100%)";
     case "steel-aluminum":
       return "linear-gradient(180deg, transparent 0%, rgba(161,98,7,0.3) 50%, rgba(13,28,49,0.9) 100%)";
+    case "chemical-plastics":
+      return "linear-gradient(180deg, transparent 0%, rgba(20,184,166,0.3) 50%, rgba(13,28,49,0.9) 100%)";
     default:
       return "linear-gradient(180deg, transparent 0%, rgba(30,41,59,0.3) 50%, rgba(13,28,49,0.9) 100%)";
   }

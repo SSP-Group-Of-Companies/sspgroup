@@ -1,283 +1,830 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { ChevronLeft } from "lucide-react";
 import { Container } from "@/app/(site)/components/layout/Container";
-import { Section } from "@/app/(site)/components/layout/Section";
-import { trackCtaClick } from "@/lib/analytics/cta";
+import { SectionEyebrow } from "@/app/(site)/components/ui/SectionEyebrow";
 import { cn } from "@/lib/cn";
 import type { IndustryPageModel, IndustryHeroTheme } from "@/config/industryPages";
-import { THEME_ACCENT, THEME_BG } from "./industryTheme";
+import { THEME_ACCENT, THEME_BG, FOCUS_RING_DARK } from "./industryTheme";
 
-function themeGradientOverlay(theme: IndustryHeroTheme) {
-  switch (theme) {
-    case "green":
-      return (
-        <>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_900px_500px_at_70%_40%,rgba(16,185,129,0.18),transparent_58%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(800px_400px_at_20%_20%,rgba(5,150,105,0.10),transparent_55%)]" />
-        </>
-      );
-    case "red":
-      return (
-        <>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_900px_500px_at_70%_40%,rgba(220,38,38,0.16),transparent_58%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(800px_400px_at_20%_20%,rgba(185,28,28,0.08),transparent_55%)]" />
-        </>
-      );
-    case "blue":
-      return (
-        <>
-          <div className="absolute inset-0 bg-[radial-gradient(900px_500px_at_75%_35%,rgba(37,99,235,0.14),transparent_58%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(800px_400px_at_25%_25%,rgba(59,130,246,0.08),transparent_55%)]" />
-        </>
-      );
-    case "slate":
-      return (
-        <>
-          <div className="absolute inset-0 bg-[radial-gradient(900px_500px_at_70%_40%,rgba(71,85,105,0.14),transparent_58%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(800px_400px_at_20%_20%,rgba(51,65,85,0.08),transparent_55%)]" />
-        </>
-      );
-    case "amber":
-      return (
-        <>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_900px_500px_at_70%_40%,rgba(245,158,11,0.14),transparent_58%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(800px_400px_at_20%_20%,rgba(217,119,6,0.08),transparent_55%)]" />
-        </>
-      );
-    case "steel":
-      return (
-        <>
-          <div className="absolute inset-0 bg-[radial-gradient(900px_500px_at_70%_40%,rgba(100,116,139,0.12),transparent_58%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(800px_400px_at_20%_20%,rgba(71,85,105,0.08),transparent_55%)]" />
-        </>
-      );
-    default:
-      return (
-        <>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_900px_500px_at_70%_40%,rgba(220,38,38,0.14),transparent_58%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(800px_400px_at_20%_20%,rgba(185,28,28,0.06),transparent_55%)]" />
-        </>
-      );
-  }
+/* ─── Theme gradient overlay — glow positioned right ─── */
+function ThemeGradientOverlay({ theme }: { theme: IndustryHeroTheme }) {
+  const configs: Record<IndustryHeroTheme, [string, string]> = {
+    green: ["rgba(153,207,120,0.18)", "rgba(74,124,58,0.10)"],
+    red: ["rgba(140,156,178,0.16)", "rgba(71,85,105,0.10)"],
+    blue: ["rgba(37,99,235,0.14)", "rgba(59,130,246,0.08)"],
+    slate: ["rgba(71,85,105,0.14)", "rgba(51,65,85,0.08)"],
+    amber: ["rgba(245,158,11,0.14)", "rgba(217,119,6,0.08)"],
+    steel: ["rgba(100,116,139,0.12)", "rgba(71,85,105,0.08)"],
+    teal: ["rgba(95,213,200,0.16)", "rgba(61,176,168,0.09)"],
+  };
+  const [main, secondary] = configs[theme] ?? configs.red;
+  return (
+    <>
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `radial-gradient(ellipse 900px 500px at 70% 40%, ${main}, transparent 58%)`,
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `radial-gradient(800px 400px at 20% 20%, ${secondary}, transparent 55%)`,
+        }}
+      />
+    </>
+  );
 }
 
-/**
- * Industry-specific hero icons — each communicates operational context
- * for that vertical. Rendered as subtle, premium badges in hero.
- */
-function HeroIcon({ name }: { name: string }) {
-  const className = "h-7 w-7 text-white/20 sm:h-8 sm:w-8";
-  switch (name) {
-    case "car":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a2.25 2.25 0 002.25 2.25h3a2.25 2.25 0 002.25-2.25V14.25H8.25v4.5zM5.25 14.25h13.5L17.25 9H6.75L5.25 14.25zM3.75 15.75h16.5v2.25a.75.75 0 01-.75.75H4.5a.75.75 0 01-.75-.75V15.75z" />
-        </svg>
-      );
-    case "factory":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 20.25h16.5M4.5 20.25V9.75l5.25 2.25V9.75L15 12V4.5h4.5v15.75M7.5 6V3.75M10.5 6V3.75" />
-        </svg>
-      );
-    case "gear":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 010 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 010-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28z" />
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      );
-    case "clock":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      );
-    case "cube-stack":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125H3.375c-.621 0-1.125-.504-1.125-1.125v-1.5c0-.621.504-1.125 1.125-1.125z" />
-        </svg>
-      );
-    case "wrench":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L18.18 21.93M12 18.75c-3.97 0-7.2-2.239-8.88-5.5a9.07 9.07 0 011.56-2.5 9.07 9.07 0 012.5-1.56C9.76 8.94 12 5.75 12 1.75M12 18.75c3.97 0 7.2-2.239 8.88-5.5a9.07 9.07 0 00-1.56-2.5 9.07 9.07 0 00-2.5-1.56C14.24 8.94 12 5.75 12 1.75" />
-        </svg>
-      );
-    case "truck":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3.375 21h17.25M4.5 21V9.75m15 11.25V9.75M8.25 9.75h6.75V21M4.5 3h15a1.5 1.5 0 011.5 1.5v4.5a1.5 1.5 0 01-1.5 1.5H4.5A1.5 1.5 0 013 15V4.5A1.5 1.5 0 014.5 3zm0 6h15v6H4.5V9z" />
-        </svg>
-      );
-    case "rectangle-stack":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M6 6.878V6a2.25 2.25 0 012.25-2.25h7.5A2.25 2.25 0 0118 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 004.5 9v.878m13.5-3A2.25 2.25 0 0119.5 9v.878m0 0a2.246 2.246 0 00-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0121 12v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6c0-.98.626-1.813 1.5-2.122" />
-        </svg>
-      );
-    case "store":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 9.75h16.5M5.25 9.75V18a2.25 2.25 0 002.25 2.25h9A2.25 2.25 0 0018.75 18V9.75M8.25 20.25v-5.25a1.5 1.5 0 011.5-1.5h4.5a1.5 1.5 0 011.5 1.5v5.25M5.25 9.75l1.5-6h10.5l1.5 6" />
-        </svg>
-      );
-    case "snowflake":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18m0-18l-3 3m3-3l3 3M3 12h18M3 12l3-3m0 6l-3 3M21 12l-3 3m0-6l3-3M12 21l-3-3m3 3l3-3" />
-        </svg>
-      );
-    case "thermometer":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 14.5V5.625a2.25 2.25 0 10-4.5 0V14.5a4.5 4.5 0 104.5 0zM12 7.5v7.5" />
-        </svg>
-      );
-    case "document-check":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5a7.5 7.5 0 000-15h-7.5a7.5 7.5 0 000 15zm3-8.25H12m0 0l2.25 2.25M12 12l2.25-2.25" />
-        </svg>
-      );
-    case "bolt":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-        </svg>
-      );
-    case "route":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 18.75h4.125a2.625 2.625 0 002.625-2.625V15a2.625 2.625 0 012.625-2.625h1.5A2.625 2.625 0 0018 9.75V9a2.625 2.625 0 00-2.625-2.625H12M6 6.75a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm15 12a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
-        </svg>
-      );
-    case "cube":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
-        </svg>
-      );
-    case "coil":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6} aria-hidden>
-          <circle cx="12" cy="12" r="8.25" />
-          <circle cx="12" cy="12" r="5.25" />
-          <circle cx="12" cy="12" r="2.25" />
-        </svg>
-      );
-    case "shield":
-      return (
-        <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-        </svg>
-      );
-    default:
-      return null;
-  }
+/* ─── Floating Lucide-style icons — clean professional line icons ─── */
+function FloatingIcons() {
+  const s = "currentColor";
+  return (
+    <div className="pointer-events-none absolute inset-0 hidden text-white sm:block" aria-hidden>
+      <svg
+        className="absolute left-[6%] top-[15%] h-10 w-10 opacity-[0.12] lg:left-[8%] lg:h-12 lg:w-12"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={s}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
+        <path d="M15 18H9" />
+        <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
+        <circle cx="17" cy="18" r="2" />
+        <circle cx="7" cy="18" r="2" />
+      </svg>
+      <svg
+        className="absolute right-[7%] top-[12%] h-10 w-10 opacity-[0.12] lg:right-[9%] lg:h-12 lg:w-12"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={s}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+        <path d="m9 14 2 2 4-4" />
+      </svg>
+      <svg
+        className="absolute left-[5%] top-[52%] h-9 w-9 -translate-y-1/2 opacity-[0.09] lg:left-[6%] lg:h-11 lg:w-11"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={s}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+      <svg
+        className="absolute bottom-[16%] right-[6%] h-9 w-9 opacity-[0.10] lg:right-[8%] lg:h-11 lg:w-11"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={s}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M3 3v18h18" />
+        <path d="M18 17V9" />
+        <path d="M13 17V5" />
+        <path d="M8 17v-3" />
+      </svg>
+      <svg
+        className="absolute bottom-[20%] left-[10%] h-8 w-8 opacity-[0.08] lg:h-10 lg:w-10"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={s}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+        <path d="m9 12 2 2 4-4" />
+      </svg>
+      <svg
+        className="absolute right-[4%] top-[48%] h-9 w-9 opacity-[0.08] lg:right-[5%] lg:h-10 lg:w-10"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={s}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+        <path d="M14 2v4a2 2 0 0 0 2 2h4" />
+        <path d="M10 9H8" />
+        <path d="M16 13H8" />
+        <path d="M16 17H8" />
+      </svg>
+    </div>
+  );
+}
+
+function useAnimations() {
+  const reduceMotion = useReducedMotion();
+
+  const stagger: Variants = reduceMotion
+    ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
+    : { hidden: {}, show: { transition: { staggerChildren: 0.1, delayChildren: 0.08 } } };
+
+  const reveal: Variants = reduceMotion
+    ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
+    : { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
+
+  return { reduceMotion, stagger, reveal };
+}
+
+function AutomotiveHeroBadge({ accentColor }: { accentColor: string }) {
+  const stats = [
+    { value: "24 / 7", label: "Ops desk" },
+    { value: "CA / US / MX", label: "Corridors" },
+  ];
+
+  return (
+    <div className="w-full max-w-[16.5rem] rounded-[22px] border border-white/14 bg-[linear-gradient(180deg,rgba(12,17,24,0.8),rgba(12,17,24,0.72))] p-3 shadow-[0_24px_60px_rgba(2,8,23,0.38)] backdrop-blur-xl">
+      <div className="rounded-[18px] border border-white/10 bg-[#10161d]/92 p-4">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/45">
+              Automotive Program
+            </p>
+            <p className="mt-1 text-[13px] font-semibold leading-tight text-white">
+              Enclosed, sequenced, and cross-border freight with named control.
+            </p>
+          </div>
+          <span className="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" aria-hidden />
+        </div>
+
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          {stats.map((stat) => (
+            <div key={stat.label} className="rounded-xl border border-white/8 bg-white/[0.03] px-2.5 py-2.5">
+              <p className="text-[11px] font-semibold tracking-tight text-white">{stat.value}</p>
+              <p className="mt-1 text-[9px] uppercase tracking-[0.14em] text-white/40">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 rounded-xl border border-white/8 bg-black/10 px-3 py-2.5">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em]" style={{ color: accentColor }}>
+            Protection posture
+          </p>
+          <p className="mt-1 text-[11px] leading-[1.55] text-white/72">
+            Named ownership and decision-ready exception reporting.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AutomotiveHeroMedia({ accentColor }: { accentColor: string }) {
+  return (
+    <div className="relative mx-auto w-full max-w-[43rem]">
+      <div
+        className="absolute -right-8 top-10 h-36 w-36 rounded-full blur-3xl"
+        style={{ backgroundColor: `${accentColor}22` }}
+        aria-hidden
+      />
+      <div
+        className="absolute -left-10 bottom-8 h-32 w-32 rounded-full blur-3xl"
+        style={{ backgroundColor: `${accentColor}16` }}
+        aria-hidden
+      />
+      <div className="relative overflow-hidden rounded-[30px] border border-white/12 bg-[#121923] shadow-[0_28px_70px_rgba(2,8,23,0.42)]">
+        <div className="relative aspect-[4/4.6] sm:aspect-[16/12]">
+          <Image
+            src="/_optimized/industries/automotive-hero-premium.png"
+            alt="Enclosed automotive transport loading finished vehicles at an industrial facility"
+            fill
+            priority
+            className="object-cover object-[56%_50%]"
+            sizes="(max-width: 1024px) 100vw, 42rem"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(125deg,rgba(7,11,18,0.42)_0%,rgba(7,11,18,0.08)_34%,rgba(7,11,18,0.4)_100%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_24%_18%,rgba(255,255,255,0.16),transparent_28%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0c1117]/62 via-[#0c1117]/14 to-transparent" />
+        </div>
+
+        <div className="pointer-events-none absolute inset-0 rounded-[30px] ring-1 ring-inset ring-white/8" />
+
+        <div className="absolute left-3 bottom-3 sm:left-6 sm:bottom-6">
+          <AutomotiveHeroBadge accentColor={accentColor} />
+        </div>
+
+        <div className="absolute right-3 top-3 sm:right-5 sm:top-5">
+          <div className="rounded-full border border-white/12 bg-black/30 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/78 backdrop-blur-md">
+            Finished vehicle transport
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+type ImmersiveHeroMediaConfig = {
+  src: string;
+  alt: string;
+  position: string;
+  themeColor: string;
+  themeRgb: string;
+  secondaryOrb?: string;
+};
+
+const HERO_MEDIA_CONFIG: Record<string, ImmersiveHeroMediaConfig> = {
+  manufacturing: {
+    src: "/_optimized/industries/manufacturing-hero-premium-v1.png",
+    alt: "Premium manufacturing warehouse with staged raw materials, industrial components, and controlled forklift movement",
+    position: "object-[54%_48%]",
+    themeColor: "#1a1f2e",
+    themeRgb: "26,31,46",
+    secondaryOrb: "rgba(203, 213, 225, 0.04)",
+  },
+  food: {
+    src: "/_optimized/industries/food-hero-premium-v6.png",
+    alt: "Cold-chain warehouse stocked with fresh produce crates and palletized food freight under atmospheric lighting",
+    position: "object-[50%_35%]",
+    themeColor: "#133522",
+    themeRgb: "19,53,34",
+    secondaryOrb: "rgba(153, 207, 120, 0.04)",
+  },
+  "steel-aluminum": {
+    src: "/_optimized/industries/steel-hero-premium-v1.png",
+    alt: "Premium steel and aluminum warehouse environment with staged metal freight",
+    position: "object-[58%_46%]",
+    themeColor: "#13263a",
+    themeRgb: "19,38,58",
+    secondaryOrb: "rgba(96, 165, 250, 0.04)",
+  },
+  retail: {
+    src: "/_optimized/industries/retail-hero-premium-v3.png",
+    alt: "Premium retail environment with in-store replenishment activity",
+    position: "object-[56%_50%]",
+    themeColor: "#0c1929",
+    themeRgb: "12,25,41",
+  },
+  construction: {
+    src: "/_optimized/industries/construction-hero-premium-v1.png",
+    alt: "Construction materials staging yard at golden hour with lumber, steel beams, and heavy equipment loading",
+    position: "object-[50%_38%]",
+    themeColor: "#231a0d",
+    themeRgb: "35,26,13",
+    secondaryOrb: "rgba(251, 191, 36, 0.04)",
+  },
+  "chemical-plastics": {
+    src: "/_optimized/industries/chemical-hero-premium-v1.png",
+    alt: "Premium chemical and plastics logistics warehouse with controlled industrial storage and loading activity",
+    position: "object-[58%_50%]",
+    themeColor: "#0c242d",
+    themeRgb: "12,36,45",
+  },
+};
+
+function ImmersiveHeroMedia({
+  accentColor,
+  config,
+}: {
+  accentColor: string;
+  config: ImmersiveHeroMediaConfig;
+}) {
+  const { src, alt, position, themeColor, themeRgb, secondaryOrb } = config;
+  return (
+    <div className="pointer-events-none absolute inset-0">
+      <div
+        className="absolute right-[6%] top-[8%] h-56 w-56 rounded-full blur-[100px]"
+        style={{ backgroundColor: `${accentColor}0c` }}
+        aria-hidden
+      />
+      <div
+        className="absolute left-[10%] bottom-[14%] h-44 w-44 rounded-full blur-[100px]"
+        style={{ backgroundColor: secondaryOrb ?? `${accentColor}08` }}
+        aria-hidden
+      />
+
+      <div
+        className="absolute inset-0 overflow-hidden"
+        style={{
+          maskImage:
+            "radial-gradient(ellipse 92% 88% at 50% 46%, black 42%, transparent 72%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 92% 88% at 50% 46%, black 42%, transparent 72%)",
+        }}
+      >
+        <div className="absolute inset-0">
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            priority
+            className={`object-cover ${position}`}
+            sizes="100vw"
+          />
+        </div>
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(180deg,rgba(${themeRgb},0.36) 0%,rgba(${themeRgb},0.10) 22%,rgba(${themeRgb},0.06) 50%,rgba(${themeRgb},0.44) 100%)`,
+          }}
+        />
+      </div>
+
+      <div
+        className="absolute inset-0"
+        style={{
+          boxShadow: `inset 0 0 120px 60px rgba(${themeRgb},0.92), inset 0 0 240px 120px rgba(${themeRgb},0.48)`,
+        }}
+        aria-hidden
+      />
+
+      <div className="absolute inset-y-0 left-0 w-[14%] bg-gradient-to-r to-transparent" style={{ backgroundImage: `linear-gradient(to right, ${themeColor}, ${themeColor}99, transparent)` }} />
+      <div className="absolute inset-y-0 right-0 w-[14%] bg-gradient-to-l to-transparent" style={{ backgroundImage: `linear-gradient(to left, ${themeColor}, ${themeColor}99, transparent)` }} />
+      <div className="absolute inset-x-0 top-0 h-24" style={{ backgroundImage: `linear-gradient(to bottom, ${themeColor}, ${themeColor}80, transparent)` }} />
+      <div className="absolute inset-x-0 bottom-0 h-36" style={{ backgroundImage: `linear-gradient(to top, ${themeColor}, ${themeColor}99, transparent)` }} />
+
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `radial-gradient(ellipse 720px 340px at 50% 42%, rgba(${themeRgb},0.46), transparent 68%)`,
+        }}
+      />
+    </div>
+  );
+}
+
+type CenteredHeroStyle = {
+  valueHeadlineColor: string;
+  ctaBg: string;
+  ctaText: string;
+  ctaShadow: string;
+  textShadowRgb: string;
+};
+
+const CENTERED_HERO_STYLES: Record<string, CenteredHeroStyle> = {
+  manufacturing: {
+    valueHeadlineColor: "#d5dde8",
+    ctaBg: "#d5dde8",
+    ctaText: "#121924",
+    ctaShadow: "0 10px 28px rgba(213,221,232,0.18)",
+    textShadowRgb: "26,31,46",
+  },
+  food: {
+    valueHeadlineColor: "#d7e7bc",
+    ctaBg: "#b9d98f",
+    ctaText: "#092016",
+    ctaShadow: "0 10px 28px rgba(185,217,143,0.24)",
+    textShadowRgb: "10,30,18",
+  },
+  construction: {
+    valueHeadlineColor: "#f5d990",
+    ctaBg: "#fbbf24",
+    ctaText: "#1a1204",
+    ctaShadow: "0 10px 28px rgba(251,191,36,0.24)",
+    textShadowRgb: "35,26,13",
+  },
+  "chemical-plastics": {
+    valueHeadlineColor: "#b8efe8",
+    ctaBg: "#8be4da",
+    ctaText: "#08151d",
+    ctaShadow: "0 10px 28px rgba(139,228,218,0.22)",
+    textShadowRgb: "12,36,45",
+  },
+  retail: {
+    valueHeadlineColor: "#a9c8ff",
+    ctaBg: "#4f97ff",
+    ctaText: "#ffffff",
+    ctaShadow: "0 10px 28px rgba(79,151,255,0.34)",
+    textShadowRgb: "12,25,41",
+  },
+  "steel-aluminum": {
+    valueHeadlineColor: "#d7e3ec",
+    ctaBg: "#d7e3ec",
+    ctaText: "#0d1824",
+    ctaShadow: "0 10px 28px rgba(215,227,236,0.18)",
+    textShadowRgb: "19,38,58",
+  },
+};
+
+function CenteredHeroContent({
+  hero,
+  style,
+  accentColor,
+  heroSignals,
+  reveal,
+  reduceMotion,
+}: {
+  hero: IndustryPageModel["hero"];
+  style: CenteredHeroStyle;
+  accentColor: string;
+  heroSignals: string[];
+  reveal: Variants;
+  reduceMotion: boolean | null;
+}) {
+  return (
+    <div className="relative mx-auto max-w-5xl px-2 text-center sm:px-6">
+      <motion.div
+        variants={reveal}
+        transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+        className="flex justify-center"
+      >
+        <SectionEyebrow
+          label={hero.kicker ?? "Industry Logistics"}
+          accentColor={accentColor}
+          light
+        />
+      </motion.div>
+
+      {hero.valueHeadline ? (
+        <motion.p
+          variants={reveal}
+          transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+          className="mt-5 text-[12px] font-semibold uppercase tracking-[0.22em] drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] sm:text-[12px]"
+          style={{ color: style.valueHeadlineColor }}
+        >
+          {hero.valueHeadline}
+        </motion.p>
+      ) : null}
+
+      <motion.h1
+        id="industry-hero-heading"
+        variants={reveal}
+        transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+        className="mx-auto mt-4 max-w-4xl text-[2.6rem] font-bold leading-[0.96] tracking-tight text-white sm:text-[3.35rem] lg:text-[4.15rem]"
+        style={{
+          textShadow: `0 2px 16px rgba(0,0,0,0.5), 0 8px 32px rgba(${style.textShadowRgb},0.4)`,
+        }}
+      >
+        {hero.title}
+      </motion.h1>
+
+      <motion.p
+        variants={reveal}
+        transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+        className="mx-auto mt-5 max-w-3xl text-[15px] leading-[1.85] text-white/90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] sm:text-[16px]"
+      >
+        {hero.description}
+      </motion.p>
+
+      {heroSignals.length > 0 ? (
+        <motion.ul
+          variants={reveal}
+          transition={{ duration: reduceMotion ? 0 : 0.42, ease: "easeOut" }}
+          className="mx-auto mt-6 grid max-w-2xl gap-2 sm:grid-cols-3"
+        >
+          {heroSignals.map((signal) => (
+            <li
+              key={signal}
+              className="rounded-xl border border-white/8 bg-black/10 px-3 py-2 text-[11px] leading-[1.5] text-white/68 backdrop-blur-sm"
+            >
+              {signal}
+            </li>
+          ))}
+        </motion.ul>
+      ) : null}
+
+      <motion.div
+        variants={reveal}
+        transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+        className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center"
+      >
+        <Link
+          href={hero.cta.href}
+          className={cn(
+            "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold transition-all duration-200 hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
+            FOCUS_RING_DARK,
+          )}
+          style={{
+            backgroundColor: style.ctaBg,
+            color: style.ctaText,
+            boxShadow: style.ctaShadow,
+          }}
+        >
+          {hero.cta.label}
+        </Link>
+        {hero.secondaryCta ? (
+          <Link
+            href={hero.secondaryCta.href}
+            className={cn(
+              "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/18 bg-black/18 px-7 text-sm font-semibold text-white/84 backdrop-blur-sm transition-all duration-200 hover:border-white/28 hover:bg-black/24 hover:text-white sm:w-auto",
+              FOCUS_RING_DARK,
+            )}
+          >
+            {hero.secondaryCta.label}
+          </Link>
+        ) : null}
+      </motion.div>
+    </div>
+  );
 }
 
 export function IndustryHero({ model }: { model: IndustryPageModel }) {
-  const reduceMotion = useReducedMotion();
+  const { reduceMotion, stagger, reveal } = useAnimations();
   const { hero } = model;
 
   const theme = hero.theme ?? "red";
   const bgColor = THEME_BG[theme];
   const accentColor = THEME_ACCENT[theme];
+  const isSplitHero = model.key === "automotive";
+  const isImmersiveCenteredHero = model.key in HERO_MEDIA_CONFIG;
+  const heroSignals = hero.signals ?? [];
+  const proofStrip = hero.proofStrip ?? [];
 
   return (
-    <Section
-      variant="dark"
-      id="industry-hero"
-      className="relative overflow-hidden"
+    <section
+      aria-labelledby="industry-hero-heading"
+      className="relative overflow-hidden border-b border-white/6 py-16 sm:py-20 lg:py-24"
       style={{ backgroundColor: bgColor }}
     >
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(to_right,rgba(255,255,255,0.8)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.8)_1px,transparent_1px)] [background-size:120px_120px]" />
+      {/* Background layers — grid, vignette, gradient glow */}
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        {/* Grid lines — 120px cells, edge-to-edge */}
+        <div
+          className={cn(
+            "absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.8)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.8)_1px,transparent_1px)] [background-size:120px_120px]",
+            isImmersiveCenteredHero ? "opacity-[0.034]" : "opacity-[0.05]",
+          )}
+        />
+        {isImmersiveCenteredHero ? (
+          <div className="absolute inset-x-[14%] inset-y-[10%] bg-[radial-gradient(ellipse_at_center,rgba(11,20,34,0.16)_0%,rgba(11,20,34,0.08)_48%,transparent_78%)]" />
+        ) : null}
+        {/* Edge vignette — darkens corners for depth */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_70%,rgba(0,0,0,0.2)_100%)]" />
+        {/* Top fade */}
         <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/40 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-20" style={{ background: `linear-gradient(to top, ${bgColor}, transparent)` }} />
-        {themeGradientOverlay(theme)}
+        {/* Bottom fade */}
+        <div
+          className="absolute inset-x-0 bottom-0 h-20"
+          style={{ background: `linear-gradient(to top, ${bgColor}, transparent)` }}
+        />
+        {/* Theme gradient glow — positioned right at 70% */}
+        <ThemeGradientOverlay theme={theme} />
       </div>
 
-      {/* Industry icon badges — decorative only */}
-      {hero.iconKeys?.length ? (
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden overflow-hidden sm:block">
-          {hero.iconKeys.slice(0, 4).map((key, idx) => {
-            const slotClass =
-              idx === 0
-                ? "top-[18%] left-[6%]"
-                : idx === 1
-                  ? "top-[22%] right-[10%]"
-                  : idx === 2
-                    ? "bottom-[22%] left-[10%]"
-                    : "bottom-[20%] right-[8%]";
-            return (
-              <span key={`${key}-${idx}`} className={cn("absolute", slotClass)}>
-                <HeroIcon name={key} />
-              </span>
-            );
-          })}
-        </div>
-      ) : null}
+      {/* Noise texture for depth */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        }}
+        aria-hidden
+      />
+
+      {/* Decorative icons stay on simpler fallback heroes only to keep premium photo-led layouts clean. */}
+      {!isSplitHero && !isImmersiveCenteredHero ? <FloatingIcons /> : null}
+
+      {/* Bottom accent rule */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px"
+        style={{
+          background: `linear-gradient(90deg, transparent 5%, ${accentColor}25 50%, transparent 95%)`,
+        }}
+        aria-hidden
+      />
 
       <Container className="site-page-container relative">
         <motion.div
-          // Visible-first: hero copy is readable at first paint.
-          initial={reduceMotion ? false : { opacity: 1, y: 12, scale: 0.985 }}
-          animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.45, ease: "easeOut" }}
-          className="mx-auto max-w-3xl py-10 text-center sm:py-12 lg:py-14"
+          initial="hidden"
+          animate="show"
+          variants={stagger}
+          className={cn(
+            isSplitHero
+              ? "mx-auto max-w-6xl"
+              : "mx-auto max-w-5xl text-center",
+          )}
         >
-          {hero.kicker ? (
-            <p className="mb-2.5 text-[10.5px] font-semibold tracking-[0.14em] uppercase" style={{ color: accentColor }}>
-              {hero.kicker}
-            </p>
-          ) : null}
-          <p className="mb-2 text-[1rem] font-semibold tracking-tight sm:text-[1.1rem]" style={{ color: accentColor }}>
-            {hero.valueHeadline}
-          </p>
-          <h1 className="text-[2rem] font-bold leading-tight tracking-tight text-white sm:text-[2.5rem] lg:text-[3rem]">
-            {hero.title}
-          </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-[13.5px] leading-[1.75] text-[color:var(--color-muted)] sm:text-[15px]">
-            {hero.description}
-          </p>
-          <div className="mt-8">
+          <motion.div
+            variants={reveal}
+            transition={{ duration: reduceMotion ? 0 : 0.3, ease: "easeOut" }}
+            className={cn("relative z-20 mb-8", isSplitHero ? "text-left" : "text-center")}
+          >
             <Link
-              href={hero.cta.href}
-              onClick={() =>
-                trackCtaClick({
-                  ctaId: hero.cta.ctaId,
-                  location: "industry_hero",
-                  destination: hero.cta.href,
-                  label: hero.cta.label,
-                })
-              }
+              href="/industries"
               className={cn(
-                "inline-flex h-11 items-center justify-center rounded-md border px-5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-[2px] sm:px-6",
-                "focus-ring-surface",
+                "inline-flex items-center gap-1.5 rounded text-xs font-medium text-white/50 transition-colors hover:text-white/75",
+                FOCUS_RING_DARK,
               )}
-              style={{
-                borderColor: accentColor,
-                background: `linear-gradient(180deg, ${accentColor}, ${accentColor}e6)`,
-                boxShadow: `0 8px 20px ${accentColor}40`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.boxShadow = `0 12px 28px ${accentColor}50`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.boxShadow = `0 8px 20px ${accentColor}40`;
-              }}
             >
-              {hero.cta.label}
+              <ChevronLeft className="h-3.5 w-3.5" />
+              All Industries
             </Link>
-          </div>
+          </motion.div>
+
+
+          {isSplitHero ? (
+            <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(380px,1.05fr)] lg:gap-12 xl:grid-cols-[minmax(0,0.92fr)_minmax(460px,1.08fr)]">
+              <div className="max-w-2xl text-left">
+                <motion.div
+                  variants={reveal}
+                  transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+                  className="flex"
+                >
+                  <SectionEyebrow
+                    label={hero.kicker ?? "Industry Logistics"}
+                    accentColor={accentColor}
+                    light
+                  />
+                </motion.div>
+
+                {hero.valueHeadline ? (
+                  <motion.p
+                    variants={reveal}
+                    transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+                    className="mt-6 text-[12px] font-semibold uppercase tracking-[0.22em] sm:text-[12px]"
+                    style={{ color: `${accentColor}f0` }}
+                  >
+                    {hero.valueHeadline}
+                  </motion.p>
+                ) : null}
+
+                <motion.h1
+                  id="industry-hero-heading"
+                  variants={reveal}
+                  transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+                  className="mt-4 text-[2.8rem] font-bold leading-[0.96] tracking-tight text-white sm:text-[3.6rem] lg:text-[4.6rem]"
+                >
+                  {hero.title}
+                </motion.h1>
+
+                <motion.p
+                  variants={reveal}
+                  transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+                  className="mt-5 max-w-[40rem] text-[15px] leading-[1.8] text-white/68 sm:text-[16px]"
+                >
+                  {hero.description}
+                </motion.p>
+
+                <motion.ul
+                  variants={reveal}
+                  transition={{ duration: reduceMotion ? 0 : 0.42, ease: "easeOut" }}
+                  className="mt-6 grid gap-2 sm:grid-cols-2"
+                >
+                  {heroSignals.map((signal) => (
+                    <li
+                      key={signal}
+                      className="rounded-xl border border-white/10 bg-white/[0.03] px-3.5 py-2.5 text-[12px] leading-[1.6] text-white/74 backdrop-blur-sm"
+                    >
+                      {signal}
+                    </li>
+                  ))}
+                </motion.ul>
+
+                <motion.div
+                  variants={reveal}
+                  transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+                  className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center"
+                >
+                  <Link
+                    href={hero.cta.href}
+                    className={cn(
+                      "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
+                      FOCUS_RING_DARK,
+                    )}
+                    style={{
+                      backgroundColor: accentColor,
+                      boxShadow: `0 8px 32px ${accentColor}30`,
+                    }}
+                  >
+                    {hero.cta.label}
+                  </Link>
+                  {hero.secondaryCta ? (
+                    <Link
+                      href={hero.secondaryCta.href}
+                      className={cn(
+                        "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/15 bg-white/5 px-7 text-sm font-semibold text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/8 hover:text-white sm:w-auto",
+                        FOCUS_RING_DARK,
+                      )}
+                    >
+                      {hero.secondaryCta.label}
+                    </Link>
+                  ) : null}
+                </motion.div>
+              </div>
+
+              <motion.div
+                variants={reveal}
+                transition={{ duration: reduceMotion ? 0 : 0.48, ease: "easeOut" }}
+              >
+                <AutomotiveHeroMedia accentColor={accentColor} />
+              </motion.div>
+            </div>
+          ) : isImmersiveCenteredHero && HERO_MEDIA_CONFIG[model.key] && CENTERED_HERO_STYLES[model.key] ? (
+            <>
+              <ImmersiveHeroMedia accentColor={accentColor} config={HERO_MEDIA_CONFIG[model.key]} />
+              <CenteredHeroContent
+                hero={hero}
+                style={CENTERED_HERO_STYLES[model.key]}
+                accentColor={accentColor}
+                heroSignals={heroSignals}
+                reveal={reveal}
+                reduceMotion={reduceMotion}
+              />
+            </>
+          ) : (
+            <>
+              <motion.div
+                variants={reveal}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+                className="flex justify-center"
+              >
+                <SectionEyebrow
+                  label={hero.kicker ?? "Industry Logistics"}
+                  accentColor={accentColor}
+                  light
+                />
+              </motion.div>
+
+              <motion.h1
+                id="industry-hero-heading"
+                variants={reveal}
+                transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+                className="mt-6 text-[2.45rem] font-bold leading-[1.02] tracking-tight text-white sm:text-[3.1rem] lg:text-[4rem]"
+              >
+                {hero.title}
+              </motion.h1>
+
+              {hero.valueHeadline ? (
+                <motion.p
+                  variants={reveal}
+                  transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+                  className="mt-4 text-lg font-semibold tracking-tight sm:text-xl"
+                  style={{ color: accentColor }}
+                >
+                  {hero.valueHeadline}
+                </motion.p>
+              ) : null}
+
+              <motion.p
+                variants={reveal}
+                transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+                className="mx-auto mt-5 max-w-[46rem] text-[15px] leading-[1.85] text-white/60 sm:text-base"
+              >
+                {hero.description}
+              </motion.p>
+
+              <motion.div
+                variants={reveal}
+                transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+                className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center"
+              >
+                <Link
+                  href={hero.cta.href}
+                  className={cn(
+                    "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
+                    FOCUS_RING_DARK,
+                  )}
+                  style={{
+                    backgroundColor: accentColor,
+                    boxShadow: `0 8px 32px ${accentColor}30`,
+                  }}
+                >
+                  {hero.cta.label}
+                </Link>
+                {hero.secondaryCta ? (
+                  <Link
+                    href={hero.secondaryCta.href}
+                    className={cn(
+                      "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/15 bg-white/5 px-7 text-sm font-semibold text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/8 hover:text-white sm:w-auto",
+                      FOCUS_RING_DARK,
+                    )}
+                  >
+                    {hero.secondaryCta.label}
+                  </Link>
+                ) : null}
+              </motion.div>
+            </>
+          )}
         </motion.div>
+
+        {proofStrip.length > 0 ? (
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={stagger}
+            className="mx-auto mt-9 grid max-w-4xl gap-3 md:grid-cols-3"
+          >
+            {proofStrip.map((item) => (
+              <motion.div
+                key={item.label}
+                variants={reveal}
+                transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+                className="rounded-2xl border border-white/8 bg-black/14 px-4 py-3.5 backdrop-blur-sm"
+              >
+                <p className="text-[0.98rem] font-semibold tracking-tight text-white">{item.value}</p>
+                <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-white/38">{item.label}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        ) : null}
       </Container>
-    </Section>
+    </section>
   );
 }

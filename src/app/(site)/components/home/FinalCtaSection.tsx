@@ -136,7 +136,7 @@ export function FinalCtaSection() {
                         label: "Speak with a live agent",
                       });
                       if (typeof window !== "undefined") {
-                        window.dispatchEvent(new CustomEvent("npt:open-live-chat"));
+                        window.dispatchEvent(new CustomEvent("ssp:open-live-chat"));
                       }
                     }}
                     className={cn(

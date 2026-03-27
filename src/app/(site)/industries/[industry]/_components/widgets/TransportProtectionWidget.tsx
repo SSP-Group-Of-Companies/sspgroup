@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useReducedMotion } from "framer-motion";
 import { IconShield } from "./WidgetIcons";
 import { PillToggle, WidgetCard } from "./WidgetCard";
 
@@ -37,18 +38,6 @@ function statusFromScore(score: number): "Protected" | "Caution" | "High Risk" {
   return "High Risk";
 }
 
-function useReducedMotion() {
-  const [reduce, setReduce] = React.useState(false);
-  React.useEffect(() => {
-    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduce(m.matches);
-    const f = () => setReduce(m.matches);
-    m.addEventListener("change", f);
-    return () => m.removeEventListener("change", f);
-  }, []);
-  return reduce;
-}
-
 const VEHICLE_RISK_LABELS = ["Weather", "Road debris", "Handling"] as const;
 const PARTS_RISK_LABELS = ["Shock", "Moisture", "Stack stability"] as const;
 
@@ -56,7 +45,7 @@ export function TransportProtectionWidget({ accentColor }: { accentColor?: strin
   const [conditions, setConditions] = React.useState(35);
   const [protection, setProtection] = React.useState<Protection>("covered");
   const [cargo, setCargo] = React.useState<Cargo>("vehicles");
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const accent = accentColor ?? "var(--color-brand-500)";
 
   const risks = React.useMemo(
@@ -242,7 +231,7 @@ export function TransportProtectionWidget({ accentColor }: { accentColor?: strin
           </div>
         </div>
       }
-      controls={<></>}
+      controls={null}
     />
   );
 }

@@ -28,7 +28,7 @@ export function ServiceFinalCta({ model }: { model: ServicePageModel }) {
     // Future live-chat integration: avoid hash jump if no anchor exists yet.
     if (secondaryHref.startsWith("#") && !document.getElementById(secondaryHref.slice(1))) {
       event.preventDefault();
-      window.dispatchEvent(new CustomEvent("npt:open-live-chat"));
+      window.dispatchEvent(new CustomEvent("ssp:open-live-chat"));
     }
   };
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { Container } from "@/app/(site)/components/layout/Container";
-import { SectionSignalEyebrow } from "./SectionSignalEyebrow";
+import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 
 const focusRingDark =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-ssp-ink-800)]";

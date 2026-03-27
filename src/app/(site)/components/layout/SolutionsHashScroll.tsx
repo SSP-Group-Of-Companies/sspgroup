@@ -195,34 +195,31 @@ export function SolutionsHashScroll() {
     };
   }, []);
 
-  // After client navigation to a path with a hash (e.g. /about-us#locations-network), scroll to the section.
-  // Next.js soft nav may not fire hashchange; pathname change ensures we run once the about page is mounted.
+  // After client navigation: scroll to hash target OR scroll to top.
+  // Next.js soft nav may not fire hashchange; pathname change ensures we run.
   const prevPathnameRef = React.useRef<string | null>(null);
   React.useEffect(() => {
     const currentPath = normalizePath(pathname ?? "");
     const prevPath = prevPathnameRef.current;
     prevPathnameRef.current = currentPath;
-    // Only run when pathname actually changed (client nav), not on initial mount.
     if (prevPath === null || prevPath === currentPath) return;
-    if (typeof window === "undefined" || !window.location.hash) return;
+    if (typeof window === "undefined") return;
 
-    const normalizedPath = currentPath;
-    if (
-      normalizedPath !== ABOUT_US_PATH &&
-      normalizedPath !== ABOUT_FAQS_PATH &&
-      normalizedPath !== HOME_PATH
-    )
-      return;
+    // If URL has a hash, try to scroll to the section target.
+    if (window.location.hash) {
+      const targetId = getHashTargetId(window.location.hash);
+      if (targetId) {
+        const id = requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            scrollToElementById(targetId, resolveScrollBehavior("smooth"));
+          });
+        });
+        return () => cancelAnimationFrame(id);
+      }
+    }
 
-    const targetId = getHashTargetId(window.location.hash);
-    if (!targetId) return;
-
-    const id = requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        scrollToElementById(targetId, resolveScrollBehavior("smooth"));
-      });
-    });
-    return () => cancelAnimationFrame(id);
+    // No hash (or unrecognized hash): ensure scroll to top on page change.
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [pathname]);
 
   return null;

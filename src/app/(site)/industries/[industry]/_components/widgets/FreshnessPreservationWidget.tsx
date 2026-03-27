@@ -261,7 +261,7 @@ export function FreshnessPreservationWidget({ accentColor }: { accentColor?: str
           </div>
         </div>
       }
-      controls={<></>}
+      controls={null}
     />
   );
 }
