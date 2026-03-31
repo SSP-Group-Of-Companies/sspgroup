@@ -27,11 +27,11 @@ export function AboutSspHistorySnapshot() {
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.04 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   const snapshotMilestones = SSP_HISTORY_MILESTONES.filter((m) => SNAPSHOT_YEARS.has(m.year));
 
@@ -55,7 +55,7 @@ export function AboutSspHistorySnapshot() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.25 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={stagger}
           className="grid gap-7 lg:grid-cols-12 lg:items-end"
         >
@@ -71,7 +71,7 @@ export function AboutSspHistorySnapshot() {
             <motion.h2
               id="history-at-a-glance-heading"
               variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
               className="mt-4 max-w-[18ch] text-[2rem] font-bold leading-[1.08] tracking-tight text-[color:var(--color-text-strong)] sm:text-[2.45rem]"
             >
               From operator mindset to enterprise momentum.
@@ -79,7 +79,7 @@ export function AboutSspHistorySnapshot() {
 
             <motion.p
               variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
               className="mt-4 max-w-[64ch] text-[15px] leading-[1.85] text-[color:var(--color-muted)] sm:text-[15.5px]"
             >
               After establishing how SSP operates today, this snapshot shows how that model was
@@ -90,8 +90,8 @@ export function AboutSspHistorySnapshot() {
 
           <motion.div
             variants={revealUp}
-            transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
-            className="lg:col-span-4 lg:justify-self-end lg:text-right"
+            transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+            className="rounded-xl border border-[color:var(--color-border-light-soft)] bg-[color:var(--color-surface-1-light)]/60 px-4 py-3.5 lg:col-span-4 lg:justify-self-end lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:text-right"
           >
             <p className="text-[10px] font-semibold tracking-[0.13em] text-[color:var(--color-subtle)] uppercase">
               Snapshot Scope
@@ -106,26 +106,27 @@ export function AboutSspHistorySnapshot() {
           </motion.div>
         </motion.div>
 
+        {/* ── Desktop horizontal timeline (lg+) ── */}
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={stagger}
-          className="relative mt-11"
+          className="relative mt-11 hidden lg:block"
         >
           <div className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-[color:var(--color-ssp-cyan-500)]/40 via-[color:var(--color-border-light)] to-transparent" />
 
-          <div className="grid gap-8 pt-5 md:grid-cols-2 md:gap-x-8 md:gap-y-10 lg:grid-cols-4 lg:gap-x-7">
+          <div className="grid grid-cols-4 gap-x-7 pt-5">
             {snapshotMilestones.map((milestone, idx) => (
               <motion.article
                 key={milestone.year}
                 variants={revealUp}
-                transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
                 className={cn(
-                  "relative pb-1 md:pr-4",
-                  idx < snapshotMilestones.length - 1
-                    ? "lg:border-r lg:border-[color:var(--color-border-light-soft)]"
-                    : "",
+                  "relative pb-1",
+                  idx < snapshotMilestones.length - 1 &&
+                    "border-r border-[color:var(--color-border-light-soft)]",
+                  idx < snapshotMilestones.length - 1 && "pr-4",
                 )}
               >
                 <div className="absolute -top-5 left-0 h-[11px] w-[11px] rounded-full bg-[color:var(--color-surface-0-light)] ring-2 ring-[color:var(--color-ssp-cyan-500)]" />
@@ -146,12 +147,67 @@ export function AboutSspHistorySnapshot() {
           </div>
         </motion.div>
 
+        {/* ── Mobile / tablet vertical timeline (< lg) ── */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={stagger}
+          className="relative mt-10 lg:hidden"
+        >
+          <ol className="relative list-none">
+            {snapshotMilestones.map((milestone, idx) => (
+              <motion.li
+                key={milestone.year}
+                variants={revealUp}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+                className="relative flex gap-4 sm:gap-5"
+              >
+                <div className="relative flex w-10 shrink-0 flex-col items-center sm:w-12">
+                  <div className="relative z-10 h-[11px] w-[11px] rounded-full bg-[color:var(--color-surface-0-light)] ring-2 ring-[color:var(--color-ssp-cyan-500)]" />
+                  {idx < snapshotMilestones.length - 1 && (
+                    <div
+                      className="absolute left-1/2 top-[11px] bottom-0 w-px -translate-x-1/2"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, var(--color-ssp-cyan-500) 0%, color-mix(in srgb, var(--color-border-light) 60%, transparent) 70%, transparent 100%)",
+                      }}
+                      aria-hidden
+                    />
+                  )}
+                </div>
+
+                <div
+                  className={cn(
+                    "min-w-0 flex-1 pb-8 sm:pb-10",
+                    idx < snapshotMilestones.length - 1 &&
+                      "border-b border-[color:var(--color-border-light-soft)]",
+                  )}
+                >
+                  <p className="text-[10px] font-semibold tracking-[0.14em] text-[color:var(--color-subtle)] uppercase">
+                    Chapter {idx + 1}
+                  </p>
+                  <p className="mt-1 text-[1.45rem] leading-none font-bold tracking-tight text-[color:var(--color-text-strong)]">
+                    {milestone.year}
+                  </p>
+                  <h3 className="mt-2.5 text-[1.02rem] font-semibold leading-snug tracking-tight text-[color:var(--color-text-strong)]">
+                    {milestone.title}
+                  </h3>
+                  <p className="mt-2 max-w-[38ch] text-[13px] leading-6 text-[color:var(--color-muted)]">
+                    {SNAPSHOT_PREVIEWS[milestone.year] ?? milestone.description}
+                  </p>
+                </div>
+              </motion.li>
+            ))}
+          </ol>
+        </motion.div>
+
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={revealUp}
-          transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+          transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
           className="mt-10 flex justify-start lg:justify-end"
         >
           <Link

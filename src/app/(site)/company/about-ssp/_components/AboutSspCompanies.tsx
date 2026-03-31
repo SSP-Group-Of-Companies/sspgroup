@@ -57,11 +57,11 @@ export function AboutSspCompanies({ data }: { data: OurCompaniesContent }) {
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.07, delayChildren: 0.04 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   return (
     <section
@@ -112,9 +112,9 @@ export function AboutSspCompanies({ data }: { data: OurCompaniesContent }) {
           className="max-w-3xl"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={revealUp}
-          transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+          transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
         >
           <SectionSignalEyebrow label={data.sectionLabel} />
           <h2

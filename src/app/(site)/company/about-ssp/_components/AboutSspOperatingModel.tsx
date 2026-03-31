@@ -46,11 +46,11 @@ export function AboutSspOperatingModel({ data }: { data: OperatingModelContent }
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.04 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   const gridGap = "gap-x-8 xl:gap-x-12 2xl:gap-x-[3.25rem]";
 
@@ -83,20 +83,20 @@ export function AboutSspOperatingModel({ data }: { data: OperatingModelContent }
           viewport={{ once: true, amount: 0.2 }}
           variants={stagger}
         >
-          <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}>
+          <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}>
             <SectionSignalEyebrow label={data.sectionLabel} light />
           </motion.div>
           <motion.h2
             id="operating-model-heading"
             variants={revealUp}
-            transition={{ duration: reduceMotion ? 0 : 0.48, ease: "easeOut" }}
+            transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
             className="mt-3.5 max-w-[38rem] text-pretty text-[2.15rem] font-bold leading-[1.05] tracking-[-0.025em] text-white sm:text-4xl lg:text-[2.62rem]"
           >
             {data.title}
           </motion.h2>
           <motion.p
             variants={revealUp}
-            transition={{ duration: reduceMotion ? 0 : 0.42, ease: "easeOut" }}
+            transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
             className="mt-4 max-w-[34rem] text-pretty text-[15px] leading-[1.75] text-white/[0.62] sm:text-[15.5px] sm:leading-[1.76]"
           >
             {data.subtitle}
@@ -104,7 +104,7 @@ export function AboutSspOperatingModel({ data }: { data: OperatingModelContent }
 
           <motion.div
             variants={revealUp}
-            transition={{ duration: reduceMotion ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduceMotion ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="mt-16 lg:mt-[5.25rem]"
           >
             <div

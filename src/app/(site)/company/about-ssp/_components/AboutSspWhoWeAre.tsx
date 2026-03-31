@@ -24,11 +24,11 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.04 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   return (
     <section
@@ -66,7 +66,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
             className="lg:col-span-6"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.25 }}
+            viewport={{ once: true, amount: 0.15 }}
             variants={stagger}
           >
             <motion.div
@@ -80,7 +80,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
             <motion.h2
               id="who-we-are-heading"
               variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
               className="mt-4 max-w-[18ch] text-[2.1rem] leading-[1.1] font-bold tracking-tight text-[color:var(--color-text-strong)] sm:text-[2.4rem] lg:text-[2.6rem]"
             >
               {data.subtitle}
@@ -88,7 +88,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
 
             <motion.div
               variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
               className="mt-5 space-y-2"
             >
               {data.body.map((line, i) => (
@@ -103,7 +103,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
                 <motion.div
                   key={stat.label}
                   variants={revealUp}
-                  transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+                  transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
                   className="group relative overflow-hidden rounded-xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-1-light)] px-4 py-4 shadow-[var(--shadow-company-card-soft)] transition-all duration-300 hover:-translate-y-[1px] hover:shadow-[var(--shadow-company-card-soft-hover)]"
                 >
                   <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-[linear-gradient(90deg,var(--color-ssp-cyan-500),transparent)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -119,7 +119,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
 
             <motion.div
               variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
               className="mt-7"
             >
               <Link
@@ -148,10 +148,10 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
 
           <motion.div
             className="relative overflow-hidden lg:col-span-6 lg:overflow-visible"
-            initial={reduceMotion ? false : { opacity: 0, scale: 0.97 }}
+            initial={reduceMotion ? false : { opacity: 1, scale: 0.98 }}
             whileInView={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.55, ease: "easeOut", delay: 0.05 }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.35, ease: "easeOut", delay: 0.03 }}
           >
             <div
               className="pointer-events-none absolute -inset-5 rounded-3xl opacity-35 blur-3xl"

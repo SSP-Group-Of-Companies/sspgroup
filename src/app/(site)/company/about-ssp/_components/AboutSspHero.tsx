@@ -46,11 +46,11 @@ export function AboutSspHero({ data }: { data: HeroData }) {
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   const reveal: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 12 }, show: { opacity: 1, y: 0 } };
 
   return (
     <section
@@ -123,7 +123,7 @@ export function AboutSspHero({ data }: { data: HeroData }) {
             <motion.h1
               id="about-hero-heading"
               variants={reveal}
-              transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
               className="mt-5 max-w-[18ch] text-[clamp(2.4rem,7.2vw,4rem)] font-bold leading-[0.94] tracking-tight text-white"
               style={{ textShadow: "var(--shadow-company-hero-heading)" }}
             >
@@ -132,7 +132,7 @@ export function AboutSspHero({ data }: { data: HeroData }) {
 
             <motion.p
               variants={reveal}
-              transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
               className="mt-5 max-w-[58ch] text-[15.5px] leading-[1.74] text-white/92 sm:text-[16px]"
               style={{ textShadow: "var(--shadow-company-hero-body)" }}
             >
@@ -141,7 +141,7 @@ export function AboutSspHero({ data }: { data: HeroData }) {
 
             <motion.div
               variants={reveal}
-              transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
               className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-start"
             >
               <Link
@@ -194,7 +194,7 @@ export function AboutSspHero({ data }: { data: HeroData }) {
                 <motion.div
                   key={item.label}
                   variants={reveal}
-                  transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+                  transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
                   className="min-h-[72px] rounded-xl border border-white/8 bg-white/[0.03] px-3 py-2.5 backdrop-blur-sm sm:min-h-[84px] sm:rounded-2xl sm:border-white/9 sm:bg-[color:var(--color-glass-bg)] sm:px-3.5 sm:py-3"
                 >
                   <p className="text-[0.95rem] font-semibold tracking-tight text-white">{item.value}</p>
@@ -205,7 +205,7 @@ export function AboutSspHero({ data }: { data: HeroData }) {
 
             <motion.div
               variants={reveal}
-              transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut", delay: reduceMotion ? 0 : 0.08 }}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut", delay: reduceMotion ? 0 : 0.05 }}
               className="mt-6 block lg:hidden"
             >
               <div className="relative overflow-hidden rounded-2xl border border-[color:var(--color-glass-border)] bg-[color:var(--color-glass-bg)] p-1.5 backdrop-blur-sm">
@@ -226,7 +226,7 @@ export function AboutSspHero({ data }: { data: HeroData }) {
 
           <motion.div
             variants={reveal}
-            transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut", delay: reduceMotion ? 0 : 0.08 }}
+            transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut", delay: reduceMotion ? 0 : 0.05 }}
             className="hidden lg:col-span-6 lg:block"
           >
             <div className="relative overflow-hidden rounded-[1.35rem] border border-[color:var(--color-glass-border)] bg-[color:var(--color-glass-bg)] p-2 backdrop-blur-sm">

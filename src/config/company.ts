@@ -1,25 +1,4 @@
 // src/config/company.ts
-export type Hub = {
-  name: string;
-  location: string;
-};
-
-export type CoverageRegion = {
-  id: string;
-  label: string;
-  description: string;
-};
-
-export type OperationalHub = {
-  region: string;
-  description?: string;
-};
-
-export type YardLocation = {
-  city: string;
-  region: string; // "ON", "QC", "TX", "CA", "FL", "MX" etc.
-  label: string; // "Milton, ON" for display
-};
 
 export type OurCompanyRegion = "CA" | "US";
 
@@ -82,7 +61,7 @@ export const companyAbout = {
     visionLabel: "Vision",
     visionTitle: "The partner enterprises benchmark against.",
     vision:
-      "To set the standard for reliable, audit-ready freight execution across North America—recognized for consistency, control, and performance when freight is business-critical.",
+      "To set the standard for reliable, audit-ready freight execution across North America\u2014recognized for consistency, control, and performance when freight is business-critical.",
     valuesTitle: "What we hold ourselves to.",
     valuesSubtitle: "Four principles shape every decision, every lane, every day.",
     principles: [
@@ -92,7 +71,7 @@ export const companyAbout = {
       },
       {
         title: "Compliance by design",
-        body: "Safety, documentation, and regulatory standards are built into workflow—not handled after the fact.",
+        body: "Safety, documentation, and regulatory standards are built into workflow\u2014not handled after the fact.",
       },
       {
         title: "Communication without ambiguity",
@@ -121,7 +100,7 @@ export const companyAbout = {
         number: "02",
         title: "Dispatch",
         tag: "Go-live",
-        body: "A load moves only when assignment, instructions, and paperwork match the agreed execution plan—not on availability alone.",
+        body: "A load moves only when assignment, instructions, and paperwork match the agreed execution plan\u2014not on availability alone.",
       },
       {
         number: "03",
@@ -133,7 +112,7 @@ export const companyAbout = {
         number: "04",
         title: "Close",
         tag: "Settlement",
-        body: "Proof, documents, and handoff are finished on schedule—to a standard that holds up under customer and internal review.",
+        body: "Proof, documents, and handoff are finished on schedule\u2014to a standard that holds up under customer and internal review.",
       },
     ],
   },
@@ -156,7 +135,7 @@ export const companyAbout = {
       {
         name: "SSP Trucklines Inc.",
         description:
-          "U.S. freight execution with direct linkage into the wider SSP network—built for cross-border lanes and corridor-level accountability.",
+          "U.S. freight execution with direct linkage into the wider SSP network\u2014built for cross-border lanes and corridor-level accountability.",
         region: "US",
         address: "9505 FM 1472, Laredo, TX 78045",
         logoSrc: "/_optimized/brand/SSPlogo.png",
@@ -174,7 +153,7 @@ export const companyAbout = {
       {
         name: "Web Freight Inc.",
         description:
-          "Coordinated dispatch, milestone visibility, and multimodal options for North American freight—technology in service of execution, not noise.",
+          "Coordinated dispatch, milestone visibility, and multimodal options for North American freight\u2014technology in service of execution, not noise.",
         region: "CA",
         address: "16 Mediterranean Cres, Brampton, ON L6Y 0T4",
         logoSrc: "/_optimized/company/logos/WebLogog.png",
@@ -183,7 +162,7 @@ export const companyAbout = {
       {
         name: "New England Steel Haulers Inc.",
         description:
-          "Securement-led hauling for steel and heavy commodities—loads where specification, routing, and documentation cannot be improvised.",
+          "Securement-led hauling for steel and heavy commodities\u2014loads where specification, routing, and documentation cannot be improvised.",
         region: "CA",
         address: "876 Challinor Terr., Milton, ON L9T 7V6",
         logoSrc: "/_optimized/company/logos/NewEnglandLogo.png",
@@ -191,83 +170,8 @@ export const companyAbout = {
       },
     ] satisfies OurCompanyEntry[],
   },
-
-  locationsNetwork: {
-    sectionLabel: "Locations & Network",
-    title: "Where we operate.",
-    supportingLine:
-      "Integrated operations and a single point of accountability across Canada, the United States, and Mexico.",
-    heroStat: "07",
-    heroStatLabel: "North American Offices",
-    metrics: [
-      { value: "One", label: "Accountable Partner" },
-      { value: "3", label: "Countries Covered" },
-    ],
-    capabilitiesHeading: "What you get",
-    capabilities: [
-      "Single team across Canada, U.S. and Mexico",
-      "Customs and compliance handled for you",
-      "Real-time visibility when you need it",
-      "Dedicated capacity, not broker spot",
-      "Audit-ready documentation",
-      "Single invoice, single accountability",
-    ],
-    mapImage: "/_optimized/company/locationMaps.webp",
-    countries: [
-      { name: "Canada", yards: ["Milton, ON", "Montreal, QC"] },
-      { name: "United States", yards: ["Laredo, TX", "Houston, TX", "Livermore, CA", "Miami, FL"] },
-      { name: "Mexico", yards: ["Monterrey, MX"] },
-    ],
-    yards: [
-      { city: "Milton", region: "ON", label: "Milton, ON" },
-      { city: "Montreal", region: "QC", label: "Montreal, QC" },
-      { city: "Laredo", region: "TX", label: "Laredo, TX" },
-      { city: "Monterrey", region: "MX", label: "Monterrey, MX" },
-      { city: "Houston", region: "TX", label: "Houston, TX" },
-      { city: "Livermore", region: "CA", label: "Livermore, CA" },
-      { city: "Miami", region: "FL", label: "Miami, FL" },
-    ] satisfies YardLocation[],
-  },
-
-  finalCta: {
-    kicker: "Let's execute",
-    title: "Let’s move your freight with discipline.",
-    body: "Talk to our team about your lanes, requirements, and service constraints. We’ll align capacity, compliance, and execution control with your operation.",
-    trustSignals: [
-      "Execution discipline and repeatable processes",
-      "Compliance-first posture",
-      "Single team, single accountability",
-    ],
-    proof: [
-      { value: "≤ 15 min", label: "Initial response target" },
-      { value: "24/7", label: "Operations coverage" },
-      { value: "CA–US–MX", label: "Lane execution scope" },
-    ],
-    microCopy:
-      "Prefer a quick call? We'll align on lanes, service levels, and launch timing in minutes.",
-    ctas: {
-      primary: {
-        label: "Request a Quote",
-        href: "/quote",
-        ctaId: "about_final_request_a_quote",
-      },
-      secondary: {
-        label: "Speak with a live agent",
-        href: "#live-chat",
-        ctaId: "about_final_speak_live_agent",
-      },
-    },
-  },
 } as const;
 
-/** Content model for Mission / Vision / Values (About SSP + shared about page). */
 export type MissionVisionContent = (typeof companyAbout)["missionVision"];
-
-/** Operating companies strip on About. */
 export type OurCompaniesContent = (typeof companyAbout)["ourCompanies"];
-
-/** Operating model + infrastructure narrative (About). */
 export type OperatingModelContent = (typeof companyAbout)["operatingModel"];
-
-/** Coverage & Network section on About. */
-export type LocationsNetworkContent = (typeof companyAbout)["locationsNetwork"];

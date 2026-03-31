@@ -18,11 +18,11 @@ export function AboutSspMissionValuesSection({ data }: { data: MissionVisionCont
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.04 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   return (
     <section
@@ -47,23 +47,23 @@ export function AboutSspMissionValuesSection({ data }: { data: MissionVisionCont
           className="max-w-3xl"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.25 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={stagger}
         >
-          <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}>
+          <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}>
             <SectionSignalEyebrow label={data.sectionLabel} light />
           </motion.div>
           <motion.h2
             id="about-mvv-heading"
             variants={revealUp}
-            transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+            transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
             className="mt-4 text-3xl leading-tight font-bold tracking-tight text-white text-pretty sm:text-4xl lg:text-[2.75rem]"
           >
             {data.sectionTitle}
           </motion.h2>
           <motion.p
             variants={revealUp}
-            transition={{ duration: reduceMotion ? 0 : 0.42, ease: "easeOut" }}
+            transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
             className="mt-3 max-w-3xl text-[15px] leading-8 text-white/76"
           >
             {data.sectionSubtitle}
@@ -80,7 +80,7 @@ export function AboutSspMissionValuesSection({ data }: { data: MissionVisionCont
         >
           <motion.article
             variants={revealUp}
-            transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+            transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
             className={cn(
               CARD_BASE,
               "flex flex-col border border-white/14 bg-[linear-gradient(145deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))] shadow-[var(--shadow-glass-card)] lg:col-span-7",
@@ -97,7 +97,7 @@ export function AboutSspMissionValuesSection({ data }: { data: MissionVisionCont
 
           <motion.article
             variants={revealUp}
-            transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+            transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
             className={cn(
               CARD_BASE,
               "flex flex-col border border-white/30 bg-white shadow-[0_20px_44px_rgba(2,6,23,0.28)] lg:col-span-5",
@@ -129,7 +129,7 @@ export function AboutSspMissionValuesSection({ data }: { data: MissionVisionCont
         >
           <motion.div
             variants={revealUp}
-            transition={{ duration: reduceMotion ? 0 : 0.42, ease: "easeOut" }}
+            transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
             className="col-span-full mb-10 max-w-3xl sm:mb-12 lg:col-span-4 lg:mb-14"
           >
             <h3
