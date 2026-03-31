@@ -109,7 +109,7 @@ function scrollToHomeTop(behavior: ScrollBehavior) {
 export function SolutionsHashScroll() {
   const pathname = usePathname();
 
-  // Same-page hash and initial load: scroll to hash target (homepage #solutions/#industries, about #locations-network/#safety-compliance, etc.)
+  // Same-page hash and initial load: scroll to hash target (homepage #solutions/#industries, about #locations-network, etc.)
   React.useEffect(() => {
     const handleHashRoute = (behavior: ScrollBehavior) => {
       const targetId = getHashTargetId(window.location.hash);

@@ -3,7 +3,6 @@
 import { FaqHero } from "./FaqHero";
 import { FaqMain } from "./FaqMain";
 import { FaqSubnav } from "./FaqSubnav";
-import { ShippingGuidesSection } from "./ShippingGuidesSection";
 
 export function FaqPageContent() {
   return (
@@ -11,7 +10,6 @@ export function FaqPageContent() {
       <FaqHero />
       <FaqSubnav />
       <FaqMain />
-      <ShippingGuidesSection />
     </>
   );
 }

@@ -7,10 +7,13 @@ const imageDomains =
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: imageDomains.map((hostname) => ({
-      protocol: "https",
-      hostname,
-    })),
+    remotePatterns: [
+      ...imageDomains.map((hostname) => ({
+        protocol: "https" as const,
+        hostname,
+      })),
+      { protocol: "https" as const, hostname: "img.youtube.com" },
+    ],
     qualities: [70, 74, 75, 84, 90],
   },
 
@@ -19,6 +22,31 @@ const nextConfig: NextConfig = {
       {
         source: "/who-we-are",
         destination: "/about-us",
+        permanent: true,
+      },
+      {
+        source: "/company/about-ssp",
+        destination: "/about-us",
+        permanent: true,
+      },
+      {
+        source: "/about-us/faqs",
+        destination: "/company/faqs",
+        permanent: true,
+      },
+      {
+        source: "/company/mission-vision-values",
+        destination: "/about-us#mission-vision-values",
+        permanent: true,
+      },
+      {
+        source: "/company/coverage-network",
+        destination: "/about-us#coverage-network",
+        permanent: true,
+      },
+      {
+        source: "/company/our-companies",
+        destination: "/about-us#our-companies",
         permanent: true,
       },
 
@@ -38,9 +66,6 @@ const nextConfig: NextConfig = {
         destination: "/services/cross-border",
         permanent: true,
       },
-
-      // Optional: support old singular prefix generally if you know exact mappings later
-      // Add more one-by-one as you discover them in Google/Search Console.
     ];
   },
 };

@@ -21,39 +21,47 @@ export type YardLocation = {
   label: string; // "Milton, ON" for display
 };
 
+export type OurCompanyRegion = "CA" | "US";
+
+export type OurCompanyEntry = {
+  name: string;
+  description: string;
+  region: OurCompanyRegion;
+  address?: string;
+  logoSrc: string;
+  website: string | null;
+};
+
 export const companyAbout = {
   hero: {
-    title: "Built on Discipline. Trusted for Execution.",
+    title: "Built for Control. Trusted for Execution.",
     description:
-      "NPT Logistics supports shippers across Canada and the U.S. with compliance-first execution, accountable communication, and lane-level control from dispatch through POD.",
+      "SSP Group delivers disciplined, asset-based freight execution across Canada, the United States, and Mexico through compliance-first operations, accountable communication, and lane-level control.",
     ctas: {
       primary: {
-        label: "Contact Us",
-        href: "/contact",
-        ctaId: "about_hero_contact_us",
-      },
-      secondary: {
         label: "Explore Our Story",
         href: "#who-we-are",
         ctaId: "about_hero_explore_our_story",
+      },
+      secondary: {
+        label: "Contact Us",
+        href: "/contact",
+        ctaId: "about_hero_contact_us",
       },
     },
   },
 
   whoWeAre: {
-    title: "Who we are",
-    subtitle: "The standard other carriers aim for.",
+    title: "Who We Are",
+    subtitle: "Operational depth your supply chain can depend on.",
     body: [
-      "NPT Logistics helps enterprise shippers execute with",
-      "discipline, from lane planning through final POD.",
-      "Every move follows accountable standards and",
-      "proactive visibility. We protect service",
-      "levels and scale with confidence.",
+      "From an asset-based foundation built over a decade, SSP Group has matured into a cross-border logistics partner trusted for disciplined execution.",
+      "We run with clear operating ownership across planning, dispatch, in-transit control, and closeout so enterprise teams get consistency, visibility, and accountable outcomes.",
     ],
     stats: [
-      { value: "10", label: "Years Experience" },
-      { value: "250K+", label: "Loads moved" },
-      { value: "98%", label: "On-time delivery" },
+      { value: "10+", label: "Years Operating" },
+      { value: "3", label: "Countries Covered" },
+      { value: "24/7", label: "Operational Coverage" },
     ],
     cta: {
       label: "Explore Careers",
@@ -63,117 +71,125 @@ export const companyAbout = {
   },
 
   missionVision: {
-    sectionTitle: "Operated by principle.",
+    sectionLabel: "Mission, Vision & Core Values",
+    sectionTitle: "Built on operating discipline.",
     sectionSubtitle:
-      "Every load we move is governed by non-negotiable operating standards. This is how we think, how we build, and how we earn trust that compounds.",
+      "Growth expands reach. Standards sustain trust. These principles govern how SSP plans, executes, communicates, and closes every shipment across North America.",
     missionLabel: "Mission",
-    missionTitle: "Execution is the product.",
+    missionTitle: "Execution is the standard.",
     mission:
-      "We exist to move freight the right way—every load dispatched on plan, tracked with full accountability, and closed with documented integrity. Not as a goal. As a daily operating standard. Our shippers don't manage us. They trust us to manage it.",
+      "To deliver freight with disciplined planning, controlled execution, and accountable communication from dispatch through closeout. Every load is run to a defined service standard so customers get consistency, visibility, and confidence.",
     visionLabel: "Vision",
-    visionTitle: "The carrier others are measured by.",
+    visionTitle: "The partner enterprises benchmark against.",
     vision:
-      "To be the logistics partner that enterprise shippers benchmark their entire network against—recognized not for our size, but for the quality, consistency, and auditability of every lane we own. When the freight matters, NPT is the answer.",
+      "To set the standard for reliable, audit-ready freight execution across North America—recognized for consistency, control, and performance when freight is business-critical.",
     valuesTitle: "What we hold ourselves to.",
-    valuesSubtitle: "Four operating principles. Non-negotiable. Built into every move.",
+    valuesSubtitle: "Four principles shape every decision, every lane, every day.",
     principles: [
       {
-        title: "Control eliminates chaos",
-        body: "We engineer lanes before we move them. Appointments are confirmed, risks identified, and contingencies in place before the first wheel turns. Preparation is not overhead—it is the service.",
+        title: "Control before movement",
+        body: "We engineer the lane before dispatch. Appointments, constraints, and contingencies are resolved early so execution stays stable in transit.",
       },
       {
-        title: "Compliance is non-negotiable",
-        body: "Safety and regulatory standards are embedded into every move—not audited after the fact. We operate as if every load is under review, because the right operation has nothing to hide.",
+        title: "Compliance by design",
+        body: "Safety, documentation, and regulatory standards are built into workflow—not handled after the fact.",
       },
       {
-        title: "Communication is a discipline",
-        body: "Proactive updates, documented exceptions, and structured escalation paths. Our shippers never wonder where their freight is. Silence is not an option when freight is moving.",
+        title: "Communication without ambiguity",
+        body: "Milestones, exceptions, and next steps are communicated clearly and on time. Customers never chase status.",
       },
       {
-        title: "Performance must be provable",
-        body: "We track what matters, report it consistently, and use the data to raise the bar. Results are documented. Accountability is not a value statement—it is a workflow.",
+        title: "Performance you can verify",
+        body: "Results are measured, documented, and reviewed. Accountability is operational, not aspirational.",
       },
     ],
   },
 
   operatingModel: {
-    title: "How every load moves.",
-    subtitle: "Six steps. No variance. Every time.",
-    supportingLine: "A repeatable six-step sequence, executed without variance.",
     sectionLabel: "Operating Model",
-    steps: [
+    title: "How every load moves.",
+    subtitle:
+      "One sequence governs every shipment: qualify before movement, release only when assignment and documentation align, govern the lane while freight is live, close with proof on cadence. Structure is the default—not added after the fact.",
+    stages: [
       {
         number: "01",
-        title: "Engineer the lane.",
-        body: "Pickup windows, constraints, and risk points resolved before dispatch — not discovered in transit.",
-        tag: "Pre-Dispatch",
+        title: "Plan",
+        tag: "Pre-movement",
+        body: "Lane qualification, equipment fit, appointments, and requirement checks are settled before capacity is committed.",
       },
       {
         number: "02",
-        title: "Match the right capacity.",
-        body: "Asset or brokerage selected on service fit, equipment type, and carrier history. Not just availability.",
-        tag: "Capacity",
+        title: "Dispatch",
+        tag: "Go-live",
+        body: "A load moves only when assignment, instructions, and paperwork match the agreed execution plan—not on availability alone.",
       },
       {
         number: "03",
-        title: "Control the dispatch.",
-        body: "Confirmed appointments, documented instructions, and check-in structure in place before origin.",
-        tag: "Dispatch",
+        title: "Monitor",
+        tag: "In transit",
+        body: "Milestones, deviations, and next actions are owned in-channel; control stays continuous from pickup through delivery.",
       },
       {
         number: "04",
-        title: "Track with intent.",
-        body: "Milestone-based monitoring, not passive GPS. Deviation triggers escalation before it becomes a problem.",
-        tag: "In-Transit",
-      },
-      {
-        number: "05",
-        title: "Manage exceptions.",
-        body: "Root cause, corrective action, revised ETA — documented and communicated. No scrambling. No silence.",
-        tag: "Exceptions",
-      },
-      {
-        number: "06",
-        title: "Close clean.",
-        body: "POD collected, documents verified, settlement closed on a defined timeline. Every load, provable.",
-        tag: "Closeout",
+        title: "Close",
+        tag: "Settlement",
+        body: "Proof, documents, and handoff are finished on schedule—to a standard that holds up under customer and internal review.",
       },
     ],
   },
 
-  safetyCompliance: {
-    sectionLabel: "Safety & Compliance",
-    title: "Non-negotiable. Every load.",
-    subtitle: "Disciplined standards. Documented accountability.",
-    body: "We meet the rules, every time. From carrier vetting to documentation, we build trust through consistent compliance so you have one accountable partner.",
-    heroImage: "/_optimized/company/safety_compliance2.webp",
-    snapshot: {
-      value: "Every load.",
-      label: "Meets the standard.",
-      supportingText:
-        "Carrier credentials, insurance, and documentation are verified before dispatch. We follow the regulations so you can trust the outcome.",
-    },
-    policyCards: [
+  ourCompanies: {
+    sectionLabel: "Our companies",
+    title: "Operating companies. One standard.",
+    subtitle:
+      "Canadian and U.S. brands with defined roles in our network—held to the same compliance, documentation, and execution bar on cross-border freight.",
+    companies: [
       {
-        title: "Zero tolerance compliance",
-        body: "No load moves without verified carrier, current insurance, and full documentation. We close risk at dispatch.",
+        name: "SSP Truckline Inc.",
+        description:
+          "Asset-based Canadian trucking: specialized equipment, disciplined dispatch, and audit-ready documentation under SSP operating rules.",
+        region: "CA",
+        address: "8401 5 Side Rd, Halton Hills (Milton), ON L9T 2Y7",
+        logoSrc: "/_optimized/brand/SSPlogo.png",
+        website: "https://www.ssptruckline.ca/",
       },
       {
-        title: "Real time visibility",
-        body: "Tracking and status from pickup to delivery. You always know where things stand.",
+        name: "SSP Trucklines Inc.",
+        description:
+          "U.S. freight execution with direct linkage into the wider SSP network—built for cross-border lanes and corridor-level accountability.",
+        region: "US",
+        address: "9505 FM 1472, Laredo, TX 78045",
+        logoSrc: "/_optimized/brand/SSPlogo.png",
+        website: "https://sspgroup.com/",
       },
-    ],
-    howWeStayAboveStandardHeading: "How we stay above standard",
-    howWeStayAboveStandard: [
-      "Carrier vetting before dispatch",
-      "Safety score monitoring",
-      "Audit ready documentation",
-    ],
-    certificationsHeading: "Certifications & Partners",
-    certificationsSubline:
-      "Verified credentials and partner programs that reinforce secure, compliant execution.",
-    certificationsTagline:
-      "Strategic alliances with industry-leading programs and partners strengthen our capabilities and support consistent execution across North America.",
+      {
+        name: "FellowsTrans Inc.",
+        description:
+          "Ontario freight operations that add capacity and lane depth alongside SSP Truckline for programs that need redundant execution.",
+        region: "CA",
+        address: "2-8175 Lawson Road, Milton, ON L9T 5E5",
+        logoSrc: "/_optimized/company/logos/FellowLogo.png",
+        website: null,
+      },
+      {
+        name: "Web Freight Inc.",
+        description:
+          "Coordinated dispatch, milestone visibility, and multimodal options for North American freight—technology in service of execution, not noise.",
+        region: "CA",
+        address: "16 Mediterranean Cres, Brampton, ON L6Y 0T4",
+        logoSrc: "/_optimized/company/logos/WebLogog.png",
+        website: "https://webfreight.ca/",
+      },
+      {
+        name: "New England Steel Haulers Inc.",
+        description:
+          "Securement-led hauling for steel and heavy commodities—loads where specification, routing, and documentation cannot be improvised.",
+        region: "CA",
+        address: "876 Challinor Terr., Milton, ON L9T 7V6",
+        logoSrc: "/_optimized/company/logos/NewEnglandLogo.png",
+        website: null,
+      },
+    ] satisfies OurCompanyEntry[],
   },
 
   locationsNetwork: {
@@ -243,3 +259,15 @@ export const companyAbout = {
     },
   },
 } as const;
+
+/** Content model for Mission / Vision / Values (About SSP + shared about page). */
+export type MissionVisionContent = (typeof companyAbout)["missionVision"];
+
+/** Operating companies strip on About. */
+export type OurCompaniesContent = (typeof companyAbout)["ourCompanies"];
+
+/** Operating model + infrastructure narrative (About). */
+export type OperatingModelContent = (typeof companyAbout)["operatingModel"];
+
+/** Coverage & Network section on About. */
+export type LocationsNetworkContent = (typeof companyAbout)["locationsNetwork"];

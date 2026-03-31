@@ -7,23 +7,22 @@ import { LinkButton } from "./_shared";
 export default function CompanyWidget({ actionProvider }: WidgetComponentProps) {
   return (
     <div className="flex flex-wrap gap-2">
-      <LinkButton onClick={() => actionProvider.goToFromNav("About NPT", "/company/about")}>
-        About NPT
+      <LinkButton onClick={() => actionProvider.goToFromNav("About SSP Group", "/about-us")}>
+        About SSP Group
       </LinkButton>
 
       <LinkButton
-        onClick={() => actionProvider.goToFromNav("Locations & Network", "/company/locations")}
+        onClick={() =>
+          actionProvider.goToFromNav(
+            "Coverage Network",
+            "/about-us#coverage-network",
+          )
+        }
       >
-        Locations & Network
+        Coverage Network
       </LinkButton>
 
-      <LinkButton
-        onClick={() => actionProvider.goToFromNav("Safety & Compliance", "/company/safety")}
-      >
-        Safety & Compliance
-      </LinkButton>
-
-      <LinkButton onClick={() => actionProvider.goToFromNav("Blog / Insights", "/blog")}>
+      <LinkButton onClick={() => actionProvider.goToFromNav("Blog / Insights", "/insights")}>
         Blog / Insights
       </LinkButton>
 

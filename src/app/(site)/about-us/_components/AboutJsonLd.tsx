@@ -12,12 +12,12 @@ const jsonLd = [
     telephone: COMPANY_CONTACT.phoneE164,
     areaServed: ["Canada", "United States", "Mexico"],
     description:
-      "NPT Logistics provides disciplined freight execution across Canada, the United States, and Mexico with a compliance-first operating model.",
+      "SSP Group provides disciplined freight execution across Canada, the United States, and Mexico with a compliance-first operating model.",
   },
   {
     "@context": "https://schema.org",
     "@type": "AboutPage",
-    name: "About NPT Logistics",
+    name: "About SSP Group",
     url: toAbsoluteUrl("/about-us"),
     isPartOf: {
       "@type": "WebSite",
@@ -32,7 +32,7 @@ const jsonLd = [
       url: SITE_URL,
     },
     description:
-      "About NPT Logistics, our operating model, compliance standards, network coverage, and service philosophy.",
+      "About SSP Group: operating standards, compliance, network coverage, and service philosophy.",
   },
   {
     "@context": "https://schema.org",

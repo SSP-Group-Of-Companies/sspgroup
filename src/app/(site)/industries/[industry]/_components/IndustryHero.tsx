@@ -809,7 +809,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
             initial="hidden"
             animate="show"
             variants={stagger}
-            className="mx-auto mt-9 grid max-w-4xl gap-3 md:grid-cols-3"
+            className="mx-auto mt-9 hidden max-w-4xl gap-3 md:grid md:grid-cols-3"
           >
             {proofStrip.map((item) => (
               <motion.div

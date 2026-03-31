@@ -1,5 +1,5 @@
 // src/lib/chatbot/knowledgeBase.ts
-import { FAQ_CATEGORIES, SHIPPING_GUIDES, FAQ_FINAL_CTA } from "@/config/faqs";
+import { FAQ_CATEGORIES, FAQ_FINAL_CTA } from "@/config/faqs";
 import { NEXT_PUBLIC_SSP_CS_EMAIL, NEXT_PUBLIC_SSP_PHONE } from "@/config/env";
 import type { BotIntentId, FlatFaqItem, QuickReply } from "./chatbot.types";
 
@@ -27,7 +27,7 @@ function uniqueWords(parts: readonly string[]) {
 }
 
 export const CONTACT_INFO = {
-  email: NEXT_PUBLIC_SSP_CS_EMAIL || "cs@nptlogistics.com",
+  email: NEXT_PUBLIC_SSP_CS_EMAIL || "cs@sspgroup.com",
   phone: NEXT_PUBLIC_SSP_PHONE || "+1 (281) 607-0001",
 } as const;
 
@@ -50,13 +50,6 @@ export const FAQ: readonly FlatFaqItem[] = FAQ_CATEGORIES.flatMap((category) =>
   })),
 );
 
-export const SHIPPING_GUIDE_KEYWORDS = SHIPPING_GUIDES.map((guide) => ({
-  id: guide.id,
-  title: guide.title,
-  description: guide.description,
-  tags: uniqueWords([guide.title, guide.description, ...guide.points]),
-}));
-
 export const START_REPLIES: readonly QuickReply[] = [
   { label: "Request a quote", intent: "GET_QUOTE" },
   { label: "Track a shipment", intent: "TRACKING" },
@@ -64,7 +57,7 @@ export const START_REPLIES: readonly QuickReply[] = [
   { label: "FAQs", intent: "RESOURCES_FAQS" },
   { label: "Shipping guides", intent: "RESOURCES_GUIDES" },
   { label: "Company info", intent: "COMPANY" },
-  { label: "Careers at NPT", intent: "CAREERS" },
+  { label: "Careers at SSP Group", intent: "CAREERS" },
   { label: "Contact support", intent: "HUMAN_CONTACT" },
 ] as const satisfies readonly QuickReply[];
 
@@ -73,8 +66,8 @@ export const INTENT_LABELS: Readonly<Record<BotIntentId, string>> = {
   TRACKING: "Track a shipment",
   SOLUTIONS: "Explore solutions",
   INDUSTRIES: "Industries we serve",
-  CAREERS: "Careers at NPT",
-  WHY_NPT: "Why choose NPT",
+  CAREERS: "Careers at SSP Group",
+  WHY_NPT: "Why choose SSP Group",
   COMPANY: "Company info",
   RESOURCES_GUIDES: "Shipping guides",
   RESOURCES_FAQS: "FAQs",

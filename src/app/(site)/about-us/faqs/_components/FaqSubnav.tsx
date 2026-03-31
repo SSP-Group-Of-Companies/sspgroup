@@ -9,7 +9,6 @@ import { FAQ_SUBNAV_TOP_PX } from "../_constants";
 
 const CATEGORY_META: Record<string, { code: string; hint: string }> = {
   services: { code: "SRV", hint: "Modes, quotes, coverage" },
-  "safety-compliance": { code: "SFT", hint: "Carrier vetting, hazmat, docs" },
   "tracking-operations": { code: "TRK", hint: "Tracking, updates, visibility" },
   "billing-partners": { code: "BLG", hint: "Invoicing, partners, claims" },
 };

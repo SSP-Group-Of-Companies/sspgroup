@@ -10,7 +10,7 @@ export type HeaderDropdownKey = (typeof HEADER_PRIMARY_DROPDOWNS)[number];
 export const HEADER_HUB_ROUTES: Record<HeaderDropdownKey, string> = {
   solutions: "/solutions",
   industries: "/industries",
-  company: "/company",
+  company: "/about-us",
   careers: "/careers",
 };
 
