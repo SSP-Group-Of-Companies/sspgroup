@@ -477,7 +477,7 @@ export default function BlogIndexClient({
         variant="light"
         className="relative overflow-hidden"
         style={{
-          backgroundColor: "var(--audience-bg)",
+          backgroundColor: "var(--color-audience-bg)",
           scrollMarginTop: SECTION_SCROLL_MARGIN_TOP,
         }}
       >

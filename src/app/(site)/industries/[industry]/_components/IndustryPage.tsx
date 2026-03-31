@@ -1,5 +1,3 @@
-"use client";
-
 import type { IndustryPageModel } from "@/config/industryPages";
 import { IndustryJsonLd } from "./IndustryJsonLd";
 import { IndustryHero } from "./IndustryHero";

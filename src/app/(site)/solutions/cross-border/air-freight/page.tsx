@@ -202,8 +202,8 @@ export default function CrossBorderAirFreightPage() {
         title="Need it there fast? Let's move it."
         description="Share your shipment details, delivery deadline, and origin/destination. SSP will identify the fastest available option and coordinate the full door-to-door execution."
         pills={["Next-flight-out available", "Customs pre-clearance", "Asset-backed ground legs", "Temperature & hazmat capable"]}
-        primaryCta={{ label: "Request an Air Freight Quote", href: "/quote" }}
-        secondaryCta={{ label: "Contact SSP Group", href: "/contact" }}
+        primaryCta={{ label: "Request an Air Freight Quote", href: "/quote", ctaId: "cb_air_freight_final_quote" }}
+        secondaryCta={{ label: "Contact SSP Group", href: "/contact", ctaId: "cb_air_freight_final_contact" }}
       />
     </>
   );

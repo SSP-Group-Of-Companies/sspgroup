@@ -147,7 +147,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "cross_border_canada_us",
         label: "Canada ↔ USA Cross-Border",
-        href: "/services/cross-border#section-canada-us",
+        href: "/solutions/cross-border/canada-usa",
         description: "Seamless cross-border shipping between Canada and USA.",
         icon: "globe",
         bestFor: "North American trade",
@@ -156,7 +156,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "cross_border_mexico",
         label: "Mexico Cross-Border",
-        href: "/services/cross-border#section-mexico-cross-border",
+        href: "/solutions/cross-border/mexico",
         description: "Reliable Mexico cross-border logistics.",
         icon: "globe",
         bestFor: "Mexico trade lanes",
@@ -165,7 +165,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "ocean_freight",
         label: "Ocean Freight",
-        href: "/services/cross-border#section-ocean-freight",
+        href: "/solutions/cross-border/ocean-freight",
         description: "International ocean shipping solutions.",
         icon: "ship",
         bestFor: "International bulk shipping",
@@ -174,7 +174,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "air_freight",
         label: "Air Freight",
-        href: "/services/cross-border#section-air-freight",
+        href: "/solutions/cross-border/air-freight",
         description: "Fast international air cargo services.",
         icon: "plane",
         bestFor: "Urgent international delivery",

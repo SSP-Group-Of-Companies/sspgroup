@@ -17,8 +17,8 @@ import {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "NPT Logistics | Reliable Freight Solutions Across North America",
-    template: "%s | NPT Logistics",
+    default: "SSP Group | Reliable Freight Solutions Across North America",
+    template: "%s | SSP Group",
   },
   description: SITE_DEFAULT_DESCRIPTION,
   alternates: {
@@ -28,11 +28,11 @@ export const metadata: Metadata = {
     google: "D-dUnuwfGKaeF63Wazk_bFAucGVV2QX3HXLeBgzJb_s",
   },
 
-  applicationName: "NPT Logistics",
+  applicationName: "SSP Group",
   icons: {
     icon: [
       { url: "/_optimized/brand/favicon.png", type: "image/png" },
-      { url: "/_optimized/brand/nptLogo-glow.webp", type: "image/png" },
+      { url: "/_optimized/brand/SSPlogo.png", type: "image/png" },
     ],
     shortcut: ["/_optimized/brand/favicon.png"],
     apple: [{ url: "/_optimized/brand/favicon.png", type: "image/png" }],
@@ -53,9 +53,9 @@ export const metadata: Metadata = {
     "RGN trucking",
     "Freight shipping solutions",
   ],
-  authors: [{ name: "NPT Logistics" }],
-  creator: "NPT Logistics",
-  publisher: "NPT Logistics",
+  authors: [{ name: "SSP Group" }],
+  creator: "SSP Group",
+  publisher: "SSP Group",
   robots: {
     index: true,
     follow: true,
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
   },
   appleWebApp: {
     capable: true,
-    title: "NPT Logistics",
+    title: "SSP Group",
     statusBarStyle: "black-translucent",
   },
   openGraph: {

@@ -85,8 +85,8 @@ export function IndustryTrustProof({ model }: { model: IndustryPageModel }) {
   const fadeUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
     : {
-        hidden: { opacity: 0, y: 16 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
+        hidden: { opacity: 1, y: 10 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
       };
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }

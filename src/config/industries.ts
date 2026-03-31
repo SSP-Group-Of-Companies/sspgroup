@@ -114,7 +114,7 @@ export const INDUSTRY_SLIDES: IndustrySlide[] = [
     mobileSubtitle:
       "Controlled regulated-freight execution with stronger document and handling discipline.",
     href: "/industries/chemical-plastics",
-    image: "/_optimized/industries/Manufacturing.webp",
+    image: "/_optimized/industries/chemical-hero-premium-v1.png",
     accent: "slate",
   },
 ];

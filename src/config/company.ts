@@ -36,7 +36,7 @@ export const companyAbout = {
   hero: {
     title: "Built for Control. Trusted for Execution.",
     description:
-      "SSP Group delivers disciplined, asset-based freight execution across Canada, the United States, and Mexico through compliance-first operations, accountable communication, and lane-level control.",
+      "SSP Group runs asset-based freight across Canada, the United States, and Mexico with compliance-first governance, named operating ownership, and lane-level control from dispatch through closeout.",
     ctas: {
       primary: {
         label: "Explore Our Story",
@@ -53,10 +53,10 @@ export const companyAbout = {
 
   whoWeAre: {
     title: "Who We Are",
-    subtitle: "Operational depth your supply chain can depend on.",
+    subtitle: "Operational depth enterprise supply chains can trust.",
     body: [
-      "From an asset-based foundation built over a decade, SSP Group has matured into a cross-border logistics partner trusted for disciplined execution.",
-      "We run with clear operating ownership across planning, dispatch, in-transit control, and closeout so enterprise teams get consistency, visibility, and accountable outcomes.",
+      "Built on an asset-based foundation over the last decade, SSP Group has evolved into a cross-border logistics partner for shippers that require control, not improvisation.",
+      "Planning, dispatch, in-transit governance, and closeout all sit under clear operating ownership so teams get consistent execution, decision-ready visibility, and measurable accountability.",
     ],
     stats: [
       { value: "10+", label: "Years Operating" },
@@ -74,7 +74,7 @@ export const companyAbout = {
     sectionLabel: "Mission, Vision & Core Values",
     sectionTitle: "Built on operating discipline.",
     sectionSubtitle:
-      "Growth expands reach. Standards sustain trust. These principles govern how SSP plans, executes, communicates, and closes every shipment across North America.",
+      "Scale expands reach. Standards protect trust. These principles govern how SSP plans, executes, communicates, and closes every shipment across North America.",
     missionLabel: "Mission",
     missionTitle: "Execution is the standard.",
     mission:
@@ -109,7 +109,7 @@ export const companyAbout = {
     sectionLabel: "Operating Model",
     title: "How every load moves.",
     subtitle:
-      "One sequence governs every shipment: qualify before movement, release only when assignment and documentation align, govern the lane while freight is live, close with proof on cadence. Structure is the default—not added after the fact.",
+      "One sequence governs every shipment: qualify before movement, release only when assignment and documentation align, govern execution while freight is live, and close with proof on cadence. Structure is the default, not an afterthought.",
     stages: [
       {
         number: "01",
@@ -142,7 +142,7 @@ export const companyAbout = {
     sectionLabel: "Our companies",
     title: "Operating companies. One standard.",
     subtitle:
-      "Canadian and U.S. brands with defined roles in our network—held to the same compliance, documentation, and execution bar on cross-border freight.",
+      "Canadian and U.S. operating brands with defined roles in one network, all held to the same compliance, documentation, and execution standard on cross-border freight.",
     companies: [
       {
         name: "SSP Truckline Inc.",

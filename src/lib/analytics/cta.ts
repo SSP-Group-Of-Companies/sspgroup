@@ -66,7 +66,7 @@ export function trackCtaClick(payload: CtaClickPayload) {
     }
   }
 
-  window.dispatchEvent(new CustomEvent("npt:cta_click", { detail: eventPayload }));
+  window.dispatchEvent(new CustomEvent("ssp:cta_click", { detail: eventPayload }));
 }
 
 function normalizeDestination(value: string) {

@@ -202,8 +202,8 @@ export default function CrossBorderOceanFreightPage() {
         title="Let's structure your ocean freight program."
         description="Share your volume, origin ports, and inland delivery requirements. SSP will design a port-to-door execution plan with customs coordination and cross-border distribution built in."
         pills={["FCL & LCL programs", "Port-to-door governance", "Cross-border execution", "Heavy & oversized capability"]}
-        primaryCta={{ label: "Request an Ocean Freight Quote", href: "/quote" }}
-        secondaryCta={{ label: "Contact SSP Group", href: "/contact" }}
+        primaryCta={{ label: "Request an Ocean Freight Quote", href: "/quote", ctaId: "cb_ocean_freight_final_quote" }}
+        secondaryCta={{ label: "Contact SSP Group", href: "/contact", ctaId: "cb_ocean_freight_final_contact" }}
       />
     </>
   );

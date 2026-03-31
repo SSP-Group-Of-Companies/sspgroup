@@ -6,6 +6,7 @@ import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { trackCtaClick } from "@/lib/analytics/cta";
 import { Container } from "@/app/(site)/components/layout/Container";
 
 /* ── Shared types ────────────────────────────────────────────────────── */
@@ -13,7 +14,7 @@ import { Container } from "@/app/(site)/components/layout/Container";
 export type OceanCard = { readonly title: string; readonly body: string };
 export type OceanStep = { readonly step: string; readonly title: string; readonly body: string };
 export type OceanFaqItem = { readonly q: string; readonly a: string };
-export type CtaLink = { readonly label: string; readonly href: string };
+export type CtaLink = { readonly label: string; readonly href: string; readonly ctaId?: string };
 
 /* ── Ocean-themed eyebrow ────────────────────────────────────────────── */
 
@@ -65,15 +66,15 @@ function useAnimations() {
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.06 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   const reveal: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
   const cardStagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.03 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   return { reduceMotion, stagger, reveal, cardStagger };
 }
@@ -130,7 +131,7 @@ export function OceanHero({
 
             <motion.h1
               variants={reveal}
-              transition={{ duration: reduceMotion ? 0 : 0.48, ease: "easeOut" }}
+              transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
               className="mt-5 max-w-xl text-3xl leading-[1.15] font-semibold tracking-tight text-white sm:text-4xl md:text-[44px] md:leading-[1.14]"
             >
               {title}
@@ -166,9 +167,9 @@ export function OceanHero({
 
           {/* Desktop — globe + ship image */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
+            initial={{ opacity: 1, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: reduceMotion ? 0 : 0.65, ease: "easeOut", delay: 0.15 }}
+            transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut", delay: 0.1 }}
             className="relative hidden lg:flex lg:items-center lg:justify-center self-center mt-4"
           >
             <div
@@ -189,9 +190,9 @@ export function OceanHero({
 
         {/* Mobile — globe + ship image */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 1, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: reduceMotion ? 0 : 0.55, ease: "easeOut", delay: 0.2 }}
+          transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut", delay: 0.15 }}
           className="relative mt-8 flex justify-center lg:hidden"
         >
           <div className="relative max-w-[340px] sm:max-w-[400px]">
@@ -273,7 +274,7 @@ export function OceanCardSection({
             className="mx-auto max-w-3xl text-center"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.35 }}
+            viewport={{ once: true, amount: 0.15 }}
             variants={reveal}
             transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
           >
@@ -299,7 +300,7 @@ export function OceanCardSection({
             className="lg:col-span-4 lg:pr-6"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.35 }}
+            viewport={{ once: true, amount: 0.15 }}
             variants={reveal}
             transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
           >
@@ -343,7 +344,7 @@ export function OceanGlassSection({
           className="mx-auto max-w-3xl text-center"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={reveal}
           transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
         >
@@ -409,7 +410,7 @@ export function OceanStepsSection({
           className="mx-auto max-w-3xl text-center"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={reveal}
           transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
         >
@@ -483,7 +484,7 @@ export function OceanFaqSection({
             className="lg:col-span-4"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.35 }}
+            viewport={{ once: true, amount: 0.15 }}
             variants={reveal}
             transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
           >
@@ -609,7 +610,7 @@ export function OceanCtaSection({
           className="rounded-2xl border border-white/12 bg-white/[0.04] px-5 py-8 backdrop-blur-sm sm:px-8 sm:py-10 md:px-10"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={reveal}
           transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
         >
@@ -637,12 +638,30 @@ export function OceanCtaSection({
               <div className="mt-4 grid gap-3">
                 <Link
                   href={primaryCta.href}
+                  onClick={() =>
+                    primaryCta.ctaId &&
+                    trackCtaClick({
+                      ctaId: primaryCta.ctaId,
+                      location: "ocean_freight_final_cta",
+                      destination: primaryCta.href,
+                      label: primaryCta.label,
+                    })
+                  }
                   className={cn("inline-flex h-12 items-center justify-center rounded-lg bg-[color:var(--color-ocean-400)] px-5 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(45,139,201,0.35)] transition hover:bg-[color:var(--color-ocean-500)] hover:shadow-[0_10px_28px_rgba(45,139,201,0.45)]", focusRingDark)}
                 >
                   {primaryCta.label}
                 </Link>
                 <Link
                   href={secondaryCta.href}
+                  onClick={() =>
+                    secondaryCta.ctaId &&
+                    trackCtaClick({
+                      ctaId: secondaryCta.ctaId,
+                      location: "ocean_freight_final_cta",
+                      destination: secondaryCta.href,
+                      label: secondaryCta.label,
+                    })
+                  }
                   className={cn("inline-flex h-12 items-center justify-center rounded-lg border border-white/20 px-5 text-sm font-semibold text-white/85 transition hover:border-white/35 hover:bg-white/8", focusRingDark)}
                 >
                   {secondaryCta.label}

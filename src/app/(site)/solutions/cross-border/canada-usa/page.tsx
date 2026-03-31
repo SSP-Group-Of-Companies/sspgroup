@@ -209,8 +209,8 @@ export default function CanadaUsaPage() {
         title="Build a Canada–USA freight program with operational discipline."
         description="Share your lane requirements and service priorities. SSP will scope a structured program designed for your corridor."
         pills={["Lane-level onboarding", "CUSMA-aligned workflows", "Dedicated corridor team", "Bilateral broker coordination"]}
-        primaryCta={{ label: "Request a Corridor Assessment", href: "/quote" }}
-        secondaryCta={{ label: "Contact SSP Group", href: "/contact" }}
+        primaryCta={{ label: "Request a Corridor Assessment", href: "/quote", ctaId: "cb_canada_usa_final_quote" }}
+        secondaryCta={{ label: "Contact SSP Group", href: "/contact", ctaId: "cb_canada_usa_final_contact" }}
       />
     </>
   );

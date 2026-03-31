@@ -160,7 +160,7 @@ export const SERVICES: Record<ServiceKey, ServicePageModel> = {
       title: "North American Truckload Capacity | Asset-Backed & Managed | NPT Logistics",
       description:
         "Asset-backed and broker-integrated truckload solutions across CA–US–MX. 500+ fleet scale, secure trade compliance, and lane-level control from pickup through POD.",
-      ogImage: "/_optimized/brand/nptLogo-glow.webp",
+      ogImage: "/_optimized/brand/SSPlogo.png",
     },
 
     hero: {

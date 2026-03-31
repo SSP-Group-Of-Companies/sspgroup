@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
+import { trackCtaClick } from "@/lib/analytics/cta";
 import { cn } from "@/lib/cn";
 
 type WhoWeAreData = Readonly<{
@@ -124,6 +125,14 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
               <Link
                 href={data.cta.href}
                 data-cta-id={data.cta.ctaId}
+                onClick={() =>
+                  trackCtaClick({
+                    ctaId: data.cta.ctaId,
+                    location: "about_who_we_are",
+                    destination: data.cta.href,
+                    label: data.cta.label,
+                  })
+                }
                 className={cn(
                   "group inline-flex items-center gap-2 rounded-lg text-sm font-semibold text-[color:var(--color-menu-accent)] transition-colors hover:text-[color:var(--color-ssp-ink-800)]",
                   FOCUS_RING_DARK,

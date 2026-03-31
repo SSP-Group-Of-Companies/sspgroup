@@ -11,7 +11,7 @@ export function BlogPostJsonLd({ post, slug }: Props) {
     ? String(post.bannerImage.url).startsWith("http")
       ? String(post.bannerImage.url)
       : new URL(String(post.bannerImage.url), SITE_URL).toString()
-    : toAbsoluteUrl("/_optimized/brand/nptLogo-glow.webp");
+    : toAbsoluteUrl("/_optimized/brand/SSPlogo.png");
 
   const jsonLd = {
     "@context": "https://schema.org",

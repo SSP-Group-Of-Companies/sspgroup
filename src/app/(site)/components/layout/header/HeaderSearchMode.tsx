@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { trackCtaClick } from "@/lib/analytics/cta";
@@ -62,6 +62,7 @@ export function HeaderSearchMode({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const reduceMotion = useReducedMotion();
   const pathnameRef = React.useRef(pathname);
   const shellRef = React.useRef<HTMLDivElement | null>(null);
   const panelRef = React.useRef<HTMLDivElement | null>(null);
@@ -226,7 +227,7 @@ export function HeaderSearchMode({
             initial={{ clipPath: "inset(0 0 100% 0)" }}
             animate={{ clipPath: "inset(0 0 0% 0)" }}
             exit={{ clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: ROLLOUT_DURATION_S, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: reduceMotion ? 0 : ROLLOUT_DURATION_S, ease: [0.16, 1, 0.3, 1] }}
             className={cn(
               "fixed inset-x-0 z-[65] w-screen overflow-hidden border-x border-b",
               "border-[color:var(--color-menu-border)] bg-[color:var(--color-nav-bg)]",
@@ -239,7 +240,7 @@ export function HeaderSearchMode({
               initial={{ opacity: 0, y: -3 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -2 }}
-              transition={{ duration: CONTENT_FADE_DURATION_S, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: reduceMotion ? 0 : CONTENT_FADE_DURATION_S, delay: reduceMotion ? 0 : 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="mx-auto w-full max-w-[1520px]"
             >
               <div className="sr-only" aria-live="polite" aria-atomic="true">

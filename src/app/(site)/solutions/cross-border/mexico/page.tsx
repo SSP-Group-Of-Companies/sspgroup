@@ -207,8 +207,8 @@ export default function MexicoCrossBorderPage() {
         title="Build a Mexico freight program with security-grade operational discipline."
         description="Share your corridor requirements, commodity profile, and security priorities. SSP will scope a structured program designed for the U.S.–Mexico corridor."
         pills={["Pedimento-aligned workflows", "Border-zone coordination", "Security governance", "Bilateral compliance"]}
-        primaryCta={{ label: "Request a Corridor Assessment", href: "/quote" }}
-        secondaryCta={{ label: "Contact SSP Group", href: "/contact" }}
+        primaryCta={{ label: "Request a Corridor Assessment", href: "/quote", ctaId: "cb_mexico_final_quote" }}
+        secondaryCta={{ label: "Contact SSP Group", href: "/contact", ctaId: "cb_mexico_final_contact" }}
       />
     </>
   );

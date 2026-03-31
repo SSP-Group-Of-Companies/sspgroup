@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionEyebrow } from "@/app/(site)/components/ui/SectionEyebrow";
 import { cn } from "@/lib/cn";
+import { trackCtaClick } from "@/lib/analytics/cta";
 import type { IndustryPageModel } from "@/config/industryPages";
 import { THEME_ACCENT, THEME_BG, FOCUS_RING_DARK, getThemeOrbs } from "./industryTheme";
 
@@ -59,10 +60,10 @@ export function IndustryFinalCta({ model }: { model: IndustryPageModel }) {
       <Container className="site-page-container relative">
         <motion.div
           className="rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-8 backdrop-blur-sm sm:px-8 sm:py-10 md:px-10"
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+          initial={reduceMotion ? false : { opacity: 1, y: 10 }}
           whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.45, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
         >
           <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
             {/* Left column: content */}
@@ -161,6 +162,15 @@ export function IndustryFinalCta({ model }: { model: IndustryPageModel }) {
                 <div className="mt-5 grid gap-3">
                   <Link
                     href={data.ctas.primary.href}
+                    data-cta-id={data.ctas.primary.ctaId}
+                    onClick={() =>
+                      trackCtaClick({
+                        ctaId: data.ctas.primary.ctaId,
+                        location: `industry_${model.key}_final_cta`,
+                        destination: data.ctas.primary.href,
+                        label: data.ctas.primary.label,
+                      })
+                    }
                     className={cn(
                       "inline-flex h-12 w-full items-center justify-center rounded-lg px-5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-[1px] sm:w-auto",
                       FOCUS_RING_DARK,
@@ -175,18 +185,23 @@ export function IndustryFinalCta({ model }: { model: IndustryPageModel }) {
                   {data.ctas.secondary.action === "live-chat" ? (
                     <button
                       type="button"
-                      onClick={() =>
+                      onClick={() => {
+                        trackCtaClick({
+                          ctaId: data.ctas.secondary.ctaId,
+                          location: `industry_${model.key}_final_cta`,
+                          label: data.ctas.secondary.label,
+                        });
                         window.dispatchEvent(
                           new CustomEvent("ssp:open-live-chat"),
-                        )
-                      }
+                        );
+                      }}
                       className={cn(
                         "inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-white/15 px-5 text-sm font-semibold text-white/80 transition-all duration-200 hover:border-white/25 hover:bg-white/6 sm:w-auto",
                         FOCUS_RING_DARK,
                       )}
                     >
                       <span
-                        className="h-2 w-2 animate-pulse rounded-full bg-emerald-400"
+                        className="h-2 w-2 rounded-full bg-emerald-400 motion-safe:animate-pulse"
                         aria-hidden
                       />
                       {data.ctas.secondary.label}
@@ -194,6 +209,15 @@ export function IndustryFinalCta({ model }: { model: IndustryPageModel }) {
                   ) : (
                     <Link
                       href={data.ctas.secondary.href ?? "/contact"}
+                      data-cta-id={data.ctas.secondary.ctaId}
+                      onClick={() =>
+                        trackCtaClick({
+                          ctaId: data.ctas.secondary.ctaId,
+                          location: `industry_${model.key}_final_cta`,
+                          destination: data.ctas.secondary.href ?? "/contact",
+                          label: data.ctas.secondary.label,
+                        })
+                      }
                       className={cn(
                         "inline-flex h-12 w-full items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-white/80 transition-all duration-200 hover:border-white/25 hover:bg-white/6 sm:w-auto",
                         FOCUS_RING_DARK,

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
+import { trackCtaClick } from "@/lib/analytics/cta";
 import { cn } from "@/lib/cn";
 
 type HeroData = Readonly<{
@@ -146,6 +147,14 @@ export function AboutSspHero({ data }: { data: HeroData }) {
               <Link
                 href={data.ctas.primary.href}
                 data-cta-id={data.ctas.primary.ctaId}
+                onClick={() =>
+                  trackCtaClick({
+                    ctaId: data.ctas.primary.ctaId,
+                    location: "about_hero",
+                    destination: data.ctas.primary.href,
+                    label: data.ctas.primary.label,
+                  })
+                }
                 className={cn(
                   "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold transition-all duration-200 hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
                   "bg-[color:var(--color-brand-600)] text-white shadow-[var(--shadow-action-primary)]",
@@ -157,6 +166,14 @@ export function AboutSspHero({ data }: { data: HeroData }) {
               <Link
                 href={data.ctas.secondary.href}
                 data-cta-id={data.ctas.secondary.ctaId}
+                onClick={() =>
+                  trackCtaClick({
+                    ctaId: data.ctas.secondary.ctaId,
+                    location: "about_hero",
+                    destination: data.ctas.secondary.href,
+                    label: data.ctas.secondary.label,
+                  })
+                }
                 className={cn(
                   "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/22 bg-black/20 px-7 text-sm font-semibold text-white/92 backdrop-blur-sm transition-all duration-200 hover:border-white/35 hover:bg-black/28 hover:text-white sm:w-auto",
                   FOCUS_RING,

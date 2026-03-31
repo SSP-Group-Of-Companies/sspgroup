@@ -310,7 +310,7 @@ function CategorySection({
           "relative overflow-hidden border-t",
           isSpecializedThemeCategory
             ? "border-white/10 bg-[color:var(--color-footer-bg)]"
-            : "border-[color:var(--color-border-light)]/30 bg-[color:var(--audience-bg)]",
+            : "border-[color:var(--color-border-light)]/30 bg-[color:var(--color-audience-bg)]",
         )}
       >
         <div
@@ -395,7 +395,7 @@ function CategorySection({
             <h3
               className={cn(
                 SOLUTIONS_OVERVIEW_TOKENS.classes.categoryHeading,
-                isSpecializedThemeCategory ? "text-white" : "text-[color:var(--audience-text)]",
+                isSpecializedThemeCategory ? "text-white" : "text-[color:var(--color-audience-text)]",
               )}
             >
               {category}
@@ -403,7 +403,7 @@ function CategorySection({
             <p
               className={cn(
                 SOLUTIONS_OVERVIEW_TOKENS.classes.categoryDescription,
-                isSpecializedThemeCategory ? "text-white/75" : "text-[color:var(--audience-muted)]",
+                isSpecializedThemeCategory ? "text-white/75" : "text-[color:var(--color-audience-muted)]",
               )}
             >
               {data.description}

@@ -12,19 +12,19 @@ export const metadata: Metadata = {
     canonical: "/about-us/faqs",
   },
   openGraph: {
-    title: "FAQs & Shipping Guides | NPT Logistics",
+    title: "FAQs & Shipping Guides | SSP Group",
     description:
-      "Common questions about NPT Logistics services, compliance, and operations. Enterprise shipping guides and best practices.",
+      "Common questions about SSP Group services, compliance, and operations. Enterprise shipping guides and best practices.",
     type: "website",
     url: "/about-us/faqs",
-    images: ["/_optimized/brand/nptLogo-glow.webp"],
+    images: ["/_optimized/brand/SSPlogo.png"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "FAQs & Shipping Guides | NPT Logistics",
+    title: "FAQs & Shipping Guides | SSP Group",
     description:
-      "Common questions about NPT Logistics services, compliance, and operations. Enterprise shipping guides and best practices.",
-    images: ["/_optimized/brand/nptLogo-glow.webp"],
+      "Common questions about SSP Group services, compliance, and operations. Enterprise shipping guides and best practices.",
+    images: ["/_optimized/brand/SSPlogo.png"],
   },
 };
 

@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "NPT Logistics",
-    short_name: "NPT",
+    name: "SSP Group",
+    short_name: "SSP",
     description:
       "Reliable freight transportation across North America for complex, time-critical, and compliance-sensitive shipments.",
     start_url: "/",
@@ -21,7 +21,7 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: "any",
       },
       {
-        src: "/_optimized/brand/nptLogo-glow.webp",
+        src: "/_optimized/brand/SSPlogo.png",
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",

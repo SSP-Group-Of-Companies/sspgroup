@@ -153,10 +153,10 @@ function useAnimations() {
   const reduceMotion = useReducedMotion();
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
   const fadeUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
   return { reduceMotion, stagger, fadeUp };
 }
 
@@ -181,10 +181,10 @@ function IndustryCardItem({ card, index, isLarge }: { card: IndustryCard; index:
       className="block"
     >
       <motion.article
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 1, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: reduceMotion ? 0 : 0.5, delay: reduceMotion ? 0 : index * 0.06, ease: "easeOut" }}
+        transition={{ duration: reduceMotion ? 0 : 0.35, delay: reduceMotion ? 0 : index * 0.04, ease: "easeOut" }}
         className={cn(
           "group relative overflow-hidden rounded-2xl",
           "border border-white/[0.08] transition-all duration-500",
@@ -209,7 +209,7 @@ function IndustryCardItem({ card, index, isLarge }: { card: IndustryCard; index:
         <div className="absolute inset-0">
           <Image
             src={card.image}
-            alt=""
+            alt={`${card.label} freight logistics`}
             fill
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
             sizes={isLarge ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 33vw"}
@@ -312,7 +312,7 @@ export function IndustriesHub() {
 
             <motion.h1
               variants={fadeUp}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              transition={{ duration: 0.38, ease: "easeOut" }}
               className="mt-7 text-[2.4rem] font-bold leading-[1.04] tracking-tight text-[color:var(--color-text-strong)] sm:text-[3.4rem] lg:text-[4rem]"
             >
               Every industry has a
@@ -323,7 +323,7 @@ export function IndustriesHub() {
 
             <motion.p
               variants={fadeUp}
-              transition={{ duration: 0.45, ease: "easeOut" }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
               className="mx-auto mt-6 max-w-2xl text-[15px] leading-[1.85] text-[color:var(--color-muted)] sm:text-base"
             >
               Generic freight models break under industry-specific pressure. SSP builds operating
@@ -333,7 +333,7 @@ export function IndustriesHub() {
 
             <motion.div
               variants={fadeUp}
-              transition={{ duration: 0.45, ease: "easeOut" }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
               className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-center"
             >
               <Link
@@ -374,7 +374,7 @@ export function IndustriesHub() {
               <motion.div
                 key={d.label}
                 variants={fadeUp}
-                transition={{ duration: 0.45, ease: "easeOut" }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
                 className="rounded-2xl border border-[color:var(--color-border)] bg-white p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] sm:p-6"
               >
                 <p className="text-[1.6rem] font-bold tracking-tight text-[color:var(--color-ssp-ink-800)] sm:text-[1.85rem]">
@@ -420,7 +420,7 @@ export function IndustriesHub() {
             </motion.div>
             <motion.h2
               variants={fadeUp}
-              transition={{ duration: 0.45, ease: "easeOut" }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
               className="mt-4 text-[1.85rem] font-semibold leading-[1.1] tracking-tight text-white sm:text-[2.4rem]"
             >
               Programs built around how your industry actually moves freight.
@@ -469,7 +469,7 @@ export function IndustriesHub() {
               </motion.div>
               <motion.h2
                 variants={fadeUp}
-                transition={{ duration: 0.45, ease: "easeOut" }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
                 className="mt-4 max-w-lg text-[1.8rem] font-semibold leading-[1.1] tracking-tight text-[color:var(--color-text-strong)] sm:text-[2.2rem]"
               >
                 The difference is in the operating model, not the sales pitch.
@@ -511,7 +511,7 @@ export function IndustriesHub() {
                 <motion.div
                   key={item.title}
                   variants={fadeUp}
-                  transition={{ duration: 0.4, delay: i * 0.06, ease: "easeOut" }}
+                  transition={{ duration: 0.35, delay: i * 0.04, ease: "easeOut" }}
                   className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface-1)] p-5 shadow-[0_2px_12px_rgba(0,0,0,0.03)]"
                 >
                   <p className="text-[13px] font-semibold text-[color:var(--color-text-strong)]">
@@ -537,10 +537,10 @@ export function IndustriesHub() {
         <Container className="site-page-container">
           <motion.div
             className="rounded-2xl border border-white/16 bg-white/[0.05] px-5 py-8 backdrop-blur-sm sm:px-8 sm:py-10 md:px-10"
-            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+            initial={reduceMotion ? false : { opacity: 1, y: 10 }}
             whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.35 }}
-            transition={{ duration: 0.45, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.15 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
           >
             <div className="grid gap-7 lg:grid-cols-12 lg:items-center">
               <div className="lg:col-span-8">

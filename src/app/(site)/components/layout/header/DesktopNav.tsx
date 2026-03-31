@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { trackCtaClick } from "@/lib/analytics/cta";
 import { NAV } from "@/config/navigation";
@@ -28,6 +28,7 @@ export function DesktopNav() {
   const closeTimer = React.useRef<number | null>(null);
   const openTimer = React.useRef<number | null>(null);
   const pathname = usePathname();
+  const reduceMotion = useReducedMotion();
 
   const openMenu = React.useCallback((key: HeaderDropdownKey) => {
     if (activeKey && activeKey !== key) {
@@ -207,7 +208,7 @@ export function DesktopNav() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: reduceMotion ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="h-full bg-white/34 backdrop-blur-[4px]" />
             </motion.div>
@@ -217,7 +218,7 @@ export function DesktopNav() {
               initial={{ clipPath: "inset(0 0 100% 0)" }}
               animate={{ clipPath: "inset(0 0 0% 0)" }}
               exit={{ clipPath: "inset(0 0 100% 0)" }}
-              transition={{ duration: ROLLOUT_DURATION_S, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: reduceMotion ? 0 : ROLLOUT_DURATION_S, ease: [0.16, 1, 0.3, 1] }}
               onMouseEnter={cancelClose}
               onMouseLeave={scheduleClose}
               className={cn(
@@ -232,8 +233,8 @@ export function DesktopNav() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -3 }}
                 transition={{
-                  duration: CONTENT_FADE_DURATION_S,
-                  delay: 0.08,
+                  duration: reduceMotion ? 0 : CONTENT_FADE_DURATION_S,
+                  delay: reduceMotion ? 0 : 0.08,
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 className="mx-auto grid w-full max-w-[1520px] grid-cols-12"

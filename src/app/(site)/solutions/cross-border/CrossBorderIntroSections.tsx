@@ -6,6 +6,7 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
+import { trackCtaClick } from "@/lib/analytics/cta";
 
 const focusRingDark =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-ssp-ink-800)]";
@@ -34,15 +35,15 @@ export function CrossBorderIntroSections({
 
   const heroStagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.06 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 18 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
   const cardStagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.07, delayChildren: 0.04 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   return (
     <>
@@ -73,7 +74,7 @@ export function CrossBorderIntroSections({
 
             <motion.h1
               variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.48, ease: "easeOut" }}
+              transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
               className="mt-5 max-w-4xl text-3xl leading-[1.15] font-semibold tracking-tight text-white sm:text-4xl md:text-[52px] md:leading-[1.12]"
             >
               North American cross-border freight,
@@ -101,6 +102,14 @@ export function CrossBorderIntroSections({
             >
               <Link
                 href="/contact"
+                onClick={() =>
+                  trackCtaClick({
+                    ctaId: "cb_hub_hero_contact",
+                    location: "cross_border_hero",
+                    destination: "/contact",
+                    label: "Discuss Your Requirements",
+                  })
+                }
                 className={cn("inline-flex h-12 items-center rounded-lg bg-[color:var(--color-ssp-cyan-500)] px-6 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(16,167,216,0.35)] transition hover:bg-[color:var(--color-ssp-cyan-600)] hover:shadow-[0_10px_28px_rgba(16,167,216,0.45)]", focusRingDark)}
               >
                 Discuss Your Requirements
@@ -123,7 +132,7 @@ export function CrossBorderIntroSections({
               className="lg:col-span-4 lg:pr-6"
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.35 }}
+              viewport={{ once: true, amount: 0.15 }}
               variants={revealUp}
               transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
             >
@@ -177,7 +186,7 @@ export function CrossBorderIntroSections({
             className="mx-auto max-w-3xl text-center"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.35 }}
+            viewport={{ once: true, amount: 0.15 }}
             variants={revealUp}
             transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
           >

@@ -6,7 +6,7 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { trackCtaClick } from "@/lib/analytics/cta";
 import { cn } from "@/lib/cn";
 import { NAV } from "@/config/navigation";
@@ -122,6 +122,7 @@ export function MobileNav() {
   const [active, setActive] = React.useState<string>("");
   const [sheetTop, setSheetTop] = React.useState(0);
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+  const reduceMotion = useReducedMotion();
 
   React.useLayoutEffect(() => {
     if (!open) return;
@@ -329,7 +330,7 @@ export function MobileNav() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduceMotion ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="h-full bg-black/40 backdrop-blur-sm" />
           </motion.div>
@@ -363,7 +364,7 @@ export function MobileNav() {
                   animate={{ clipPath: "inset(0 0 0% 0)" }}
                   exit={{ clipPath: "inset(0 0 100% 0)" }}
                   transition={{
-                    duration: ROLLOUT_DURATION_S,
+                    duration: reduceMotion ? 0 : ROLLOUT_DURATION_S,
                     ease: [0.16, 1, 0.3, 1],
                   }}
                   style={{ willChange: "clip-path" }}
@@ -375,8 +376,8 @@ export function MobileNav() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     transition={{
-                      duration: 0.16,
-                      delay: 0.08,
+                      duration: reduceMotion ? 0 : 0.16,
+                      delay: reduceMotion ? 0 : 0.08,
                       ease: [0.22, 1, 0.36, 1],
                     }}
                   >
@@ -445,10 +446,10 @@ export function MobileNav() {
                         </Accordion.Header>
                         <Accordion.Content className="pb-3" asChild>
                           <motion.div
-                            initial={{ opacity: 0, y: -4 }}
+                            initial={{ opacity: 0, y: reduceMotion ? 0 : -4 }}
                             animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -4 }}
-                            transition={{ duration: 0.16, ease: [0.22, 1, 0.36, 1] }}
+                            exit={{ opacity: 0, y: reduceMotion ? 0 : -4 }}
+                            transition={{ duration: reduceMotion ? 0 : 0.16, ease: [0.22, 1, 0.36, 1] }}
                           >
                             <div className="rounded-lg bg-[color:var(--color-surface-2)] p-3">
                               {renderSectionContent(key)}

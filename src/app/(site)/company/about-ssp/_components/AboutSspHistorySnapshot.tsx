@@ -5,6 +5,7 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 import { SSP_HISTORY_MILESTONES } from "@/config/history";
+import { trackCtaClick } from "@/lib/analytics/cta";
 import { cn } from "@/lib/cn";
 
 const FOCUS_RING_LIGHT =
@@ -155,6 +156,14 @@ export function AboutSspHistorySnapshot() {
         >
           <Link
             href="/company/our-history"
+            onClick={() =>
+              trackCtaClick({
+                ctaId: "about_history_explore_full_timeline",
+                location: "about_history_snapshot",
+                destination: "/company/our-history",
+                label: "Explore Full Timeline",
+              })
+            }
             className={cn(
               "group inline-flex items-center gap-2 rounded-lg text-sm font-semibold text-[color:var(--color-menu-accent)] transition-colors hover:text-[color:var(--color-ssp-ink-800)]",
               FOCUS_RING_LIGHT,

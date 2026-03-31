@@ -735,7 +735,7 @@ export default function CareersClient({
         className="relative overflow-hidden"
         variant="light"
         style={{
-          backgroundColor: "var(--audience-bg)",
+          backgroundColor: "var(--color-audience-bg)",
           scrollMarginTop: SECTION_SCROLL_MARGIN_TOP,
         }}
       >

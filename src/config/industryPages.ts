@@ -327,7 +327,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
         { label: "Expedited & Specialized", href: "/services/expedited-specialized" },
         { label: "Truckload", href: "/services/truckload" },
         { label: "Cross-Border", href: "/solutions/cross-border" },
-        { label: "LTL & Consolidation", href: "/services/ltl-consolidation" },
+        { label: "LTL & Consolidation", href: "/services/ltl" },
       ],
     },
     finalCta: {
@@ -980,7 +980,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
         { label: "Temperature-Controlled", href: "/services/temperature-controlled" },
         { label: "Truckload", href: "/services/truckload" },
         { label: "Expedited & Specialized", href: "/services/expedited-specialized" },
-        { label: "Cross-Border", href: "/services/cross-border" },
+        { label: "Cross-Border", href: "/solutions/cross-border" },
       ],
     },
     finalCta: {

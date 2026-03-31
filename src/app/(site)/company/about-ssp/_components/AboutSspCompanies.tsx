@@ -6,6 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 import type { OurCompaniesContent, OurCompanyRegion } from "@/config/company";
+import { trackCtaClick } from "@/lib/analytics/cta";
 import { cn } from "@/lib/cn";
 
 /** Same underline + color motion as `SiteFooter` links and desktop nav dropdown items. */
@@ -175,6 +176,14 @@ export function AboutSspCompanies({ data }: { data: OurCompaniesContent }) {
                         href={company.website}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() =>
+                          trackCtaClick({
+                            ctaId: `about_company_website_${company.name}`,
+                            location: "about_our_companies",
+                            destination: company.website ?? undefined,
+                            label: `${company.name} Website`,
+                          })
+                        }
                         className={companyWebsiteLinkClass}
                       >
                         <span>Website</span>

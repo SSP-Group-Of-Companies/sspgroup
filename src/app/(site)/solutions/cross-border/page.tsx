@@ -182,7 +182,7 @@ const referenceLinks = [
   },
   {
     label: "CBSA: CARM - Assess and pay duties and taxes on imported commercial goods",
-    href: "http://cbsa-asfc.gc.ca/services/carm-gcra/menu-eng.html",
+    href: "https://cbsa-asfc.gc.ca/services/carm-gcra/menu-eng.html",
   },
   {
     label: "CBSA: Certifying the origin of goods (CUSMA)",
@@ -190,7 +190,7 @@ const referenceLinks = [
   },
   {
     label: "SAT Mexico: Required digital documents attached to import pedimento",
-    href: "http://omawww.sat.gob.mx/aduanas/importando_exportando/regimenes/Paginas/documento_que_deben_anexar_al_pedimento_importacion.aspx",
+    href: "https://omawww.sat.gob.mx/aduanas/importando_exportando/regimenes/Paginas/documento_que_deben_anexar_al_pedimento_importacion.aspx",
   },
 ] as const;
 

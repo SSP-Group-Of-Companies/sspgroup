@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer
 import { cn } from "@/lib/cn";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
+import { trackCtaClick } from "@/lib/analytics/cta";
 
 const focusRing =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)] focus-visible:ring-offset-1";
@@ -74,11 +75,11 @@ export function CrossBorderDetailSections({
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
   const cardStagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.03 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   const activeCompliance = complianceHighlights[activeComplianceIdx] ?? complianceHighlights[0];
 
@@ -99,7 +100,7 @@ export function CrossBorderDetailSections({
             className="max-w-4xl"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.15 }}
             variants={revealUp}
             transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
           >
@@ -146,6 +147,15 @@ export function CrossBorderDetailSections({
                 <p className="mt-3 text-sm leading-7 text-white/74">{item.summary}</p>
                 <Link
                   href={item.href}
+                  aria-label={`Explore ${item.label} service`}
+                  onClick={() =>
+                    trackCtaClick({
+                      ctaId: `cb_corridor_${item.key}`,
+                      location: "cross_border_corridors",
+                      destination: item.href,
+                      label: item.label,
+                    })
+                  }
                   className={cn("mt-5 inline-flex items-center gap-2 rounded text-sm font-semibold text-[color:var(--color-cb-link-light)] transition-colors hover:text-white", focusRingDark)}
                 >
                   Explore service <span aria-hidden>{"->"}</span>
@@ -162,7 +172,7 @@ export function CrossBorderDetailSections({
             className="grid gap-6 lg:grid-cols-12 lg:items-end"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.15 }}
             variants={revealUp}
             transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
           >
@@ -255,7 +265,7 @@ export function CrossBorderDetailSections({
             className="grid gap-6 lg:grid-cols-12 lg:items-end"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: 0.15 }}
             variants={revealUp}
             transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
           >
@@ -361,7 +371,7 @@ export function CrossBorderDetailSections({
               className="lg:col-span-4"
               initial="hidden"
               whileInView="show"
-              viewport={{ once: true, amount: 0.35 }}
+              viewport={{ once: true, amount: 0.15 }}
               variants={revealUp}
               transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
             >
@@ -467,7 +477,7 @@ export function CrossBorderDetailSections({
             className="rounded-2xl border border-white/16 bg-white/[0.05] px-5 py-8 backdrop-blur-sm sm:px-8 sm:py-10 md:px-10"
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.35 }}
+            viewport={{ once: true, amount: 0.15 }}
             variants={revealUp}
             transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
           >
@@ -496,12 +506,28 @@ export function CrossBorderDetailSections({
                 <div className="mt-4 grid gap-3">
                   <Link
                     href="/quote"
+                    onClick={() =>
+                      trackCtaClick({
+                        ctaId: "cb_hub_final_quote",
+                        location: "cross_border_final_cta",
+                        destination: "/quote",
+                        label: "Request a Cross-Border Quote",
+                      })
+                    }
                     className={cn("inline-flex h-12 items-center justify-center rounded-lg bg-[color:var(--color-ssp-cyan-500)] px-5 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(16,167,216,0.35)] transition hover:bg-[color:var(--color-ssp-cyan-600)] hover:shadow-[0_10px_28px_rgba(16,167,216,0.45)]", focusRingDark)}
                   >
                     Request a Cross-Border Quote
                   </Link>
                   <Link
                     href="/contact"
+                    onClick={() =>
+                      trackCtaClick({
+                        ctaId: "cb_hub_final_contact",
+                        location: "cross_border_final_cta",
+                        destination: "/contact",
+                        label: "Contact SSP Group",
+                      })
+                    }
                     className={cn("inline-flex h-12 items-center justify-center rounded-lg border border-white/24 px-5 text-sm font-semibold text-white/92 transition hover:border-white/40 hover:bg-white/10", focusRingDark)}
                   >
                     Contact SSP Group

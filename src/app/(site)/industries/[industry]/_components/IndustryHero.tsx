@@ -8,6 +8,7 @@ import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionEyebrow } from "@/app/(site)/components/ui/SectionEyebrow";
 import { cn } from "@/lib/cn";
 import type { IndustryPageModel, IndustryHeroTheme } from "@/config/industryPages";
+import { trackCtaClick } from "@/lib/analytics/cta";
 import { THEME_ACCENT, THEME_BG, FOCUS_RING_DARK } from "./industryTheme";
 
 /* ─── Theme gradient overlay — glow positioned right ─── */
@@ -135,11 +136,11 @@ function useAnimations() {
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.1, delayChildren: 0.08 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   const reveal: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 12 }, show: { opacity: 1, y: 0 } };
 
   return { reduceMotion, stagger, reveal };
 }
@@ -415,6 +416,7 @@ const CENTERED_HERO_STYLES: Record<string, CenteredHeroStyle> = {
 
 function CenteredHeroContent({
   hero,
+  industryKey,
   style,
   accentColor,
   heroSignals,
@@ -422,6 +424,7 @@ function CenteredHeroContent({
   reduceMotion,
 }: {
   hero: IndustryPageModel["hero"];
+  industryKey: string;
   style: CenteredHeroStyle;
   accentColor: string;
   heroSignals: string[];
@@ -456,7 +459,7 @@ function CenteredHeroContent({
       <motion.h1
         id="industry-hero-heading"
         variants={reveal}
-        transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+        transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
         className="mx-auto mt-4 max-w-4xl text-[2.6rem] font-bold leading-[0.96] tracking-tight text-white sm:text-[3.35rem] lg:text-[4.15rem]"
         style={{
           textShadow: `0 2px 16px rgba(0,0,0,0.5), 0 8px 32px rgba(${style.textShadowRgb},0.4)`,
@@ -476,7 +479,7 @@ function CenteredHeroContent({
       {heroSignals.length > 0 ? (
         <motion.ul
           variants={reveal}
-          transition={{ duration: reduceMotion ? 0 : 0.42, ease: "easeOut" }}
+          transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
           className="mx-auto mt-6 grid max-w-2xl gap-2 sm:grid-cols-3"
         >
           {heroSignals.map((signal) => (
@@ -497,6 +500,16 @@ function CenteredHeroContent({
       >
         <Link
           href={hero.cta.href}
+          data-cta-id={hero.cta.ctaId}
+          onClick={() =>
+            hero.cta.ctaId &&
+            trackCtaClick({
+              ctaId: hero.cta.ctaId,
+              location: `industry_${industryKey}_hero`,
+              destination: hero.cta.href,
+              label: hero.cta.label,
+            })
+          }
           className={cn(
             "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold transition-all duration-200 hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
             FOCUS_RING_DARK,
@@ -512,6 +525,16 @@ function CenteredHeroContent({
         {hero.secondaryCta ? (
           <Link
             href={hero.secondaryCta.href}
+            data-cta-id={hero.secondaryCta.ctaId}
+            onClick={() =>
+              hero.secondaryCta?.ctaId &&
+              trackCtaClick({
+                ctaId: hero.secondaryCta.ctaId,
+                location: `industry_${industryKey}_hero`,
+                destination: hero.secondaryCta.href,
+                label: hero.secondaryCta.label,
+              })
+            }
             className={cn(
               "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/18 bg-black/18 px-7 text-sm font-semibold text-white/84 backdrop-blur-sm transition-all duration-200 hover:border-white/28 hover:bg-black/24 hover:text-white sm:w-auto",
               FOCUS_RING_DARK,
@@ -648,7 +671,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                 <motion.h1
                   id="industry-hero-heading"
                   variants={reveal}
-                  transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+                  transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
                   className="mt-4 text-[2.8rem] font-bold leading-[0.96] tracking-tight text-white sm:text-[3.6rem] lg:text-[4.6rem]"
                 >
                   {hero.title}
@@ -664,7 +687,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
 
                 <motion.ul
                   variants={reveal}
-                  transition={{ duration: reduceMotion ? 0 : 0.42, ease: "easeOut" }}
+                  transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
                   className="mt-6 grid gap-2 sm:grid-cols-2"
                 >
                   {heroSignals.map((signal) => (
@@ -684,6 +707,16 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                 >
                   <Link
                     href={hero.cta.href}
+                    data-cta-id={hero.cta.ctaId}
+                    onClick={() =>
+                      hero.cta.ctaId &&
+                      trackCtaClick({
+                        ctaId: hero.cta.ctaId,
+                        location: `industry_${model.key}_hero`,
+                        destination: hero.cta.href,
+                        label: hero.cta.label,
+                      })
+                    }
                     className={cn(
                       "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
                       FOCUS_RING_DARK,
@@ -698,6 +731,16 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                   {hero.secondaryCta ? (
                     <Link
                       href={hero.secondaryCta.href}
+                      data-cta-id={hero.secondaryCta.ctaId}
+                      onClick={() =>
+                        hero.secondaryCta?.ctaId &&
+                        trackCtaClick({
+                          ctaId: hero.secondaryCta.ctaId,
+                          location: `industry_${model.key}_hero`,
+                          destination: hero.secondaryCta.href,
+                          label: hero.secondaryCta.label,
+                        })
+                      }
                       className={cn(
                         "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/15 bg-white/5 px-7 text-sm font-semibold text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/8 hover:text-white sm:w-auto",
                         FOCUS_RING_DARK,
@@ -711,7 +754,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
 
               <motion.div
                 variants={reveal}
-                transition={{ duration: reduceMotion ? 0 : 0.48, ease: "easeOut" }}
+                transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
               >
                 <AutomotiveHeroMedia accentColor={accentColor} />
               </motion.div>
@@ -721,6 +764,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
               <ImmersiveHeroMedia accentColor={accentColor} config={HERO_MEDIA_CONFIG[model.key]} />
               <CenteredHeroContent
                 hero={hero}
+                industryKey={model.key}
                 style={CENTERED_HERO_STYLES[model.key]}
                 accentColor={accentColor}
                 heroSignals={heroSignals}
@@ -745,7 +789,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
               <motion.h1
                 id="industry-hero-heading"
                 variants={reveal}
-                transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
                 className="mt-6 text-[2.45rem] font-bold leading-[1.02] tracking-tight text-white sm:text-[3.1rem] lg:text-[4rem]"
               >
                 {hero.title}
@@ -777,6 +821,16 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
               >
                 <Link
                   href={hero.cta.href}
+                  data-cta-id={hero.cta.ctaId}
+                  onClick={() =>
+                    hero.cta.ctaId &&
+                    trackCtaClick({
+                      ctaId: hero.cta.ctaId,
+                      location: `industry_${model.key}_hero`,
+                      destination: hero.cta.href,
+                      label: hero.cta.label,
+                    })
+                  }
                   className={cn(
                     "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
                     FOCUS_RING_DARK,
@@ -791,6 +845,16 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                 {hero.secondaryCta ? (
                   <Link
                     href={hero.secondaryCta.href}
+                    data-cta-id={hero.secondaryCta.ctaId}
+                    onClick={() =>
+                      hero.secondaryCta?.ctaId &&
+                      trackCtaClick({
+                        ctaId: hero.secondaryCta.ctaId,
+                        location: `industry_${model.key}_hero`,
+                        destination: hero.secondaryCta.href,
+                        label: hero.secondaryCta.label,
+                      })
+                    }
                     className={cn(
                       "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/15 bg-white/5 px-7 text-sm font-semibold text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/8 hover:text-white sm:w-auto",
                       FOCUS_RING_DARK,
@@ -815,7 +879,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
               <motion.div
                 key={item.label}
                 variants={reveal}
-                transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
                 className="rounded-2xl border border-white/8 bg-black/14 px-4 py-3.5 backdrop-blur-sm"
               >
                 <p className="text-[0.98rem] font-semibold tracking-tight text-white">{item.value}</p>

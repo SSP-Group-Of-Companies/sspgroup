@@ -20,7 +20,7 @@ const cardLink = cn(
   "text-[color:var(--color-brand-600)]",
   "bg-[color:var(--color-brand-600)]/8",
   "hover:bg-[color:var(--color-brand-600)]/14",
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--audience-bg)]",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-audience-bg)]",
   "[&>.arrow]:inline-block [&>.arrow]:transition-all [&>.arrow]:duration-300 [&>.arrow]:ease-[cubic-bezier(0.34,1.56,0.64,1)]",
   "[&:hover>.arrow]:translate-x-1.5 [&:hover>.arrow]:scale-110 [&:hover>.arrow]:opacity-100 [&>.arrow]:opacity-75",
 );
@@ -112,7 +112,7 @@ const AUDIENCE_CARDS = [
 export function AudienceSection() {
   return (
     <section
-      className={cn("relative overflow-hidden bg-[color:var(--audience-bg)]", "py-12 sm:py-16")}
+      className={cn("relative overflow-hidden bg-[color:var(--color-audience-bg)]", "py-12 sm:py-16")}
     >
       {/* Very subtle warmth — soft red tint from top, barely there */}
       <div
@@ -127,36 +127,36 @@ export function AudienceSection() {
         <div className="relative mx-auto max-w-4xl text-center">
           <div className="mx-auto mb-3 h-[2px] w-14 bg-[color:var(--color-brand-600)]/90" />
 
-          <div className="text-xs font-semibold tracking-wide text-[color:var(--audience-muted)]">
+          <div className="text-xs font-semibold tracking-wide text-[color:var(--color-audience-muted)]">
             Choose your path
           </div>
 
-          <h2 className="mt-3 text-3xl font-semibold text-[color:var(--audience-text)] sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-semibold text-[color:var(--color-audience-text)] sm:text-4xl">
             Get the right answer fast, from a team built to execute.
           </h2>
 
           {/* Proof line: > reads as "more than" — minimal and confident */}
-          <p className="mt-4 flex flex-wrap items-center justify-center gap-x-1 gap-y-1 text-sm text-[color:var(--audience-muted)] sm:text-base">
-            <span className="font-medium text-[color:var(--audience-text)]">
+          <p className="mt-4 flex flex-wrap items-center justify-center gap-x-1 gap-y-1 text-sm text-[color:var(--color-audience-muted)] sm:text-base">
+            <span className="font-medium text-[color:var(--color-audience-text)]">
               <span className="font-semibold text-[color:var(--color-brand-600)] tabular-nums">
                 &gt;
                 <AnimatedStat target={250} suffix="k" />
               </span>{" "}
               loads moved
             </span>
-            <span className="text-[color:var(--audience-muted)]/40" aria-hidden>
+            <span className="text-[color:var(--color-audience-muted)]/40" aria-hidden>
               ·
             </span>
-            <span className="font-medium text-[color:var(--audience-text)]">
+            <span className="font-medium text-[color:var(--color-audience-text)]">
               <span className="font-semibold text-[color:var(--color-brand-600)] tabular-nums">
                 <AnimatedStat target={98} suffix="%" />
               </span>{" "}
               on time
             </span>
-            <span className="text-[color:var(--audience-muted)]/40" aria-hidden>
+            <span className="text-[color:var(--color-audience-muted)]/40" aria-hidden>
               ·
             </span>
-            <span className="font-medium text-[color:var(--audience-text)]">
+            <span className="font-medium text-[color:var(--color-audience-text)]">
               <span className="font-semibold text-[color:var(--color-brand-600)] tabular-nums">
                 &gt;
                 <AnimatedStat target={25} suffix="k" />
@@ -175,10 +175,10 @@ export function AudienceSection() {
                 aria-hidden
               />
               <div className="relative z-10 p-6">
-                <div className="text-lg font-semibold text-[color:var(--audience-text)]">
+                <div className="text-lg font-semibold text-[color:var(--color-audience-text)]">
                   {card.title}
                 </div>
-                <p className="mt-2 text-sm leading-relaxed text-[color:var(--audience-muted)]">
+                <p className="mt-2 text-sm leading-relaxed text-[color:var(--color-audience-muted)]">
                   {card.description}
                 </p>
                 <Link
