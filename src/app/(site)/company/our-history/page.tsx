@@ -4,12 +4,12 @@ import { OurHistoryPage } from "./_components/OurHistoryPage";
 export const metadata: Metadata = {
   title: "Our History | SSP Group",
   description:
-    "From 2 trucks in 2015 to a national fleet — the story of SSP Group's growth across North America.",
+    "A chronology of how SSP scaled from a small fleet into a multi-entity North American freight operation with disciplined execution standards.",
   alternates: { canonical: "/company/our-history" },
   openGraph: {
     title: "Our History | SSP Group",
     description:
-      "From 2 trucks to Top 100 Carrier in Canada — discover the milestones that shaped SSP Group.",
+      "Review the milestones that shaped SSP's operating model across Canada, the United States, and Mexico.",
     type: "website",
     url: "/company/our-history",
   },

@@ -39,13 +39,13 @@ const REGION_META: Record<
 
 function CompanyLogoMark({ src }: { src: string }) {
   return (
-    <div className="relative mx-auto h-14 w-full max-w-[176px] sm:h-[3.5rem] sm:max-w-[196px]">
+    <div className="relative h-14 w-full max-w-[178px] sm:h-[3.25rem] sm:max-w-[186px]">
       <Image
         src={src}
         alt=""
         fill
-        sizes="(max-width: 640px) 45vw, 200px"
-        className="object-contain object-center"
+        sizes="(max-width: 640px) 45vw, 186px"
+        className="object-contain object-left"
         priority={false}
       />
     </div>
@@ -129,7 +129,7 @@ export function AboutSspCompanies({ data }: { data: OurCompaniesContent }) {
         </motion.div>
 
         <motion.ul
-          className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 lg:mt-14 lg:grid-cols-3 xl:grid-cols-5 xl:gap-8"
+          className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:mt-14 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-11 xl:grid-cols-5 xl:gap-x-0 xl:gap-y-12"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.08 }}
@@ -142,14 +142,18 @@ export function AboutSspCompanies({ data }: { data: OurCompaniesContent }) {
                 key={company.name}
                 variants={revealUp}
                 transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
-                className="flex min-h-full min-w-0 flex-col items-center text-center"
+                className={cn(
+                  "group relative flex min-h-full min-w-0 flex-col items-start pb-1 text-left",
+                  "xl:border-l xl:border-[color:var(--color-menu-border)]/65 xl:px-5",
+                  "first:xl:border-l-0 first:xl:pl-0 last:xl:pr-0",
+                )}
               >
-                <div className="w-full shrink-0">
+                <div className="relative z-[1] flex w-full shrink-0 justify-start">
                   <CompanyLogoMark src={company.logoSrc} />
                 </div>
 
-                <div className="mt-5 flex min-h-0 w-full flex-1 flex-col items-center gap-2.5">
-                  <h3 className="text-base font-semibold leading-snug tracking-tight text-[color:var(--color-menu-title)]">
+                <div className="relative z-[1] mt-4 flex min-h-0 w-full flex-1 flex-col items-start gap-2.5 text-left">
+                  <h3 className="text-[1.03rem] font-semibold leading-[1.28] tracking-tight text-[color:var(--color-menu-title)]">
                     {company.name}
                   </h3>
                   <span
@@ -161,16 +165,16 @@ export function AboutSspCompanies({ data }: { data: OurCompaniesContent }) {
                     <span className="tabular-nums">{region.code}</span>
                     <span className="font-semibold normal-case tracking-normal">{region.label}</span>
                   </span>
-                  <p className="text-pretty text-xs leading-relaxed text-[color:var(--color-menu-muted)]">
+                  <p className="text-pretty text-[12.5px] leading-[1.65] text-[color:var(--color-menu-muted)]">
                     {company.description}
                   </p>
                   {company.address ? (
-                    <p className="text-pretty text-[10px] leading-snug text-[color:var(--color-menu-subtle)]">
+                    <p className="text-pretty text-[10.5px] leading-[1.45] text-[color:var(--color-menu-subtle)]/90">
                       {company.address}
                     </p>
                   ) : null}
 
-                  <div className="mt-auto pt-4">
+                  <div className="mt-auto w-full pt-4">
                     {company.website ? (
                       <a
                         href={company.website}

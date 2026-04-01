@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 const HOME_PATH = "/";
 const ABOUT_US_PATH = "/about-us";
-const ABOUT_FAQS_PATH = "/about-us/faqs";
+const ABOUT_FAQS_PATH = "/company/faqs";
 const HOME_TOP_HASH = "#top";
 const ABOUT_HERO_HASH = "#about-hero";
 const HASH_TARGETS = {

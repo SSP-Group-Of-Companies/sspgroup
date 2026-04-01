@@ -267,16 +267,34 @@ export const NAV = {
         icon: "building",
       },
       {
-        label: "Coverage & Network",
-        href: "/about-us#coverage-network",
-        description: "North America network reach across core freight corridors.",
-        icon: "map",
+        label: "Safety & Compliance",
+        href: "/company/safety-compliance",
+        description: "Compliance governance and risk controls across active freight programs.",
+        icon: "shield",
+      },
+      {
+        label: "Leadership",
+        href: "/company/leadership",
+        description: "How strategy, operations, and customer program ownership are aligned.",
+        icon: "briefcase",
       },
       {
         label: "Media",
         href: "/company/media",
         description: "Operations footage, brand media, and video highlights.",
         icon: "briefcase",
+      },
+      {
+        label: "Awards & Recognition",
+        href: "/company/awards-recognition",
+        description: "Recognition milestones tied to execution quality and service reliability.",
+        icon: "building",
+      },
+      {
+        label: "Sustainability",
+        href: "/company/sustainability",
+        description: "Operational sustainability priorities integrated into daily execution.",
+        icon: "globe",
       },
       {
         label: "FAQs",

@@ -170,8 +170,146 @@ export const companyAbout = {
       },
     ] satisfies OurCompanyEntry[],
   },
+
+  safetyComplianceTeaser: {
+    sectionLabel: "Safety & Compliance",
+    title: "Risk is managed before freight moves.",
+    subtitle:
+      "SSP runs a compliance-first operating posture across Canada, the United States, and Mexico. Qualification, documentation, and escalation control are built into execution, not bolted on later.",
+    image: {
+      src: "/_optimized/company/safety-complianceImg.png",
+      alt: "Integrated editorial visual of a compliant freight operation in a refined logistics environment",
+    },
+    credentials: [
+      "Hazmat-capable operating workflows",
+      "Cross-border documentation discipline",
+      "Escalation ownership by named teams",
+    ],
+    cta: {
+      label: "Explore Safety & Compliance",
+      href: "/company/safety-compliance",
+      ctaId: "about_safety_compliance_teaser_explore",
+    },
+  },
+
+  leadershipTeaser: {
+    sectionLabel: "Leadership",
+    title: "Operating leadership, not slide-deck leadership.",
+    subtitle:
+      "SSP leadership is structured around execution ownership: strategy, operations, and corridor performance governance are aligned under one accountable model.",
+    leaders: [
+      {
+        name: "Executive Leadership",
+        role: "Strategic Direction",
+        focus: "Sets operating standards, investment priorities, and long-horizon execution goals.",
+      },
+      {
+        name: "Operations Leadership",
+        role: "Lane Performance Control",
+        focus:
+          "Owns dispatch governance, escalation cadence, and service-level consistency across live freight.",
+      },
+      {
+        name: "Commercial Leadership",
+        role: "Customer Program Alignment",
+        focus:
+          "Translates customer requirements into executable lane plans with measurable accountability.",
+      },
+    ],
+    cta: {
+      label: "Meet Leadership Team",
+      href: "/company/leadership",
+      ctaId: "about_leadership_teaser_meet_team",
+    },
+  },
+
+  trustSignals: {
+    sectionLabel: "Performance & Trust",
+    title: "Performance that holds up under scrutiny.",
+    subtitle:
+      "SSP positions freight execution around measurable service behavior, not optimistic promises. The objective is consistent, reviewable, enterprise-ready delivery.",
+    metrics: [
+      {
+        value: "24/7",
+        label: "Operations Oversight",
+        note: "Live lane monitoring and escalation coverage across active programs.",
+      },
+      {
+        value: "CA-US-MX",
+        label: "Execution Scope",
+        note: "Cross-border operating model with structured compliance and communication control.",
+      },
+      {
+        value: "Single Team",
+        label: "Accountability Model",
+        note: "Planning, dispatch, in-transit governance, and closeout under named ownership.",
+      },
+      {
+        value: "Audit-Ready",
+        label: "Documentation Cadence",
+        note: "Completion standards designed for customer and internal review readiness.",
+      },
+    ],
+    proofPoints: [
+      "Lane-level planning before movement",
+      "Milestone communication with clear next actions",
+      "Exception handling with defined escalation ownership",
+      "Closeout documentation delivered to standard",
+    ],
+  },
+
+  mediaInsightsTeaser: {
+    sectionLabel: "Media & Insights",
+    title: "See execution. Learn the operating logic behind it.",
+    subtitle:
+      "About establishes the standard. Media and Insights show how that standard is applied in live operations and strategic freight decision-making.",
+    cards: [
+      {
+        title: "Media Library",
+        body: "Operations footage, fleet visuals, and brand media from SSP programs across North America.",
+        href: "/company/media",
+        ctaLabel: "View Media",
+        ctaId: "about_media_insights_view_media",
+      },
+      {
+        title: "Industry Insights",
+        body: "Practical guidance on corridors, compliance patterns, and execution strategy for enterprise shippers.",
+        href: "/insights",
+        ctaLabel: "Read Insights",
+        ctaId: "about_media_insights_read_insights",
+      },
+    ],
+  },
+
+  finalCta: {
+    kicker: "Let's Execute",
+    title: "Bring us your lanes. We will bring execution control.",
+    body: "Share your lane profile, service constraints, and compliance requirements. SSP will align capacity, governance, and communication standards to your operating reality.",
+    trustSignals: [
+      "Compliance-first execution model",
+      "Cross-border control across CA-US-MX",
+      "Single accountable team from dispatch to closeout",
+    ],
+    ctas: {
+      primary: {
+        label: "Request a Quote",
+        href: "/quote",
+        ctaId: "about_final_cta_request_quote",
+      },
+      secondary: {
+        label: "Talk to Operations",
+        href: "/contact",
+        ctaId: "about_final_cta_contact_ops",
+      },
+    },
+  },
 } as const;
 
 export type MissionVisionContent = (typeof companyAbout)["missionVision"];
 export type OurCompaniesContent = (typeof companyAbout)["ourCompanies"];
 export type OperatingModelContent = (typeof companyAbout)["operatingModel"];
+export type SafetyComplianceTeaserContent = (typeof companyAbout)["safetyComplianceTeaser"];
+export type LeadershipTeaserContent = (typeof companyAbout)["leadershipTeaser"];
+export type TrustSignalsContent = (typeof companyAbout)["trustSignals"];
+export type MediaInsightsTeaserContent = (typeof companyAbout)["mediaInsightsTeaser"];
+export type AboutFinalCtaContent = (typeof companyAbout)["finalCta"];

@@ -191,7 +191,7 @@ export default function CrossBorderAirFreightPage() {
       />
 
       <AirFaqSection
-        eyebrow="Common Questions"
+        eyebrow="FAQ"
         title="What shippers ask about air freight with SSP."
         description="Practical questions from procurement, logistics, and operations teams evaluating air freight for time-critical cross-border shipments."
         items={faqItems}

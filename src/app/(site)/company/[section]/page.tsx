@@ -6,7 +6,10 @@ const SECTION_REDIRECTS: Record<string, string> = {
   "our-history": "/company/our-history",
   "mission-vision-values": "/about-us#mission-vision-values",
   "our-companies": "/about-us#our-companies",
-  "coverage-network": "/about-us#coverage-network",
+  "safety-compliance": "/company/safety-compliance",
+  leadership: "/company/leadership",
+  sustainability: "/company/sustainability",
+  awards: "/company/awards-recognition",
   "video-gallery": "/company/media",
   faqs: "/company/faqs",
 };

@@ -196,7 +196,7 @@ export default function MexicoCrossBorderPage() {
       />
 
       <CorridorFaqSection
-        eyebrow="Common Questions"
+        eyebrow="FAQ"
         title="Questions shippers ask before committing freight to the Mexico corridor."
         description="Practical questions from procurement, logistics, and operations teams evaluating security-grade cross-border freight programs for U.S.–Mexico lanes."
         items={faqItems}

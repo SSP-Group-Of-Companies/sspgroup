@@ -14,12 +14,12 @@ export default function CompanyWidget({ actionProvider }: WidgetComponentProps) 
       <LinkButton
         onClick={() =>
           actionProvider.goToFromNav(
-            "Coverage Network",
-            "/about-us#coverage-network",
+            "Safety & Compliance",
+            "/company/safety-compliance",
           )
         }
       >
-        Coverage Network
+        Safety & Compliance
       </LinkButton>
 
       <LinkButton onClick={() => actionProvider.goToFromNav("Blog / Insights", "/insights")}>

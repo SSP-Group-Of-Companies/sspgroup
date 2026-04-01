@@ -198,7 +198,7 @@ export default function CanadaUsaPage() {
       />
 
       <CorridorFaqSection
-        eyebrow="Common Questions"
+        eyebrow="FAQ"
         title="Questions shippers ask before choosing a Canada–USA freight partner."
         description="Practical questions from procurement, logistics, and operations teams evaluating cross-border freight programs for the Canada–USA corridor."
         items={faqItems}

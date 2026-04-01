@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
+import { StandardFinalCta } from "@/app/(site)/components/cta/StandardFinalCta";
 import { FAQ_CATEGORIES, FAQ_HERO, FAQ_FINAL_CTA } from "@/config/faqs";
 
 const FOCUS_RING_DARK =
@@ -364,138 +365,37 @@ function InsightsCta({ reduceMotion }: { reduceMotion: boolean }) {
 /*  Final CTA                                                         */
 /* ------------------------------------------------------------------ */
 
-function FinalCta({ reduceMotion }: { reduceMotion: boolean }) {
+function FinalCta() {
   return (
-    <section
-      aria-labelledby="faq-final-cta-heading"
-      className="relative overflow-hidden py-20 sm:py-24"
-      style={{ backgroundColor: "var(--color-company-ink)" }}
-    >
-      {/* Noise */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.025]"
-        style={{ backgroundImage: NOISE_BG }}
-        aria-hidden
-      />
-
-      {/* Orbs */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute -left-20 bottom-[-60px] h-[200px] w-[200px] rounded-full bg-[color:var(--color-ssp-cyan-500)]/12 blur-[100px]" />
-        <div className="absolute right-[10%] top-[-40px] h-[180px] w-[180px] rounded-full bg-white/6 blur-[80px]" />
-      </div>
-
-      {/* Top separator */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px"
-        style={{ background: `linear-gradient(90deg, transparent 10%, rgba(16,167,216,0.15) 50%, transparent 90%)` }}
-        aria-hidden
-      />
-
-      <Container className="site-page-container relative">
-        <motion.div
-          className="rounded-2xl border border-[color:var(--color-glass-border)] bg-[color:var(--color-glass-bg)] px-5 py-8 backdrop-blur-sm sm:px-8 sm:py-10 md:px-10"
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.45, ease: "easeOut" }}
-        >
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-            {/* Left column */}
-            <div className="lg:col-span-8">
-              <SectionSignalEyebrow label={FAQ_FINAL_CTA.kicker} light />
-
-              <h2
-                id="faq-final-cta-heading"
-                className="mt-4 text-[1.75rem] font-bold leading-[1.1] tracking-tight text-white sm:text-[2.2rem] lg:text-[2.5rem]"
-              >
-                {FAQ_FINAL_CTA.title}
-              </h2>
-
-              <p className="mt-3 max-w-2xl text-[14px] leading-[1.8] text-white/55 sm:text-[15px]">
-                {FAQ_FINAL_CTA.body}
-              </p>
-
-              {/* Trust signals */}
-              <div className="mt-5 flex flex-wrap gap-2">
-                {FAQ_FINAL_CTA.trustSignals.map((signal) => (
-                  <span
-                    key={signal}
-                    className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-ssp-cyan-500)]/20 bg-[color:var(--color-ssp-cyan-500)]/[0.04] px-3 py-1 text-xs text-white/60"
-                  >
-                    <span
-                      className="h-1 w-1 rounded-full bg-[color:var(--color-ssp-cyan-500)]"
-                      aria-hidden
-                    />
-                    {signal}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Right column — action card */}
-            <div className="lg:col-span-4">
-              <div className="rounded-xl border border-[color:var(--color-glass-border)] bg-[color:var(--color-glass-bg)] p-5 sm:p-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
-                  {FAQ_FINAL_CTA.kicker}
-                </p>
-
-                {/* Proof metrics */}
-                <div className="mt-4 grid gap-2 sm:grid-cols-3">
-                  {FAQ_FINAL_CTA.proof.map((item) => (
-                    <div
-                      key={item.label}
-                      className="rounded-lg border border-white/6 bg-[color:var(--color-glass-bg)] px-2 py-2 text-center"
-                    >
-                      <div className="text-[13px] font-semibold tracking-tight text-white/75">
-                        {item.value}
-                      </div>
-                      <div className="mt-0.5 text-[9px] uppercase tracking-wider text-white/30">
-                        {item.label}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Micro copy */}
-                <p className="mt-4 text-[11px] leading-relaxed text-white/30">
-                  {FAQ_FINAL_CTA.microCopy}
-                </p>
-
-                {/* CTAs */}
-                <div className="mt-5 grid gap-3">
-                  <Link
-                    href={FAQ_FINAL_CTA.ctas.primary.href}
-                    className={cn(
-                      "inline-flex h-12 w-full items-center justify-center rounded-lg px-5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-[1px]",
-                      "bg-[color:var(--color-ssp-cyan-500)] shadow-[0_6px_20px_rgba(0,191,255,0.2)]",
-                      FOCUS_RING_DARK,
-                    )}
-                  >
-                    {FAQ_FINAL_CTA.ctas.primary.label}
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      window.dispatchEvent(new CustomEvent("ssp:open-live-chat"))
-                    }
-                    className={cn(
-                      "inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-[color:var(--color-glass-border-hover)] px-5 text-sm font-semibold text-white/80 transition-all duration-200 hover:border-[color:var(--color-glass-border-hover)] hover:bg-[color:var(--color-glass-bg-hover)]",
-                      FOCUS_RING_DARK,
-                    )}
-                  >
-                    <span
-                      className="h-2 w-2 animate-pulse rounded-full bg-emerald-400"
-                      aria-hidden
-                    />
-                    {FAQ_FINAL_CTA.ctas.secondary.label}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </Container>
-    </section>
+    <StandardFinalCta
+      variant="faq"
+      headingId="faq-final-cta-heading"
+      trackingLocation="faq_final_cta"
+      data={{
+        kicker: FAQ_FINAL_CTA.kicker,
+        title: FAQ_FINAL_CTA.title,
+        body: FAQ_FINAL_CTA.body,
+        trustSignals: FAQ_FINAL_CTA.trustSignals,
+        proof: FAQ_FINAL_CTA.proof,
+        ctas: {
+          primary: {
+            label: FAQ_FINAL_CTA.ctas.primary.label,
+            href: FAQ_FINAL_CTA.ctas.primary.href,
+            ctaId: "faq_final_cta_primary",
+          },
+          secondary: {
+            label: FAQ_FINAL_CTA.ctas.secondary.label,
+            ctaId: "faq_final_cta_secondary",
+            action: "live-chat",
+          },
+        },
+      }}
+      eyebrow={<SectionSignalEyebrow label={FAQ_FINAL_CTA.kicker} light />}
+      showNoise
+      orbMainColor="rgba(16,167,216,0.12)"
+      orbSecondaryColor="rgba(255,255,255,0.06)"
+      microCopy={FAQ_FINAL_CTA.microCopy}
+    />
   );
 }
 
@@ -511,7 +411,7 @@ export function FaqsPage() {
       <FaqHero reduceMotion={reduceMotion} />
       <FaqContent reduceMotion={reduceMotion} />
       <InsightsCta reduceMotion={reduceMotion} />
-      <FinalCta reduceMotion={reduceMotion} />
+      <FinalCta />
     </>
   );
 }

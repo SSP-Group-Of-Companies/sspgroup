@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { trackCtaClick } from "@/lib/analytics/cta";
 import { Container } from "@/app/(site)/components/layout/Container";
+import { SharedFaqSection } from "@/app/(site)/components/faq/SharedFaqSection";
+import { StandardFinalCta } from "@/app/(site)/components/cta/StandardFinalCta";
 
 /* ── Shared types ────────────────────────────────────────────────────── */
 
@@ -81,9 +81,6 @@ function useAnimations() {
 
 const focusRing =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-corridor-400)] focus-visible:ring-offset-2 focus-visible:ring-offset-white";
-
-const focusRingDark =
-  "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-corridor-300)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-legal-bg)]";
 
 /* ── SVG pattern data URIs (light-bg variants) ──────────────────────── */
 
@@ -294,7 +291,21 @@ export function CorridorCardSection({
 
   if (layout === "centered") {
     return (
-      <section id={id} className={cn("border-y border-[color:var(--color-corridor-400)]/10 bg-[linear-gradient(180deg,#ffffff,var(--color-corridor-50))] py-20 sm:py-24", id && "scroll-mt-24")}>
+      <section id={id} className={cn("relative overflow-hidden border-y border-[color:var(--color-corridor-400)]/10 bg-[linear-gradient(180deg,#ffffff,var(--color-corridor-50))] py-20 sm:py-24", id && "scroll-mt-24")}>
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-corridor-400)]/22 to-transparent" />
+          <div
+            className="absolute left-0 top-0 h-[min(21rem,54vh)] w-full max-w-4xl opacity-[0.038]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, var(--color-company-companies-grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--color-company-companies-grid-line) 1px, transparent 1px)",
+              backgroundSize: "62px 62px",
+              maskImage: "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+              WebkitMaskImage:
+                "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+            }}
+          />
+        </div>
         <Container className="site-page-container">
           <motion.div
             className="mx-auto max-w-3xl text-center"
@@ -319,7 +330,21 @@ export function CorridorCardSection({
   }
 
   return (
-    <section id={id} className={cn("bg-[linear-gradient(180deg,#ffffff,var(--color-corridor-50))] py-20 sm:py-24", id && "scroll-mt-24")}>
+    <section id={id} className={cn("relative overflow-hidden bg-[linear-gradient(180deg,#ffffff,var(--color-corridor-50))] py-20 sm:py-24", id && "scroll-mt-24")}>
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-corridor-400)]/22 to-transparent" />
+        <div
+          className="absolute left-0 top-0 h-[min(21rem,54vh)] w-full max-w-4xl opacity-[0.038]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, var(--color-company-companies-grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--color-company-companies-grid-line) 1px, transparent 1px)",
+            backgroundSize: "62px 62px",
+            maskImage: "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+            WebkitMaskImage:
+              "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+          }}
+        />
+      </div>
       <Container className="site-page-container">
         <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
           <motion.div
@@ -430,7 +455,21 @@ export function CorridorStepsSection({
   const { reduceMotion, reveal, cardStagger } = useAnimations();
 
   return (
-    <section className="border-y border-[color:var(--color-corridor-400)]/10 bg-[linear-gradient(180deg,var(--color-corridor-50),#ffffff)] py-20 sm:py-24">
+    <section className="relative overflow-hidden border-y border-[color:var(--color-corridor-400)]/10 bg-[linear-gradient(180deg,var(--color-corridor-50),#ffffff)] py-20 sm:py-24">
+      <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-corridor-400)]/22 to-transparent" />
+        <div
+          className="absolute left-0 top-0 h-[min(21rem,54vh)] w-full max-w-4xl opacity-[0.038]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, var(--color-company-companies-grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--color-company-companies-grid-line) 1px, transparent 1px)",
+            backgroundSize: "62px 62px",
+            maskImage: "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+            WebkitMaskImage:
+              "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+          }}
+        />
+      </div>
       <Container className="site-page-container">
         <motion.div
           className="mx-auto max-w-3xl text-center"
@@ -499,107 +538,15 @@ export function CorridorFaqSection({
   description: string;
   items: readonly CorridorFaqItem[];
 }) {
-  const { reduceMotion, reveal, cardStagger } = useAnimations();
-  const [openIdx, setOpenIdx] = useState(0);
-
   return (
-    <section className="border-y border-[color:var(--color-corridor-400)]/10 bg-[linear-gradient(180deg,var(--color-surface-0),var(--color-corridor-100))] py-20 sm:py-24">
-      <Container className="site-page-container">
-        <div className="grid gap-7 lg:grid-cols-12">
-          <motion.div
-            className="lg:col-span-4"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={reveal}
-            transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
-          >
-            <CorridorEyebrow label={eyebrow} />
-            <h2 className="mt-3 text-3xl leading-tight font-semibold text-[color:var(--color-text)]">{title}</h2>
-            <p className="mt-4 text-[15px] leading-8 text-[color:var(--color-muted)]">{description}</p>
-          </motion.div>
-
-          <motion.div
-            className="lg:col-span-8"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={cardStagger}
-          >
-            <motion.div
-              variants={reveal}
-              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-              className="overflow-hidden rounded-2xl border border-[color:var(--color-corridor-400)]/14 bg-white shadow-[0_8px_24px_rgba(2,6,23,0.06)]"
-            >
-              {items.map((item, idx) => {
-                const isOpen = idx === openIdx;
-                const panelId = `corridor-faq-panel-${idx}`;
-                return (
-                  <article
-                    key={item.q}
-                    className={idx < items.length - 1 ? "border-b border-[color:var(--color-corridor-400)]/10" : ""}
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setOpenIdx((p) => (p === idx ? -1 : idx))}
-                      className={cn(
-                        "flex w-full items-start justify-between gap-3 px-4 py-4 text-left transition-colors hover:bg-[color:var(--color-corridor-400)]/5 sm:gap-4 sm:px-6 sm:py-5",
-                        focusRing,
-                      )}
-                      aria-expanded={isOpen}
-                      aria-controls={panelId}
-                    >
-                      <h3 className="text-[15px] leading-snug font-semibold text-[color:var(--color-text)] sm:text-[17px]">
-                        {item.q}
-                      </h3>
-                      <span
-                        aria-hidden
-                        className={cn(
-                          "relative mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors",
-                          isOpen
-                            ? "border-[color:var(--color-corridor-400)]/30"
-                            : "border-[color:var(--color-corridor-400)]/14",
-                        )}
-                      >
-                        <span
-                          className={cn(
-                            "absolute h-[1.5px] w-2.5 rounded-full transition-colors",
-                            isOpen ? "bg-[color:var(--color-corridor-400)]" : "bg-[color:var(--color-muted)]",
-                          )}
-                        />
-                        <span
-                          className={cn(
-                            "absolute h-2.5 w-[1.5px] rounded-full transition-all duration-200",
-                            isOpen ? "scale-0 bg-[color:var(--color-corridor-400)]" : "scale-100 bg-[color:var(--color-muted)]",
-                          )}
-                        />
-                      </span>
-                    </button>
-                    <AnimatePresence initial={false}>
-                      {isOpen ? (
-                        <motion.div
-                          id={panelId}
-                          role="region"
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: reduceMotion ? 0 : 0.24, ease: "easeOut" }}
-                          className="overflow-hidden"
-                        >
-                          <p className="px-4 pb-4 text-sm leading-7 text-[color:var(--color-muted)] sm:px-6 sm:pb-5">
-                            {item.a}
-                          </p>
-                        </motion.div>
-                      ) : null}
-                    </AnimatePresence>
-                  </article>
-                );
-              })}
-            </motion.div>
-          </motion.div>
-        </div>
-      </Container>
-    </section>
+    <SharedFaqSection
+      eyebrow={<CorridorEyebrow label={eyebrow} />}
+      title={title}
+      description={description}
+      items={items}
+      theme="light"
+      panelIdPrefix="corridor-faq"
+    />
   );
 }
 
@@ -622,81 +569,34 @@ export function CorridorCtaSection({
   primaryCta: CtaLink;
   secondaryCta: CtaLink;
 }) {
-  const { reduceMotion, reveal } = useAnimations();
-
   return (
-    <section className="relative overflow-hidden border-t border-[color:var(--color-ssp-ink-800)]/40 bg-[linear-gradient(145deg,var(--color-footer-legal-bg),var(--color-ssp-ink-900)_40%,var(--color-ssp-ink-800))] py-20 sm:py-24">
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute bottom-[-60px] right-[10%] h-[200px] w-[200px] rounded-full bg-[color:var(--color-corridor-400)]/8 blur-[100px]" />
-        <div className="absolute top-[-40px] left-[25%] h-[180px] w-[180px] rounded-full bg-[color:var(--color-corridor-300)]/6 blur-[80px]" />
-      </div>
-
-      <Container className="site-page-container relative">
-        <motion.div
-          className="rounded-2xl border border-white/12 bg-white/[0.04] px-5 py-8 backdrop-blur-sm sm:px-8 sm:py-10 md:px-10"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={reveal}
-          transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
-        >
-          <div className="grid gap-7 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-8">
-              <CorridorEyebrow label={eyebrow} light />
-              <h2 className="mt-3 text-2xl leading-tight font-semibold text-white sm:text-3xl">{title}</h2>
-              <p className="mt-3 max-w-3xl text-sm leading-7 text-white/65">{description}</p>
-              <div className="mt-5 flex flex-wrap gap-2 text-xs text-white/65">
-                {pills.map((p) => (
-                  <span
-                    key={p}
-                    className="rounded-full border border-[color:var(--color-corridor-400)]/22 bg-[color:var(--color-corridor-400)]/8 px-3 py-1"
-                  >
-                    {p}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-xl border border-white/12 bg-white/[0.05] p-4 sm:p-5 lg:col-span-4">
-              <p className="text-xs font-semibold tracking-[0.12em] text-white/60 uppercase">
-                {eyebrow}
-              </p>
-              <div className="mt-4 grid gap-3">
-                <Link
-                  href={primaryCta.href}
-                  onClick={() =>
-                    primaryCta.ctaId &&
-                    trackCtaClick({
-                      ctaId: primaryCta.ctaId,
-                      location: "corridor_final_cta",
-                      destination: primaryCta.href,
-                      label: primaryCta.label,
-                    })
-                  }
-                  className={cn("inline-flex h-12 items-center justify-center rounded-lg bg-[color:var(--color-corridor-400)] px-5 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(43,74,142,0.35)] transition hover:bg-[color:var(--color-corridor-500)] hover:shadow-[0_10px_28px_rgba(43,74,142,0.45)]", focusRingDark)}
-                >
-                  {primaryCta.label}
-                </Link>
-                <Link
-                  href={secondaryCta.href}
-                  onClick={() =>
-                    secondaryCta.ctaId &&
-                    trackCtaClick({
-                      ctaId: secondaryCta.ctaId,
-                      location: "corridor_final_cta",
-                      destination: secondaryCta.href,
-                      label: secondaryCta.label,
-                    })
-                  }
-                  className={cn("inline-flex h-12 items-center justify-center rounded-lg border border-white/20 px-5 text-sm font-semibold text-white/85 transition hover:border-white/35 hover:bg-white/8", focusRingDark)}
-                >
-                  {secondaryCta.label}
-                </Link>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </Container>
-    </section>
+    <StandardFinalCta
+      variant="corridor"
+      headingId="corridor-final-cta-heading"
+      trackingLocation="corridor_final_cta"
+      accentColor="var(--color-corridor-400)"
+      orbMainColor="rgba(43,74,142,0.32)"
+      orbSecondaryColor="rgba(156,163,175,0.12)"
+      eyebrow={<CorridorEyebrow label={eyebrow} light />}
+      data={{
+        kicker: eyebrow,
+        title,
+        body: description,
+        trustSignals: pills,
+        ctas: {
+          primary: {
+            label: primaryCta.label,
+            href: primaryCta.href,
+            ctaId: primaryCta.ctaId,
+          },
+          secondary: {
+            label: secondaryCta.label,
+            href: secondaryCta.href,
+            ctaId: secondaryCta.ctaId,
+          },
+        },
+      }}
+      bodyClassName="max-w-3xl text-sm leading-7 text-white/65"
+    />
   );
 }

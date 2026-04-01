@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
+import { SharedFaqSection } from "@/app/(site)/components/faq/SharedFaqSection";
+import { StandardFinalCta } from "@/app/(site)/components/cta/StandardFinalCta";
 import { trackCtaClick } from "@/lib/analytics/cta";
 
 const focusRing =
@@ -71,7 +73,6 @@ export function CrossBorderDetailSections({
 }: CrossBorderDetailSectionsProps) {
   const reduceMotion = useReducedMotion();
   const [activeComplianceIdx, setActiveComplianceIdx] = useState(0);
-  const [openFaqIdx, setOpenFaqIdx] = useState(0);
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
@@ -166,7 +167,21 @@ export function CrossBorderDetailSections({
         </Container>
       </section>
 
-      <section className="border-y border-[color:var(--color-menu-border)] bg-[linear-gradient(180deg,#ffffff,#f4f8fc)] py-20 sm:py-24">
+      <section className="relative overflow-hidden border-y border-[color:var(--color-menu-border)] bg-[linear-gradient(180deg,#ffffff,#f4f8fc)] py-20 sm:py-24">
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-menu-accent)]/18 to-transparent" />
+          <div
+            className="absolute left-0 top-0 h-[min(21rem,54vh)] w-full max-w-4xl opacity-[0.036]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, var(--color-company-companies-grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--color-company-companies-grid-line) 1px, transparent 1px)",
+              backgroundSize: "62px 62px",
+              maskImage: "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+              WebkitMaskImage:
+                "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+            }}
+          />
+        </div>
         <Container className="site-page-container">
           <motion.div
             className="grid gap-6 lg:grid-cols-12 lg:items-end"
@@ -259,7 +274,21 @@ export function CrossBorderDetailSections({
         </Container>
       </section>
 
-      <section className="border-y border-[color:var(--color-menu-border)] bg-[linear-gradient(180deg,#ffffff,#f6f9fc)] py-20 sm:py-24">
+      <section className="relative overflow-hidden border-y border-[color:var(--color-menu-border)] bg-[linear-gradient(180deg,#ffffff,#f6f9fc)] py-20 sm:py-24">
+        <div className="pointer-events-none absolute inset-0" aria-hidden>
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-menu-accent)]/18 to-transparent" />
+          <div
+            className="absolute left-0 top-0 h-[min(21rem,54vh)] w-full max-w-4xl opacity-[0.036]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, var(--color-company-companies-grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--color-company-companies-grid-line) 1px, transparent 1px)",
+              backgroundSize: "62px 62px",
+              maskImage: "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+              WebkitMaskImage:
+                "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+            }}
+          />
+        </div>
         <Container className="site-page-container">
           <motion.div
             className="grid gap-6 lg:grid-cols-12 lg:items-end"
@@ -364,180 +393,46 @@ export function CrossBorderDetailSections({
         </Container>
       </section>
 
-      <section className="border-y border-[color:var(--color-menu-border)] bg-[linear-gradient(180deg,#f5f8fb,#eef3f8)] py-20 sm:py-24">
-        <Container className="site-page-container">
-          <div className="grid gap-7 lg:grid-cols-12">
-            <motion.div
-              className="lg:col-span-4"
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.15 }}
-              variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
-            >
-              <SectionSignalEyebrow label="Common Questions" />
-              <h2 className="mt-3 text-3xl leading-tight font-semibold text-[color:var(--color-text)]">
-                What shippers ask before starting a cross-border program.
-              </h2>
-              <p className="mt-4 text-[15px] leading-8 text-[color:var(--color-muted)]">
-                The questions procurement and operations teams ask most often when evaluating
-                cross-border freight partnerships across North America.
-              </p>
-            </motion.div>
-            <motion.div
-              className="lg:col-span-8"
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.2 }}
-              variants={cardStagger}
-            >
-              <motion.div
-                variants={revealUp}
-                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-                className="overflow-hidden rounded-2xl border border-[color:var(--color-menu-border)] bg-white shadow-[0_8px_24px_rgba(2,6,23,0.06)]"
-              >
-                {faqItems.map((item, idx) => {
-                  const isOpen = idx === openFaqIdx;
-                  const panelId = `cb-faq-panel-${idx}`;
-                  return (
-                    <article
-                      key={item.q}
-                      className={idx < faqItems.length - 1 ? "border-b border-[color:var(--color-menu-border)]" : ""}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => setOpenFaqIdx((prev) => (prev === idx ? -1 : idx))}
-                        className={cn(
-                          "flex w-full items-start justify-between gap-3 px-4 py-4 text-left transition-colors hover:bg-[color:var(--color-nav-hover)] sm:gap-4 sm:px-6 sm:py-5",
-                          focusRing,
-                        )}
-                        aria-expanded={isOpen}
-                        aria-controls={panelId}
-                      >
-                        <h3 className="text-[15px] leading-snug font-semibold text-[color:var(--color-text)] sm:text-[17px]">
-                          {item.q}
-                        </h3>
-                        <span
-                          aria-hidden
-                          className={cn(
-                            "relative mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors",
-                            isOpen
-                              ? "border-[color:var(--color-menu-accent)]/30"
-                              : "border-[color:var(--color-menu-border)]",
-                          )}
-                        >
-                          <span
-                            className={cn(
-                              "absolute h-[1.5px] w-2.5 rounded-full transition-colors",
-                              isOpen
-                                ? "bg-[color:var(--color-menu-accent)]"
-                                : "bg-[color:var(--color-menu-subtle)]",
-                            )}
-                          />
-                          <span
-                            className={cn(
-                              "absolute h-2.5 w-[1.5px] rounded-full transition-all duration-200",
-                              isOpen
-                                ? "scale-0 bg-[color:var(--color-menu-accent)]"
-                                : "scale-100 bg-[color:var(--color-menu-subtle)]",
-                            )}
-                          />
-                        </span>
-                      </button>
+      <SharedFaqSection
+        eyebrow={<SectionSignalEyebrow label="FAQ" />}
+        title="What shippers ask before starting a cross-border program."
+        description="The questions procurement and operations teams ask most often when evaluating cross-border freight partnerships across North America."
+        items={faqItems}
+        theme="light"
+        panelIdPrefix="cb-faq"
+      />
 
-                      <AnimatePresence initial={false}>
-                        {isOpen ? (
-                          <motion.div
-                            id={panelId}
-                            role="region"
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: reduceMotion ? 0 : 0.24, ease: "easeOut" }}
-                            className="overflow-hidden"
-                          >
-                            <p className="px-4 pb-4 text-sm leading-7 text-[color:var(--color-nav-muted)] sm:px-6 sm:pb-5">
-                              {item.a}
-                            </p>
-                          </motion.div>
-                        ) : null}
-                      </AnimatePresence>
-                    </article>
-                  );
-                })}
-              </motion.div>
-            </motion.div>
-          </div>
-        </Container>
-      </section>
-
-      <section className="border-t border-[color:var(--color-ssp-ink-800)]/45 bg-[linear-gradient(140deg,var(--color-ssp-ink-900),var(--color-ssp-ink-800))] py-20 sm:py-24">
-        <Container className="site-page-container">
-          <motion.div
-            className="rounded-2xl border border-white/16 bg-white/[0.05] px-5 py-8 backdrop-blur-sm sm:px-8 sm:py-10 md:px-10"
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={revealUp}
-            transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
-          >
-            <div className="grid gap-7 lg:grid-cols-12 lg:items-center">
-              <div className="lg:col-span-8">
-                <SectionSignalEyebrow label="Start Your Program" light />
-                <h2 className="mt-3 text-2xl leading-tight font-semibold text-white sm:text-3xl">
-                  Ready to build a cross-border freight program that holds?
-                </h2>
-                <p className="mt-3 max-w-3xl text-sm leading-7 text-white/74">
-                  Share your corridor profile, freight requirements, and service priorities. SSP
-                  will design an execution plan aligned to your compliance, reliability, and
-                  control standards.
-                </p>
-                <div className="mt-5 flex flex-wrap gap-2 text-xs text-white/72">
-                  <span className="rounded-full border border-white/20 bg-white/[0.07] px-3 py-1">Lane-level onboarding</span>
-                  <span className="rounded-full border border-white/20 bg-white/[0.07] px-3 py-1">Customs-aligned workflows</span>
-                  <span className="rounded-full border border-white/20 bg-white/[0.07] px-3 py-1">Dedicated cross-border team</span>
-                </div>
-              </div>
-
-              <div className="rounded-xl border border-white/16 bg-white/[0.06] p-4 sm:p-5 lg:col-span-4">
-                <p className="text-xs font-semibold tracking-[0.12em] text-white/70 uppercase">
-                  Start Your Engagement
-                </p>
-                <div className="mt-4 grid gap-3">
-                  <Link
-                    href="/quote"
-                    onClick={() =>
-                      trackCtaClick({
-                        ctaId: "cb_hub_final_quote",
-                        location: "cross_border_final_cta",
-                        destination: "/quote",
-                        label: "Request a Cross-Border Quote",
-                      })
-                    }
-                    className={cn("inline-flex h-12 items-center justify-center rounded-lg bg-[color:var(--color-ssp-cyan-500)] px-5 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(16,167,216,0.35)] transition hover:bg-[color:var(--color-ssp-cyan-600)] hover:shadow-[0_10px_28px_rgba(16,167,216,0.45)]", focusRingDark)}
-                  >
-                    Request a Cross-Border Quote
-                  </Link>
-                  <Link
-                    href="/contact"
-                    onClick={() =>
-                      trackCtaClick({
-                        ctaId: "cb_hub_final_contact",
-                        location: "cross_border_final_cta",
-                        destination: "/contact",
-                        label: "Contact SSP Group",
-                      })
-                    }
-                    className={cn("inline-flex h-12 items-center justify-center rounded-lg border border-white/24 px-5 text-sm font-semibold text-white/92 transition hover:border-white/40 hover:bg-white/10", focusRingDark)}
-                  >
-                    Contact SSP Group
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </Container>
-      </section>
+      <StandardFinalCta
+        variant="corridor"
+        headingId="cross-border-final-cta-heading"
+        trackingLocation="cross_border_final_cta"
+        accentColor="var(--color-ssp-cyan-500)"
+        orbMainColor="rgba(16,167,216,0.1)"
+        orbSecondaryColor="rgba(255,255,255,0.06)"
+        eyebrow={<SectionSignalEyebrow label="Start Your Program" light />}
+        data={{
+          kicker: "Start Your Engagement",
+          title: "Ready to build a cross-border freight program that holds?",
+          body: "Share your corridor profile, freight requirements, and service priorities. SSP will design an execution plan aligned to your compliance, reliability, and control standards.",
+          trustSignals: [
+            "Lane-level onboarding",
+            "Customs-aligned workflows",
+            "Dedicated cross-border team",
+          ],
+          ctas: {
+            primary: {
+              label: "Request a Cross-Border Quote",
+              href: "/quote",
+              ctaId: "cb_hub_final_quote",
+            },
+            secondary: {
+              label: "Contact SSP Group",
+              href: "/contact",
+              ctaId: "cb_hub_final_contact",
+            },
+          },
+        }}
+      />
     </>
   );
 }

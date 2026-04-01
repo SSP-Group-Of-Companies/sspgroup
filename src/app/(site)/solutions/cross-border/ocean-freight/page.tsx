@@ -191,7 +191,7 @@ export default function CrossBorderOceanFreightPage() {
       />
 
       <OceanFaqSection
-        eyebrow="Common Questions"
+        eyebrow="FAQ"
         title="What shippers ask about ocean freight with SSP."
         description="Practical questions from procurement, logistics, and operations teams evaluating managed ocean freight for cross-border programs."
         items={faqItems}
