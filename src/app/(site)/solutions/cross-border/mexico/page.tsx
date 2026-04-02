@@ -7,11 +7,12 @@ import {
   CorridorStepsSection,
   CorridorFaqSection,
   CorridorCtaSection,
-} from "../canada-usa/CanadaUsaSections";
+} from "../CrossBorderCorridorSections";
 
 const PAGE_TITLE = "Mexico Cross-Border Freight | Security-Grade Corridor Execution";
 const PAGE_DESCRIPTION =
   "SSP operates managed freight programs across the U.S.–Mexico border with pedimento-aligned documentation, controlled border-zone transfers, security governance calibrated to corridor conditions, and disciplined execution through Laredo, El Paso, Nogales, and high-volume crossings.";
+const PAGE_OG_IMAGE = "/_optimized/solutions/mexico-hero-v2.png";
 
 /* ── Data ─────────────────────────────────────────────────────────────── */
 
@@ -20,16 +21,19 @@ const capabilities = [
     title: "Full Truckload (Dry Van)",
     body: "Standard truckload capacity across U.S.–Mexico corridors with vetted carrier networks on both sides of the border, schedule discipline, and committed coverage for recurring southbound and northbound programs.",
     href: "/solutions/dry-van",
+    ctaId: "cb_mexico_capability_dry_van",
   },
   {
     title: "Flatbed & Specialized",
     body: "Over-dimensional, open-deck, and heavy-haul freight with cross-border permitting, escort coordination, and route planning compliant with both Mexican and U.S. federal requirements.",
     href: "/solutions/flatbed",
+    ctaId: "cb_mexico_capability_flatbed",
   },
   {
     title: "Temperature-Controlled",
     body: "Reefer capacity for perishable goods, pharmaceuticals, and cold-chain commodities. Continuous monitoring through the border zone and into final delivery, with compliance documentation included.",
     href: "/solutions/temperature-controlled",
+    ctaId: "cb_mexico_capability_temperature_controlled",
   },
   {
     title: "Drayage & Border Transfer",
@@ -43,6 +47,7 @@ const capabilities = [
     title: "Project Freight",
     body: "Complex multi-load programs for industrial, energy, and manufacturing projects requiring phased border execution, coordinated delivery schedules, and security-grade oversight.",
     href: "/solutions/project-freight",
+    ctaId: "cb_mexico_capability_project_freight",
   },
 ] as const;
 
@@ -126,11 +131,13 @@ export const metadata: Metadata = {
     description: PAGE_DESCRIPTION,
     url: "/solutions/cross-border/mexico",
     type: "website",
+    images: [PAGE_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: `${PAGE_TITLE} | SSP Group`,
     description: PAGE_DESCRIPTION,
+    images: [PAGE_OG_IMAGE],
   },
 };
 
@@ -158,18 +165,32 @@ export default function MexicoCrossBorderPage() {
     url: `${SITE_URL}/solutions/cross-border/mexico`,
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Solutions", item: `${SITE_URL}/solutions` },
+      { "@type": "ListItem", position: 3, name: "Cross-Border", item: `${SITE_URL}/solutions/cross-border` },
+      { "@type": "ListItem", position: 4, name: "Mexico", item: `${SITE_URL}/solutions/cross-border/mexico` },
+    ],
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <CorridorHero
         eyebrow="Mexico Cross-Border"
         title="U.S.–Mexico freight with security-grade control across every corridor."
         description="SSP operates managed freight programs across the U.S.–Mexico border with pedimento-aligned documentation, controlled border-zone transfers, security governance calibrated to corridor conditions, and disciplined execution through Laredo, El Paso, Nogales, and high-volume crossings."
-        primaryCta={{ label: "Discuss Your Requirements", href: "/contact" }}
-        secondaryCta={{ label: "Explore Capabilities", href: "#capabilities" }}
+        primaryCta={{ label: "Discuss Your Requirements", href: "/contact", ctaId: "cb_mexico_hero_contact" }}
+        secondaryCta={{ label: "Explore Capabilities", href: "#capabilities", ctaId: "cb_mexico_hero_capabilities" }}
         flag="mexico"
+        analyticsScope="mexico"
+        backCtaId="cb_mexico_back"
       />
 
       <CorridorCardSection
@@ -179,6 +200,7 @@ export default function MexicoCrossBorderPage() {
         description="Truckload, specialized, drayage, and bonded freight modes for recurring programs and project-based cross-border execution."
         cards={capabilities}
         layout="sidebar"
+        trackingLocation="cross_border_mexico_capabilities"
       />
 
       <CorridorGlassSection
@@ -209,6 +231,7 @@ export default function MexicoCrossBorderPage() {
         pills={["Pedimento-aligned workflows", "Border-zone coordination", "Security governance", "Bilateral compliance"]}
         primaryCta={{ label: "Request a Corridor Assessment", href: "/quote", ctaId: "cb_mexico_final_quote" }}
         secondaryCta={{ label: "Contact SSP Group", href: "/contact", ctaId: "cb_mexico_final_contact" }}
+        trackingLocation="cross_border_mexico_final_cta"
       />
     </>
   );

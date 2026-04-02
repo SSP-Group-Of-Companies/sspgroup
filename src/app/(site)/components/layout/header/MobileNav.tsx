@@ -28,6 +28,10 @@ import {
 
 const ROLLOUT_DURATION_S = 0.32;
 
+function navId(value: string) {
+  return value.toLowerCase().replace(/[^\w]+/g, "_");
+}
+
 function MobileRowLink({
   href,
   label,
@@ -220,7 +224,7 @@ export function MobileNav() {
                     href={l.href}
                     label={l.label}
                     location="nav_mobile:menu"
-                    ctaId={`nav_mobile_menu_${l.label}`}
+                    ctaId={`nav_mobile_menu_${navId(l.href)}`}
                     onNavigate={closeAll}
                   />
                 ))}
@@ -232,7 +236,7 @@ export function MobileNav() {
             onClick={() => {
               closeAll();
               trackCtaClick({
-                ctaId: "nav_mobile_intro_view_all_solutions",
+                ctaId: `nav_mobile_intro_${navId(NAV.solutions.intro.ctaLabel)}`,
                 location: "nav_mobile:intro",
                 destination: NAV.solutions.intro.ctaHref,
                 label: NAV.solutions.intro.ctaLabel,
@@ -264,7 +268,7 @@ export function MobileNav() {
               href={l.href}
               label={l.label}
               location="nav_mobile:menu"
-              ctaId={`nav_mobile_menu_${l.label}`}
+              ctaId={`nav_mobile_menu_${navId(l.href)}`}
               onNavigate={closeAll}
             />
           ))}
@@ -274,7 +278,7 @@ export function MobileNav() {
           onClick={() => {
             closeAll();
             trackCtaClick({
-              ctaId: `nav_mobile_intro_${section.label.toLowerCase()}`,
+              ctaId: `nav_mobile_intro_${navId(section.intro.ctaLabel)}`,
               location: "nav_mobile:intro",
               destination: section.intro.ctaHref,
               label: section.intro.ctaLabel,

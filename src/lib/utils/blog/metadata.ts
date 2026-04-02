@@ -7,16 +7,27 @@ export function nptTitle(pageTitle?: string | null) {
   return t || SITE_NAME;
 }
 
+function toBrandedTitle(title: string) {
+  return title === SITE_NAME ? SITE_NAME : `${title} | SSP Group`;
+}
+
 export function nptMetadata(opts: {
   title?: string | null;
   description?: string | null;
   noIndex?: boolean;
   canonicalPath?: string;
   ogImage?: string | null;
+  openGraphType?: "website" | "article";
+  publishedTime?: string | null;
+  modifiedTime?: string | null;
 }): Metadata {
   const description = opts.description ? String(opts.description).trim() : undefined;
   const title = nptTitle(opts.title);
+  const brandedTitle = toBrandedTitle(title);
   const image = opts.ogImage ? String(opts.ogImage) : SITE_DEFAULT_OG_IMAGE;
+  const openGraphType = opts.openGraphType ?? "website";
+  const publishedTime = opts.publishedTime ? String(opts.publishedTime) : undefined;
+  const modifiedTime = opts.modifiedTime ? String(opts.modifiedTime) : undefined;
 
   return {
     title,
@@ -25,15 +36,22 @@ export function nptMetadata(opts: {
       ? {
           alternates: { canonical: opts.canonicalPath },
           openGraph: {
-            title,
+            type: openGraphType,
+            title: brandedTitle,
             description,
             url: toAbsoluteUrl(opts.canonicalPath),
             images: [image],
             siteName: SITE_NAME,
+            ...(openGraphType === "article"
+              ? {
+                  publishedTime,
+                  modifiedTime,
+                }
+              : {}),
           },
           twitter: {
             card: "summary_large_image",
-            title,
+            title: brandedTitle,
             description,
             images: [image],
           },

@@ -1,19 +1,6 @@
-import { COMPANY_CONTACT, SITE_NAME, SITE_URL, toAbsoluteUrl } from "@/lib/seo/site";
+import { SITE_NAME, SITE_URL, toAbsoluteUrl } from "@/lib/seo/site";
 
 const jsonLd = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": `${SITE_URL}#organization`,
-    name: SITE_NAME,
-    url: SITE_URL,
-    logo: toAbsoluteUrl("/_optimized/brand/SSPlogo.png"),
-    email: COMPANY_CONTACT.email,
-    telephone: COMPANY_CONTACT.phoneE164,
-    areaServed: ["Canada", "United States", "Mexico"],
-    description:
-      "SSP Group provides disciplined freight execution across Canada, the United States, and Mexico with a compliance-first operating model.",
-  },
   {
     "@context": "https://schema.org",
     "@type": "AboutPage",
@@ -28,8 +15,6 @@ const jsonLd = [
     about: {
       "@type": "Organization",
       "@id": `${SITE_URL}#organization`,
-      name: SITE_NAME,
-      url: SITE_URL,
     },
     description:
       "About SSP Group: operating standards, compliance, network coverage, and service philosophy.",

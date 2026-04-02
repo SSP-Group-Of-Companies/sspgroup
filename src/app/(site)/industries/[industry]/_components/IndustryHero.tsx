@@ -6,6 +6,7 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionEyebrow } from "@/app/(site)/components/ui/SectionEyebrow";
+import type { IndustryKey } from "@/config/industryKeys";
 import { cn } from "@/lib/cn";
 import type { IndustryPageModel, IndustryHeroTheme } from "@/config/industryPages";
 import { trackCtaClick } from "@/lib/analytics/cta";
@@ -132,7 +133,7 @@ function FloatingIcons() {
 }
 
 function useAnimations() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
@@ -188,7 +189,13 @@ function AutomotiveHeroBadge({ accentColor }: { accentColor: string }) {
   );
 }
 
-function AutomotiveHeroMedia({ accentColor }: { accentColor: string }) {
+function AutomotiveHeroMedia({
+  accentColor,
+  imageSrc,
+}: {
+  accentColor: string;
+  imageSrc: string;
+}) {
   return (
     <div className="relative mx-auto w-full max-w-[43rem]">
       <div
@@ -204,7 +211,7 @@ function AutomotiveHeroMedia({ accentColor }: { accentColor: string }) {
       <div className="relative overflow-hidden rounded-[30px] border border-white/12 bg-[#121923] shadow-[0_28px_70px_rgba(2,8,23,0.42)]">
         <div className="relative aspect-[4/4.6] sm:aspect-[16/12]">
           <Image
-            src="/_optimized/industries/automotive-hero-premium.png"
+            src={imageSrc}
             alt="Enclosed automotive transport loading finished vehicles at an industrial facility"
             fill
             priority
@@ -233,7 +240,6 @@ function AutomotiveHeroMedia({ accentColor }: { accentColor: string }) {
 }
 
 type ImmersiveHeroMediaConfig = {
-  src: string;
   alt: string;
   position: string;
   themeColor: string;
@@ -241,9 +247,10 @@ type ImmersiveHeroMediaConfig = {
   secondaryOrb?: string;
 };
 
-const HERO_MEDIA_CONFIG: Record<string, ImmersiveHeroMediaConfig> = {
+type ImmersiveIndustryKey = Exclude<IndustryKey, "automotive">;
+
+const HERO_MEDIA_CONFIG: Record<ImmersiveIndustryKey, ImmersiveHeroMediaConfig> = {
   manufacturing: {
-    src: "/_optimized/industries/manufacturing-hero-premium-v1.png",
     alt: "Premium manufacturing warehouse with staged raw materials, industrial components, and controlled forklift movement",
     position: "object-[54%_48%]",
     themeColor: "#1a1f2e",
@@ -251,7 +258,6 @@ const HERO_MEDIA_CONFIG: Record<string, ImmersiveHeroMediaConfig> = {
     secondaryOrb: "rgba(203, 213, 225, 0.04)",
   },
   food: {
-    src: "/_optimized/industries/food-hero-premium-v6.png",
     alt: "Cold-chain warehouse stocked with fresh produce crates and palletized food freight under atmospheric lighting",
     position: "object-[50%_35%]",
     themeColor: "#133522",
@@ -259,7 +265,6 @@ const HERO_MEDIA_CONFIG: Record<string, ImmersiveHeroMediaConfig> = {
     secondaryOrb: "rgba(153, 207, 120, 0.04)",
   },
   "steel-aluminum": {
-    src: "/_optimized/industries/steel-hero-premium-v1.png",
     alt: "Premium steel and aluminum warehouse environment with staged metal freight",
     position: "object-[58%_46%]",
     themeColor: "#13263a",
@@ -267,14 +272,12 @@ const HERO_MEDIA_CONFIG: Record<string, ImmersiveHeroMediaConfig> = {
     secondaryOrb: "rgba(96, 165, 250, 0.04)",
   },
   retail: {
-    src: "/_optimized/industries/retail-hero-premium-v3.png",
     alt: "Premium retail environment with in-store replenishment activity",
     position: "object-[56%_50%]",
     themeColor: "#0c1929",
     themeRgb: "12,25,41",
   },
   construction: {
-    src: "/_optimized/industries/construction-hero-premium-v1.png",
     alt: "Construction materials staging yard at golden hour with lumber, steel beams, and heavy equipment loading",
     position: "object-[50%_38%]",
     themeColor: "#231a0d",
@@ -282,7 +285,6 @@ const HERO_MEDIA_CONFIG: Record<string, ImmersiveHeroMediaConfig> = {
     secondaryOrb: "rgba(251, 191, 36, 0.04)",
   },
   "chemical-plastics": {
-    src: "/_optimized/industries/chemical-hero-premium-v1.png",
     alt: "Premium chemical and plastics logistics warehouse with controlled industrial storage and loading activity",
     position: "object-[58%_50%]",
     themeColor: "#0c242d",
@@ -293,11 +295,13 @@ const HERO_MEDIA_CONFIG: Record<string, ImmersiveHeroMediaConfig> = {
 function ImmersiveHeroMedia({
   accentColor,
   config,
+  imageSrc,
 }: {
   accentColor: string;
   config: ImmersiveHeroMediaConfig;
+  imageSrc: string;
 }) {
-  const { src, alt, position, themeColor, themeRgb, secondaryOrb } = config;
+  const { alt, position, themeColor, themeRgb, secondaryOrb } = config;
   return (
     <div className="pointer-events-none absolute inset-0">
       <div
@@ -322,7 +326,7 @@ function ImmersiveHeroMedia({
       >
         <div className="absolute inset-0">
           <Image
-            src={src}
+          src={imageSrc}
             alt={alt}
             fill
             priority
@@ -369,7 +373,7 @@ type CenteredHeroStyle = {
   textShadowRgb: string;
 };
 
-const CENTERED_HERO_STYLES: Record<string, CenteredHeroStyle> = {
+const CENTERED_HERO_STYLES: Record<ImmersiveIndustryKey, CenteredHeroStyle> = {
   manufacturing: {
     valueHeadlineColor: "#d5dde8",
     ctaBg: "#d5dde8",
@@ -424,7 +428,7 @@ function CenteredHeroContent({
   reduceMotion,
 }: {
   hero: IndustryPageModel["hero"];
-  industryKey: string;
+  industryKey: IndustryKey;
   style: CenteredHeroStyle;
   accentColor: string;
   heroSignals: string[];
@@ -511,7 +515,7 @@ function CenteredHeroContent({
             })
           }
           className={cn(
-            "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold transition-all duration-200 hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
+            "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold transition-all duration-200 motion-safe:hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
             FOCUS_RING_DARK,
           )}
           style={{
@@ -556,7 +560,9 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
   const bgColor = THEME_BG[theme];
   const accentColor = THEME_ACCENT[theme];
   const isSplitHero = model.key === "automotive";
-  const isImmersiveCenteredHero = model.key in HERO_MEDIA_CONFIG;
+  const immersiveHeroConfig = model.key === "automotive" ? null : HERO_MEDIA_CONFIG[model.key];
+  const immersiveHeroStyle = model.key === "automotive" ? null : CENTERED_HERO_STYLES[model.key];
+  const isImmersiveCenteredHero = immersiveHeroConfig != null && immersiveHeroStyle != null;
   const heroSignals = hero.signals ?? [];
   const proofStrip = hero.proofStrip ?? [];
 
@@ -568,13 +574,27 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
     >
       {/* Background layers — grid, vignette, gradient glow */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        {/* Grid lines — 120px cells, edge-to-edge */}
-        <div
-          className={cn(
-            "absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.8)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.8)_1px,transparent_1px)] [background-size:120px_120px]",
-            isImmersiveCenteredHero ? "opacity-[0.034]" : "opacity-[0.05]",
-          )}
-        />
+        {isSplitHero ? (
+          <div
+            className="absolute left-0 top-0 h-[min(21rem,54vh)] w-full max-w-4xl opacity-[0.036]"
+            style={{
+              backgroundImage:
+                "linear-gradient(to right, rgba(255,255,255,0.62) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.62) 1px, transparent 1px)",
+              backgroundSize: "62px 62px",
+              maskImage: "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+              WebkitMaskImage:
+                "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+            }}
+          />
+        ) : (
+          /* Grid lines — 120px cells, edge-to-edge */
+          <div
+            className={cn(
+              "absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.8)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.8)_1px,transparent_1px)] [background-size:120px_120px]",
+              isImmersiveCenteredHero ? "opacity-[0.034]" : "opacity-[0.05]",
+            )}
+          />
+        )}
         {isImmersiveCenteredHero ? (
           <div className="absolute inset-x-[14%] inset-y-[10%] bg-[radial-gradient(ellipse_at_center,rgba(11,20,34,0.16)_0%,rgba(11,20,34,0.08)_48%,transparent_78%)]" />
         ) : null}
@@ -631,6 +651,15 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
           >
             <Link
               href="/industries"
+              data-cta-id={`industry_nav_all_industries_${model.key}`}
+              onClick={() =>
+                trackCtaClick({
+                  ctaId: `industry_nav_all_industries_${model.key}`,
+                  location: `industry_${model.key}_hero`,
+                  destination: "/industries",
+                  label: "All Industries",
+                })
+              }
               className={cn(
                 "inline-flex items-center gap-1.5 rounded text-xs font-medium text-white/50 transition-colors hover:text-white/75",
                 FOCUS_RING_DARK,
@@ -718,7 +747,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                       })
                     }
                     className={cn(
-                      "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
+                      "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 motion-safe:hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
                       FOCUS_RING_DARK,
                     )}
                     style={{
@@ -756,16 +785,16 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                 variants={reveal}
                 transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
               >
-                <AutomotiveHeroMedia accentColor={accentColor} />
+                <AutomotiveHeroMedia accentColor={accentColor} imageSrc={model.meta.heroImage} />
               </motion.div>
             </div>
-          ) : isImmersiveCenteredHero && HERO_MEDIA_CONFIG[model.key] && CENTERED_HERO_STYLES[model.key] ? (
+          ) : isImmersiveCenteredHero && immersiveHeroConfig && immersiveHeroStyle ? (
             <>
-              <ImmersiveHeroMedia accentColor={accentColor} config={HERO_MEDIA_CONFIG[model.key]} />
+              <ImmersiveHeroMedia accentColor={accentColor} config={immersiveHeroConfig} imageSrc={model.meta.heroImage} />
               <CenteredHeroContent
                 hero={hero}
                 industryKey={model.key}
-                style={CENTERED_HERO_STYLES[model.key]}
+                style={immersiveHeroStyle}
                 accentColor={accentColor}
                 heroSignals={heroSignals}
                 reveal={reveal}
@@ -832,7 +861,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                     })
                   }
                   className={cn(
-                    "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
+                    "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 motion-safe:hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
                     FOCUS_RING_DARK,
                   )}
                   style={{
@@ -873,7 +902,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
             initial="hidden"
             animate="show"
             variants={stagger}
-            className="mx-auto mt-9 hidden max-w-4xl gap-3 md:grid md:grid-cols-3"
+            className="mx-auto mt-9 grid max-w-4xl gap-3 sm:grid-cols-3"
           >
             {proofStrip.map((item) => (
               <motion.div

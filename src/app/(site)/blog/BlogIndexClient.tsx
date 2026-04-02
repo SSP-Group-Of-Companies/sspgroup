@@ -45,6 +45,10 @@ type Query = {
   limit: number;
 };
 
+function insightPath(slug: string) {
+  return `/insights/${encodeURIComponent(slug)}`;
+}
+
 function fmtDate(d?: any) {
   if (!d) return "";
   try {
@@ -218,7 +222,7 @@ export default function BlogIndexClient({
       merged.limit = merged.limit || 9;
 
       const qs = buildUrlParams(merged);
-      const nextUrl = `/blog?${qs.toString()}`;
+      const nextUrl = `/insights?${qs.toString()}`;
 
       if (replaceUrl && lastUrlRef.current !== nextUrl) {
         lastUrlRef.current = nextUrl;
@@ -662,7 +666,7 @@ export default function BlogIndexClient({
                       items.map((p) => (
                         <Link
                           key={p.id}
-                          href={`/blog/${p.slug}`}
+                          href={insightPath(p.slug)}
                           className="site-card-surface group cursor-pointer rounded-2xl p-3 transition hover:-translate-y-[1px] hover:shadow-md"
                         >
                           <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-1-light)]">
@@ -865,7 +869,7 @@ export default function BlogIndexClient({
                       {recentItems?.map((p) => (
                         <Link
                           key={p.id}
-                          href={`/blog/${p.slug}`}
+                          href={insightPath(p.slug)}
                           className="site-card-surface block cursor-pointer rounded-2xl p-3 hover:bg-[color:var(--color-surface-0-light)]"
                         >
                           <div className="line-clamp-2 text-xs font-semibold text-[color:var(--color-text-light)]">

@@ -121,7 +121,7 @@ const STATIC_DESTINATIONS: SearchCandidate[] = [
   },
   {
     label: "Company",
-    href: "/company",
+    href: "/about-us",
     description: "SSP profile, standards, and network",
     keywords: ["company", "about", "ssp group"],
   },
@@ -155,8 +155,10 @@ function resolveSolutionHref(serviceSlug: string, sectionKey?: string) {
   }
 
   if (serviceSlug === "cross-border") {
-    if (sectionKey === "ocean-freight") return "/solutions/ocean-freight";
-    if (sectionKey === "air-freight") return "/solutions/air-freight";
+    if (sectionKey === "canada-us") return "/solutions/cross-border/canada-usa";
+    if (sectionKey === "mexico-cross-border") return "/solutions/cross-border/mexico";
+    if (sectionKey === "ocean-freight") return "/solutions/cross-border/ocean-freight";
+    if (sectionKey === "air-freight") return "/solutions/cross-border/air-freight";
     return "/solutions/cross-border";
   }
 

@@ -281,7 +281,15 @@ export function DesktopNav() {
                             <li key={link.href}>
                               <Link
                                 href={link.href}
-                                onClick={() => closeMenu()}
+                                onClick={() => {
+                                  closeMenu();
+                                  trackCtaClick({
+                                    ctaId: `nav_desktop_menu_${navId(link.href)}`,
+                                    location: "nav_desktop:menu",
+                                    destination: link.href,
+                                    label: link.label,
+                                  });
+                                }}
                                 className={cn(
                                   "relative inline-flex w-fit px-2 py-1.5 text-[14px] font-medium text-[color:var(--color-menu-title)] transition-colors duration-200",
                                   "after:absolute after:bottom-0.5 after:left-2 after:right-2 after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[color:var(--color-menu-accent)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
@@ -303,7 +311,15 @@ export function DesktopNav() {
                       <li key={link.href}>
                         <Link
                           href={link.href}
-                          onClick={() => closeMenu()}
+                          onClick={() => {
+                            closeMenu();
+                            trackCtaClick({
+                              ctaId: `nav_desktop_menu_${navId(link.href)}`,
+                              location: "nav_desktop:menu",
+                              destination: link.href,
+                              label: link.label,
+                            });
+                          }}
                           className={cn(
                             "group block rounded-md px-3 py-3 transition-colors duration-200",
                             focusRingNav,

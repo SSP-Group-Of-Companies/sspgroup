@@ -49,14 +49,6 @@ const SOLUTION_PAGES = {
     title: "Temperature-Controlled",
     description: "Cold-chain freight managed with temperature integrity and documentation rigor.",
   },
-  "air-freight": {
-    title: "Air Freight",
-    description: "Time-critical global uplift with controlled handoffs and visibility.",
-  },
-  "ocean-freight": {
-    title: "Ocean Freight",
-    description: "International ocean programs integrated with inland distribution planning.",
-  },
   "warehousing-distribution": {
     title: "Warehousing & Distribution",
     description: "Storage, handling, and outbound distribution across regional networks.",
@@ -92,7 +84,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { solution } = await params;
   const data = getSolution(solution);
-  if (!data) return {};
+  if (!data) notFound();
 
   return {
     title: data.title,

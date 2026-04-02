@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useReducedMotion } from "framer-motion";
 import { IconRoute } from "./WidgetIcons";
 import { PillToggle, WidgetCard } from "./WidgetCard";
 
@@ -23,23 +24,11 @@ function getStatus(complianceLoad: number): "Standard Transport" | "Enhanced Con
   return "Special Handling Required";
 }
 
-function useReducedMotion() {
-  const [reduce, setReduce] = React.useState(false);
-  React.useEffect(() => {
-    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduce(m.matches);
-    const f = () => setReduce(m.matches);
-    m.addEventListener("change", f);
-    return () => m.removeEventListener("change", f);
-  }, []);
-  return reduce;
-}
-
 export function HeavyHaulRouteWidget({ accentColor }: { accentColor?: string }) {
   const [complexity, setComplexity] = React.useState(35);
   const [loadType, setLoadType] = React.useState<LoadType>("heavy");
   const [distance, setDistance] = React.useState(500);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const accent = accentColor ?? "var(--color-brand-500)";
 
   const loadFactor = LOAD_FACTOR[loadType];

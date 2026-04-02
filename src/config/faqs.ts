@@ -3,6 +3,8 @@
  * Structured for accordion UI and hash-linked category sidebar.
  */
 
+import { SHARED_SAFETY_COMPLIANCE_FAQ } from "./companyPages";
+
 export type FaqItem = Readonly<{
   question: string;
   answer: string;
@@ -16,70 +18,131 @@ export type FaqCategory = Readonly<{
 
 export const FAQ_CATEGORIES: readonly FaqCategory[] = [
   {
-    id: "services",
-    label: "Our Services",
+    id: "service-scope",
+    label: "Service Scope & Coverage",
     items: [
       {
-        question: "What freight modes does SSP Group offer?",
+        question: "What freight services does SSP Group operate today?",
         answer:
-          "We offer full truckload (FTL), less-than-truckload (LTL), expedited and specialized, temperature-controlled, hazmat, and cross-border and global services. Each mode is designed for specific lane, timeline, and compliance needs—we help you match the right mode to your shipment.",
+          "SSP operates asset-based freight programs across truckload and specialized equipment profiles, plus cross-border lane execution between Canada, the United States, and Mexico. Program scope is aligned to lane requirements, commodity constraints, and service commitments.",
       },
       {
-        question: "How do I get a quote?",
+        question: "Which geographies do you cover?",
         answer:
-          "Request a quote through our website or contact operations. For the fastest response, provide lane (origin and destination), weight and dimensions, pickup and delivery windows, and any special requirements (temperature, hazmat, customs). We typically respond with a structured quote within one business cycle.",
+          "SSP supports domestic and cross-border freight execution across Canada, the United States, and Mexico. Coverage is lane-dependent, and final operating design is confirmed during onboarding based on origin-destination profile, commodity, and service cadence.",
       },
       {
-        question: "Do you handle cross-border shipments?",
+        question: "Can SSP support dedicated or recurring lane programs?",
         answer:
-          "Yes. We coordinate Canada–U.S. and Mexico cross-border moves with documentation readiness, broker handoffs, and milestone visibility. We also support ocean and air freight for international lanes. Tell us your origin, destination, and commodity and we'll outline the process and timing.",
+          "Yes. SSP supports recurring lane structures, defined service standards, and governance cadence for enterprise programs. Operating design is built around forecasted volume, equipment fit, service windows, and exception handling requirements.",
       },
       {
-        question: "What is your coverage area?",
+        question: "How should we request a quote or program review?",
         answer:
-          "We operate across North America with offices and capacity in Canada, the U.S., and Mexico. We provide a single point of accountability for domestic and cross-border lanes rather than handing you off between regional brokers.",
+          "Submit lane origin and destination, commodity profile, pickup and delivery windows, target volume, and any compliance constraints. SSP uses that input to return an execution model with clear assumptions, responsibilities, and service controls.",
       },
     ],
   },
   {
-    id: "tracking-operations",
-    label: "Tracking & Operations",
+    id: "cross-border-customs",
+    label: "Cross-Border & Customs",
     items: [
       {
-        question: "How do I track my shipment?",
+        question: "Does SSP handle cross-border freight between Canada, the U.S., and Mexico?",
         answer:
-          "Use our Track Shipment tool on the website with your pro or reference number. You'll see milestone-level status and can contact operations for details. We provide proactive updates at key stages so you're not left wondering.",
+          "Yes. Cross-border execution is a core part of SSP's operating footprint. Programs are structured around corridor requirements, document readiness, handoff control, and communication cadence from dispatch through delivery.",
       },
       {
-        question: "Who do I contact for updates or issues?",
+        question: "Who is responsible for customs brokerage and formal entry processes?",
         answer:
-          "Your load has a single point of ownership from dispatch through delivery. Operations coverage is available so you have a clear escalation path. Contact details are provided at booking and in confirmation communications.",
+          "Broker-of-record and importer responsibilities are determined by shipment structure and customer setup. SSP coordinates operational handoffs and document discipline, while formal customs roles remain aligned to the agreed commercial model and applicable broker instructions.",
       },
       {
-        question: "What happens if there's a delay or exception?",
+        question: "What documents are typically required for cross-border moves?",
         answer:
-          "We manage exceptions with root cause, corrective action, and revised ETAs—documented and communicated. We don't leave you in the dark; we outline what's happening and what we're doing to get the load back on plan.",
+          "Requirements vary by lane and commodity, but commonly include commercial invoice data, bill of lading details, and any required customs or commodity documentation. Final document requirements are determined by corridor rules, customs authorities, and broker guidance. SSP confirms required document sets before release to reduce border delays.",
+      },
+      {
+        question: "How does SSP reduce border-delay risk?",
+        answer:
+          "Risk is reduced through pre-move document checks, lane-specific operating controls, and active milestone governance during transit. When conditions change, escalation ownership and communication remain defined.",
       },
     ],
   },
   {
-    id: "billing-partners",
-    label: "Billing & Partners",
+    id: "visibility-control",
+    label: "Visibility & Exception Control",
     items: [
       {
-        question: "How does billing work?",
+        question: "How do we track shipment progress?",
         answer:
-          "We issue a single invoice per load (or as agreed for dedicated programs). Payment terms are confirmed at booking. You get one statement and one relationship—no chasing multiple carriers or brokers for the same move.",
+          "Shipment visibility is provided through SSP tracking workflows and operations communication cadence. Milestone updates, status changes, and exception notices are tied to defined points in the move lifecycle.",
       },
       {
-        question: "Do you work with freight brokers or only direct shippers?",
+        question: "How are delays or service exceptions handled?",
         answer:
-          "We work with shippers, 3PLs, and brokers. Our model is built for disciplined execution and clear accountability whether you're shipping direct or through a partner. We can align to your procurement and reporting requirements.",
+          "Exceptions are managed through accountable escalation: issue identification, corrective action, updated ETA, and documented communication. SSP prioritizes decision-ready updates so customer teams can act quickly.",
       },
       {
-        question: "Can we integrate with our TMS or ERP?",
+        question: "Will we have a single point of operational accountability?",
         answer:
-          "We can discuss EDI, API, and system integration for visibility, tenders, and documentation. Share your stack and we'll outline what we support today and what we can roadmap.",
+          "Yes. SSP's operating model is structured around named ownership across planning, dispatch, in-transit governance, and closeout. That reduces handoff ambiguity and accelerates escalation response.",
+      },
+      {
+        question: "Can SSP align communication cadence to our internal SLA model?",
+        answer:
+          "Yes. Communication cadence can be aligned to your internal operating rhythm, including milestone updates, escalation thresholds, and stakeholder notification requirements.",
+      },
+    ],
+  },
+  {
+    id: "safety-compliance",
+    label: "Safety, Compliance & Documentation",
+    items: [
+      {
+        question: SHARED_SAFETY_COMPLIANCE_FAQ.question,
+        answer: SHARED_SAFETY_COMPLIANCE_FAQ.answer,
+      },
+      {
+        question: "Can SSP support higher-accountability or regulated freight profiles?",
+        answer:
+          "SSP can support shipment profiles that require elevated handling discipline, documentation quality, and operating controls. Lane and commodity requirements are validated before movement is authorized.",
+      },
+      {
+        question: "How is documentation quality controlled?",
+        answer:
+          "Documentation requirements are reviewed at shipment level against lane and commodity context. SSP applies pre-release checks and closeout discipline to improve completeness and audit readiness.",
+      },
+      {
+        question: "How does SSP align to CA-US-MX regulatory environments?",
+        answer:
+          "Regulatory requirements differ by jurisdiction and shipment type. SSP aligns operational controls to active corridor requirements and keeps responsibilities visible throughout the execution lifecycle. Regulatory references are informational; formal legal and customs determinations are made by authorized entities.",
+      },
+    ],
+  },
+  {
+    id: "commercial-billing-claims",
+    label: "Commercial, Billing & Claims",
+    items: [
+      {
+        question: "Do you work directly with shippers only, or also with 3PLs and brokers?",
+        answer:
+          "SSP supports direct shipper programs and partner-led models, including 3PL and broker relationships. Operating governance and accountability are maintained regardless of commercial channel.",
+      },
+      {
+        question: "How is billing structured?",
+        answer:
+          "Billing structure and terms are defined at onboarding or quoting stage. SSP aligns invoicing workflow to the agreed commercial model so finance and operations teams have clear documentation and reconciliation flow.",
+      },
+      {
+        question: "How are cargo claims handled?",
+        answer:
+          "Claims are handled through a documented review process with shipment records, supporting documentation, and defined response steps. SSP coordinates investigation and resolution in alignment with agreed terms and applicable requirements.",
+      },
+      {
+        question: "Can SSP support integration with transportation systems?",
+        answer:
+          "Integration support is discussed during onboarding. Based on workflow scope, SSP can align operational data exchange and reporting expectations to customer system requirements.",
       },
     ],
   },
@@ -88,34 +151,41 @@ export const FAQ_CATEGORIES: readonly FaqCategory[] = [
 export const FAQ_HERO = {
   title: "Frequently Asked Questions",
   subtitle:
-    "How may we help? Browse common questions about our services, safety, tracking, and operations.",
+    "Find clear, operational answers on service scope, cross-border execution, compliance, and shipment governance.",
+} as const;
+
+export const FAQ_PAGE_ROUTES = {
+  aboutSsp: "/about-us",
+  insights: "/insights",
+  contact: "/contact",
+  liveChat: "#live-chat",
 } as const;
 
 /** FAQ page final CTA: help-oriented copy and live-agent CTA. */
 export const FAQ_FINAL_CTA = {
   kicker: "Need more help?",
   title: "Couldn't find what you need above?",
-  body: "Chat with our team or request a quote—we're here to help with your freight questions, quotes, and operations.",
+  body: "Share your lane requirements or operational constraints. SSP will route your request to the right team and respond with the next best step.",
   trustSignals: [
-    "Live chat with our team",
-    "Fast quote response",
-    "Lane-level support",
+    "Enterprise request triage",
+    "Lane-level requirement intake",
+    "Clear ownership on next steps",
   ] as const,
   proof: [
-    { value: "≤ 15 min", label: "Initial response" },
-    { value: "24/7", label: "Operations coverage" },
-    { value: "CA–US–MX", label: "Lane scope" },
+    { value: "Structured", label: "Request intake" },
+    { value: "Named", label: "Response ownership" },
+    { value: "Scope-fit", label: "Program review" },
   ] as const,
-  microCopy: "Prefer a quick call? Our team can align on your lanes and timing.",
+  microCopy: "Prefer a call? We can align on lane profile, service windows, and escalation expectations.",
   ctas: {
     primary: {
       label: "Contact Us",
-      href: "/contact",
+      href: FAQ_PAGE_ROUTES.contact,
       ctaId: "faq_final_contact_us",
     },
     secondary: {
       label: "Speak with a live agent",
-      href: "#live-chat",
+      href: FAQ_PAGE_ROUTES.liveChat,
       ctaId: "faq_final_speak_live_agent",
     },
   },

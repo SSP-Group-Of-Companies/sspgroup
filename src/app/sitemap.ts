@@ -3,6 +3,11 @@ import { getIndustrySlugs } from "@/config/industryPages";
 import { getSeoLocationPriority, getSeoLocationSlugs } from "@/config/seoLocations";
 import { getSeoLanePriority, getSeoLaneSlugs } from "@/config/seoLanes";
 import { SITE_URL } from "@/lib/seo/site";
+import connectDB from "@/lib/utils/connectDB";
+import { BlogPostModel } from "@/mongoose/models/BlogPost";
+import { JobPostingModel } from "@/mongoose/models/JobPosting";
+import { EBlogStatus } from "@/types/blogPost.types";
+import { EJobPostingStatus } from "@/types/jobPosting.types";
 
 const siteUrl = SITE_URL;
 
@@ -12,35 +17,37 @@ function toAbsolute(path: string) {
 
 async function getBlogRoutes() {
   try {
-    const qs = new URLSearchParams({ page: "1", limit: "200", sortBy: "newest" });
-    const res = await fetch(`${siteUrl}/api/v1/blog?${qs.toString()}`, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return [] as string[];
-    const data = (await res.json()) as { data?: { items?: Array<{ slug?: string }> } };
-    return (data.data?.items ?? [])
-      .map((x) => x?.slug)
-      .filter((x): x is string => Boolean(x))
-      .map((slug) => `/blog/${slug}`);
-  } catch {
-    return [] as string[];
+    await connectDB();
+    const posts = await BlogPostModel.find({ status: EBlogStatus.PUBLISHED })
+      .sort({ publishedAt: -1, _id: -1 })
+      .select({ slug: 1 })
+      .lean();
+
+    return posts
+      .map((post: any) => post?.slug)
+      .filter((slug: unknown): slug is string => typeof slug === "string" && slug.length > 0)
+      .map((slug) => `/insights/${encodeURIComponent(slug)}`);
+  } catch (error) {
+    console.error("Failed to load published insight routes for sitemap.", error);
+    return [];
   }
 }
 
 async function getCareersRoutes() {
   try {
-    const qs = new URLSearchParams({ page: "1", pageSize: "200", sortBy: "publishedAt", sortDir: "desc" });
-    const res = await fetch(`${siteUrl}/api/v1/jobs?${qs.toString()}`, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return [] as string[];
-    const data = (await res.json()) as { data?: { items?: Array<{ slug?: string }> } };
-    return (data.data?.items ?? [])
-      .map((x) => x?.slug)
-      .filter((x): x is string => Boolean(x))
-      .map((slug) => `/careers/${slug}`);
-  } catch {
-    return [] as string[];
+    await connectDB();
+    const jobs = await JobPostingModel.find({ status: EJobPostingStatus.PUBLISHED })
+      .sort({ publishedAt: -1, _id: -1 })
+      .select({ slug: 1 })
+      .lean();
+
+    return jobs
+      .map((job: any) => job?.slug)
+      .filter((slug: unknown): slug is string => typeof slug === "string" && slug.length > 0)
+      .map((slug) => `/careers/${encodeURIComponent(slug)}`);
+  } catch (error) {
+    console.error("Failed to load published career routes for sitemap.", error);
+    return [];
   }
 }
 
@@ -54,17 +61,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/about-us",
     "/company/our-history",
     "/company/safety-compliance",
-    "/company/leadership",
     "/company/media",
-    "/company/awards-recognition",
-    "/company/sustainability",
     "/company/faqs",
     "/careers",
     "/insights",
     "/contact",
     "/quote",
-    "/track-shipment",
-    "/carrier-portal",
     "/privacy",
     "/terms",
     "/cookies",
@@ -89,8 +91,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/solutions/cross-border/mexico",
     "/solutions/cross-border/air-freight",
     "/solutions/cross-border/ocean-freight",
-    "/solutions/air-freight",
-    "/solutions/ocean-freight",
     "/solutions/warehousing-distribution",
     "/solutions/managed-capacity",
     "/solutions/dedicated-contract",
@@ -128,9 +128,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...careersRoutes,
   ].map((path) => ({
     url: toAbsolute(path),
-    lastModified: new Date(),
     changeFrequency:
-      path === "/" ? "daily" : path.startsWith("/insights/") || path.startsWith("/blog/") ? "weekly" : "monthly",
+      path === "/" ? "daily" : path === "/insights" || path.startsWith("/insights/") ? "weekly" : "monthly",
     priority: getPriority(path),
   }));
 }

@@ -16,16 +16,16 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { industry } = await Promise.resolve(params);
   const model = getIndustryBySlug(industry);
-  if (!model) return {};
+  if (!model) notFound();
   return {
-    title: model.meta.title,
+    title: { absolute: model.meta.title },
     description: model.meta.description,
-    alternates: { canonical: `https://sspgroup.com/industries/${model.slug}` },
+    alternates: { canonical: `/industries/${model.slug}` },
     openGraph: {
       title: model.meta.title,
       description: model.meta.description,
       type: "website",
-      url: `https://sspgroup.com/industries/${model.slug}`,
+      url: `/industries/${model.slug}`,
       images: model.meta.ogImage ? [model.meta.ogImage] : [],
     },
     twitter: {

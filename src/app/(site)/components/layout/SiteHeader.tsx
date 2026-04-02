@@ -62,6 +62,7 @@ export function SiteHeader() {
 
   return (
     <header
+      data-site-header
       className={cn(
         "sticky top-0 isolate z-[65]",
         "border-b border-[color:var(--color-nav-border)]",

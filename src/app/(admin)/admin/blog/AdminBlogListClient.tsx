@@ -283,7 +283,7 @@ export default function AdminBlogListClient({
   }
 
   function openPreview(slug: string) {
-    window.open(`/blog/${encodeURIComponent(slug)}`, "_blank", "noopener,noreferrer");
+    window.open(`/insights/${encodeURIComponent(slug)}`, "_blank", "noopener,noreferrer");
   }
 
   const allChecked = items.length > 0 && selected.length === items.length;

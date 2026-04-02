@@ -6,6 +6,8 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
+import { INDUSTRY_SLIDES, type IndustrySlide } from "@/config/industries";
+import { getIndustryByKey } from "@/config/industryPages";
 import { cn } from "@/lib/cn";
 import { trackCtaClick } from "@/lib/analytics/cta";
 
@@ -17,7 +19,7 @@ const focusRingDark =
    ═══════════════════════════════════════════════════════════════════════ */
 
 type IndustryCard = {
-  key: string;
+  key: IndustrySlide["key"];
   label: string;
   tagline: string;
   href: string;
@@ -29,92 +31,36 @@ type IndustryCard = {
   signals: string[];
 };
 
-const INDUSTRIES: IndustryCard[] = [
-  {
-    key: "automotive",
-    label: "Automotive",
-    tagline: "Production-critical freight with OEM-grade execution discipline.",
-    href: "/industries/automotive",
-    image: "/_optimized/industries/automotive-hero-premium.png",
-    theme: "#0d1218",
-    themeRgb: "13,18,24",
-    accent: "#9aa8b8",
-    accentRgb: "154,168,184",
-    signals: ["JIT / JIS", "Enclosed", "USMCA"],
-  },
-  {
-    key: "manufacturing",
-    label: "Manufacturing & Materials",
-    tagline: "Inbound rhythm, handling discipline, and exception ownership.",
-    href: "/industries/manufacturing-materials",
-    image: "/_optimized/industries/manufacturing-hero-premium-v1.png",
-    theme: "#1a1f2e",
-    themeRgb: "26,31,46",
-    accent: "#94a3b8",
-    accentRgb: "148,163,184",
-    signals: ["Plant-ready", "Commodity-fit", "Owner-led"],
-  },
-  {
-    key: "retail",
-    label: "Retail & Consumer Goods",
-    tagline: "Window-governed delivery across stores, DCs, and cross-border lanes.",
-    href: "/industries/retail-consumer-goods",
-    image: "/_optimized/industries/retail-hero-premium-v3.png",
-    theme: "#0c1929",
-    themeRgb: "12,25,41",
-    accent: "#60a5fa",
-    accentRgb: "96,165,250",
-    signals: ["Window-safe", "Surge-ready", "Border-ready"],
-  },
-  {
-    key: "food",
-    label: "Food & Beverage",
-    tagline: "Temperature discipline, freshness control, and compliance traceability.",
-    href: "/industries/food-beverage",
-    image: "/_optimized/industries/food-hero-premium-v6.png",
-    theme: "#133522",
-    themeRgb: "19,53,34",
-    accent: "#99cf78",
-    accentRgb: "153,207,120",
-    signals: ["Cold-chain", "Freshness-safe", "Audit-ready"],
-  },
-  {
-    key: "steel",
-    label: "Steel & Aluminum",
-    tagline: "Engineered securement, route compliance, and heavy-freight control.",
-    href: "/industries/steel-aluminum",
-    image: "/_optimized/industries/steel-hero-premium-v1.png",
-    theme: "#13263a",
-    themeRgb: "19,38,58",
-    accent: "#6f879d",
-    accentRgb: "111,135,157",
-    signals: ["Load-safe", "Route-ready", "CA / US / MX"],
-  },
-  {
-    key: "construction",
-    label: "Construction & Building Materials",
-    tagline: "Permit-aware planning, safety governance, and schedule protection.",
-    href: "/industries/construction-building-materials",
-    image: "/_optimized/industries/construction-hero-premium-v1.png",
-    theme: "#231a0d",
-    themeRgb: "35,26,13",
-    accent: "#fbbf24",
-    accentRgb: "251,191,36",
-    signals: ["Permit-ready", "Safety-led", "Project-fit"],
-  },
-  {
-    key: "chemical",
-    label: "Chemical & Plastics",
-    tagline: "Carrier qualification, document control, and regulated execution.",
-    href: "/industries/chemical-plastics",
-    image: "/_optimized/industries/chemical-hero-premium-v1.png",
-    theme: "#0c242d",
-    themeRgb: "12,36,45",
-    accent: "#5fd5c8",
-    accentRgb: "95,213,200",
-    signals: ["DOT / TDG", "Hazmat-qualified", "Owner-led"],
-  },
-];
+const INDUSTRY_CARD_THEMES: Record<
+  IndustrySlide["key"],
+  Pick<IndustryCard, "theme" | "themeRgb" | "accent" | "accentRgb">
+> = {
+  automotive: { theme: "#0d1218", themeRgb: "13,18,24", accent: "#9aa8b8", accentRgb: "154,168,184" },
+  manufacturing: { theme: "#1a1f2e", themeRgb: "26,31,46", accent: "#94a3b8", accentRgb: "148,163,184" },
+  retail: { theme: "#0c1929", themeRgb: "12,25,41", accent: "#60a5fa", accentRgb: "96,165,250" },
+  food: { theme: "#133522", themeRgb: "19,53,34", accent: "#99cf78", accentRgb: "153,207,120" },
+  "steel-aluminum": { theme: "#13263a", themeRgb: "19,38,58", accent: "#6f879d", accentRgb: "111,135,157" },
+  construction: { theme: "#231a0d", themeRgb: "35,26,13", accent: "#fbbf24", accentRgb: "251,191,36" },
+  "chemical-plastics": { theme: "#0c242d", themeRgb: "12,36,45", accent: "#5fd5c8", accentRgb: "95,213,200" },
+};
+
+const INDUSTRIES: IndustryCard[] = INDUSTRY_SLIDES.map((slide) => {
+  const industry = getIndustryByKey(slide.key);
+
+  if (!industry) {
+    throw new Error(`Missing industry config for "${slide.key}"`);
+  }
+
+  return {
+    key: slide.key,
+    label: slide.label,
+    tagline: slide.mobileSubtitle ?? slide.subtitle,
+    href: slide.href,
+    image: slide.image,
+    ...INDUSTRY_CARD_THEMES[slide.key],
+    signals: industry.hero.signals?.slice(0, 3) ?? [],
+  };
+});
 
 const DIFFERENTIATORS = [
   {
@@ -150,7 +96,7 @@ const CTA_TRUST_PILLS = [
    ═══════════════════════════════════════════════════════════════════════ */
 
 function useAnimations() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
     : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
@@ -211,7 +157,7 @@ function IndustryCardItem({ card, index, isLarge }: { card: IndustryCard; index:
             src={card.image}
             alt={`${card.label} freight logistics`}
             fill
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+            className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.05]"
             sizes={isLarge ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 33vw"}
           />
           {/* Light vignette — keeps image visible most of the card */}
@@ -267,7 +213,7 @@ function IndustryCardItem({ card, index, isLarge }: { card: IndustryCard; index:
               style={{ color: card.accent }}
             >
               Explore program
-              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 motion-safe:group-hover:translate-x-1" />
             </span>
           </div>
         </div>
@@ -338,6 +284,7 @@ export function IndustriesHub() {
             >
               <Link
                 href="/contact"
+                data-cta-id="industries_hub_hero_contact"
                 onClick={() =>
                   trackCtaClick({
                     ctaId: "industries_hub_hero_contact",
@@ -347,7 +294,7 @@ export function IndustriesHub() {
                   })
                 }
                 className={cn(
-                  "inline-flex h-12 items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-[1px]",
+                  "inline-flex h-12 items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 motion-safe:hover:-translate-y-[1px]",
                   "bg-[color:var(--color-ssp-ink-800)] shadow-[0_8px_28px_rgba(13,79,120,0.22)] hover:bg-[color:var(--color-ssp-ink-900)] hover:shadow-[0_12px_36px_rgba(13,79,120,0.32)]",
                 )}
               >
@@ -355,6 +302,15 @@ export function IndustriesHub() {
               </Link>
               <Link
                 href="#industries"
+                data-cta-id="industries_hub_hero_view_programs"
+                onClick={() =>
+                  trackCtaClick({
+                    ctaId: "industries_hub_hero_view_programs",
+                    location: "industries_hub_hero",
+                    destination: "#industries",
+                    label: "View All Programs",
+                  })
+                }
                 className="inline-flex h-12 items-center justify-center rounded-xl border border-[color:var(--color-border)] px-7 text-sm font-semibold text-[color:var(--color-text)] transition-all duration-200 hover:border-[color:var(--color-ssp-ink-800)]/30 hover:bg-[color:var(--color-ssp-ink-800)]/[0.04]"
               >
                 View All Programs
@@ -575,6 +531,7 @@ export function IndustriesHub() {
                 <div className="mt-4 grid gap-3">
                   <Link
                     href="/quote"
+                    data-cta-id="industries_hub_final_quote"
                     onClick={() =>
                       trackCtaClick({
                         ctaId: "industries_hub_final_quote",
@@ -592,6 +549,7 @@ export function IndustriesHub() {
                   </Link>
                   <Link
                     href="/contact"
+                    data-cta-id="industries_hub_final_contact"
                     onClick={() =>
                       trackCtaClick({
                         ctaId: "industries_hub_final_contact",

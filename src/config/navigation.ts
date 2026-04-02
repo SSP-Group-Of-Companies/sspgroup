@@ -1,3 +1,6 @@
+import { INDUSTRY_KEYS, type IndustryKey } from "./industryKeys";
+import { getIndustryByKey } from "./industryPages";
+
 export type NavLink = {
   label: string;
   href: string;
@@ -28,6 +31,54 @@ export type NavSection = {
   };
   links: readonly NavLink[];
 };
+
+const INDUSTRY_NAV_LINK_CONTENT: Record<IndustryKey, Omit<NavLink, "href">> = {
+  automotive: {
+    label: "Automotive",
+    description: "Production-critical logistics with OEM-grade timing and asset protection.",
+    icon: "truck",
+  },
+  manufacturing: {
+    label: "Manufacturing",
+    description: "Inbound rhythm and throughput stability for production supply chains.",
+    icon: "package",
+  },
+  retail: {
+    label: "Retail & Consumer Goods",
+    description: "Store replenishment and DC lanes with service-level discipline.",
+    icon: "warehouse",
+  },
+  food: {
+    label: "Food & Beverage",
+    description: "Cold chain execution protecting freshness, quality, and compliance.",
+    icon: "snowflake",
+  },
+  construction: {
+    label: "Construction & Building Materials",
+    description: "Permit-aware planning and safety-governed delivery to active project sites.",
+    icon: "building",
+  },
+  "steel-aluminum": {
+    label: "Steel & Metals",
+    description: "Engineered securement and compliance for high-density freight.",
+    icon: "shield",
+  },
+  "chemical-plastics": {
+    label: "Chemical & Plastics",
+    description: "Carrier-qualified execution with document control for regulated freight.",
+    icon: "zap",
+  },
+};
+
+function getIndustryNavHref(key: IndustryKey) {
+  const industry = getIndustryByKey(key);
+
+  if (!industry) {
+    throw new Error(`Missing industry config for navigation key "${key}"`);
+  }
+
+  return `/industries/${industry.slug}`;
+}
 
 export const NAV = {
   solutions: {
@@ -192,50 +243,10 @@ export const NAV = {
       ctaLabel: "View All Industries",
       ctaHref: "/industries",
     },
-    links: [
-      {
-        label: "Automotive",
-        href: "/industries/automotive",
-        description: "Production-critical logistics with OEM-grade timing and asset protection.",
-        icon: "truck",
-      },
-      {
-        label: "Manufacturing",
-        href: "/industries/manufacturing-materials",
-        description: "Inbound rhythm and throughput stability for production supply chains.",
-        icon: "package",
-      },
-      {
-        label: "Retail & Consumer Goods",
-        href: "/industries/retail-consumer-goods",
-        description: "Store replenishment and DC lanes with service-level discipline.",
-        icon: "warehouse",
-      },
-      {
-        label: "Food & Beverage",
-        href: "/industries/food-beverage",
-        description: "Cold chain execution protecting freshness, quality, and compliance.",
-        icon: "snowflake",
-      },
-      {
-        label: "Steel & Metals",
-        href: "/industries/steel-aluminum",
-        description: "Engineered securement and compliance for high-density freight.",
-        icon: "shield",
-      },
-      {
-        label: "Construction & Building Materials",
-        href: "/industries/construction-building-materials",
-        description: "Permit-aware planning and safety-governed delivery to active project sites.",
-        icon: "building",
-      },
-      {
-        label: "Chemical & Plastics",
-        href: "/industries/chemical-plastics",
-        description: "Carrier-qualified execution with document control for regulated freight.",
-        icon: "shield",
-      },
-    ],
+    links: INDUSTRY_KEYS.map((key) => ({
+      ...INDUSTRY_NAV_LINK_CONTENT[key],
+      href: getIndustryNavHref(key),
+    })),
   } satisfies NavSection,
 
   company: {
@@ -274,27 +285,21 @@ export const NAV = {
       },
       {
         label: "Leadership",
-        href: "/company/leadership",
-        description: "How strategy, operations, and customer program ownership are aligned.",
+        href: "/about-us#leadership-accountability",
+        description: "Executive leadership accountable for strategy, operating governance, and execution outcomes.",
         icon: "briefcase",
+      },
+      {
+        label: "Locations & Network",
+        href: "/about-us#locations-network",
+        description: "North American office footprint and operating coverage across Canada, the United States, and Mexico.",
+        icon: "map",
       },
       {
         label: "Media",
         href: "/company/media",
         description: "Operations footage, brand media, and video highlights.",
         icon: "briefcase",
-      },
-      {
-        label: "Awards & Recognition",
-        href: "/company/awards-recognition",
-        description: "Recognition milestones tied to execution quality and service reliability.",
-        icon: "building",
-      },
-      {
-        label: "Sustainability",
-        href: "/company/sustainability",
-        description: "Operational sustainability priorities integrated into daily execution.",
-        icon: "globe",
       },
       {
         label: "FAQs",

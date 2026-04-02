@@ -71,12 +71,20 @@ function ComparisonChart({
           SSP standard
         </span>
       </div>
+      <ul className="sr-only">
+        {chartPillars.map((pillar) => (
+          <li key={pillar.title}>
+            {pillar.title}: Typical market score {clampScore(pillar.industryScore)}. SSP
+            standard score {clampScore(pillar.sspScore)}.
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
 export function IndustryTrustProof({ model }: { model: IndustryPageModel }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const { trustProof, hero } = model;
   const theme = hero.theme;
   const sectionBg = THEME_PROOF_BG[theme];
@@ -178,6 +186,10 @@ export function IndustryTrustProof({ model }: { model: IndustryPageModel }) {
                           SSP:{" "}
                         </span>
                         {pillar.sspStandard}
+                      </p>
+                      <p className="mt-2 text-[11.5px] font-medium text-[color:var(--color-subtle-light)]">
+                        Typical market score: {clampScore(pillar.industryScore)}. SSP standard
+                        score: {clampScore(pillar.sspScore)}.
                       </p>
                       <p className="mt-2.5 rounded-lg bg-[color:var(--color-surface-0-light)]/50 px-3 py-2 text-[12.5px] leading-[1.65] text-[color:var(--color-text-light)]">
                         <span className="font-semibold">Evidence: </span>

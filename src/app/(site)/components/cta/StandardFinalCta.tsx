@@ -31,12 +31,13 @@ type StandardFinalCtaProps = {
   headingId: string;
   trackingLocation: string;
   data: StandardFinalCtaData;
-  variant?: "default" | "safety" | "industry" | "corridor" | "faq";
+  variant?: "default" | "safety" | "industry" | "corridor" | "cross-border" | "faq";
   sectionClassName?: string;
   eyebrow?: ReactNode;
   titleClassName?: string;
   bodyClassName?: string;
   accentColor?: string;
+  trustSignalAccentColor?: string;
   sectionBgColor?: string;
   sectionBackground?: string;
   orbMainColor?: string;
@@ -60,6 +61,7 @@ export function StandardFinalCta({
   titleClassName,
   bodyClassName,
   accentColor = DEFAULT_ACCENT,
+  trustSignalAccentColor,
   sectionBgColor = "var(--color-company-ink)",
   sectionBackground,
   orbMainColor = "rgba(224,43,53,0.1)",
@@ -99,6 +101,12 @@ export function StandardFinalCta({
         "linear-gradient(145deg, var(--color-footer-legal-bg), var(--color-ssp-ink-900) 40%, var(--color-ssp-ink-800))",
       showNoise: true,
     },
+    "cross-border": {
+      sectionClassName: "border-t border-[color:var(--color-ssp-ink-800)]/40",
+      sectionBackground:
+        "linear-gradient(145deg, var(--color-footer-legal-bg), var(--color-ssp-ink-900) 40%, var(--color-ssp-ink-800))",
+      showNoise: true,
+    },
     faq: {
       sectionBgColor: "var(--color-company-ink)",
       accentColor: "var(--color-ssp-cyan-500)",
@@ -111,6 +119,7 @@ export function StandardFinalCta({
   const effectiveSectionBgColor = sectionBgColor ?? preset.sectionBgColor ?? "var(--color-company-ink)";
   const effectiveSectionBackground = sectionBackground ?? preset.sectionBackground;
   const effectiveAccentColor = accentColor ?? preset.accentColor ?? DEFAULT_ACCENT;
+  const effectiveTrustSignalAccentColor = trustSignalAccentColor ?? DEFAULT_ACCENT;
   const effectiveOrbMainColor = orbMainColor ?? preset.orbMainColor ?? "rgba(224,43,53,0.1)";
   const effectiveOrbSecondaryColor = orbSecondaryColor ?? preset.orbSecondaryColor ?? "rgba(16,167,216,0.1)";
   const effectiveShowNoise = showNoise ?? preset.showNoise ?? true;
@@ -198,13 +207,17 @@ export function StandardFinalCta({
                   {trustSignals.map((signal) => (
                     <span
                       key={signal}
-                      className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs text-white/60"
+                      className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs text-white/68"
                       style={{
-                        borderColor: `color-mix(in srgb, ${effectiveAccentColor} 26%, transparent)`,
-                        backgroundColor: `color-mix(in srgb, ${effectiveAccentColor} 8%, transparent)`,
+                        borderColor: `color-mix(in srgb, ${effectiveTrustSignalAccentColor} 24%, rgba(255,255,255,0.08))`,
+                        backgroundColor: `color-mix(in srgb, ${effectiveTrustSignalAccentColor} 6%, transparent)`,
                       }}
                     >
-                      <span className="h-1 w-1 rounded-full" style={{ backgroundColor: effectiveAccentColor }} aria-hidden />
+                      <span
+                        className="h-1 w-1 rounded-full"
+                        style={{ backgroundColor: effectiveTrustSignalAccentColor }}
+                        aria-hidden
+                      />
                       {signal}
                     </span>
                   ))}
@@ -257,7 +270,7 @@ export function StandardFinalCta({
                         : undefined
                     }
                     className={cn(
-                      "inline-flex h-12 w-full items-center justify-center rounded-lg px-5 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-[1px]",
+                      "inline-flex h-12 w-full items-center justify-center rounded-lg px-5 text-sm font-semibold text-white transition-all duration-200 motion-safe:hover:-translate-y-[1px]",
                       FOCUS_RING_DARK,
                     )}
                     style={{
@@ -271,6 +284,7 @@ export function StandardFinalCta({
                   {secondaryIsLiveChat ? (
                     <button
                       type="button"
+                      data-cta-id={data.ctas.secondary.ctaId}
                       onClick={() => {
                         if (data.ctas.secondary.ctaId) {
                           trackCtaClick({

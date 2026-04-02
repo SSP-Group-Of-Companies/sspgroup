@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useState, type CSSProperties } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import {
+  ChevronLeft,
   Pause,
   Play,
   Radio,
@@ -16,7 +18,7 @@ import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEy
 import { SharedFaqSection } from "@/app/(site)/components/faq/SharedFaqSection";
 import { StandardFinalCta } from "@/app/(site)/components/cta/StandardFinalCta";
 import { safetyCompliancePage } from "@/config/companyPages";
-import { TRUST_PARTNER_LOGOS } from "@/config/testimonials";
+import { TRUST_PARTNER_LOGOS } from "@/config/partners";
 import { cn } from "@/lib/cn";
 import { LogoImage } from "@/components/media/LogoImage";
 
@@ -24,6 +26,11 @@ const FOCUS_RING_LIGHT =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-0-light)]";
 
 const GOVERNANCE_ICONS = [ShieldCheck, FileText, Scale] as const;
+const VISIBILITY_CONTROL_ICONS = {
+  radio: Radio,
+  route: Route,
+  shield: ShieldCheck,
+} as const;
 
 function CertificationMarquee({ paused }: { paused: boolean }) {
   const logos = [...TRUST_PARTNER_LOGOS, ...TRUST_PARTNER_LOGOS];
@@ -45,14 +52,14 @@ function CertificationMarquee({ paused }: { paused: boolean }) {
         {logos.map((logo, idx) => (
           <div
             key={`${logo.src}-${idx}`}
-            className="group/logo flex h-10 w-[126px] items-center justify-center rounded-md px-1.5 transition-all duration-300 hover:-translate-y-[1px] sm:h-12 sm:w-[160px]"
+            className="group/logo flex h-10 w-[126px] items-center justify-center rounded-md px-1.5 transition-all duration-300 motion-safe:hover:-translate-y-[1px] sm:h-12 sm:w-[160px]"
           >
             <LogoImage
               src={logo.src}
               alt={logo.alt}
               width={220}
               height={90}
-              className="h-full w-full object-contain opacity-[0.9] transition-all duration-300 group-hover/logo:scale-[1.025] group-hover/logo:opacity-100"
+              className="h-full w-full object-contain opacity-[0.9] transition-all duration-300 motion-safe:group-hover/logo:scale-[1.025] group-hover/logo:opacity-100"
             />
           </div>
         ))}
@@ -114,26 +121,8 @@ export function SafetyCompliancePage() {
     maskImage: "linear-gradient(136deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.86) 63%, #000 100%)",
   };
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: safetyCompliancePage.faqs.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
-  };
-
   return (
-    <main className="bg-[color:var(--color-surface-0-light)]">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-
+    <div className="bg-[color:var(--color-surface-0-light)]">
       <section
         aria-labelledby="safety-compliance-heading"
         className="relative overflow-hidden border-b border-white/10 bg-[linear-gradient(135deg,var(--color-company-hero-midnight-start)_0%,var(--color-company-ink)_52%,var(--color-company-hero-midnight-end)_100%)] py-18 sm:py-22 lg:py-24"
@@ -150,6 +139,23 @@ export function SafetyCompliancePage() {
             variants={stagger}
             className="relative max-w-[44rem]"
           >
+            <motion.div
+              variants={revealUp}
+              transition={{ duration: reduceMotion ? 0 : 0.32, ease: "easeOut" }}
+              className="mb-5"
+            >
+              <Link
+                href="/about-us"
+                className={cn(
+                  "inline-flex items-center gap-1.5 rounded text-xs font-medium text-white/50 transition-colors hover:text-white/75",
+                  FOCUS_RING_LIGHT,
+                )}
+              >
+                <ChevronLeft className="h-3.5 w-3.5" />
+                About SSP
+              </Link>
+            </motion.div>
+
             <motion.div
               variants={revealUp}
               transition={{ duration: reduceMotion ? 0 : 0.32, ease: "easeOut" }}
@@ -502,30 +508,28 @@ export function SafetyCompliancePage() {
             </div>
 
             <motion.div variants={stagger} className="grid gap-4 lg:col-span-7 md:grid-cols-3">
-              {safetyCompliancePage.visibilityControl.items.map((item) => (
-                <motion.article
-                  key={item.title}
-                  variants={revealUp}
-                  transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-                  className="rounded-2xl border border-[color:var(--color-border-light)] bg-white p-5 shadow-[var(--shadow-company-card-soft)]"
-                >
-                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-1-light)] text-[color:var(--color-menu-accent)]">
-                    {item.title.includes("status") ? (
-                      <Radio className="h-4 w-4" aria-hidden />
-                    ) : item.title.includes("cadence") ? (
-                      <Route className="h-4 w-4" aria-hidden />
-                    ) : (
-                      <ShieldCheck className="h-4 w-4" aria-hidden />
-                    )}
-                  </span>
-                  <h3 className="text-[1.02rem] font-semibold leading-snug tracking-tight text-[color:var(--color-text-strong)]">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-[13.5px] leading-[1.76] text-[color:var(--color-muted)]">
-                    {item.body}
-                  </p>
-                </motion.article>
-              ))}
+              {safetyCompliancePage.visibilityControl.items.map((item) => {
+                const Icon = VISIBILITY_CONTROL_ICONS[item.icon];
+
+                return (
+                  <motion.article
+                    key={item.title}
+                    variants={revealUp}
+                    transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+                    className="rounded-2xl border border-[color:var(--color-border-light)] bg-white p-5 shadow-[var(--shadow-company-card-soft)]"
+                  >
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-1-light)] text-[color:var(--color-menu-accent)]">
+                      <Icon className="h-4 w-4" aria-hidden />
+                    </span>
+                    <h3 className="text-[1.02rem] font-semibold leading-snug tracking-tight text-[color:var(--color-text-strong)]">
+                      {item.title}
+                    </h3>
+                    <p className="mt-3 text-[13.5px] leading-[1.76] text-[color:var(--color-muted)]">
+                      {item.body}
+                    </p>
+                  </motion.article>
+                );
+              })}
             </motion.div>
           </motion.div>
         </Container>
@@ -549,6 +553,6 @@ export function SafetyCompliancePage() {
         titleClassName="max-w-[18ch] text-[1.9rem] leading-[1.04] sm:text-[2.4rem]"
         bodyClassName="mt-4 max-w-[70ch] text-[15px] leading-[1.84] text-white/72 sm:text-[16px]"
       />
-    </main>
+    </div>
   );
 }

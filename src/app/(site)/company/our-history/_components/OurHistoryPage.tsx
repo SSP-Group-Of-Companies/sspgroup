@@ -1,12 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import { type CSSProperties } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { ChevronLeft } from "lucide-react";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 import { StandardFinalCta } from "@/app/(site)/components/cta/StandardFinalCta";
 import { cn } from "@/lib/cn";
 import {
+  HISTORY_FINAL_CTA,
   SSP_HISTORY_MILESTONES,
   type HistoryMilestone,
 } from "@/config/history";
@@ -32,34 +35,6 @@ const shardFadeStyle: CSSProperties = {
     "linear-gradient(136deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.86) 63%, #000 100%)",
 };
 
-const HISTORY_FINAL_CTA = {
-  kicker: "Build With SSP",
-  title: "Bring the next chapter of your freight program to life.",
-  body: "SSP pairs asset-based execution with cross-border operating discipline so enterprise teams can scale lanes without losing control.",
-  trustSignals: [
-    "Asset-based execution",
-    "Cross-border operating model",
-    "Single accountable team",
-  ],
-  proof: [
-    { value: "10+", label: "Years Operating" },
-    { value: "40K+", label: "Orders Completed" },
-    { value: "CA-US-MX", label: "Coverage" },
-  ],
-  ctas: {
-    primary: {
-      label: "Request a Quote",
-      href: "/quote",
-      ctaId: "history_final_cta_request_quote",
-    },
-    secondary: {
-      label: "Talk to Operations",
-      href: "/contact",
-      ctaId: "history_final_cta_contact_ops",
-    },
-  },
-} as const;
-
 function HeroSection({ skip }: { skip: boolean }) {
   return (
     <section
@@ -75,11 +50,21 @@ function HeroSection({ skip }: { skip: boolean }) {
 
       <Container className="site-page-container relative">
         <motion.div
-          initial={skip ? false : { opacity: 0, y: 20 }}
+          initial={skip ? false : { opacity: 1, y: 14, scale: 0.995 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: skip ? 0 : 0.4, ease: "easeOut" }}
           className="relative max-w-[44rem]"
         >
+          <div className="mb-5">
+            <Link
+              href="/about-us"
+              className="inline-flex items-center gap-1.5 rounded text-xs font-medium text-[color:var(--color-muted)] transition-colors hover:text-[color:var(--color-text-strong)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-0-light)]"
+            >
+              <ChevronLeft className="h-3.5 w-3.5" />
+              About SSP
+            </Link>
+          </div>
+
           <SectionSignalEyebrow label="Our History" />
 
           <h1
@@ -205,7 +190,7 @@ function TimelineSection({ skip }: { skip: boolean }) {
 
       <Container className="site-page-container relative">
         <motion.div
-          initial={skip ? false : { opacity: 0, y: 16 }}
+          initial={skip ? false : { opacity: 1, y: 12, scale: 0.995 }}
           whileInView={skip ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: skip ? 0 : 0.5, ease: "easeOut" }}
@@ -318,7 +303,7 @@ function TimelineSection({ skip }: { skip: boolean }) {
 /* ------------------------------------------------------------------ */
 
 export function OurHistoryPage() {
-  const skip = !!useReducedMotion();
+  const skip = useReducedMotion() ?? false;
 
   return (
     <>

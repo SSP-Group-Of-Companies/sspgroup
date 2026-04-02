@@ -7,11 +7,12 @@ import {
   CorridorStepsSection,
   CorridorFaqSection,
   CorridorCtaSection,
-} from "./CanadaUsaSections";
+} from "../CrossBorderCorridorSections";
 
 const PAGE_TITLE = "Canada–USA Cross-Border Freight | Managed Corridor Programs";
 const PAGE_DESCRIPTION =
   "SSP operates managed freight programs across the Canada–USA border with CUSMA-aligned documentation, coordinated customs brokerage, strategic crossing selection, and structured governance from first mile to final delivery.";
+const PAGE_OG_IMAGE = "/_optimized/solutions/canada-usa-hero-v2.png";
 
 /* ── Data ─────────────────────────────────────────────────────────────── */
 
@@ -20,31 +21,37 @@ const capabilities = [
     title: "Full Truckload (Dry Van)",
     body: "High-volume truckload coverage across major Canada–USA corridors. Consistent lane availability, committed capacity, and schedule discipline for programs that require reliability at scale.",
     href: "/solutions/dry-van",
+    ctaId: "cb_canada_usa_capability_dry_van",
   },
   {
     title: "Flatbed & Step Deck",
     body: "Over-dimensional and open-deck freight with cross-border permitting, escort coordination, route planning, and securement standards compliant with both Canadian and U.S. federal requirements.",
     href: "/solutions/flatbed",
+    ctaId: "cb_canada_usa_capability_flatbed",
   },
   {
     title: "Temperature-Controlled",
     body: "Reefer and multi-temp capacity for perishable, pharmaceutical, and cold-chain commodities. Continuous temperature monitoring and cross-border compliance documentation included.",
     href: "/solutions/temperature-controlled",
+    ctaId: "cb_canada_usa_capability_temperature_controlled",
   },
   {
     title: "Hazmat & Regulated Materials",
     body: "TDG and DOT-compliant transport for hazardous and regulated materials. Placarding, safety documentation, and pre-cleared border protocols managed for both jurisdictions.",
     href: "/solutions/hazmat",
+    ctaId: "cb_canada_usa_capability_hazmat",
   },
   {
     title: "LTL & Consolidated",
     body: "Consolidated cross-border shipments for lower-volume or multi-stop programs. Customs clearance coordinated at both origin and destination with unified tracking.",
     href: "/solutions/ltl",
+    ctaId: "cb_canada_usa_capability_ltl",
   },
   {
     title: "Expedited & Time-Critical",
     body: "Dedicated capacity for urgent recoveries, production-line support, and time-definite commitments when standard transit windows are not sufficient.",
     href: "/solutions/expedited",
+    ctaId: "cb_canada_usa_capability_expedited",
   },
 ] as const;
 
@@ -109,11 +116,11 @@ const faqItems = [
   },
   {
     q: "How does SSP handle unexpected delays at the border?",
-    a: "Every program includes pre-defined exception protocols. When delays occur, SSP initiates escalation within the committed response window, coordinates with the customs broker, and communicates revised ETAs to the shipper in real time.",
+    a: "Every program includes pre-defined exception protocols. When delays occur, SSP initiates escalation within the agreed program response window, coordinates with the customs broker, and communicates revised ETAs to the shipper in real time.",
   },
   {
     q: "What level of visibility do shippers receive?",
-    a: "Milestone-level tracking from dispatch through border clearance to proof of delivery. Proactive updates at key checkpoints, with full documentation accessible through the SSP platform.",
+    a: "Milestone-level tracking from dispatch through border clearance to proof of delivery. Proactive updates are shared at key checkpoints, with documentation delivered through SSP workflows and the agreed reporting channels for the program.",
   },
 ] as const;
 
@@ -128,11 +135,13 @@ export const metadata: Metadata = {
     description: PAGE_DESCRIPTION,
     url: "/solutions/cross-border/canada-usa",
     type: "website",
+    images: [PAGE_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: `${PAGE_TITLE} | SSP Group`,
     description: PAGE_DESCRIPTION,
+    images: [PAGE_OG_IMAGE],
   },
 };
 
@@ -160,18 +169,32 @@ export default function CanadaUsaPage() {
     url: `${SITE_URL}/solutions/cross-border/canada-usa`,
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Solutions", item: `${SITE_URL}/solutions` },
+      { "@type": "ListItem", position: 3, name: "Cross-Border", item: `${SITE_URL}/solutions/cross-border` },
+      { "@type": "ListItem", position: 4, name: "Canada-USA Corridor", item: `${SITE_URL}/solutions/cross-border/canada-usa` },
+    ],
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <CorridorHero
         eyebrow="Canada–USA Corridor"
         title="Cross-border freight for North America's highest-volume trade corridor."
         description="SSP operates managed freight programs across the Canada–USA border with CUSMA-aligned documentation, coordinated customs brokerage, strategic crossing selection, and structured governance from first mile to final delivery."
-        primaryCta={{ label: "Discuss Your Requirements", href: "/contact" }}
-        secondaryCta={{ label: "Explore Capabilities", href: "#capabilities" }}
+        primaryCta={{ label: "Discuss Your Requirements", href: "/contact", ctaId: "cb_canada_usa_hero_contact" }}
+        secondaryCta={{ label: "Explore Capabilities", href: "#capabilities", ctaId: "cb_canada_usa_hero_capabilities" }}
         flag="canada-usa"
+        analyticsScope="canada_usa"
+        backCtaId="cb_canada_usa_back"
       />
 
       <CorridorCardSection
@@ -181,6 +204,7 @@ export default function CanadaUsaPage() {
         description="Truckload, specialized, and consolidated modes for recurring bilateral programs and time-sensitive cross-border freight."
         cards={capabilities}
         layout="sidebar"
+        trackingLocation="cross_border_canada_usa_capabilities"
       />
 
       <CorridorGlassSection
@@ -211,6 +235,7 @@ export default function CanadaUsaPage() {
         pills={["Lane-level onboarding", "CUSMA-aligned workflows", "Dedicated corridor team", "Bilateral broker coordination"]}
         primaryCta={{ label: "Request a Corridor Assessment", href: "/quote", ctaId: "cb_canada_usa_final_quote" }}
         secondaryCta={{ label: "Contact SSP Group", href: "/contact", ctaId: "cb_canada_usa_final_contact" }}
+        trackingLocation="cross_border_canada_usa_final_cta"
       />
     </>
   );

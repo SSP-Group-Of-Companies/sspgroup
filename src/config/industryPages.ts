@@ -3,7 +3,7 @@
  * Slugs must match NAV.industries.links[].href (e.g. /industries/automotive → slug "automotive").
  */
 
-import type { IndustryKey } from "./industries";
+import { INDUSTRY_KEYS, type IndustryKey } from "./industryKeys";
 
 export type IndustrySlug =
   | "automotive"
@@ -39,13 +39,13 @@ export type IndustryHero = {
   proofStrip?: Array<{ value: string; label: string }>;
 };
 
-/** Unique interactive widget per industry — one per industry page */
+/** Optional interactive widget by industry — one where the page uses it */
 export type IndustryWidgetType =
   | "transport-protection" // Automotive
   | "load-optimization" // Manufacturing & Materials
   | "demand-surge" // Retail & Consumer Goods
   | "freshness-preservation" // Food & Beverage
-  | "heavy-haul-route" // Industrial & Energy
+  | "heavy-haul-route" // Construction & Building Materials
   | "load-balance-axle"; // Steel & Aluminum
 
 export type IndustryWhatMatters = {
@@ -137,6 +137,7 @@ export type IndustryPageModel = {
   meta: {
     title: string;
     description: string;
+    heroImage: string;
     ogImage?: string;
   };
   hero: IndustryHero;
@@ -155,7 +156,8 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Automotive Logistics | JIT, Enclosed & Cross-Border Freight | SSP Group",
       description:
         "Automotive logistics for OEMs, Tier-1 suppliers, and specialty vehicle programs across Canada, the United States, and Mexico. JIT inbound sequencing, enclosed transport, and cross-border freight managed with control.",
-      ogImage: "/_optimized/services/specialized&time-sensitive/exoticCarhaulingImg2.webp",
+      heroImage: "/_optimized/industries/automotive-hero-premium.png",
+      ogImage: "/_optimized/industries/automotive-hero-premium.png",
     },
     hero: {
       kicker: "Automotive Logistics",
@@ -384,6 +386,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Manufacturing & Materials Logistics | Industrial Supply Chain | SSP Group",
       description:
         "Raw materials and production-critical freight moved with consistency, visibility, and recovery when conditions shift. Industrial supply chain execution across North America.",
+      heroImage: "/_optimized/industries/manufacturing-hero-premium-v1.png",
       ogImage: "/_optimized/industries/manufacturing-hero-premium-v1.png",
     },
     hero: {
@@ -392,7 +395,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Supply Continuity Starts at the Loading Dock",
       description:
         "From raw materials and production-critical inputs to repeat industrial replenishment across North America, SSP manages manufacturing and materials freight with lane discipline, commodity-fit handling, and owner-led exception control that keeps flow stable when conditions tighten.",
-      cta: { label: "Review Your Manufacturing Network", href: "/contact", ctaId: "industry_manufacturing_hero_quote" },
+      cta: { label: "Review Your Manufacturing Network", href: "/contact", ctaId: "industry_manufacturing_hero_contact" },
       secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_manufacturing_hero_capabilities" },
       theme: "slate",
       signals: ["Plant-aligned inbound cadence", "Commodity-fit handling controls", "Owner-led exception governance"],
@@ -546,7 +549,6 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       links: [
         { label: "Truckload", href: "/services/truckload" },
         { label: "LTL", href: "/services/ltl" },
-        // { label: "Intermodal", href: "/services/intermodal" }, // COMMENTED OUT - uncomment to restore
         { label: "Value-Added", href: "/services/value-added" },
       ],
     },
@@ -599,6 +601,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Retail & Consumer Goods Logistics | Cross-Border Replenishment | SSP Group",
       description:
         "Retail and consumer goods logistics for store replenishment, distribution centers, and cross-border freight across Canada, the United States, and Mexico. SSP manages retail freight with window control, visibility, and surge-ready execution.",
+      heroImage: "/_optimized/industries/retail-hero-premium-v3.png",
       ogImage: "/_optimized/industries/retail-hero-premium-v3.png",
     },
     hero: {
@@ -607,7 +610,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Shelf Availability Starts with Lane Discipline",
       description:
         "From store replenishment and DC freight to promotion-driven surges and cross-border retail flows across Canada, the United States, and Mexico, SSP runs consumer goods logistics with delivery-window control, escalation discipline, and decision-ready visibility.",
-      cta: { label: "Review Your Retail Network", href: "/contact", ctaId: "industry_retail_hero_quote" },
+      cta: { label: "Review Your Retail Network", href: "/contact", ctaId: "industry_retail_hero_contact" },
       secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_retail_hero_capabilities" },
       theme: "blue",
       signals: ["Window-governed store and DC delivery", "Campaign-aware surge planning", "Cross-border retail flow control"],
@@ -817,6 +820,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Food & Beverage Logistics | Cold Chain & Temperature-Controlled | SSP Group",
       description:
         "Temperature-aware handling, clean documentation, and on-time execution to protect shelf life and brand trust. Food and beverage freight with precision.",
+      heroImage: "/_optimized/industries/food-hero-premium-v6.png",
       ogImage: "/_optimized/industries/food-hero-premium-v6.png",
     },
     hero: {
@@ -825,7 +829,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Cold-Chain Integrity from Origin to Receiving",
       description:
         "From temperature-controlled replenishment and retail-ready food freight to freshness-sensitive cross-border lanes across North America, SSP manages food and beverage logistics with temperature discipline, transit-time control, and compliance-ready records that protect product quality in motion.",
-      cta: { label: "Review Your Cold-Chain Network", href: "/contact", ctaId: "industry_food_hero_quote" },
+      cta: { label: "Review Your Cold-Chain Network", href: "/contact", ctaId: "industry_food_hero_contact" },
       secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_food_hero_capabilities" },
       theme: "green",
       signals: ["Temperature-governed lane execution", "Freshness-window and dwell control", "Compliance-ready cold-chain records"],
@@ -1028,6 +1032,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Construction & Building Materials Logistics | Project Freight | SSP Group",
       description:
         "Heavy equipment, building materials, and site-critical freight delivered with permit-aware planning, safety governance, and checkpoint visibility across North America.",
+      heroImage: "/_optimized/industries/construction-hero-premium-v1.png",
       ogImage: "/_optimized/industries/construction-hero-premium-v1.png",
     },
     hero: {
@@ -1039,7 +1044,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       cta: {
         label: "Review Your Project Freight",
         href: "/contact",
-        ctaId: "industry_construction_hero_quote",
+        ctaId: "industry_construction_hero_contact",
       },
       secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_construction_hero_capabilities" },
       theme: "amber",
@@ -1053,7 +1058,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     whatMatters: {
       sectionTitle: "What Secures Site-Critical Delivery",
       intro:
-        "Industrial and energy freight carries schedule and safety consequences that extend beyond transportation. Permit constraints, route complexity, and site timing must be engineered before movement begins. The operating priority is safety-led control, checkpoint governance, and execution ownership from dispatch to handoff.",
+        "Construction and building-materials freight carries schedule risk the moment a site window, crane booking, or crew plan is missed. Permit constraints, route engineering, equipment fit, and delivery sequencing need to be locked before movement begins. The operating priority is safety-led control, checkpoint visibility, and accountable execution from dispatch through site handoff.",
       items: [
         {
           title: "Pre-Move Safety and Permit Readiness",
@@ -1138,7 +1143,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       sectionTitle: "The SSP Standard",
       comparisonHeading: "SSP vs. typical market practice",
       intro:
-        "Industrial and energy moves are judged by permit readiness, compliance discipline, and checkpoint-level visibility under project pressure.",
+        "Construction freight is judged by permit readiness, delivery-window control, and checkpoint visibility under live project pressure. SSP is built to protect site schedules with engineered routing, compliance discipline, and clear operational ownership.",
       pillars: [
         {
           title: "Insurance Coverage",
@@ -1247,6 +1252,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Steel & Aluminum Logistics | Flatbed, Heavy Freight & Cross-Border Metals | SSP Group",
       description:
         "Steel and aluminum logistics for coils, plate, extrusions, and high-density freight across Canada, the United States, and Mexico. SSP manages metal freight with engineered securement, route control, and accountable execution.",
+      heroImage: "/_optimized/industries/steel-hero-premium-v1.png",
       ogImage: "/_optimized/industries/steel-hero-premium-v1.png",
     },
     hero: {
@@ -1258,7 +1264,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       cta: {
         label: "Review Your Metal Freight Network",
         href: "/contact",
-        ctaId: "industry_steel_aluminum_hero_quote",
+        ctaId: "industry_steel_aluminum_hero_contact",
       },
       secondaryCta: {
         label: "See the Operating Model",
@@ -1477,6 +1483,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Chemical & Plastics Logistics | Hazmat, Compliant Freight & Cross-Border Control | SSP Group",
       description:
         "Chemical and plastics logistics across Canada, the United States, and Mexico. SSP manages regulated freight with carrier qualification, documentation governance, classification-specific handling, and controlled cross-border execution.",
+      heroImage: "/_optimized/industries/chemical-hero-premium-v1.png",
       ogImage: "/_optimized/industries/chemical-hero-premium-v1.png",
     },
     hero: {
@@ -1485,7 +1492,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Regulated Freight Under Governed Control",
       description:
         "From resins and specialty compounds to cross-border regulated freight across Canada, the United States, and Mexico, SSP manages chemical and plastics shipments with carrier qualification, document control, and disciplined execution.",
-      cta: { label: "Review Your Chemical Network", href: "/contact", ctaId: "industry_chemical_hero_quote" },
+      cta: { label: "Review Your Chemical Network", href: "/contact", ctaId: "industry_chemical_hero_contact" },
       secondaryCta: {
         label: "See the Operating Model",
         href: "#how-we-support",
@@ -1704,10 +1711,10 @@ export function getIndustryBySlug(slug: string): IndustryPageModel | null {
   return INDUSTRY_PAGE_DATA[key] ?? null;
 }
 
-export function getIndustrySlugs(): IndustrySlug[] {
-  return Object.values(INDUSTRY_PAGE_DATA).map((m) => m.slug);
+export function getIndustryByKey(key: IndustryKey): IndustryPageModel | null {
+  return INDUSTRY_PAGE_DATA[key] ?? null;
 }
 
-export function getIndustryKeys(): IndustryKey[] {
-  return Object.keys(INDUSTRY_PAGE_DATA) as IndustryKey[];
+export function getIndustrySlugs(): IndustrySlug[] {
+  return INDUSTRY_KEYS.map((key) => INDUSTRY_PAGE_DATA[key].slug);
 }

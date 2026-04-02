@@ -12,6 +12,7 @@ import {
 const PAGE_TITLE = "Cross-Border Air Freight | Time-Critical Logistics";
 const PAGE_DESCRIPTION =
   "SSP manages cross-border air freight for time-critical shipments across Canada, the U.S., and Mexico with customs pre-clearance coordination, door-to-door execution, and recovery options when ground transit cannot meet the deadline.";
+const PAGE_OG_IMAGE = "/_optimized/solutions/air-hero-globe.png";
 
 /* ── Data ─────────────────────────────────────────────────────────────── */
 
@@ -49,11 +50,11 @@ const differentiators = [
   },
   {
     title: "Asset-Backed Ground Legs",
-    body: "SSP operates its own trucking fleet for the pickup and delivery legs. No third-party handoffs between your facility and the airport on either end.",
+    body: "SSP coordinates pickup and delivery through its asset network and approved operating partners, keeping one team accountable from your facility to the airport and through final handoff.",
   },
   {
     title: "Cross-Border Specialization",
-    body: "Deep expertise in Canada–USA and U.S.–Mexico air customs, documentation, and border logistics. Pre-clearance coordination built into the process, not bolted on after.",
+    body: "Cross-border operating experience in Canada–USA and U.S.–Mexico air customs, documentation, and border logistics. Pre-clearance coordination is built into the process from the outset.",
   },
   {
     title: "Single-Point Accountability",
@@ -80,7 +81,7 @@ const processSteps = [
   {
     step: "04",
     title: "Delivery & confirmation",
-    body: "Airport arrival monitored, ground transfer executed on asset-backed equipment, final-mile delivery completed, and proof of delivery confirmed to the shipper.",
+    body: "Airport arrival monitored, ground transfer executed through the aligned operating network, final-mile delivery completed, and proof of delivery confirmed to the shipper.",
   },
 ] as const;
 
@@ -107,7 +108,7 @@ const faqItems = [
   },
   {
     q: "Does SSP manage the ground legs on both sides?",
-    a: "Yes. SSP operates its own trucking fleet for pickup and delivery. The ground legs between your facility and the airport are managed on asset-backed equipment with no third-party handoffs.",
+    a: "Yes. SSP coordinates the ground legs on both sides through its asset network and approved operating partners, with one team accountable for pickup, airport transfer, and final delivery.",
   },
 ] as const;
 
@@ -122,11 +123,13 @@ export const metadata: Metadata = {
     description: PAGE_DESCRIPTION,
     url: "/solutions/cross-border/air-freight",
     type: "website",
+    images: [PAGE_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: `${PAGE_TITLE} | SSP Group`,
     description: PAGE_DESCRIPTION,
+    images: [PAGE_OG_IMAGE],
   },
 };
 
@@ -146,7 +149,7 @@ export default function CrossBorderAirFreightPage() {
   const serviceJsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: PAGE_TITLE,
+    name: "Cross-Border Air Freight",
     provider: { "@type": "Organization", name: "SSP Group", url: SITE_URL },
     serviceType: "Cross-Border Air Freight",
     areaServed: ["Canada", "United States", "Mexico"],
@@ -154,17 +157,29 @@ export default function CrossBorderAirFreightPage() {
     url: `${SITE_URL}/solutions/cross-border/air-freight`,
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Solutions", item: `${SITE_URL}/solutions` },
+      { "@type": "ListItem", position: 3, name: "Cross-Border", item: `${SITE_URL}/solutions/cross-border` },
+      { "@type": "ListItem", position: 4, name: "Air Freight", item: `${SITE_URL}/solutions/cross-border/air-freight` },
+    ],
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <AirHero
         eyebrow="Cross-Border Air Freight"
         title="Time-critical air freight across borders, managed from pickup to delivery."
         description="When ground transit cannot meet the deadline, SSP executes cross-border air freight with customs pre-clearance, door-to-door coordination, and asset-backed ground legs on both ends. Canada, the U.S., and Mexico. Hours, not weeks."
-        primaryCta={{ label: "Discuss Your Requirements", href: "/contact" }}
-        secondaryCta={{ label: "Explore Capabilities", href: "#capabilities" }}
+        primaryCta={{ label: "Discuss Your Requirements", href: "/contact", ctaId: "cb_air_freight_hero_contact" }}
+        secondaryCta={{ label: "Explore Capabilities", href: "#capabilities", ctaId: "cb_air_freight_hero_capabilities" }}
       />
 
       <AirCardSection

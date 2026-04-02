@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { Container } from "@/app/(site)/components/layout/Container";
@@ -71,8 +71,9 @@ export function CrossBorderDetailSections({
   referenceLinks,
   faqItems,
 }: CrossBorderDetailSectionsProps) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const [activeComplianceIdx, setActiveComplianceIdx] = useState(0);
+  const complianceTabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
@@ -83,6 +84,13 @@ export function CrossBorderDetailSections({
     : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   const activeCompliance = complianceHighlights[activeComplianceIdx] ?? complianceHighlights[0];
+
+  function moveComplianceTab(nextIdx: number) {
+    const nextTab = complianceHighlights[nextIdx];
+    if (!nextTab) return;
+    setActiveComplianceIdx(nextIdx);
+    complianceTabRefs.current[nextIdx]?.focus();
+  }
 
   return (
     <>
@@ -125,16 +133,10 @@ export function CrossBorderDetailSections({
             {crossBorderServicePaths.map((item) => (
               <motion.article
                 key={item.key}
-                id={
-                  item.key === "canada-usa"
-                    ? "canada-usa"
-                    : item.key === "mexico"
-                      ? "mexico-cross-border"
-                      : undefined
-                }
+                id={item.key}
                 variants={revealUp}
                 transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
-                className="group relative overflow-hidden rounded-2xl border border-white/16 bg-[linear-gradient(180deg,rgba(255,255,255,0.10),rgba(255,255,255,0.05))] px-5 py-6 shadow-[0_10px_24px_rgba(2,6,23,0.16)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white/28 hover:bg-white/[0.14] sm:px-7 sm:py-7"
+                className="group relative overflow-hidden rounded-2xl border border-white/16 bg-[linear-gradient(180deg,rgba(255,255,255,0.10),rgba(255,255,255,0.05))] px-5 py-6 shadow-[0_10px_24px_rgba(2,6,23,0.16)] backdrop-blur-sm transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:border-white/28 hover:bg-white/[0.14] sm:px-7 sm:py-7"
               >
                 <div
                   aria-hidden
@@ -152,7 +154,7 @@ export function CrossBorderDetailSections({
                   onClick={() =>
                     trackCtaClick({
                       ctaId: `cb_corridor_${item.key}`,
-                      location: "cross_border_corridors",
+                      location: "cross_border_hub_corridors",
                       destination: item.href,
                       label: item.label,
                     })
@@ -194,7 +196,7 @@ export function CrossBorderDetailSections({
             <div className="lg:col-span-8">
               <SectionSignalEyebrow label="Performance" />
               <h2 className="mt-4 text-3xl leading-tight font-semibold text-[color:var(--color-menu-title)] sm:text-4xl">
-                Proven results across managed cross-border programs.
+                Representative outcomes across managed cross-border programs.
               </h2>
               <p className="mt-4 max-w-3xl text-[15px] leading-8 text-[color:var(--color-menu-muted)]">
                 Lane-level metrics reviewed continuously. Exception drivers identified. Recovery
@@ -232,6 +234,14 @@ export function CrossBorderDetailSections({
               </motion.article>
             ))}
           </motion.div>
+          <motion.p
+            variants={revealUp}
+            transition={{ duration: reduceMotion ? 0 : 0.32, ease: "easeOut" }}
+            className="mt-4 max-w-3xl text-xs leading-6 text-[color:var(--color-menu-subtle)]"
+          >
+            Results shown are representative managed-program outcomes. Actual performance varies
+            by corridor, freight profile, customs conditions, and operating window.
+          </motion.p>
 
           <motion.div
             className="mt-8 grid gap-4 lg:grid-cols-2"
@@ -321,12 +331,50 @@ export function CrossBorderDetailSections({
             whileInView="show"
             viewport={{ once: true, amount: 0.2 }}
             variants={cardStagger}
+            role="tablist"
+            aria-label="Regulatory guidance by region"
           >
             {complianceHighlights.map((group, idx) => (
               <motion.button
                 key={group.title}
+                ref={(element) => {
+                  complianceTabRefs.current[idx] = element;
+                }}
                 type="button"
                 onClick={() => setActiveComplianceIdx(idx)}
+                onKeyDown={(event) => {
+                  const lastIndex = complianceHighlights.length - 1;
+
+                  if (lastIndex < 0) return;
+
+                  if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+                    event.preventDefault();
+                    moveComplianceTab(idx === lastIndex ? 0 : idx + 1);
+                    return;
+                  }
+
+                  if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                    event.preventDefault();
+                    moveComplianceTab(idx === 0 ? lastIndex : idx - 1);
+                    return;
+                  }
+
+                  if (event.key === "Home") {
+                    event.preventDefault();
+                    moveComplianceTab(0);
+                    return;
+                  }
+
+                  if (event.key === "End") {
+                    event.preventDefault();
+                    moveComplianceTab(lastIndex);
+                  }
+                }}
+                id={`cross-border-compliance-tab-${idx}`}
+                role="tab"
+                aria-selected={idx === activeComplianceIdx}
+                aria-controls="cross-border-compliance-panel"
+                tabIndex={idx === activeComplianceIdx ? 0 : -1}
                 variants={revealUp}
                 transition={{ duration: reduceMotion ? 0 : 0.3, ease: "easeOut" }}
                 className={cn(
@@ -343,7 +391,10 @@ export function CrossBorderDetailSections({
           </motion.div>
 
           <motion.div
-            key={activeCompliance.title}
+            id="cross-border-compliance-panel"
+            role="tabpanel"
+            aria-labelledby={`cross-border-compliance-tab-${activeComplianceIdx}`}
+            tabIndex={0}
             className="mt-6 rounded-2xl border border-[color:var(--color-menu-border)] bg-white px-5 py-6 shadow-[0_6px_18px_rgba(2,6,23,0.05)] sm:px-7 sm:py-7"
             initial="hidden"
             animate="show"
@@ -356,7 +407,10 @@ export function CrossBorderDetailSections({
             <ul className="mt-4 space-y-2.5 text-sm leading-7 text-[color:var(--color-menu-muted)]">
               {activeCompliance.points.map((point) => (
                 <li key={point} className="flex gap-2">
-                  <span className="mt-[10px] h-1.5 w-1.5 rounded-full bg-[color:var(--color-menu-accent)]/70" />
+                  <span
+                    aria-hidden
+                    className="mt-[10px] h-1.5 w-1.5 rounded-full bg-[color:var(--color-menu-accent)]/70"
+                  />
                   <span>{point}</span>
                 </li>
               ))}
@@ -405,7 +459,7 @@ export function CrossBorderDetailSections({
       <StandardFinalCta
         variant="corridor"
         headingId="cross-border-final-cta-heading"
-        trackingLocation="cross_border_final_cta"
+        trackingLocation="cross_border_hub_final_cta"
         accentColor="var(--color-ssp-cyan-500)"
         orbMainColor="rgba(16,167,216,0.1)"
         orbSecondaryColor="rgba(255,255,255,0.06)"

@@ -4,10 +4,10 @@ import * as React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { LogoImage } from "@/components/media/LogoImage";
+import { TRUST_PARTNER_LOGOS } from "@/config/partners";
 import { cn } from "@/lib/cn";
 import {
   TRUST_PROOF_ITEMS,
-  TRUST_PARTNER_LOGOS,
   TRUST_PROOF_SECTION,
   type TestimonialItem,
 } from "@/config/testimonials";

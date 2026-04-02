@@ -9,7 +9,7 @@ import { cn } from "@/lib/cn";
 import { THEME_ACCENT, THEME_BG, getThemeOrbs, getThemeBarGradient } from "./industryTheme";
 
 export function IndustryHowWeSupport({ model }: { model: IndustryPageModel }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const { howWeSupport, hero } = model;
   const theme = hero.theme;
   const accentColor = THEME_ACCENT[theme];

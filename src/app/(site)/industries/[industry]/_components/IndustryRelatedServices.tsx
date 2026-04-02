@@ -6,6 +6,7 @@ import { Container } from "@/app/(site)/components/layout/Container";
 import { Section } from "@/app/(site)/components/layout/Section";
 import { SectionEyebrow } from "@/app/(site)/components/ui/SectionEyebrow";
 import type { IndustryPageModel } from "@/config/industryPages";
+import { trackCtaClick } from "@/lib/analytics/cta";
 import { cn } from "@/lib/cn";
 import { getThemeOrbs, THEME_ACCENT, THEME_MODEFIT_BG } from "./industryTheme";
 
@@ -13,12 +14,15 @@ const focusRing =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-white";
 
 export function IndustryRelatedServices({ model }: { model: IndustryPageModel }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const { relatedServices, hero } = model;
   const theme = hero.theme;
   const sectionBg = THEME_MODEFIT_BG[theme];
   const accentColor = THEME_ACCENT[theme];
   const orbs = getThemeOrbs(theme);
+  const headingId = "related-services-heading";
+  const toCtaId = (href: string) =>
+    `industry_${model.key}_related_${href.replace(/[^a-z0-9]+/gi, "_").replace(/^_+|_+$/g, "").toLowerCase()}`;
 
   const fadeUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
@@ -34,6 +38,7 @@ export function IndustryRelatedServices({ model }: { model: IndustryPageModel })
     <Section
       variant="light"
       id="related-services"
+      aria-labelledby={headingId}
       className="relative scroll-mt-24 overflow-hidden sm:scroll-mt-28"
       style={{ backgroundColor: sectionBg }}
     >
@@ -65,7 +70,10 @@ export function IndustryRelatedServices({ model }: { model: IndustryPageModel })
                 label={relatedServices.eyebrowLabel ?? "Service Coverage"}
                 accentColor={accentColor}
               />
-              <h2 className="mt-4 text-[1.5rem] font-semibold leading-tight tracking-tight text-[color:var(--color-text-light)] sm:text-[1.85rem]">
+              <h2
+                id={headingId}
+                className="mt-4 text-[1.5rem] font-semibold leading-tight tracking-tight text-[color:var(--color-text-light)] sm:text-[1.85rem]"
+              >
                 {relatedServices.sectionTitle}
               </h2>
               {relatedServices.intro ? (
@@ -159,18 +167,27 @@ export function IndustryRelatedServices({ model }: { model: IndustryPageModel })
               className="mt-4 grid gap-2 sm:mt-5 sm:grid-cols-2 lg:grid-cols-4"
               aria-label="Related freight services"
             >
-              {relatedServices.links.map((link, i) => (
-                <motion.span key={i} variants={fadeUp}>
+              {relatedServices.links.map((link) => (
+                <motion.span key={`${link.label}-${link.href}`} variants={fadeUp}>
                   <Link
                     href={link.href}
+                    data-cta-id={toCtaId(link.href)}
+                    onClick={() =>
+                      trackCtaClick({
+                        ctaId: toCtaId(link.href),
+                        location: `industry_${model.key}_related_services`,
+                        destination: link.href,
+                        label: link.label,
+                      })
+                    }
                     className={cn(
-                      "group inline-flex w-full items-center justify-between rounded-xl border border-[color:var(--color-border-light)]/60 bg-[color:var(--color-surface-0-light)]/50 px-3.5 py-2.5 text-[13px] font-semibold text-[color:var(--color-text-light)] transition-all duration-200 hover:-translate-y-[1px] hover:border-[color:var(--color-border-light)] hover:bg-white hover:shadow-md",
+                      "group inline-flex w-full items-center justify-between rounded-xl border border-[color:var(--color-border-light)]/60 bg-[color:var(--color-surface-0-light)]/50 px-3.5 py-2.5 text-[13px] font-semibold text-[color:var(--color-text-light)] transition-all duration-200 motion-safe:hover:-translate-y-[1px] hover:border-[color:var(--color-border-light)] hover:bg-white hover:shadow-md",
                       focusRing,
                     )}
                   >
                     <span>{link.label}</span>
                     <span
-                      className="text-[12px] font-bold transition-transform duration-200 group-hover:translate-x-[2px]"
+                      className="text-[12px] font-bold transition-transform duration-200 motion-safe:group-hover:translate-x-[2px]"
                       style={{ color: accentColor }}
                       aria-hidden
                     >

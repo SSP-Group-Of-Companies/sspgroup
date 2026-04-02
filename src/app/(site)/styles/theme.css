@@ -144,6 +144,10 @@
   --color-company-hero-glow-cyan: rgba(16, 167, 216, 0.06);
   --color-company-hero-glow-brand: rgba(224, 43, 53, 0.045);
   --color-company-hero-accent: rgba(220, 38, 38, 0.25);
+  --color-faq-hero-glow-primary: rgba(96, 165, 250, 0.22);
+  --color-faq-hero-glow-primary-soft: rgba(96, 165, 250, 0.05);
+  --color-faq-hero-glow-secondary: rgba(125, 211, 252, 0.14);
+  --color-faq-hero-glow-white: rgba(255, 255, 255, 0.12);
   --shadow-company-hero-heading: 0 2px 16px rgba(0, 0, 0, 0.46), 0 8px 28px rgba(10, 15, 26, 0.3);
   --shadow-company-hero-body: 0 2px 8px rgba(0, 0, 0, 0.28);
   --color-company-companies-grid-line: rgba(0, 0, 0, 0.6);

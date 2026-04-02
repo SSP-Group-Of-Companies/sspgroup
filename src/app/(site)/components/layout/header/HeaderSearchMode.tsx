@@ -29,7 +29,7 @@ function classifySearchGroup(href: string): SearchGroupKey | null {
   if (href.startsWith("/solutions") || href.startsWith("/services")) return "Solutions";
   if (href.startsWith("/industries")) return "Industries";
   if (href.startsWith("/company") || href.startsWith("/about-us")) return "Company pages";
-  if (href.startsWith("/insights") || href.startsWith("/blog")) return "Insights";
+  if (href.startsWith("/insights")) return "Insights";
   if (href.startsWith("/careers")) return "Careers";
   return null;
 }

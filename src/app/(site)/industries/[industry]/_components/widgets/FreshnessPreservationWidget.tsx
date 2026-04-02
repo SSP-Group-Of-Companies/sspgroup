@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useReducedMotion } from "framer-motion";
 import { IconThermometer } from "./WidgetIcons";
 import { PillToggle, WidgetCard } from "./WidgetCard";
 
@@ -42,23 +43,11 @@ function getStatus(
   return "Spoilage Risk";
 }
 
-function useReducedMotion() {
-  const [reduce, setReduce] = React.useState(false);
-  React.useEffect(() => {
-    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduce(m.matches);
-    const f = () => setReduce(m.matches);
-    m.addEventListener("change", f);
-    return () => m.removeEventListener("change", f);
-  }, []);
-  return reduce;
-}
-
 export function FreshnessPreservationWidget({ accentColor }: { accentColor?: string }) {
   const [temp, setTemp] = React.useState(2);
   const [days, setDays] = React.useState(4);
   const [product, setProduct] = React.useState<Product>("dairy");
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const accent = accentColor ?? "var(--color-brand-500)";
 
   const range = PRODUCT_RANGES[product];

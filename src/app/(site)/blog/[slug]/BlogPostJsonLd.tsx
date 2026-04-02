@@ -6,7 +6,7 @@ type Props = {
 };
 
 export function BlogPostJsonLd({ post, slug }: Props) {
-  const canonical = toAbsoluteUrl(`/blog/${slug}`);
+  const canonical = toAbsoluteUrl(`/insights/${encodeURIComponent(slug)}`);
   const image = post?.bannerImage?.url
     ? String(post.bannerImage.url).startsWith("http")
       ? String(post.bannerImage.url)
@@ -16,8 +16,8 @@ export function BlogPostJsonLd({ post, slug }: Props) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    headline: post?.title ?? "NPT Logistics Blog",
-    description: post?.excerpt ?? "Insights and updates from NPT Logistics.",
+    headline: post?.title ?? "SSP Group Insights",
+    description: post?.excerpt ?? "Insights and updates from SSP Group.",
     image: [image],
     datePublished: post?.publishedAt ?? post?.createdAt ?? undefined,
     dateModified: post?.updatedAt ?? post?.publishedAt ?? post?.createdAt ?? undefined,

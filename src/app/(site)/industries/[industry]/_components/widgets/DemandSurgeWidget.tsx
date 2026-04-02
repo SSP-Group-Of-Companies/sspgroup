@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useReducedMotion } from "framer-motion";
 import { IconPulse } from "./WidgetIcons";
 import { PillToggle, WidgetCard } from "./WidgetCard";
 
@@ -35,23 +36,11 @@ function getStatus(
   return "Surge Mode Activated";
 }
 
-function useReducedMotion() {
-  const [reduce, setReduce] = React.useState(false);
-  React.useEffect(() => {
-    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduce(m.matches);
-    const f = () => setReduce(m.matches);
-    m.addEventListener("change", f);
-    return () => m.removeEventListener("change", f);
-  }, []);
-  return reduce;
-}
-
 export function DemandSurgeWidget({ accentColor }: { accentColor?: string }) {
   const [demand, setDemand] = React.useState(35);
   const [channel, setChannel] = React.useState<Channel>("hybrid");
   const [nodes, setNodes] = React.useState(4);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const accent = accentColor ?? "var(--color-brand-500)";
 
   const { systemLoad, fulfillment, queue } = React.useMemo(

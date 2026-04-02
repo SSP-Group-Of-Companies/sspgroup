@@ -96,20 +96,61 @@ export function PillToggle<T extends string>({
   "aria-label"?: string;
 }) {
   const accent = accentColor ?? "var(--color-brand-500)";
+  const tabRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
+
+  function moveFocus(nextIndex: number) {
+    const nextOption = options[nextIndex];
+    if (!nextOption) return;
+    onChange(nextOption.id);
+    tabRefs.current[nextIndex]?.focus();
+  }
+
   return (
     <div
       role="tablist"
       aria-label={ariaLabel}
       className="flex flex-wrap gap-1.5"
     >
-      {options.map((opt) => (
+      {options.map((opt, index) => (
         <button
           key={opt.id}
+          ref={(element) => {
+            tabRefs.current[index] = element;
+          }}
           type="button"
           role="tab"
           aria-selected={value === opt.id}
           tabIndex={value === opt.id ? 0 : -1}
           onClick={() => onChange(opt.id)}
+          onKeyDown={(event) => {
+            const currentIndex = options.findIndex((option) => option.id === value);
+            const lastIndex = options.length - 1;
+
+            if (currentIndex === -1 || lastIndex < 0) return;
+
+            if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+              event.preventDefault();
+              moveFocus(currentIndex === lastIndex ? 0 : currentIndex + 1);
+              return;
+            }
+
+            if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+              event.preventDefault();
+              moveFocus(currentIndex === 0 ? lastIndex : currentIndex - 1);
+              return;
+            }
+
+            if (event.key === "Home") {
+              event.preventDefault();
+              moveFocus(0);
+              return;
+            }
+
+            if (event.key === "End") {
+              event.preventDefault();
+              moveFocus(lastIndex);
+            }
+          }}
           className={cn(
             "rounded-full px-3 py-1.5 text-[11px] font-medium transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
             !(value === opt.id) && "bg-[color:var(--color-surface-0-light)] text-[color:var(--color-muted-light)] hover:bg-[color:var(--color-border-light)]/30 hover:text-[color:var(--color-text-light)]",

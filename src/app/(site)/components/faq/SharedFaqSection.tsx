@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { Container } from "@/app/(site)/components/layout/Container";
 
@@ -27,8 +27,9 @@ export function SharedFaqSection({
   theme = "light",
   panelIdPrefix = "faq",
 }: SharedFaqSectionProps) {
-  const reduceMotion = !!useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const [openIdx, setOpenIdx] = useState(0);
+  const headingId = `${panelIdPrefix}-heading`;
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
@@ -69,7 +70,7 @@ export function SharedFaqSection({
   const iconOpenBorder = theme === "dark" ? "border-[color:var(--color-ssp-cyan-500)]/35" : "border-[color:var(--color-menu-accent)]/30";
 
   return (
-    <section className={sectionClasses}>
+    <section className={sectionClasses} aria-labelledby={headingId}>
       <Container className="site-page-container">
         <div className="grid gap-7 lg:grid-cols-12">
           <motion.div
@@ -81,7 +82,9 @@ export function SharedFaqSection({
             transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
           >
             {eyebrow}
-            <h2 className={titleClasses}>{title}</h2>
+            <h2 id={headingId} className={titleClasses}>
+              {title}
+            </h2>
             <p className={descriptionClasses}>{description}</p>
           </motion.div>
 
@@ -103,9 +106,11 @@ export function SharedFaqSection({
               {items.map((item, idx) => {
                 const isOpen = idx === openIdx;
                 const panelId = `${panelIdPrefix}-panel-${idx}`;
+                const triggerId = `${panelIdPrefix}-trigger-${idx}`;
                 return (
-                  <article key={item.q} className={idx < items.length - 1 ? `border-b ${itemDivider}` : ""}>
+                  <article key={`${panelIdPrefix}-${idx}`} className={idx < items.length - 1 ? `border-b ${itemDivider}` : ""}>
                     <button
+                      id={triggerId}
                       type="button"
                       onClick={() => setOpenIdx((p) => (p === idx ? -1 : idx))}
                       className={cn(
@@ -142,21 +147,17 @@ export function SharedFaqSection({
                         />
                       </span>
                     </button>
-                    <AnimatePresence initial={false}>
-                      {isOpen ? (
-                        <motion.div
-                          id={panelId}
-                          role="region"
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: reduceMotion ? 0 : 0.24, ease: "easeOut" }}
-                          className="overflow-hidden"
-                        >
-                          <p className={cn("px-4 pb-4 text-sm leading-7 sm:px-6 sm:pb-5", answerColor)}>{item.a}</p>
-                        </motion.div>
-                      ) : null}
-                    </AnimatePresence>
+                    <motion.div
+                      id={panelId}
+                      aria-labelledby={triggerId}
+                      aria-hidden={!isOpen}
+                      initial={false}
+                      animate={isOpen ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+                      transition={{ duration: reduceMotion ? 0 : 0.24, ease: "easeOut" }}
+                      className="overflow-hidden"
+                    >
+                      <p className={cn("px-4 pb-4 pt-0 text-sm leading-7 sm:px-6 sm:pb-5", answerColor)}>{item.a}</p>
+                    </motion.div>
                   </article>
                 );
               })}

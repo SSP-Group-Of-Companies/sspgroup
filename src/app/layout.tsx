@@ -21,21 +21,15 @@ export const metadata: Metadata = {
     template: "%s | SSP Group",
   },
   description: SITE_DEFAULT_DESCRIPTION,
-  alternates: {
-    canonical: "/",
-  },
   verification: {
     google: "D-dUnuwfGKaeF63Wazk_bFAucGVV2QX3HXLeBgzJb_s",
   },
 
   applicationName: "SSP Group",
   icons: {
-    icon: [
-      { url: "/_optimized/brand/favicon.png", type: "image/png" },
-      { url: "/_optimized/brand/SSPlogo.png", type: "image/png" },
-    ],
-    shortcut: ["/_optimized/brand/favicon.png"],
-    apple: [{ url: "/_optimized/brand/favicon.png", type: "image/png" }],
+    icon: [{ url: "/_optimized/brand/favicon.png?v=20260401", type: "image/png" }],
+    shortcut: ["/_optimized/brand/favicon.png?v=20260401"],
+    apple: [{ url: "/_optimized/brand/favicon.png?v=20260401", type: "image/png" }],
   },
   manifest: "/manifest.webmanifest",
   category: "business",

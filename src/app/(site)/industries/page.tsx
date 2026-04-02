@@ -5,6 +5,7 @@ import { IndustriesHub } from "./_components/IndustriesHub";
 const PAGE_TITLE = "Industries We Serve";
 const PAGE_DESCRIPTION =
   "Industry-specific logistics programs purpose-built for automotive, manufacturing, retail, food & beverage, steel, construction, and chemical freight across North America.";
+const PAGE_OG_IMAGE = "/_optimized/industries/automotive-hero-premium.png";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -17,11 +18,13 @@ export const metadata: Metadata = {
     description: PAGE_DESCRIPTION,
     url: "/industries",
     type: "website",
+    images: [PAGE_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: `${PAGE_TITLE} | SSP Group`,
     description: PAGE_DESCRIPTION,
+    images: [PAGE_OG_IMAGE],
   },
 };
 

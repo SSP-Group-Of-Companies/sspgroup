@@ -2,21 +2,22 @@ import type { IndustryPageModel } from "@/config/industryPages";
 import { SITE_URL } from "@/lib/seo/site";
 
 export function IndustryJsonLd({ model }: { model: IndustryPageModel }) {
+  const industryName = model.hero.kicker ?? model.meta.title.split("|")[0].trim();
   const breadcrumb = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
       { "@type": "ListItem", position: 2, name: "Industries", item: `${SITE_URL}/industries` },
-      { "@type": "ListItem", position: 3, name: model.hero.title, item: `${SITE_URL}/industries/${model.slug}` },
+      { "@type": "ListItem", position: 3, name: industryName, item: `${SITE_URL}/industries/${model.slug}` },
     ],
   };
 
   const service = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: model.meta.title,
-    serviceType: model.hero.kicker ?? model.hero.title,
+    name: industryName,
+    serviceType: industryName,
     provider: {
       "@type": "Organization",
       name: "SSP Group",

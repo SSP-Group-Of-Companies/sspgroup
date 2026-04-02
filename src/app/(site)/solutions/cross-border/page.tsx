@@ -7,6 +7,7 @@ const PAGE_TITLE = "Cross-Border Freight Solutions | Canada, USA & Mexico";
 const PAGE_DESCRIPTION =
   "SSP Group manages cross-border freight programs across Canada, the United States, and Mexico with structured customs coordination, corridor-specific playbooks, and milestone-level visibility from origin to final delivery.";
 const LAST_REVIEWED_DATE = "March 24, 2026";
+const PAGE_OG_IMAGE = "/_optimized/solutions/cross-border-hero.png";
 
 const capabilityPillars = [
   {
@@ -31,7 +32,7 @@ const processSteps = [
   {
     step: "01",
     title: "Lane qualification",
-    body: "We define corridor scope, SLA targets, commodity handling requirements, and documentation standards before any freight moves.",
+    body: "We define corridor scope, service targets, commodity handling requirements, and documentation standards before any freight moves.",
   },
   {
     step: "02",
@@ -73,7 +74,7 @@ const crossBorderServicePaths = [
     href: "/solutions/cross-border/air-freight",
     bestFor: "Time-critical shipments where speed and recovery options determine outcomes.",
     summary:
-      "Designed for urgent freight that demands faster transit, tighter exception handling, and clear service-level commitments.",
+      "Designed for urgent freight that demands faster transit, tighter exception handling, and clear execution expectations.",
   },
   {
     key: "ocean",
@@ -114,24 +115,24 @@ const complianceHighlights = [
 
 const performanceMetrics = [
   {
-    value: "98.2%",
-    label: "On-time delivery",
-    note: "Across managed cross-border corridor programs.",
+    value: "High",
+    label: "On-time consistency",
+    note: "Structured around managed cross-border corridor programs.",
   },
   {
-    value: "< 2h",
+    value: "Rapid",
     label: "Exception response",
-    note: "Priority escalation response commitment.",
+    note: "Escalation discipline aligned to program requirements.",
   },
   {
-    value: "99.1%",
-    label: "Document accuracy",
-    note: "Pre-movement documentation completeness rate.",
+    value: "Structured",
+    label: "Document readiness",
+    note: "Pre-movement checks designed to reduce preventable issues.",
   },
   {
-    value: "–27%",
-    label: "Dwell-time reduction",
-    note: "After corridor-level workflow redesign.",
+    value: "Lower",
+    label: "Border dwell exposure",
+    note: "Improved through corridor-level workflow design and governance.",
   },
 ] as const;
 
@@ -205,11 +206,13 @@ export const metadata: Metadata = {
     description: PAGE_DESCRIPTION,
     url: "/solutions/cross-border",
     type: "website",
+    images: [PAGE_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: `${PAGE_TITLE} | SSP Group`,
     description: PAGE_DESCRIPTION,
+    images: [PAGE_OG_IMAGE],
   },
 };
 
@@ -242,11 +245,25 @@ export default function CrossBorderPage() {
     url: `${SITE_URL}/solutions/cross-border`,
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Solutions", item: `${SITE_URL}/solutions` },
+      { "@type": "ListItem", position: 3, name: "Cross-Border", item: `${SITE_URL}/solutions/cross-border` },
+    ],
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <script
         type="application/ld+json"

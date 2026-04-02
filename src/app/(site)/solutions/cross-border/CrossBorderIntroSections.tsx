@@ -31,7 +31,7 @@ export function CrossBorderIntroSections({
   capabilityPillars,
   processSteps,
 }: CrossBorderIntroSectionsProps) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
 
   const heroStagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
@@ -50,7 +50,7 @@ export function CrossBorderIntroSections({
       <section className="relative overflow-hidden border-b border-[color:var(--color-ssp-ink-800)]/45 bg-[linear-gradient(140deg,var(--color-ssp-ink-800),var(--color-cb-hero-ink)_48%,var(--color-utility-bg))] py-24 sm:py-32">
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <Image
-            src="/_optimized/solutions/cross-BorderHeroImg.png"
+            src="/_optimized/solutions/cross-border-hero.png"
             alt=""
             fill
             priority
@@ -88,10 +88,10 @@ export function CrossBorderIntroSections({
               className="mt-7 max-w-3xl"
             >
               <p className="max-w-[64ch] text-[15px] leading-[1.85] text-white/80 sm:text-base">
-                Manufacturers, distributors, and procurement teams across Canada, the U.S., and
-                Mexico rely on SSP to move freight across borders with structured documentation
-                control, customs-aligned coordination, and milestone-level visibility. Reducing
-                delays, protecting schedules, and strengthening supply chain confidence.
+                SSP supports manufacturers, distributors, and procurement teams across Canada, the
+                U.S., and Mexico with structured documentation control, customs-aligned
+                coordination, and milestone-level visibility. The goal is fewer preventable delays,
+                stronger schedule protection, and greater confidence across cross-border programs.
               </p>
             </motion.div>
 
@@ -102,10 +102,11 @@ export function CrossBorderIntroSections({
             >
               <Link
                 href="/contact"
+                data-cta-id="cb_hub_hero_contact"
                 onClick={() =>
                   trackCtaClick({
                     ctaId: "cb_hub_hero_contact",
-                    location: "cross_border_hero",
+                    location: "cross_border_hub_hero",
                     destination: "/contact",
                     label: "Discuss Your Requirements",
                   })
@@ -116,6 +117,15 @@ export function CrossBorderIntroSections({
               </Link>
               <Link
                 href="#corridors"
+                data-cta-id="cb_hub_hero_corridors"
+                onClick={() =>
+                  trackCtaClick({
+                    ctaId: "cb_hub_hero_corridors",
+                    location: "cross_border_hub_hero",
+                    destination: "#corridors",
+                    label: "Explore Corridors",
+                  })
+                }
                 className={cn("inline-flex h-12 items-center rounded-lg border border-white/22 px-6 text-sm font-medium text-white/75 transition hover:border-white/40 hover:bg-white/10 hover:text-white", focusRingDark)}
               >
                 Explore Corridors
@@ -158,7 +168,7 @@ export function CrossBorderIntroSections({
                   key={pillar.title}
                   variants={revealUp}
                   transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
-                  className="relative overflow-hidden rounded-2xl border border-[color:var(--color-border-light)] bg-white px-6 py-7 shadow-[0_8px_20px_rgba(2,6,23,0.05)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_32px_rgba(2,6,23,0.10)]"
+                  className="relative overflow-hidden rounded-2xl border border-[color:var(--color-border-light)] bg-white px-6 py-7 shadow-[0_8px_20px_rgba(2,6,23,0.05)] transition-all duration-300 motion-safe:hover:-translate-y-1 hover:shadow-[0_16px_32px_rgba(2,6,23,0.10)]"
                 >
                   <div
                     aria-hidden
@@ -220,7 +230,7 @@ export function CrossBorderIntroSections({
                   key={step.step}
                   variants={revealUp}
                   transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
-                  className="group relative overflow-hidden rounded-2xl border border-[color:var(--color-menu-border)]/90 bg-white/92 px-4 py-6 shadow-[0_10px_24px_rgba(2,6,23,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_30px_rgba(2,6,23,0.12)] sm:px-5 sm:py-7"
+                  className="group relative overflow-hidden rounded-2xl border border-[color:var(--color-menu-border)]/90 bg-white/92 px-4 py-6 shadow-[0_10px_24px_rgba(2,6,23,0.06)] transition-all duration-300 motion-safe:hover:-translate-y-1 hover:shadow-[0_18px_30px_rgba(2,6,23,0.12)] sm:px-5 sm:py-7"
                 >
                   <div className="inline-flex h-7 items-center rounded-md border border-[color:var(--color-cb-hero-ink)]/18 bg-[color:var(--color-cb-hero-ink)]/8 px-2.5 text-[11px] font-semibold tracking-[0.08em] text-[color:var(--color-cb-hero-ink)] uppercase">
                     Step {step.step}

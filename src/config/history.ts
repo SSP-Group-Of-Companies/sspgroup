@@ -2,6 +2,7 @@ export type HistoryMilestone = Readonly<{
   year: string;
   title: string;
   description: string;
+  snapshotPreview?: string;
   stat?: { value: string; label: string };
   highlight?: boolean;
 }>;
@@ -12,6 +13,7 @@ export const SSP_HISTORY_MILESTONES: readonly HistoryMilestone[] = [
     title: "Operating Foundation Established",
     description:
       "SSP began operations with 2 trucks and 2 trailers, establishing baseline standards for dispatch discipline, shipment handling, and customer communication.",
+    snapshotPreview: "Started with two trucks, two trailers, and a dispatch model built around accountability.",
     stat: { value: "2", label: "Trucks" },
     highlight: true,
   },
@@ -34,6 +36,7 @@ export const SSP_HISTORY_MILESTONES: readonly HistoryMilestone[] = [
     title: "Group Structure Formalized",
     description:
       "SSP transitioned to a group operating structure with the launch of SSP Global Forwarding LTD to support air, ocean, and international forwarding requirements.",
+    snapshotPreview: "Expanded from a trucking company into SSP Group with broader freight and forwarding capability.",
     stat: { value: "2", label: "Companies" },
     highlight: true,
   },
@@ -56,6 +59,7 @@ export const SSP_HISTORY_MILESTONES: readonly HistoryMilestone[] = [
     title: "CA-US-MX Corridor Built",
     description:
       "Operations in Laredo, Texas and Monterrey, Mexico established a structured CA-US-MX corridor, and completed orders exceeded 40,000.",
+    snapshotPreview: "Established an active Canada-U.S.-Mexico corridor structure with dedicated cross-border operations.",
     stat: { value: "40K+", label: "Orders" },
     highlight: true,
   },
@@ -92,16 +96,39 @@ export const SSP_HISTORY_MILESTONES: readonly HistoryMilestone[] = [
     year: "2026",
     title: "Enterprise Operating Chapter",
     description:
-      "With nearly 500 employees across Canada, India, and the United States, SSP entered a more mature operating chapter defined by scale, governance, and repeatable execution.",
+      "With nearly 500 employees supporting operations across Canada, the United States, and Mexico, SSP entered a more mature operating chapter defined by scale, governance, and repeatable execution.",
+    snapshotPreview:
+      "Entered a more mature enterprise chapter with broader capacity, stronger governance, and clearer North American positioning.",
     stat: { value: "Nearly 500", label: "Employees" },
     highlight: true,
   },
 ];
 
-export const HISTORY_GROWTH_STATS = [
-  { from: "2", to: "90+", label: "Trucks" },
-  { from: "2", to: "150+", label: "Trailers" },
-  { from: "1", to: "7+", label: "Offices" },
-  { from: "0", to: "40,000+", label: "Orders" },
-  { from: "2", to: "Nearly 500", label: "Employees" },
-] as const;
+export const HISTORY_FINAL_CTA = {
+  kicker: "Build With SSP",
+  title: "Bring the next chapter of your freight program to life.",
+  body: "SSP pairs asset-based execution with cross-border operating discipline so enterprise teams can scale lanes without losing control.",
+  trustSignals: [
+    "Asset-based execution",
+    "Cross-border operating model",
+    "Single accountable team",
+  ],
+  proof: [
+    { value: "10+", label: "Years Operating" },
+    { value: "40K+", label: "Orders Completed" },
+    { value: "CA-US-MX", label: "Coverage" },
+  ],
+  ctas: {
+    primary: {
+      label: "Request a Quote",
+      href: "/quote",
+      ctaId: "history_final_cta_request_quote",
+    },
+    secondary: {
+      label: "Talk to Operations",
+      href: "/contact",
+      ctaId: "history_final_cta_contact_ops",
+    },
+  },
+} as const;
+

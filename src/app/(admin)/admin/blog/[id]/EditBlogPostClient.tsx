@@ -68,7 +68,9 @@ export default function EditBlogPostClient({ id, initialPost }: { id: string; in
         router.refresh();
       }}
       previewUrl={
-        status === EBlogStatus.PUBLISHED ? `/blog/${encodeURIComponent(initialPost.slug)}` : null
+        status === EBlogStatus.PUBLISHED
+          ? `/insights/${encodeURIComponent(initialPost.slug)}`
+          : null
       }
     />
   );

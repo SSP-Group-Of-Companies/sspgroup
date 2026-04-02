@@ -12,6 +12,7 @@ import {
 const PAGE_TITLE = "Cross-Border Ocean Freight | Managed Port-to-Door Programs";
 const PAGE_DESCRIPTION =
   "SSP manages ocean freight from booking through port clearance, customs coordination, and inland delivery across Canada, the U.S., and Mexico. Milestone visibility and cross-border execution built into every program.";
+const PAGE_OG_IMAGE = "/_optimized/solutions/ocean-hero-globe.png";
 
 /* ── Data ─────────────────────────────────────────────────────────────── */
 
@@ -45,11 +46,11 @@ const coreCapabilities = [
 const differentiators = [
   {
     title: "Asset-Backed Inland Delivery",
-    body: "SSP operates its own trucking fleet across North America, including flatbed, dry van, RGN, and specialized trailers, so ocean freight connects directly to final-mile delivery without third-party handoffs.",
+    body: "SSP connects ocean freight into its inland network and approved operating partners across North America, keeping one team accountable from port clearance through final-mile delivery.",
   },
   {
     title: "Cross-Border Specialization",
-    body: "Deep operational expertise in Canada–USA and U.S.–Mexico customs, documentation, and border logistics. Not an add-on capability. It's the core of how SSP operates.",
+    body: "Cross-border operating experience in Canada–USA and U.S.–Mexico customs, documentation, and border logistics is built into how SSP structures ocean programs.",
   },
   {
     title: "Milestone Governance",
@@ -80,14 +81,14 @@ const processSteps = [
   {
     step: "04",
     title: "Inland & cross-border delivery",
-    body: "Freight moves from port through inland transit, with cross-border customs coordination where required, to final delivery on asset-backed equipment with milestone confirmation.",
+    body: "Freight moves from port through inland transit, with cross-border customs coordination where required, to final delivery through the aligned operating network with milestone confirmation.",
   },
 ] as const;
 
 const faqItems = [
   {
     q: "Does SSP manage the full port-to-door journey?",
-    a: "Yes. SSP coordinates from vessel arrival through customs clearance, drayage, inland transit, and final delivery, including cross-border movements where the destination requires border coordination. One team manages the entire sequence.",
+    a: "Yes. SSP coordinates from vessel arrival through customs clearance, drayage, inland transit, and final delivery, including cross-border movements where the destination requires border coordination. One team manages the sequence end to end.",
   },
   {
     q: "What is the difference between FCL and LCL?",
@@ -99,7 +100,7 @@ const faqItems = [
   },
   {
     q: "Which ports does SSP operate through?",
-    a: "SSP operates through major Canadian gateways including the Port of Vancouver, Port of Montreal, and Greater Toronto Area logistics hubs, with connections to U.S. and Mexican ports for cross-border programs.",
+    a: "SSP coordinates programs through major Canadian gateways such as the Port of Vancouver, the Port of Montreal, and Greater Toronto Area logistics hubs, with routing aligned to the origin, destination, and cargo profile.",
   },
   {
     q: "Can SSP handle heavy, oversized, or specialized cargo?",
@@ -122,11 +123,13 @@ export const metadata: Metadata = {
     description: PAGE_DESCRIPTION,
     url: "/solutions/cross-border/ocean-freight",
     type: "website",
+    images: [PAGE_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: `${PAGE_TITLE} | SSP Group`,
     description: PAGE_DESCRIPTION,
+    images: [PAGE_OG_IMAGE],
   },
 };
 
@@ -146,7 +149,7 @@ export default function CrossBorderOceanFreightPage() {
   const serviceJsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: PAGE_TITLE,
+    name: "Cross-Border Ocean Freight",
     provider: { "@type": "Organization", name: "SSP Group", url: SITE_URL },
     serviceType: "Cross-Border Ocean Freight",
     areaServed: ["Canada", "United States", "Mexico"],
@@ -154,17 +157,29 @@ export default function CrossBorderOceanFreightPage() {
     url: `${SITE_URL}/solutions/cross-border/ocean-freight`,
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Solutions", item: `${SITE_URL}/solutions` },
+      { "@type": "ListItem", position: 3, name: "Cross-Border", item: `${SITE_URL}/solutions/cross-border` },
+      { "@type": "ListItem", position: 4, name: "Ocean Freight", item: `${SITE_URL}/solutions/cross-border/ocean-freight` },
+    ],
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
       <OceanHero
         eyebrow="Cross-Border Ocean Freight"
         title="Managed ocean freight from port to final delivery, across every border."
         description="SSP coordinates the full ocean freight journey: booking, documentation, port clearance, customs compliance, drayage, and inland delivery into Canada, the U.S., and Mexico. Every program governed with milestone visibility from vessel to destination."
-        primaryCta={{ label: "Discuss Your Requirements", href: "/contact" }}
-        secondaryCta={{ label: "Explore Capabilities", href: "#capabilities" }}
+        primaryCta={{ label: "Discuss Your Requirements", href: "/contact", ctaId: "cb_ocean_freight_hero_contact" }}
+        secondaryCta={{ label: "Explore Capabilities", href: "#capabilities", ctaId: "cb_ocean_freight_hero_capabilities" }}
       />
 
       <OceanCardSection
@@ -179,14 +194,14 @@ export default function CrossBorderOceanFreightPage() {
       <OceanGlassSection
         eyebrow="The SSP Difference"
         title="What separates SSP from a standard ocean forwarder."
-        description="Most forwarders book vessel space. SSP manages the full journey: port through customs, across borders, to final delivery, with asset-backed execution and compliance at every stage."
+        description="Beyond vessel booking, SSP manages the full journey: port through customs, across borders, to final delivery, with asset-backed execution and compliance at every stage."
         cards={differentiators}
       />
 
       <OceanStepsSection
         eyebrow="How It Works"
         title="A defined execution sequence for every program."
-        description="Every ocean freight engagement follows a structured process, from initial planning through final delivery, refined across thousands of cross-border shipments."
+        description="Every ocean freight engagement follows a structured process, from initial planning through final delivery, refined through complex cross-border program execution."
         steps={processSteps}
       />
 

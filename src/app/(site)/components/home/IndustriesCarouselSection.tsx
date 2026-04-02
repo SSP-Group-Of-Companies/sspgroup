@@ -86,6 +86,8 @@ const TOKENS = {
 function accentGlow(accent: IndustrySlide["accent"]) {
   if (accent === "blue")
     return "radial-gradient(900px 520px at 22% 30%, rgba(37,99,235,0.18), transparent 55%)";
+  if (accent === "green")
+    return "radial-gradient(900px 520px at 22% 30%, rgba(34,197,94,0.18), transparent 55%)";
   if (accent === "slate")
     return "radial-gradient(900px 520px at 22% 30%, rgba(148,163,184,0.14), transparent 55%)";
   return "radial-gradient(900px 520px at 22% 30%, rgba(220,38,38,0.18), transparent 55%)";
@@ -132,15 +134,11 @@ function IndustryBadge({ label }: { label: string }) {
 function DesktopStage({
   active,
   reduceMotion,
-  shellId,
-  activeTabId,
   onTouchStart,
   onTouchEnd,
 }: {
   active: IndustrySlide;
   reduceMotion: boolean;
-  shellId: string;
-  activeTabId: string;
   onTouchStart: (e: React.TouchEvent<HTMLDivElement>) => void;
   onTouchEnd: (e: React.TouchEvent<HTMLDivElement>) => void;
 }) {
@@ -151,15 +149,11 @@ function DesktopStage({
         <motion.div
           key={active.key}
           className="absolute inset-0"
-          id={`${shellId}-panel-desktop`}
-          role="tabpanel"
-          aria-labelledby={activeTabId}
           initial={reduceMotion ? { opacity: 1 } : { opacity: 0, scale: 1.01 }}
           animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
           exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.99 }}
           transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
         >
-          <h3 className="sr-only">{active.label}</h3>
           <SectionImage
             src={active.image}
             alt={`${active.label} background image`}
@@ -226,13 +220,11 @@ function DesktopStage({
 function MobileStage({
   active,
   reduceMotion,
-  shellId,
   onTouchStart,
   onTouchEnd,
 }: {
   active: IndustrySlide;
   reduceMotion: boolean;
-  shellId: string;
   onTouchStart: (e: React.TouchEvent<HTMLDivElement>) => void;
   onTouchEnd: (e: React.TouchEvent<HTMLDivElement>) => void;
 }) {
@@ -244,15 +236,11 @@ function MobileStage({
           <motion.div
             key={active.key}
             className="absolute inset-0"
-            id={`${shellId}-panel-mobile`}
-            role="region"
-            aria-label={`${active.label} mobile preview`}
             initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0 }}
             transition={{ duration: reduceMotion ? 0 : 0.3, ease: "easeOut" }}
           >
-            <h3 className="sr-only">{active.label}</h3>
             <SectionImage
               src={active.image}
               alt={`${active.label} background image`}
@@ -326,6 +314,8 @@ export function IndustriesCarouselSection() {
   const activeSlideAnnouncement = `${active.label}, slide ${index + 1} of ${total}`;
   const shellId = `${INDUSTRIES_SECTION.id}-carousel`;
   const activeTabId = `${shellId}-tab-${active.key}`;
+  const instructionsId = `${shellId}-instructions`;
+  const panelId = `${shellId}-panel`;
 
   const onKeyDown = React.useCallback(
     (e: React.KeyboardEvent) => {
@@ -423,32 +413,31 @@ export function IndustriesCarouselSection() {
           role="region"
           aria-roledescription="carousel"
           aria-label="Industries carousel"
-          aria-describedby={`${shellId}-status`}
+          aria-describedby={instructionsId}
           tabIndex={0}
           onKeyDown={onKeyDown}
         >
-          <p id={`${shellId}-status`} className="sr-only">
-            {activeSlideAnnouncement}
+          <p id={instructionsId} className="sr-only">
+            Use the tab buttons or arrow keys to switch industries.
           </p>
 
-          {/* Mobile: stacked layout (image + content in flow) */}
-          <MobileStage
-            active={active}
-            reduceMotion={!!reduceMotion}
-            shellId={shellId}
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-          />
+          <div id={panelId} role="tabpanel" aria-labelledby={activeTabId}>
+            {/* Mobile: stacked layout (image + content in flow) */}
+            <MobileStage
+              active={active}
+              reduceMotion={!!reduceMotion}
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
+            />
 
-          {/* Desktop / tablet: absolute overlay on fixed-aspect image */}
-          <DesktopStage
-            active={active}
-            reduceMotion={!!reduceMotion}
-            shellId={shellId}
-            activeTabId={activeTabId}
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-          />
+            {/* Desktop / tablet: absolute overlay on fixed-aspect image */}
+            <DesktopStage
+              active={active}
+              reduceMotion={!!reduceMotion}
+              onTouchStart={onTouchStart}
+              onTouchEnd={onTouchEnd}
+            />
+          </div>
 
           {/* Navigation bar */}
           <div className={TOKENS.navBar}>
@@ -465,7 +454,7 @@ export function IndustriesCarouselSection() {
                       role="tab"
                       id={`${shellId}-tab-${s.key}`}
                       aria-selected={isActive}
-                      aria-controls={`${shellId}-panel-desktop`}
+                      aria-controls={panelId}
                       tabIndex={isActive ? 0 : -1}
                       className={cn(
                         TOKENS.pillBtn,

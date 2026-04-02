@@ -879,7 +879,7 @@ export const SERVICES: Record<ServiceKey, ServicePageModel> = {
         "NPT combines expedited execution and specialized vehicle programs under one operating model. We align urgency, handling constraints, and risk controls so critical shipments move with clear accountability from pickup through delivery.",
       microNote:
         "Deadline-critical coverage, specialized equipment fit, and milestone control for high-consequence moves.",
-      image: "/_optimized/services/specialized&time-sensitive/hero.webp",
+      image: "/_optimized/services/specialized%26time-sensitive/hero.webp",
       imageAlt: "Specialized and time-sensitive freight operations planning board",
       overlay: "slate",
       primaryCta: {
@@ -1024,7 +1024,7 @@ export const SERVICES: Record<ServiceKey, ServicePageModel> = {
           "Exotic & Specialized Vehicle Hauling | Premium-Asset, Constraint-Controlled Transport",
         description:
           "This program is purpose-built for exotic and specialty vehicle transport where condition integrity, enclosed handling, and route realism are non-negotiable. It also supports non-standard cargo profiles that require strict access, permit, or dimensional controls before dispatch.",
-        image: "/_optimized/services/specialized&time-sensitive/exoticCarhaulingImg2.webp",
+        image: "/_optimized/services/specialized%26time-sensitive/exoticCarhaulingImg2.webp",
         imageAlt: "Exotic car hauling with enclosed, premium-asset transport controls",
         overlay: "blue",
         highlights: [

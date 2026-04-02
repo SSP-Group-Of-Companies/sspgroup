@@ -1,11 +1,5 @@
-export type IndustryKey =
-  | "automotive"
-  | "manufacturing"
-  | "retail"
-  | "food"
-  | "construction"
-  | "steel-aluminum"
-  | "chemical-plastics";
+import { INDUSTRY_KEYS, type IndustryKey } from "./industryKeys";
+import { getIndustryByKey } from "./industryPages";
 
 export type IndustrySlide = {
   key: IndustryKey;
@@ -16,7 +10,7 @@ export type IndustrySlide = {
   mobileSubtitle?: string;
   href: string;
   image: string;
-  accent?: "red" | "blue" | "slate";
+  accent?: "red" | "blue" | "green" | "slate";
 };
 
 export const INDUSTRIES_SECTION = {
@@ -27,21 +21,17 @@ export const INDUSTRIES_SECTION = {
     "Sector-specific logistics programs for the industries where timing, compliance, and precision define outcomes.",
 } as const;
 
-export const INDUSTRY_SLIDES: IndustrySlide[] = [
-  {
-    key: "automotive",
+const INDUSTRY_OVERVIEWS: Record<IndustryKey, Omit<IndustrySlide, "href" | "image" | "key">> = {
+  automotive: {
     label: "Automotive",
     title: "Automotive freight engineered for precision.",
     subtitle:
       "From specialty vehicle transport to production-line sequencing, automotive logistics built around asset protection and schedule integrity.",
     mobileTitle: "Precision automotive logistics.",
     mobileSubtitle: "Specialty vehicles, OEM parts, and production-line sequencing.",
-    href: "/industries/automotive",
-    image: "/_optimized/industries/Automotives.webp",
     accent: "red",
   },
-  {
-    key: "manufacturing",
+  manufacturing: {
     label: "Manufacturing",
     title: "Manufacturing supply chains require control.",
     subtitle:
@@ -49,24 +39,18 @@ export const INDUSTRY_SLIDES: IndustrySlide[] = [
     mobileTitle: "Manufacturing supply chains require control.",
     mobileSubtitle:
       "Production-critical freight moved with consistency and real-time visibility.",
-    href: "/industries/manufacturing-materials",
-    image: "/_optimized/industries/Manufacturing.webp",
     accent: "slate",
   },
-  {
-    key: "retail",
+  retail: {
     label: "Retail & Consumer Goods",
     title: "Retail freight delivered with zero drama.",
     subtitle:
       "Store replenishment and DC lanes with predictable execution, clear updates, and service-level discipline.",
     mobileTitle: "Retail freight delivered with zero drama.",
     mobileSubtitle: "Store and DC lanes delivered with predictable execution and clear updates.",
-    href: "/industries/retail-consumer-goods",
-    image: "/_optimized/industries/Retail.webp",
     accent: "blue",
   },
-  {
-    key: "food",
+  food: {
     label: "Food & Beverage",
     title: "Food & beverage moves on precision.",
     subtitle:
@@ -74,25 +58,9 @@ export const INDUSTRY_SLIDES: IndustrySlide[] = [
     mobileTitle: "Food & beverage moves on precision.",
     mobileSubtitle:
       "Temperature-aware handling and on-time execution protecting shelf life and trust.",
-    href: "/industries/food-beverage",
-    image: "/_optimized/industries/food.webp",
-    accent: "red",
+    accent: "green",
   },
-  {
-    key: "steel-aluminum",
-    label: "Steel & Metals",
-    title: "Heavy freight handled with discipline.",
-    subtitle:
-      "Metal coils, plate, and high-density loads moved with engineered securement, compliance rigor, and accountable execution.",
-    mobileTitle: "Heavy freight handled with discipline.",
-    mobileSubtitle:
-      "Metal coils and plate moved with proper equipment, securement, and accountability.",
-    href: "/industries/steel-aluminum",
-    image: "/_optimized/industries/Steel.webp",
-    accent: "slate",
-  },
-  {
-    key: "construction",
+  construction: {
     label: "Construction & Building Materials",
     title: "Project cargo delivered to site on schedule.",
     subtitle:
@@ -100,12 +68,19 @@ export const INDUSTRY_SLIDES: IndustrySlide[] = [
     mobileTitle: "Project cargo delivered on schedule.",
     mobileSubtitle:
       "Building materials and heavy equipment moved with safety-first execution.",
-    href: "/industries/construction-building-materials",
-    image: "/_optimized/industries/Industry&Energy.webp",
     accent: "slate",
   },
-  {
-    key: "chemical-plastics",
+  "steel-aluminum": {
+    label: "Steel & Metals",
+    title: "Heavy freight handled with discipline.",
+    subtitle:
+      "Metal coils, plate, and high-density loads moved with engineered securement, compliance rigor, and accountable execution.",
+    mobileTitle: "Heavy freight handled with discipline.",
+    mobileSubtitle:
+      "Metal coils and plate moved with proper equipment, securement, and accountability.",
+    accent: "slate",
+  },
+  "chemical-plastics": {
     label: "Chemical & Plastics",
     title: "Chemical and plastics freight with controlled execution.",
     subtitle:
@@ -113,8 +88,22 @@ export const INDUSTRY_SLIDES: IndustrySlide[] = [
     mobileTitle: "Chemical freight with compliance discipline.",
     mobileSubtitle:
       "Controlled regulated-freight execution with stronger document and handling discipline.",
-    href: "/industries/chemical-plastics",
-    image: "/_optimized/industries/chemical-hero-premium-v1.png",
     accent: "slate",
   },
-];
+};
+
+export const INDUSTRY_SLIDES: IndustrySlide[] = INDUSTRY_KEYS.map((key) => {
+  const industry = getIndustryByKey(key);
+  const overview = INDUSTRY_OVERVIEWS[key];
+
+  if (!industry) {
+    throw new Error(`Missing industry page config for "${key}"`);
+  }
+
+  return {
+    key,
+    ...overview,
+    href: `/industries/${industry.slug}`,
+    image: industry.meta.heroImage,
+  };
+});

@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useReducedMotion } from "framer-motion";
 import { IconCubeStack } from "./WidgetIcons";
 import { PillToggle, WidgetCard } from "./WidgetCard";
 
@@ -28,22 +29,10 @@ function getStatus(
   return "Underutilized";
 }
 
-function useReducedMotion() {
-  const [reduce, setReduce] = React.useState(false);
-  React.useEffect(() => {
-    const m = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduce(m.matches);
-    const f = () => setReduce(m.matches);
-    m.addEventListener("change", f);
-    return () => m.removeEventListener("change", f);
-  }, []);
-  return reduce;
-}
-
 export function LoadOptimizationWidget({ accentColor }: { accentColor?: string }) {
   const [density, setDensity] = React.useState(55);
   const [shipmentType, setShipmentType] = React.useState<ShipmentType>("FTL");
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const accent = accentColor ?? "var(--color-brand-500)";
 
   const efficiency = React.useMemo(

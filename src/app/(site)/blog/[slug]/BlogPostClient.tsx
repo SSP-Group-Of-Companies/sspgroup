@@ -207,7 +207,7 @@ export default function BlogPostClient({
         <Container className="site-page-container relative py-10">
           <div className="flex items-center gap-3">
             <Link
-              href="/blog"
+              href="/insights"
               className="focus-ring-light inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/15"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -435,7 +435,7 @@ export default function BlogPostClient({
                   {related.slice(0, 3).map((p: any) => (
                     <Link
                       key={String(p.id)}
-                      href={`/blog/${encodeURIComponent(p.slug)}`}
+                      href={`/insights/${encodeURIComponent(p.slug)}`}
                       className="block py-3 transition hover:opacity-80"
                     >
                       <div className="line-clamp-2 text-sm font-semibold text-slate-900">
