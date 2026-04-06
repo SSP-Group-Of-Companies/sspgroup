@@ -16,8 +16,8 @@ export function ShipmentDetailsSection({
   return (
     <section className="space-y-5">
       <div>
-        <h3 className="text-base font-semibold text-neutral-900">{title}</h3>
-        <p className="mt-1 text-sm text-neutral-600">{description}</p>
+        <h3 className="text-base font-semibold text-[color:var(--color-text-light)]">{title}</h3>
+        <p className="mt-1 text-sm text-[color:var(--color-muted-light)]">{description}</p>
       </div>
 
       <div className="space-y-4">{children}</div>
@@ -41,15 +41,15 @@ export function ShipmentDetailsBlock({
   return (
     <section
       className={cn(
-        "rounded-2xl border border-neutral-200 bg-white p-4 sm:p-5",
+        "rounded-2xl border border-[color:var(--color-border-light)] bg-white p-4 sm:p-5",
         hasHeader && "space-y-4",
         className,
       )}
     >
       {hasHeader ? (
         <div className="space-y-1">
-          {title ? <h4 className="text-sm font-semibold text-neutral-900">{title}</h4> : null}
-          {description ? <p className="text-sm text-neutral-600">{description}</p> : null}
+          {title ? <h4 className="text-sm font-semibold text-[color:var(--color-text-light)]">{title}</h4> : null}
+          {description ? <p className="text-sm text-[color:var(--color-muted-light)]">{description}</p> : null}
         </div>
       ) : null}
 

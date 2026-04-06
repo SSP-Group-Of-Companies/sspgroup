@@ -69,7 +69,7 @@ export async function sendContactInquiryCustomerConfirmationEmail(
     <p style="margin:0 0 12px 0;">Hi ${safeName},</p>
 
     <p style="margin:0 0 12px 0;">
-      Thanks for contacting NPT Logistics — we’ve received your message and routed it to the appropriate team.
+      Thanks for contacting SSP Group — we’ve received your message and routed it to the appropriate team.
     </p>
 
     <div style="margin:0 0 16px 0; padding:12px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:10px;">
@@ -92,7 +92,7 @@ export async function sendContactInquiryCustomerConfirmationEmail(
     </p>
 
     <p style="margin:0 0 24px 0;">
-      — NPT Logistics<br/>
+      — SSP Group<br/>
       <a href="mailto:${escapeHtml(departmentEmail)}" style="color:#2563eb; text-decoration:none;">${escapeHtml(
         departmentEmail,
       )}</a>

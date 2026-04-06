@@ -36,7 +36,7 @@ export function AddressFields({ title, basePath }: Props) {
   return (
     <section className="space-y-3">
       <div className="flex items-center gap-2">
-        <span className="flex h-7 w-7 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 text-neutral-600">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)] text-[color:var(--color-muted-light)]">
           <MapPin className="h-3.5 w-3.5" />
         </span>
 
@@ -45,7 +45,7 @@ export function AddressFields({ title, basePath }: Props) {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-neutral-200 bg-neutral-50/60 p-3 sm:p-4">
+      <div className="rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)]/60 p-3 sm:p-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <TextField
             control={control}

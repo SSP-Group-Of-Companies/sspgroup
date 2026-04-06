@@ -14,6 +14,7 @@ export function Select({
   onChange,
   options,
   placeholder,
+  ariaLabel,
   disabled,
   className,
   buttonClassName,
@@ -23,6 +24,7 @@ export function Select({
   onChange: (v: string) => void;
   options: SelectOption[];
   placeholder?: string;
+  ariaLabel?: string;
   disabled?: boolean;
   className?: string;
   buttonClassName?: string;
@@ -381,6 +383,7 @@ export function Select({
         )}
         aria-haspopup="listbox"
         aria-expanded={open}
+        aria-label={ariaLabel}
       >
         <span className={cn("truncate", !active?.label && "opacity-70")}>
           {active?.label ?? placeholder ?? "Select"}

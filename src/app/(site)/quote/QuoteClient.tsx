@@ -2,43 +2,76 @@
 "use client";
 
 import { ShieldCheck, Clock3, Globe2, PhoneCall } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 
 import { Container } from "../components/layout/Container";
 import { Section } from "../components/layout/Section";
+import { SectionEyebrow } from "../components/ui/SectionEyebrow";
 import LogisticsQuoteForm from "../components/forms/LogisticsQuoteForm";
 import { cn } from "@/lib/cn";
 import { NEXT_PUBLIC_SSP_PHONE } from "@/config/env";
 import { NAV_OFFSET } from "@/constants/ui";
 
 function QuoteHero() {
+  const reduceMotion = useReducedMotion() ?? false;
+  const shardMaskStyle = {
+    background:
+      "linear-gradient(154deg, var(--color-quote-shard-start) 0%, var(--color-quote-shard-mid) 35%, rgba(8,26,43,0.04) 70%, var(--color-quote-shard-end) 100%)",
+    WebkitMaskImage: "url('/_optimized/company/ssp-shard-mask.svg')",
+    maskImage: "url('/_optimized/company/ssp-shard-mask.svg')",
+    WebkitMaskRepeat: "no-repeat",
+    maskRepeat: "no-repeat",
+    WebkitMaskPosition: "center",
+    maskPosition: "center",
+    WebkitMaskSize: "contain",
+    maskSize: "contain",
+  } as const;
+  const shardFadeStyle = {
+    WebkitMaskImage:
+      "linear-gradient(136deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.86) 63%, #000 100%)",
+    maskImage:
+      "linear-gradient(136deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.86) 63%, #000 100%)",
+  } as const;
+
   return (
     <Section
       variant="dark"
       id="quote-hero"
-      className="relative scroll-mt-16 overflow-hidden bg-[color:var(--color-surface-0)] py-8 sm:py-10"
+      className="relative overflow-hidden border-b border-white/10 py-18 sm:py-22 lg:py-24"
+      style={{
+        background:
+          "linear-gradient(135deg, var(--color-quote-hero-bg-start) 0%, var(--color-quote-hero-bg-mid) 52%, var(--color-quote-hero-bg-end) 100%)",
+      }}
     >
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.9)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.9)_1px,transparent_1px)] [background-size:80px_80px] opacity-[0.04]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_800px_400px_at_70%_30%,rgba(220,38,38,0.12),transparent_55%)]" />
-        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[rgba(2,6,23,0.6)] to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#070a12] to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(62%_64%_at_86%_44%,var(--color-quote-hero-glow-brand),var(--color-quote-hero-glow-brand-soft)_56%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(52%_56%_at_8%_98%,var(--color-quote-hero-glow-ink),transparent_72%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(40%_44%_at_66%_35%,var(--color-quote-hero-glow-steel),transparent_72%)]" />
       </div>
 
       <Container className="site-page-container relative">
-        <div className="py-6 text-center sm:py-8 lg:py-10">
-          <div className="mx-auto mb-2.5 h-[2px] w-12 bg-[color:var(--color-brand-500)] sm:w-14" />
-          <p className="text-[10.5px] font-semibold tracking-[0.14em] text-[color:var(--color-brand-500)] uppercase">
-            Quotes &amp; Planning
-          </p>
-          <h1 className="mx-auto mt-2.5 max-w-3xl text-[1.9rem] leading-tight font-semibold tracking-tight text-white sm:text-[2.2rem] lg:text-[2.45rem]">
+        <div className="max-w-[44rem]">
+          <SectionEyebrow label="Quotes & Planning" accentColor="var(--color-brand-500)" light />
+          <h1 className="mt-4 max-w-[20ch] text-balance text-[2.05rem] font-bold leading-[1.04] tracking-tight text-white sm:text-[2.45rem] lg:text-[2.92rem]">
             Share your shipment. We’ll handle the precision.
           </h1>
-          <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-[1.65] text-[color:var(--color-muted)] sm:text-[14px]">
+          <p className="mt-4 max-w-[56ch] text-[14.25px] leading-[1.74] text-white/74 sm:text-[15px]">
             Tell us where your freight is moving, what needs to move, and the service window. Our
             team reviews every request, aligns the right capacity, and comes back with a tailored
             quote—not a generic rate sheet.
           </p>
         </div>
+
+        <motion.div
+          initial={reduceMotion ? { opacity: 0.74 } : { opacity: 0.04, x: -34, y: 20 }}
+          animate={reduceMotion ? { opacity: 0.74 } : { opacity: 0.84, x: 0, y: 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
+          className="pointer-events-none absolute right-[-45%] top-[-2%] h-[120%] w-[118%] sm:right-[-40%] sm:top-[-4%] sm:h-[126%] sm:w-[110%] md:right-[-31%] md:top-[-7%] md:h-[130%] md:w-[98%] lg:right-[-23%] lg:top-[-10%] lg:h-[134%] lg:w-[80%]"
+          aria-hidden
+          style={shardFadeStyle}
+        >
+          <div className="h-full w-full" style={shardMaskStyle} />
+        </motion.div>
       </Container>
     </Section>
   );
@@ -58,21 +91,21 @@ function scrollToQuoteForm() {
 
 function QuoteCallout() {
   return (
-    <div className="mx-auto mb-4 max-w-5xl sm:mb-5">
+    <div className="mx-auto mb-5 max-w-5xl sm:mb-6">
       <div
         className={cn(
-          "relative overflow-hidden rounded-[18px] border px-4 py-2.5 sm:px-4.5 sm:py-3",
-          "border-[rgba(255,255,255,0.1)] bg-[linear-gradient(180deg,#0f172a_0%,#111827_100%)]",
-          "shadow-[0_10px_24px_rgba(2,6,23,0.12)]",
+          "relative overflow-hidden rounded-2xl border px-4 py-3.5 sm:px-5 sm:py-4",
+          "border-[color:var(--color-quote-callout-border)] bg-[linear-gradient(180deg,var(--color-quote-callout-bg-start)_0%,var(--color-quote-callout-bg-end)_100%)]",
+          "shadow-[0_12px_28px_rgba(2,6,23,0.18)]",
         )}
       >
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_360px_140px_at_12%_0%,rgba(220,38,38,0.12),transparent_60%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_260px_120px_at_88%_100%,rgba(180,83,9,0.1),transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_360px_140px_at_12%_0%,var(--color-quote-callout-glow-brand),transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_260px_120px_at_88%_100%,var(--color-quote-callout-glow-amber),transparent_60%)]" />
         </div>
 
-        <div className="relative flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="min-w-0 text-[12.5px] leading-5 text-[rgba(255,255,255,0.78)] sm:text-[13px]">
+        <div className="relative flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="min-w-0 text-[12.5px] leading-5 text-[color:var(--color-quote-callout-text)] sm:text-[13px]">
             <span className="mr-2 inline-block text-[10px] font-semibold tracking-[0.14em] text-[color:var(--color-brand-500)] uppercase">
               Prefer to call?
             </span>
@@ -90,12 +123,12 @@ function QuoteCallout() {
             <a
               href={toTelHref(NEXT_PUBLIC_SSP_PHONE)}
               className={cn(
-                "inline-flex h-8.5 items-center justify-center gap-2 rounded-md px-3.5 text-[12px] font-semibold sm:text-[13px]",
+                "inline-flex h-8 items-center justify-center gap-1.5 rounded-md px-3 text-[12px] font-semibold",
                 "border border-[color:var(--color-brand-600)] bg-[linear-gradient(180deg,var(--color-brand-600),var(--color-brand-700))] text-white",
-                "shadow-[0_6px_16px_rgba(220,38,38,0.18)] transition hover:-translate-y-[1px] hover:shadow-[0_10px_22px_rgba(220,38,38,0.24)]",
+                "shadow-[0_6px_16px_rgba(215,25,32,0.16)] transition hover:-translate-y-[1px] hover:shadow-[0_10px_20px_rgba(215,25,32,0.22)]",
                 "focus-ring-surface",
               )}
-              aria-label={`Call NPT Logistics at ${NEXT_PUBLIC_SSP_PHONE}`}
+              aria-label={`Call SSP Group at ${NEXT_PUBLIC_SSP_PHONE}`}
             >
               <PhoneCall className="h-3.5 w-3.5" />
               Call
@@ -105,11 +138,12 @@ function QuoteCallout() {
               type="button"
               onClick={scrollToQuoteForm}
               className={cn(
-                "inline-flex h-8.5 items-center justify-center rounded-md px-3.5 text-[12px] font-semibold sm:text-[13px]",
-                "border border-[rgba(255,255,255,0.16)] bg-[rgba(255,255,255,0.06)] text-[rgba(255,255,255,0.8)] backdrop-blur",
-                "transition hover:-translate-y-[1px] hover:cursor-pointer hover:border-[rgba(255,255,255,0.28)] hover:text-white",
+                "inline-flex h-8 items-center justify-center rounded-md px-3 text-[12px] font-semibold",
+                "border border-[color:var(--color-quote-callout-secondary-border)] bg-[color:var(--color-quote-callout-secondary-bg)] text-[color:var(--color-quote-callout-secondary-text)] backdrop-blur",
+                "transition hover:-translate-y-[1px] hover:cursor-pointer hover:border-[color:var(--color-quote-callout-secondary-border-hover)] hover:text-white",
                 "focus-ring-surface",
               )}
+              aria-label="Scroll to quote form"
             >
               Form
             </button>
@@ -140,14 +174,13 @@ const assuranceItems = [
 
 function QuoteAssurance() {
   return (
-    <section className="py-8 sm:py-10">
+    <section className="border-t border-[color:var(--color-border-light-soft)] py-10 sm:py-12" style={{ backgroundColor: "var(--color-quote-assurance-bg)" }}>
       <Container className="site-page-container">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mx-auto mb-3 h-[2px] w-12 bg-[color:var(--color-brand-500)]" />
-          <p className="text-[10.5px] font-semibold tracking-[0.14em] text-[color:var(--color-brand-500)] uppercase">
-            Why shippers trust SSP
-          </p>
-          <h2 className="mt-3 text-[1.55rem] font-semibold tracking-tight text-white sm:text-[1.9rem]">
+          <div className="flex justify-center">
+            <SectionEyebrow label="Why shippers trust SSP" accentColor="var(--color-brand-500)" />
+          </div>
+          <h2 className="mt-3 text-[1.5rem] font-semibold tracking-tight text-[color:var(--color-text-light)] sm:text-[1.85rem]">
             Built for confidence at every step
           </h2>
         </div>
@@ -187,11 +220,11 @@ function QuoteAssurance() {
                   </div>
 
                   <div className="min-w-0">
-                    <h3 className="text-[1.05rem] font-semibold tracking-tight text-slate-900">
+                    <h3 className="text-[1.05rem] font-semibold tracking-tight text-[color:var(--color-text-light)]">
                       {item.title}
                     </h3>
 
-                    <p className="mt-2 max-w-[24ch] text-sm leading-6 text-slate-600">
+                    <p className="mt-2 max-w-[24ch] text-sm leading-6 text-[color:var(--color-muted-light)]">
                       {item.description}
                     </p>
                   </div>
@@ -207,26 +240,26 @@ function QuoteAssurance() {
 
 export default function QuoteClient() {
   return (
-    <div className="bg-[color:var(--color-surface-0)]">
+    <div className="bg-[color:var(--color-surface-0-light)]">
       <QuoteHero />
 
-      <section id="quote-form" className="relative py-10 sm:py-12 lg:py-14">
+      <section id="quote-form" className="relative py-12 sm:py-14 lg:py-16">
         <div className="absolute inset-0" aria-hidden="true">
           <div
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(920px 500px at 16% -4%, rgba(220,38,38,0.08), transparent 62%)",
+                "radial-gradient(920px 500px at 16% -4%, var(--color-quote-form-glow-brand), transparent 62%)",
             }}
           />
           <div
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(1000px 580px at 84% 112%, rgba(180,83,9,0.08), transparent 66%)",
+                "radial-gradient(1000px 580px at 84% 112%, var(--color-quote-form-glow-amber), transparent 66%)",
             }}
           />
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,#f8fafc_0%,#eef2f7_45%,#e2e8f0_100%)]" />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,var(--color-quote-form-surface-start)_0%,var(--color-quote-form-surface-mid)_45%,var(--color-quote-form-surface-end)_100%)]" />
         </div>
 
         <Container className="site-page-container relative">

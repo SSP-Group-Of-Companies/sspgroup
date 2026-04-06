@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { CAREERS_DEFAULT_OG_IMAGE, toAbsoluteUrl } from "@/lib/seo/site";
 import { getPublicJobBySlugSSR } from "@/lib/utils/jobs/ssrJobsFetchers";
 import JobPublicClient from "./JobPublicClient";
@@ -57,20 +58,7 @@ export async function generateMetadata({
 export default async function JobPublicPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const job = await getPublicJobBySlugSSR(slug);
-
-  // If ssrApiFetch throws, your existing error handler should catch it.
-  // If it returns null-ish, render a simple fallback.
-  if (!job) {
-    return (
-      <div className="min-h-screen bg-[color:var(--color-surface-0)]">
-        <div className="mx-auto max-w-3xl px-6 py-16">
-          <div className="site-card-surface rounded-3xl p-10 text-center text-sm text-[color:var(--color-muted-light)] shadow-sm">
-            Job not found.
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (!job) notFound();
 
   return <JobPublicClient job={job as any} />;
 }

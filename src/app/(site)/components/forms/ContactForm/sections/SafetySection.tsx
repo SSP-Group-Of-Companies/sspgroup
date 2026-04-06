@@ -68,11 +68,11 @@ export function SafetySection() {
       <div className="space-y-1">
         <h3
           id="contact-safety-section-heading"
-          className="text-lg font-semibold tracking-[-0.02em] text-slate-950"
+          className="text-lg font-semibold tracking-[-0.02em] text-[color:var(--color-text-light)]"
         >
           Safety inquiry details
         </h3>
-        <p className="text-sm leading-6 text-slate-600">
+        <p className="text-sm leading-6 text-[color:var(--color-muted-light)]">
           Report an incident, compliance concern, cargo issue, or other safety-related matter.
         </p>
       </div>

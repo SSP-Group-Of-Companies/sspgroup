@@ -45,7 +45,7 @@ BUSINESS RULE SUMMARY
 7. Friendly customer-facing identifier:
    - inquiryId is backend-generated and unique.
    - Intended for customer follow-up and internal reference.
-   - Example: NPT-CI-260312-7G4K2
+   - Example: SSP-CI-260312-7G4K2
 
 8. Incident / support / operational details:
    - Category-specific fields should only exist on the matching discriminator shape.
@@ -302,7 +302,7 @@ export interface IContactInquiry {
   /**
    * Friendly customer-facing reference ID.
    * Backend-generated and unique.
-   * Example: NPT-CI-260312-7G4K2
+   * Example: SSP-CI-260312-7G4K2
    */
   inquiryId: string;
 

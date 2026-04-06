@@ -606,10 +606,10 @@ export default function CareersClient({
             </motion.div>
 
             <motion.div
-              initial={reduceMotion ? { opacity: 0.24 } : { opacity: 0.04, x: -34, y: 20 }}
+              initial={reduceMotion ? { opacity: 0.1 } : { opacity: 0.04, x: -34, y: 20 }}
               animate={reduceMotion ? { opacity: 0.1 } : { opacity: 0.14, x: 0, y: 0 }}
               transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
-              className="pointer-events-none absolute hidden lg:block lg:right-[-18%] lg:top-[-10%] lg:h-[132%] lg:w-[72%] xl:right-[-12%] xl:w-[66%]"
+              className="pointer-events-none absolute right-[-45%] top-[-2%] h-[120%] w-[118%] sm:right-[-40%] sm:top-[-4%] sm:h-[126%] sm:w-[110%] md:right-[-31%] md:top-[-7%] md:h-[130%] md:w-[98%] lg:right-[-23%] lg:top-[-10%] lg:h-[134%] lg:w-[80%]"
               aria-hidden
               style={heroShardFadeStyle}
             >
@@ -905,6 +905,7 @@ export default function CareersClient({
                     value={qInput}
                     onChange={(e) => setQInput(e.target.value)}
                     placeholder="Search roles (e.g., dispatcher, safety, operations)…"
+                    aria-label="Search roles"
                     className={FILTER_FIELD_CLASS}
                   />
                   {qInput ? (
@@ -925,6 +926,7 @@ export default function CareersClient({
                     value={deptInput}
                     onChange={(e) => setDeptInput(e.target.value)}
                     placeholder="Department (optional)"
+                    aria-label="Filter by department"
                     className={FILTER_FIELD_CLASS}
                   />
                   {deptInput ? (
@@ -945,6 +947,7 @@ export default function CareersClient({
                     value={locInput}
                     onChange={(e) => setLocInput(e.target.value)}
                     placeholder="Location (optional)"
+                    aria-label="Filter by location"
                     className={FILTER_FIELD_CLASS}
                   />
                   {locInput ? (
@@ -970,6 +973,7 @@ export default function CareersClient({
                       }
                       options={WORKPLACE_OPTIONS}
                       placeholder="Workplace type"
+                      ariaLabel="Filter by workplace type"
                       className="w-full cursor-pointer"
                       buttonClassName={FILTER_SELECT_BUTTON_CLASS}
                       menuClassName={FILTER_SELECT_MENU_CLASS}
@@ -987,6 +991,7 @@ export default function CareersClient({
                       }
                       options={EMPLOYMENT_OPTIONS}
                       placeholder="Employment type"
+                      ariaLabel="Filter by employment type"
                       className="w-full cursor-pointer"
                       buttonClassName={FILTER_SELECT_BUTTON_CLASS}
                       menuClassName={FILTER_SELECT_MENU_CLASS}
@@ -1002,6 +1007,7 @@ export default function CareersClient({
                       }}
                       options={SORT_OPTIONS}
                       placeholder="Sort"
+                      ariaLabel="Sort roles"
                       className="w-full cursor-pointer"
                       buttonClassName={FILTER_SELECT_BUTTON_CLASS}
                       menuClassName={FILTER_SELECT_MENU_CLASS}
@@ -1120,7 +1126,6 @@ export default function CareersClient({
                         <Link
                           key={String(j.id ?? j.slug)}
                           href={jobHref}
-                          target="_blank"
                           onClick={() =>
                             trackCtaClick({
                               ctaId: "apply_now",

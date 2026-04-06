@@ -167,14 +167,14 @@ export default function ContactForm() {
     <FormProvider {...methods}>
       <input type="hidden" {...register("turnstileToken")} />
 
-      <div ref={cardRef} className="space-y-5">
+      <div ref={cardRef} className="space-y-6 sm:space-y-7">
         <DepartmentSelector onDepartmentChange={handleDepartmentChange} />
 
         <FormCardShell>
           <div tabIndex={-1}>
             <form
               onSubmit={handleSubmit(onSubmit, onInvalid)}
-              className="space-y-7 bg-white/95 px-5 pt-6 pb-7 sm:px-7 lg:px-8"
+              className="space-y-8 bg-white/95 px-5 pt-6 pb-7 sm:px-7 sm:pt-7 sm:pb-8 lg:px-8"
             >
               <FeedbackBanner feedback={feedback} innerRef={feedbackRef} />
 

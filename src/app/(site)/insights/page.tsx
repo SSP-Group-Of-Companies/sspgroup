@@ -56,27 +56,26 @@ export default async function InsightsPage({ searchParams }: { searchParams: Pro
   qs.set("page", String(page));
   qs.set("limit", String(limit));
 
-  const postsResp = await ssrApiFetch<{
-    data: {
-      items: any[];
-      meta: { page: number; limit: number; total: number; totalPages: number };
-    };
-  }>(`/api/v1/blog?${qs.toString()}`);
-
   const cqs = new URLSearchParams();
   if (q) cqs.set("q", q);
   if (categorySlug) cqs.set("categorySlug", categorySlug);
-
-  const catsResp = await ssrApiFetch<{
-    data: Array<{ id: string; name: string; slug: string; postCount?: number }>;
-  }>(`/api/v1/blog/categories?${cqs.toString()}`);
-
-  const recentResp = await ssrApiFetch<{
-    data: {
-      items: any[];
-      meta: { page: number; limit: number; total: number; totalPages: number };
-    };
-  }>(`/api/v1/blog?${new URLSearchParams({ page: "1", limit: "5", sortBy: "newest" }).toString()}`);
+  const [postsResp, catsResp, recentResp] = await Promise.all([
+    ssrApiFetch<{
+      data: {
+        items: any[];
+        meta: { page: number; limit: number; total: number; totalPages: number };
+      };
+    }>(`/api/v1/blog?${qs.toString()}`),
+    ssrApiFetch<{
+      data: Array<{ id: string; name: string; slug: string; postCount?: number }>;
+    }>(`/api/v1/blog/categories?${cqs.toString()}`),
+    ssrApiFetch<{
+      data: {
+        items: any[];
+        meta: { page: number; limit: number; total: number; totalPages: number };
+      };
+    }>(`/api/v1/blog?${new URLSearchParams({ page: "1", limit: "5", sortBy: "newest" }).toString()}`),
+  ]);
 
   const initialQuery = { q, categoryId, categorySlug, sortBy, page, limit };
 

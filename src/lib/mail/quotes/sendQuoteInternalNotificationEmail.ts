@@ -583,7 +583,7 @@ export async function sendQuoteInternalNotificationEmail(
     ${renderContactAndIdentification(q)}
     ${finalNotesBlock}
 
-    <p style="margin:0 0 24px 0;">NPT Logistics</p>
+    <p style="margin:0 0 24px 0;">SSP Group</p>
   `;
 
   const html = buildDefaultEmailTemplate({

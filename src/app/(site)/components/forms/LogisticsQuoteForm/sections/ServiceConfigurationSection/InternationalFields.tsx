@@ -399,7 +399,7 @@ export function InternationalFields() {
                     disabled: true,
                     placeholder: "Calculated automatically",
                     className:
-                      "bg-neutral-100 text-neutral-500 border-neutral-200 cursor-not-allowed hover:border-neutral-200",
+                      "bg-[color:var(--color-surface-0-light)] text-[color:var(--color-muted-light)] border-[color:var(--color-border-light)] cursor-not-allowed hover:border-[color:var(--color-border-light)]",
                   }}
                   hint="Calculated automatically from cargo quantities and weights."
                 />
@@ -434,7 +434,7 @@ export function InternationalFields() {
                     disabled: true,
                     placeholder: "Calculated automatically",
                     className:
-                      "bg-neutral-100 text-neutral-500 border-neutral-200 cursor-not-allowed hover:border-neutral-200",
+                      "bg-[color:var(--color-surface-0-light)] text-[color:var(--color-muted-light)] border-[color:var(--color-border-light)] cursor-not-allowed hover:border-[color:var(--color-border-light)]",
                   }}
                   hint="Calculated automatically from cargo quantities and weights."
                 />

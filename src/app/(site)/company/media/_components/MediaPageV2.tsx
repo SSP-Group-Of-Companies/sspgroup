@@ -21,9 +21,9 @@ import { cn } from "@/lib/cn";
 
 const FOCUS_RING =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-0-light)]";
-const HERO_EYEBROW_ACCENT = "var(--color-brand-500)";
+const HERO_EYEBROW_ACCENT = "var(--color-media-eyebrow-accent)";
 const HERO_SURFACE =
-  "linear-gradient(135deg, #2a0710 0%, #4a0b17 34%, #67111f 68%, #56111c 100%)";
+  "linear-gradient(135deg, var(--color-media-hero-bg-start) 0%, var(--color-media-hero-bg-mid) 52%, var(--color-media-hero-bg-end) 100%)";
 const HERO_PRIMARY_CTA_LABEL = "Watch A Decade of Growth, Reliability, and Trust";
 const HERO_PRIMARY_CTA_ID = "media_hero_play_hero_primary_video";
 
@@ -49,7 +49,7 @@ function Hero({
 
   const shardMaskStyle: CSSProperties = {
     background:
-      "linear-gradient(162deg, rgba(255,255,255,0.92) 0%, color-mix(in srgb, var(--color-brand-500) 86%, white 14%) 56%, color-mix(in srgb, var(--color-company-hero-midnight-end) 78%, var(--color-brand-600) 22%) 100%)",
+      "linear-gradient(162deg, var(--color-media-shard-start) 0%, var(--color-media-shard-mid) 56%, var(--color-media-shard-end) 100%)",
     WebkitMaskImage: "url('/_optimized/company/ssp-shard-mask.svg')",
     maskImage: "url('/_optimized/company/ssp-shard-mask.svg')",
     WebkitMaskRepeat: "no-repeat",
@@ -58,6 +58,12 @@ function Hero({
     maskPosition: "center",
     WebkitMaskSize: "contain",
     maskSize: "contain",
+  };
+  const shardFadeStyle: CSSProperties = {
+    WebkitMaskImage:
+      "linear-gradient(136deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.86) 63%, #000 100%)",
+    maskImage:
+      "linear-gradient(136deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.86) 63%, #000 100%)",
   };
 
   return (
@@ -68,9 +74,9 @@ function Hero({
       style={{ background: HERO_SURFACE }}
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute inset-0 bg-[radial-gradient(64%_66%_at_86%_44%,rgba(239,68,68,0.28),rgba(239,68,68,0.06)_54%,transparent_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(52%_56%_at_9%_96%,rgba(255,255,255,0.16),transparent_72%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(44%_50%_at_68%_54%,rgba(254,226,226,0.14),transparent_74%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(64%_66%_at_86%_44%,var(--color-media-hero-glow-primary),var(--color-media-hero-glow-primary-soft)_54%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(52%_56%_at_9%_96%,var(--color-media-hero-glow-secondary),transparent_72%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(44%_50%_at_68%_54%,var(--color-media-hero-glow-tertiary),transparent_74%)]" />
       </div>
 
       <Container className="site-page-container relative">
@@ -151,11 +157,12 @@ function Hero({
           </div>
         </motion.div>
         <motion.div
-          initial={reduceMotion ? { opacity: 0.24 } : { opacity: 0.04, x: -34, y: 20 }}
-          animate={reduceMotion ? { opacity: 0.28 } : { opacity: 0.4, x: 0, y: 0 }}
+          initial={reduceMotion ? { opacity: 0.74 } : { opacity: 0.04, x: -34, y: 20 }}
+          animate={reduceMotion ? { opacity: 0.66 } : { opacity: 0.68, x: 0, y: 0 }}
           transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-none absolute right-[-23%] top-[-10%] h-[134%] w-[80%]"
+          className="pointer-events-none absolute right-[-45%] top-[-2%] h-[120%] w-[118%] sm:right-[-40%] sm:top-[-4%] sm:h-[126%] sm:w-[110%] md:right-[-31%] md:top-[-7%] md:h-[130%] md:w-[98%] lg:right-[-23%] lg:top-[-10%] lg:h-[134%] lg:w-[80%]"
           aria-hidden
+          style={shardFadeStyle}
         >
           <div className="h-full w-full" style={shardMaskStyle} />
         </motion.div>
@@ -261,7 +268,7 @@ function IntentionalCollage({
               })
             }
             className={cn(
-              "group inline-flex items-center gap-2 rounded-xl border border-[color:var(--color-brand-600)]/80 bg-[linear-gradient(180deg,var(--color-brand-500)_0%,var(--color-brand-600)_55%,var(--color-brand-700)_100%)] px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_34px_-20px_rgba(225,29,47,0.62)] transition-all motion-safe:hover:-translate-y-0.5 hover:brightness-[1.03]",
+              "group inline-flex items-center gap-2 rounded-xl border border-[color:var(--color-media-cta-600)]/85 bg-[linear-gradient(180deg,var(--color-media-cta-500)_0%,var(--color-media-cta-600)_55%,var(--color-media-cta-700)_100%)] px-5 py-3 text-sm font-semibold text-white shadow-[var(--shadow-media-cta)] transition-all motion-safe:hover:-translate-y-0.5 hover:brightness-[1.03]",
               FOCUS_RING,
             )}
           >

@@ -64,17 +64,17 @@ export function InquirySectionRouter() {
       ) : category === EContactInquiryCategory.GENERAL ? (
         <GeneralSection />
       ) : (
-        <section className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-5 sm:px-5">
+        <section className="rounded-2xl border border-dashed border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)] px-4 py-5 sm:px-5">
           <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[color:var(--color-border-light)] bg-white text-[color:var(--color-muted-light)]">
               <BriefcaseBusiness className="h-4 w-4" />
             </div>
 
             <div>
-              <p className="text-sm font-semibold text-slate-900">
+              <p className="text-sm font-semibold text-[color:var(--color-text-light)]">
                 Select a department to continue
               </p>
-              <p className="mt-1 text-sm leading-6 text-slate-600">
+              <p className="mt-1 text-sm leading-6 text-[color:var(--color-muted-light)]">
                 Once a department is selected, the matching inquiry section will appear here.
               </p>
             </div>

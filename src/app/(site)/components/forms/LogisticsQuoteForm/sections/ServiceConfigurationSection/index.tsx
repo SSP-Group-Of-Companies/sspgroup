@@ -28,7 +28,7 @@ export function ServiceConfigurationSection() {
   if (!primaryService) {
     return (
       <div className="mb-10">
-        <div className="rounded-xl border border-dashed border-neutral-300 bg-neutral-50 p-6 text-center text-sm text-neutral-600">
+        <div className="rounded-xl border border-dashed border-[color:var(--color-border-light-soft)] bg-[color:var(--color-surface-0-light)] p-6 text-center text-sm text-[color:var(--color-muted-light)]">
           Select a service above to configure your shipment.
         </div>
       </div>

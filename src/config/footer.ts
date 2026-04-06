@@ -114,6 +114,12 @@ export const FOOTER_QUICK_ACTIONS: FooterQuickAction[] = [
     ctaIdMobile: "footer_m_freight_lanes",
   },
   {
+    label: "Contact SSP",
+    href: "/contact",
+    ctaIdDesktop: "footer_contact_ssp",
+    ctaIdMobile: "footer_m_contact_ssp",
+  },
+  {
     label: "Track Shipment",
     href: "/track-shipment",
     ctaIdDesktop: "footer_track_shipment",

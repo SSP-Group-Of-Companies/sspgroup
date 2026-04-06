@@ -107,17 +107,17 @@ export function CarriersSection() {
       <div className="space-y-1">
         <h3
           id="contact-carriers-section-heading"
-          className="text-lg font-semibold tracking-[-0.02em] text-slate-950"
+          className="text-lg font-semibold tracking-[-0.02em] text-[color:var(--color-text-light)]"
         >
           Carrier inquiry details
         </h3>
-        <p className="text-sm leading-6 text-slate-600">
+        <p className="text-sm leading-6 text-[color:var(--color-muted-light)]">
           Share your carrier information and tell us what you need help with. Already registered?{" "}
           <a
             href="https://sspglobalcarriers.rmissecure.com/_s/reg/GeneralRequirementsV2.aspx"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-medium text-slate-900 underline hover:text-slate-700"
+            className="font-medium text-[color:var(--color-text-light)] underline hover:text-[color:var(--color-company-ink)]"
           >
             Log in to the carrier portal
           </a>

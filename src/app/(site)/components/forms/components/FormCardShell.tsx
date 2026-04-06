@@ -15,19 +15,19 @@ export function FormCardShell({ children, className, innerClassName }: FormCardS
     <div
       className={cn(
         "relative mx-auto w-full overflow-hidden rounded-3xl",
-        "border border-[color:var(--color-border-light)]",
-        "shadow-[0_12px_30px_rgba(15,23,42,0.08)]",
+        "border border-[color:var(--color-border-light)]/85 bg-white/88",
+        "shadow-[0_18px_44px_rgba(12,23,38,0.12)]",
         className,
       )}
     >
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-14 bg-[linear-gradient(90deg,rgba(220,38,38,0.82),rgba(30,64,175,0.88))]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-14 bg-[linear-gradient(90deg,var(--color-brand-600)_0%,var(--color-brand-500)_44%,rgba(16,167,216,0.78)_100%)]"
       />
 
       <div
         className={cn(
-          "relative mt-[4px] overflow-hidden rounded-3xl bg-[color:var(--color-surface-0)]",
+          "relative mt-[4px] overflow-hidden rounded-3xl bg-[color:var(--color-surface-0-light)]",
           innerClassName,
         )}
       >

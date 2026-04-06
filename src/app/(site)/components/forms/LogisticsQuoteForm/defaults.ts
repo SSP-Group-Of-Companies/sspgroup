@@ -127,7 +127,7 @@ export function makeServiceDetailsDefaults(
  */
 export const LOGISTICS_QUOTE_SUBMIT_DEFAULTS: LogisticsQuoteSubmitValues = {
   turnstileToken: "",
-  sourceLabel: "NPT Logistics Quote Form",
+  sourceLabel: "SSP Group Quote Form",
 
   serviceDetails: undefined,
 

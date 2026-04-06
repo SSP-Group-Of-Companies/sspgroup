@@ -88,7 +88,7 @@ export function CargoLinesFields({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-neutral-200 bg-neutral-50 text-neutral-600">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)] text-[color:var(--color-muted-light)]">
               <Boxes className="h-3.5 w-3.5" />
             </span>
 
@@ -102,8 +102,8 @@ export function CargoLinesFields({
           type="button"
           onClick={() => append({ ...emptyItem } as any)}
           className={cn(
-            "inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white px-4 py-2 text-sm font-medium whitespace-nowrap text-neutral-900 transition",
-            "hover:cursor-pointer hover:border-neutral-300 hover:bg-neutral-50",
+            "inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-[color:var(--color-border-light)] bg-white px-4 py-2 text-sm font-medium whitespace-nowrap text-[color:var(--color-text-light)] transition",
+            "hover:cursor-pointer hover:border-[color:var(--color-border-light-soft)] hover:bg-[color:var(--color-surface-0-light)]",
           )}
         >
           <Plus className="h-4 w-4" />
@@ -116,7 +116,7 @@ export function CargoLinesFields({
           const base = `${name}.${index}`;
 
           return (
-            <div key={field.id} className="rounded-2xl border border-neutral-200 bg-neutral-50 p-4">
+            <div key={field.id} className="rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)] p-4">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
                   {itemLabel} {index + 1}
@@ -127,8 +127,8 @@ export function CargoLinesFields({
                     type="button"
                     onClick={() => remove(index)}
                     className={cn(
-                      "inline-flex shrink-0 items-center gap-2 rounded-xl border border-neutral-200 bg-white px-3 py-2 text-sm font-medium whitespace-nowrap text-neutral-900 transition",
-                      "hover:border-neutral-300 hover:bg-neutral-50",
+                      "inline-flex shrink-0 items-center gap-2 rounded-xl border border-[color:var(--color-border-light)] bg-white px-3 py-2 text-sm font-medium whitespace-nowrap text-[color:var(--color-text-light)] transition",
+                      "hover:border-[color:var(--color-border-light-soft)] hover:bg-[color:var(--color-surface-0-light)]",
                     )}
                   >
                     <Trash2 className="h-4 w-4" />

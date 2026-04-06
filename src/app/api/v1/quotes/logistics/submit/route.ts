@@ -68,7 +68,7 @@ export const POST = async (req: NextRequest) => {
     const quoteId = await generateUniqueEntityId({
       model: LogisticsQuoteModel,
       fieldName: "quoteId",
-      prefix: "NPT",
+      prefix: "SSP-Q",
     });
 
     const quote = new LogisticsQuoteModel({

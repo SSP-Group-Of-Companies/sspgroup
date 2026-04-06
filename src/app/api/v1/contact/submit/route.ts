@@ -1,5 +1,4 @@
 // src/app/api/v1/contact/submit/route.ts
-// src/app/api/v1/contact/submit/route.ts
 import { NextRequest } from "next/server";
 import mongoose from "mongoose";
 
@@ -55,7 +54,7 @@ export const POST = async (req: NextRequest) => {
     const inquiryId = await generateUniqueEntityId({
       model: ContactInquiryModel,
       fieldName: "inquiryId",
-      prefix: "NPT-CI",
+      prefix: "SSP-CI",
     });
 
     const inquiry = new ContactInquiryModel({

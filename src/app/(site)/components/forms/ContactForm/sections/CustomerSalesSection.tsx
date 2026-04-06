@@ -71,11 +71,11 @@ export function CustomerSalesSection() {
       <div className="space-y-1">
         <h3
           id="contact-customer-sales-section-heading"
-          className="text-lg font-semibold tracking-[-0.02em] text-slate-950"
+          className="text-lg font-semibold tracking-[-0.02em] text-[color:var(--color-text-light)]"
         >
           Customer &amp; Sales inquiry details
         </h3>
-        <p className="text-sm leading-6 text-slate-600">
+        <p className="text-sm leading-6 text-[color:var(--color-muted-light)]">
           Share your contact details and tell us how we can help.
         </p>
       </div>

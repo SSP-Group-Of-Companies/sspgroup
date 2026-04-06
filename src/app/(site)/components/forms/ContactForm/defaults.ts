@@ -110,7 +110,7 @@ export function makeInquiryDefaults(category: EContactInquiryCategory): InquiryV
  */
 export const CONTACT_FORM_SUBMIT_DEFAULTS: ContactFormSubmitValues = {
   turnstileToken: "",
-  sourceLabel: "NPT Logistics Contact Form",
+  sourceLabel: "SSP Group Contact Form",
   inquiry: makeInquiryDefaults(EContactInquiryCategory.CUSTOMER_SALES),
   attachments: [],
   marketingEmailConsent: false,

@@ -6,7 +6,11 @@ import { SITE_URL } from "@/lib/seo/site";
 const PAGE_TITLE = "Cross-Border Freight Solutions | Canada, USA & Mexico";
 const PAGE_DESCRIPTION =
   "SSP Group manages cross-border freight programs across Canada, the United States, and Mexico with structured customs coordination, corridor-specific playbooks, and milestone-level visibility from origin to final delivery.";
-const LAST_REVIEWED_DATE = "March 24, 2026";
+const LAST_REVIEWED_DATE = new Intl.DateTimeFormat("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+}).format(new Date());
 const PAGE_OG_IMAGE = "/_optimized/solutions/cross-border-hero.png";
 
 const capabilityPillars = [

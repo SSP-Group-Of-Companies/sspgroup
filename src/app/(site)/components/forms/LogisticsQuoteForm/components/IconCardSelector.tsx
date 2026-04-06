@@ -64,15 +64,18 @@ export function IconCardSelector<T extends string>({
         aria-describedby={errorId}
         className={cn(
           "group relative flex h-full w-full flex-col overflow-hidden border text-left transition-all duration-200",
-          "focus:outline-none focus-visible:ring-2 focus-visible:ring-black/10",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)]/25",
           "hover:cursor-pointer",
 
           active
             ? cn(
-                "rounded-2xl border border-neutral-200 bg-neutral-50/60",
+                "rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)]/60",
                 "shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]",
               )
-            : cn("border-neutral-200 bg-white", "hover:border-neutral-300 hover:bg-neutral-50/80"),
+            : cn(
+                "border-[color:var(--color-border-light)] bg-white",
+                "hover:border-[color:var(--color-border-light-soft)] hover:bg-[color:var(--color-surface-0-light)]/80",
+              ),
 
           invalid && !active && "border-red-300",
 
@@ -121,7 +124,7 @@ export function IconCardSelector<T extends string>({
                     hasSupportingText ? "mt-0.5 h-10 w-10" : "h-9 w-9",
                     active
                       ? "border-[color:var(--color-brand-600)]"
-                      : "border-neutral-200 bg-white group-hover:border-neutral-300",
+                      : "border-[color:var(--color-border-light)] bg-white group-hover:border-[color:var(--color-border-light-soft)]",
                   )}
                   style={
                     active
@@ -158,7 +161,7 @@ export function IconCardSelector<T extends string>({
                     </div>
 
                     {active ? (
-                      <span className="rounded-full border border-red-100 bg-red-50 px-2 py-0.5 text-[10px] font-semibold tracking-[0.12em] text-red-700 uppercase">
+                      <span className="rounded-full border border-[color:var(--color-brand-100)] bg-[color:var(--color-brand-50)] px-2 py-0.5 text-[10px] font-semibold tracking-[0.12em] text-[color:var(--color-brand-700)] uppercase">
                         {selectedLabel}
                       </span>
                     ) : null}
@@ -181,7 +184,7 @@ export function IconCardSelector<T extends string>({
                 isPrimary ? "size-10" : "size-9",
                 active
                   ? "border-[color:var(--color-brand-600)]"
-                  : "border-neutral-200 bg-white group-hover:border-neutral-300",
+                  : "border-[color:var(--color-border-light)] bg-white group-hover:border-[color:var(--color-border-light-soft)]",
               )}
               style={
                 active
@@ -233,7 +236,7 @@ export function IconCardSelector<T extends string>({
         {active && !isDetailed ? (
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute top-3 right-3 flex h-4 w-4 items-center justify-center rounded-full border border-red-200 bg-white/95"
+            className="pointer-events-none absolute top-3 right-3 flex h-4 w-4 items-center justify-center rounded-full border border-[color:var(--color-brand-100)] bg-white/95"
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-brand-600)]" />
           </span>

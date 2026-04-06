@@ -129,14 +129,14 @@ export function DepartmentSelector({ onDepartmentChange }: DepartmentSelectorPro
       data-field-path="inquiry.category"
       aria-invalid={Boolean(categoryError)}
       aria-describedby={categoryError ? "inquiry.category-error" : undefined}
-      className="space-y-3"
+      className="space-y-4"
     >
       <div
         role="tablist"
         aria-label="Contact department"
         className={cn(
-          "overflow-hidden rounded-lg border bg-white",
-          categoryError ? "border-red-300" : "border-slate-200",
+          "overflow-hidden rounded-2xl border bg-white shadow-[0_10px_24px_rgba(12,23,38,0.07)]",
+          categoryError ? "border-[color:var(--color-brand-200)]" : "border-[color:var(--color-border-light)]",
         )}
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
@@ -159,20 +159,23 @@ export function DepartmentSelector({ onDepartmentChange }: DepartmentSelectorPro
                   "text-[13px] font-medium tracking-[-0.01em]",
                   "transition-colors duration-200",
                   "hover:cursor-pointer focus:outline-none focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)]/20",
-                  "border-b border-slate-200 lg:border-b-0",
-                  idx !== DEPARTMENT_OPTIONS.length - 1 && "lg:border-r lg:border-slate-200",
+                  "border-b border-[color:var(--color-border-light)] lg:border-b-0",
+                  idx !== DEPARTMENT_OPTIONS.length - 1 &&
+                    "lg:border-r lg:border-[color:var(--color-border-light)]",
                   idx < 4 &&
-                    "sm:[&:nth-child(-n+4)]:border-b sm:[&:nth-child(-n+4)]:border-slate-200",
+                    "sm:[&:nth-child(-n+4)]:border-b sm:[&:nth-child(-n+4)]:border-[color:var(--color-border-light)]",
                   idx % 2 === 0 &&
                     idx !== DEPARTMENT_OPTIONS.length - 1 &&
-                    "sm:border-r sm:border-slate-200 lg:border-r",
-                  active ? "text-white" : "text-slate-700 hover:bg-slate-50",
+                    "sm:border-r sm:border-[color:var(--color-border-light)] lg:border-r",
+                  active
+                    ? "text-white"
+                    : "text-[color:var(--color-text-light)] hover:bg-[color:var(--color-surface-0-light)]",
                 )}
               >
                 {active ? (
                   <motion.span
                     layoutId="contact-department-active-tab"
-                    className="absolute inset-0 z-0 bg-[color:var(--color-brand-600)]"
+                    className="absolute inset-0 z-0 bg-[linear-gradient(180deg,var(--color-brand-500),var(--color-brand-600)_54%,var(--color-brand-700))]"
                     transition={{
                       type: "spring",
                       stiffness: 420,
@@ -212,7 +215,7 @@ export function DepartmentSelector({ onDepartmentChange }: DepartmentSelectorPro
                     <Icon
                       className={cn(
                         "h-3.5 w-3.5 shrink-0 transition-colors duration-200",
-                        active ? "text-white" : "text-slate-500",
+                        active ? "text-white" : "text-[color:var(--color-muted-light)]",
                       )}
                     />
                   </motion.span>
@@ -223,8 +226,8 @@ export function DepartmentSelector({ onDepartmentChange }: DepartmentSelectorPro
                 {!active ? (
                   <motion.span
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 z-0 bg-slate-50/0"
-                    whileHover={{ backgroundColor: "rgba(248, 250, 252, 0.85)" }}
+                    className="pointer-events-none absolute inset-0 z-0 bg-[color:var(--color-surface-0-light)]/0"
+                    whileHover={{ backgroundColor: "var(--color-surface-0-light)" }}
                     transition={{ duration: 0.16 }}
                   />
                 ) : null}
@@ -248,7 +251,7 @@ export function DepartmentSelector({ onDepartmentChange }: DepartmentSelectorPro
         <div
           id="inquiry.category-error"
           role="alert"
-          className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700"
+          className="flex items-start gap-2 rounded-xl border border-[color:var(--color-brand-100)] bg-[color:var(--color-brand-50)] p-3 text-sm text-[color:var(--color-brand-700)]"
         >
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
           <div>{categoryError}</div>

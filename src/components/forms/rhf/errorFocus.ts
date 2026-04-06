@@ -15,7 +15,7 @@ const DEFAULTS: Required<FormErrorFocusOptions> = {
   scrollOffset: 0,
   focusDelayMs: 300,
   pulseDurationMs: 2000,
-  pulseClassName: "npt-field-error-pulse",
+  pulseClassName: "ssp-field-error-pulse",
   scrollBehavior: "smooth",
 };
 

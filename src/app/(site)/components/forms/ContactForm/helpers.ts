@@ -25,7 +25,7 @@ export const CONTACT_FORM_ERROR_FOCUS_OPTIONS = {
   fieldPathAttr: "data-field-path",
   focusDelayMs: 300,
   pulseDurationMs: 2000,
-  pulseClassName: "npt-field-error-pulse",
+  pulseClassName: "ssp-field-error-pulse",
   scrollBehavior: "smooth" as const,
 };
 

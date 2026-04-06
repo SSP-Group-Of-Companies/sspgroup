@@ -483,7 +483,7 @@ export interface ILogisticsQuote {
   /**
    * Friendly customer-facing reference ID.
    * Backend-generated and unique.
-   * Example: NPT-260311-7G4K2
+   * Example: SSP-Q-260311-7G4K2
    */
   quoteId: string;
 

@@ -99,13 +99,13 @@ export function SubmitSection({ turnstileRef }: SubmitSectionProps) {
         }
         hint="Optional. You can unsubscribe anytime using the link in our emails."
       />
-      <div className="rounded-2xl border border-neutral-200 bg-white px-3 py-3">
+      <div className="rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)] px-3 py-3">
         <div className="flex items-start gap-3">
           <span
             aria-hidden="true"
             className={cn(
               "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
-              "border border-neutral-300 bg-white text-neutral-500",
+              "border border-[color:var(--color-border-light)] bg-white text-[color:var(--color-muted-light)]",
             )}
           >
             <AlertCircle className="h-3 w-3" strokeWidth={2.5} />
@@ -126,7 +126,7 @@ export function SubmitSection({ turnstileRef }: SubmitSectionProps) {
               target="_blank"
               className={cn(
                 "mt-3 inline-flex items-center text-sm font-medium underline underline-offset-4 transition",
-                "text-[color:var(--color-text-light)] hover:text-neutral-700",
+                "text-[color:var(--color-text-light)] hover:text-[color:var(--color-company-ink)]",
               )}
             >
               Read our Privacy Policy
@@ -166,7 +166,7 @@ export function SubmitSection({ turnstileRef }: SubmitSectionProps) {
           className={cn(
             "inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl px-6 text-sm font-semibold text-white",
             "bg-[color:var(--color-brand-600)] hover:cursor-pointer hover:bg-[color:var(--color-brand-700)]",
-            "shadow-[0_10px_28px_rgba(220,38,38,0.35)] transition focus:ring-2 focus:ring-[color:var(--color-brand-500)]/45 focus:outline-none",
+            "shadow-[0_10px_28px_rgba(215,25,32,0.35)] transition focus:ring-2 focus:ring-[color:var(--color-brand-500)]/45 focus:outline-none",
             isSubmitting && "opacity-70",
           )}
         >
