@@ -1,5 +1,6 @@
 // src/app/(site)/careers/page.tsx
-import { nptMetadata } from "@/lib/utils/blog/metadata";
+import type { Metadata } from "next";
+import { CAREERS_DEFAULT_OG_IMAGE } from "@/lib/seo/site";
 import { getPublicJobsListSSR } from "@/lib/utils/jobs/ssrJobsFetchers";
 import CareersClient from "./CareersClient";
 import { EEmploymentType, EWorkplaceType } from "@/types/jobPosting.types";
@@ -25,11 +26,27 @@ function enumOrUndefined<T extends string>(v: string | undefined, allowed: reado
 type SortBy = "publishedAt" | "title" | "createdAt";
 type SortDir = "asc" | "desc";
 
-export const metadata = nptMetadata({
-  title: "Careers",
-  description: "Explore open roles at NPT Logistics and apply online.",
-  canonicalPath: "/careers",
-});
+export const metadata: Metadata = {
+  title: { absolute: "Careers | SSP Group" },
+  description:
+    "Explore driver, office, and operations career opportunities at SSP Group and apply to current openings.",
+  alternates: { canonical: "/careers" },
+  openGraph: {
+    title: "Careers | SSP Group",
+    description:
+      "Explore driver, office, and operations career opportunities at SSP Group and apply to current openings.",
+    type: "website",
+    url: "/careers",
+    images: [CAREERS_DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Careers | SSP Group",
+    description:
+      "Explore driver, office, and operations career opportunities at SSP Group and apply to current openings.",
+    images: [CAREERS_DEFAULT_OG_IMAGE],
+  },
+};
 
 export default async function CareersPage({
   searchParams,

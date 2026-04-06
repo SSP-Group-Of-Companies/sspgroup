@@ -1,9 +1,9 @@
 // src/app/(admin)/admin/blog/comments/page.tsx
-import { nptMetadata } from "@/lib/utils/blog/metadata";
+import { sspPageMetadata } from "@/lib/utils/blog/metadata";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
 import AdminCommentsClient from "./AdminCommentsClient";
 
-export const metadata = nptMetadata({
+export const metadata = sspPageMetadata({
   title: "Admin - Blog comments",
   description: "Moderate blog comments.",
   noIndex: true,

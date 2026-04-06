@@ -168,9 +168,49 @@
   --color-company-who-light-glow-brand: rgba(215, 25, 32, 0.06);
   --shadow-company-who-main-card: 0 26px 64px rgba(2, 6, 23, 0.14);
   --shadow-company-who-float-card: 0 16px 36px rgba(2, 6, 23, 0.12);
+  --color-history-hero-bg-start: #a6b2c0;
+  --color-history-hero-bg-mid: #97a5b5;
+  --color-history-hero-bg-end: #8998aa;
+  --color-history-hero-glow-ink: rgba(15, 23, 42, 0.34);
+  --color-history-hero-glow-cyan: rgba(16, 167, 216, 0.06);
+  --color-history-hero-shard: #5f6b7a;
 
   --color-about-operating-bg: #0d4f78;
   --color-about-safety-bg: #f0eeeb;
+  --color-careers-hero-overlay: rgba(7, 10, 18, 0.42);
+  --color-careers-hero-gradient-start: rgba(7, 10, 18, 0.8);
+  --color-careers-hero-gradient-mid: rgba(7, 10, 18, 0.46);
+  --color-careers-hero-gradient-end: rgba(7, 10, 18, 0.2);
+  --color-careers-hero-glow-brand: rgba(220, 38, 38, 0.2);
+  --color-careers-hero-glow-ink: rgba(11, 79, 120, 0.2);
+  --color-careers-light-glow-brand: rgba(220, 38, 38, 0.06);
+  --color-careers-light-glow-ink: rgba(11, 79, 120, 0.06);
+  --color-careers-drive-bg: #0a1d30;
+  --color-careers-drive-glow-brand: rgba(220, 38, 38, 0.08);
+  --color-careers-drive-glow-ink: rgba(16, 167, 216, 0.08);
+  --color-careers-drive-card-bg: rgba(255, 255, 255, 0.06);
+  --color-careers-drive-card-border: rgba(255, 255, 255, 0.12);
+  --shadow-careers-drive-card: 0 8px 32px rgba(2, 6, 23, 0.34);
+  --color-careers-control-hover-bg: rgba(15, 23, 42, 0.04);
+  --shadow-control-soft: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-control-popover: 0 12px 36px rgba(15, 23, 42, 0.08);
+  --shadow-careers-feature-card: 0 20px 50px rgba(2, 6, 23, 0.45);
+  --shadow-careers-status-dot: 0 0 8px rgba(52, 211, 153, 0.45);
+  --color-careers-drivedock-700: #1a4ec8;
+  --color-careers-drivedock-600: #2563eb;
+  --color-careers-drivedock-500: #3b82f6;
+  --shadow-careers-drivedock-cta: 0 14px 30px rgba(37, 99, 235, 0.36);
+  /* Insights hero: lighter on the right so collage reads editorial, not “second Careers shard”. */
+  --color-insights-hero-overlay: rgba(6, 11, 20, 0.28);
+  --color-insights-hero-gradient-start: rgba(6, 11, 20, 0.78);
+  --color-insights-hero-gradient-mid: rgba(7, 12, 22, 0.35);
+  --color-insights-hero-gradient-end: rgba(8, 14, 24, 0.06);
+  --color-insights-hero-glow-brand: rgba(220, 38, 38, 0.035);
+  --color-insights-hero-glow-ink: rgba(16, 167, 216, 0.06);
+  --color-insights-hero-bottom-fade: #070d17;
+  --color-insights-sidebar-cta-bg: #172230;
+  --color-insights-sidebar-cta-glow: rgba(220, 38, 38, 0.15);
+  --shadow-insights-sidebar-cta: 0 2px 0 rgba(0, 0, 0, 0.22), 0 20px 56px rgba(0, 0, 0, 0.2);
 
   /* ═══════════════════════════════════════════════════════════════════════
      9. AUDIENCE SECTION

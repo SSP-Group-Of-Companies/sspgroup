@@ -1,8 +1,8 @@
 // src/app/(admin)/admin/jobs/new/page.tsx
-import { nptMetadata } from "@/lib/utils/blog/metadata";
+import { sspPageMetadata } from "@/lib/utils/blog/metadata";
 import NewJobPostingClient from "./NewJobPostingClient";
 
-export const metadata = nptMetadata({
+export const metadata = sspPageMetadata({
   title: "Admin - New job posting",
   description: "Create a new job posting.",
   noIndex: true,

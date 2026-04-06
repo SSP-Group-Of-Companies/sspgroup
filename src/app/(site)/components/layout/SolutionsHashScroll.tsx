@@ -90,16 +90,18 @@ function resolveScrollBehavior(preferred: ScrollBehavior): ScrollBehavior {
 }
 
 function getSiteHeaderOffset() {
+  const header = document.querySelector("[data-site-header]") as HTMLElement | null;
+  if (header) {
+    const rect = header.getBoundingClientRect();
+    return Math.max(0, rect.height || 0);
+  }
+
   const mainbar = document.querySelector("[data-header-mainbar]") as HTMLElement | null;
   if (mainbar) {
     const rect = mainbar.getBoundingClientRect();
     return Math.max(0, rect.height || 0);
   }
-
-  const header = document.querySelector("[data-site-header]") as HTMLElement | null;
-  if (!header) return 0;
-  const rect = header.getBoundingClientRect();
-  return Math.max(0, rect.height || 0);
+  return 0;
 }
 
 function scrollToElementById(id: string, behavior: ScrollBehavior) {

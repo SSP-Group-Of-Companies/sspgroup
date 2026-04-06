@@ -1,5 +1,6 @@
-import { nptMetadata } from "@/lib/utils/blog/metadata";
-import BlogIndexClient from "../blog/BlogIndexClient";
+import type { Metadata } from "next";
+import InsightsIndexClient from "../blog/BlogIndexClient";
+import { INSIGHTS_DEFAULT_OG_IMAGE } from "@/lib/seo/site";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
 
 type SearchParams = Record<string, string | string[] | undefined>;
@@ -15,12 +16,27 @@ function toNum(v: string | undefined, fallback: number) {
   return Number.isFinite(n) && n > 0 ? n : fallback;
 }
 
-export const metadata = nptMetadata({
-  title: "Insights",
-  description: "Insights, updates, and logistics knowledge from SSP Group.",
-  canonicalPath: "/insights",
-  openGraphType: "website",
-});
+export const metadata: Metadata = {
+  title: { absolute: "Insights | SSP Group" },
+  description:
+    "Operational intelligence, market updates, and execution-focused perspectives from SSP Group.",
+  alternates: { canonical: "/insights" },
+  openGraph: {
+    title: "Insights | SSP Group",
+    description:
+      "Operational intelligence, market updates, and execution-focused perspectives from SSP Group.",
+    type: "website",
+    url: "/insights",
+    images: [INSIGHTS_DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Insights | SSP Group",
+    description:
+      "Operational intelligence, market updates, and execution-focused perspectives from SSP Group.",
+    images: [INSIGHTS_DEFAULT_OG_IMAGE],
+  },
+};
 
 export default async function InsightsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const sp = await searchParams;
@@ -65,7 +81,7 @@ export default async function InsightsPage({ searchParams }: { searchParams: Pro
   const initialQuery = { q, categoryId, categorySlug, sortBy, page, limit };
 
   return (
-    <BlogIndexClient
+    <InsightsIndexClient
       initialItems={postsResp.data.items}
       initialMeta={postsResp.data.meta}
       categories={catsResp.data}

@@ -1,9 +1,9 @@
 // src/app/(admin)/admin/jobs/[id]/applications/page.tsx
-import { nptMetadata } from "@/lib/utils/blog/metadata";
+import { sspPageMetadata } from "@/lib/utils/blog/metadata";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
 import AdminJobApplicationsForJobClient from "./AdminJobApplicationsForJobClient";
 
-export const metadata = nptMetadata({
+export const metadata = sspPageMetadata({
   title: "Admin - Job applications",
   description: "Review applications for a job posting.",
   noIndex: true,

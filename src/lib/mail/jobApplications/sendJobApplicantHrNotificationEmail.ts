@@ -10,7 +10,7 @@ export type SendJobApplicantHrNotificationEmailParams = {
   /** HR mailbox recipient */
   to?: string;
 
-  /** Base site url, e.g. https://nptlogistics.com */
+  /** Base site url, e.g. https://sspgroup.com */
   siteUrl: string;
 
   job: {
@@ -243,7 +243,7 @@ export async function sendJobApplicantHrNotificationEmail(
     ${linksBlock}
     ${coverLetterBlock}
 
-    <p style="margin:0 0 24px 0;">NPT Careers</p>
+    <p style="margin:0 0 24px 0;">SSP Group Careers</p>
   `;
 
   const html = buildDefaultEmailTemplate({

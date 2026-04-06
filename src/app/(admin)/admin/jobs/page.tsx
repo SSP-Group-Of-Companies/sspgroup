@@ -1,9 +1,9 @@
 // src/app/(admin)/admin/jobs/page.tsx
-import { nptMetadata } from "@/lib/utils/blog/metadata";
+import { sspPageMetadata } from "@/lib/utils/blog/metadata";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
 import AdminJobsListClient from "./AdminJobsListClient";
 
-export const metadata = nptMetadata({
+export const metadata = sspPageMetadata({
   title: "Admin - Jobs",
   description: "Manage job postings.",
   noIndex: true,

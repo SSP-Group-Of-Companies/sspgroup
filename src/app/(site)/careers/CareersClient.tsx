@@ -20,15 +20,13 @@ import {
 } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
-import { NAV_OFFSET } from "@/constants/ui";
 import { EEmploymentType, EWorkplaceType } from "@/types/jobPosting.types";
 import { trackCtaClick } from "@/lib/analytics/cta";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { Section } from "@/app/(site)/components/layout/Section";
 import { Select } from "@/app/(site)/components/ui/Select";
-import { HeroImage } from "@/components/media/HeroImage";
 import { cn } from "@/lib/cn";
-import { NEXT_PUBLIC_SSP_HR_EMAIL } from "@/config/env";
+import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 
 type SortBy = "publishedAt" | "title" | "createdAt";
 type SortDir = "asc" | "desc";
@@ -82,14 +80,33 @@ function clampPage(p: number) {
   return Number.isFinite(p) && p > 0 ? Math.floor(p) : 1;
 }
 
+function getSiteHeaderOffset() {
+  if (typeof window === "undefined") return 0;
+  const header = document.querySelector("[data-site-header]") as HTMLElement | null;
+  if (header) {
+    const rect = header.getBoundingClientRect();
+    return Math.max(0, rect.height || 0);
+  }
+  const mainbar = document.querySelector("[data-header-mainbar]") as HTMLElement | null;
+  if (mainbar) {
+    const rect = mainbar.getBoundingClientRect();
+    return Math.max(0, rect.height || 0);
+  }
+  return 0;
+}
+
 function scrollToId(id: string) {
   if (typeof window === "undefined") return;
   const el = document.getElementById(id);
   if (!el) return;
 
-  const extra = 12;
-  const y = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET - extra;
-  window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+  const extra = 8;
+  const offset = getSiteHeaderOffset() + extra;
+  const y = el.getBoundingClientRect().top + window.scrollY - offset;
+  const behavior: ScrollBehavior = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+    ? "auto"
+    : "smooth";
+  window.scrollTo({ top: Math.max(0, y), behavior });
 }
 
 const WORKPLACE_OPTIONS = [
@@ -116,6 +133,16 @@ const DEFAULTS = {
   sortBy: "publishedAt" as SortBy,
   sortDir: "desc" as SortDir,
 };
+
+const FILTER_FIELD_CLASS =
+  "w-full rounded-xl border bg-white py-2.5 pr-10 pl-10 text-sm transition-all duration-200 border-[color:var(--color-border-light-soft)] text-[color:var(--color-text-light)] shadow-[var(--shadow-control-soft)] placeholder:text-[color:var(--color-subtle-light)] hover:border-[color:var(--color-brand-600)] focus:border-[color:var(--color-brand-600)] focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10 focus:outline-none";
+
+const FILTER_SELECT_BUTTON_CLASS =
+  "w-full items-center justify-between rounded-xl bg-white px-4 py-2.5 text-sm border border-[color:var(--color-border-light-soft)] text-[color:var(--color-text-light)] shadow-[var(--shadow-control-soft)] transition-all duration-200 hover:border-[color:var(--color-brand-600)] focus:border-[color:var(--color-brand-600)] focus:outline-none focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10";
+
+const FILTER_SELECT_MENU_CLASS =
+  "mt-1 overflow-hidden rounded-xl bg-white text-sm text-[color:var(--color-text-light)] border border-[color:var(--color-border-light-soft)] shadow-[var(--shadow-control-popover)]";
+const DRIVER_ONBOARDING_URL = "https://drivedock.ssp4you.com/";
 
 function buildUrlParams(q: Query) {
   const qs = new URLSearchParams();
@@ -185,9 +212,9 @@ export default function CareersClient({
   const jobsAbortRef = React.useRef<AbortController | null>(null);
   const resultsRef = React.useRef<HTMLDivElement | null>(null);
 
-  const SECTION_SCROLL_MARGIN_TOP = `${NAV_OFFSET}px`;
+  const SECTION_SCROLL_MARGIN_TOP = "128px";
 
-  // local inputs (debounced), same idea as blog
+  // local inputs (debounced), same approach as Insights
   const [qInput, setQInput] = React.useState(initialQuery.q ?? "");
   const [deptInput, setDeptInput] = React.useState(initialQuery.department ?? "");
   const [locInput, setLocInput] = React.useState(initialQuery.location ?? "");
@@ -252,7 +279,7 @@ export default function CareersClient({
     [router, scrollToResults],
   );
 
-  // sync from URL like blog
+  // sync from URL like Insights
   React.useEffect(() => {
     const nextPage = clampPage(Number(sp.get("page") ?? String(DEFAULTS.page)));
     const nextPageSize =
@@ -297,13 +324,13 @@ export default function CareersClient({
 
     setQuery(next);
 
-    // blog-style input sync only when URL changed externally/browser nav
+    // listing-style input sync only when URL changed externally/browser nav
     setQInput((prevVal) => (prevVal === next.q ? prevVal : next.q));
     setDeptInput((prevVal) => (prevVal === next.department ? prevVal : next.department));
     setLocInput((prevVal) => (prevVal === next.location ? prevVal : next.location));
   }, [sp]);
 
-  // debounced fetch for text inputs, same search behavior pattern as blog
+  // debounced fetch for text inputs, same search behavior pattern as Insights
   React.useEffect(() => {
     if (!didMountRef.current) {
       didMountRef.current = true;
@@ -335,13 +362,26 @@ export default function CareersClient({
     return () => window.clearTimeout(t);
   }, [qInput, deptInput, locInput, runFetch]);
 
-  // deep-link support: /careers#overview | #why | #drive | #jobs
+  // deep-link support: /careers#overview | #why-work-with-ssp | #drive | #jobs
+  // Also supports nav query routing:
+  // /careers?track=drivers -> #drive
+  // /careers?track=office-operations -> #jobs
   React.useEffect(() => {
     if (typeof window === "undefined") return;
+
     const hash = window.location.hash || "";
     const id = hash.replace("#", "");
-    if (!id) return;
-    const t = window.setTimeout(() => scrollToId(id), 50);
+    const track = new URLSearchParams(window.location.search).get("track");
+    const targetId =
+      id ||
+      (track === "drivers"
+        ? "drive"
+        : track === "office-operations"
+          ? "jobs"
+          : "");
+
+    if (!targetId) return;
+    const t = window.setTimeout(() => scrollToId(targetId), 50);
     return () => window.clearTimeout(t);
   }, []);
 
@@ -362,142 +402,225 @@ export default function CareersClient({
         show: { opacity: 1, y: 0, scale: 1 },
       };
 
+  const heroShardMaskStyle: React.CSSProperties = {
+    background:
+      "linear-gradient(162deg, rgba(255,255,255,0.9) 0%, color-mix(in srgb, var(--color-brand-500) 84%, white 16%) 58%, color-mix(in srgb, var(--color-company-hero-midnight-end) 78%, var(--color-brand-600) 22%) 100%)",
+    WebkitMaskImage: "url('/_optimized/company/ssp-shard-mask.svg')",
+    maskImage: "url('/_optimized/company/ssp-shard-mask.svg')",
+    WebkitMaskRepeat: "no-repeat",
+    maskRepeat: "no-repeat",
+    WebkitMaskPosition: "center",
+    maskPosition: "center",
+    WebkitMaskSize: "contain",
+    maskSize: "contain",
+  };
+
+  const heroShardFadeStyle: React.CSSProperties = {
+    WebkitMaskImage:
+      "linear-gradient(136deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.86) 63%, #000 100%)",
+    maskImage:
+      "linear-gradient(136deg, rgba(0,0,0,0.01) 0%, rgba(0,0,0,0.12) 30%, rgba(0,0,0,0.86) 63%, #000 100%)",
+  };
+
   return (
     <>
       <Section
         id="overview"
-        className="relative overflow-hidden bg-[color:var(--color-surface-0)]"
+        className="relative overflow-hidden border-b border-white/10 py-18 sm:py-22 lg:py-24"
         variant="dark"
-        style={{ scrollMarginTop: SECTION_SCROLL_MARGIN_TOP }}
+        style={{
+          scrollMarginTop: SECTION_SCROLL_MARGIN_TOP,
+          background:
+            "linear-gradient(135deg,#061321 0%, var(--color-company-ink) 48%, #04101c 100%)",
+        }}
       >
         <div className="absolute inset-0">
-          <div className="absolute inset-0">
-            <HeroImage
-              src="/_optimized/careers/careers-banner.webp"
-              alt="Careers banner"
-              fill
-              priority
-              className="object-cover"
-            />
-          </div>
-
-          <div className="absolute inset-0 bg-black/35" aria-hidden="true" />
-          <div
-            className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/40 to-black/15"
-            aria-hidden="true"
-          />
           <div
             aria-hidden
-            className="absolute inset-0 opacity-60"
+            className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(900px 450px at 10% 0%, rgba(220,38,38,0.18), transparent 60%), radial-gradient(700px 420px at 90% 25%, rgba(15,23,42,0.14), transparent 60%)",
+                "linear-gradient(120deg, rgba(3,10,19,0.7) 0%, rgba(5,13,24,0.5) 46%, rgba(4,11,21,0.62) 100%)",
             }}
           />
           <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(62% 64% at 88% 45%, rgba(56,189,248,0.11), rgba(56,189,248,0.01) 56%, transparent 100%)",
+            }}
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(55% 58% at 8% 100%, rgba(2,132,199,0.14), transparent 72%)",
+            }}
+          />
+          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-ssp-cyan-500)]/32 to-transparent" />
+          <div
             className="absolute inset-x-0 bottom-0 h-20"
-            style={{ background: "linear-gradient(to bottom, transparent, #070a12)" }}
-            aria-hidden="true"
+            style={{ background: "linear-gradient(to bottom, transparent, var(--color-careers-drive-bg))" }}
+            aria-hidden
           />
         </div>
 
-        <div className="relative">
+        <div className="relative z-10">
           <Container className="site-page-container">
             <motion.div
               initial="hidden"
               animate="show"
               variants={stagger}
-              className="pt-14 pb-14 sm:pt-20 sm:pb-18"
+            className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(350px,0.88fr)]"
             >
-              <motion.div
-                variants={fadeUp}
-                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-                className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/10 px-3 py-1 text-xs text-white backdrop-blur"
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-brand-600)]" />
-                Careers at NPT Logistics
-              </motion.div>
+              <div className="relative z-20">
+                <motion.div
+                  variants={fadeUp}
+                  transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+                >
+                  <SectionSignalEyebrow label="Careers" light />
+                </motion.div>
 
-              <motion.h1
-                variants={fadeUp}
-                transition={{ duration: reduceMotion ? 0 : 0.5, ease: "easeOut" }}
-                className={cn(
-                  "mt-4 max-w-3xl font-semibold tracking-tight text-white",
-                  "text-3xl sm:text-4xl lg:text-5xl",
-                )}
-              >
-                Drive Impact. Deliver Excellence.
-              </motion.h1>
-
-              <motion.p
-                variants={fadeUp}
-                transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
-                className="mt-3 max-w-2xl text-sm leading-relaxed text-[rgba(255,255,255,0.85)] sm:text-base"
-              >
-                Join a high-performance team where precision meets opportunity. Whether you're
-                navigating the road or optimizing global supply chains, NPT provides the stability,
-                scale, and strategic vision to accelerate your career.
-              </motion.p>
-
-              <motion.div
-                variants={fadeUp}
-                transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
-                className="mt-6 flex flex-wrap items-center gap-3"
-              >
-                <button
-                  type="button"
-                  onClick={() => {
-                    scrollToId("jobs");
-                  }}
+                <motion.h1
+                  variants={fadeUp}
+                  transition={{ duration: reduceMotion ? 0 : 0.5, ease: "easeOut" }}
                   className={cn(
-                    "inline-flex h-11 items-center justify-center gap-2 rounded-md px-5 text-sm font-semibold",
-                    "cursor-pointer border border-[color:var(--color-brand-600)] bg-[linear-gradient(180deg,var(--color-brand-600),var(--color-brand-700))] text-white shadow-[0_8px_20px_rgba(220,38,38,0.25)] transition hover:-translate-y-[2px] hover:shadow-[0_12px_28px_rgba(220,38,38,0.32)]",
-                    "focus-ring-surface",
+                    "mt-4 max-w-3xl text-balance font-bold tracking-tight text-white",
+                    "text-[2.05rem] leading-[1.04] sm:text-[2.45rem] lg:text-[2.92rem]",
                   )}
                 >
-                  View Open Roles <ArrowRight className="h-4 w-4" />
-                </button>
+                  Build a Career in Disciplined Freight Operations.
+                </motion.h1>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    scrollToId("drive");
-                  }}
-                  className={cn(
-                    "inline-flex h-11 items-center justify-center gap-2 rounded-md px-5 text-sm font-semibold",
-                    "cursor-pointer border border-[rgba(255,255,255,0.22)] bg-[rgba(255,255,255,0.10)] text-[color:var(--color-muted-strong)] shadow-sm backdrop-blur transition hover:-translate-y-[2px] hover:border-[rgba(255,255,255,0.38)] hover:text-white",
-                    "focus-ring-surface",
-                  )}
+                <motion.p
+                  variants={fadeUp}
+                  transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+                  className="mt-4 max-w-[54ch] text-[14.25px] leading-[1.74] text-white/84 sm:text-[15px]"
                 >
-                  Driver Opportunities <ArrowRight className="h-4 w-4" />
-                </button>
-              </motion.div>
+                  Join a team where ownership, safety, and operating discipline define daily execution.
+                  Whether you are on the road or in operations, SSP provides the structure, support,
+                  and accountability required for long-term growth.
+                </motion.p>
 
-              <motion.div
+                <motion.div
+                  variants={fadeUp}
+                  transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+                  className="mt-7 flex flex-wrap items-center gap-3"
+                >
+                  <button
+                    type="button"
+                    onClick={() => {
+                      scrollToId("jobs");
+                    }}
+                    className={cn(
+                      "inline-flex h-11 items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold",
+                      "cursor-pointer border border-[color:var(--color-brand-600)] bg-[linear-gradient(180deg,var(--color-brand-500),var(--color-brand-600)_54%,var(--color-brand-700))] text-white shadow-[var(--shadow-action-primary)] transition hover:-translate-y-[2px] hover:brightness-[1.04]",
+                      "focus-ring-surface",
+                    )}
+                  >
+                    View Open Roles <ArrowRight className="h-4 w-4" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      scrollToId("drive");
+                    }}
+                    className={cn(
+                      "inline-flex h-11 items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold",
+                      "cursor-pointer border border-white/24 bg-white/12 text-white/94 shadow-sm backdrop-blur transition hover:-translate-y-[2px] hover:border-white/40 hover:bg-white/16 hover:text-white",
+                      "focus-ring-surface",
+                    )}
+                  >
+                    Driver Opportunities <ArrowRight className="h-4 w-4" />
+                  </button>
+                </motion.div>
+
+                <motion.div
+                  variants={fadeUp}
+                  transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+                  className="mt-7 flex flex-wrap gap-x-7 gap-y-3 text-[12.5px] text-white/78"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white/55" />
+                    Clear expectations
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white/55" />
+                    Safety-led decisions
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-white/55" />
+                    Strong dispatch and ops support
+                  </div>
+                </motion.div>
+              </div>
+
+              <motion.aside
                 variants={fadeUp}
-                transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
-                className="mt-7 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/75"
+                transition={{ duration: reduceMotion ? 0 : 0.48, ease: "easeOut" }}
+                className="relative hidden overflow-hidden rounded-3xl border border-white/16 bg-black/24 p-6 shadow-[var(--shadow-glass-card)] backdrop-blur-xl lg:block"
               >
-                <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-white/55" />
-                  Clear expectations
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
+                <p className="text-[10.5px] font-semibold uppercase tracking-[0.15em] text-white/64">
+                  Talent Command Desk
+                </p>
+                <h2 className="mt-3 text-[1.3rem] font-semibold leading-tight tracking-tight text-white">
+                  Hiring across fleet, operations, and growth-critical functions.
+                </h2>
+                <p className="mt-3 text-[13px] leading-[1.72] text-white/74">
+                  Structured onboarding, clear role ownership, and leadership support from application
+                  through placement.
+                </p>
+
+                <div className="mt-5 grid grid-cols-2 gap-2.5">
+                  <div className="rounded-xl border border-white/18 bg-black/18 px-3 py-2.5">
+                    <p className="text-[1.05rem] font-semibold tracking-tight text-white">
+                      {meta?.total ?? items.length}
+                    </p>
+                    <p className="mt-1 text-[10px] uppercase tracking-[0.14em] text-white/60">
+                      Live openings
+                    </p>
+                  </div>
+                  <div className="rounded-xl border border-white/18 bg-black/18 px-3 py-2.5">
+                    <p className="text-[1.05rem] font-semibold tracking-tight text-white">24 / 7</p>
+                    <p className="mt-1 text-[10px] uppercase tracking-[0.14em] text-white/60">
+                      Ops support
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-white/55" />
-                  Safety-led decisions
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {["Driver opportunities", "Office and operations", "Leadership tracks"].map((x) => (
+                    <span
+                      key={x}
+                      className="rounded-full border border-white/20 bg-white/[0.1] px-2.5 py-1 text-[10px] font-medium text-white/82"
+                    >
+                      {x}
+                    </span>
+                  ))}
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-white/55" />
-                  Strong dispatch & ops support
-                </div>
-              </motion.div>
+              </motion.aside>
+            </motion.div>
+
+            <motion.div
+              initial={reduceMotion ? { opacity: 0.24 } : { opacity: 0.04, x: -34, y: 20 }}
+              animate={reduceMotion ? { opacity: 0.1 } : { opacity: 0.14, x: 0, y: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
+              className="pointer-events-none absolute hidden lg:block lg:right-[-18%] lg:top-[-10%] lg:h-[132%] lg:w-[72%] xl:right-[-12%] xl:w-[66%]"
+              aria-hidden
+              style={heroShardFadeStyle}
+            >
+              <div className="h-full w-full" style={heroShardMaskStyle} />
             </motion.div>
           </Container>
         </div>
       </Section>
 
       <Section
-        id="why"
+        id="why-work-with-ssp"
         className="relative py-14 sm:py-16"
         variant="light"
         style={{ scrollMarginTop: SECTION_SCROLL_MARGIN_TOP }}
@@ -507,7 +630,7 @@ export default function CareersClient({
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(900px 420px at 20% 0%, rgba(220,38,38,0.06), transparent 60%), radial-gradient(900px 420px at 90% 10%, rgba(15,23,42,0.04), transparent 60%)",
+              "radial-gradient(900px 420px at 20% 0%, var(--color-careers-light-glow-brand), transparent 60%), radial-gradient(900px 420px at 90% 10%, var(--color-careers-light-glow-ink), transparent 60%)",
           }}
         />
         <div className="relative">
@@ -520,19 +643,14 @@ export default function CareersClient({
             >
               <motion.div variants={fadeUp} className="flex items-end justify-between gap-4">
                 <div className="max-w-2xl">
-                  <div className="mb-3 flex items-center gap-2.5">
-                    <div className="h-[2px] w-10 bg-[color:var(--color-brand-500)] sm:w-14" />
-                    <span className="text-[10.5px] font-bold tracking-[0.15em] text-[color:var(--color-brand-500)] uppercase">
-                      The NPT Advantage
-                    </span>
-                  </div>
+                  <SectionSignalEyebrow label="Why SSP" />
                   <h2 className="text-[1.6rem] font-semibold tracking-tight text-[color:var(--color-text-light)] sm:text-[1.95rem] lg:text-[2.2rem]">
-                    Uncompromising Standards. Unwavering Support.
+                    High Standards. Real Operating Support.
                   </h2>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--color-muted-light)]">
-                    We operate at the intersection of speed and reliability. Our culture is built on
-                    operational clarity, direct communication, and an absolute commitment to
-                    safety—so you can focus on execution.
+                    We run freight with clear expectations, direct communication, and accountable
+                    follow-through. The result is an operating environment where execution quality is
+                    supported, measured, and consistently recognized.
                   </p>
                 </div>
 
@@ -555,19 +673,19 @@ export default function CareersClient({
                 {[
                   {
                     title: "Safety as a Core Value",
-                    desc: "Rigorous training, state-of-the-art equipment, and protocols designed to protect our people and the public.",
+                    desc: "Training, maintenance, and operating checks designed to protect people, freight, and public roadways.",
                   },
                   {
                     title: "Operational Clarity",
-                    desc: "Streamlined workflows, intelligent technology, and zero ambiguity. We set clear expectations and provide the tools to meet them.",
+                    desc: "Structured workflows and clear handoffs reduce ambiguity so teams can execute with confidence.",
                   },
                   {
                     title: "Dedicated Support Infrastructure",
-                    desc: "Dispatch and operations teams that operate as true partners, resolving complex challenges with speed and precision.",
+                    desc: "Dispatch and operations teams work as partners, resolve issues quickly, and keep commitments visible.",
                   },
                   {
-                    title: "Accelerated Career Trajectory",
-                    desc: "We reward ownership and results. As we scale, we provide the framework for you to expand your scope and lead with impact.",
+                    title: "Structured Career Growth",
+                    desc: "Ownership and consistency are rewarded. As SSP grows, high performers gain broader scope and leadership opportunities.",
                   },
                 ].map((c) => (
                   <div
@@ -594,47 +712,54 @@ export default function CareersClient({
         className="relative overflow-hidden"
         variant="dark"
         style={{
-          backgroundColor: "var(--color-about-operating-bg)",
+          backgroundColor: "var(--color-careers-drive-bg)",
           scrollMarginTop: SECTION_SCROLL_MARGIN_TOP,
         }}
       >
         <div aria-hidden className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 right-0 h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,rgba(220,38,38,0.06),transparent_60%)]" />
-          <div className="absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(15,23,42,0.6),transparent_70%)]" />
+          <div
+            className="absolute top-0 right-0 h-[600px] w-[600px] rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, var(--color-careers-drive-glow-brand), transparent 60%)",
+            }}
+          />
+          <div
+            className="absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, var(--color-careers-drive-glow-ink), transparent 70%)",
+            }}
+          />
         </div>
         <Container className="site-page-container relative">
           <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
             <div>
-              <div className="mb-3 flex items-center gap-2.5">
-                <div className="h-[2px] w-10 bg-[color:var(--color-brand-500)] sm:w-14" />
-                <span className="text-[10.5px] font-bold tracking-[0.15em] text-[color:var(--color-brand-500)] uppercase">
-                  Fleet Operations
-                </span>
-              </div>
+              <SectionSignalEyebrow label="Fleet Operations" light />
 
               <h2 className="text-[1.6rem] font-semibold tracking-tight text-white sm:text-[1.95rem] lg:text-[2.2rem]">
-                Elite Driver Opportunities
+                Driver Opportunities
               </h2>
 
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-[rgba(255,255,255,0.7)]">
-                We deploy a safety-first fleet backed by world-class dispatch intelligence. If you
-                demand premium equipment, strategic routing, and a culture of respect, your future
-                is behind the wheel at NPT.
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-white/74">
+                SSP operates a safety-first fleet backed by structured dispatch and operational
+                support. If you value reliable equipment, clear communication, and accountable
+                planning, this is a platform to build a durable driving career.
               </p>
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
                 <div
                   className="rounded-2xl p-5"
                   style={{
-                    background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.11)",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.30)",
+                    background: "var(--color-careers-drive-card-bg)",
+                    border: "1px solid var(--color-careers-drive-card-border)",
+                    boxShadow: "var(--shadow-careers-drive-card)",
                   }}
                 >
                   <div className="text-sm font-semibold text-white">
                     Premium Equipment &amp; Maintenance
                   </div>
-                  <p className="mt-2 text-sm leading-6 text-[rgba(255,255,255,0.6)]">
+                  <p className="mt-2 text-sm leading-6 text-white/68">
                     A modernized fleet with proactive, scheduled maintenance to keep you moving
                     safely and efficiently.
                   </p>
@@ -643,15 +768,15 @@ export default function CareersClient({
                 <div
                   className="rounded-2xl p-5"
                   style={{
-                    background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.11)",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.30)",
+                    background: "var(--color-careers-drive-card-bg)",
+                    border: "1px solid var(--color-careers-drive-card-border)",
+                    boxShadow: "var(--shadow-careers-drive-card)",
                   }}
                 >
                   <div className="text-sm font-semibold text-white">
                     Strategic Dispatch &amp; Planning
                   </div>
-                  <p className="mt-2 text-sm leading-6 text-[rgba(255,255,255,0.6)]">
+                  <p className="mt-2 text-sm leading-6 text-white/68">
                     Intelligent routing and 24/7 cross-functional support designed to maximize your
                     time, earnings, and work-life balance.
                   </p>
@@ -659,54 +784,56 @@ export default function CareersClient({
               </div>
             </div>
 
-            <div className="group relative overflow-hidden rounded-[2rem] p-[1px] shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+            <div className="group relative overflow-hidden rounded-[2rem] p-[1px] shadow-[var(--shadow-careers-feature-card)]">
               <div
                 className="absolute inset-0 bg-gradient-to-br from-[color:var(--color-brand-500)] via-transparent to-white/10 opacity-40 transition-opacity duration-500 group-hover:opacity-70"
                 aria-hidden="true"
               />
 
-              <div className="relative h-full rounded-[calc(2rem-1px)] bg-[#0d111a]/95 p-6 backdrop-blur-2xl sm:p-8">
+              <div className="relative h-full rounded-[calc(2rem-1px)] bg-[color:var(--color-careers-drive-bg)]/95 p-6 backdrop-blur-2xl sm:p-8">
                 <div
                   className="pointer-events-none absolute -top-24 -right-24 h-64 w-64 rounded-full bg-[color:var(--color-brand-600)] opacity-20 mix-blend-screen blur-3xl transition-all duration-700 group-hover:scale-110 group-hover:opacity-30"
                   aria-hidden="true"
                 />
 
-                <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[rgba(220,38,38,0.25)] bg-[rgba(220,38,38,0.1)] shadow-[0_0_15px_rgba(220,38,38,0.15)]">
-                  <ArrowUpRight className="h-5 w-5 text-[color:var(--color-brand-400)] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
+                <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[color:var(--color-brand-500)]/30 bg-[color:var(--color-brand-500)]/12 shadow-[0_0_15px_var(--color-careers-drive-glow-brand)]">
+                  <ArrowUpRight className="h-5 w-5 text-[color:var(--color-careers-drivedock-500)] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
                 </div>
 
                 <h3 className="mb-2 text-xl font-bold tracking-tight text-white">
-                  Driver Applications
+                  Driver Onboarding
                 </h3>
-                <p className="mb-6 text-sm leading-relaxed text-[rgba(255,255,255,0.65)]">
-                  Driver opportunities are currently handled directly through our HR team. To apply
-                  or ask about available driver roles, please email us and we’ll guide you through
-                  the next steps.
+                <p className="mb-6 text-sm leading-relaxed text-white/72">
+                  SSP driver applications run through DriveDock, our digital onboarding platform.
+                  Start your profile, submit required details, and move through qualification steps in
+                  one secure workflow.
                 </p>
 
                 <a
-                  href={`mailto:${NEXT_PUBLIC_SSP_HR_EMAIL}`}
+                  href={DRIVER_ONBOARDING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() =>
                     trackCtaClick({
-                      ctaId: "email_hr",
+                      ctaId: "careers_driver_onboarding_open",
                       location: "careers_drive_card",
-                      destination: `mailto:${NEXT_PUBLIC_SSP_HR_EMAIL}`,
-                      label: "Email HR about driver opportunities",
+                      destination: DRIVER_ONBOARDING_URL,
+                      label: "Open Driver Onboarding",
                     })
                   }
                   className={cn(
                     "group/btn relative flex w-full items-center justify-between rounded-xl px-5 py-4 transition-all duration-300",
-                    "border border-[rgba(220,38,38,0.5)] bg-gradient-to-r from-[color:var(--color-brand-700)] via-[color:var(--color-brand-600)] to-[color:var(--color-brand-500)]",
-                    "shadow-[0_8px_25px_rgba(220,38,38,0.3)] hover:-translate-y-1 hover:shadow-[0_15px_35px_rgba(220,38,38,0.5)]",
+                    "border border-[color:var(--color-careers-drivedock-500)]/50 bg-gradient-to-r from-[color:var(--color-careers-drivedock-700)] via-[color:var(--color-careers-drivedock-600)] to-[color:var(--color-careers-drivedock-500)]",
+                    "shadow-[var(--shadow-careers-drivedock-cta)] hover:-translate-y-1 hover:brightness-[1.05]",
                     "focus-ring-light",
                   )}
                 >
                   <span className="min-w-0">
                     <span className="block font-semibold tracking-wide text-white">
-                      Email HR to apply
+                      Open Driver Onboarding
                     </span>
                     <span className="block truncate text-xs text-white/80">
-                      {NEXT_PUBLIC_SSP_HR_EMAIL}
+                      drivedock.ssp4you.com | opens in new tab
                     </span>
                   </span>
 
@@ -716,12 +843,12 @@ export default function CareersClient({
                 </a>
 
                 <div className="mt-5 flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-xs font-medium text-[rgba(255,255,255,0.5)]">
-                    <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#22c55e] shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
-                    Accepting applications
+                  <div className="flex items-center gap-2 text-xs font-medium text-white/55">
+                    <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400 shadow-[var(--shadow-careers-status-dot)]" />
+                    Onboarding is open
                   </div>
-                  <div className="text-[10px] tracking-wider text-[rgba(255,255,255,0.3)] uppercase">
-                    Direct contact
+                  <div className="text-[10px] tracking-wider text-white/40 uppercase">
+                    Digital platform
                   </div>
                 </div>
               </div>
@@ -744,25 +871,20 @@ export default function CareersClient({
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(900px 420px at 80% 0%, rgba(220,38,38,0.04), transparent 55%), radial-gradient(900px 420px at 10% 10%, rgba(15,23,42,0.03), transparent 55%)",
+              "radial-gradient(900px 420px at 80% 0%, var(--color-careers-light-glow-brand), transparent 55%), radial-gradient(900px 420px at 10% 10%, var(--color-careers-light-glow-ink), transparent 55%)",
           }}
         />
         <Container className="site-page-container relative">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <div className="mb-3 flex items-center gap-2.5">
-                <div className="h-[2px] w-10 bg-[color:var(--color-brand-500)] sm:w-14" />
-                <span className="text-[10.5px] font-bold tracking-[0.15em] text-[color:var(--color-brand-600)] uppercase">
-                  Current Openings
-                </span>
-              </div>
+              <SectionSignalEyebrow label="Current Openings" />
               <h2 className="text-[1.6rem] font-semibold tracking-tight text-[color:var(--color-text-light)] sm:text-[1.95rem] lg:text-[2.2rem]">
-                Shape the Future of Logistics
+                Office and Operations Roles
               </h2>
               <p className="mt-1 max-w-2xl text-sm text-[color:var(--color-muted-light)]">
-                Explore strategic opportunities across fleet operations, supply chain management,
-                and corporate leadership. We seek high-caliber professionals dedicated to driving
-                operational excellence.
+                Explore open positions across dispatch, planning, compliance, customer operations, and
+                leadership support. Every role contributes directly to disciplined execution across
+                the SSP network.
               </p>
             </div>
 
@@ -783,20 +905,13 @@ export default function CareersClient({
                     value={qInput}
                     onChange={(e) => setQInput(e.target.value)}
                     placeholder="Search roles (e.g., dispatcher, safety, operations)…"
-                    className={cn(
-                      "w-full rounded-xl border bg-white py-2.5 pr-10 pl-10 text-sm transition-all duration-200",
-                      "border-black/[0.06] text-[color:var(--color-text-light)]",
-                      "shadow-[0_1px_2px_rgba(15,23,42,0.04)]",
-                      "placeholder:text-[color:var(--color-subtle-light)]",
-                      "hover:border-[color:var(--color-brand-600)]",
-                      "focus:border-[color:var(--color-brand-600)] focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10 focus:outline-none",
-                    )}
+                    className={FILTER_FIELD_CLASS}
                   />
                   {qInput ? (
                     <button
                       type="button"
                       onClick={() => setQInput("")}
-                      className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                      className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer rounded-lg p-1.5 text-[color:var(--color-subtle-light)] transition-colors hover:bg-[color:var(--color-surface-0)] hover:text-[color:var(--color-text-light)]"
                       aria-label="Clear search"
                     >
                       <X className="h-3.5 w-3.5" />
@@ -810,20 +925,13 @@ export default function CareersClient({
                     value={deptInput}
                     onChange={(e) => setDeptInput(e.target.value)}
                     placeholder="Department (optional)"
-                    className={cn(
-                      "w-full rounded-xl border bg-white py-2.5 pr-10 pl-10 text-sm transition-all duration-200",
-                      "border-black/[0.06] text-[color:var(--color-text-light)]",
-                      "shadow-[0_1px_2px_rgba(15,23,42,0.04)]",
-                      "placeholder:text-[color:var(--color-subtle-light)]",
-                      "hover:border-[color:var(--color-brand-600)]",
-                      "focus:border-[color:var(--color-brand-600)] focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10 focus:outline-none",
-                    )}
+                    className={FILTER_FIELD_CLASS}
                   />
                   {deptInput ? (
                     <button
                       type="button"
                       onClick={() => setDeptInput("")}
-                      className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                      className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer rounded-lg p-1.5 text-[color:var(--color-subtle-light)] transition-colors hover:bg-[color:var(--color-surface-0)] hover:text-[color:var(--color-text-light)]"
                       aria-label="Clear department"
                     >
                       <X className="h-3.5 w-3.5" />
@@ -837,20 +945,13 @@ export default function CareersClient({
                     value={locInput}
                     onChange={(e) => setLocInput(e.target.value)}
                     placeholder="Location (optional)"
-                    className={cn(
-                      "w-full rounded-xl border bg-white py-2.5 pr-10 pl-10 text-sm transition-all duration-200",
-                      "border-black/[0.06] text-[color:var(--color-text-light)]",
-                      "shadow-[0_1px_2px_rgba(15,23,42,0.04)]",
-                      "placeholder:text-[color:var(--color-subtle-light)]",
-                      "hover:border-[color:var(--color-brand-600)]",
-                      "focus:border-[color:var(--color-brand-600)] focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10 focus:outline-none",
-                    )}
+                    className={FILTER_FIELD_CLASS}
                   />
                   {locInput ? (
                     <button
                       type="button"
                       onClick={() => setLocInput("")}
-                      className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                      className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer rounded-lg p-1.5 text-[color:var(--color-subtle-light)] transition-colors hover:bg-[color:var(--color-surface-0)] hover:text-[color:var(--color-text-light)]"
                       aria-label="Clear location"
                     >
                       <X className="h-3.5 w-3.5" />
@@ -870,17 +971,8 @@ export default function CareersClient({
                       options={WORKPLACE_OPTIONS}
                       placeholder="Workplace type"
                       className="w-full cursor-pointer"
-                      buttonClassName={cn(
-                        "w-full items-center justify-between rounded-xl bg-white px-4 py-2.5 text-sm",
-                        "border border-black/[0.06] text-[color:var(--color-text-light)]",
-                        "shadow-[0_1px_2px_rgba(15,23,42,0.04)]",
-                        "transition-all duration-200 hover:border-[color:var(--color-brand-600)]",
-                        "focus:border-[color:var(--color-brand-600)] focus:outline-none focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10",
-                      )}
-                      menuClassName={cn(
-                        "mt-1 overflow-hidden rounded-xl bg-white text-sm text-[color:var(--color-text-light)]",
-                        "border border-black/[0.06] shadow-[0_12px_36px_rgba(15,23,42,0.08)]",
-                      )}
+                      buttonClassName={FILTER_SELECT_BUTTON_CLASS}
+                      menuClassName={FILTER_SELECT_MENU_CLASS}
                     />
                   </div>
 
@@ -896,17 +988,8 @@ export default function CareersClient({
                       options={EMPLOYMENT_OPTIONS}
                       placeholder="Employment type"
                       className="w-full cursor-pointer"
-                      buttonClassName={cn(
-                        "w-full items-center justify-between rounded-xl bg-white px-4 py-2.5 text-sm",
-                        "border border-black/[0.06] text-[color:var(--color-text-light)]",
-                        "shadow-[0_1px_2px_rgba(15,23,42,0.04)]",
-                        "transition-all duration-200 hover:border-[color:var(--color-brand-600)]",
-                        "focus:border-[color:var(--color-brand-600)] focus:outline-none focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10",
-                      )}
-                      menuClassName={cn(
-                        "mt-1 overflow-hidden rounded-xl bg-white text-sm text-[color:var(--color-text-light)]",
-                        "border border-black/[0.06] shadow-[0_12px_36px_rgba(15,23,42,0.08)]",
-                      )}
+                      buttonClassName={FILTER_SELECT_BUTTON_CLASS}
+                      menuClassName={FILTER_SELECT_MENU_CLASS}
                     />
                   </div>
 
@@ -920,17 +1003,8 @@ export default function CareersClient({
                       options={SORT_OPTIONS}
                       placeholder="Sort"
                       className="w-full cursor-pointer"
-                      buttonClassName={cn(
-                        "w-full items-center justify-between rounded-xl bg-white px-4 py-2.5 text-sm",
-                        "border border-black/[0.06] text-[color:var(--color-text-light)]",
-                        "shadow-[0_1px_2px_rgba(15,23,42,0.04)]",
-                        "transition-all duration-200 hover:border-[color:var(--color-brand-600)]",
-                        "focus:border-[color:var(--color-brand-600)] focus:outline-none focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10",
-                      )}
-                      menuClassName={cn(
-                        "mt-1 overflow-hidden rounded-xl bg-white text-sm text-[color:var(--color-text-light)]",
-                        "border border-black/[0.06] shadow-[0_12px_36px_rgba(15,23,42,0.08)]",
-                      )}
+                      buttonClassName={FILTER_SELECT_BUTTON_CLASS}
+                      menuClassName={FILTER_SELECT_MENU_CLASS}
                     />
                   </div>
                 </div>
@@ -979,7 +1053,7 @@ export default function CareersClient({
                     </button>
                   ) : (
                     <span className="text-xs text-[color:var(--color-subtle-light)]">
-                      Tip: try searching “dispatch”
+                      Tip: search by function, e.g. "dispatch"
                     </span>
                   )}
                 </div>
@@ -1057,7 +1131,7 @@ export default function CareersClient({
                           }
                           className={cn(
                             "group block border-b border-[color:var(--color-border-light)] py-4 transition-colors duration-200 last:border-0",
-                            "focus-ring-light hover:bg-[rgba(15,23,42,0.02)]",
+                            "focus-ring-light hover:bg-[color:var(--color-surface-0)]",
                           )}
                         >
                           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -1138,7 +1212,7 @@ export default function CareersClient({
                       "min-w-[92px] text-center",
                       "cursor-pointer rounded-full px-3 py-1.5 text-xs font-medium transition",
                       canPrev && !loading
-                        ? "text-[color:var(--color-text-light)] hover:bg-black/[0.04]"
+                        ? "text-[color:var(--color-text-light)] hover:bg-[color:var(--color-careers-control-hover-bg)]"
                         : "cursor-not-allowed text-[color:var(--color-subtle-light)]",
                     )}
                   >
@@ -1169,7 +1243,7 @@ export default function CareersClient({
                       "min-w-[92px] text-center",
                       "cursor-pointer rounded-full px-3 py-1.5 text-xs font-medium transition",
                       canNext && !loading
-                        ? "text-[color:var(--color-text-light)] hover:bg-black/[0.04]"
+                        ? "text-[color:var(--color-text-light)] hover:bg-[color:var(--color-careers-control-hover-bg)]"
                         : "cursor-not-allowed text-[color:var(--color-subtle-light)]",
                     )}
                   >

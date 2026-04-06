@@ -294,6 +294,42 @@ export function SiteFooter() {
             <div className="border-t border-[color:var(--color-footer-border)]">
               <details className="group">
                 <summary className="flex cursor-pointer list-none items-center justify-between py-3.5">
+                  <span className={footerHeading}>Company</span>
+                  <ChevronDown className="h-4 w-4 text-[color:var(--color-footer-icon-muted)] transition-transform duration-200 group-open:rotate-180" />
+                </summary>
+                <ul className="pb-4 space-y-2">
+                  {FOOTER_SECTIONS.company.links.map((item, idx) => (
+                    <li key={`m-co-${item.href}-${idx}`}>
+                      <TrackedLink href={item.href} ctaId={`footer_m_company_${item.label}`} location="footer:mobile_company" label={item.label} className={mobileFooterLink}>
+                        {item.label}
+                      </TrackedLink>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </div>
+
+            <div className="border-t border-[color:var(--color-footer-border)]">
+              <details className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between py-3.5">
+                  <span className={footerHeading}>Careers</span>
+                  <ChevronDown className="h-4 w-4 text-[color:var(--color-footer-icon-muted)] transition-transform duration-200 group-open:rotate-180" />
+                </summary>
+                <ul className="pb-4 space-y-2">
+                  {FOOTER_SECTIONS.careers.links.map((item, idx) => (
+                    <li key={`m-car-${item.href}-${idx}`}>
+                      <TrackedLink href={item.href} ctaId={`footer_m_careers_${item.label}`} location="footer:mobile_careers" label={item.label} className={mobileFooterLink}>
+                        {item.label}
+                      </TrackedLink>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </div>
+
+            <div className="border-t border-[color:var(--color-footer-border)]">
+              <details className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between py-3.5">
                   <span className={footerHeading}>Quick actions</span>
                   <ChevronDown className="h-4 w-4 text-[color:var(--color-footer-icon-muted)] transition-transform duration-200 group-open:rotate-180" />
                 </summary>

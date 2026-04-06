@@ -1,4 +1,4 @@
-// src/app/blog/BlogIndexClient.tsx
+// Client for public /insights listing (CMS: /api/v1/blog).
 "use client";
 
 import * as React from "react";
@@ -12,8 +12,9 @@ import { cn } from "@/lib/cn";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { Section } from "@/app/(site)/components/layout/Section";
-import { NAV_OFFSET } from "@/constants/ui";
+import { INSIGHTS_DEFAULT_OG_IMAGE } from "@/lib/seo/site";
 import { trackCtaClick } from "@/lib/analytics/cta";
+import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 
 type CategoryItem = {
   id: string;
@@ -22,7 +23,7 @@ type CategoryItem = {
   postCount?: number;
 };
 
-type BlogPostListItem = {
+type InsightPostListItem = {
   id: string;
   slug: string;
   title: string;
@@ -66,6 +67,21 @@ function clampPage(p: number) {
   return Number.isFinite(p) && p > 0 ? Math.floor(p) : 1;
 }
 
+function getSiteHeaderOffset() {
+  if (typeof window === "undefined") return 0;
+  const header = document.querySelector("[data-site-header]") as HTMLElement | null;
+  if (header) {
+    const rect = header.getBoundingClientRect();
+    return Math.max(0, rect.height || 0);
+  }
+  const mainbar = document.querySelector("[data-header-mainbar]") as HTMLElement | null;
+  if (mainbar) {
+    const rect = mainbar.getBoundingClientRect();
+    return Math.max(0, rect.height || 0);
+  }
+  return 0;
+}
+
 const SORT_OPTIONS: Array<{ value: string; label: string }> = [
   { value: "newest", label: "Newest" },
   { value: "oldest", label: "Oldest" },
@@ -73,6 +89,15 @@ const SORT_OPTIONS: Array<{ value: string; label: string }> = [
   { value: "titleAsc", label: "Title (A–Z)" },
   { value: "relevance", label: "Relevance" },
 ];
+
+const FILTER_FIELD_CLASS =
+  "w-full rounded-xl border bg-white py-2.5 pr-10 pl-10 text-sm transition-all duration-200 border-[color:var(--color-border-light-soft)] text-[color:var(--color-text-light)] shadow-[var(--shadow-control-soft)] placeholder:text-[color:var(--color-subtle-light)] hover:border-[color:var(--color-brand-600)] focus:border-[color:var(--color-brand-600)] focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10 focus:outline-none";
+
+const FILTER_SELECT_BUTTON_CLASS =
+  "w-full items-center justify-between rounded-xl bg-white px-4 py-2.5 text-sm border border-[color:var(--color-border-light-soft)] text-[color:var(--color-text-light)] shadow-[var(--shadow-control-soft)] transition-all duration-200 hover:border-[color:var(--color-brand-600)] focus:border-[color:var(--color-brand-600)] focus:outline-none focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10";
+
+const FILTER_SELECT_MENU_CLASS =
+  "mt-1 overflow-hidden rounded-xl bg-white text-sm text-[color:var(--color-text-light)] border border-[color:var(--color-border-light-soft)] shadow-[var(--shadow-control-popover)]";
 
 function buildUrlParams(q: Query) {
   const qs = new URLSearchParams();
@@ -96,7 +121,7 @@ async function fetchPosts(qs: URLSearchParams, signal?: AbortSignal) {
   });
   const json = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(json?.message || "Failed to fetch posts");
-  return json as { data: { items: BlogPostListItem[]; meta: Meta } };
+  return json as { data: { items: InsightPostListItem[]; meta: Meta } };
 }
 
 async function fetchCategories(qs: URLSearchParams, signal?: AbortSignal) {
@@ -139,17 +164,17 @@ function SkeletonCard() {
   );
 }
 
-export default function BlogIndexClient({
+export default function InsightsIndexClient({
   initialItems,
   initialMeta,
   categories: initialCategories,
   recentItems,
   initialQuery,
 }: {
-  initialItems: BlogPostListItem[];
+  initialItems: InsightPostListItem[];
   initialMeta: Meta;
   categories: CategoryItem[];
-  recentItems: BlogPostListItem[];
+  recentItems: InsightPostListItem[];
   initialQuery: Query;
 }) {
   const router = useRouter();
@@ -158,7 +183,7 @@ export default function BlogIndexClient({
   const [query, setQuery] = React.useState<Query>(initialQuery);
   const [qInput, setQInput] = React.useState(initialQuery.q || "");
 
-  const [items, setItems] = React.useState<BlogPostListItem[]>(initialItems ?? []);
+  const [items, setItems] = React.useState<InsightPostListItem[]>(initialItems ?? []);
   const [meta, setMeta] = React.useState<Meta>(initialMeta);
   const [categories, setCategories] = React.useState<CategoryItem[]>(initialCategories ?? []);
 
@@ -187,7 +212,7 @@ export default function BlogIndexClient({
 
   const showRelevanceOption = Boolean(query.q.trim().length > 0);
   const reduceMotion = useReducedMotion();
-  const SECTION_SCROLL_MARGIN_TOP = `${NAV_OFFSET}px`;
+  const SECTION_SCROLL_MARGIN_TOP = "128px";
 
   const scrollToResults = React.useCallback(() => {
     resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -197,9 +222,13 @@ export default function BlogIndexClient({
     if (typeof window === "undefined") return;
     const el = document.getElementById(id);
     if (!el) return;
-    const extra = 12;
-    const y = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET - extra;
-    window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+    const extra = 8;
+    const offset = getSiteHeaderOffset() + extra;
+    const y = el.getBoundingClientRect().top + window.scrollY - offset;
+    const behavior: ScrollBehavior = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+      ? "auto"
+      : "smooth";
+    window.scrollTo({ top: Math.max(0, y), behavior });
   }, []);
 
   const runFetch = React.useCallback(
@@ -392,27 +421,41 @@ export default function BlogIndexClient({
     <>
       <Section
         variant="dark"
-        className="relative overflow-hidden bg-[color:var(--color-surface-0)]"
+        className="relative overflow-hidden border-b border-white/10 py-20 sm:py-24 lg:py-[6.5rem]"
         style={{ scrollMarginTop: SECTION_SCROLL_MARGIN_TOP }}
       >
+        {/* Top-down yard (generated): SSP navy + cyan rim light—same composition language as premium logistics editorial refs. */}
         <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-[color:var(--color-company-ink)]" aria-hidden="true" />
           <div className="absolute inset-0">
             <HeroImage
-              src="/_optimized/blog/blog-banner.webp"
-              alt="Blog banner"
               fill
+              src={INSIGHTS_DEFAULT_OG_IMAGE}
+              alt="Top-down view of shipping containers on a navy yard—abstract logistics composition for Insights."
               priority
-              className="object-cover"
+              className="object-cover object-[62%_50%] opacity-[0.68] sm:object-[58%_48%] sm:opacity-[0.72] contrast-[1.05]"
+              sizes="100vw"
             />
           </div>
-          <div className="absolute inset-0 bg-black/35" aria-hidden="true" />
+          {/* Strong scrim only behind type (left); ease off to the right so volumes/shadows read photoreal, not “line art”. */}
           <div
-            className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/10"
+            className="absolute inset-0"
             aria-hidden="true"
+            style={{
+              background:
+                "linear-gradient(105deg, rgba(7, 13, 20, 0.96) 0%, rgba(7, 13, 20, 0.78) 28%, rgba(7, 13, 20, 0.42) 48%, rgba(10, 17, 28, 0.14) 68%, rgba(10, 17, 28, 0.06) 100%)",
+            }}
           />
           <div
-            className="absolute inset-x-0 bottom-0 h-16"
-            style={{ background: "linear-gradient(to bottom, transparent, #070a12)" }}
+            className="absolute inset-0"
+            aria-hidden="true"
+            style={{
+              background:
+                "radial-gradient(75% 55% at 100% 0%, var(--color-insights-hero-glow-brand), transparent 52%), radial-gradient(65% 50% at 0% 100%, var(--color-insights-hero-glow-ink), transparent 58%)",
+            }}
+          />
+          <div
+            className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-[color:var(--color-insights-hero-bottom-fade)]"
             aria-hidden="true"
           />
         </div>
@@ -423,35 +466,34 @@ export default function BlogIndexClient({
               initial="hidden"
               animate="show"
               variants={stagger}
-              className="pt-12 pb-12 sm:pt-16 sm:pb-14"
+              className="pb-4"
             >
               <motion.div
                 variants={fadeUp}
                 transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-                className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/10 px-3 py-1 text-xs text-white backdrop-blur"
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-brand-600)]"></span>
-                Industry Insights
+                <SectionSignalEyebrow label="Insights" light />
               </motion.div>
 
               <motion.h1
                 variants={fadeUp}
                 transition={{ duration: reduceMotion ? 0 : 0.5, ease: "easeOut" }}
                 className={cn(
-                  "mt-4 max-w-3xl font-semibold tracking-tight text-white",
-                  "text-3xl sm:text-4xl lg:text-5xl",
+                  "mt-4 max-w-xl text-balance font-semibold tracking-[-0.02em] text-white sm:max-w-2xl lg:max-w-[40rem]",
+                  "text-[2.15rem] leading-[1.08] sm:text-[2.55rem] lg:text-[3rem]",
                 )}
               >
-                The Strategic Logistics Hub
+                Market Intelligence for Freight Leaders.
               </motion.h1>
 
               <motion.p
                 variants={fadeUp}
                 transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
-                className="mt-3 max-w-2xl text-sm text-white/85 sm:text-base"
+                className="mt-5 max-w-[52ch] text-[15px] font-normal leading-[1.75] text-white/78 sm:text-[15.5px]"
               >
-                Expert analysis, market intelligence, and executive perspectives on securing supply
-                chains and optimizing global freight operations.
+                Analysis, updates, and operating perspectives from the SSP team. Explore practical
+                guidance on freight execution, cross-border strategy, network planning, and supply
+                chain resilience.
               </motion.p>
 
               <motion.div
@@ -463,12 +505,12 @@ export default function BlogIndexClient({
                   type="button"
                   onClick={() => scrollToId("insights")}
                   className={cn(
-                    "inline-flex h-11 items-center justify-center gap-2 rounded-md px-5 text-sm font-semibold",
-                    "cursor-pointer border border-[color:var(--color-brand-600)] bg-[linear-gradient(180deg,var(--color-brand-600),var(--color-brand-700))] text-white shadow-[0_8px_20px_rgba(220,38,38,0.25)] transition hover:-translate-y-[2px] hover:shadow-[0_12px_28px_rgba(220,38,38,0.32)]",
+                    "inline-flex h-11 items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold",
+                    "cursor-pointer border border-[color:var(--color-brand-600)] bg-[linear-gradient(180deg,var(--color-brand-500),var(--color-brand-600)_54%,var(--color-brand-700))] text-white shadow-[var(--shadow-action-primary)] transition hover:-translate-y-[2px] hover:brightness-[1.04]",
                     "focus-ring-surface",
                   )}
                 >
-                  Browse insights <ArrowRight className="h-4 w-4" />
+                  Explore latest insights <ArrowRight className="h-4 w-4" />
                 </button>
               </motion.div>
             </motion.div>
@@ -496,18 +538,13 @@ export default function BlogIndexClient({
         <Container className="site-page-container relative">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <div className="mb-3 flex items-center gap-2.5">
-                <div className="h-[2px] w-10 bg-[color:var(--color-brand-500)] sm:w-14" />
-                <span className="text-[10.5px] font-bold tracking-[0.15em] text-[color:var(--color-brand-600)] uppercase">
-                  Insights
-                </span>
-              </div>
+              <SectionSignalEyebrow label="Editorial Feed" />
               <h2 className="text-[1.6rem] font-semibold tracking-tight text-[color:var(--color-text-light)] sm:text-[1.95rem] lg:text-[2.2rem]">
-                Latest Articles
+                Latest Insights
               </h2>
               <p className="mt-1 max-w-2xl text-sm text-[color:var(--color-muted-light)]">
-                Expert analysis, market intelligence, and executive perspectives on logistics and
-                supply chain.
+                Decision-grade insight across operations, service design, freight markets, and
+                cross-border execution.
               </p>
             </div>
           </div>
@@ -521,20 +558,13 @@ export default function BlogIndexClient({
                     value={qInput}
                     onChange={(e) => setQInput(e.target.value)}
                     placeholder="Search articles (e.g., cross-border, LTL, compliance)…"
-                    className={cn(
-                      "w-full rounded-xl border bg-white py-2.5 pr-10 pl-10 text-sm transition-all duration-200",
-                      "border-black/[0.06] text-[color:var(--color-text-light)]",
-                      "shadow-[0_1px_2px_rgba(15,23,42,0.04)]",
-                      "placeholder:text-[color:var(--color-subtle-light)]",
-                      "hover:border-[color:var(--color-brand-600)]",
-                      "focus:border-[color:var(--color-brand-600)] focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10 focus:outline-none",
-                    )}
+                    className={FILTER_FIELD_CLASS}
                   />
                   {qInput ? (
                     <button
                       type="button"
                       onClick={() => setQInput("")}
-                      className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                      className="absolute top-1/2 right-2 -translate-y-1/2 cursor-pointer rounded-lg p-1.5 text-[color:var(--color-subtle-light)] transition-colors hover:bg-[color:var(--color-surface-0)] hover:text-[color:var(--color-text-light)]"
                       aria-label="Clear search"
                     >
                       <X className="h-3.5 w-3.5" />
@@ -553,17 +583,8 @@ export default function BlogIndexClient({
                     placeholder={catLoading ? "Loading…" : "All categories"}
                     disabled={catLoading}
                     className="w-full cursor-pointer"
-                    buttonClassName={cn(
-                      "w-full items-center justify-between rounded-xl bg-white px-4 py-2.5 text-sm",
-                      "border border-black/[0.06] text-[color:var(--color-text-light)]",
-                      "shadow-[0_1px_2px_rgba(15,23,42,0.04)]",
-                      "transition-all duration-200 hover:border-[color:var(--color-brand-600)]",
-                      "focus:border-[color:var(--color-brand-600)] focus:outline-none focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10",
-                    )}
-                    menuClassName={cn(
-                      "mt-1 overflow-hidden rounded-xl bg-white text-sm text-[color:var(--color-text-light)]",
-                      "border border-black/[0.06] shadow-[0_12px_36px_rgba(15,23,42,0.08)]",
-                    )}
+                    buttonClassName={FILTER_SELECT_BUTTON_CLASS}
+                    menuClassName={FILTER_SELECT_MENU_CLASS}
                   />
                 </div>
 
@@ -576,17 +597,8 @@ export default function BlogIndexClient({
                     )}
                     placeholder="Sort"
                     className="w-full cursor-pointer"
-                    buttonClassName={cn(
-                      "w-full items-center justify-between rounded-xl bg-white px-4 py-2.5 text-sm",
-                      "border border-black/[0.06] text-[color:var(--color-text-light)]",
-                      "shadow-[0_1px_2px_rgba(15,23,42,0.04)]",
-                      "transition-all duration-200 hover:border-[color:var(--color-brand-600)]",
-                      "focus:border-[color:var(--color-brand-600)] focus:outline-none focus:ring-4 focus:ring-[color:var(--color-brand-600)]/10",
-                    )}
-                    menuClassName={cn(
-                      "mt-1 overflow-hidden rounded-xl bg-white text-sm text-[color:var(--color-text-light)]",
-                      "border border-black/[0.06] shadow-[0_12px_36px_rgba(15,23,42,0.08)]",
-                    )}
+                    buttonClassName={FILTER_SELECT_BUTTON_CLASS}
+                    menuClassName={FILTER_SELECT_MENU_CLASS}
                   />
                 </div>
               </div>
@@ -761,7 +773,7 @@ export default function BlogIndexClient({
                           "min-w-[92px] text-center",
                           "cursor-pointer rounded-full px-3 py-1.5 text-xs font-medium transition",
                           canPrev && !loading
-                            ? "text-[color:var(--color-text-light)] hover:bg-black/[0.04]"
+                            ? "text-[color:var(--color-text-light)] hover:bg-[color:var(--color-careers-control-hover-bg)]"
                             : "cursor-not-allowed text-[color:var(--color-subtle-light)]",
                         )}
                       >
@@ -792,7 +804,7 @@ export default function BlogIndexClient({
                           "min-w-[92px] text-center",
                           "cursor-pointer rounded-full px-3 py-1.5 text-xs font-medium transition",
                           canNext && !loading
-                            ? "text-[color:var(--color-text-light)] hover:bg-black/[0.04]"
+                            ? "text-[color:var(--color-text-light)] hover:bg-[color:var(--color-careers-control-hover-bg)]"
                             : "cursor-not-allowed text-[color:var(--color-subtle-light)]",
                         )}
                       >
@@ -887,8 +899,8 @@ export default function BlogIndexClient({
                   <div
                     className="group relative overflow-hidden rounded-3xl p-5 sm:p-6"
                     style={{
-                      backgroundColor: "#1a1f2e",
-                      boxShadow: "0 2px 0 rgba(0,0,0,0.22), 0 20px 56px rgba(0,0,0,0.20)",
+                      backgroundColor: "var(--color-insights-sidebar-cta-bg)",
+                      boxShadow: "var(--shadow-insights-sidebar-cta)",
                     }}
                   >
                     <div
@@ -896,23 +908,22 @@ export default function BlogIndexClient({
                       className="pointer-events-none absolute inset-0 rounded-3xl"
                       style={{
                         background:
-                          "radial-gradient(ellipse at 15% 0%, rgba(220,38,38,0.16) 0%, transparent 55%)",
+                          "radial-gradient(ellipse at 15% 0%, var(--color-insights-sidebar-cta-glow) 0%, transparent 55%)",
                       }}
                     />
                     <div
                       className="absolute top-0 right-0 left-0 h-[2px] rounded-t-3xl"
                       style={{
                         background:
-                          "linear-gradient(90deg, #ef4444 0%, rgba(220,38,38,0.15) 60%, transparent 100%)",
+                          "linear-gradient(90deg, var(--color-brand-500) 0%, rgba(220,38,38,0.15) 60%, transparent 100%)",
                       }}
                     />
 
                     <div className="relative">
-                      <h3 className="text-sm font-bold text-white">Optimize Your Supply Chain</h3>
+                      <h3 className="text-sm font-bold text-white">Plan with SSP Specialists</h3>
                       <p className="mt-2 text-xs leading-[1.6] text-[rgba(255,255,255,0.7)]">
-                        Partner with NPT to engineer a highly resilient, cost-effective freight
-                        strategy. Tell us your objectives, and our experts will architect the
-                        solution.
+                        Connect with our team to map a resilient, cost-aware freight strategy aligned
+                        to your service, compliance, and growth objectives.
                       </p>
                       <div className="mt-4 flex flex-col gap-2 sm:flex-row">
                         <Link
@@ -920,7 +931,7 @@ export default function BlogIndexClient({
                           onClick={() =>
                             trackCtaClick({
                               ctaId: "request_quote",
-                              location: "blog_sidebar_cta",
+                              location: "insights_sidebar_cta",
                               destination: "/quote",
                               label: "Request a quote",
                             })
@@ -938,7 +949,7 @@ export default function BlogIndexClient({
                           onClick={() =>
                             trackCtaClick({
                               ctaId: "contact_us",
-                              location: "blog_sidebar_cta",
+                              location: "insights_sidebar_cta",
                               destination: "/contact",
                               label: "Contact us",
                             })

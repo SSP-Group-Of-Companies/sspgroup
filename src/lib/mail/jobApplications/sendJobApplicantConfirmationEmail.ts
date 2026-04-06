@@ -23,8 +23,8 @@ export async function sendJobApplicantConfirmationEmail(
   const escapedAppId = applicationId ? escapeHtml(applicationId) : "";
 
   const subject = escapedJobTitle
-    ? `NPT Careers – Application Received (${escapedJobTitle})`
-    : "NPT Careers – Application Received";
+    ? `SSP Group Careers - Application Received (${escapedJobTitle})`
+    : "SSP Group Careers - Application Received";
 
   const jobTitleLine = escapedJobTitle
     ? `<p style="margin:0 0 12px 0;">Position: <strong style="font-weight:600; color:#111827;">${escapedJobTitle}</strong></p>`
@@ -45,13 +45,13 @@ export async function sendJobApplicantConfirmationEmail(
       Our team will review your submission and reach out if there’s a fit for next steps.
     </p>
     <p style="margin:0 0 4px 0;">Thank you,</p>
-    <p style="margin:0 0 24px 0;">NPT Recruiting</p>
+    <p style="margin:0 0 24px 0;">SSP Group Recruiting</p>
   `;
 
   const html = buildDefaultEmailTemplate({
     subject,
     heading: "We received your application",
-    subtitle: escapedJobTitle ? `Position: ${escapedJobTitle}` : "NPT Careers",
+    subtitle: escapedJobTitle ? `Position: ${escapedJobTitle}` : "SSP Group Careers",
     bodyHtml,
     footerContactEmail: NEXT_PUBLIC_SSP_HR_EMAIL,
   });

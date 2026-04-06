@@ -1,7 +1,7 @@
 // src/app/(admin)/admin/blog/[id]/page.tsx
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { nptMetadata } from "@/lib/utils/blog/metadata";
+import { sspPageMetadata } from "@/lib/utils/blog/metadata";
 import { getAdminBlogPostById } from "@/lib/utils/blog/ssrBlogFetchers";
 import EditBlogPostClient from "./EditBlogPostClient";
 
@@ -14,14 +14,14 @@ export async function generateMetadata({
 
   try {
     const post = await getAdminBlogPostById(id);
-    return nptMetadata({
+    return sspPageMetadata({
       title: post?.title ? `Admin - ${post.title}` : "Admin - Blog post",
       description: post?.excerpt ?? null,
       noIndex: true,
     });
   } catch {
     // Don't call notFound() here; metadata should be resilient.
-    return nptMetadata({ title: "Admin - Blog post", noIndex: true });
+    return sspPageMetadata({ title: "Admin - Blog post", noIndex: true });
   }
 }
 

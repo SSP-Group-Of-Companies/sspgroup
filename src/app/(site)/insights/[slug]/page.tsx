@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { nptMetadata } from "@/lib/utils/blog/metadata";
+import { INSIGHTS_DEFAULT_OG_IMAGE, toAbsoluteUrl } from "@/lib/seo/site";
 import { getPublicBlogPostBySlug } from "@/lib/utils/blog/ssrBlogFetchers";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
-import BlogPostClient from "../../blog/[slug]/BlogPostClient";
-import { BlogPostJsonLd } from "../../blog/[slug]/BlogPostJsonLd";
+import InsightsPostClient from "../../blog/[slug]/BlogPostClient";
+import { InsightsPostJsonLd } from "../../blog/[slug]/BlogPostJsonLd";
+
+function resolveInsightsOgImage(url: string | undefined | null): string {
+  const raw = url?.trim() ? String(url).trim() : INSIGHTS_DEFAULT_OG_IMAGE;
+  if (/^https?:\/\//i.test(raw)) return raw;
+  const path = raw.startsWith("/") ? raw : `/${raw}`;
+  return toAbsoluteUrl(path);
+}
 
 export async function generateMetadata({
   params,
@@ -18,26 +25,38 @@ export async function generateMetadata({
     const fallbackDescription = post?.title
       ? `${post.title} from SSP Group insights.`
       : "Insights and updates from SSP Group.";
-    return nptMetadata({
-      title: post?.title ?? "Insights",
-      description: post?.excerpt?.trim() || fallbackDescription,
-      canonicalPath: `/insights/${encodeURIComponent(slug)}`,
-      ogImage: post?.bannerImage?.url ?? null,
-      openGraphType: "article",
-      publishedTime: post?.publishedAt ?? post?.createdAt ?? null,
-      modifiedTime: post?.updatedAt ?? post?.publishedAt ?? post?.createdAt ?? null,
-    });
+    const title = post?.title ? `${post.title} | Insights | SSP Group` : "Insights | SSP Group";
+    const description = post?.excerpt?.trim() || fallbackDescription;
+    const canonicalPath = `/insights/${encodeURIComponent(slug)}`;
+    const ogImageAbsolute = resolveInsightsOgImage(post?.bannerImage?.url ?? null);
+    return {
+      title: { absolute: title },
+      description,
+      alternates: { canonical: canonicalPath },
+      openGraph: {
+        title,
+        description,
+        type: "article",
+        url: toAbsoluteUrl(canonicalPath),
+        images: [ogImageAbsolute],
+        publishedTime: post?.publishedAt ?? post?.createdAt ?? undefined,
+        modifiedTime: post?.updatedAt ?? post?.publishedAt ?? post?.createdAt ?? undefined,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: [ogImageAbsolute],
+      },
+    };
   } catch (error) {
     if ((error as { status?: number })?.status === 404) {
       notFound();
     }
 
     return {
-      ...nptMetadata({
-        title: "Insights",
-        description: "Insights and updates from SSP Group.",
-        noIndex: true,
-      }),
+      title: { absolute: "Insights | SSP Group" },
+      description: "Operational intelligence and updates from SSP Group.",
       robots: {
         index: false,
         follow: false,
@@ -90,8 +109,8 @@ export default async function InsightsPostPage({ params }: { params: Promise<{ s
 
   return (
     <>
-      <BlogPostJsonLd post={post} slug={slug} />
-      <BlogPostClient
+      <InsightsPostJsonLd post={post} slug={slug} />
+      <InsightsPostClient
         slug={slug}
         initialPost={post}
         initialComments={commentsRes.data.items}

@@ -3,9 +3,11 @@ import { MONGO_URI } from "@/config/env";
 import mongoose from "mongoose";
 
 let isConnected: boolean = false;
+let connectingPromise: Promise<typeof mongoose> | null = null;
 
 const connectDB = async () => {
-  if (isConnected) {
+  if (isConnected || mongoose.connection.readyState === 1) {
+    isConnected = true;
     return;
   }
 
@@ -15,15 +17,20 @@ const connectDB = async () => {
     throw new Error("MONGODB_URI is not defined in environment variables");
   }
 
-  try {
-    await mongoose.connect(uri, {
-      // You can add options here if needed
+  if (!connectingPromise) {
+    connectingPromise = mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 8000,
     });
+  }
+
+  try {
+    await connectingPromise;
     isConnected = true;
-    // Optionally log connection success
   } catch (error) {
     isConnected = false;
     throw error;
+  } finally {
+    connectingPromise = null;
   }
 };
 

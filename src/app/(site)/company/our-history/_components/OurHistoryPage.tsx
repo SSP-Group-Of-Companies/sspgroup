@@ -18,7 +18,7 @@ const TIMELINE_LINE =
   "linear-gradient(180deg, var(--color-brand-500) 0%, rgba(224,43,53,0.62) 24%, rgba(224,43,53,0.2) 70%, transparent 100%)";
 
 const shardMaskStyle: CSSProperties = {
-  background: "var(--color-company-hero-midnight-start)",
+  background: "var(--color-history-hero-shard)",
   WebkitMaskImage: "url('/_optimized/company/ssp-shard-mask.svg')",
   maskImage: "url('/_optimized/company/ssp-shard-mask.svg')",
   WebkitMaskRepeat: "no-repeat",
@@ -39,12 +39,23 @@ function HeroSection({ skip }: { skip: boolean }) {
   return (
     <section
       aria-labelledby="history-hero-heading"
-      className="relative overflow-hidden border-b border-[color:var(--color-border-light-soft)] bg-[color:var(--color-surface-0-light)] py-20 sm:py-24 lg:py-26"
+      className="relative overflow-hidden border-b border-[color:var(--color-border-light-soft)] py-20 sm:py-24 lg:py-26"
+      style={{
+        background:
+          "linear-gradient(135deg,var(--color-history-hero-bg-start)_0%,var(--color-history-hero-bg-mid)_48%,var(--color-history-hero-bg-end)_100%)",
+      }}
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden>
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(122deg, rgba(15,23,42,0.28) 0%, rgba(15,23,42,0.12) 54%, rgba(15,23,42,0.34) 100%)",
+          }}
+        />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-ssp-cyan-500)]/25 to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(66%_68%_at_88%_42%,rgba(8,33,70,0.2),rgba(8,33,70,0.04)_58%,transparent_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(58%_62%_at_6%_100%,rgba(16,167,216,0.1),transparent_72%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(66%_68%_at_88%_42%,var(--color-history-hero-glow-ink),rgba(15,23,42,0.08)_58%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(58%_62%_at_6%_100%,var(--color-history-hero-glow-cyan),transparent_72%)]" />
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-border-light)] to-transparent" />
       </div>
 
@@ -83,7 +94,7 @@ function HeroSection({ skip }: { skip: boolean }) {
 
         <motion.div
           initial={skip ? { opacity: 0.24 } : { opacity: 0.04, x: -34, y: 20 }}
-          animate={skip ? { opacity: 0.28 } : { opacity: 0.4, x: 0, y: 0 }}
+          animate={skip ? { opacity: 0.4 } : { opacity: 0.58, x: 0, y: 0 }}
           transition={{ duration: skip ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
           className="pointer-events-none absolute right-[-45%] top-[-2%] h-[120%] w-[118%] sm:right-[-40%] sm:top-[-4%] sm:h-[126%] sm:w-[110%] md:right-[-31%] md:top-[-7%] md:h-[130%] md:w-[98%] lg:right-[-23%] lg:top-[-10%] lg:h-[134%] lg:w-[80%]"
           aria-hidden

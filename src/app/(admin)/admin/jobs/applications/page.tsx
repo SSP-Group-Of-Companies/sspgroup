@@ -1,8 +1,8 @@
-import { nptMetadata } from "@/lib/utils/blog/metadata";
+import { sspPageMetadata } from "@/lib/utils/blog/metadata";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
 import AdminJobApplicationsClient from "./AdminJobApplicationsClient";
 
-export const metadata = nptMetadata({
+export const metadata = sspPageMetadata({
   title: "Admin - Job applications",
   description: "Review job applications.",
   noIndex: true,

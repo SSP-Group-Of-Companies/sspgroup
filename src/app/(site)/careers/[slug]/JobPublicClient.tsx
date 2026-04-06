@@ -97,6 +97,21 @@ function fmtComp(comp: any) {
   return [range, note].filter(Boolean).join(" • ");
 }
 
+function getSiteHeaderOffset() {
+  if (typeof window === "undefined") return 0;
+  const header = document.querySelector("[data-site-header]") as HTMLElement | null;
+  if (header) {
+    const rect = header.getBoundingClientRect();
+    return Math.max(0, rect.height || 0);
+  }
+  const mainbar = document.querySelector("[data-header-mainbar]") as HTMLElement | null;
+  if (mainbar) {
+    const rect = mainbar.getBoundingClientRect();
+    return Math.max(0, rect.height || 0);
+  }
+  return 0;
+}
+
 export default function JobPublicClient({ job }: { job: IJobPosting }) {
   const router = useRouter();
 
@@ -153,13 +168,16 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
     requestAnimationFrame(() => {
       if (!noticeRef.current) return;
 
-      const NAVBAR_OFFSET = 170;
       const rect = noticeRef.current.getBoundingClientRect();
       const absoluteTop = rect.top + window.scrollY;
+      const offset = getSiteHeaderOffset() + 12;
+      const behavior: ScrollBehavior = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth";
 
       window.scrollTo({
-        top: absoluteTop - NAVBAR_OFFSET,
-        behavior: "smooth",
+        top: absoluteTop - offset,
+        behavior,
       });
     });
   }, []);
@@ -174,7 +192,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
     if (!job?.slug) return;
     if (job?.status && String(job.status) !== "PUBLISHED") return;
 
-    const key = `npt_job_viewed:${job.slug}`;
+    const key = `ssp_job_viewed:${job.slug}`;
     try {
       if (typeof window === "undefined") return;
 
@@ -209,14 +227,14 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
    */
   const fieldBase =
     "site-input-light min-w-0 w-full max-w-full rounded-2xl " +
-    "px-3 py-2 text-sm shadow-sm outline-none transition " +
+    "px-3 py-2 text-sm text-[color:var(--color-text-light)] shadow-sm outline-none transition " +
     "sm:px-4 sm:py-2.5";
 
   const fileBase =
-    "min-w-0 mt-1 block w-full max-w-full rounded-xl border border-slate-200/70 bg-white " +
-    "px-3 py-2 text-sm text-slate-700 shadow-sm " +
-    "file:mr-3 file:rounded-lg file:border-0 file:bg-slate-900 file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white " +
-    "hover:file:bg-slate-800";
+    "site-input-light min-w-0 mt-1 block w-full max-w-full rounded-xl " +
+    "px-3 py-2 text-sm text-[color:var(--color-text-light)] shadow-sm " +
+    "file:mr-3 file:rounded-lg file:border-0 file:bg-[color:var(--color-ssp-ink-800)] file:px-3 file:py-2 file:text-xs file:font-semibold file:text-white " +
+    "hover:file:bg-[color:var(--color-ssp-ink-900)]";
 
   const resetTurnstileChallenge = React.useCallback(() => {
     setTurnstileToken("");
@@ -406,7 +424,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-gradient-to-b from-slate-50 via-white to-white">
+    <div className="min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,var(--color-surface-0)_0%,var(--color-surface-1)_52%,var(--color-surface-1)_100%)]">
       <Container className="site-page-container py-6 sm:py-8">
         <button
           type="button"
@@ -420,7 +438,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
             router.push("/careers#jobs");
           }}
           className={[
-            "inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50",
+            "inline-flex items-center gap-2 rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-1)] px-3 py-2 text-sm font-semibold text-[color:var(--color-text-light)] shadow-sm transition hover:bg-[color:var(--color-surface-0)]",
             "focus-ring-light",
           ].join(" ")}
         >
@@ -433,7 +451,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
           <section className="min-w-0">
             <div className="site-card-surface overflow-hidden rounded-[28px]">
               {/* Cover image */}
-              <div className="relative h-44 w-full bg-slate-50 sm:h-52 lg:h-64">
+              <div className="relative h-44 w-full bg-[color:var(--color-surface-0)] sm:h-52 lg:h-64">
                 {coverUrl ? (
                   <CardImage
                     src={coverUrl}
@@ -443,7 +461,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                     sizes="(max-width: 1024px) 100vw, 60vw"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-slate-400">
+                  <div className="flex h-full w-full items-center justify-center text-[color:var(--color-subtle-light)]">
                     <ImageIcon className="h-6 w-6" />
                   </div>
                 )}
@@ -455,11 +473,11 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
 
               {/* Header content */}
               <div className="p-4 sm:p-6">
-                <div className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">
+                <div className="text-2xl font-semibold tracking-tight text-[color:var(--color-text-light)] sm:text-3xl">
                   {job.title}
                 </div>
 
-                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-600">
+                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-[color:var(--color-muted-light)]">
                   <span className="inline-flex items-center gap-1.5">
                     <MapPin className="h-3.5 w-3.5" />
                     {locLabel}
@@ -486,7 +504,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                 </div>
 
                 {/* Dates */}
-                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-600">
+                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-[color:var(--color-muted-light)]">
                   {publishedLabel ? (
                     <span className="inline-flex items-center gap-1.5">
                       <Calendar className="h-3.5 w-3.5" />
@@ -512,14 +530,14 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                 {/* Tags */}
                 {Array.isArray(job.tags) && job.tags.length ? (
                   <div className="mt-4 flex flex-wrap items-center gap-2 text-xs">
-                    <span className="inline-flex items-center gap-1.5 font-semibold text-slate-700">
+                    <span className="inline-flex items-center gap-1.5 font-semibold text-[color:var(--color-text-light)]">
                       <Tags className="h-3.5 w-3.5" />
                       Tags
                     </span>
                     {job.tags.map((t, idx) => (
                       <span
                         key={idx}
-                        className="rounded-full bg-slate-100 px-2 py-1 text-slate-700"
+                      className="rounded-full bg-[color:var(--color-surface-0)] px-2 py-1 text-[color:var(--color-text-light)]"
                       >
                         {t}
                       </span>
@@ -529,19 +547,19 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
 
                 {/* Compensation */}
                 {compLabel ? (
-                  <div className="mt-4 inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                  <div className="mt-4 inline-flex rounded-full bg-[color:var(--color-surface-0)] px-3 py-1 text-xs font-semibold text-[color:var(--color-ssp-ink-800)]">
                     Compensation: {compLabel}
                   </div>
                 ) : null}
 
                 {job.summary ? (
-                  <div className="mt-5 text-sm leading-6 text-slate-700">{job.summary}</div>
+                  <div className="mt-5 text-sm leading-6 text-[color:var(--color-muted-light)]">{job.summary}</div>
                 ) : null}
               </div>
             </div>
 
             <div className="site-card-surface mt-5 rounded-[28px] p-4 sm:mt-6 sm:p-6">
-              <div className="text-sm font-semibold text-slate-900">Role description</div>{" "}
+              <div className="text-sm font-semibold text-[color:var(--color-text-light)]">Role description</div>{" "}
               <div className="mt-4">
                 <BlockNote initialContent={job.description as any} editable={false} />{" "}
               </div>{" "}
@@ -549,12 +567,12 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
 
             {Array.isArray(job.benefitsPreview) && job.benefitsPreview.length ? (
               <div className="site-card-surface mt-5 rounded-[28px] p-4 sm:mt-6 sm:p-6">
-                <div className="text-sm font-semibold text-slate-900">Benefits</div>
+                <div className="text-sm font-semibold text-[color:var(--color-text-light)]">Benefits</div>
                 <ul className="mt-3 grid gap-2 sm:grid-cols-2">
                   {job.benefitsPreview.map((b, idx) => (
                     <li
                       key={idx}
-                      className="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700"
+                      className="rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0)] px-3 py-2 text-sm text-[color:var(--color-muted-light)]"
                     >
                       {b}
                     </li>
@@ -567,26 +585,26 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
           {/* Right: Apply */}
           <aside className="w-full max-w-full min-w-0 lg:sticky lg:top-6">
             <div className="site-card-surface max-w-full min-w-0 overflow-hidden rounded-[28px] p-4 sm:p-6">
-              <div className="text-lg font-semibold tracking-tight text-slate-900">Apply</div>
-              <div className="mt-1 text-sm text-slate-500">
-                Submit your details and upload your resume. We’ll review and follow up.
+              <div className="text-lg font-semibold tracking-tight text-[color:var(--color-text-light)]">Apply</div>
+              <div className="mt-1 text-sm text-[color:var(--color-muted-light)]">
+                Submit your details and resume for review by the SSP recruiting team.
               </div>
 
               {/* Anchor for scroll */}
               <div ref={noticeRef} />
 
               {err ? (
-                <div className="mt-4 flex min-w-0 items-start gap-2 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
+                <div className="mt-4 flex min-w-0 items-start gap-2 rounded-2xl border border-[color:var(--color-brand-100)] bg-[color:var(--color-brand-50)] px-4 py-3 text-sm text-[color:var(--color-text-light)]">
                   <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
                   <div className="min-w-0 flex-1 break-words">{err}</div>
                 </div>
               ) : null}
 
               {ok ? (
-                <div className="mt-4 flex min-w-0 items-start gap-2 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+                <div className="mt-4 flex min-w-0 items-start gap-2 rounded-2xl border border-[color:var(--color-ssp-cyan-500)]/30 bg-[color:var(--color-ssp-cyan-500)]/10 px-4 py-3 text-sm text-[color:var(--color-text-light)]">
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
                   <div className="min-w-0 flex-1 break-words">
-                    Application submitted successfully. Thank you!
+                    Application submitted successfully. Thank you for your interest in SSP.
                   </div>
                 </div>
               ) : null}
@@ -649,7 +667,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                   placeholder="Cover letter (optional)"
                   rows={4}
                   className={[
-                    "w-full max-w-full min-w-0 rounded-2xl border border-slate-200/80 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm transition outline-none placeholder:text-slate-400",
+                    "site-input-light w-full max-w-full min-w-0 rounded-2xl px-3 py-2.5 text-sm text-[color:var(--color-text-light)] shadow-sm transition outline-none placeholder:text-[color:var(--color-subtle-light)]",
                     "focus:border-[color:var(--color-brand-600)]/35",
                     "sm:px-4 sm:py-3",
                     "focus-ring-light",
@@ -675,11 +693,11 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                 </div>
 
                 {/* Light screening */}
-                <div className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50 p-3 sm:p-4">
-                  <div className="text-sm font-semibold text-slate-900">A few quick questions</div>
+                <div className="min-w-0 rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0)] p-3 sm:p-4">
+                  <div className="text-sm font-semibold text-[color:var(--color-text-light)]">Candidate details</div>
                   <div className="mt-3 grid min-w-0 gap-2.5 sm:gap-3">
                     <div className="grid min-w-0 gap-2">
-                      <div className="text-xs font-semibold text-slate-700">
+                      <div className="text-xs font-semibold text-[color:var(--color-text-light)]">
                         Commute mode (optional)
                       </div>
                       <input
@@ -713,15 +731,15 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                 </div>
 
                 {/* Attach files */}
-                <div className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50 p-3 sm:p-4">
-                  <div className="flex min-w-0 items-center gap-2 text-sm font-semibold text-slate-900">
+                <div className="min-w-0 rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0)] p-3 sm:p-4">
+                  <div className="flex min-w-0 items-center gap-2 text-sm font-semibold text-[color:var(--color-text-light)]">
                     <UploadCloud className="h-4 w-4 shrink-0" />
                     <span className="min-w-0">Attach files</span>
                   </div>
 
                   <div className="mt-3 grid min-w-0 gap-2.5 sm:gap-3">
                     <div className="min-w-0">
-                      <div className="text-xs font-semibold text-slate-700">
+                      <div className="text-xs font-semibold text-[color:var(--color-text-light)]">
                         Resume (PDF/DOC/DOCX) *
                       </div>
                       <input
@@ -746,14 +764,14 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                         className={[fileBase, "focus-ring-light"].join(" ")}
                       />
                       {resumeFile ? (
-                        <div className="mt-1 max-w-full min-w-0 truncate text-xs text-slate-500">
+                        <div className="mt-1 max-w-full min-w-0 truncate text-xs text-[color:var(--color-muted-light)]">
                           {resumeFile.name}
                         </div>
                       ) : null}
                     </div>
 
                     <div className="min-w-0">
-                      <div className="text-xs font-semibold text-slate-700">Photo (optional)</div>
+                      <div className="text-xs font-semibold text-[color:var(--color-text-light)]">Photo (optional)</div>
                       <input
                         ref={photoInputRef}
                         type="file"
@@ -776,7 +794,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                         className={[fileBase, "focus-ring-light"].join(" ")}
                       />
                       {photoFile ? (
-                        <div className="mt-1 max-w-full min-w-0 truncate text-xs text-slate-500">
+                        <div className="mt-1 max-w-full min-w-0 truncate text-xs text-[color:var(--color-muted-light)]">
                           {photoFile.name}
                         </div>
                       ) : null}
@@ -786,7 +804,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
 
                 {/* Verification */}
                 <div className="site-card-surface min-w-0 rounded-2xl p-3 sm:p-4">
-                  <div className="min-w-0 text-sm font-semibold text-slate-900">Verification</div>
+                  <div className="min-w-0 text-sm font-semibold text-[color:var(--color-text-light)]">Verification</div>
 
                   {/* This wrapper is the key: if Turnstile injects an iframe with a hard width, we prevent it from widening the grid item */}
                   <div className="mt-2 max-w-full min-w-0 overflow-hidden">
@@ -798,7 +816,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                     />
                   </div>
 
-                  <div className="mt-2 text-[11px] text-slate-500">
+                  <div className="mt-2 text-[11px] text-[color:var(--color-muted-light)]">
                     This helps prevent spam submissions.
                   </div>
                 </div>
@@ -808,7 +826,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                   disabled={busy || !job.allowApplications}
                   onClick={submit}
                   className={[
-                    "inline-flex w-full min-w-0 items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:opacity-60",
+                    "inline-flex w-full min-w-0 items-center justify-center gap-2 rounded-2xl bg-[color:var(--color-ssp-ink-800)] px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[color:var(--color-ssp-ink-900)] disabled:opacity-60",
                     "focus-ring-light",
                   ].join(" ")}
                 >
@@ -816,20 +834,20 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                 </button>
 
                 {!job.allowApplications ? (
-                  <div className="min-w-0 text-xs break-words text-slate-500">
+                  <div className="min-w-0 text-xs break-words text-[color:var(--color-muted-light)]">
                     Applications are currently disabled for this posting.
                   </div>
                 ) : null}
               </div>
             </div>
 
-            <div className="site-card-surface mt-4 max-w-full min-w-0 overflow-hidden rounded-[28px] p-4 text-sm text-slate-600 sm:p-5">
-              <div className="flex min-w-0 items-center gap-2 font-semibold text-slate-900">
+            <div className="site-card-surface mt-4 max-w-full min-w-0 overflow-hidden rounded-[28px] p-4 text-sm text-[color:var(--color-muted-light)] sm:p-5">
+              <div className="flex min-w-0 items-center gap-2 font-semibold text-[color:var(--color-text-light)]">
                 <Mail className="h-4 w-4 shrink-0" />
                 Questions?
               </div>
               <div className="mt-2 min-w-0 break-words">
-                If you need help applying, contact{" "}
+                If you need assistance with your application, contact{" "}
                 <a
                   href={`mailto:${NEXT_PUBLIC_SSP_HR_EMAIL}?subject=${encodeURIComponent(
                     `Question about ${job.title}`,
@@ -848,9 +866,9 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                 </a>
                 .
               </div>
-              <div className="mt-3 flex min-w-0 items-center gap-2 text-xs text-slate-600">
+              <div className="mt-3 flex min-w-0 items-center gap-2 text-xs text-[color:var(--color-muted-light)]">
                 <Phone className="h-3.5 w-3.5 shrink-0" />
-                <span className="min-w-0 break-words">Include the job title in your message.</span>
+                <span className="min-w-0 break-words">Please include the job title in your message.</span>
               </div>
             </div>
           </aside>

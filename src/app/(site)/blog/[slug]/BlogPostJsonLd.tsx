@@ -1,17 +1,17 @@
-import { SITE_NAME, SITE_URL, toAbsoluteUrl } from "@/lib/seo/site";
+import { INSIGHTS_DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL, toAbsoluteUrl } from "@/lib/seo/site";
 
 type Props = {
   post: any;
   slug: string;
 };
 
-export function BlogPostJsonLd({ post, slug }: Props) {
+export function InsightsPostJsonLd({ post, slug }: Props) {
   const canonical = toAbsoluteUrl(`/insights/${encodeURIComponent(slug)}`);
   const image = post?.bannerImage?.url
     ? String(post.bannerImage.url).startsWith("http")
       ? String(post.bannerImage.url)
       : new URL(String(post.bannerImage.url), SITE_URL).toString()
-    : toAbsoluteUrl("/_optimized/brand/SSPlogo.png");
+    : toAbsoluteUrl(INSIGHTS_DEFAULT_OG_IMAGE);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -47,3 +47,5 @@ export function BlogPostJsonLd({ post, slug }: Props) {
     />
   );
 }
+
+export { InsightsPostJsonLd as BlogPostJsonLd };

@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import { SITE_DEFAULT_OG_IMAGE, SITE_NAME, toAbsoluteUrl } from "@/lib/seo/site";
 
-export function nptTitle(pageTitle?: string | null) {
+export function sspPageTitle(pageTitle?: string | null) {
   const t = String(pageTitle ?? "").trim();
   return t || SITE_NAME;
 }
@@ -11,7 +11,7 @@ function toBrandedTitle(title: string) {
   return title === SITE_NAME ? SITE_NAME : `${title} | SSP Group`;
 }
 
-export function nptMetadata(opts: {
+export function sspPageMetadata(opts: {
   title?: string | null;
   description?: string | null;
   noIndex?: boolean;
@@ -22,7 +22,7 @@ export function nptMetadata(opts: {
   modifiedTime?: string | null;
 }): Metadata {
   const description = opts.description ? String(opts.description).trim() : undefined;
-  const title = nptTitle(opts.title);
+  const title = sspPageTitle(opts.title);
   const brandedTitle = toBrandedTitle(title);
   const image = opts.ogImage ? String(opts.ogImage) : SITE_DEFAULT_OG_IMAGE;
   const openGraphType = opts.openGraphType ?? "website";

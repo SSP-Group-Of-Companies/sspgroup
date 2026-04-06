@@ -7,6 +7,11 @@ export const SITE_DEFAULT_DESCRIPTION =
 
 export const SITE_DEFAULT_OG_IMAGE = "/_optimized/brand/SSPlogo.png";
 
+/** Default social preview for /insights when a post has no banner (aligned with listing hero art). */
+export const INSIGHTS_DEFAULT_OG_IMAGE = "/_optimized/insights/insights-hero-ssp-containers-topdown.png";
+/** Careers sharing fallback (until a dedicated careers social banner is introduced). */
+export const CAREERS_DEFAULT_OG_IMAGE = SITE_DEFAULT_OG_IMAGE;
+
 export const COMPANY_CONTACT = {
   email: process.env.NEXT_PUBLIC_SSP_CS_EMAIL || process.env.NEXT_PUBLIC_NPT_LOGISTICS_EMAIL || "cs@sspgroup.com",
   phoneE164: "+15199683632",

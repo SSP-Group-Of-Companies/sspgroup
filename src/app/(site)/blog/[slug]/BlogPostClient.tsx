@@ -1,4 +1,4 @@
-// src/app/blog/[slug]/BlogPostClient.tsx
+// Client for public /insights/[slug] (shared blog CMS content).
 "use client";
 
 import * as React from "react";
@@ -6,8 +6,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import type { PartialBlock } from "@blocknote/core";
-import { ArrowLeft, Calendar, Clock, User2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Calendar, Clock, User2, ChevronLeft, ChevronRight } from "lucide-react";
+import { FOCUS_RING_DARK } from "@/app/(site)/company/faqs/_components/faqStyles";
 import { Container } from "@/app/(site)/components/layout/Container";
+import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
+import { cn } from "@/lib/cn";
 import {
   publicCountView,
   publicCreateComment,
@@ -34,7 +37,7 @@ function safeInt(v: any, fallback: number) {
   return Number.isFinite(n) && n > 0 ? n : fallback;
 }
 
-export default function BlogPostClient({
+export default function InsightsPostClient({
   slug,
   initialPost,
   initialComments,
@@ -172,7 +175,7 @@ export default function BlogPostClient({
     if (!slug) return;
     if (initialPost?.status && String(initialPost.status) !== "PUBLISHED") return;
 
-    const key = `npt_blog_viewed:${slug}`;
+    const key = `ssp_insight_viewed:${slug}`;
     try {
       if (typeof window === "undefined") return;
 
@@ -189,33 +192,44 @@ export default function BlogPostClient({
   }, [slug]); // intentionally only on slug change
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-white">
+    <div className="min-h-screen bg-[linear-gradient(180deg,var(--color-surface-0)_0%,var(--color-surface-1)_52%,var(--color-surface-1)_100%)]">
       {/* HERO */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden border-b border-white/10">
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-slate-950" />
+          <div className="absolute inset-0 bg-[color:var(--color-company-ink)]" />
           {bannerUrl ? (
             <img
               src={bannerUrl}
-              alt="Post banner"
+              alt={
+                initialPost?.title
+                  ? `Banner image for ${String(initialPost.title)}`
+                  : "Insights article banner"
+              }
               className="h-full w-full object-cover opacity-40"
             />
           ) : null}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/65 to-slate-950/25" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--color-company-hero-midnight-start)]/88 via-[color:var(--color-company-hero-midnight-mid)]/72 to-[color:var(--color-company-hero-midnight-end)]/42" />
         </div>
 
-        <Container className="site-page-container relative py-10">
-          <div className="flex items-center gap-3">
+        <Container className="site-page-container relative py-12 sm:py-14">
+          <div className="mb-5">
             <Link
               href="/insights"
-              className="focus-ring-light inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-3 py-2 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/15"
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded text-xs font-medium text-white/50 transition-colors hover:text-white/75",
+                FOCUS_RING_DARK,
+              )}
             >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Blog
+              <ChevronLeft className="h-3.5 w-3.5" aria-hidden />
+              Back to Insights
             </Link>
           </div>
 
-          <h1 className="mt-5 max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+          <div>
+            <SectionSignalEyebrow label="Insights" light />
+          </div>
+
+          <h1 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-4xl">
             {initialPost?.title}
           </h1>
 
@@ -244,7 +258,7 @@ export default function BlogPostClient({
           <div>
             <div className="site-card-surface rounded-[28px] p-7">
               {initialPost?.excerpt ? (
-                <div className="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                <div className="mb-6 rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)] p-4 text-sm text-[color:var(--color-muted-light)]">
                   {initialPost.excerpt}
                 </div>
               ) : null}
@@ -260,12 +274,12 @@ export default function BlogPostClient({
             {/* COMMENTS */}
             <div className="site-card-surface mt-8 rounded-[28px] p-6">
               <div className="flex items-center justify-between">
-                <div className="text-lg font-semibold text-slate-900">Comments</div>
+                <div className="text-lg font-semibold text-[color:var(--color-text-light)]">Comments</div>
 
-                <div className="flex items-center gap-2 text-xs text-slate-500">
+                <div className="flex items-center gap-2 text-xs text-[color:var(--color-muted-light)]">
                   {commentsMeta?.total ? <span>{commentsMeta.total} total</span> : null}
                   {commentsBusy ? (
-                    <span className="rounded-full border border-slate-200 bg-slate-50 px-2 py-1">
+                    <span className="rounded-full border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)] px-2 py-1">
                       Loading…
                     </span>
                   ) : null}
@@ -273,16 +287,16 @@ export default function BlogPostClient({
               </div>
 
               {err ? (
-                <div className="mt-3 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                <div className="mt-3 rounded-2xl border border-[color:var(--color-brand-100)] bg-[color:var(--color-brand-50)] px-4 py-3 text-sm text-[color:var(--color-text-light)]">
                   {err}
                 </div>
               ) : null}
 
               {/* Form */}
-              <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
+              <div className="mt-4 rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)]/60 p-4">
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-slate-600">Name *</label>
+                    <label className="mb-1 block text-xs font-medium text-[color:var(--color-muted-light)]">Name *</label>
                     <input
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -292,7 +306,7 @@ export default function BlogPostClient({
                   </div>
 
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-slate-600">
+                    <label className="mb-1 block text-xs font-medium text-[color:var(--color-muted-light)]">
                       Email (optional)
                     </label>
                     <input
@@ -305,7 +319,7 @@ export default function BlogPostClient({
                 </div>
 
                 <div className="mt-3">
-                  <label className="mb-1 block text-xs font-medium text-slate-600">Comment</label>
+                  <label className="mb-1 block text-xs font-medium text-[color:var(--color-muted-light)]">Comment</label>
                   <textarea
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
@@ -316,14 +330,14 @@ export default function BlogPostClient({
                 </div>
 
                 <div className="mt-3 flex items-center justify-between gap-3">
-                  <div className="text-xs text-slate-500">
+                  <div className="text-xs text-[color:var(--color-muted-light)]">
                     Be respectful. Your comment appears immediately.
                   </div>
 
                   <button
                     disabled={busy || !name.trim() || !comment.trim()}
                     onClick={submit}
-                    className="focus-ring-light inline-flex items-center justify-center rounded-xl bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:opacity-50"
+                    className="focus-ring-light inline-flex items-center justify-center rounded-xl bg-[color:var(--color-ssp-ink-800)] px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[color:var(--color-ssp-ink-900)] disabled:opacity-50"
                   >
                     {busy ? "Posting…" : "Post"}
                   </button>
@@ -334,28 +348,28 @@ export default function BlogPostClient({
               <div className="mt-6">
                 {comments.length ? (
                   <>
-                    <div className="divide-y divide-slate-200">
+                    <div className="divide-y divide-[color:var(--color-border-light)]">
                       {comments.map((c) => {
                         const initial = (c?.name?.trim?.()?.[0] || "U").toUpperCase();
                         return (
                           <div key={String(c.id)} className="py-4">
                             <div className="flex items-start gap-3">
-                              <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white">
+                              <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-ssp-ink-800)] text-xs font-semibold text-white">
                                 {initial}
                               </div>
 
                               <div className="min-w-0 flex-1">
                                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                                  <div className="text-sm font-semibold text-slate-900">
+                                  <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
                                     {c.name}
                                   </div>
-                                  <div className="text-xs text-slate-500">•</div>
-                                  <div className="text-xs text-slate-500">
+                                  <div className="text-xs text-[color:var(--color-muted-light)]">•</div>
+                                  <div className="text-xs text-[color:var(--color-muted-light)]">
                                     {c.createdAt ? new Date(c.createdAt).toLocaleString() : ""}
                                   </div>
                                 </div>
 
-                                <div className="mt-1 text-sm leading-relaxed whitespace-pre-wrap text-slate-700">
+                                <div className="mt-1 text-sm leading-relaxed whitespace-pre-wrap text-[color:var(--color-muted-light)]">
                                   {c.comment}
                                 </div>
                               </div>
@@ -367,27 +381,27 @@ export default function BlogPostClient({
 
                     {/* Pagination */}
                     <div className="mt-6 flex items-center justify-center">
-                      <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 shadow-sm">
+                      <div className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-border-light)] bg-white px-3 py-1.5 shadow-sm">
                         <button
                           type="button"
                           disabled={commentsBusy || !hasPrev}
                           onClick={() => fetchComments(Math.max(1, commentsPage - 1))}
-                          className="focus-ring-light inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100 disabled:opacity-40"
+                          className="focus-ring-light inline-flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--color-muted-light)] transition hover:bg-[color:var(--color-surface-0-light)] disabled:opacity-40"
                           aria-label="Previous page"
                         >
                           <ChevronLeft className="h-4 w-4" />
                         </button>
 
-                        <div className="px-2 text-xs text-slate-600">
-                          Page <span className="font-semibold text-slate-900">{commentsPage}</span>{" "}
-                          of <span className="font-semibold text-slate-900">{totalPages}</span>
+                        <div className="px-2 text-xs text-[color:var(--color-muted-light)]">
+                          Page <span className="font-semibold text-[color:var(--color-text-light)]">{commentsPage}</span>{" "}
+                          of <span className="font-semibold text-[color:var(--color-text-light)]">{totalPages}</span>
                         </div>
 
                         <button
                           type="button"
                           disabled={commentsBusy || !hasNext}
                           onClick={() => fetchComments(commentsPage + 1)}
-                          className="focus-ring-light inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-600 transition hover:bg-slate-100 disabled:opacity-40"
+                          className="focus-ring-light inline-flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--color-muted-light)] transition hover:bg-[color:var(--color-surface-0-light)] disabled:opacity-40"
                           aria-label="Next page"
                         >
                           <ChevronRight className="h-4 w-4" />
@@ -396,7 +410,7 @@ export default function BlogPostClient({
                     </div>
                   </>
                 ) : (
-                  <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-4 text-sm text-slate-500">
+                  <div className="rounded-2xl border border-dashed border-[color:var(--color-border-light)] bg-white p-4 text-sm text-[color:var(--color-muted-light)]">
                     No comments yet. Be the first to share your thoughts.
                   </div>
                 )}
@@ -409,19 +423,19 @@ export default function BlogPostClient({
             <div className="sticky top-6 space-y-5">
               {/* About author */}
               <div className="site-card-surface rounded-[28px] p-5">
-                <div className="text-sm font-semibold text-slate-900">About the Author</div>
+                <div className="text-sm font-semibold text-[color:var(--color-text-light)]">About the Author</div>
 
                 <div className="mt-4 flex items-start gap-3">
-                  <div className="flex h-8 w-20 items-center justify-center rounded-full bg-slate-900 text-white">
+                  <div className="flex h-8 w-20 items-center justify-center rounded-full bg-[color:var(--color-ssp-ink-800)] text-white">
                     <User2 className="h-5 w-5" />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-sm font-semibold text-slate-900">
-                      {initialPost?.author?.name ?? "Author"}
+                    <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
+                      {initialPost?.author?.name ?? "SSP Group"}
                     </div>
-                    <div className="mt-3 text-sm text-slate-600">
-                      Logistics professional sharing insights on transportation, cross-border supply
-                      chains, and operational excellence.
+                    <div className="mt-3 text-sm text-[color:var(--color-muted-light)]">
+                      SSP contributor sharing operational perspective on transportation strategy,
+                      cross-border execution, and disciplined freight delivery.
                     </div>
                   </div>
                 </div>
@@ -429,23 +443,23 @@ export default function BlogPostClient({
 
               {/* Related */}
               <div className="site-card-surface rounded-[28px] p-5">
-                <div className="text-sm font-semibold text-slate-900">Related Articles</div>
+                <div className="text-sm font-semibold text-[color:var(--color-text-light)]">Related Insights</div>
 
-                <div className="mt-3 divide-y divide-slate-200">
+                <div className="mt-3 divide-y divide-[color:var(--color-border-light)]">
                   {related.slice(0, 3).map((p: any) => (
                     <Link
                       key={String(p.id)}
                       href={`/insights/${encodeURIComponent(p.slug)}`}
                       className="block py-3 transition hover:opacity-80"
                     >
-                      <div className="line-clamp-2 text-sm font-semibold text-slate-900">
+                      <div className="line-clamp-2 text-sm font-semibold text-[color:var(--color-text-light)]">
                         {p.title}
                       </div>
-                      <div className="mt-1 text-xs text-slate-500">{fmtDate(p.publishedAt)}</div>
+                      <div className="mt-1 text-xs text-[color:var(--color-muted-light)]">{fmtDate(p.publishedAt)}</div>
                     </Link>
                   ))}
                   {!related.length ? (
-                    <div className="py-3 text-sm text-slate-500">No related articles.</div>
+                    <div className="py-3 text-sm text-[color:var(--color-muted-light)]">No related insights.</div>
                   ) : null}
                 </div>
               </div>

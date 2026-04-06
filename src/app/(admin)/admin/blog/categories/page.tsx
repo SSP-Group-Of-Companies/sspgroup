@@ -1,9 +1,9 @@
 // src/app/(admin)/admin/blog/categories/page.tsx
-import { nptMetadata } from "@/lib/utils/blog/metadata";
+import { sspPageMetadata } from "@/lib/utils/blog/metadata";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
 import AdminCategoriesClient from "./AdminCategoriesClient";
 
-export const metadata = nptMetadata({
+export const metadata = sspPageMetadata({
   title: "Admin - Blog categories",
   description: "Manage blog categories.",
   noIndex: true,

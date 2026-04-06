@@ -1,8 +1,8 @@
 // src/app/(admin)/admin/blog/new/page.tsx
-import { nptMetadata } from "@/lib/utils/blog/metadata";
+import { sspPageMetadata } from "@/lib/utils/blog/metadata";
 import NewBlogPostClient from "./NewBlogPostClient";
 
-export const metadata = nptMetadata({
+export const metadata = sspPageMetadata({
   title: "Admin - New blog post",
   description: "Create a new blog post.",
   noIndex: true,

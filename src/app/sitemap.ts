@@ -10,45 +10,68 @@ import { EBlogStatus } from "@/types/blogPost.types";
 import { EJobPostingStatus } from "@/types/jobPosting.types";
 
 const siteUrl = SITE_URL;
+const SITEMAP_QUERY_MAX_TIME_MS = 8000;
+const SITEMAP_FETCH_RETRY_COUNT = 2;
+const SITEMAP_FETCH_RETRY_DELAY_MS = 500;
 
 function toAbsolute(path: string) {
   return new URL(path, siteUrl).toString();
 }
 
 async function getBlogRoutes() {
-  try {
-    await connectDB();
-    const posts = await BlogPostModel.find({ status: EBlogStatus.PUBLISHED })
-      .sort({ publishedAt: -1, _id: -1 })
-      .select({ slug: 1 })
-      .lean();
+  const posts = await BlogPostModel.find({ status: EBlogStatus.PUBLISHED })
+    .sort({ publishedAt: -1, _id: -1 })
+    .select({ slug: 1 })
+    .maxTimeMS(SITEMAP_QUERY_MAX_TIME_MS)
+    .lean();
 
-    return posts
-      .map((post: any) => post?.slug)
-      .filter((slug: unknown): slug is string => typeof slug === "string" && slug.length > 0)
-      .map((slug) => `/insights/${encodeURIComponent(slug)}`);
-  } catch (error) {
-    console.error("Failed to load published insight routes for sitemap.", error);
-    return [];
-  }
+  return posts
+    .map((post: any) => post?.slug)
+    .filter((slug: unknown): slug is string => typeof slug === "string" && slug.length > 0)
+    .map((slug) => `/insights/${encodeURIComponent(slug)}`);
 }
 
 async function getCareersRoutes() {
-  try {
-    await connectDB();
-    const jobs = await JobPostingModel.find({ status: EJobPostingStatus.PUBLISHED })
-      .sort({ publishedAt: -1, _id: -1 })
-      .select({ slug: 1 })
-      .lean();
+  const jobs = await JobPostingModel.find({ status: EJobPostingStatus.PUBLISHED })
+    .sort({ publishedAt: -1, _id: -1 })
+    .select({ slug: 1 })
+    .maxTimeMS(SITEMAP_QUERY_MAX_TIME_MS)
+    .lean();
 
-    return jobs
-      .map((job: any) => job?.slug)
-      .filter((slug: unknown): slug is string => typeof slug === "string" && slug.length > 0)
-      .map((slug) => `/careers/${encodeURIComponent(slug)}`);
-  } catch (error) {
-    console.error("Failed to load published career routes for sitemap.", error);
-    return [];
+  return jobs
+    .map((job: any) => job?.slug)
+    .filter((slug: unknown): slug is string => typeof slug === "string" && slug.length > 0)
+    .map((slug) => `/careers/${encodeURIComponent(slug)}`);
+}
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function getDynamicSitemapRoutesWithRetry() {
+  if (!process.env.MONGO_URI) {
+    return { blogRoutes: [] as string[], careersRoutes: [] as string[] };
   }
+
+  let lastError: unknown = null;
+  for (let attempt = 0; attempt <= SITEMAP_FETCH_RETRY_COUNT; attempt += 1) {
+    try {
+      await connectDB();
+      const [blogRoutes, careersRoutes] = await Promise.all([getBlogRoutes(), getCareersRoutes()]);
+      return { blogRoutes, careersRoutes };
+    } catch (error) {
+      lastError = error;
+      if (attempt < SITEMAP_FETCH_RETRY_COUNT) {
+        await wait(SITEMAP_FETCH_RETRY_DELAY_MS * (attempt + 1));
+      }
+    }
+  }
+
+  console.warn(
+    "Sitemap dynamic routes fallback: unable to load blog/career slugs after retries.",
+    lastError,
+  );
+  return { blogRoutes: [] as string[], careersRoutes: [] as string[] };
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -99,7 +122,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const industryRoutes = getIndustrySlugs().map((slug) => `/industries/${slug}`);
   const locationRoutes = getSeoLocationSlugs().map((slug) => `/locations/${slug}`);
   const laneRoutes = getSeoLaneSlugs().map((slug) => `/lanes/${slug}`);
-  const [blogRoutes, careersRoutes] = await Promise.all([getBlogRoutes(), getCareersRoutes()]);
+  const { blogRoutes, careersRoutes } = await getDynamicSitemapRoutesWithRetry();
 
   const getPriority = (path: string) => {
     if (path === "/") return 1;

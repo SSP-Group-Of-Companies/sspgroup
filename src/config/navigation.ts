@@ -315,7 +315,7 @@ export const NAV = {
     intro: {
       title: "Careers",
       description:
-        "Opportunities to join a disciplined logistics organization built around growth, ownership, and execution.",
+        "Career pathways for operators, drivers, and leaders who value disciplined execution, ownership, and measurable growth.",
       ctaLabel: "View Careers",
       ctaHref: "/careers",
     },
@@ -328,20 +328,20 @@ export const NAV = {
       },
       {
         label: "Driver Opportunities",
-        href: "/careers?track=drivers",
-        description: "Driving roles, qualification standards, and growth pathways.",
+        href: "/careers#drive",
+        description: "Digital onboarding through DriveDock, qualification standards, and growth pathways for fleet professionals.",
         icon: "truck",
       },
       {
         label: "Office & Operations Roles",
-        href: "/careers?track=office-operations",
-        description: "Roles across dispatch, planning, customer success, and operations.",
+        href: "/careers#jobs",
+        description: "Open roles across dispatch, planning, compliance, customer operations, and leadership support.",
         icon: "briefcase",
       },
       {
         label: "Why Work With SSP",
         href: "/careers#why-work-with-ssp",
-        description: "What makes SSP a long-term platform for growth and ownership.",
+        description: "The operating culture, support model, and performance standards that define careers at SSP.",
         icon: "briefcase",
       },
     ],
