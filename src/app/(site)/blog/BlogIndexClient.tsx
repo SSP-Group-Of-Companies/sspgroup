@@ -637,15 +637,18 @@ export default function InsightsIndexClient({
             </div>
           </div>
 
-          <div className="mt-10 pb-14 sm:mt-12 sm:pb-16">
+          <div className="mt-10 pb-16 sm:mt-12 sm:pb-20">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
               <div className="lg:col-span-9">
-                <div ref={resultsRef} className="site-card-surface rounded-3xl p-3 sm:p-4">
+                <div
+                  ref={resultsRef}
+                  className="rounded-[28px] border border-[color:var(--color-border-light)]/80 bg-white/88 p-3 shadow-[0_16px_44px_rgba(12,23,38,0.08)] backdrop-blur-[1px] sm:p-4"
+                >
                   <div className="flex items-center justify-between">
-                    <h2 className="text-sm font-semibold text-[color:var(--color-text-light)]">
+                    <h2 className="text-sm font-semibold tracking-[0.01em] text-[color:var(--color-text-light)]">
                       Latest Insights
                     </h2>
-                    <div className="text-xs text-[color:var(--color-subtle-light)]">
+                    <div className="text-xs font-medium text-[color:var(--color-subtle-light)]">
                       Page {meta?.page ?? 1} of {meta?.totalPages ?? 1}
                     </div>
                   </div>
@@ -679,7 +682,7 @@ export default function InsightsIndexClient({
                         <Link
                           key={p.id}
                           href={insightPath(p.slug)}
-                          className="site-card-surface group cursor-pointer rounded-2xl p-3 transition hover:-translate-y-[1px] hover:shadow-md"
+                          className="group cursor-pointer rounded-2xl border border-[color:var(--color-border-light)]/80 bg-white p-3 shadow-[0_1px_0_rgba(12,23,38,0.03)] transition hover:-translate-y-[2px] hover:shadow-[0_12px_30px_rgba(12,23,38,0.12)]"
                         >
                           <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-1-light)]">
                             {p.coverImage?.url ? (
@@ -707,7 +710,7 @@ export default function InsightsIndexClient({
                               ))}
                             </div>
 
-                            <h3 className="mt-2 line-clamp-2 text-sm font-semibold text-[color:var(--color-text-light)]">
+                            <h3 className="mt-2 line-clamp-2 text-[14px] font-semibold leading-[1.35] text-[color:var(--color-text-light)]">
                               {p.title}
                             </h3>
 
@@ -728,7 +731,7 @@ export default function InsightsIndexClient({
                               </span>
                             </div>
 
-                            <div className="mt-3 inline-flex items-center gap-2 text-xs text-[color:var(--color-text-light)]">
+                            <div className="mt-3 inline-flex items-center gap-2 text-xs font-medium text-[color:var(--color-text-light)]">
                               Read more
                               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
                             </div>
@@ -736,17 +739,17 @@ export default function InsightsIndexClient({
                         </Link>
                       ))
                     ) : (
-                      <div className="col-span-full rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-1-light)] p-6 text-center">
-                        <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
-                          No matches found.
+                      <div className="col-span-full rounded-2xl border border-[color:var(--color-border-light)] bg-[linear-gradient(180deg,#ffffff_0%,#f7f9fc_100%)] p-7 text-center">
+                        <div className="text-sm font-semibold tracking-[0.01em] text-[color:var(--color-text-light)]">
+                          No insights matched this filter set.
                         </div>
-                        <div className="mt-1 text-xs text-[color:var(--color-muted-light)]">
+                        <div className="mx-auto mt-1 max-w-[50ch] text-xs text-[color:var(--color-muted-light)]">
                           Try a different keyword, or reset filters to browse everything.
                         </div>
                         <button
                           type="button"
                           onClick={clearAll}
-                          className="mt-4 cursor-pointer rounded-md border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-1-light)] px-3 py-2 text-xs text-[color:var(--color-text-light)] hover:bg-[color:var(--color-surface-0-light)]"
+                          className="mt-4 cursor-pointer rounded-lg border border-[color:var(--color-border-light)] bg-white px-3.5 py-2 text-xs font-semibold text-[color:var(--color-text-light)] transition hover:bg-[color:var(--color-surface-0-light)]"
                         >
                           Reset filters
                         </button>
@@ -817,7 +820,7 @@ export default function InsightsIndexClient({
 
               <div className="lg:col-span-3">
                 <div className="sticky top-24 space-y-4">
-                  <div className="site-card-surface rounded-3xl p-4">
+                  <div className="rounded-3xl border border-[color:var(--color-border-light)]/80 bg-white/90 p-4 shadow-[0_10px_28px_rgba(12,23,38,0.07)]">
                     <div className="flex items-center justify-between">
                       <h3 className="text-sm font-semibold text-[color:var(--color-text-light)]">
                         Categories
@@ -873,7 +876,7 @@ export default function InsightsIndexClient({
                     </div>
                   </div>
 
-                  <div className="site-card-surface rounded-3xl p-4">
+                  <div className="rounded-3xl border border-[color:var(--color-border-light)]/80 bg-white/90 p-4 shadow-[0_10px_28px_rgba(12,23,38,0.07)]">
                     <h3 className="text-sm font-semibold text-[color:var(--color-text-light)]">
                       Recent
                     </h3>
@@ -882,7 +885,7 @@ export default function InsightsIndexClient({
                         <Link
                           key={p.id}
                           href={insightPath(p.slug)}
-                          className="site-card-surface block cursor-pointer rounded-2xl p-3 hover:bg-[color:var(--color-surface-0-light)]"
+                          className="block cursor-pointer rounded-2xl border border-[color:var(--color-border-light)]/80 bg-white p-3 transition hover:bg-[color:var(--color-surface-0-light)]"
                         >
                           <div className="line-clamp-2 text-xs font-semibold text-[color:var(--color-text-light)]">
                             {p.title}
@@ -915,7 +918,7 @@ export default function InsightsIndexClient({
                       className="absolute top-0 right-0 left-0 h-[2px] rounded-t-3xl"
                       style={{
                         background:
-                          "linear-gradient(90deg, var(--color-brand-500) 0%, rgba(220,38,38,0.15) 60%, transparent 100%)",
+                          "linear-gradient(90deg, var(--color-brand-500) 0%, rgba(215,25,32,0.15) 60%, transparent 100%)",
                       }}
                     />
 
@@ -938,7 +941,7 @@ export default function InsightsIndexClient({
                           }
                           className={cn(
                             "inline-flex h-9 items-center justify-center gap-2 rounded-md px-4 text-xs font-semibold",
-                            "border border-[color:var(--color-brand-600)] bg-[linear-gradient(180deg,var(--color-brand-600),var(--color-brand-700))] text-white shadow-[0_8px_20px_rgba(220,38,38,0.25)] transition hover:-translate-y-[2px] hover:shadow-[0_12px_28px_rgba(220,38,38,0.32)]",
+                            "border border-[color:var(--color-brand-600)] bg-[linear-gradient(180deg,var(--color-brand-600),var(--color-brand-700))] text-white shadow-[0_8px_20px_rgba(215,25,32,0.25)] transition hover:-translate-y-[2px] hover:shadow-[0_12px_28px_rgba(215,25,32,0.32)]",
                             "focus-ring-surface",
                           )}
                         >

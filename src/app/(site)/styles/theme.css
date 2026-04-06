@@ -205,11 +205,11 @@
   --color-insights-hero-gradient-start: rgba(6, 11, 20, 0.78);
   --color-insights-hero-gradient-mid: rgba(7, 12, 22, 0.35);
   --color-insights-hero-gradient-end: rgba(8, 14, 24, 0.06);
-  --color-insights-hero-glow-brand: rgba(220, 38, 38, 0.035);
+  --color-insights-hero-glow-brand: rgba(215, 25, 32, 0.035);
   --color-insights-hero-glow-ink: rgba(16, 167, 216, 0.06);
   --color-insights-hero-bottom-fade: #070d17;
   --color-insights-sidebar-cta-bg: #172230;
-  --color-insights-sidebar-cta-glow: rgba(220, 38, 38, 0.15);
+  --color-insights-sidebar-cta-glow: rgba(215, 25, 32, 0.15);
   --shadow-insights-sidebar-cta: 0 2px 0 rgba(0, 0, 0, 0.22), 0 20px 56px rgba(0, 0, 0, 0.2);
 
   /* ═══════════════════════════════════════════════════════════════════════
