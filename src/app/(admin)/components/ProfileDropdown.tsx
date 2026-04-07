@@ -61,7 +61,7 @@ export default function ProfileDropdown() {
           // Dashboard theme tokens (works in both light/dark via .dashboard-root)
           "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]",
           open && "bg-[var(--dash-surface-2)]",
-          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
         )}
         aria-haspopup="menu"
         aria-expanded={open}

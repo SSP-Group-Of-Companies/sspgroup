@@ -85,17 +85,36 @@ export default async function CareersPage({
       "desc",
     ] as const) ?? "desc";
 
-  const data = await getPublicJobsListSSR({
-    page: String(page),
-    pageSize: String(pageSize),
-    q: q.trim() ? q.trim() : undefined,
-    workplaceType,
-    employmentType,
-    department: department.trim() ? department.trim() : undefined,
-    location: location.trim() ? location.trim() : undefined,
-    sortBy,
-    sortDir,
-  });
+  const emptyMeta = {
+    page,
+    pageSize,
+    total: 0,
+    totalPages: 1,
+    hasPrev: false,
+    hasNext: false,
+  };
+
+  let initialItems: unknown[] = [];
+  let initialMeta: typeof emptyMeta = emptyMeta;
+  let initialFetchError: string | null = null;
+
+  try {
+    const data = await getPublicJobsListSSR({
+      page: String(page),
+      pageSize: String(pageSize),
+      q: q.trim() ? q.trim() : undefined,
+      workplaceType,
+      employmentType,
+      department: department.trim() ? department.trim() : undefined,
+      location: location.trim() ? location.trim() : undefined,
+      sortBy,
+      sortDir,
+    });
+    initialItems = data.items ?? [];
+    initialMeta = { ...emptyMeta, ...(data.meta ?? {}) };
+  } catch (e: unknown) {
+    initialFetchError = e instanceof Error ? e.message : "Failed to load careers listings.";
+  }
 
   const initialQuery = {
     page,
@@ -111,9 +130,10 @@ export default async function CareersPage({
 
   return (
     <CareersClient
-      initialItems={data.items ?? []}
-      initialMeta={data.meta ?? {}}
+      initialItems={initialItems}
+      initialMeta={initialMeta}
       initialQuery={initialQuery}
+      initialFetchError={initialFetchError}
     />
   );
 }

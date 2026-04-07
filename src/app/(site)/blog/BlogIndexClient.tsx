@@ -170,12 +170,15 @@ export default function InsightsIndexClient({
   categories: initialCategories,
   recentItems,
   initialQuery,
+  initialFetchError,
 }: {
   initialItems: InsightPostListItem[];
   initialMeta: Meta;
   categories: CategoryItem[];
   recentItems: InsightPostListItem[];
   initialQuery: Query;
+  /** Set when SSR blog API calls fail so the page renders and shows inline error instead of error.tsx */
+  initialFetchError?: string | null;
 }) {
   const router = useRouter();
   const sp = useSearchParams();
@@ -189,7 +192,7 @@ export default function InsightsIndexClient({
 
   const [loading, setLoading] = React.useState(false);
   const [catLoading, setCatLoading] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<string | null>(initialFetchError ?? null);
 
   const resultsRef = React.useRef<HTMLDivElement | null>(null);
   const postsAbortRef = React.useRef<AbortController | null>(null);
@@ -426,14 +429,17 @@ export default function InsightsIndexClient({
       >
         {/* Top-down yard (generated): SSP navy + cyan rim light—same composition language as premium logistics editorial refs. */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-[color:var(--color-company-ink)]" aria-hidden="true" />
+          <div
+            className="absolute inset-0 bg-[color:var(--color-company-ink)]"
+            aria-hidden="true"
+          />
           <div className="absolute inset-0">
             <HeroImage
               fill
               src={INSIGHTS_DEFAULT_OG_IMAGE}
               alt="Top-down view of shipping containers on a navy yard—abstract logistics composition for Insights."
               priority
-              className="object-cover object-[62%_50%] opacity-[0.68] sm:object-[58%_48%] sm:opacity-[0.72] contrast-[1.05]"
+              className="object-cover object-[62%_50%] opacity-[0.68] contrast-[1.05] sm:object-[58%_48%] sm:opacity-[0.72]"
               sizes="100vw"
             />
           </div>
@@ -462,12 +468,7 @@ export default function InsightsIndexClient({
 
         <div className="relative">
           <Container className="site-page-container">
-            <motion.div
-              initial="hidden"
-              animate="show"
-              variants={stagger}
-              className="pb-4"
-            >
+            <motion.div initial="hidden" animate="show" variants={stagger} className="pb-4">
               <motion.div
                 variants={fadeUp}
                 transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
@@ -479,7 +480,7 @@ export default function InsightsIndexClient({
                 variants={fadeUp}
                 transition={{ duration: reduceMotion ? 0 : 0.5, ease: "easeOut" }}
                 className={cn(
-                  "mt-4 max-w-xl text-balance font-semibold tracking-[-0.02em] text-white sm:max-w-2xl lg:max-w-[40rem]",
+                  "mt-4 max-w-xl font-semibold tracking-[-0.02em] text-balance text-white sm:max-w-2xl lg:max-w-[40rem]",
                   "text-[2.15rem] leading-[1.08] sm:text-[2.55rem] lg:text-[3rem]",
                 )}
               >
@@ -489,7 +490,7 @@ export default function InsightsIndexClient({
               <motion.p
                 variants={fadeUp}
                 transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
-                className="mt-5 max-w-[52ch] text-[15px] font-normal leading-[1.75] text-white/78 sm:text-[15.5px]"
+                className="mt-5 max-w-[52ch] text-[15px] leading-[1.75] font-normal text-white/78 sm:text-[15.5px]"
               >
                 Analysis, updates, and operating perspectives from the SSP team. Explore practical
                 guidance on freight execution, cross-border strategy, network planning, and supply
@@ -610,6 +611,10 @@ export default function InsightsIndexClient({
                       <Loader2 className="h-3.5 w-3.5 animate-spin" />
                       Searching…
                     </span>
+                  ) : error ? (
+                    <span className="text-[color:var(--color-muted-light)]">
+                      Unable to load results
+                    </span>
                   ) : (
                     <span>
                       <span className="font-bold text-[color:var(--color-text-light)]">
@@ -677,7 +682,7 @@ export default function InsightsIndexClient({
                         <SkeletonCard />
                         <SkeletonCard />
                       </>
-                    ) : items.length ? (
+                    ) : error && !items.length ? null : items.length ? (
                       items.map((p) => (
                         <Link
                           key={p.id}
@@ -710,7 +715,7 @@ export default function InsightsIndexClient({
                               ))}
                             </div>
 
-                            <h3 className="mt-2 line-clamp-2 text-[14px] font-semibold leading-[1.35] text-[color:var(--color-text-light)]">
+                            <h3 className="mt-2 line-clamp-2 text-[14px] leading-[1.35] font-semibold text-[color:var(--color-text-light)]">
                               {p.title}
                             </h3>
 
@@ -738,7 +743,7 @@ export default function InsightsIndexClient({
                           </div>
                         </Link>
                       ))
-                    ) : (
+                    ) : !error ? (
                       <div className="col-span-full rounded-2xl border border-[color:var(--color-border-light)] bg-[linear-gradient(180deg,#ffffff_0%,#f7f9fc_100%)] p-7 text-center">
                         <div className="text-sm font-semibold tracking-[0.01em] text-[color:var(--color-text-light)]">
                           No insights matched this filter set.
@@ -754,7 +759,7 @@ export default function InsightsIndexClient({
                           Reset filters
                         </button>
                       </div>
-                    )}
+                    ) : null}
                   </div>
 
                   <div className="mt-8 flex justify-center">
@@ -925,8 +930,8 @@ export default function InsightsIndexClient({
                     <div className="relative">
                       <h3 className="text-sm font-bold text-white">Plan with SSP Specialists</h3>
                       <p className="mt-2 text-xs leading-[1.6] text-[rgba(255,255,255,0.7)]">
-                        Connect with our team to map a resilient, cost-aware freight strategy aligned
-                        to your service, compliance, and growth objectives.
+                        Connect with our team to map a resilient, cost-aware freight strategy
+                        aligned to your service, compliance, and growth objectives.
                       </p>
                       <div className="mt-4 flex flex-col gap-2 sm:flex-row">
                         <Link

@@ -20,7 +20,6 @@ function normalizeSort(sortBy: SortKey, hasQ: boolean): SortKey {
 export async function GET(req: NextRequest) {
   try {
     await connectDB();
-
     const { searchParams } = new URL(req.url);
 
     const q = trim(searchParams.get("q"));

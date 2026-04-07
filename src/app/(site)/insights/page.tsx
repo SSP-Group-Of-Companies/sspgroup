@@ -38,7 +38,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function InsightsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+export default async function InsightsPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
   const sp = await searchParams;
 
   const q = (spGet(sp, "q") ?? "").toString();
@@ -59,34 +63,59 @@ export default async function InsightsPage({ searchParams }: { searchParams: Pro
   const cqs = new URLSearchParams();
   if (q) cqs.set("q", q);
   if (categorySlug) cqs.set("categorySlug", categorySlug);
-  const [postsResp, catsResp, recentResp] = await Promise.all([
-    ssrApiFetch<{
-      data: {
-        items: any[];
-        meta: { page: number; limit: number; total: number; totalPages: number };
-      };
-    }>(`/api/v1/blog?${qs.toString()}`),
-    ssrApiFetch<{
-      data: Array<{ id: string; name: string; slug: string; postCount?: number }>;
-    }>(`/api/v1/blog/categories?${cqs.toString()}`),
-    ssrApiFetch<{
-      data: {
-        items: any[];
-        meta: { page: number; limit: number; total: number; totalPages: number };
-      };
-    }>(`/api/v1/blog?${new URLSearchParams({ page: "1", limit: "5", sortBy: "newest" }).toString()}`),
-  ]);
+
+  const emptyMeta = {
+    page,
+    limit,
+    total: 0,
+    totalPages: 1,
+  };
+
+  let initialFetchError: string | null = null;
+  let initialItems: any[] = [];
+  let initialMeta = emptyMeta;
+  let initialCategories: Array<{ id: string; name: string; slug: string; postCount?: number }> = [];
+  let recentItems: any[] = [];
+
+  try {
+    const [postsResp, catsResp, recentResp] = await Promise.all([
+      ssrApiFetch<{
+        data: {
+          items: any[];
+          meta: { page: number; limit: number; total: number; totalPages: number };
+        };
+      }>(`/api/v1/blog?${qs.toString()}`),
+      ssrApiFetch<{
+        data: Array<{ id: string; name: string; slug: string; postCount?: number }>;
+      }>(`/api/v1/blog/categories?${cqs.toString()}`),
+      ssrApiFetch<{
+        data: {
+          items: any[];
+          meta: { page: number; limit: number; total: number; totalPages: number };
+        };
+      }>(
+        `/api/v1/blog?${new URLSearchParams({ page: "1", limit: "5", sortBy: "newest" }).toString()}`,
+      ),
+    ]);
+
+    initialItems = postsResp.data.items;
+    initialMeta = postsResp.data.meta;
+    initialCategories = catsResp.data;
+    recentItems = recentResp.data.items;
+  } catch (e: unknown) {
+    initialFetchError = e instanceof Error ? e.message : "Failed to load insights.";
+  }
 
   const initialQuery = { q, categoryId, categorySlug, sortBy, page, limit };
 
   return (
     <InsightsIndexClient
-      initialItems={postsResp.data.items}
-      initialMeta={postsResp.data.meta}
-      categories={catsResp.data}
-      recentItems={recentResp.data.items}
+      initialItems={initialItems}
+      initialMeta={initialMeta}
+      categories={initialCategories}
+      recentItems={recentItems}
       initialQuery={initialQuery}
+      initialFetchError={initialFetchError}
     />
   );
 }
-
