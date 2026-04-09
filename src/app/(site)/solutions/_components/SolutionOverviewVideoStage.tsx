@@ -11,7 +11,6 @@ type SolutionOverviewVideoStageProps = {
 
 const PLAYER_OPTIONS: PlyrOptions = {
   controls: [
-    "play-large",
     "progress",
     "play",
     "current-time",
@@ -111,7 +110,6 @@ export function SolutionOverviewVideoStage({
   );
 
   const showPosterShell = !hasStartedPlayback;
-
   return (
     <div ref={stageRef} className={styles.stage}>
       {hasMounted ? (
@@ -122,7 +120,9 @@ export function SolutionOverviewVideoStage({
             options={PLAYER_OPTIONS}
             playsInline
             preload="metadata"
-            onPlay={() => setHasStartedPlayback(true)}
+            onPlay={() => {
+              setHasStartedPlayback(true);
+            }}
           />
         </div>
       ) : null}
