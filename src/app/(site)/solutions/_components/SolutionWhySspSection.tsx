@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
@@ -56,12 +55,84 @@ type WhySspMedallionProps = {
   chromeInsetClassName: string;
   darkInsetClassName: string;
   coreInsetClassName: string;
-  imageSizes: string;
-  imagePaddingClassName: string;
   chromeShadowClassName: string;
   showSecondaryChromeHighlight?: boolean;
   showInnerDarkBorder?: boolean;
 };
+
+function WhySspGlyph({ point }: { point: SolutionWhySspPoint }) {
+  const text = `${point.title} ${point.body}`.toLowerCase();
+
+  const strokeProps = {
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
+
+  const iconClassName = "h-[54%] w-[54%]";
+
+  if (
+    /shipment|class|density|commodity|packaging|dimensions|weight|tender|reweigh|reclass|document|reference|bol|pod|paperwork|billing/.test(
+      text,
+    )
+  ) {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden className={iconClassName}>
+        <path {...strokeProps} d="M7 3.5h7l4 4v13H7z" />
+        <path {...strokeProps} d="M14 3.5v4h4" />
+        <path {...strokeProps} d="M9.2 14.2l1.7 1.7 4-4.2" />
+      </svg>
+    );
+  }
+
+  if (
+    /dock|appointment|receiver|delivery window|site access|facility|accessorial|liftgate|limited-access|limited access|delivery constraint|pickup window|delivery requirement/.test(
+      text,
+    )
+  ) {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden className={iconClassName}>
+        <path {...strokeProps} d="M3 10.5h18" />
+        <path {...strokeProps} d="M5.5 10.5V6.5h13v4" />
+        <path {...strokeProps} d="M7 18.5v-4h10v4" />
+        <path {...strokeProps} d="M4.5 18.5h15" />
+        <path {...strokeProps} d="M9 6.5V4.5h6v2" />
+      </svg>
+    );
+  }
+
+  if (/exception|delay|recovery|scan history|terminal|milestone|status|update|visibility|communication/.test(text)) {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden className={iconClassName}>
+        <path {...strokeProps} d="M4.5 16.5c2.1 0 3.1-2.8 5.2-2.8 2 0 2.8 2.8 4.8 2.8 2 0 3-2.8 5-2.8" />
+        <path {...strokeProps} d="M5.5 11.2l4.1-3.8 3.1 2.9 5.8-5.3" />
+        <path {...strokeProps} d="M16.7 5h3v3" />
+        <circle cx="5.5" cy="11.2" r="1.2" fill="currentColor" stroke="none" />
+        <circle cx="12.7" cy="10.3" r="1.2" fill="currentColor" stroke="none" />
+        <circle cx="18.5" cy="5.9" r="1.2" fill="currentColor" stroke="none" />
+      </svg>
+    );
+  }
+
+  if (/exception|risk|decision|control|accountability|ownership/.test(text)) {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden className={iconClassName}>
+        <path {...strokeProps} d="M12 3.5l6 2.4v5.6c0 4.1-2.4 7.1-6 9-3.6-1.9-6-4.9-6-9V5.9z" />
+        <path {...strokeProps} d="M9.4 12.1l1.7 1.7 3.7-4" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden className={iconClassName}>
+      <path {...strokeProps} d="M4 15.5c2.2 0 3.4-2.4 5.4-2.4 2.1 0 2.8 2.4 4.9 2.4 2 0 2.9-2.4 5.7-2.4" />
+      <path {...strokeProps} d="M4.5 9.5l4-4 3.2 3.1 5.8-5.6 2 2" />
+      <path {...strokeProps} d="M17.5 3.5h4v4" />
+    </svg>
+  );
+}
 
 function WhySspMedallion({
   point,
@@ -70,8 +141,6 @@ function WhySspMedallion({
   chromeInsetClassName,
   darkInsetClassName,
   coreInsetClassName,
-  imageSizes,
-  imagePaddingClassName,
   chromeShadowClassName,
   showSecondaryChromeHighlight = false,
   showInnerDarkBorder = false,
@@ -119,17 +188,26 @@ function WhySspMedallion({
       <div
         className={`absolute rounded-full border border-gray-200/60 bg-white shadow-[0_8px_24px_rgba(0,0,0,0.1)] ${coreInsetClassName}`}
       >
-        {point.imageSrc ? (
-          <div className="relative h-full w-full overflow-hidden rounded-full">
-            <Image
-              src={point.imageSrc}
-              alt={point.imageAlt ?? point.title}
-              fill
-              sizes={imageSizes}
-              className={`object-contain ${imagePaddingClassName}`}
-            />
+        <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-full">
+          <div
+            className="absolute inset-[8%] rounded-full"
+            style={{
+              background: `radial-gradient(circle at 30% 24%, color-mix(in srgb, ${accent} 14%, white) 0%, rgba(255,255,255,0.95) 42%, color-mix(in srgb, ${accent} 4%, white) 100%)`,
+            }}
+          />
+          <div
+            className="absolute inset-[11%] rounded-full border"
+            style={{
+              borderColor: `color-mix(in srgb, ${accent} 16%, rgba(15,23,42,0.08))`,
+            }}
+          />
+          <div
+            className="relative z-10 flex h-full w-full items-center justify-center"
+            style={{ color: `color-mix(in srgb, ${accent} 66%, var(--color-text-light))` }}
+          >
+            <WhySspGlyph point={point} />
           </div>
-        ) : null}
+        </div>
       </div>
     </div>
   );
@@ -234,8 +312,6 @@ export function SolutionWhySspSection({
                         chromeInsetClassName="inset-[7px]"
                         darkInsetClassName="inset-[17px]"
                         coreInsetClassName="inset-[19px]"
-                        imageSizes="52px"
-                        imagePaddingClassName="p-[3%]"
                         chromeShadowClassName="shadow-[0_16px_34px_rgba(2,6,23,0.24)]"
                       />
 
@@ -337,8 +413,6 @@ export function SolutionWhySspSection({
                         chromeInsetClassName="inset-[10px] md:inset-[12px]"
                         darkInsetClassName="inset-[23px] md:inset-[26px]"
                         coreInsetClassName="inset-[27px] md:inset-[31px]"
-                        imageSizes="72px"
-                        imagePaddingClassName="p-[4%]"
                         chromeShadowClassName="shadow-[0_16px_40px_rgba(2,6,23,0.24)]"
                         showSecondaryChromeHighlight
                         showInnerDarkBorder

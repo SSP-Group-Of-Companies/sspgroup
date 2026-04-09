@@ -85,5 +85,4 @@ export const HEADER_UTILITY = {
   telHref: "tel:+15199683632",
   mailtoHref: "mailto:cs@sspgroup.com",
   address: "8401 5 Side Rd, Milton ON L9T 2Y7",
-  availability: "24/7 Available",
 } as const;

@@ -8,8 +8,8 @@ import {
   getSolutionPageBySlug,
   getSolutionPageSlugs,
 } from "@/config/solutionPages";
-import { SolutionPageTemplate } from "../_components/SolutionPageTemplate";
-import { SolutionDetailPageTemplate } from "../_components/SolutionDetailPageTemplate";
+import { ModeSolutionPage } from "../_components/ModeSolutionPage";
+import { EquipmentSolutionPage } from "../_components/EquipmentSolutionPage";
 import { SITE_URL } from "@/lib/seo/site";
 
 const SOLUTION_PAGES = {
@@ -146,6 +146,22 @@ export default async function SolutionDetailPage({
       url: `${SITE_URL}/solutions/${solutionPage.slug}`,
     };
 
+    const faqJsonLd =
+      solutionPage.faq.items.length > 0
+        ? {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: solutionPage.faq.items.map((item) => ({
+              "@type": "Question",
+              name: item.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: item.answer,
+              },
+            })),
+          }
+        : null;
+
     return (
       <>
         <script
@@ -156,10 +172,16 @@ export default async function SolutionDetailPage({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
         />
+        {faqJsonLd ? (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+          />
+        ) : null}
         {solutionPage.pageType === "family" ? (
-          <SolutionPageTemplate page={solutionPage} />
+          <ModeSolutionPage page={solutionPage} />
         ) : (
-          <SolutionDetailPageTemplate page={solutionPage} />
+          <EquipmentSolutionPage page={solutionPage} />
         )}
       </>
     );

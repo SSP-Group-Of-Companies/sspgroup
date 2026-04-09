@@ -107,8 +107,6 @@ export function SiteHeader() {
               <a href={HEADER_UTILITY.telHref} className={cn("inline-flex items-center gap-1.5 hover:text-white", focusRing)}>
                 <PhoneCall className="h-3.5 w-3.5 text-[color:var(--color-utility-icon)]" aria-hidden />
                 <span>{HEADER_UTILITY.phone}</span>
-                <span className="mx-1 h-1 w-1 rounded-full bg-[color:var(--color-utility-dot)]" aria-hidden />
-                <span className="text-[color:var(--color-utility-icon)]">{HEADER_UTILITY.availability}</span>
               </a>
             </div>
 
@@ -128,8 +126,6 @@ export function SiteHeader() {
                 <PhoneCall className="h-3.5 w-3.5 text-[color:var(--color-utility-icon)]" aria-hidden />
                 <span>{HEADER_UTILITY.phone}</span>
               </a>
-              <span className="mx-1 h-1 w-1 rounded-full bg-[color:var(--color-utility-dot)]" aria-hidden />
-              <span className="text-[color:var(--color-utility-icon)]">{HEADER_UTILITY.availability}</span>
             </div>
 
             <div className="ml-auto hidden items-center lg:flex">

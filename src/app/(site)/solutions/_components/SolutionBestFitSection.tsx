@@ -8,8 +8,10 @@ import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 import type { SolutionFamilyPageData } from "@/config/solutionPages";
 
+type BestFitSectionData = NonNullable<SolutionFamilyPageData["bestFitProfiles"]>;
+
 type Props = {
-  section: SolutionFamilyPageData["bestFitProfiles"];
+  section: BestFitSectionData;
   scrollMarginTop?: number;
 };
 
@@ -21,47 +23,6 @@ const PANEL_SURFACE_BACKGROUND =
 const IMAGE_PANEL_BACKGROUND =
   "linear-gradient(180deg, var(--color-company-hero-midnight-start) 0%, var(--color-company-ink) 100%)";
 
-type BestFitProfileKey =
-  | "dry-van"
-  | "flatbed"
-  | "step-deck"
-  | "rgn-heavy-haul"
-  | "conestoga-roll-tite";
-
-type CardMedia = {
-  src: string;
-  alt: string;
-  objectPosition?: string;
-};
-
-const CARD_MEDIA_BY_KEY: Record<BestFitProfileKey, CardMedia> = {
-  "dry-van": {
-    src: "/_optimized/solution/dryvan/dryvan-Img.png",
-    alt: "Dry van trailer profile",
-    objectPosition: "58% 48%",
-  },
-  flatbed: {
-    src: "/_optimized/solution/flatbed/flatbed-Img.png",
-    alt: "Flatbed truckload profile",
-    objectPosition: "54% 54%",
-  },
-  "step-deck": {
-    src: "/_optimized/solution/stepdeck/stepdeck-Img.png",
-    alt: "Step deck truckload profile",
-    objectPosition: "56% 42%",
-  },
-  "rgn-heavy-haul": {
-    src: "/_optimized/solution/rgnheavyhaul/rgn-Img.png",
-    alt: "RGN heavy haul profile",
-    objectPosition: "50% 58%",
-  },
-  "conestoga-roll-tite": {
-    src: "/_optimized/solution/conestoga/conestoga-Img.png",
-    alt: "Conestoga roll-tite profile",
-    objectPosition: "50% 52%",
-  },
-};
-
 type SliceConfig = {
   textFraction: string;
   imageFraction: string;
@@ -69,51 +30,31 @@ type SliceConfig = {
   imageOnRight: boolean;
 };
 
-const SLICE_CONFIG_BY_KEY: Record<BestFitProfileKey, SliceConfig> = {
-  "dry-van": {
-    textFraction: "minmax(0,0.60fr)",
-    imageFraction: "minmax(0,0.40fr)",
-    slideFrom: "left",
-    imageOnRight: true,
-  },
-  flatbed: {
-    textFraction: "minmax(0,0.58fr)",
-    imageFraction: "minmax(0,0.42fr)",
-    slideFrom: "right",
-    imageOnRight: false,
-  },
-  "step-deck": {
-    textFraction: "minmax(0,0.60fr)",
-    imageFraction: "minmax(0,0.40fr)",
-    slideFrom: "left",
-    imageOnRight: true,
-  },
-  "rgn-heavy-haul": {
-    textFraction: "minmax(0,0.62fr)",
-    imageFraction: "minmax(0,0.38fr)",
-    slideFrom: "right",
-    imageOnRight: false,
-  },
-  "conestoga-roll-tite": {
-    textFraction: "minmax(0,0.60fr)",
-    imageFraction: "minmax(0,0.40fr)",
-    slideFrom: "left",
-    imageOnRight: true,
-  },
-};
+function getDefaultSliceConfig(index: number): SliceConfig {
+  const imageOnRight = index % 2 === 0;
 
-function isBestFitProfileKey(key: string): key is BestFitProfileKey {
-  return key in CARD_MEDIA_BY_KEY && key in SLICE_CONFIG_BY_KEY;
+  return {
+    textFraction: "minmax(0,0.60fr)",
+    imageFraction: "minmax(0,0.40fr)",
+    slideFrom: imageOnRight ? "left" : "right",
+    imageOnRight,
+  };
 }
 
-function getBestFitProfilePresentation(key: string) {
-  if (!isBestFitProfileKey(key)) {
-    throw new Error(`Missing best-fit presentation config for profile key: ${key}`);
+function getBestFitProfilePresentation(
+  item: BestFitSectionData["items"][number],
+  index: number,
+) {
+  if (!item.media) {
+    throw new Error(`Missing best-fit media config for profile key: ${item.key}`);
   }
 
   return {
-    media: CARD_MEDIA_BY_KEY[key],
-    config: SLICE_CONFIG_BY_KEY[key],
+    media: item.media,
+    config: {
+      ...getDefaultSliceConfig(index),
+      ...item.presentation,
+    },
   };
 }
 
@@ -168,7 +109,7 @@ export function SolutionBestFitSection({ section, scrollMarginTop }: Props) {
         {/* ── Poster shell ── */}
         <div className="mt-10 flex flex-col gap-3 sm:mt-12 sm:gap-4 lg:gap-0 lg:overflow-hidden lg:rounded-md lg:shadow-[0_32px_80px_rgba(2,8,20,0.5)]">
           {section.items.map((item, index) => {
-            const { media, config } = getBestFitProfilePresentation(item.key);
+            const { media, config } = getBestFitProfilePresentation(item, index);
             const isFirst = index === 0;
             const isLast = index === section.items.length - 1;
 
@@ -263,7 +204,7 @@ export function SolutionBestFitSection({ section, scrollMarginTop }: Props) {
   );
 }
 
-type SliceItem = SolutionFamilyPageData["bestFitProfiles"]["items"][number];
+type SliceItem = BestFitSectionData["items"][number];
 
 function SliceTextPanel({
   item,

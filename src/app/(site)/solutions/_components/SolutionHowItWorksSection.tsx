@@ -58,8 +58,8 @@ export function SolutionHowItWorksSection({
     hidden: {},
     show: {
       transition: {
-        staggerChildren: reduced ? 0 : 0.12,
-        delayChildren: reduced ? 0 : 0.1,
+        staggerChildren: reduced ? 0 : 0.05,
+        delayChildren: reduced ? 0 : 0.03,
       },
     },
   };
@@ -71,16 +71,13 @@ export function SolutionHowItWorksSection({
       className="relative overflow-hidden bg-[color:var(--color-surface-0-light)]"
       style={scrollMarginTop ? { scrollMarginTop } : undefined}
     >
-      <Container className="site-page-container relative py-12 sm:py-14 lg:py-16">
-        <h2 id={headingId} className="sr-only">
-          {section.eyebrow}
-        </h2>
-        {/* ── Intro: eyebrow + description ── */}
+      <Container className="site-page-container relative py-16 sm:py-20 lg:py-24">
+        {/* ── Intro: eyebrow + title + description ── */}
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="mx-auto max-w-[54rem] text-center"
+          viewport={{ once: true, amount: 0.15 }}
+          className="mx-auto max-w-[72rem] text-center"
         >
           <motion.div
             variants={fadeUp}
@@ -90,10 +87,19 @@ export function SolutionHowItWorksSection({
             <SectionSignalEyebrow label={section.eyebrow} />
           </motion.div>
 
+          <motion.h2
+            id={headingId}
+            variants={fadeUp}
+            transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut" }}
+            className="mx-auto mt-4 max-w-[18ch] text-[1.95rem] font-semibold leading-[1.08] tracking-tight text-[color:var(--color-text-light)] sm:max-w-[20ch] sm:text-[2.2rem] lg:max-w-none lg:whitespace-nowrap xl:text-[2.35rem]"
+          >
+            {section.title}
+          </motion.h2>
+
           <motion.p
             variants={fadeUp}
             transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut" }}
-            className="mx-auto mt-4 max-w-[68ch] text-[14.85px] leading-[1.72] text-[color:var(--color-muted-light)] sm:text-[15.25px]"
+            className="mx-auto mt-5 max-w-[68ch] text-[14.85px] leading-[1.72] text-[color:var(--color-muted-light)] sm:text-[15.25px] lg:max-w-[56rem] xl:max-w-[60rem]"
           >
             {section.description}
           </motion.p>
@@ -103,7 +109,7 @@ export function SolutionHowItWorksSection({
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={stagger}
           className="relative mx-auto mt-8 hidden overflow-visible xl:mt-10 xl:block"
           style={{ width: STAGE_W, height: STAGE_H }}
@@ -130,31 +136,62 @@ export function SolutionHowItWorksSection({
           })}
         </motion.div>
 
-        {/* ── Mobile / Tablet: responsive stacked cards ── */}
+        {/* ── Mobile / Tablet: left-track sequence ── */}
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.06 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={stagger}
-          className="relative mt-8 xl:hidden"
+          className="relative mt-10 xl:hidden"
         >
-          <div className="mx-auto grid max-w-[70rem] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.step}
-                variants={fadeUp}
-                transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut" }}
-                className="relative h-full"
-              >
-                <ProcessCard
-                  step={step}
-                  accent={accent}
-                  index={index}
-                  showOrderLabel
-                  autoHeight
-                />
-              </motion.div>
-            ))}
+          <div className="relative mx-auto max-w-[46rem]">
+            <div
+              className="pointer-events-none absolute bottom-4 left-[21px] top-4 w-px rounded-full"
+              aria-hidden
+              style={{
+                background: `linear-gradient(180deg, color-mix(in srgb, ${accent} 18%, transparent) 0%, color-mix(in srgb, ${accent} 42%, var(--color-border-light)) 20%, color-mix(in srgb, ${accent} 42%, var(--color-border-light)) 80%, color-mix(in srgb, ${accent} 18%, transparent) 100%)`,
+              }}
+            />
+
+            <div className="space-y-5">
+              {steps.map((step, index) => (
+                <motion.article
+                  key={step.step}
+                  variants={fadeUp}
+                  transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut" }}
+                  className="relative pl-14"
+                >
+                  <div
+                    className="absolute left-0 top-5 z-10 flex h-[42px] w-[42px] items-center justify-center rounded-full border bg-[color:var(--color-surface-0-light)] shadow-[0_10px_24px_rgba(2,6,23,0.08)]"
+                    style={{
+                      borderColor: `color-mix(in srgb, ${accent} 16%, var(--color-border-light))`,
+                    }}
+                  >
+                    <span
+                      className="text-[10px] font-semibold tracking-[0.16em] text-[color:var(--color-text-light)] uppercase"
+                      style={{
+                        color: `color-mix(in srgb, ${accent} 76%, var(--color-company-ink))`,
+                      }}
+                    >
+                      {step.step}
+                    </span>
+                  </div>
+
+                  <motion.div
+                    variants={fadeUp}
+                    transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut" }}
+                    className="relative h-full"
+                  >
+                    <ProcessCard
+                      step={step}
+                      accent={accent}
+                      index={index}
+                      autoHeight
+                    />
+                  </motion.div>
+                </motion.article>
+              ))}
+            </div>
           </div>
         </motion.div>
       </Container>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Section } from "@/app/(site)/components/layout/Section";
 import { Container } from "@/app/(site)/components/layout/Container";
@@ -31,28 +32,104 @@ export type FreightSpecs = {
 };
 
 const SERVICE_LINKS: Record<string, string> = {
-  ltl: "/services/ltl",
-  "dry-van": "/services/truckload#section-dry-van",
-  reefer: "/services/temperature-controlled",
-  flatbed: "/services/truckload#section-flatbed",
-  "step-deck": "/services/truckload#section-step-deck",
-  "rgn-oversize": "/services/truckload#section-rgn-oversize",
-  hazmat: "/services/hazmat",
+  ltl: "/solutions/ltl",
+  "dry-van": "/solutions/dry-van",
+  reefer: "/solutions/temperature-controlled",
+  flatbed: "/solutions/flatbed",
+  "step-deck": "/solutions/step-deck",
+  "rgn-oversize": "/solutions/rgn-heavy-haul",
+  hazmat: "/solutions/hazmat",
   // intermodal: "/services/intermodal", // COMMENTED OUT - uncomment to restore
-  "canada-us": "/services/cross-border#section-canada-us",
-  "mexico-cross-border": "/services/cross-border#section-mexico-cross-border",
-  "ocean-freight": "/services/cross-border#section-ocean-freight",
-  "air-freight": "/services/cross-border#section-air-freight",
-  "warehousing-distribution": "/services/value-added#section-warehousing-distribution",
-  "managed-capacity": "/services/value-added#section-managed-capacity",
-  "dedicated-contract": "/services/value-added#section-dedicated-contract",
-  "project-oversize-programs": "/services/value-added#section-project-oversize-programs",
+  "canada-us": "/solutions/cross-border/canada-us",
+  "mexico-cross-border": "/solutions/cross-border/mexico",
+  "ocean-freight": "/solutions/cross-border/ocean-freight",
+  "air-freight": "/solutions/cross-border/air-freight",
+  "warehousing-distribution": "/solutions/warehousing-distribution",
+  "managed-capacity": "/solutions/managed-capacity",
+  "dedicated-contract": "/solutions/dedicated-contract",
+  "project-oversize-programs": "/solutions/project-freight",
 };
 
 function toServiceHref(serviceSlug?: string) {
   if (!serviceSlug) return undefined;
   if (serviceSlug.startsWith("/")) return serviceSlug;
   return SERVICE_LINKS[serviceSlug] ?? `/services/${serviceSlug}`;
+}
+
+export function FreightFitGuideDiagramOnly({
+  diagram,
+  diagramAlt = "Freight equipment dimensions diagram",
+  className,
+}: {
+  diagram: string;
+  diagramAlt?: string;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "rounded-lg border border-[color:var(--color-border-light)] bg-white p-4 shadow-sm",
+        className,
+      )}
+    >
+      <div className="overflow-hidden rounded-md border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)]">
+        <div className="relative aspect-[16/10] w-full">
+          <Image
+            src={diagram}
+            alt={diagramAlt}
+            fill
+            sizes="(min-width: 1280px) 34vw, (min-width: 768px) 44vw, 100vw"
+            className="object-contain"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function FreightFitGuideSpecsPanel({
+  specs,
+  disclaimer,
+  className,
+}: {
+  specs: FreightSpecs;
+  disclaimer?: string;
+  className?: string;
+}) {
+  return (
+    <div className={cn("rounded-md border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)] p-3", className)}>
+      <h3 className="text-xs font-semibold tracking-wide text-[color:var(--color-muted-light)] uppercase">
+        Technical Specs
+      </h3>
+      <dl className="mt-2 space-y-1.5 text-sm text-[color:var(--color-text-light)]">
+        <div className="flex items-start justify-between gap-4">
+          <dt className="text-[color:var(--color-muted-light)]">Length</dt>
+          <dd className="text-right font-medium">{specs.length}</dd>
+        </div>
+        <div className="flex items-start justify-between gap-4">
+          <dt className="text-[color:var(--color-muted-light)]">Width</dt>
+          <dd className="text-right font-medium">{specs.width}</dd>
+        </div>
+        <div className="flex items-start justify-between gap-4">
+          <dt className="text-[color:var(--color-muted-light)]">Height</dt>
+          <dd className="text-right font-medium">{specs.height}</dd>
+        </div>
+        <div className="flex items-start justify-between gap-4">
+          <dt className="text-[color:var(--color-muted-light)]">Max Freight Weight</dt>
+          <dd className="text-right font-medium">{specs.weight}</dd>
+        </div>
+        {specs.pallets ? (
+          <div className="flex items-start justify-between gap-4">
+            <dt className="text-[color:var(--color-muted-light)]">Pallet Capacity</dt>
+            <dd className="text-right font-medium">{specs.pallets}</dd>
+          </div>
+        ) : null}
+      </dl>
+      {disclaimer ? (
+        <p className="mt-3 text-[11px] leading-[1.5] text-[color:var(--color-subtle-light)]">{disclaimer}</p>
+      ) : null}
+    </div>
+  );
 }
 
 export function FreightFitGuideMedia({
@@ -68,42 +145,10 @@ export function FreightFitGuideMedia({
 }) {
   return (
     <div className="rounded-lg border border-[color:var(--color-border-light)] bg-white p-4 shadow-sm">
-      <div className="overflow-hidden rounded-md border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)]">
-        <img src={diagram} alt={diagramAlt} className="h-auto w-full" />
+      <FreightFitGuideDiagramOnly diagram={diagram} diagramAlt={diagramAlt} className="border-0 bg-transparent p-0 shadow-none" />
+      <div className="mt-4">
+        <FreightFitGuideSpecsPanel specs={specs} disclaimer={disclaimer} />
       </div>
-
-      <div className="mt-4 rounded-md border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)] p-3">
-        <h3 className="text-xs font-semibold tracking-wide text-[color:var(--color-muted-light)] uppercase">
-          Technical Specs
-        </h3>
-        <dl className="mt-2 space-y-1.5 text-sm text-[color:var(--color-text-light)]">
-          <div className="flex items-start justify-between gap-4">
-            <dt className="text-[color:var(--color-muted-light)]">Length</dt>
-            <dd className="text-right font-medium">{specs.length}</dd>
-          </div>
-          <div className="flex items-start justify-between gap-4">
-            <dt className="text-[color:var(--color-muted-light)]">Width</dt>
-            <dd className="text-right font-medium">{specs.width}</dd>
-          </div>
-          <div className="flex items-start justify-between gap-4">
-            <dt className="text-[color:var(--color-muted-light)]">Height</dt>
-            <dd className="text-right font-medium">{specs.height}</dd>
-          </div>
-          <div className="flex items-start justify-between gap-4">
-            <dt className="text-[color:var(--color-muted-light)]">Max Freight Weight</dt>
-            <dd className="text-right font-medium">{specs.weight}</dd>
-          </div>
-          {specs.pallets ? (
-            <div className="flex items-start justify-between gap-4">
-              <dt className="text-[color:var(--color-muted-light)]">Pallet Capacity</dt>
-              <dd className="text-right font-medium">{specs.pallets}</dd>
-            </div>
-          ) : null}
-        </dl>
-      </div>
-      {disclaimer ? (
-        <p className="mt-2 text-[11px] leading-[1.5] text-[color:var(--color-subtle-light)]">{disclaimer}</p>
-      ) : null}
     </div>
   );
 }
@@ -180,7 +225,10 @@ export function FreightFitGuideRecommendations({
                 key={`${rule.condition}-${rule.recommendation}`}
                 href={href}
                 onClick={() => onRecommendationClick?.(rule, href)}
-                className={cardClass}
+                className={cn(
+                  cardClass,
+                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+                )}
               >
                 {content}
               </Link>

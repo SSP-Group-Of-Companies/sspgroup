@@ -29,8 +29,8 @@ export function SolutionRelatedServicesSection({
     hidden: {},
     show: {
       transition: {
-        staggerChildren: reduced ? 0 : 0.08,
-        delayChildren: reduced ? 0 : 0.05,
+        staggerChildren: reduced ? 0 : 0.05,
+        delayChildren: reduced ? 0 : 0.03,
       },
     },
   };
@@ -42,11 +42,11 @@ export function SolutionRelatedServicesSection({
       className="relative overflow-hidden border-t border-[color:var(--color-border-light-soft)] bg-[color:var(--color-surface-0-light)]"
       style={scrollMarginTop ? { scrollMarginTop } : undefined}
     >
-      <Container className="site-page-container relative py-12 sm:py-20 lg:py-24">
+      <Container className="site-page-container relative py-16 sm:py-20 lg:py-24">
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.12 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={stagger}
           className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)] lg:gap-12 xl:gap-16"
         >

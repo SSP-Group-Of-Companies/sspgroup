@@ -80,8 +80,8 @@ export function SolutionWhenToChooseSection({
     hidden: {},
     show: {
       transition: {
-        staggerChildren: reduced ? 0 : 0.1,
-        delayChildren: reduced ? 0 : 0.06,
+        staggerChildren: reduced ? 0 : 0.05,
+        delayChildren: reduced ? 0 : 0.03,
       },
     },
   };
@@ -97,7 +97,7 @@ export function SolutionWhenToChooseSection({
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.12 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={stagger}
           className="grid items-start gap-8 lg:grid-cols-[minmax(0,0.44fr)_minmax(0,0.56fr)] lg:items-center lg:gap-10 xl:gap-14"
         >

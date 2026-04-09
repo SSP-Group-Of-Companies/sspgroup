@@ -87,7 +87,7 @@ export function SolutionHero({
             transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
             className="flex justify-start"
           >
-            <SectionSignalEyebrow label={eyebrow} light />
+            <SectionSignalEyebrow label={eyebrow} light accentColor={theme.accent} />
           </motion.div>
 
           <motion.h1
