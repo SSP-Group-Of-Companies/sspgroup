@@ -50,7 +50,7 @@ export function CrossBorderIntroSections({
       <section className="relative overflow-hidden border-b border-[color:var(--color-ssp-ink-800)]/45 bg-[linear-gradient(140deg,var(--color-ssp-ink-800),var(--color-cb-hero-ink)_48%,var(--color-utility-bg))] py-24 sm:py-32">
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <Image
-            src="/_optimized/solutions/cross-border-hero.png"
+            src="/_optimized/solutions/cross-BorderHeroImg.png"
             alt=""
             fill
             priority

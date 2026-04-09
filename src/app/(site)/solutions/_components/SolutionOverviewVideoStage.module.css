@@ -1,0 +1,233 @@
+.stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+.playerShell {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.posterShell {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 1;
+  transition: opacity 180ms ease;
+}
+
+.posterShellHidden {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.posterDimmer {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(4, 10, 16, 0.24) 0%, rgba(4, 10, 16, 0.24) 100%),
+    linear-gradient(180deg, rgba(4, 10, 16, 0.08) 0%, rgba(4, 10, 16, 0.2) 42%, rgba(4, 10, 16, 0.48) 100%);
+}
+
+.posterPlayButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  display: inline-flex;
+  height: 62px;
+  width: 62px;
+  align-items: center;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 180ms ease;
+}
+
+.posterPlayButton:hover {
+  opacity: 0.92;
+}
+
+.posterPlayButton:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.45);
+  outline-offset: 2px;
+}
+
+.posterPlayIcon {
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 23px solid currentColor;
+  filter: drop-shadow(0 4px 12px rgba(2, 6, 23, 0.24));
+}
+
+.stage :global(.plyr) {
+  height: 100%;
+  --plyr-color-main: #10a7d8;
+  --plyr-video-control-color: #ffffff;
+  --plyr-video-control-color-hover: #ffffff;
+  --plyr-video-control-background-hover: transparent;
+  --plyr-control-icon-size: 14px;
+  --plyr-control-spacing: 6px;
+  --plyr-control-radius: 999px;
+  --plyr-font-family: inherit;
+  --plyr-tooltip-background: rgba(7, 17, 26, 0.96);
+  --plyr-tooltip-color: #ffffff;
+  --plyr-video-controls-background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.14) 36%,
+    rgba(0, 0, 0, 0.58) 72%,
+    rgba(0, 0, 0, 0.82) 100%
+  );
+}
+
+.stage :global(.plyr__poster) {
+  background-size: cover;
+  background-position: center;
+}
+
+.stage :global(.plyr--video) {
+  height: 100%;
+  background: #000;
+}
+
+.stage :global(.plyr--video .plyr__control--overlaid) {
+  width: 62px;
+  height: 62px;
+  padding: 0;
+  background: transparent;
+  color: #fff;
+  box-shadow: none;
+}
+
+.stage :global(.plyr--video .plyr__control--overlaid:hover) {
+  background: transparent;
+  color: #fff;
+  opacity: 0.92;
+}
+
+.stage :global(.plyr--video .plyr__control--overlaid svg) {
+  width: 30px;
+  height: 30px;
+  filter: drop-shadow(0 4px 12px rgba(2, 6, 23, 0.24));
+}
+
+.stage :global(.plyr--video .plyr__controls) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 8px 10px 10px;
+  gap: 0;
+}
+
+.stage :global(.plyr__control[data-plyr="play"]) {
+  margin-right: 4px;
+}
+
+.stage :global(.plyr__control[data-plyr="rewind"]) {
+  margin-left: 2px;
+}
+
+.stage :global(.plyr__control[data-plyr="fast-forward"]) {
+  margin-right: 8px;
+}
+
+.stage :global(.plyr__time) {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.stage :global(.plyr__time--current::after) {
+  content: " /";
+  margin-left: 1px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.stage :global(.plyr__time--duration) {
+  margin-left: -1px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stage :global(.plyr__progress__container) {
+  order: -1;
+  flex: 0 0 100%;
+  width: 100%;
+  margin: 0 0 7px;
+}
+
+.stage :global(.plyr--full-ui input[type="range"]) {
+  color: #10a7d8;
+}
+
+.stage :global(.plyr__progress) {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.stage :global(.plyr--video .plyr__progress input[type="range"]) {
+  margin-top: -1px;
+}
+
+.stage :global(.plyr__progress input[type="range"]::-webkit-slider-thumb) {
+  box-shadow: 0 0 0 1px rgba(2, 6, 23, 0.14);
+}
+
+.stage :global(.plyr__progress input[type="range"]::-moz-range-thumb) {
+  box-shadow: 0 0 0 1px rgba(2, 6, 23, 0.14);
+}
+
+.stage :global(.plyr__control) {
+  padding: 6px;
+}
+
+.stage :global(.plyr__controls .plyr__control svg) {
+  width: 14px;
+  height: 14px;
+}
+
+.stage :global(.plyr__controls > .plyr__control),
+.stage :global(.plyr__controls > .plyr__time),
+.stage :global(.plyr__controls > .plyr__volume) {
+  position: relative;
+  z-index: 1;
+}
+
+.stage :global(.plyr__controls > .plyr__volume) {
+  margin-left: auto;
+}
+
+@media (max-width: 640px) {
+  .posterPlayButton {
+    height: 56px;
+    width: 56px;
+  }
+
+  .stage :global(.plyr--video .plyr__control--overlaid) {
+    width: 56px;
+    height: 56px;
+  }
+
+  .stage :global(.plyr--video .plyr__controls) {
+    padding: 8px 10px 10px;
+  }
+}

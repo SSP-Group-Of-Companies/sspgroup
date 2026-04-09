@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import InsightsIndexClient from "../blog/BlogIndexClient";
 import { INSIGHTS_DEFAULT_OG_IMAGE } from "@/lib/seo/site";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
+import type { IBlogPost } from "@/types/blogPost.types";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
@@ -14,6 +15,35 @@ function spGet(sp: SearchParams, key: string) {
 function toNum(v: string | undefined, fallback: number) {
   const n = Number(v);
   return Number.isFinite(n) && n > 0 ? n : fallback;
+}
+
+type InsightsListItem = Pick<IBlogPost, "slug" | "title" | "excerpt" | "viewCount"> & {
+  id: string;
+  publishedAt?: string | Date | null;
+  coverImage?: { url?: string; alt?: string } | null;
+  categories?: Array<{ id: string; name: string; slug: string }> | null;
+  readTimeMins?: number | null;
+};
+
+type SerializedInsightsListItem = Omit<InsightsListItem, "publishedAt"> & {
+  publishedAt?: string | null;
+};
+
+type InsightsListMeta = { page: number; limit: number; total: number; totalPages: number };
+
+const EMPTY_META: InsightsListMeta = {
+  page: 1,
+  limit: 9,
+  total: 0,
+  totalPages: 0,
+};
+
+function normalizeInsightsItem(item: InsightsListItem): SerializedInsightsListItem {
+  return {
+    ...item,
+    publishedAt:
+      item.publishedAt instanceof Date ? item.publishedAt.toISOString() : (item.publishedAt ?? null),
+  };
 }
 
 export const metadata: Metadata = {
@@ -59,11 +89,11 @@ export default async function InsightsPage({ searchParams }: { searchParams: Pro
   const cqs = new URLSearchParams();
   if (q) cqs.set("q", q);
   if (categorySlug) cqs.set("categorySlug", categorySlug);
-  const [postsResp, catsResp, recentResp] = await Promise.all([
+  const [postsResp, catsResp, recentResp] = await Promise.allSettled([
     ssrApiFetch<{
       data: {
-        items: any[];
-        meta: { page: number; limit: number; total: number; totalPages: number };
+        items: InsightsListItem[];
+        meta: InsightsListMeta;
       };
     }>(`/api/v1/blog?${qs.toString()}`),
     ssrApiFetch<{
@@ -71,20 +101,38 @@ export default async function InsightsPage({ searchParams }: { searchParams: Pro
     }>(`/api/v1/blog/categories?${cqs.toString()}`),
     ssrApiFetch<{
       data: {
-        items: any[];
-        meta: { page: number; limit: number; total: number; totalPages: number };
+        items: InsightsListItem[];
+        meta: InsightsListMeta;
       };
     }>(`/api/v1/blog?${new URLSearchParams({ page: "1", limit: "5", sortBy: "newest" }).toString()}`),
   ]);
+
+  const fallbackMeta: InsightsListMeta = {
+    ...EMPTY_META,
+    page,
+    limit,
+  };
+  const resolvedPosts =
+    postsResp.status === "fulfilled"
+      ? postsResp.value.data
+      : { items: [] as InsightsListItem[], meta: fallbackMeta };
+  const resolvedCategories =
+    catsResp.status === "fulfilled" ? catsResp.value.data : [];
+  const resolvedRecent =
+    recentResp.status === "fulfilled"
+      ? recentResp.value.data.items
+      : ([] as InsightsListItem[]);
+  const normalizedPosts = resolvedPosts.items.map(normalizeInsightsItem);
+  const normalizedRecent = resolvedRecent.map(normalizeInsightsItem);
 
   const initialQuery = { q, categoryId, categorySlug, sortBy, page, limit };
 
   return (
     <InsightsIndexClient
-      initialItems={postsResp.data.items}
-      initialMeta={postsResp.data.meta}
-      categories={catsResp.data}
-      recentItems={recentResp.data.items}
+      initialItems={normalizedPosts}
+      initialMeta={resolvedPosts.meta}
+      categories={resolvedCategories}
+      recentItems={normalizedRecent}
       initialQuery={initialQuery}
     />
   );

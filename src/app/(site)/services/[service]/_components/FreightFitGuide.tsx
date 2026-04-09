@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Section } from "@/app/(site)/components/layout/Section";
 import { Container } from "@/app/(site)/components/layout/Container";

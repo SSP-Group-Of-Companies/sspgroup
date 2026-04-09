@@ -194,13 +194,13 @@ export function CrossBorderDetailSections({
             transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
           >
             <div className="lg:col-span-8">
-              <SectionSignalEyebrow label="Performance" />
+              <SectionSignalEyebrow label="Program Controls" />
               <h2 className="mt-4 text-3xl leading-tight font-semibold text-[color:var(--color-menu-title)] sm:text-4xl">
-                Representative outcomes across managed cross-border programs.
+                Cross-border execution controls designed before results are measured.
               </h2>
               <p className="mt-4 max-w-3xl text-[15px] leading-8 text-[color:var(--color-menu-muted)]">
-                Lane-level metrics reviewed continuously. Exception drivers identified. Recovery
-                speed measured. Reliability compounded over time.
+                These controls summarize how SSP structures managed cross-border freight before
+                live performance is reviewed through corridor governance cycles.
               </p>
             </div>
             <div className="lg:col-span-4 lg:justify-self-end">
@@ -239,8 +239,8 @@ export function CrossBorderDetailSections({
             transition={{ duration: reduceMotion ? 0 : 0.32, ease: "easeOut" }}
             className="mt-4 max-w-3xl text-xs leading-6 text-[color:var(--color-menu-subtle)]"
           >
-            Results shown are representative managed-program outcomes. Actual performance varies
-            by corridor, freight profile, customs conditions, and operating window.
+            Control examples shown reflect SSP&apos;s operating model. Actual execution varies by
+            corridor, freight profile, customs conditions, and operating window.
           </motion.p>
 
           <motion.div

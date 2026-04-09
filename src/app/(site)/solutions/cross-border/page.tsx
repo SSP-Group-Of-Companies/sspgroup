@@ -6,12 +6,9 @@ import { SITE_URL } from "@/lib/seo/site";
 const PAGE_TITLE = "Cross-Border Freight Solutions | Canada, USA & Mexico";
 const PAGE_DESCRIPTION =
   "SSP Group manages cross-border freight programs across Canada, the United States, and Mexico with structured customs coordination, corridor-specific playbooks, and milestone-level visibility from origin to final delivery.";
-const LAST_REVIEWED_DATE = new Intl.DateTimeFormat("en-US", {
-  month: "long",
-  day: "numeric",
-  year: "numeric",
-}).format(new Date());
-const PAGE_OG_IMAGE = "/_optimized/solutions/cross-border-hero.png";
+// Editorially owned so it does not drift on every deploy.
+const LAST_REVIEWED_DATE = "April 7, 2026";
+const PAGE_OG_IMAGE = "/_optimized/solutions/cross-BorderHeroImg.png";
 
 const capabilityPillars = [
   {
@@ -119,24 +116,24 @@ const complianceHighlights = [
 
 const performanceMetrics = [
   {
-    value: "High",
-    label: "On-time consistency",
-    note: "Structured around managed cross-border corridor programs.",
+    value: "By lane",
+    label: "Corridor playbooks",
+    note: "Operating plans are tailored to the corridor, mode, and freight profile in scope.",
   },
   {
-    value: "Rapid",
-    label: "Exception response",
-    note: "Escalation discipline aligned to program requirements.",
+    value: "Pre-move",
+    label: "Document control",
+    note: "Readiness checks are completed before dispatch, not after freight reaches the border.",
   },
   {
-    value: "Structured",
-    label: "Document readiness",
-    note: "Pre-movement checks designed to reduce preventable issues.",
+    value: "Named",
+    label: "Exception ownership",
+    note: "Escalations are assigned with clear accountability and response paths.",
   },
   {
-    value: "Lower",
-    label: "Border dwell exposure",
-    note: "Improved through corridor-level workflow design and governance.",
+    value: "Milestone",
+    label: "Visibility cadence",
+    note: "Updates follow shipment milestones and exception triggers across the full move.",
   },
 ] as const;
 

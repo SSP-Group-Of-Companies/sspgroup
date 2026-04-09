@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { CAREERS_DEFAULT_OG_IMAGE } from "@/lib/seo/site";
 import { getPublicJobsListSSR } from "@/lib/utils/jobs/ssrJobsFetchers";
 import CareersClient from "./CareersClient";
-import { EEmploymentType, EWorkplaceType } from "@/types/jobPosting.types";
+import { EEmploymentType, EWorkplaceType, type IJobPosting } from "@/types/jobPosting.types";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
@@ -25,6 +25,19 @@ function enumOrUndefined<T extends string>(v: string | undefined, allowed: reado
 
 type SortBy = "publishedAt" | "title" | "createdAt";
 type SortDir = "asc" | "desc";
+type CareersPageData = {
+  items: Partial<IJobPosting>[];
+  meta: {
+    page: number;
+    pageSize: number;
+    total: number;
+    totalPages: number;
+    hasPrev: boolean;
+    hasNext: boolean;
+    sortBy: SortBy;
+    sortDir: SortDir;
+  };
+};
 
 export const metadata: Metadata = {
   title: { absolute: "Careers | SSP Group" },
@@ -85,17 +98,34 @@ export default async function CareersPage({
       "desc",
     ] as const) ?? "desc";
 
-  const data = await getPublicJobsListSSR({
-    page: String(page),
-    pageSize: String(pageSize),
-    q: q.trim() ? q.trim() : undefined,
-    workplaceType,
-    employmentType,
-    department: department.trim() ? department.trim() : undefined,
-    location: location.trim() ? location.trim() : undefined,
-    sortBy,
-    sortDir,
-  });
+  let data: CareersPageData;
+  try {
+    data = (await getPublicJobsListSSR({
+      page: String(page),
+      pageSize: String(pageSize),
+      q: q.trim() ? q.trim() : undefined,
+      workplaceType,
+      employmentType,
+      department: department.trim() ? department.trim() : undefined,
+      location: location.trim() ? location.trim() : undefined,
+      sortBy,
+      sortDir,
+    })) as CareersPageData;
+  } catch {
+    data = {
+      items: [],
+      meta: {
+        page,
+        pageSize,
+        total: 0,
+        totalPages: 0,
+        hasPrev: false,
+        hasNext: false,
+        sortBy,
+        sortDir,
+      },
+    };
+  }
 
   const initialQuery = {
     page,

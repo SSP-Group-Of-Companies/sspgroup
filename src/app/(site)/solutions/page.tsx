@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PremiumPageScaffold } from "@/app/(site)/components/layout/PremiumPageScaffold";
+import { SolutionsOverview } from "@/app/(site)/components/home/SolutionsOverview";
 
 export const metadata: Metadata = {
   title: "Solutions",
@@ -12,13 +13,16 @@ export const metadata: Metadata = {
 
 export default function SolutionsPage() {
   return (
-    <PremiumPageScaffold
-      eyebrow="Solutions"
-      title="Freight execution built by mode, not guesswork."
-      description="SSP Group combines core freight modes, specialized execution, and value-added logistics into one operating system designed for reliability, compliance, and scalable growth."
-      primaryCta={{ label: "Request Quote", href: "/quote" }}
-      secondaryCta={{ label: "View Industries", href: "/industries" }}
-    />
+    <>
+      <PremiumPageScaffold
+        eyebrow="Solutions"
+        title="Freight execution built by mode, equipment, and operating reality."
+        description="Explore SSP Group solutions across truckload, specialized, cross-border, and integrated logistics programs, with dedicated pages expanding mode by mode under the new `/solutions` system."
+        primaryCta={{ label: "Request Quote", href: "/quote" }}
+        secondaryCta={{ label: "View Industries", href: "/industries" }}
+      />
+      <SolutionsOverview />
+    </>
   );
 }
 

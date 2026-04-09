@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
-import { EEmploymentType, EWorkplaceType } from "@/types/jobPosting.types";
+import { EEmploymentType, EWorkplaceType, type IJobPosting } from "@/types/jobPosting.types";
 import { trackCtaClick } from "@/lib/analytics/cta";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { Section } from "@/app/(site)/components/layout/Section";
@@ -31,7 +31,9 @@ import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEy
 type SortBy = "publishedAt" | "title" | "createdAt";
 type SortDir = "asc" | "desc";
 
-type JobItem = any;
+type JobItem = Partial<IJobPosting> & {
+  departmentName?: string;
+};
 
 type JobsMeta = {
   page?: number;
@@ -63,7 +65,7 @@ function pillLabel(v?: string) {
     .replace(/\b\w/g, (m) => m.toUpperCase());
 }
 
-function fmtDate(d?: any) {
+function fmtDate(d?: Date | string | null) {
   if (!d) return "";
   try {
     return new Date(d).toLocaleDateString(undefined, {

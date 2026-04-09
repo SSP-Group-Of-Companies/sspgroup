@@ -600,11 +600,11 @@ export function SolutionsOverview() {
         <Container className={SOLUTIONS_OVERVIEW_TOKENS.classes.introContainer}>
           <div className="mx-auto max-w-3xl text-center">
             <div className="mx-auto mb-3 h-[2px] w-14 bg-[color:var(--color-brand-500)]" />
-            <div className="text-xs font-semibold tracking-wide text-white/60">Our Services</div>
+            <div className="text-xs font-semibold tracking-wide text-white/60">Solutions</div>
             <h2 className={SOLUTIONS_OVERVIEW_TOKENS.classes.introHeading}>Shipping Solutions</h2>
             <p className={SOLUTIONS_OVERVIEW_TOKENS.classes.introDescription}>
-              Choose the mode that matches your lane, timeline, and requirements — with proactive
-              updates and compliance-first execution.
+              Choose the operating model that matches your lane, cargo profile, and timing window,
+              with dedicated solution pages replacing the legacy service structure.
             </p>
           </div>
         </Container>

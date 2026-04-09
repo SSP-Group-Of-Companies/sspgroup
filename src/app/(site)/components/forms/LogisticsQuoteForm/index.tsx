@@ -233,12 +233,16 @@ export default function LogisticsQuoteForm() {
           : typeof json?.quote?.quoteId === "string"
             ? json.quote.quoteId
             : undefined;
+      const notificationState =
+        typeof json?.data?.notificationState === "string" ? json.data.notificationState : "delivered";
 
       setFeedback({
-        tone: "success",
-        title: "Quote request submitted",
+        tone: notificationState === "delivered" ? "success" : "info",
+        title: notificationState === "delivered" ? "Quote request submitted" : "Quote request received",
         message:
-          "Thank you. Your quote request has been received. Please keep the reference ID below for any follow-up. Our team will review the details and contact you as soon as possible.",
+          notificationState === "delivered"
+            ? "Thank you. Your quote request has been received. Please keep the reference ID below for any follow-up. Our team will review the details and contact you as soon as possible."
+            : "Your quote request has been saved successfully. Please keep the reference ID below for follow-up. Email notifications are still pending on our side, so call us directly if your shipment is time-sensitive.",
         meta: referenceId
           ? [
               {

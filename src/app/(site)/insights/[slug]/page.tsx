@@ -5,6 +5,8 @@ import { getPublicBlogPostBySlug } from "@/lib/utils/blog/ssrBlogFetchers";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
 import InsightsPostClient from "../../blog/[slug]/BlogPostClient";
 import { InsightsPostJsonLd } from "../../blog/[slug]/BlogPostJsonLd";
+import type { IBlogComment } from "@/types/blogComment.types";
+import type { IBlogPost } from "@/types/blogPost.types";
 
 function resolveInsightsOgImage(url: string | undefined | null): string {
   const raw = url?.trim() ? String(url).trim() : INSIGHTS_DEFAULT_OG_IMAGE;
@@ -12,6 +14,25 @@ function resolveInsightsOgImage(url: string | undefined | null): string {
   const path = raw.startsWith("/") ? raw : `/${raw}`;
   return toAbsoluteUrl(path);
 }
+
+function toMetadataDate(value: Date | string | undefined): string | undefined {
+  if (!value) return undefined;
+  return value instanceof Date ? value.toISOString() : value;
+}
+
+type BlogCommentMeta = {
+  page?: number;
+  pageSize?: number;
+  total?: number;
+  totalPages?: number;
+};
+
+type RelatedPostListItem = Pick<
+  IBlogPost,
+  "id" | "slug" | "title" | "excerpt" | "publishedAt" | "readingTimeMinutes"
+> & {
+  bannerImage?: IBlogPost["bannerImage"];
+};
 
 export async function generateMetadata({
   params,
@@ -39,8 +60,8 @@ export async function generateMetadata({
         type: "article",
         url: toAbsoluteUrl(canonicalPath),
         images: [ogImageAbsolute],
-        publishedTime: post?.publishedAt ?? post?.createdAt ?? undefined,
-        modifiedTime: post?.updatedAt ?? post?.publishedAt ?? post?.createdAt ?? undefined,
+        publishedTime: toMetadataDate(post?.publishedAt ?? post?.createdAt ?? undefined),
+        modifiedTime: toMetadataDate(post?.updatedAt ?? post?.publishedAt ?? post?.createdAt ?? undefined),
       },
       twitter: {
         card: "summary_large_image",
@@ -68,16 +89,16 @@ export async function generateMetadata({
 export default async function InsightsPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
-  let post: any;
+  let post: IBlogPost;
   try {
     post = await getPublicBlogPostBySlug(slug);
   } catch (e) {
-    if ((e as any)?.status === 404) notFound();
+    if ((e as { status?: number })?.status === 404) notFound();
     throw e;
   }
 
   const COMMENTS_PAGE_SIZE = 10;
-  const commentsPromise = ssrApiFetch<{ data: { items: any[]; meta: any } }>(
+  const commentsPromise = ssrApiFetch<{ data: { items: IBlogComment[]; meta: BlogCommentMeta } }>(
     `/api/v1/blog/${encodeURIComponent(slug)}/comments?page=1&pageSize=${COMMENTS_PAGE_SIZE}&sortBy=createdAt&sortDir=desc`,
   );
 
@@ -87,7 +108,7 @@ export default async function InsightsPostPage({ params }: { params: Promise<{ s
       : null;
 
   const relatedPromise = (async () => {
-    if (!firstCategoryId) return { data: { items: [] as any[] } };
+    if (!firstCategoryId) return { data: { items: [] as RelatedPostListItem[] } };
 
     const qs = new URLSearchParams();
     qs.set("page", "1");
@@ -95,12 +116,12 @@ export default async function InsightsPostPage({ params }: { params: Promise<{ s
     qs.set("sortBy", "newest");
     qs.set("categoryId", firstCategoryId);
 
-    const res = await ssrApiFetch<{ data: { items: any[]; meta: any } }>(
+    const res = await ssrApiFetch<{ data: { items: RelatedPostListItem[]; meta: BlogCommentMeta } }>(
       `/api/v1/blog?${qs.toString()}`,
     );
 
     const items = (res?.data?.items ?? [])
-      .filter((p: any) => p?.slug && p.slug !== slug)
+      .filter((p) => p?.slug && p.slug !== slug)
       .slice(0, 3);
     return { data: { items } };
   })();
