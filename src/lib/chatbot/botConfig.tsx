@@ -10,7 +10,7 @@ import ContactWidget from "./widgets/ContactWidget";
 import QuoteWidget from "./widgets/QuoteWidget";
 import IndustriesWidget from "./widgets/IndustriesWidget";
 import CareersWidget from "./widgets/CareersWidget";
-import WhyNptWidget from "./widgets/WhyNptWidget";
+import WhySspWidget from "./widgets/WhySspWidget";
 import TrackingWidget from "./widgets/TrackingWidget";
 import SolutionsWidget from "./widgets/SolutionsWidget";
 import CompanyWidget from "./widgets/CompanyWidget";
@@ -38,14 +38,14 @@ type BotConfig = {
   widgets: BotWidget[];
 };
 
-const botName = "NPT Assistant";
+const botName = "SSP Assistant";
 
 function BotLogoAvatar() {
   return (
-    <span className="npt-chatbot-logo-avatar" aria-hidden="true">
+    <span className="ssp-chatbot-logo-avatar" aria-hidden="true">
       <Image
         src="/_optimized/brand/SSPlogo.png"
-        alt="NPT"
+        alt="SSP Group"
         fill
         sizes="34px"
         className="object-contain"
@@ -58,7 +58,7 @@ export const botConfig: BotConfig = {
   botName,
   initialMessages: [
     createChatBotMessage(
-      `Hi — I’m ${botName}. I can help you find pages, answers, tracking, quotes, and support.`,
+      `Hi — I’m ${botName}. I can help you find SSP pages, answers from our FAQs, tracking, quotes, and support.`,
       {
         widget: "startWidget",
       },
@@ -91,7 +91,7 @@ export const botConfig: BotConfig = {
       ),
     },
     { widgetName: "careersWidget", widgetFunc: (props) => <CareersWidget {...props} /> },
-    { widgetName: "whyNptWidget", widgetFunc: (props) => <WhyNptWidget {...props} /> },
+    { widgetName: "whySspWidget", widgetFunc: (props) => <WhySspWidget {...props} /> },
     { widgetName: "trackingWidget", widgetFunc: (props) => <TrackingWidget {...props} /> },
   ],
 };

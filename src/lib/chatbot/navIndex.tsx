@@ -55,7 +55,10 @@ function keywordsFor(item: { label: string; description?: string; href: string }
   if (l.includes("warehousing"))
     ["warehouse", "storage", "distribution", "3pl"].forEach((k) => words.add(k));
   if (l.includes("faq")) ["faqs", "help", "questions"].forEach((k) => words.add(k));
-  if (l.includes("guides")) ["guide", "shipping", "resources"].forEach((k) => words.add(k));
+  if (l.includes("insights") || l.includes("blog"))
+    ["guide", "guides", "articles", "news", "posts", "blog", "insights"].forEach((k) =>
+      words.add(k),
+    );
 
   return Array.from(words);
 }
@@ -123,6 +126,22 @@ export function buildNavIndex() {
         : section.links || [];
 
     links.forEach((l) => pushLink(items, sectionKey, section.label, l));
+  });
+
+  // Not in main NAV — used for chatbot / site search alignment with /insights
+  items.push({
+    sectionKey: "company",
+    sectionLabel: NAV.company.label,
+    label: "Insights",
+    href: "/insights",
+    description:
+      "Articles and operational perspectives on freight execution, lanes, and supply chain operations.",
+    icon: "briefcase",
+    keywords: keywordsFor({
+      label: "Insights blog articles",
+      description: "Blog posts, news, and freight perspectives",
+      href: "/insights",
+    }),
   });
 
   return items;

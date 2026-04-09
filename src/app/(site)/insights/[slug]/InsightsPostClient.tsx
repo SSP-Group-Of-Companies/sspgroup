@@ -1,4 +1,4 @@
-// Client for public /insights/[slug] (shared blog CMS content).
+// src/app/(site)/insights/[slug]/InsightsPostClient.tsx
 "use client";
 
 import * as React from "react";
@@ -274,7 +274,9 @@ export default function InsightsPostClient({
             {/* COMMENTS */}
             <div className="site-card-surface mt-8 rounded-[28px] p-6">
               <div className="flex items-center justify-between">
-                <div className="text-lg font-semibold text-[color:var(--color-text-light)]">Comments</div>
+                <div className="text-lg font-semibold text-[color:var(--color-text-light)]">
+                  Comments
+                </div>
 
                 <div className="flex items-center gap-2 text-xs text-[color:var(--color-muted-light)]">
                   {commentsMeta?.total ? <span>{commentsMeta.total} total</span> : null}
@@ -296,7 +298,9 @@ export default function InsightsPostClient({
               <div className="mt-4 rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)]/60 p-4">
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1 block text-xs font-medium text-[color:var(--color-muted-light)]">Name *</label>
+                    <label className="mb-1 block text-xs font-medium text-[color:var(--color-muted-light)]">
+                      Name *
+                    </label>
                     <input
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -319,7 +323,9 @@ export default function InsightsPostClient({
                 </div>
 
                 <div className="mt-3">
-                  <label className="mb-1 block text-xs font-medium text-[color:var(--color-muted-light)]">Comment</label>
+                  <label className="mb-1 block text-xs font-medium text-[color:var(--color-muted-light)]">
+                    Comment
+                  </label>
                   <textarea
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
@@ -363,7 +369,9 @@ export default function InsightsPostClient({
                                   <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
                                     {c.name}
                                   </div>
-                                  <div className="text-xs text-[color:var(--color-muted-light)]">•</div>
+                                  <div className="text-xs text-[color:var(--color-muted-light)]">
+                                    •
+                                  </div>
                                   <div className="text-xs text-[color:var(--color-muted-light)]">
                                     {c.createdAt ? new Date(c.createdAt).toLocaleString() : ""}
                                   </div>
@@ -393,8 +401,14 @@ export default function InsightsPostClient({
                         </button>
 
                         <div className="px-2 text-xs text-[color:var(--color-muted-light)]">
-                          Page <span className="font-semibold text-[color:var(--color-text-light)]">{commentsPage}</span>{" "}
-                          of <span className="font-semibold text-[color:var(--color-text-light)]">{totalPages}</span>
+                          Page{" "}
+                          <span className="font-semibold text-[color:var(--color-text-light)]">
+                            {commentsPage}
+                          </span>{" "}
+                          of{" "}
+                          <span className="font-semibold text-[color:var(--color-text-light)]">
+                            {totalPages}
+                          </span>
                         </div>
 
                         <button
@@ -423,7 +437,9 @@ export default function InsightsPostClient({
             <div className="sticky top-6 space-y-5">
               {/* About author */}
               <div className="site-card-surface rounded-[28px] p-5">
-                <div className="text-sm font-semibold text-[color:var(--color-text-light)]">About the Author</div>
+                <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
+                  About the Author
+                </div>
 
                 <div className="mt-4 flex items-start gap-3">
                   <div className="flex h-8 w-20 items-center justify-center rounded-full bg-[color:var(--color-ssp-ink-800)] text-white">
@@ -443,7 +459,9 @@ export default function InsightsPostClient({
 
               {/* Related */}
               <div className="site-card-surface rounded-[28px] p-5">
-                <div className="text-sm font-semibold text-[color:var(--color-text-light)]">Related Insights</div>
+                <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
+                  Related Insights
+                </div>
 
                 <div className="mt-3 divide-y divide-[color:var(--color-border-light)]">
                   {related.slice(0, 3).map((p: any) => (
@@ -455,11 +473,15 @@ export default function InsightsPostClient({
                       <div className="line-clamp-2 text-sm font-semibold text-[color:var(--color-text-light)]">
                         {p.title}
                       </div>
-                      <div className="mt-1 text-xs text-[color:var(--color-muted-light)]">{fmtDate(p.publishedAt)}</div>
+                      <div className="mt-1 text-xs text-[color:var(--color-muted-light)]">
+                        {fmtDate(p.publishedAt)}
+                      </div>
                     </Link>
                   ))}
                   {!related.length ? (
-                    <div className="py-3 text-sm text-[color:var(--color-muted-light)]">No related insights.</div>
+                    <div className="py-3 text-sm text-[color:var(--color-muted-light)]">
+                      No related insights.
+                    </div>
                   ) : null}
                 </div>
               </div>

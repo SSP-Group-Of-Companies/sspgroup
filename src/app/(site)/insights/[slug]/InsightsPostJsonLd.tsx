@@ -1,3 +1,4 @@
+// src/app/(site)/insights/[slug]/InsightsPostJsonLd.tsx
 import { INSIGHTS_DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL, toAbsoluteUrl } from "@/lib/seo/site";
 
 type Props = {

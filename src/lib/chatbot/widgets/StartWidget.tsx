@@ -23,17 +23,17 @@ export default function StartWidget({ actionProvider }: WidgetComponentProps) {
       case "CAREERS":
         return actionProvider.showCareers();
 
-      case "WHY_NPT":
-        return actionProvider.showWhyNpt();
+      case "WHY_SSP":
+        return actionProvider.showWhySsp();
 
       case "COMPANY":
         return actionProvider.showCompany();
 
       case "RESOURCES_GUIDES":
-        return actionProvider.goToFromNav("Shipping Guides", "/resources/guides");
+        return actionProvider.goToFromNav("Insights", "/insights");
 
       case "RESOURCES_FAQS":
-        return actionProvider.goToFromNav("FAQs", "/resources/faqs");
+        return actionProvider.goToFromNav("FAQs", "/company/faqs");
 
       case "HUMAN_CONTACT":
         return actionProvider.showContact();

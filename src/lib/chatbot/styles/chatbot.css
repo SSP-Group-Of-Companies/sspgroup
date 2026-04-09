@@ -22,68 +22,68 @@
 }
 
 /* --- base colors --- */
-.npt-chatbot,
-.npt-chatbot * {
+.ssp-chatbot,
+.ssp-chatbot * {
   color: #111827;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-message-container {
+.ssp-chatbot .react-chatbot-kit-chat-message-container {
   background: #ffffff !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-bot-message {
+.ssp-chatbot .react-chatbot-kit-chat-bot-message {
   background: #070a12 !important;
   color: #ffffff !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-bot-message * {
+.ssp-chatbot .react-chatbot-kit-chat-bot-message * {
   color: #ffffff !important;
 }
 
-.npt-chatbot .react-chatbot-kit-user-chat-message {
+.ssp-chatbot .react-chatbot-kit-user-chat-message {
   background: #f3f4f6 !important;
   color: #111827 !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-btn {
+.ssp-chatbot .react-chatbot-kit-chat-btn {
   background: #ffffff !important;
   border: 1px solid #e5e7eb !important;
   color: #111827 !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-btn:hover {
+.ssp-chatbot .react-chatbot-kit-chat-btn:hover {
   background: #f9fafb !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-input-form {
+.ssp-chatbot .react-chatbot-kit-chat-input-form {
   background: #ffffff !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-input {
+.ssp-chatbot .react-chatbot-kit-chat-input {
   background: #ffffff !important;
   color: #111827 !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-input::placeholder {
+.ssp-chatbot .react-chatbot-kit-chat-input::placeholder {
   color: #6b7280 !important;
   opacity: 1;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-btn-send {
+.ssp-chatbot .react-chatbot-kit-chat-btn-send {
   background: #070a12 !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-btn-send:hover {
+.ssp-chatbot .react-chatbot-kit-chat-btn-send:hover {
   background: #0b0f1a !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-btn-send-icon {
+.ssp-chatbot .react-chatbot-kit-chat-btn-send-icon {
   fill: #ffffff !important;
 }
 
 /* --- remove internal borders/edges --- */
-.npt-chatbot .react-chatbot-kit-chat-container,
-.npt-chatbot .react-chatbot-kit-chat-inner-container {
+.ssp-chatbot .react-chatbot-kit-chat-container,
+.ssp-chatbot .react-chatbot-kit-chat-inner-container {
   width: 100% !important;
   background: #ffffff !important;
   border: 0 !important;
@@ -91,48 +91,48 @@
   box-shadow: none !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-message-container {
+.ssp-chatbot .react-chatbot-kit-chat-message-container {
   background: #ffffff !important;
   border: 0 !important;
   box-shadow: none !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-input-form {
+.ssp-chatbot .react-chatbot-kit-chat-input-form {
   border: 0 !important;
   box-shadow: none !important;
   background: #ffffff !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-message-container {
+.ssp-chatbot .react-chatbot-kit-chat-message-container {
   scrollbar-width: thin;
   scrollbar-color: rgba(15, 23, 42, 0.25) transparent;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-message-container::-webkit-scrollbar {
+.ssp-chatbot .react-chatbot-kit-chat-message-container::-webkit-scrollbar {
   width: 10px;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-message-container::-webkit-scrollbar-track {
+.ssp-chatbot .react-chatbot-kit-chat-message-container::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-message-container::-webkit-scrollbar-thumb {
+.ssp-chatbot .react-chatbot-kit-chat-message-container::-webkit-scrollbar-thumb {
   background: rgba(15, 23, 42, 0.18);
   border-radius: 999px;
   border: 3px solid transparent;
   background-clip: padding-box;
 }
 
-.npt-chatbot button,
-.npt-chatbot [role="button"] {
+.ssp-chatbot button,
+.ssp-chatbot [role="button"] {
   cursor: pointer !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-bot-message-container {
+.ssp-chatbot .react-chatbot-kit-chat-bot-message-container {
   align-items: flex-start !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-bot-avatar-container {
+.ssp-chatbot .react-chatbot-kit-chat-bot-avatar-container {
   width: 36px !important;
   height: 36px !important;
   min-width: 36px !important;
@@ -148,11 +148,11 @@
   padding: 0 !important;
 }
 
-.npt-chatbot .react-chatbot-kit-chat-bot-avatar-letter {
+.ssp-chatbot .react-chatbot-kit-chat-bot-avatar-letter {
   display: none !important;
 }
 
-.npt-chatbot-logo-avatar {
+.ssp-chatbot-logo-avatar {
   position: relative;
   display: block;
   width: 34px;
@@ -164,7 +164,7 @@
   background: transparent;
 }
 
-.npt-chatbot-logo-avatar img {
+.ssp-chatbot-logo-avatar img {
   display: block;
   width: 100%;
   height: 100%;

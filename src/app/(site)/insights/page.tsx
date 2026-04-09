@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import InsightsIndexClient from "../blog/BlogIndexClient";
+import InsightsIndexClient from "./InsightsIndexClient";
 import { INSIGHTS_DEFAULT_OG_IMAGE } from "@/lib/seo/site";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
 

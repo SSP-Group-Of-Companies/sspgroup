@@ -1,4 +1,4 @@
-// Client for public /insights listing (CMS: /api/v1/blog).
+// src/app/(site)/insights/InsightsIndexClient.tsx
 "use client";
 
 import * as React from "react";

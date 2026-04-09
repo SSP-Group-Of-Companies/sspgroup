@@ -12,7 +12,7 @@ import MessageParser from "@/lib/chatbot/MessageParser";
 import { makeActionProvider } from "@/lib/chatbot/ActionProvider";
 import { useChatActions } from "@/lib/chatbot/useChatActions";
 
-const TOOLTIP_KEY = "npt_chatbot_tooltip_dismissed";
+const TOOLTIP_KEY = "ssp_chatbot_tooltip_dismissed";
 
 const PANEL_ANIMATION_MS = 480;
 const LAUNCHER_ANIMATION_MS = 100;
@@ -217,13 +217,13 @@ export default function GuidedChatbot() {
               >
                 <Image
                   src="/_optimized/brand/SSPlogo.png"
-                  alt="NPT"
+                  alt="SSP Group"
                   fill
                   sizes="32px"
                   className="object-contain"
                 />
               </span>
-              <div className="text-sm font-semibold text-gray-900">NPT Assistant</div>
+              <div className="text-sm font-semibold text-gray-900">SSP Assistant</div>
             </div>
 
             <button
@@ -237,12 +237,12 @@ export default function GuidedChatbot() {
           </div>
 
           {showLiveBody ? (
-            <div ref={bodyRef} className="npt-chatbot">
+            <div ref={bodyRef} className="ssp-chatbot">
               <Chatbot
                 config={botConfig as never}
                 messageParser={MessageParser as never}
                 actionProvider={ActionProvider as never}
-                placeholderText="Ask about quotes, tracking, services, FAQs, or support…"
+                placeholderText="Ask about quotes, tracking, solutions, FAQs, lanes, or support…"
               />
             </div>
           ) : (
@@ -325,52 +325,53 @@ export default function GuidedChatbot() {
             className={[
               "group relative inline-flex h-14 w-14 cursor-pointer items-center justify-center rounded-full",
               "shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-0)]",
             ].join(" ")}
             style={{
-              background: "linear-gradient(145deg, var(--color-surface-1), var(--color-surface-2))",
-              border: "1px solid var(--color-border)",
-              boxShadow: "0 14px 30px rgba(0,0,0,0.28), 0 1px 0 rgba(255,255,255,0.06) inset",
+              background:
+                "linear-gradient(155deg, var(--color-ssp-ink-900) 0%, var(--color-ssp-ink-800) 52%, var(--color-utility-bg) 125%)",
+              border: "1px solid var(--color-glass-border)",
+              boxShadow:
+                "0 14px 34px rgba(11, 62, 94, 0.42), 0 0 0 1px rgba(255, 255, 255, 0.06) inset, 0 1px 0 rgba(255, 255, 255, 0.12) inset",
             }}
           >
             <span
-              className="pointer-events-none absolute -inset-[2px] rounded-full opacity-70 transition group-hover:opacity-100"
+              className="pointer-events-none absolute -inset-px rounded-full opacity-80 transition group-hover:opacity-100"
               style={{
                 background:
-                  "conic-gradient(from 220deg, rgba(185,28,28,0.85), rgba(220,38,38,0.25), rgba(255,255,255,0.08), rgba(185,28,28,0.85))",
-                filter: "blur(0.2px)",
+                  "conic-gradient(from 210deg, color-mix(in srgb, var(--color-ssp-cyan-500) 55%, transparent), color-mix(in srgb, var(--color-brand-500) 40%, transparent) 38%, transparent 58%, color-mix(in srgb, var(--color-ssp-cyan-500) 45%, transparent))",
               }}
             />
             <span
               className="pointer-events-none absolute inset-0 rounded-full"
               style={{
                 background:
-                  "radial-gradient(circle at 30% 25%, rgba(255,255,255,0.10), transparent 55%)",
+                  "radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.14), transparent 52%)",
               }}
             />
 
-            <span className="absolute -top-0.5 -right-0.5 inline-flex h-3.5 w-3.5">
+            <span
+              className="pointer-events-none absolute top-1 -right-0.5 z-10 flex h-3 w-3 items-center justify-center"
+              aria-hidden="true"
+            >
               <span
-                className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-40"
-                style={{ background: "rgba(220,38,38,0.9)" }}
+                className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-brand-500)] opacity-25 motion-reduce:animate-none motion-reduce:opacity-0"
+                aria-hidden="true"
               />
-              <span
-                className="relative inline-flex h-3.5 w-3.5 rounded-full ring-2"
-                style={{ background: "rgb(220,38,38)" }}
-              />
+              <span className="relative h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--color-brand-500)] ring-1 ring-[var(--color-ssp-ink-900)]" />
             </span>
 
             <span
               className="relative inline-flex h-10 w-10 items-center justify-center rounded-full transition group-hover:scale-[1.02]"
               style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.10)",
+                background: "var(--color-glass-bg)",
+                border: "1px solid var(--color-glass-border)",
                 backdropFilter: "blur(8px)",
               }}
             >
               <Sparkles
                 size={20}
-                style={{ color: "rgba(255,255,255,0.92)" }}
+                style={{ color: "var(--color-utility-text)" }}
                 className="transition group-hover:scale-105"
               />
             </span>

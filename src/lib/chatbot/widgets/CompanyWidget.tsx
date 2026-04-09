@@ -13,10 +13,7 @@ export default function CompanyWidget({ actionProvider }: WidgetComponentProps) 
 
       <LinkButton
         onClick={() =>
-          actionProvider.goToFromNav(
-            "Safety & Compliance",
-            "/company/safety-compliance",
-          )
+          actionProvider.goToFromNav("Safety & Compliance", "/company/safety-compliance")
         }
       >
         Safety & Compliance
@@ -24,6 +21,10 @@ export default function CompanyWidget({ actionProvider }: WidgetComponentProps) 
 
       <LinkButton onClick={() => actionProvider.goToFromNav("Blog / Insights", "/insights")}>
         Blog / Insights
+      </LinkButton>
+
+      <LinkButton onClick={() => actionProvider.goToFromNav("FAQs", "/company/faqs")}>
+        FAQs
       </LinkButton>
 
       <LinkButton onClick={() => actionProvider.goToFromNav("Contact", "/contact")}>

@@ -7,13 +7,11 @@ import { LinkButton, ResponseButton } from "./_shared";
 export default function ResourcesWidget({ actionProvider }: WidgetComponentProps) {
   return (
     <div className="flex flex-wrap gap-2">
-      <LinkButton
-        onClick={() => actionProvider.goToFromNav("Shipping Guides", "/resources/guides")}
-      >
-        Shipping guides
+      <LinkButton onClick={() => actionProvider.goToFromNav("Insights", "/insights")}>
+        Insights & articles
       </LinkButton>
 
-      <LinkButton onClick={() => actionProvider.goToFromNav("FAQs", "/resources/faqs")}>
+      <LinkButton onClick={() => actionProvider.goToFromNav("FAQs", "/company/faqs")}>
         FAQs
       </LinkButton>
 

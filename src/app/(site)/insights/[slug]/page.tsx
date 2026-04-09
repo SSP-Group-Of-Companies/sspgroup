@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { INSIGHTS_DEFAULT_OG_IMAGE, toAbsoluteUrl } from "@/lib/seo/site";
 import { getPublicBlogPostBySlug } from "@/lib/utils/blog/ssrBlogFetchers";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
-import InsightsPostClient from "../../blog/[slug]/BlogPostClient";
-import { InsightsPostJsonLd } from "../../blog/[slug]/BlogPostJsonLd";
+import { InsightsPostJsonLd } from "./InsightsPostJsonLd";
+import InsightsPostClient from "./InsightsPostClient";
 
 function resolveInsightsOgImage(url: string | undefined | null): string {
   const raw = url?.trim() ? String(url).trim() : INSIGHTS_DEFAULT_OG_IMAGE;

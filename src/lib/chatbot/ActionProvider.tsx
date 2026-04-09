@@ -259,10 +259,10 @@ export function makeActionProvider(pageActions?: PageActions) {
       });
     };
 
-    showWhyNpt = () => {
+    showWhySsp = () => {
       this.sendWidget(
-        `NPT has moved ${COMPANY_FACTS.loadsMoved} loads with ${COMPANY_FACTS.onTime} on-time performance across North America.`,
-        "whyNptWidget",
+        `SSP Group has moved ${COMPANY_FACTS.loadsMoved} loads with ${COMPANY_FACTS.onTime} on-time performance across North America.`,
+        "whySspWidget",
       );
     };
 
@@ -281,13 +281,18 @@ export function makeActionProvider(pageActions?: PageActions) {
 
       const ranked = FAQ.map((faq) => {
         const faqQuestion = normText(faq.question);
+        const faqAnswer = normText(faq.answer);
         const faqStrongTokens = strongTokensOf(faqQuestion);
+        const faqAnswerStrong = strongTokensOf(faqAnswer);
+        const categoryStrong = strongTokensOf(normText(faq.categoryLabel));
+        const categoryIdTokens = strongTokensOf(faq.categoryId.replace(/-/g, " "));
         const faqTags = faq.tags.map((tag) => normText(tag)).filter(Boolean);
 
         let score = 0;
 
         if (faqQuestion.includes(qN)) score += 20;
         if (qN.includes(faqQuestion)) score += 16;
+        if (faqAnswer.includes(qN) && qN.length >= 12) score += 22;
 
         const strongOverlap = overlapCount(qStrongTokens, faqStrongTokens);
         score += strongOverlap * 10;
@@ -295,10 +300,20 @@ export function makeActionProvider(pageActions?: PageActions) {
         const tagOverlap = overlapCount(qStrongTokens, faqTags);
         score += tagOverlap * 14;
 
+        const answerOverlap = overlapCount(qStrongTokens, faqAnswerStrong);
+        score += answerOverlap * 7;
+
+        const categoryOverlap = overlapCount(qStrongTokens, categoryStrong);
+        score += categoryOverlap * 9;
+
+        const categoryIdOverlap = overlapCount(qStrongTokens, categoryIdTokens);
+        score += categoryIdOverlap * 6;
+
         for (const token of qStrongTokens) {
           if (faqQuestion === token) score += 20;
           if (faqStrongTokens.includes(token)) score += 6;
           if (faqTags.includes(token)) score += 8;
+          if (faqAnswerStrong.includes(token)) score += 5;
         }
 
         const overlapRatio = qStrongTokens.length > 0 ? strongOverlap / qStrongTokens.length : 0;
@@ -306,7 +321,14 @@ export function makeActionProvider(pageActions?: PageActions) {
         if (overlapRatio >= 0.75) score += 12;
         else if (overlapRatio >= 0.5) score += 6;
 
-        if (strongOverlap === 0 && tagOverlap === 0) score -= 20;
+        if (
+          strongOverlap === 0 &&
+          tagOverlap === 0 &&
+          answerOverlap === 0 &&
+          categoryOverlap === 0
+        ) {
+          score -= 20;
+        }
         if (strongOverlap === 1 && qStrongTokens.length >= 2) score -= 8;
 
         return { faq, score };
@@ -337,7 +359,7 @@ export function makeActionProvider(pageActions?: PageActions) {
       if (suggested) return;
 
       this.sendWidget(
-        `I’m not sure I understood that, but customer support can help.`,
+        `I’m not sure I understood that. For SSP service scope, cross-border, and billing topics, try the FAQ page — or reach customer support below.`,
         "contactWidget",
       );
     };
