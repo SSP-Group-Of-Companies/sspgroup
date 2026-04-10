@@ -12,7 +12,7 @@ import {
 const PAGE_TITLE = "Cross-Border Air Freight | Time-Critical Logistics";
 const PAGE_DESCRIPTION =
   "SSP manages cross-border air freight for time-critical shipments across Canada, the U.S., and Mexico with customs pre-clearance coordination, door-to-door execution, and recovery options when ground transit cannot meet the deadline.";
-const PAGE_OG_IMAGE = "/_optimized/solutions/air-hero-globe.png";
+const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/air-hero-globe.png";
 
 /* ── Data ─────────────────────────────────────────────────────────────── */
 

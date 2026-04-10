@@ -6,6 +6,7 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
+import { SolutionOverviewVideoStage } from "@/app/(site)/solutions/_components/SolutionOverviewVideoStage";
 import { trackCtaClick } from "@/lib/analytics/cta";
 
 const focusRingDark =
@@ -50,7 +51,7 @@ export function CrossBorderIntroSections({
       <section className="relative overflow-hidden border-b border-[color:var(--color-ssp-ink-800)]/45 bg-[linear-gradient(140deg,var(--color-ssp-ink-800),var(--color-cb-hero-ink)_48%,var(--color-utility-bg))] py-24 sm:py-32">
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <Image
-            src="/_optimized/solutions/cross-BorderHeroImg.png"
+            src="/_optimized/solution/crossBorder/cross-BorderHeroImg.png"
             alt=""
             fill
             priority
@@ -132,6 +133,59 @@ export function CrossBorderIntroSections({
               </Link>
             </motion.div>
           </motion.div>
+        </Container>
+      </section>
+
+      <section className="border-y border-[color:var(--color-border-light-soft)] bg-[color:var(--color-surface-1-light)]">
+        <Container className="site-page-container relative py-16 sm:py-20 lg:py-24">
+          <div className="mx-auto grid max-w-[68rem] gap-10 md:grid-cols-[minmax(0,1fr)_minmax(300px,0.94fr)] md:items-center md:gap-8 lg:grid-cols-[minmax(0,34rem)_minmax(360px,520px)] lg:gap-10 xl:max-w-[70rem] xl:gap-12">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              variants={cardStagger}
+              className="max-w-none md:max-w-[32rem] lg:max-w-[34rem]"
+            >
+              <motion.div
+                variants={revealUp}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+              >
+                <SectionSignalEyebrow label="Mode Overview" />
+              </motion.div>
+              <motion.h2
+                variants={revealUp}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+                className="mt-4 max-w-[22ch] text-balance text-[1.95rem] font-semibold leading-[1.08] tracking-tight text-[color:var(--color-text-light)] sm:text-[2.2rem] xl:text-[2.35rem]"
+              >
+                Cross-border execution depends on disciplined sequencing.
+              </motion.h2>
+              <motion.p
+                variants={revealUp}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+                className="mt-5 max-w-[36rem] text-[14.85px] leading-[1.82] text-[color:var(--color-muted-light)] sm:text-[15.2px]"
+              >
+                This operating model shows how SSP aligns documentation, customs handoffs, and
+                lane-level visibility before freight reaches the border.
+              </motion.p>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.15 }}
+              variants={revealUp}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+              className="relative mx-auto w-full max-w-[520px] md:mx-0 md:justify-self-end"
+            >
+              <SolutionOverviewVideoStage
+                video={{
+                  title: "Cross-Border Mode Overview",
+                  src: "/_optimized/solution/crossBorder/commercialVideo.mp4",
+                  posterSrc: "/_optimized/solution/crossBorder/mode-overview-poster.jpg",
+                }}
+              />
+            </motion.div>
+          </div>
         </Container>
       </section>
 

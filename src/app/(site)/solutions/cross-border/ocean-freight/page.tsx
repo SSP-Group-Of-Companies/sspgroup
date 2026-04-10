@@ -12,7 +12,7 @@ import {
 const PAGE_TITLE = "Cross-Border Ocean Freight | Managed Port-to-Door Programs";
 const PAGE_DESCRIPTION =
   "SSP manages ocean freight from booking through port clearance, customs coordination, and inland delivery across Canada, the U.S., and Mexico. Milestone visibility and cross-border execution built into every program.";
-const PAGE_OG_IMAGE = "/_optimized/solutions/ocean-hero-globe.png";
+const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/ocean-hero-globe.png";
 
 /* ── Data ─────────────────────────────────────────────────────────────── */
 
