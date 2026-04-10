@@ -87,11 +87,11 @@ const diagonalPatternSvg = `url("data:image/svg+xml,%3Csvg width='48' height='48
 
 const HERO_IMAGES: Record<string, { src: string; alt: string }> = {
   "canada-usa": {
-    src: "/_optimized/solutions/canada-usa-hero-v2.png",
+    src: "/_optimized/solution/crossBorder/canada-usa-hero-v2.png",
     alt: "Map illustration showing the Canada-USA cross-border freight corridor with route connection between both countries",
   },
   mexico: {
-    src: "/_optimized/solutions/mexico-hero-v2.png",
+    src: "/_optimized/solution/crossBorder/mexico-hero-v2.png",
     alt: "Map illustration showing the U.S.-Mexico cross-border freight corridor with route connection between both countries",
   },
 };

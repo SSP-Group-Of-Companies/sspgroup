@@ -86,7 +86,7 @@ export const NAV = {
     intro: {
       title: "Shipping Solutions",
       description:
-        "Freight execution engineered for compliance, visibility, and reliable performance across North America.",
+        "Dedicated solution pages across truckload, specialized freight, cross-border, and integrated logistics for North American shippers.",
       ctaLabel: "View All Solutions",
       ctaHref: "/solutions",
     },
@@ -95,9 +95,9 @@ export const NAV = {
         title: "Core Freight Modes",
         links: [
           {
-            label: "Full Truckload",
+            label: "Truckload",
             href: "/solutions/truckload",
-            description: "Full truckload shipping for high-control lanes.",
+            description: "Dedicated truckload capacity with equipment-fit planning by freight profile.",
             icon: "truck",
           },
           {
@@ -166,9 +166,9 @@ export const NAV = {
             icon: "truck",
           },
           {
-            label: "Project Freight",
+            label: "Project-Specific",
             href: "/solutions/project-freight",
-            description: "Program-managed freight for complex and phased moves.",
+            description: "Program-managed freight for engineered and phased moves.",
             icon: "briefcase",
           },
         ],

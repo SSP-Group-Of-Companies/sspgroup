@@ -35,7 +35,7 @@ function ContactHero() {
   const reduceMotion = useReducedMotion() ?? false;
   const shardMaskStyle = {
     background:
-      "linear-gradient(154deg, rgba(255,255,255,0.2) 0%, rgba(16,167,216,0.12) 35%, rgba(8,26,43,0.04) 70%, rgba(8,26,43,0) 100%)",
+      "linear-gradient(160deg, rgba(255,255,255,0.92) 0%, rgba(174,239,255,0.58) 40%, rgba(56,189,248,0.26) 72%, rgba(8,26,43,0.1) 100%)",
     WebkitMaskImage: "url('/_optimized/company/ssp-shard-mask.svg')",
     maskImage: "url('/_optimized/company/ssp-shard-mask.svg')",
     WebkitMaskRepeat: "no-repeat",
@@ -44,6 +44,7 @@ function ContactHero() {
     maskPosition: "center",
     WebkitMaskSize: "contain",
     maskSize: "contain",
+    filter: "drop-shadow(0 0 32px rgba(148, 232, 255, 0.16))",
   } as const;
   const shardFadeStyle = {
     WebkitMaskImage:
@@ -83,8 +84,8 @@ function ContactHero() {
         </div>
 
         <motion.div
-          initial={reduceMotion ? { opacity: 0.74 } : { opacity: 0.04, x: -34, y: 20 }}
-          animate={reduceMotion ? { opacity: 0.74 } : { opacity: 0.84, x: 0, y: 0 }}
+          initial={reduceMotion ? { opacity: 0.86 } : { opacity: 0.08, x: -34, y: 20 }}
+          animate={reduceMotion ? { opacity: 0.86 } : { opacity: 0.94, x: 0, y: 0 }}
           transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
           className="pointer-events-none absolute right-[-45%] top-[-2%] h-[120%] w-[118%] sm:right-[-40%] sm:top-[-4%] sm:h-[126%] sm:w-[110%] md:right-[-31%] md:top-[-7%] md:h-[130%] md:w-[98%] lg:right-[-23%] lg:top-[-10%] lg:h-[134%] lg:w-[80%]"
           aria-hidden

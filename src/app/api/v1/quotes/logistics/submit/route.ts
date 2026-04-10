@@ -103,31 +103,51 @@ export const POST = async (req: NextRequest) => {
     await quote.validate();
     await quote.save();
 
+    let internalNotificationSent = false;
+    let customerConfirmationSent = false;
+    const siteUrl = getSiteUrlFromRequest(req);
+    const sourceLabel = body?.sourceLabel || siteUrl;
+
+    const quoteObj = quote.toObject({ virtuals: true, getters: true }) as ILogisticsQuote;
+
     try {
-      const siteUrl = getSiteUrlFromRequest(req);
-      const sourceLabel = body?.sourceLabel || siteUrl;
-
-      const quoteObj = quote.toObject({ virtuals: true, getters: true }) as ILogisticsQuote;
-
       await sendQuoteInternalNotificationEmail({
         quote: quoteObj,
         sourceLabel,
       });
+      internalNotificationSent = true;
+    } catch (mailErr) {
+      console.warn("Failed to send internal quote email:", mailErr);
+    }
 
+    try {
       await sendQuoteCustomerConfirmationEmail({
         quote: quoteObj,
         sourceLabel,
       });
+      customerConfirmationSent = true;
     } catch (mailErr) {
-      console.warn("Failed to send quote emails:", mailErr);
+      console.warn("Failed to send customer quote email:", mailErr);
     }
 
     const obj = quote.toObject({ virtuals: true, getters: true });
+    const notificationsDelivered = internalNotificationSent && customerConfirmationSent;
 
-    return successResponse(201, "Quote submitted", {
-      quote: { ...obj, id: obj?._id?.toString?.() ?? quoteMongoId },
-      attachmentsFinalizedCount: finalized.movedCount,
-    });
+    return successResponse(
+      notificationsDelivered ? 201 : 202,
+      notificationsDelivered
+        ? "Quote submitted"
+        : "Quote request received, but email notifications are still pending",
+      {
+        quote: { ...obj, id: obj?._id?.toString?.() ?? quoteMongoId },
+        attachmentsFinalizedCount: finalized.movedCount,
+        notificationState: notificationsDelivered ? "delivered" : "pending",
+        notifications: {
+          internalNotificationSent,
+          customerConfirmationSent,
+        },
+      },
+    );
   } catch (err) {
     if (rollback) await rollback();
     return errorResponse(err);

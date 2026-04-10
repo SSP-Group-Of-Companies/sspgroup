@@ -12,7 +12,7 @@ import {
 const PAGE_TITLE = "Mexico Cross-Border Freight | Security-Grade Corridor Execution";
 const PAGE_DESCRIPTION =
   "SSP operates managed freight programs across the U.S.–Mexico border with pedimento-aligned documentation, controlled border-zone transfers, security governance calibrated to corridor conditions, and disciplined execution through Laredo, El Paso, Nogales, and high-volume crossings.";
-const PAGE_OG_IMAGE = "/_optimized/solutions/mexico-hero-v2.png";
+const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/mexico-hero-v2.png";
 
 /* ── Data ─────────────────────────────────────────────────────────────── */
 
@@ -44,7 +44,7 @@ const capabilities = [
     body: "Bonded warehouse coordination and staged customs clearance for freight requiring temporary holding or phased release at the border zone before final delivery.",
   },
   {
-    title: "Project Freight",
+    title: "Project-Specific",
     body: "Complex multi-load programs for industrial, energy, and manufacturing projects requiring phased border execution, coordinated delivery schedules, and security-grade oversight.",
     href: "/solutions/project-freight",
     ctaId: "cb_mexico_capability_project_freight",

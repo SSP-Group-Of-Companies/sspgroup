@@ -63,7 +63,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "truckload_tl",
         label: "Truckload (FTL)",
-        href: "/services/truckload",
+        href: "/solutions/truckload",
         description: "Dedicated capacity for your entire shipment with faster transit times.",
         icon: "truck",
         bestFor: "Full loads, expedited delivery",
@@ -73,7 +73,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "ltl",
         label: "Less-Than-Truckload (LTL)",
-        href: "/services/ltl",
+        href: "/solutions/ltl",
         description: "Cost-efficient shipping by consolidating smaller shipments.",
         icon: "package",
         bestFor: "Smaller shipments, cost savings",
@@ -103,7 +103,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "expedited",
         label: "Expedited Shipping",
-        href: "/services/expedited-specialized#section-expedited",
+        href: "/solutions/expedited",
         description: "Fast-track delivery for urgent shipments.",
         icon: "zap",
         bestFor: "Time-sensitive freight",
@@ -112,7 +112,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "specialized_vehicle_transport",
         label: "Specialized Vehicle Programs",
-        href: "/services/expedited-specialized#section-specialized-vehicle-programs",
+        href: "/solutions/specialized-vehicles",
         description: "Expert handling for specialized vehicles and equipment.",
         icon: "truck",
         bestFor: "Oversized, delicate cargo",
@@ -121,7 +121,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "hazmat",
         label: "Hazardous Materials (HAZMAT)",
-        href: "/services/hazmat",
+        href: "/solutions/hazmat",
         description: "Compliant hazmat movement and documentation.",
         icon: "shield",
         bestFor: "Regulated materials",
@@ -130,7 +130,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "temperature_controlled",
         label: "Refrigerated / Temperature-Controlled",
-        href: "/services/temperature-controlled",
+        href: "/solutions/temperature-controlled",
         description: "Refrigerated and controlled-temperature freight.",
         icon: "snowflake",
         bestFor: "Perishables, pharmaceuticals",
@@ -191,7 +191,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "warehousing_distribution",
         label: "Warehousing & Distribution",
-        href: "/services/value-added#section-warehousing-distribution",
+        href: "/solutions/warehousing-distribution",
         description: "Strategic warehousing and distribution networks.",
         icon: "warehouse",
         bestFor: "Inventory management",
@@ -200,7 +200,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "managed_capacity",
         label: "Managed Capacity",
-        href: "/services/value-added#section-managed-capacity",
+        href: "/solutions/managed-capacity",
         description: "Dedicated capacity solutions for consistent volume.",
         icon: "briefcase",
         bestFor: "High-volume shippers",
@@ -209,7 +209,7 @@ export const SOLUTIONS_DATA = {
       {
         analyticsId: "dedicated_contract_logistics",
         label: "Dedicated / Contract Logistics",
-        href: "/services/value-added#section-dedicated-contract",
+        href: "/solutions/dedicated-contract",
         description: "Custom logistics programs tailored to your needs.",
         icon: "briefcase",
         bestFor: "Long-term partnerships",
@@ -217,9 +217,9 @@ export const SOLUTIONS_DATA = {
       },
       {
         analyticsId: "project_oversize_programs",
-        label: "Project-Specific (Oversize) Programs",
-        href: "/services/value-added#section-project-oversize-programs",
-        description: "Specialized handling for large-scale and oversize projects.",
+        label: "Project-Specific",
+        href: "/solutions/project-freight",
+        description: "Program-managed freight for engineered and phased moves.",
         icon: "truck",
         bestFor: "Complex, oversized cargo",
         image: "/_optimized/solutions/card-project-oversize.webp",

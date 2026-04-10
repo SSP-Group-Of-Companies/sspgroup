@@ -3,6 +3,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PremiumPageScaffold } from "@/app/(site)/components/layout/PremiumPageScaffold";
 import { Container } from "@/app/(site)/components/layout/Container";
+import {
+  buildSolutionPageMetadata,
+  getSolutionPageBySlug,
+  getSolutionPageSlugs,
+} from "@/config/solutionPages";
+import { ModeSolutionPage } from "../_components/ModeSolutionPage";
+import { EquipmentSolutionPage } from "../_components/EquipmentSolutionPage";
+import { SITE_URL } from "@/lib/seo/site";
 
 const SOLUTION_PAGES = {
   truckload: {
@@ -62,8 +70,8 @@ const SOLUTION_PAGES = {
     description: "Dedicated fleet and contract logistics support built around SLAs.",
   },
   "project-freight": {
-    title: "Project Freight",
-    description: "Project-based logistics with schedule governance and cross-functional planning.",
+    title: "Project-Specific",
+    description: "Project-specific freight with sequence control, route validation, and site-aware execution.",
   },
 } as const;
 
@@ -74,7 +82,9 @@ function getSolution(slug: string) {
 }
 
 export function generateStaticParams() {
-  return Object.keys(SOLUTION_PAGES).map((solution) => ({ solution }));
+  const fallbackSolutions = Object.keys(SOLUTION_PAGES);
+  const solutionPages = getSolutionPageSlugs();
+  return Array.from(new Set([...fallbackSolutions, ...solutionPages])).map((solution) => ({ solution }));
 }
 
 export async function generateMetadata({
@@ -83,6 +93,10 @@ export async function generateMetadata({
   params: Promise<{ solution: string }>;
 }): Promise<Metadata> {
   const { solution } = await params;
+  const solutionPage = getSolutionPageBySlug(solution);
+  if (solutionPage) {
+    return buildSolutionPageMetadata(solutionPage);
+  }
   const data = getSolution(solution);
   if (!data) notFound();
 
@@ -101,6 +115,78 @@ export default async function SolutionDetailPage({
   params: Promise<{ solution: string }>;
 }) {
   const { solution } = await params;
+  const solutionPage = getSolutionPageBySlug(solution);
+  if (solutionPage) {
+    const breadcrumbJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Solutions", item: `${SITE_URL}/solutions` },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: solutionPage.hero.eyebrow,
+          item: `${SITE_URL}/solutions/${solutionPage.slug}`,
+        },
+      ],
+    };
+
+    const serviceJsonLd = {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: solutionPage.hero.eyebrow,
+      provider: {
+        "@type": "Organization",
+        name: "SSP Group",
+        url: SITE_URL,
+      },
+      areaServed: ["Canada", "United States", "Mexico"],
+      description: solutionPage.meta.description,
+      url: `${SITE_URL}/solutions/${solutionPage.slug}`,
+    };
+
+    const faqJsonLd =
+      solutionPage.faq.items.length > 0
+        ? {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: solutionPage.faq.items.map((item) => ({
+              "@type": "Question",
+              name: item.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: item.answer,
+              },
+            })),
+          }
+        : null;
+
+    return (
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        />
+        {faqJsonLd ? (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+          />
+        ) : null}
+        {solutionPage.pageType === "family" ? (
+          <ModeSolutionPage page={solutionPage} />
+        ) : (
+          <EquipmentSolutionPage page={solutionPage} />
+        )}
+      </>
+    );
+  }
+
   const data = getSolution(solution);
   if (!data) notFound();
 

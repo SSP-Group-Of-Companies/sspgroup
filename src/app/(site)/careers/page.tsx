@@ -3,7 +3,11 @@ import type { Metadata } from "next";
 import { CAREERS_DEFAULT_OG_IMAGE } from "@/lib/seo/site";
 import { getPublicJobsListSSR } from "@/lib/utils/jobs/ssrJobsFetchers";
 import CareersClient from "./CareersClient";
-import { EEmploymentType, EWorkplaceType } from "@/types/jobPosting.types";
+import {
+  EEmploymentType,
+  EWorkplaceType,
+  type IJobPosting,
+} from "@/types/jobPosting.types";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
@@ -94,7 +98,7 @@ export default async function CareersPage({
     hasNext: false,
   };
 
-  let initialItems: unknown[] = [];
+  let initialItems: Partial<IJobPosting>[] = [];
   let initialMeta: typeof emptyMeta = emptyMeta;
   let initialFetchError: string | null = null;
 

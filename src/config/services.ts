@@ -1823,7 +1823,7 @@ export const SERVICES: Record<ServiceKey, ServicePageModel> = {
               condition: "Oversize or project cargo with route/permit focus",
               description:
                 "If the move is project or oversize with route, permit, and site coordination as the main need, project-specific programs are designed for that.",
-              recommendation: "Project-Specific (Oversize) Programs",
+              recommendation: "Project-Specific",
               serviceSlug: "project-oversize-programs",
             },
           ],
@@ -1936,7 +1936,7 @@ export const SERVICES: Record<ServiceKey, ServicePageModel> = {
               condition: "Single project or oversize move",
               description:
                 "If the need is one-off project or oversize with route and permit focus, project-specific programs are designed for that.",
-              recommendation: "Project-Specific (Oversize) Programs",
+              recommendation: "Project-Specific",
               serviceSlug: "project-oversize-programs",
             },
           ],
@@ -2049,7 +2049,7 @@ export const SERVICES: Record<ServiceKey, ServicePageModel> = {
               condition: "One-off project or oversize with route/permit focus",
               description:
                 "If the move is project or oversize with route, permit, and site coordination as the main need, project-specific programs are the right fit.",
-              recommendation: "Project-Specific (Oversize) Programs",
+              recommendation: "Project-Specific",
               serviceSlug: "project-oversize-programs",
             },
           ],
@@ -2072,9 +2072,8 @@ export const SERVICES: Record<ServiceKey, ServicePageModel> = {
       },
       {
         key: "project-oversize-programs",
-        label: "Project-Specific (Oversize) Programs",
-        title:
-          "Project-Specific (Oversize) Programs | Route, Permit, and Multi-Party Execution Control",
+        label: "Project-Specific",
+        title: "Project-Specific | Route, Permit, and Multi-Party Execution Control",
         description:
           "Project and oversize programs require engineering-grade planning, permit governance, route validation, and synchronized stakeholder execution. We coordinate each handoff from pre-move analysis through final delivery to reduce schedule and compliance risk.",
         image: "/_optimized/solutions/card-project-oversize.webp",
@@ -2112,7 +2111,7 @@ export const SERVICES: Record<ServiceKey, ServicePageModel> = {
         },
         howToUse: {
           intro:
-            "Here's how to use NPT's Project-Specific (Oversize) programs from feasibility through delivery.",
+            "Here's how to use SSP's Project-Specific program from feasibility through delivery.",
           items: [
             "Share load specs including dimensions, weight, and handling points so route and permit planning can start.",
             "Define origin/destination site constraints and equipment requirements so handoffs are planned up front.",
@@ -2132,7 +2131,7 @@ export const SERVICES: Record<ServiceKey, ServicePageModel> = {
           ],
         },
         freightFit: {
-          title: "Project-Specific (Oversize) Fit Guide",
+          title: "Project-Specific Fit Guide",
           intro:
             "Project and oversize programs fit when route, permit, and multi-party execution risk cannot be managed transactionally. This guide helps determine if a project-specific program is the right fit for your move—and what to use instead when it isn't.",
           diagram: "/_optimized/equipment-diagrams/projectSpecific.webp",

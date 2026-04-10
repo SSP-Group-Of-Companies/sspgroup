@@ -82,34 +82,54 @@ export const POST = async (req: NextRequest) => {
     await inquiry.validate();
     await inquiry.save();
 
+    let internalNotificationSent = false;
+    let customerConfirmationSent = false;
+    const siteUrl = getSiteUrlFromRequest(req);
+    const sourceLabel = body?.sourceLabel || siteUrl;
+
+    const inquiryObj = inquiry.toObject({
+      virtuals: true,
+      getters: true,
+    }) as IContactInquiry;
+
     try {
-      const siteUrl = getSiteUrlFromRequest(req);
-      const sourceLabel = body?.sourceLabel || siteUrl;
-
-      const inquiryObj = inquiry.toObject({
-        virtuals: true,
-        getters: true,
-      }) as any as IContactInquiry;
-
       await sendContactInquiryInternalNotificationEmail({
         inquiry: inquiryObj,
         sourceLabel,
       });
+      internalNotificationSent = true;
+    } catch (mailErr) {
+      console.warn("Failed to send internal contact inquiry email:", mailErr);
+    }
 
+    try {
       await sendContactInquiryCustomerConfirmationEmail({
         inquiry: inquiryObj,
         sourceLabel,
       });
+      customerConfirmationSent = true;
     } catch (mailErr) {
-      console.warn("Failed to send contact inquiry emails:", mailErr);
+      console.warn("Failed to send customer contact inquiry email:", mailErr);
     }
 
     const obj = inquiry.toObject({ virtuals: true, getters: true });
+    const notificationsDelivered = internalNotificationSent && customerConfirmationSent;
 
-    return successResponse(201, "Contact inquiry submitted", {
-      inquiry: { ...obj, id: obj?._id?.toString?.() ?? inquiryMongoId },
-      attachmentsFinalizedCount: finalized.movedCount,
-    });
+    return successResponse(
+      notificationsDelivered ? 201 : 202,
+      notificationsDelivered
+        ? "Contact inquiry submitted"
+        : "Contact inquiry received, but email notifications are still pending",
+      {
+        inquiry: { ...obj, id: obj?._id?.toString?.() ?? inquiryMongoId },
+        attachmentsFinalizedCount: finalized.movedCount,
+        notificationState: notificationsDelivered ? "delivered" : "pending",
+        notifications: {
+          internalNotificationSent,
+          customerConfirmationSent,
+        },
+      },
+    );
   } catch (err) {
     if (rollback) await rollback();
     return errorResponse(err);

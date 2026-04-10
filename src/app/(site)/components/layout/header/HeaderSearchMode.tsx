@@ -10,6 +10,7 @@ import { trackCtaClick } from "@/lib/analytics/cta";
 import { getSiteSearchResults, type SiteSearchResult } from "@/lib/search/siteSearch";
 import { HEADER_SEARCH_QUICK_LINKS } from "@/config/header";
 import { focusRingNav } from "./constants";
+import { measureMainbarBottom } from "./overlay";
 
 const ROLLOUT_DURATION_S = 0.32;
 const CONTENT_FADE_DURATION_S = 0.16;
@@ -112,6 +113,13 @@ export function HeaderSearchMode({
   }, [open, onOpenChange]);
 
   React.useEffect(() => {
+    if (!open) return;
+    const onScroll = () => onOpenChange(false);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [open, onOpenChange]);
+
+  React.useEffect(() => {
     if (pathnameRef.current === pathname) return;
     pathnameRef.current = pathname;
     onOpenChange(false);
@@ -130,17 +138,14 @@ export function HeaderSearchMode({
     }
 
     const measure = () => {
-      const rect = shellRef.current?.getBoundingClientRect();
-      if (!rect) return;
-      setPanelTop(rect.bottom);
+      const nextTop = measureMainbarBottom(shellRef.current);
+      setPanelTop((prev) => (Math.abs((prev ?? 0) - nextTop) < 0.5 ? prev : nextTop));
     };
 
     measure();
     window.addEventListener("resize", measure);
-    window.addEventListener("scroll", measure, true);
     return () => {
       window.removeEventListener("resize", measure);
-      window.removeEventListener("scroll", measure, true);
     };
   }, [open]);
 
@@ -185,7 +190,12 @@ export function HeaderSearchMode({
   return (
     <AnimatePresence>
       {open ? (
-        <div ref={shellRef} role="search" aria-label="Site search" className="relative hidden min-w-0 flex-1 lg:block">
+        <div
+          ref={shellRef}
+          role="search"
+          aria-label="Site search"
+          className="relative hidden min-w-0 flex-1 lg:block"
+        >
           <div className="flex items-center gap-3">
             <div className="relative min-w-0 flex-1">
               <Search
@@ -200,7 +210,7 @@ export function HeaderSearchMode({
                 onKeyDown={onInputKeyDown}
                 placeholder="Search solutions, industries, company pages, insights, and careers"
                 className={cn(
-                  "h-11 w-full rounded-full border border-[color:var(--color-nav-border)] pl-11 pr-4 text-sm",
+                  "h-11 w-full rounded-full border border-[color:var(--color-nav-border)] pr-4 pl-11 text-sm",
                   "bg-white/90 text-[color:var(--color-nav-text)] placeholder:text-[color:var(--color-nav-muted)]",
                   "shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]",
                   "outline-none focus:border-[color:var(--color-nav-ring)] focus:ring-2 focus:ring-black/[0.05]",
@@ -224,23 +234,30 @@ export function HeaderSearchMode({
           </div>
 
           <motion.div
-            initial={{ clipPath: "inset(0 0 100% 0)" }}
-            animate={{ clipPath: "inset(0 0 0% 0)" }}
-            exit={{ clipPath: "inset(0 0 100% 0)" }}
-            transition={{ duration: reduceMotion ? 0 : ROLLOUT_DURATION_S, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: reduceMotion ? 0 : -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: reduceMotion ? 0 : -8 }}
+            transition={{
+              duration: reduceMotion ? 0 : ROLLOUT_DURATION_S,
+              ease: [0.16, 1, 0.3, 1],
+            }}
             className={cn(
               "fixed inset-x-0 z-[65] w-screen overflow-hidden border-x border-b",
               "border-[color:var(--color-menu-border)] bg-[color:var(--color-nav-bg)]",
-              "shadow-[0_10px_24px_rgba(2,6,23,0.10)]",
+              "shadow-[0_18px_40px_rgba(2,6,23,0.11)]",
             )}
             style={{ top: panelTop ?? 0 }}
             ref={panelRef}
           >
             <motion.div
-              initial={{ opacity: 0, y: -3 }}
+              initial={{ opacity: 0, y: reduceMotion ? 0 : -3 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -2 }}
-              transition={{ duration: reduceMotion ? 0 : CONTENT_FADE_DURATION_S, delay: reduceMotion ? 0 : 0.08, ease: [0.22, 1, 0.36, 1] }}
+              exit={{ opacity: 0, y: reduceMotion ? 0 : -2 }}
+              transition={{
+                duration: reduceMotion ? 0 : CONTENT_FADE_DURATION_S,
+                delay: reduceMotion ? 0 : 0.08,
+                ease: [0.22, 1, 0.36, 1],
+              }}
               className="mx-auto w-full max-w-[1520px]"
             >
               <div className="sr-only" aria-live="polite" aria-atomic="true">
@@ -294,7 +311,9 @@ export function HeaderSearchMode({
                         <ul className="space-y-1">
                           {grouped[groupKey].map((item) => {
                             const resultFlatIndex = flatResults.findIndex(
-                              (entry) => entry.result.href === item.href && entry.result.label === item.label,
+                              (entry) =>
+                                entry.result.href === item.href &&
+                                entry.result.label === item.label,
                             );
                             const isActive = resultFlatIndex === activeIndex;
                             return (
@@ -307,7 +326,9 @@ export function HeaderSearchMode({
                                   }
                                   className={cn(
                                     "w-full px-3 py-2 text-left",
-                                    isActive ? "bg-[color:var(--color-menu-hover)]" : "hover:bg-[color:var(--color-menu-hover)]",
+                                    isActive
+                                      ? "bg-[color:var(--color-menu-hover)]"
+                                      : "hover:bg-[color:var(--color-menu-hover)]",
                                     focusRingNav,
                                   )}
                                 >
@@ -337,4 +358,3 @@ export function HeaderSearchMode({
     </AnimatePresence>
   );
 }
-

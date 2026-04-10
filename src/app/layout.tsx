@@ -1,5 +1,6 @@
 // src/app/layout.tsx
 import "./globals.css";
+import "plyr-react/plyr.css";
 import SessionWrapper from "../components/SessionWrapper";
 import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";

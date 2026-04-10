@@ -234,7 +234,7 @@ export function IndustriesHub() {
       {/* ────────────────────────────────────────────────────────────────
           HERO — premium light
           ──────────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#f5f7fa_50%,#eef2f6_100%)] pb-16 pt-28 sm:pb-20 sm:pt-32 lg:pb-24 lg:pt-36">
+      <section className="relative overflow-hidden bg-[linear-gradient(180deg,#ffffff_0%,#f5f7fa_50%,#eef2f6_100%)] pb-16 pt-16 sm:pb-20 sm:pt-20 lg:pb-24 lg:pt-24">
         {/* Subtle ambient washes */}
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <div className="absolute right-[-10%] top-[-5%] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(16,167,216,0.05)_0%,transparent_65%)]" />
@@ -296,6 +296,7 @@ export function IndustriesHub() {
                 className={cn(
                   "inline-flex h-12 items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 motion-safe:hover:-translate-y-[1px]",
                   "bg-[color:var(--color-ssp-ink-800)] shadow-[0_8px_28px_rgba(13,79,120,0.22)] hover:bg-[color:var(--color-ssp-ink-900)] hover:shadow-[0_12px_36px_rgba(13,79,120,0.32)]",
+                  "focus-ring-surface",
                 )}
               >
                 Talk to Our Team
@@ -311,7 +312,7 @@ export function IndustriesHub() {
                     label: "View All Programs",
                   })
                 }
-                className="inline-flex h-12 items-center justify-center rounded-xl border border-[color:var(--color-border)] px-7 text-sm font-semibold text-[color:var(--color-text)] transition-all duration-200 hover:border-[color:var(--color-ssp-ink-800)]/30 hover:bg-[color:var(--color-ssp-ink-800)]/[0.04]"
+                className="inline-flex h-12 items-center justify-center rounded-xl border border-[color:var(--color-border)] px-7 text-sm font-semibold text-[color:var(--color-text)] transition-all duration-200 hover:border-[color:var(--color-ssp-ink-800)]/30 hover:bg-[color:var(--color-ssp-ink-800)]/[0.04] focus-ring-surface"
               >
                 View All Programs
               </Link>

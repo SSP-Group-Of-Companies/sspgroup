@@ -18,13 +18,8 @@ import {
   type HeaderDropdownKey,
 } from "@/config/header";
 import { focusRingNav, focusRingMenu, NAV_DESKTOP_MEDIA_QUERY } from "./constants";
-import {
-  X,
-  Menu,
-  ChevronDown as ChevronDownIcon,
-  ChevronRight,
-  ArrowUpRight,
-} from "lucide-react";
+import { X, Menu, ChevronDown as ChevronDownIcon, ChevronRight, ArrowUpRight } from "lucide-react";
+import { lockViewportScroll, measureHeaderBottom } from "./overlay";
 
 const ROLLOUT_DURATION_S = 0.32;
 
@@ -82,7 +77,10 @@ function MobileRowLink({
       {externalCue ? (
         <ArrowUpRight className="h-3.5 w-3.5 text-[color:var(--color-menu-subtle)]" aria-hidden />
       ) : (
-        <ChevronRight className="h-3.5 w-3.5 text-[color:var(--color-menu-subtle)] opacity-0 transition-opacity group-hover:opacity-100" aria-hidden />
+        <ChevronRight
+          className="h-3.5 w-3.5 text-[color:var(--color-menu-subtle)] opacity-0 transition-opacity group-hover:opacity-100"
+          aria-hidden
+        />
       )}
     </Link>
   );
@@ -131,56 +129,34 @@ export function MobileNav() {
   React.useLayoutEffect(() => {
     if (!open) return;
     const measure = () => {
-      const header = triggerRef.current?.closest("header");
-      if (header) setSheetTop(header.getBoundingClientRect().bottom);
+      const nextTop = measureHeaderBottom(triggerRef.current);
+      setSheetTop((prev) => (Math.abs(prev - nextTop) < 0.5 ? prev : nextTop));
     };
+    const viewport = window.visualViewport;
+
     measure();
     window.addEventListener("resize", measure);
+    viewport?.addEventListener("resize", measure);
+    viewport?.addEventListener("scroll", measure);
     return () => {
       window.removeEventListener("resize", measure);
+      viewport?.removeEventListener("resize", measure);
+      viewport?.removeEventListener("scroll", measure);
     };
   }, [open]);
 
   React.useEffect(() => {
     if (!open) return;
-    const scrollY = window.scrollY;
-    const header = triggerRef.current?.closest("header") as HTMLElement | null;
-
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.left = "0";
-    document.body.style.right = "0";
-    document.body.style.overflow = "hidden";
-
-    if (header) {
-      header.style.position = "fixed";
-      header.style.top = "0";
-      header.style.left = "0";
-      header.style.right = "0";
-    }
-
-    return () => {
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.overflow = "";
-
-      if (header) {
-        header.style.position = "";
-        header.style.top = "";
-        header.style.left = "";
-        header.style.right = "";
-      }
-
-      window.scrollTo(0, scrollY);
-    };
+    return lockViewportScroll();
   }, [open]);
 
   React.useEffect(() => {
     const mq = window.matchMedia(NAV_DESKTOP_MEDIA_QUERY);
     const handle = () => {
-      if (mq.matches) { setOpen(false); setActive(""); }
+      if (mq.matches) {
+        setOpen(false);
+        setActive("");
+      }
     };
     handle();
     mq.addEventListener?.("change", handle);
@@ -318,34 +294,15 @@ export function MobileNav() {
           )}
           aria-label={open ? "Close menu" : "Open menu"}
         >
-          {open ? (
-            <X className="h-5 w-5" aria-hidden />
-          ) : (
-            <Menu className="h-5 w-5" aria-hidden />
-          )}
+          {open ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
         </button>
       </Dialog.Trigger>
-
-      <AnimatePresence>
-        {open ? (
-          <motion.div
-            className="fixed inset-0 z-[60] lg:hidden"
-            style={{ top: sheetTop }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div className="h-full bg-black/40 backdrop-blur-sm" />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
 
       <Dialog.Portal>
         <Dialog.Content forceMount asChild>
           <div
             className={cn(
-              "fixed inset-x-0 z-[70] w-full outline-none",
+              "fixed inset-x-0 bottom-0 z-[70] w-full outline-none",
               open ? "pointer-events-auto" : "pointer-events-none",
             )}
             style={{ top: sheetTop }}
@@ -360,148 +317,154 @@ export function MobileNav() {
               {open ? (
                 <motion.div
                   className={cn(
-                    "overflow-hidden",
+                    "flex h-full flex-col overflow-hidden",
                     "bg-[color:var(--color-nav-bg)]",
-                    "shadow-[0_12px_32px_rgba(2,6,23,0.12)]",
+                    "shadow-[0_18px_40px_rgba(2,6,23,0.12)]",
                   )}
-                  initial={{ clipPath: "inset(0 0 100% 0)" }}
-                  animate={{ clipPath: "inset(0 0 0% 0)" }}
-                  exit={{ clipPath: "inset(0 0 100% 0)" }}
+                  initial={{ opacity: 0, y: reduceMotion ? 0 : -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: reduceMotion ? 0 : -8 }}
                   transition={{
                     duration: reduceMotion ? 0 : ROLLOUT_DURATION_S,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  style={{ willChange: "clip-path" }}
+                  style={{ willChange: "transform, opacity" }}
                 >
                   <motion.div
-                    className="overflow-y-auto overscroll-contain"
-                    style={{ maxHeight: `calc(100svh - ${sheetTop}px)` }}
-                    initial={{ opacity: 0, y: -6 }}
+                    className="flex-1 overflow-y-auto overscroll-contain"
+                    initial={{ opacity: 0, y: reduceMotion ? 0 : -6 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -6 }}
+                    exit={{ opacity: 0, y: reduceMotion ? 0 : -6 }}
                     transition={{
                       duration: reduceMotion ? 0 : 0.16,
                       delay: reduceMotion ? 0 : 0.08,
                       ease: [0.22, 1, 0.36, 1],
                     }}
                   >
-                {/* ── Zone 1: Primary actions ── */}
-                <div className="px-5 pt-5 pb-4">
-                  <div className="flex gap-2.5">
-                    {HEADER_ACTIONS.filter((a) => !a.primary).map((action) => (
-                      <Link
-                        key={action.href}
-                        href={action.href}
-                        onClick={() => handlePrimaryActionClick(action)}
-                        className={cn(
-                          "inline-flex h-10 flex-1 items-center justify-center gap-1 rounded-lg border px-3 text-[13px] font-medium",
-                          "border-[color:var(--color-nav-border)]",
-                          "text-[color:var(--color-ssp-ink-800)] hover:bg-[color:var(--color-nav-hover)]",
-                          focusRingNav,
-                        )}
-                      >
-                        {action.label}
-                        {action.externalCue ? <ArrowUpRight className="h-3 w-3 opacity-60" aria-hidden /> : null}
-                      </Link>
-                    ))}
-                  </div>
-
-                  {HEADER_ACTIONS.filter((a) => a.primary).map((action) => (
-                    <Link
-                      key={action.href}
-                      href={action.href}
-                      onClick={() => handlePrimaryActionClick(action)}
-                      className={cn(
-                        "mt-2.5 inline-flex h-11 w-full items-center justify-center gap-1 rounded-lg text-sm font-semibold",
-                        "bg-[color:var(--color-brand-600)] text-white hover:bg-[color:var(--color-brand-700)]",
-                        "shadow-[0_2px_8px_rgba(215,25,32,0.25)]",
-                        focusRingNav,
-                      )}
-                    >
-                      {action.label}
-                      {action.externalCue ? <ArrowUpRight className="h-3.5 w-3.5" aria-hidden /> : null}
-                    </Link>
-                  ))}
-                </div>
-
-                {/* ── Zone 2: Navigation ── */}
-                <div className="border-t border-[color:var(--color-nav-border)] px-5">
-                  <Accordion.Root
-                    type="single"
-                    collapsible
-                    value={active}
-                    onValueChange={setActive}
-                  >
-                    {HEADER_PRIMARY_DROPDOWNS.map((key, idx) => (
-                      <Accordion.Item
-                        key={key}
-                        value={key}
-                        className={cn(
-                          idx < HEADER_PRIMARY_DROPDOWNS.length - 1 &&
-                            "border-b border-[color:var(--color-nav-border)]",
-                        )}
-                      >
-                        <Accordion.Header>
-                          <SectionTrigger
-                            label={NAV[key].label}
-                            value={key}
-                            openValue={active}
-                          />
-                        </Accordion.Header>
-                        <Accordion.Content className="pb-3" asChild>
-                          <motion.div
-                            initial={{ opacity: 0, y: reduceMotion ? 0 : -4 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: reduceMotion ? 0 : -4 }}
-                            transition={{ duration: reduceMotion ? 0 : 0.16, ease: [0.22, 1, 0.36, 1] }}
+                    {/* ── Zone 1: Primary actions ── */}
+                    <div className="px-5 pt-5 pb-4">
+                      <div className="flex gap-2.5">
+                        {HEADER_ACTIONS.filter((a) => !a.primary).map((action) => (
+                          <Link
+                            key={action.href}
+                            href={action.href}
+                            onClick={() => handlePrimaryActionClick(action)}
+                            className={cn(
+                              "inline-flex h-10 flex-1 items-center justify-center gap-1 rounded-lg border px-3 text-[13px] font-medium",
+                              "border-[color:var(--color-nav-border)]",
+                              "text-[color:var(--color-ssp-ink-800)] hover:bg-[color:var(--color-nav-hover)]",
+                              focusRingNav,
+                            )}
                           >
-                            <div className="rounded-lg bg-[color:var(--color-surface-2)] p-3">
-                              {renderSectionContent(key)}
-                            </div>
-                          </motion.div>
-                        </Accordion.Content>
-                      </Accordion.Item>
-                    ))}
-                  </Accordion.Root>
+                            {action.label}
+                            {action.externalCue ? (
+                              <ArrowUpRight className="h-3 w-3 opacity-60" aria-hidden />
+                            ) : null}
+                          </Link>
+                        ))}
+                      </div>
 
-                  {/* Direct nav links */}
-                  <div className="border-t border-[color:var(--color-nav-border)]">
-                    {HEADER_DIRECT_LINKS.map((link, idx) => (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => {
-                          closeAll();
-                          trackCtaClick({
-                            ctaId: link.ctaIdMobile,
-                            location: "nav_mobile:primary",
-                            destination: link.href,
-                            label: link.label,
-                          });
-                        }}
-                        className={cn(
-                          "flex w-full items-center justify-between py-3.5 text-[15px] font-semibold transition-colors",
-                          "text-[color:var(--color-menu-title)]",
-                          "hover:text-[color:var(--color-ssp-ink-800)]",
-                          idx < HEADER_DIRECT_LINKS.length - 1 &&
-                            "border-b border-[color:var(--color-nav-border)]",
-                          focusRingMenu,
-                        )}
+                      {HEADER_ACTIONS.filter((a) => a.primary).map((action) => (
+                        <Link
+                          key={action.href}
+                          href={action.href}
+                          onClick={() => handlePrimaryActionClick(action)}
+                          className={cn(
+                            "mt-2.5 inline-flex h-11 w-full items-center justify-center gap-1 rounded-lg text-sm font-semibold",
+                            "bg-[color:var(--color-brand-600)] text-white hover:bg-[color:var(--color-brand-700)]",
+                            "shadow-[0_2px_8px_rgba(215,25,32,0.25)]",
+                            focusRingNav,
+                          )}
+                        >
+                          {action.label}
+                          {action.externalCue ? (
+                            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+                          ) : null}
+                        </Link>
+                      ))}
+                    </div>
+
+                    {/* ── Zone 2: Navigation ── */}
+                    <div className="border-t border-[color:var(--color-nav-border)] px-5">
+                      <Accordion.Root
+                        type="single"
+                        collapsible
+                        value={active}
+                        onValueChange={setActive}
                       >
-                        <span>{link.label}</span>
-                        <ChevronRight
-                          className="h-4 w-4 text-[color:var(--color-menu-subtle)]"
-                          aria-hidden
-                        />
-                      </Link>
-                    ))}
-                  </div>
-                </div>
+                        {HEADER_PRIMARY_DROPDOWNS.map((key, idx) => (
+                          <Accordion.Item
+                            key={key}
+                            value={key}
+                            className={cn(
+                              idx < HEADER_PRIMARY_DROPDOWNS.length - 1 &&
+                                "border-b border-[color:var(--color-nav-border)]",
+                            )}
+                          >
+                            <Accordion.Header>
+                              <SectionTrigger
+                                label={NAV[key].label}
+                                value={key}
+                                openValue={active}
+                              />
+                            </Accordion.Header>
+                            <Accordion.Content className="pb-3" asChild>
+                              <motion.div
+                                initial={{ opacity: 0, y: reduceMotion ? 0 : -4 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: reduceMotion ? 0 : -4 }}
+                                transition={{
+                                  duration: reduceMotion ? 0 : 0.16,
+                                  ease: [0.22, 1, 0.36, 1],
+                                }}
+                              >
+                                <div className="rounded-lg bg-[color:var(--color-surface-2)] p-3">
+                                  {renderSectionContent(key)}
+                                </div>
+                              </motion.div>
+                            </Accordion.Content>
+                          </Accordion.Item>
+                        ))}
+                      </Accordion.Root>
 
-                {/* Bottom breathing space */}
-                <div className="h-5" />
-              </motion.div>
-            </motion.div>
+                      {/* Direct nav links */}
+                      <div className="border-t border-[color:var(--color-nav-border)]">
+                        {HEADER_DIRECT_LINKS.map((link, idx) => (
+                          <Link
+                            key={link.href}
+                            href={link.href}
+                            onClick={() => {
+                              closeAll();
+                              trackCtaClick({
+                                ctaId: link.ctaIdMobile,
+                                location: "nav_mobile:primary",
+                                destination: link.href,
+                                label: link.label,
+                              });
+                            }}
+                            className={cn(
+                              "flex w-full items-center justify-between py-3.5 text-[15px] font-semibold transition-colors",
+                              "text-[color:var(--color-menu-title)]",
+                              "hover:text-[color:var(--color-ssp-ink-800)]",
+                              idx < HEADER_DIRECT_LINKS.length - 1 &&
+                                "border-b border-[color:var(--color-nav-border)]",
+                              focusRingMenu,
+                            )}
+                          >
+                            <span>{link.label}</span>
+                            <ChevronRight
+                              className="h-4 w-4 text-[color:var(--color-menu-subtle)]"
+                              aria-hidden
+                            />
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Bottom breathing space */}
+                    <div className="h-5" />
+                  </motion.div>
+                </motion.div>
               ) : null}
             </AnimatePresence>
           </div>

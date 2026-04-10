@@ -109,12 +109,16 @@ export default function ContactForm() {
           : typeof json?.inquiry?.inquiryId === "string"
             ? json.inquiry.inquiryId
             : undefined;
+      const notificationState =
+        typeof json?.data?.notificationState === "string" ? json.data.notificationState : "delivered";
 
       setFeedback({
-        tone: "success",
-        title: "Inquiry submitted",
+        tone: notificationState === "delivered" ? "success" : "info",
+        title: notificationState === "delivered" ? "Inquiry submitted" : "Inquiry received",
         message:
-          "Thank you. Your inquiry has been received. Please keep the reference ID below for any follow-up. Our team will review your message and get back to you as soon as possible.",
+          notificationState === "delivered"
+            ? "Thank you. Your inquiry has been received. Please keep the reference ID below for any follow-up. Our team will review your message and get back to you as soon as possible."
+            : "Your inquiry has been received and saved successfully. Please keep the reference ID below for follow-up. Email notifications are still pending on our side, so call us directly if your request is urgent.",
         meta: referenceId
           ? [
               {
