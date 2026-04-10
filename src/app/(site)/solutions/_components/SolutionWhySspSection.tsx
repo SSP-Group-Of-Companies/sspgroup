@@ -268,7 +268,7 @@ export function SolutionWhySspSection({
           <div className="mt-12 sm:hidden">
             <div className="relative">
               <div
-                className="pointer-events-none absolute bottom-[10px] left-[34px] top-[10px] w-[15px]"
+                className="pointer-events-none absolute bottom-[10px] left-[30px] top-[10px] w-[13px]"
                 aria-hidden
                 style={{
                   background: MOBILE_ROAD_SURFACE_BACKGROUND,
@@ -302,22 +302,24 @@ export function SolutionWhySspSection({
                     }}
                     className="relative min-h-[104px]"
                   >
-                    <div className="absolute inset-y-[7px] left-[50px] right-0 rounded-[22px] border border-white/80 bg-white/88 shadow-[0_18px_42px_rgba(15,23,42,0.08)] backdrop-blur-[2px]" />
+                    <div className="absolute inset-y-[7px] left-[48px] right-0 rounded-md border border-white/80 bg-white/88 shadow-[0_18px_42px_rgba(15,23,42,0.08)] backdrop-blur-[2px]" />
 
-                    <div className="relative flex items-center">
-                      <WhySspMedallion
-                        point={point}
-                        accent={accent}
-                        sizeClassName="h-[92px] w-[92px]"
-                        chromeInsetClassName="inset-[7px]"
-                        darkInsetClassName="inset-[17px]"
-                        coreInsetClassName="inset-[19px]"
-                        chromeShadowClassName="shadow-[0_16px_34px_rgba(2,6,23,0.24)]"
-                      />
+                    <div className="relative">
+                      <div className="absolute left-0 top-1/2 z-10 -translate-y-1/2">
+                        <WhySspMedallion
+                          point={point}
+                          accent={accent}
+                          sizeClassName="h-[84px] w-[84px]"
+                          chromeInsetClassName="inset-[7px]"
+                          darkInsetClassName="inset-[16px]"
+                          coreInsetClassName="inset-[18px]"
+                          chromeShadowClassName="shadow-[0_16px_34px_rgba(2,6,23,0.24)]"
+                        />
+                      </div>
 
-                      <div className="relative z-10 min-w-0 flex-1 pl-5 pr-5 py-5">
-                        <div className="flex items-start gap-2.5">
-                          <span className="pt-0.5 text-[1.8rem] leading-none font-semibold italic tracking-[-0.04em] text-[color:var(--color-text-light)]/10">
+                      <div className="relative z-10 min-w-0 pl-[78px] pr-4 py-5">
+                        <div className="flex items-start gap-2">
+                          <span className="pt-0.5 text-[1.45rem] leading-none font-semibold italic tracking-[-0.04em] text-[color:var(--color-text-light)]/10">
                             {`0${index + 1}`}
                           </span>
                           <div className="min-w-0">

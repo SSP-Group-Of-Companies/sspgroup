@@ -298,26 +298,11 @@ export function MobileNav() {
         </button>
       </Dialog.Trigger>
 
-      <AnimatePresence>
-        {open ? (
-          <motion.div
-            className="fixed inset-0 z-[60] lg:hidden"
-            style={{ top: sheetTop }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div className="h-full bg-black/42" />
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-
       <Dialog.Portal>
         <Dialog.Content forceMount asChild>
           <div
             className={cn(
-              "fixed inset-x-0 z-[70] w-full outline-none",
+              "fixed inset-x-0 bottom-0 z-[70] w-full outline-none",
               open ? "pointer-events-auto" : "pointer-events-none",
             )}
             style={{ top: sheetTop }}
@@ -332,9 +317,9 @@ export function MobileNav() {
               {open ? (
                 <motion.div
                   className={cn(
-                    "overflow-hidden",
+                    "flex h-full flex-col overflow-hidden",
                     "bg-[color:var(--color-nav-bg)]",
-                    "shadow-[0_18px_40px_rgba(2,6,23,0.14)]",
+                    "shadow-[0_18px_40px_rgba(2,6,23,0.12)]",
                   )}
                   initial={{ opacity: 0, y: reduceMotion ? 0 : -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -346,8 +331,7 @@ export function MobileNav() {
                   style={{ willChange: "transform, opacity" }}
                 >
                   <motion.div
-                    className="overflow-y-auto overscroll-contain"
-                    style={{ maxHeight: `calc(100svh - ${sheetTop}px)` }}
+                    className="flex-1 overflow-y-auto overscroll-contain"
                     initial={{ opacity: 0, y: reduceMotion ? 0 : -6 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: reduceMotion ? 0 : -6 }}
