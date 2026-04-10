@@ -2,7 +2,6 @@
 
 import React from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import * as Accordion from "@radix-ui/react-accordion";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,7 +17,7 @@ import {
   type HeaderDropdownKey,
 } from "@/config/header";
 import { focusRingNav, focusRingMenu, NAV_DESKTOP_MEDIA_QUERY } from "./constants";
-import { X, Menu, ChevronDown as ChevronDownIcon, ChevronRight, ArrowUpRight } from "lucide-react";
+import { X, Menu, ChevronRight, ArrowUpRight, ArrowLeft } from "lucide-react";
 import { lockViewportScroll, measureHeaderBottom } from "./overlay";
 
 const ROLLOUT_DURATION_S = 0.32;
@@ -68,8 +67,8 @@ function MobileRowLink({
       onClick={handleClick}
       className={cn(
         "group flex items-center justify-between gap-3 rounded-md px-2 py-2 transition",
-        "text-[13px] font-medium text-[color:var(--color-menu-title)]",
-        "hover:bg-[color:var(--color-menu-hover)]",
+        "text-[14px] font-medium text-[color:var(--color-menu-title)]",
+        "[-webkit-tap-highlight-color:transparent] hover:bg-[color:var(--color-menu-hover)]",
         focusRingMenu,
       )}
     >
@@ -86,42 +85,108 @@ function MobileRowLink({
   );
 }
 
-function SectionTrigger({
-  label,
-  value,
-  openValue,
-}: {
-  label: string;
-  value: string;
-  openValue: string | undefined;
-}) {
-  const isOpen = openValue === value;
-
+function MobileMenuRowButton({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <Accordion.Trigger
+    <button
+      type="button"
+      onClick={onClick}
       className={cn(
-        "flex w-full items-center justify-between py-3.5 text-[15px] font-semibold transition-colors",
+        "flex w-full items-center justify-between rounded-md py-3 text-left text-[17px] font-semibold transition-colors",
         "text-[color:var(--color-menu-title)]",
+        "[-webkit-tap-highlight-color:transparent]",
         "hover:text-[color:var(--color-ssp-ink-800)]",
         focusRingMenu,
       )}
     >
       <span>{label}</span>
-      <ChevronDownIcon
+      <ChevronRight className="h-4 w-4 text-[color:var(--color-menu-subtle)]" aria-hidden />
+    </button>
+  );
+}
+
+function MobileMenuRowLink({
+  href,
+  label,
+  ctaId,
+  onNavigate,
+}: {
+  href: string;
+  label: string;
+  ctaId: string;
+  onNavigate: () => void;
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={() => {
+        onNavigate();
+        trackCtaClick({
+          ctaId,
+          location: "nav_mobile:primary",
+          destination: href,
+          label,
+        });
+      }}
+      className={cn(
+        "flex w-full items-center justify-between rounded-md py-3 text-[17px] font-semibold transition-colors",
+        "text-[color:var(--color-menu-title)]",
+        "[-webkit-tap-highlight-color:transparent]",
+        "hover:text-[color:var(--color-ssp-ink-800)]",
+        focusRingMenu,
+      )}
+    >
+      <span>{label}</span>
+      <ChevronRight className="h-4 w-4 text-[color:var(--color-menu-subtle)]" aria-hidden />
+    </Link>
+  );
+}
+
+function MobileActionTextLink({
+  action,
+  onNavigate,
+}: {
+  action: HeaderAction;
+  onNavigate: () => void;
+}) {
+  return (
+    <Link
+      href={action.href}
+      onClick={() => {
+        onNavigate();
+        trackCtaClick({
+          ctaId: action.ctaIdMobile,
+          location: "nav_mobile:actions",
+          destination: action.href,
+          label: action.label,
+        });
+      }}
+      className={cn(
+        "flex w-fit items-center gap-2 rounded-md py-1.5 text-[15px] font-medium transition-colors",
+        "[-webkit-tap-highlight-color:transparent]",
+        action.primary
+          ? "text-[color:var(--color-brand-600)] hover:text-[color:var(--color-brand-700)]"
+          : "text-[color:var(--color-menu-title)] hover:text-[color:var(--color-menu-accent)]",
+        focusRingMenu,
+      )}
+    >
+      <span>{action.label}</span>
+      <ArrowUpRight
         className={cn(
-          "h-4 w-4 transition-transform duration-200",
-          "text-[color:var(--color-menu-subtle)]",
-          isOpen && "rotate-180 text-[color:var(--color-menu-accent)]",
+          "h-3.5 w-3.5",
+          action.primary
+            ? "text-[color:var(--color-brand-600)]"
+            : "text-[color:var(--color-menu-subtle)]",
         )}
         aria-hidden
       />
-    </Accordion.Trigger>
+    </Link>
   );
 }
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false);
-  const [active, setActive] = React.useState<string>("");
+  const [activePanel, setActivePanel] = React.useState<HeaderDropdownKey | null>(null);
+  const [direction, setDirection] = React.useState<1 | -1>(1);
   const [sheetTop, setSheetTop] = React.useState(0);
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
   const reduceMotion = useReducedMotion();
@@ -155,7 +220,7 @@ export function MobileNav() {
     const handle = () => {
       if (mq.matches) {
         setOpen(false);
-        setActive("");
+        setActivePanel(null);
       }
     };
     handle();
@@ -165,35 +230,51 @@ export function MobileNav() {
 
   const closeAll = React.useCallback(() => {
     setOpen(false);
-    setActive("");
+    setActivePanel(null);
+    setDirection(-1);
   }, []);
 
-  const handlePrimaryActionClick = React.useCallback(
-    (action: HeaderAction) => {
-      closeAll();
-      trackCtaClick({
-        ctaId: action.ctaIdMobile,
-        location: "nav_mobile:actions",
-        destination: action.href,
-        label: action.label,
-      });
-    },
-    [closeAll],
-  );
+  const openPanel = React.useCallback((key: HeaderDropdownKey) => {
+    setDirection(1);
+    setActivePanel(key);
+    triggerRef.current?.blur();
+  }, []);
+
+  const returnToMainMenu = React.useCallback(() => {
+    setDirection(-1);
+    setActivePanel(null);
+  }, []);
 
   const renderSectionContent = (key: HeaderDropdownKey) => {
     if (key === "solutions") {
       return (
-        <div className="space-y-4">
-          <p className="text-[12px] leading-5 text-[color:var(--color-menu-muted)]">
-            {NAV.solutions.intro.description}
-          </p>
+        <div className="space-y-6">
+          <Link
+            href={NAV.solutions.intro.ctaHref}
+            onClick={() => {
+              closeAll();
+              trackCtaClick({
+                ctaId: `nav_mobile_intro_${navId(NAV.solutions.intro.ctaLabel)}`,
+                location: "nav_mobile:intro",
+                destination: NAV.solutions.intro.ctaHref,
+                label: NAV.solutions.intro.ctaLabel,
+              });
+            }}
+            className={cn(
+              "inline-flex items-center gap-2 rounded-md text-[15px] font-semibold text-[color:var(--color-menu-accent)]",
+              "[-webkit-tap-highlight-color:transparent] hover:text-[color:var(--color-menu-accent-hover)]",
+              focusRingMenu,
+            )}
+          >
+            {NAV.solutions.intro.ctaLabel}
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+          </Link>
           {NAV.solutions.categories.map((cat) => (
             <div key={cat.title}>
-              <p className="mb-1 px-2 text-[10px] font-semibold tracking-[0.1em] text-[color:var(--color-menu-subtle)] uppercase">
+              <p className="mb-2 text-[11px] font-semibold tracking-[0.1em] text-[color:var(--color-menu-subtle)] uppercase">
                 {cat.title}
               </p>
-              <div className="space-y-0.5">
+              <div className="space-y-1">
                 {cat.links.map((l) => (
                   <MobileRowLink
                     key={l.href}
@@ -207,48 +288,13 @@ export function MobileNav() {
               </div>
             </div>
           ))}
-          <Link
-            href={NAV.solutions.intro.ctaHref}
-            onClick={() => {
-              closeAll();
-              trackCtaClick({
-                ctaId: `nav_mobile_intro_${navId(NAV.solutions.intro.ctaLabel)}`,
-                location: "nav_mobile:intro",
-                destination: NAV.solutions.intro.ctaHref,
-                label: NAV.solutions.intro.ctaLabel,
-              });
-            }}
-            className={cn(
-              "inline-flex items-center gap-1 px-2 text-[13px] font-semibold text-[color:var(--color-menu-accent)]",
-              "hover:text-[color:var(--color-menu-accent-hover)]",
-              focusRingMenu,
-            )}
-          >
-            {NAV.solutions.intro.ctaLabel}
-            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
-          </Link>
         </div>
       );
     }
 
     const section = NAV[key];
     return (
-      <div className="space-y-3">
-        <p className="text-[12px] leading-5 text-[color:var(--color-menu-muted)]">
-          {section.intro.description}
-        </p>
-        <div className="space-y-0.5">
-          {section.links.map((l) => (
-            <MobileRowLink
-              key={l.href}
-              href={l.href}
-              label={l.label}
-              location="nav_mobile:menu"
-              ctaId={`nav_mobile_menu_${navId(l.href)}`}
-              onNavigate={closeAll}
-            />
-          ))}
-        </div>
+      <div className="space-y-6">
         <Link
           href={section.intro.ctaHref}
           onClick={() => {
@@ -261,14 +307,26 @@ export function MobileNav() {
             });
           }}
           className={cn(
-            "inline-flex items-center gap-1 px-2 text-[13px] font-semibold text-[color:var(--color-menu-accent)]",
-            "hover:text-[color:var(--color-menu-accent-hover)]",
+            "inline-flex items-center gap-2 rounded-md text-[15px] font-semibold text-[color:var(--color-menu-accent)]",
+            "[-webkit-tap-highlight-color:transparent] hover:text-[color:var(--color-menu-accent-hover)]",
             focusRingMenu,
           )}
         >
           {section.intro.ctaLabel}
           <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
         </Link>
+        <div className="space-y-1">
+          {section.links.map((l) => (
+            <MobileRowLink
+              key={l.href}
+              href={l.href}
+              label={l.label}
+              location="nav_mobile:menu"
+              ctaId={`nav_mobile_menu_${navId(l.href)}`}
+              onNavigate={closeAll}
+            />
+          ))}
+        </div>
       </div>
     );
   };
@@ -279,7 +337,10 @@ export function MobileNav() {
       open={open}
       onOpenChange={(v) => {
         setOpen(v);
-        if (!v) setActive("");
+        if (!v) {
+          setActivePanel(null);
+          setDirection(-1);
+        }
       }}
     >
       <Dialog.Trigger asChild>
@@ -287,11 +348,12 @@ export function MobileNav() {
           ref={triggerRef}
           type="button"
           className={cn(
-            "inline-flex h-10 w-10 items-center justify-center rounded-md lg:hidden",
+            "inline-flex h-10 w-10 items-center justify-center rounded-md [-webkit-tap-highlight-color:transparent] lg:hidden",
             "text-[color:var(--color-ssp-ink-800)]",
             "hover:bg-[color:var(--color-nav-hover)]",
             focusRingNav,
           )}
+          onClick={() => triggerRef.current?.blur()}
           aria-label={open ? "Close menu" : "Open menu"}
         >
           {open ? <X className="h-5 w-5" aria-hidden /> : <Menu className="h-5 w-5" aria-hidden />}
@@ -299,13 +361,18 @@ export function MobileNav() {
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Content forceMount asChild>
+        <Dialog.Content
+          forceMount
+          onOpenAutoFocus={(event) => event.preventDefault()}
+          onCloseAutoFocus={(event) => event.preventDefault()}
+          asChild
+        >
           <div
             className={cn(
               "fixed inset-x-0 bottom-0 z-[70] w-full outline-none",
               open ? "pointer-events-auto" : "pointer-events-none",
             )}
-            style={{ top: sheetTop }}
+            style={{ top: Math.max(0, sheetTop - 1) }}
             aria-hidden={!open}
           >
             <VisuallyHidden>
@@ -321,149 +388,92 @@ export function MobileNav() {
                     "bg-[color:var(--color-nav-bg)]",
                     "shadow-[0_18px_40px_rgba(2,6,23,0.12)]",
                   )}
-                  initial={{ opacity: 0, y: reduceMotion ? 0 : -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: reduceMotion ? 0 : -8 }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
                   transition={{
                     duration: reduceMotion ? 0 : ROLLOUT_DURATION_S,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  style={{ willChange: "transform, opacity" }}
+                  style={{ willChange: "opacity" }}
                 >
-                  <motion.div
-                    className="flex-1 overflow-y-auto overscroll-contain"
-                    initial={{ opacity: 0, y: reduceMotion ? 0 : -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: reduceMotion ? 0 : -6 }}
-                    transition={{
-                      duration: reduceMotion ? 0 : 0.16,
-                      delay: reduceMotion ? 0 : 0.08,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                  >
-                    {/* ── Zone 1: Primary actions ── */}
-                    <div className="px-5 pt-5 pb-4">
-                      <div className="flex gap-2.5">
-                        {HEADER_ACTIONS.filter((a) => !a.primary).map((action) => (
-                          <Link
-                            key={action.href}
-                            href={action.href}
-                            onClick={() => handlePrimaryActionClick(action)}
-                            className={cn(
-                              "inline-flex h-10 flex-1 items-center justify-center gap-1 rounded-lg border px-3 text-[13px] font-medium",
-                              "border-[color:var(--color-nav-border)]",
-                              "text-[color:var(--color-ssp-ink-800)] hover:bg-[color:var(--color-nav-hover)]",
-                              focusRingNav,
-                            )}
-                          >
-                            {action.label}
-                            {action.externalCue ? (
-                              <ArrowUpRight className="h-3 w-3 opacity-60" aria-hidden />
-                            ) : null}
-                          </Link>
-                        ))}
-                      </div>
-
-                      {HEADER_ACTIONS.filter((a) => a.primary).map((action) => (
-                        <Link
-                          key={action.href}
-                          href={action.href}
-                          onClick={() => handlePrimaryActionClick(action)}
-                          className={cn(
-                            "mt-2.5 inline-flex h-11 w-full items-center justify-center gap-1 rounded-lg text-sm font-semibold",
-                            "bg-[color:var(--color-brand-600)] text-white hover:bg-[color:var(--color-brand-700)]",
-                            "shadow-[0_2px_8px_rgba(215,25,32,0.25)]",
-                            focusRingNav,
-                          )}
+                  <div className="relative flex-1 overflow-hidden">
+                    <AnimatePresence initial={false} custom={direction} mode="wait">
+                      {activePanel ? (
+                        <motion.div
+                          key={activePanel}
+                          custom={direction}
+                          className="absolute inset-0 overflow-y-auto overscroll-contain px-5 pt-5 pb-6"
+                          initial={{ opacity: 0, x: reduceMotion ? 0 : 32 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: reduceMotion ? 0 : -24 }}
+                          transition={{
+                            duration: reduceMotion ? 0 : 0.24,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
                         >
-                          {action.label}
-                          {action.externalCue ? (
-                            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
-                          ) : null}
-                        </Link>
-                      ))}
-                    </div>
-
-                    {/* ── Zone 2: Navigation ── */}
-                    <div className="border-t border-[color:var(--color-nav-border)] px-5">
-                      <Accordion.Root
-                        type="single"
-                        collapsible
-                        value={active}
-                        onValueChange={setActive}
-                      >
-                        {HEADER_PRIMARY_DROPDOWNS.map((key, idx) => (
-                          <Accordion.Item
-                            key={key}
-                            value={key}
+                          <button
+                            type="button"
+                            onClick={returnToMainMenu}
                             className={cn(
-                              idx < HEADER_PRIMARY_DROPDOWNS.length - 1 &&
-                                "border-b border-[color:var(--color-nav-border)]",
-                            )}
-                          >
-                            <Accordion.Header>
-                              <SectionTrigger
-                                label={NAV[key].label}
-                                value={key}
-                                openValue={active}
-                              />
-                            </Accordion.Header>
-                            <Accordion.Content className="pb-3" asChild>
-                              <motion.div
-                                initial={{ opacity: 0, y: reduceMotion ? 0 : -4 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: reduceMotion ? 0 : -4 }}
-                                transition={{
-                                  duration: reduceMotion ? 0 : 0.16,
-                                  ease: [0.22, 1, 0.36, 1],
-                                }}
-                              >
-                                <div className="rounded-lg bg-[color:var(--color-surface-2)] p-3">
-                                  {renderSectionContent(key)}
-                                </div>
-                              </motion.div>
-                            </Accordion.Content>
-                          </Accordion.Item>
-                        ))}
-                      </Accordion.Root>
-
-                      {/* Direct nav links */}
-                      <div className="border-t border-[color:var(--color-nav-border)]">
-                        {HEADER_DIRECT_LINKS.map((link, idx) => (
-                          <Link
-                            key={link.href}
-                            href={link.href}
-                            onClick={() => {
-                              closeAll();
-                              trackCtaClick({
-                                ctaId: link.ctaIdMobile,
-                                location: "nav_mobile:primary",
-                                destination: link.href,
-                                label: link.label,
-                              });
-                            }}
-                            className={cn(
-                              "flex w-full items-center justify-between py-3.5 text-[15px] font-semibold transition-colors",
-                              "text-[color:var(--color-menu-title)]",
-                              "hover:text-[color:var(--color-ssp-ink-800)]",
-                              idx < HEADER_DIRECT_LINKS.length - 1 &&
-                                "border-b border-[color:var(--color-nav-border)]",
+                              "inline-flex items-center gap-2 rounded-md pb-5 text-[16px] font-medium text-[color:var(--color-menu-title)]",
+                              "[-webkit-tap-highlight-color:transparent]",
                               focusRingMenu,
                             )}
                           >
-                            <span>{link.label}</span>
-                            <ChevronRight
-                              className="h-4 w-4 text-[color:var(--color-menu-subtle)]"
-                              aria-hidden
-                            />
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
+                            <ArrowLeft className="h-4 w-4" aria-hidden />
+                            <span>Main Menu</span>
+                          </button>
 
-                    {/* Bottom breathing space */}
-                    <div className="h-5" />
-                  </motion.div>
+                          <div className="pb-8">{renderSectionContent(activePanel)}</div>
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="main-menu"
+                          custom={direction}
+                          className="absolute inset-0 overflow-y-auto overscroll-contain px-5 pt-5 pb-6"
+                          initial={{ opacity: 0, x: reduceMotion ? 0 : -24 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: reduceMotion ? 0 : 24 }}
+                          transition={{
+                            duration: reduceMotion ? 0 : 0.24,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                        >
+                          <div className="space-y-0.5">
+                            {HEADER_PRIMARY_DROPDOWNS.map((key) => (
+                              <MobileMenuRowButton
+                                key={key}
+                                label={NAV[key].label}
+                                onClick={() => openPanel(key)}
+                              />
+                            ))}
+                            {HEADER_DIRECT_LINKS.map((link) => (
+                              <MobileMenuRowLink
+                                key={link.href}
+                                href={link.href}
+                                label={link.label}
+                                ctaId={link.ctaIdMobile}
+                                onNavigate={closeAll}
+                              />
+                            ))}
+                          </div>
+
+                          <div className="mt-8 border-t border-[color:var(--color-nav-border)] pt-6">
+                            <div className="space-y-2">
+                              {HEADER_ACTIONS.map((action) => (
+                                <MobileActionTextLink
+                                  key={action.href}
+                                  action={action}
+                                  onNavigate={closeAll}
+                                />
+                              ))}
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </motion.div>
               ) : null}
             </AnimatePresence>

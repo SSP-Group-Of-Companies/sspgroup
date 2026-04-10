@@ -26,12 +26,18 @@ export function measureMainbarBottom(from?: HTMLElement | null) {
 export function lockViewportScroll() {
   const root = document.documentElement;
   const body = document.body;
+  const header = getSiteHeaderElement();
   const previous = {
     rootOverflow: root.style.overflow,
     rootOverscrollBehavior: root.style.overscrollBehavior,
     bodyOverflow: body.style.overflow,
     bodyPaddingRight: body.style.paddingRight,
     bodyTouchAction: body.style.touchAction,
+    headerPosition: header?.style.position ?? "",
+    headerTop: header?.style.top ?? "",
+    headerLeft: header?.style.left ?? "",
+    headerRight: header?.style.right ?? "",
+    headerWidth: header?.style.width ?? "",
   };
   const scrollbarWidth = Math.max(0, window.innerWidth - root.clientWidth);
 
@@ -44,11 +50,26 @@ export function lockViewportScroll() {
     body.style.paddingRight = `${scrollbarWidth}px`;
   }
 
+  if (header) {
+    header.style.position = "fixed";
+    header.style.top = "0";
+    header.style.left = "0";
+    header.style.right = "0";
+    header.style.width = "100%";
+  }
+
   return () => {
     root.style.overflow = previous.rootOverflow;
     root.style.overscrollBehavior = previous.rootOverscrollBehavior;
     body.style.overflow = previous.bodyOverflow;
     body.style.paddingRight = previous.bodyPaddingRight;
     body.style.touchAction = previous.bodyTouchAction;
+    if (header) {
+      header.style.position = previous.headerPosition;
+      header.style.top = previous.headerTop;
+      header.style.left = previous.headerLeft;
+      header.style.right = previous.headerRight;
+      header.style.width = previous.headerWidth;
+    }
   };
 }
