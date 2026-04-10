@@ -7,9 +7,15 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { trackCtaClick } from "@/lib/analytics/cta";
 import { NAV } from "@/config/navigation";
-import { HEADER_DIRECT_LINKS, HEADER_HUB_ROUTES, HEADER_PRIMARY_DROPDOWNS, type HeaderDropdownKey } from "@/config/header";
+import {
+  HEADER_DIRECT_LINKS,
+  HEADER_HUB_ROUTES,
+  HEADER_PRIMARY_DROPDOWNS,
+  type HeaderDropdownKey,
+} from "@/config/header";
 import { cn } from "@/lib/cn";
 import { focusRingNav } from "./constants";
+import { measureMainbarBottom } from "./overlay";
 
 const NAV_OPEN_DELAY_MS = 120;
 const NAV_CLOSE_DELAY_MS = 220;
@@ -30,20 +36,23 @@ export function DesktopNav() {
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
 
-  const openMenu = React.useCallback((key: HeaderDropdownKey) => {
-    if (activeKey && activeKey !== key) {
+  const openMenu = React.useCallback(
+    (key: HeaderDropdownKey) => {
+      if (activeKey && activeKey !== key) {
+        if (openTimer.current) window.clearTimeout(openTimer.current);
+        if (closeTimer.current) window.clearTimeout(closeTimer.current);
+        setActiveKey(key);
+        return;
+      }
       if (openTimer.current) window.clearTimeout(openTimer.current);
       if (closeTimer.current) window.clearTimeout(closeTimer.current);
-      setActiveKey(key);
-      return;
-    }
-    if (openTimer.current) window.clearTimeout(openTimer.current);
-    if (closeTimer.current) window.clearTimeout(closeTimer.current);
-    openTimer.current = window.setTimeout(() => {
-      setActiveKey(key);
-      openTimer.current = null;
-    }, NAV_OPEN_DELAY_MS);
-  }, [activeKey]);
+      openTimer.current = window.setTimeout(() => {
+        setActiveKey(key);
+        openTimer.current = null;
+      }, NAV_OPEN_DELAY_MS);
+    },
+    [activeKey],
+  );
 
   const scheduleClose = React.useCallback(() => {
     if (openTimer.current) window.clearTimeout(openTimer.current);
@@ -81,6 +90,13 @@ export function DesktopNav() {
   }, [activeKey, closeMenu]);
 
   React.useEffect(() => {
+    if (!activeKey) return;
+    const onScroll = () => closeMenu();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [activeKey, closeMenu]);
+
+  React.useEffect(() => {
     return () => {
       if (openTimer.current) window.clearTimeout(openTimer.current);
       if (closeTimer.current) window.clearTimeout(closeTimer.current);
@@ -94,20 +110,14 @@ export function DesktopNav() {
     }
 
     const measure = () => {
-      const anchorEl =
-        navRef.current?.closest<HTMLElement>("[data-header-mainbar]") ??
-        navRef.current;
-      const rect = anchorEl?.getBoundingClientRect();
-      if (!rect) return;
-      setDropdownTop(rect.bottom + DROPDOWN_TOP_OFFSET_PX);
+      const nextTop = measureMainbarBottom(navRef.current) + DROPDOWN_TOP_OFFSET_PX;
+      setDropdownTop((prev) => (Math.abs(prev ?? 0 - nextTop) < 0.5 ? prev : nextTop));
     };
 
     measure();
     window.addEventListener("resize", measure);
-    window.addEventListener("scroll", measure, true);
     return () => {
       window.removeEventListener("resize", measure);
-      window.removeEventListener("scroll", measure, true);
     };
   }, [activeKey]);
 
@@ -210,28 +220,31 @@ export function DesktopNav() {
               exit={{ opacity: 0 }}
               transition={{ duration: reduceMotion ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="h-full bg-white/34 backdrop-blur-[4px]" />
+              <div className="h-full bg-[rgba(248,250,252,0.72)]" />
             </motion.div>
 
             <motion.div
               id={`desktop-dropdown-${activeKey}`}
-              initial={{ clipPath: "inset(0 0 100% 0)" }}
-              animate={{ clipPath: "inset(0 0 0% 0)" }}
-              exit={{ clipPath: "inset(0 0 100% 0)" }}
-              transition={{ duration: reduceMotion ? 0 : ROLLOUT_DURATION_S, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, y: reduceMotion ? 0 : -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: reduceMotion ? 0 : -8 }}
+              transition={{
+                duration: reduceMotion ? 0 : ROLLOUT_DURATION_S,
+                ease: [0.16, 1, 0.3, 1],
+              }}
               onMouseEnter={cancelClose}
               onMouseLeave={scheduleClose}
               className={cn(
                 "fixed inset-x-0 z-50 mt-0 w-screen overflow-hidden",
                 "rounded-none border-x border-b border-[color:var(--color-menu-border)] bg-[color:var(--color-nav-bg)]",
-              "shadow-[0_10px_22px_rgba(2,6,23,0.09)]",
+                "shadow-[0_18px_40px_rgba(2,6,23,0.11)]",
               )}
               style={{ top: dropdownTop ?? 0 }}
             >
               <motion.div
-                initial={{ opacity: 0, y: -4 }}
+                initial={{ opacity: 0, y: reduceMotion ? 0 : -4 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -3 }}
+                exit={{ opacity: 0, y: reduceMotion ? 0 : -3 }}
                 transition={{
                   duration: reduceMotion ? 0 : CONTENT_FADE_DURATION_S,
                   delay: reduceMotion ? 0 : 0.08,
@@ -239,110 +252,117 @@ export function DesktopNav() {
                 }}
                 className="mx-auto grid w-full max-w-[1520px] grid-cols-12"
               >
-              <div className="col-span-3 flex min-h-full flex-col border-r border-[color:var(--color-menu-border)] bg-[color:var(--color-nav-bg)] px-10 py-9">
-                <p className="text-[22px] leading-[1.2] font-semibold text-[color:var(--color-menu-title)]">
-                  {section.intro.title}
-                </p>
-                <p className="mt-4 max-w-[26ch] text-[14px] leading-7 text-[color:var(--color-menu-muted)]">
-                  {section.intro.description}
-                </p>
-                <Link
-                  href={section.intro.ctaHref}
-                  onClick={() => {
-                    closeMenu();
-                    trackCtaClick({
-                      ctaId: `nav_desktop_intro_${navId(section.intro.ctaLabel)}`,
-                      location: "nav_desktop:intro",
-                      destination: section.intro.ctaHref,
-                      label: section.intro.ctaLabel,
-                    });
-                  }}
-                  className={cn(
-                    "mt-auto inline-flex items-center gap-2 border-t border-[color:var(--color-menu-border)] pt-8 text-[13px] font-semibold tracking-[0.02em]",
-                    "text-[color:var(--color-menu-accent)] hover:text-[color:var(--color-menu-accent-hover)]",
-                    focusRingNav,
-                  )}
-                >
-                  {section.intro.ctaLabel}
-                  <span aria-hidden>→</span>
-                </Link>
-              </div>
+                <div className="col-span-3 flex min-h-full flex-col border-r border-[color:var(--color-menu-border)] bg-[color:var(--color-nav-bg)] px-10 py-9">
+                  <p className="text-[22px] leading-[1.2] font-semibold text-[color:var(--color-menu-title)]">
+                    {section.intro.title}
+                  </p>
+                  <p className="mt-4 max-w-[26ch] text-[14px] leading-7 text-[color:var(--color-menu-muted)]">
+                    {section.intro.description}
+                  </p>
+                  <Link
+                    href={section.intro.ctaHref}
+                    onClick={() => {
+                      closeMenu();
+                      trackCtaClick({
+                        ctaId: `nav_desktop_intro_${navId(section.intro.ctaLabel)}`,
+                        location: "nav_desktop:intro",
+                        destination: section.intro.ctaHref,
+                        label: section.intro.ctaLabel,
+                      });
+                    }}
+                    className={cn(
+                      "mt-auto inline-flex items-center gap-2 border-t border-[color:var(--color-menu-border)] pt-8 text-[13px] font-semibold tracking-[0.02em]",
+                      "text-[color:var(--color-menu-accent)] hover:text-[color:var(--color-menu-accent-hover)]",
+                      focusRingNav,
+                    )}
+                  >
+                    {section.intro.ctaLabel}
+                    <span aria-hidden>→</span>
+                  </Link>
+                </div>
 
-              <div className="col-span-9 px-10 py-9">
-                {activeKey === "solutions" ? (
-                  <div className="grid grid-cols-4 gap-x-10 gap-y-8">
-                    {NAV.solutions.categories.map((category) => (
-                      <div key={category.title}>
-                        <p className="mb-4 text-[10.5px] font-semibold tracking-[0.12em] text-[color:var(--color-menu-subtle)] uppercase">
-                          {category.title}
-                        </p>
-                        <ul className="space-y-2.5">
-                          {category.links.map((link) => (
-                            <li key={link.href}>
-                              <Link
-                                href={link.href}
-                                onClick={() => {
-                                  closeMenu();
-                                  trackCtaClick({
-                                    ctaId: `nav_desktop_menu_${navId(link.href)}`,
-                                    location: "nav_desktop:menu",
-                                    destination: link.href,
-                                    label: link.label,
-                                  });
-                                }}
-                                className={cn(
-                                  "relative inline-flex w-fit px-2 py-1.5 text-[14px] font-medium text-[color:var(--color-menu-title)] transition-colors duration-200",
-                                  "after:absolute after:bottom-0.5 after:left-2 after:right-2 after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[color:var(--color-menu-accent)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
-                                  "hover:text-[color:var(--color-ssp-ink-800)] hover:after:scale-x-100",
-                                  focusRingNav,
-                                )}
-                              >
-                                {link.label}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <ul className={cn("grid gap-2.5", activeKey === "careers" ? "grid-cols-1" : "grid-cols-2")}>
-                    {linkSection?.links.map((link) => (
-                      <li key={link.href}>
-                        <Link
-                          href={link.href}
-                          onClick={() => {
-                            closeMenu();
-                            trackCtaClick({
-                              ctaId: `nav_desktop_menu_${navId(link.href)}`,
-                              location: "nav_desktop:menu",
-                              destination: link.href,
-                              label: link.label,
-                            });
-                          }}
-                          className={cn(
-                            "group block rounded-md px-3 py-3 transition-colors duration-200",
-                            focusRingNav,
-                          )}
-                        >
-                          <p className={cn(
-                            "relative inline text-[15px] leading-6 font-semibold text-[color:var(--color-menu-title)] transition-colors duration-200",
-                            "after:absolute after:-bottom-0.5 after:left-0 after:right-0 after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[color:var(--color-menu-accent)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
-                            "group-hover:text-[color:var(--color-ssp-ink-800)] group-hover:after:scale-x-100",
-                          )}>
-                            {link.label}
+                <div className="col-span-9 px-10 py-9">
+                  {activeKey === "solutions" ? (
+                    <div className="grid grid-cols-4 gap-x-10 gap-y-8">
+                      {NAV.solutions.categories.map((category) => (
+                        <div key={category.title}>
+                          <p className="mb-4 text-[10.5px] font-semibold tracking-[0.12em] text-[color:var(--color-menu-subtle)] uppercase">
+                            {category.title}
                           </p>
-                          {link.description ? (
-                            <p className="mt-1 text-[12.5px] leading-6 text-[color:var(--color-menu-muted)]">
-                              {link.description}
+                          <ul className="space-y-2.5">
+                            {category.links.map((link) => (
+                              <li key={link.href}>
+                                <Link
+                                  href={link.href}
+                                  onClick={() => {
+                                    closeMenu();
+                                    trackCtaClick({
+                                      ctaId: `nav_desktop_menu_${navId(link.href)}`,
+                                      location: "nav_desktop:menu",
+                                      destination: link.href,
+                                      label: link.label,
+                                    });
+                                  }}
+                                  className={cn(
+                                    "relative inline-flex w-fit px-2 py-1.5 text-[14px] font-medium text-[color:var(--color-menu-title)] transition-colors duration-200",
+                                    "after:absolute after:right-2 after:bottom-0.5 after:left-2 after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[color:var(--color-menu-accent)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
+                                    "hover:text-[color:var(--color-ssp-ink-800)] hover:after:scale-x-100",
+                                    focusRingNav,
+                                  )}
+                                >
+                                  {link.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <ul
+                      className={cn(
+                        "grid gap-2.5",
+                        activeKey === "careers" ? "grid-cols-1" : "grid-cols-2",
+                      )}
+                    >
+                      {linkSection?.links.map((link) => (
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            onClick={() => {
+                              closeMenu();
+                              trackCtaClick({
+                                ctaId: `nav_desktop_menu_${navId(link.href)}`,
+                                location: "nav_desktop:menu",
+                                destination: link.href,
+                                label: link.label,
+                              });
+                            }}
+                            className={cn(
+                              "group block rounded-md px-3 py-3 transition-colors duration-200",
+                              focusRingNav,
+                            )}
+                          >
+                            <p
+                              className={cn(
+                                "relative inline text-[15px] leading-6 font-semibold text-[color:var(--color-menu-title)] transition-colors duration-200",
+                                "after:absolute after:right-0 after:-bottom-0.5 after:left-0 after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[color:var(--color-menu-accent)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
+                                "group-hover:text-[color:var(--color-ssp-ink-800)] group-hover:after:scale-x-100",
+                              )}
+                            >
+                              {link.label}
                             </p>
-                          ) : null}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+                            {link.description ? (
+                              <p className="mt-1 text-[12.5px] leading-6 text-[color:var(--color-menu-muted)]">
+                                {link.description}
+                              </p>
+                            ) : null}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </motion.div>
             </motion.div>
           </>
