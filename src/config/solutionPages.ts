@@ -147,6 +147,7 @@ export type SolutionFamilyPageData = {
   };
   whySsp: {
     eyebrow: string;
+    title: string;
     points: readonly SolutionPillar[];
   };
   howItWorks: {
@@ -231,6 +232,7 @@ export type SolutionDetailPageData = {
   freightFit: SolutionFreightFitSectionData;
   whySsp: {
     eyebrow: string;
+    title: string;
     points: readonly SolutionPillar[];
   };
   execution: {
@@ -380,7 +382,8 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Truckload",
+    eyebrow: "Why SSP",
+    title: "For Truckload",
     points: [
       {
         title: "Freight fit is resolved before capacity is assigned",
@@ -767,7 +770,8 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For LTL",
+    eyebrow: "Why SSP",
+    title: "For LTL",
     points: [
       {
         title: "Shipment quality is checked before tender",
@@ -1152,7 +1156,8 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Dry Van",
+    eyebrow: "Why SSP",
+    title: "For Dry Van",
     points: [
       {
         title: "Equipment fit is qualified before the load is covered",
@@ -1446,7 +1451,8 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Flatbed",
+    eyebrow: "Why SSP",
+    title: "For Flatbed",
     points: [
       {
         title: "Equipment fit and securement logic are resolved before dispatch",
@@ -1740,7 +1746,8 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Step Deck",
+    eyebrow: "Why SSP",
+    title: "For Step Deck",
     points: [
       {
         title: "Height-risk qualification happens before capacity is assigned",
@@ -2034,7 +2041,8 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Conestoga",
+    eyebrow: "Why SSP",
+    title: "For Conestoga",
     points: [
       {
         title: "Protection requirements are qualified before capacity is committed",
@@ -2328,7 +2336,8 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For RGN / Heavy Haul",
+    eyebrow: "Why SSP",
+    title: "For RGN / Heavy Haul",
     points: [
       {
         title: "Route, permit, and equipment logic are qualified before dispatch",
@@ -2582,7 +2591,8 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Temperature-Controlled",
+    eyebrow: "Why SSP",
+    title: "For Temperature-Controlled",
     points: [
       {
         title: "Setpoint and commodity requirements are qualified before dispatch",
@@ -2922,7 +2932,8 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Hazmat",
+    eyebrow: "Why SSP",
+    title: "For Hazmat",
     points: [
       {
         title: "Classification and documentation are checked before dispatch",
@@ -3258,7 +3269,8 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Expedited",
+    eyebrow: "Why SSP",
+    title: "For Expedited",
     points: [
       {
         title: "Urgency is qualified before capacity is assigned",
@@ -3588,7 +3600,8 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Specialized Vehicle Transport",
+    eyebrow: "Why SSP",
+    title: "For Specialized Vehicle Transport",
     points: [
       {
         title: "Equipment fit and handling standards are resolved before dispatch",
@@ -3887,7 +3900,8 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Project-Specific Freight",
+    eyebrow: "Why SSP",
+    title: "For Project-Specific Freight",
     points: [
       {
         title: "The move design starts before capacity is booked",
@@ -4197,7 +4211,8 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Managed Capacity",
+    eyebrow: "Why SSP",
+    title: "For Managed Capacity",
     points: [
       {
         title: "Carrier strategy and lane governance are structured together",
@@ -4500,7 +4515,8 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Dedicated / Contract",
+    eyebrow: "Why SSP",
+    title: "For Dedicated / Contract",
     points: [
       {
         title: "Capacity and workflow are designed together",
@@ -4804,7 +4820,8 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Warehousing & Distribution",
+    eyebrow: "Why SSP",
+    title: "For Warehousing & Distribution",
     points: [
       {
         title: "Receiving, storage, and outbound rules are aligned early",
