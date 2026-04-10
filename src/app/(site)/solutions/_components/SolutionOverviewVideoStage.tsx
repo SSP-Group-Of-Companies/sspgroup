@@ -1,9 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import * as React from "react";
 import type { SolutionVideoAsset } from "@/config/solutionPages";
-import { Plyr, type APITypes, type PlyrOptions, type PlyrSource } from "plyr-react";
+import type { APITypes, PlyrOptions, PlyrSource } from "plyr-react";
 import styles from "./SolutionOverviewVideoStage.module.css";
+
+const Plyr = dynamic(() => import("plyr-react").then((mod) => mod.Plyr), {
+  ssr: false,
+});
 
 type SolutionOverviewVideoStageProps = {
   video: SolutionVideoAsset;
