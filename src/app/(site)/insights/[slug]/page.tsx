@@ -5,6 +5,8 @@ import { getPublicBlogPostBySlug } from "@/lib/utils/blog/ssrBlogFetchers";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
 import { InsightsPostJsonLd } from "./InsightsPostJsonLd";
 import InsightsPostClient from "./InsightsPostClient";
+import { IBlogComment } from "@/types/blogComment.types";
+import { IBlogPost } from "@/types/blogPost.types";
 
 function resolveInsightsOgImage(url: string | undefined | null): string {
   const raw = url?.trim() ? String(url).trim() : INSIGHTS_DEFAULT_OG_IMAGE;
