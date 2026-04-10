@@ -3,11 +3,7 @@ import type { Metadata } from "next";
 import { CAREERS_DEFAULT_OG_IMAGE } from "@/lib/seo/site";
 import { getPublicJobsListSSR } from "@/lib/utils/jobs/ssrJobsFetchers";
 import CareersClient from "./CareersClient";
-import {
-  EEmploymentType,
-  EWorkplaceType,
-  type IJobPosting,
-} from "@/types/jobPosting.types";
+import { EEmploymentType, EWorkplaceType, type IJobPosting } from "@/types/jobPosting.types";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 

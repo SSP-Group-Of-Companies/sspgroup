@@ -964,7 +964,7 @@ export default function InsightsIndexClient({
                           }
                           className={cn(
                             "inline-flex h-9 items-center justify-center gap-2 rounded-md px-4 text-xs font-semibold",
-                            "border border-[rgba(255,255,255,0.22)] bg-[rgba(255,255,255,0.10)] text-[color:var(--color-muted-strong)] shadow-sm backdrop-blur transition hover:-translate-y-[2px] hover:border-[rgba(255,255,255,0.38)] hover:text-white",
+                            "border border-[rgba(255,255,255,0.22)] bg-[rgba(255,255,255,0.10)] text-[rgba(255,255,255,0.92)] shadow-sm backdrop-blur transition hover:-translate-y-[2px] hover:border-[rgba(255,255,255,0.38)] hover:text-white",
                             "focus-ring-surface",
                           )}
                         >
