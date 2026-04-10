@@ -5,8 +5,10 @@ import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 import type { SolutionFamilyPageData } from "@/config/solutionPages";
 
+type ServiceUseSectionData = NonNullable<SolutionFamilyPageData["serviceUse"]>;
+
 type Props = {
-  section: SolutionFamilyPageData["serviceUse"];
+  section: ServiceUseSectionData;
   accent: string;
   scrollMarginTop?: number;
 };
@@ -121,7 +123,7 @@ export function SolutionWhenToChooseSection({
                 borderColor: GRID_LINE_COLOR,
               }}
             >
-              <SectionSignalEyebrow label={section.eyebrow} />
+              <SectionSignalEyebrow label={section.eyebrow} accentColor={accent} />
 
               <h2
                 id={headingId}

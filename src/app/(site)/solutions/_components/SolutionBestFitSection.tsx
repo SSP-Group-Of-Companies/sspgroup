@@ -12,6 +12,7 @@ type BestFitSectionData = NonNullable<SolutionFamilyPageData["bestFitProfiles"]>
 
 type Props = {
   section: BestFitSectionData;
+  accent: string;
   scrollMarginTop?: number;
 };
 
@@ -58,7 +59,7 @@ function getBestFitProfilePresentation(
   };
 }
 
-export function SolutionBestFitSection({ section, scrollMarginTop }: Props) {
+export function SolutionBestFitSection({ section, accent, scrollMarginTop }: Props) {
   const reduced = useReducedMotion() ?? false;
   const headingId = "solution-best-fit-heading";
 
@@ -74,7 +75,12 @@ export function SolutionBestFitSection({ section, scrollMarginTop }: Props) {
       style={scrollMarginTop ? { scrollMarginTop } : undefined}
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute inset-0 bg-[radial-gradient(46%_52%_at_86%_16%,rgba(16,167,216,0.14),transparent_72%)]" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `radial-gradient(46% 52% at 86% 16%, color-mix(in srgb, ${accent} 22%, transparent), transparent 72%)`,
+          }}
+        />
         <div className="absolute inset-0 bg-[radial-gradient(36%_40%_at_0%_100%,rgba(215,25,32,0.07),transparent_72%)]" />
         <div
           className="absolute inset-0 opacity-[0.015]"
@@ -93,7 +99,7 @@ export function SolutionBestFitSection({ section, scrollMarginTop }: Props) {
             transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut" }}
             className="max-w-[46rem]"
           >
-            <SectionSignalEyebrow label={section.eyebrow} light />
+            <SectionSignalEyebrow label={section.eyebrow} light accentColor={accent} />
             <h2
               id={headingId}
               className="mt-4 max-w-[18ch] text-[2rem] font-bold leading-[1.08] tracking-tight text-white sm:text-[2.45rem]"

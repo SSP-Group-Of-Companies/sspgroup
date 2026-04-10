@@ -32,6 +32,7 @@ export function ModeSolutionPage({ page }: { page: SolutionFamilyPageData }) {
       <ModeSolutionOverviewSection
         slug={page.slug}
         section={page.modeOverview}
+        accent={page.theme.accent}
         scrollMarginTop={SECTION_SCROLL_MARGIN}
       />
 
@@ -40,12 +41,14 @@ export function ModeSolutionPage({ page }: { page: SolutionFamilyPageData }) {
       {page.bestFitProfiles ? (
         <SolutionBestFitSection
           section={page.bestFitProfiles}
+          accent={page.theme.accent}
           scrollMarginTop={SECTION_SCROLL_MARGIN}
         />
       ) : page.freightFit ? (
         <EquipmentSolutionFreightFitSection
           slug={page.slug}
           section={page.freightFit}
+          accent={page.theme.accent}
           scrollMarginTop={SECTION_SCROLL_MARGIN}
         />
       ) : null}
@@ -56,11 +59,13 @@ export function ModeSolutionPage({ page }: { page: SolutionFamilyPageData }) {
         scrollMarginTop={SECTION_SCROLL_MARGIN}
       />
 
-      <SolutionWhenToChooseSection
-        section={page.serviceUse}
-        accent={page.theme.accent}
-        scrollMarginTop={SECTION_SCROLL_MARGIN}
-      />
+      {page.serviceUse ? (
+        <SolutionWhenToChooseSection
+          section={page.serviceUse}
+          accent={page.theme.accent}
+          scrollMarginTop={SECTION_SCROLL_MARGIN}
+        />
+      ) : null}
 
       <SolutionRelatedServicesSection
         section={page.relatedSolutions}
@@ -69,12 +74,13 @@ export function ModeSolutionPage({ page }: { page: SolutionFamilyPageData }) {
       />
 
       <SharedFaqSection
-        eyebrow={<SectionSignalEyebrow label={page.faq.eyebrow} />}
+        eyebrow={<SectionSignalEyebrow label={page.faq.eyebrow} accentColor={page.theme.accent} />}
         title={page.faq.title}
         description={page.faq.description}
         items={page.faq.items.map((item) => ({ q: item.question, a: item.answer }))}
         theme="light"
         panelIdPrefix={`solution-${page.slug}-faq`}
+        accentColor={page.theme.accent}
       />
 
       <StandardFinalCta

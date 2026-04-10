@@ -17,6 +17,7 @@ type SharedFaqSectionProps = {
   items: readonly SharedFaqItem[];
   theme?: "light" | "dark";
   panelIdPrefix?: string;
+  accentColor?: string;
 };
 
 export function SharedFaqSection({
@@ -26,6 +27,7 @@ export function SharedFaqSection({
   items,
   theme = "light",
   panelIdPrefix = "faq",
+  accentColor,
 }: SharedFaqSectionProps) {
   const reduceMotion = useReducedMotion() ?? false;
   const [openIdx, setOpenIdx] = useState(0);
@@ -66,11 +68,30 @@ export function SharedFaqSection({
   const hoverBg = theme === "dark" ? "hover:bg-white/[0.03]" : "hover:bg-[color:var(--color-nav-hover)]";
   const iconClosedColor = theme === "dark" ? "bg-white/55" : "bg-[color:var(--color-menu-subtle)]";
   const iconClosedBorder = theme === "dark" ? "border-white/18" : "border-[color:var(--color-menu-border)]";
-  const iconOpenColor = theme === "dark" ? "bg-[color:var(--color-ssp-cyan-500)]" : "bg-[color:var(--color-menu-accent)]";
-  const iconOpenBorder = theme === "dark" ? "border-[color:var(--color-ssp-cyan-500)]/35" : "border-[color:var(--color-menu-accent)]/30";
+  const iconOpenColor =
+    theme === "dark" || !accentColor
+      ? theme === "dark"
+        ? "bg-[color:var(--color-ssp-cyan-500)]"
+        : "bg-[color:var(--color-menu-accent)]"
+      : "";
+  const iconOpenBorder =
+    theme === "dark" || !accentColor
+      ? theme === "dark"
+        ? "border-[color:var(--color-ssp-cyan-500)]/35"
+        : "border-[color:var(--color-menu-accent)]/30"
+      : "";
 
   return (
     <section className={sectionClasses} aria-labelledby={headingId}>
+      {theme === "light" && accentColor ? (
+        <div
+          className="pointer-events-none absolute inset-0"
+          aria-hidden
+          style={{
+            background: `radial-gradient(34% 28% at 84% 14%, color-mix(in srgb, ${accentColor} 9%, transparent), transparent 72%)`,
+          }}
+        />
+      ) : null}
       <Container className="site-page-container">
         <div className="grid gap-7 lg:grid-cols-12">
           <motion.div
@@ -130,12 +151,24 @@ export function SharedFaqSection({
                           "relative mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors",
                           isOpen ? iconOpenBorder : iconClosedBorder,
                         )}
+                        style={
+                          isOpen && accentColor && theme === "light"
+                            ? {
+                                borderColor: `color-mix(in srgb, ${accentColor} 30%, transparent)`,
+                              }
+                            : undefined
+                        }
                       >
                         <span
                           className={cn(
                             "absolute h-[1.5px] w-2.5 rounded-full transition-colors",
                             isOpen ? iconOpenColor : iconClosedColor,
                           )}
+                          style={
+                            isOpen && accentColor && theme === "light"
+                              ? { backgroundColor: accentColor }
+                              : undefined
+                          }
                         />
                         <span
                           className={cn(
@@ -144,6 +177,11 @@ export function SharedFaqSection({
                               ? `scale-0 ${iconOpenColor}`
                               : `scale-100 ${iconClosedColor}`,
                           )}
+                          style={
+                            isOpen && accentColor && theme === "light"
+                              ? { backgroundColor: accentColor }
+                              : undefined
+                          }
                         />
                       </span>
                     </button>

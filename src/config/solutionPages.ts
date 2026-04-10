@@ -156,7 +156,7 @@ export type SolutionFamilyPageData = {
     items: readonly SolutionFamilyCard[];
   };
   freightFit?: SolutionFreightFitSectionData;
-  serviceUse: {
+  serviceUse?: {
     eyebrow: string;
     title: string;
     description: string;
@@ -368,7 +368,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
     description:
       "Truckload is built for freight that should move in dedicated trailer space with clearer handling control, fewer shared-capacity compromises, and tighter appointment discipline. The objective is a cleaner operating path from pickup through delivery.",
     video: {
-      src: "/_optimized/solution/truckload/mode-overview.mp4",
+      src: "/_optimized/solution/truckload/commercialVideo.mp4",
       posterSrc: "/_optimized/solution/truckload/mode-overview-poster.jpg",
       title: "Truckload service in motion",
     },
@@ -755,7 +755,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
     description:
       "LTL works when freight is palletized, accurately classified, dock-compatible, and able to move through terminal handling without creating avoidable claim or delay exposure. The cost advantage comes from shared capacity, but the operating discipline has to be established before the freight enters the network.",
     video: {
-      src: "/_optimized/solution/ltl/mode-overview.mp4",
+      src: "/_optimized/solution/ltl/commercialVideo.mp4",
       posterSrc: "/_optimized/solution/ltl/mode-overview-poster.jpg",
       title: "LTL service in motion",
     },
@@ -1752,7 +1752,7 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
   },
   execution: {
     eyebrow: "How It Works",
-    title: "A step deck move should be qualified around height and handling before dispatch.",
+    title: "A step deck move should be qualified before dispatch.",
     description:
       "Step deck execution improves when cargo height, deck fit, loading method, and route reality are aligned before the trailer is moving. This is the operating sequence SSP follows.",
     steps: [
@@ -2046,7 +2046,7 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
   },
   execution: {
     eyebrow: "How It Works",
-    title: "A Conestoga move should be structured around protection and handling before dispatch.",
+    title: "A Conestoga move should be structured before dispatch.",
     description:
       "Conestoga execution improves when cargo sensitivity, loading method, cover fit, and route reality are aligned before the trailer is moving. This is the operating sequence SSP follows.",
     steps: [
@@ -2340,7 +2340,7 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
   },
   execution: {
     eyebrow: "How It Works",
-    title: "A heavy haul move should be engineered before the trailer starts moving.",
+    title: "A heavy haul move should be engineered before dispatch.",
     description:
       "RGN and heavy haul execution improve when cargo geometry, route reality, permit requirements, and site handling are aligned before dispatch. This is the operating sequence SSP follows.",
     steps: [
@@ -2566,11 +2566,11 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
   ],
   modeOverview: {
     eyebrow: "Mode Overview",
-    title: "Temperature-controlled freight is a product-integrity service, not just an equipment choice.",
+    title: "Temperature-controlled freight is built around product integrity.",
     description:
       "This mode is used when cargo quality, shelf life, or compliance depends on maintaining a defined temperature range during transit. The reefer trailer matters, but so do setpoint instructions, pre-load readiness, airflow, monitoring, and disciplined response if conditions change.",
     video: {
-      src: "/_optimized/solution/tempCtrl/mode-overview.mp4",
+      src: "/_optimized/solution/tempCtrl/comomercialVideo.mp4",
       posterSrc: "/_optimized/solution/tempCtrl/mode-overview-poster.jpg",
       title: "Temperature-controlled service in motion",
     },
@@ -2906,11 +2906,11 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
   ],
   modeOverview: {
     eyebrow: "Mode Overview",
-    title: "Hazmat freight is a compliance-controlled service, not a standard truckload with extra paperwork.",
+    title: "Hazmat freight is built around compliance before pickup.",
     description:
       "This mode is used when the material is regulated for transportation and the shipment has to move with the correct classification, packaging, hazard communication, documentation, and operating controls. Equipment matters, but the real operating discipline sits in getting the shipment legally and operationally ready before pickup.",
     video: {
-      src: "/_optimized/solution/hazmat/mode-overview.mp4",
+      src: "/_optimized/solution/hazmat/commericalVideo.mp4",
       posterSrc: "/_optimized/solution/hazmat/mode-overview-poster.jpg",
       title: "Hazmat service in motion",
     },
@@ -3242,11 +3242,11 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
   ],
   modeOverview: {
     eyebrow: "Mode Overview",
-    title: "Expedited freight is an urgency-first operating model, not just a faster quote.",
+    title: "Expedited freight is an urgency-led operating model.",
     description:
       "This mode is used when delivery timing affects production continuity, customer commitments, or shipment recovery and the move has to be built around faster response, directness, and disciplined communication. Speed matters, but execution quality still depends on clean intake, realistic routing, and active exception control.",
     video: {
-      src: "/_optimized/solution/expedited/mode-overview.mp4",
+      src: "/_optimized/solution/expedited/commericalVideo.mp4",
       posterSrc: "/_optimized/solution/expedited/mode-overview-poster.jpg",
       title: "Expedited service in motion",
     },
@@ -3473,6 +3473,305 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
   },
 };
 
+export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
+  pageType: "family",
+  slug: "specialized-vehicles",
+  theme: {
+    accent: "#7c3aed",
+    heroOverlay:
+      "linear-gradient(108deg, rgba(10,12,24,0.94) 0%, rgba(20,18,42,0.86) 30%, rgba(38,30,72,0.34) 66%, rgba(124,58,237,0.12) 100%)",
+    heroGlow: "radial-gradient(46%_54%_at_82%_18%,rgba(124,58,237,0.14),transparent_72%)",
+  },
+  meta: {
+    title: "Specialized Vehicle Transport | SSP Group",
+    description:
+      "Specialized vehicle transport across Canada, the United States, and Mexico with condition-controlled handling, route screening, and accountable delivery execution.",
+    ogImage: "/_optimized/brand/SSPlogo.png",
+  },
+  hero: {
+    eyebrow: "Specialized Vehicles Transport",
+    title: "Specialized vehicle transport built around condition, fit, and route control.",
+    description:
+      "SSP structures specialized vehicle transport around unit profile, enclosed equipment fit, route feasibility, handling requirements, and condition accountability before the move begins. Across Canada, the United States, and Mexico, this is the operating path for exotic vehicles, collector units, premium assets, and non-standard rolling cargo that cannot be left to generic transport assumptions.",
+    descriptionMaxWidth: "51rem",
+    supportingPoints: [],
+    primaryCta: {
+      label: "Request a Specialized Vehicle Quote",
+      href: "/quote?service=expedited-specialized&mode=specialized-vehicles",
+    },
+    secondaryCta: {
+      label: "Talk to the Specialized Vehicle Team",
+      href: "/contact?topic=expedited-specialized&mode=specialized-vehicles",
+    },
+    media: {
+      src: "/_optimized/solution/specializedVehicleTransport/svtHero-Img.png",
+      alt: "Specialized enclosed vehicle transport on a North American route",
+    },
+    mediaBrief: [
+      {
+        title: "Specialized vehicle hero image",
+        orientation: "landscape",
+        description:
+          "Premium flagship image for specialized vehicle transport. It should feel controlled, high-trust, and operationally real, with premium-asset handling clearly implied.",
+        mustShow: [
+          "Specialized or enclosed vehicle transport context that is visually clear",
+          "A premium unit or controlled loading scene with obvious condition-sensitive handling",
+          "Clean negative space that supports premium headline copy without clutter",
+        ],
+        avoid: [
+          "Generic car-carrier imagery with no premium-asset or controlled-handling signal",
+          "Chaotic lot scenes or busy staging that undermine the quality standard",
+          "Low-resolution, dated, or artificial-looking imagery",
+        ],
+      },
+    ],
+  },
+  proof: [
+    { value: "Condition-led", label: "Operating model" },
+    { value: "Enclosed / specialty", label: "Equipment path" },
+    { value: "CA-US-MX", label: "Operating reach" },
+  ],
+  subnavLabel: "Specialized vehicles page sections",
+  pageSections: [
+    {
+      key: "mode-overview",
+      label: "Mode Overview",
+      summary: "What specialized vehicle transport is and the operating controls it depends on.",
+      accent: "#0d4f78",
+    },
+    {
+      key: "why-ssp",
+      label: "Why SSP",
+      summary: "The execution controls that matter once asset condition and handling precision lead the move.",
+      accent: "#7c3aed",
+    },
+    {
+      key: "freight-fit",
+      label: "Freight Fit Guide",
+      summary: "How to confirm specialized vehicle transport and when another SSP path should lead the move.",
+      accent: "#10a7d8",
+    },
+    {
+      key: "how-it-works",
+      label: "How It Works",
+      summary: "The operating sequence SSP uses to structure a specialized vehicle move.",
+      accent: "#d71920",
+    },
+    {
+      key: "related",
+      label: "Related Services",
+      summary: "Where SSP routes the shipper when specialized handling is not the only issue or should not lead the move alone.",
+      accent: "#b37a20",
+    },
+    {
+      key: "faq",
+      label: "FAQ",
+      summary: "The qualification questions that matter before booking specialized vehicle transport.",
+      accent: "#7c3aed",
+    },
+  ],
+  modeOverview: {
+    eyebrow: "Mode Overview",
+    title: "Specialized vehicle transport is built around condition accountability.",
+    description:
+      "This mode is used when vehicle condition, handling sequence, route feasibility, or premium-asset exposure need to be resolved before dispatch. Enclosed equipment matters, but so do clearance checks, ramp angle, custody points, and delivery-site realism before the unit ever moves.",
+    video: {
+      src: "/_optimized/solution/specializedVehicleTransport/commericalVideo.mp4",
+      posterSrc: "/_optimized/solution/specializedVehicleTransport/mode-overview-poster.jpg",
+      title: "Specialized vehicle transport in motion",
+    },
+  },
+  whySsp: {
+    eyebrow: "Why SSP For Specialized Vehicle Transport",
+    points: [
+      {
+        title: "Equipment fit and handling standards are resolved before dispatch",
+        body: "SSP reviews unit dimensions, ride height, securement approach, loading method, and condition sensitivity before capacity is assigned, so the move starts with the right enclosed or specialty path instead of generic assumptions.",
+      },
+      {
+        title: "Route and site feasibility are checked early",
+        body: "Clearance, grade, turning radius, access limitations, appointment timing, and delivery conditions are aligned before pickup so the shipment does not lose control at the most sensitive handoff points.",
+      },
+      {
+        title: "Condition accountability stays attached to the move",
+        body: "Pickup condition, milestone communication, delivery confirmation, and any exception follow-through remain tied to the shipment from origin through closeout rather than being treated as post-event administration.",
+      },
+    ],
+  },
+  howItWorks: {
+    eyebrow: "How It Works",
+    title: "Specialized vehicle transport should be qualified before loading.",
+    description:
+      "Specialized vehicle moves perform best when equipment fit, route reality, site conditions, and condition-accountability standards are aligned before dispatch. This is the sequence SSP uses to structure the move.",
+    steps: [
+      {
+        step: "01",
+        title: "Confirm unit profile and handling requirement",
+        body: "Vehicle dimensions, ride height, special handling notes, loading method, origin and destination conditions, and condition expectations are reviewed first so the move is qualified against the real operating need.",
+      },
+      {
+        step: "02",
+        title: "Match the right equipment and route path",
+        body: "Enclosed equipment fit, securement method, route feasibility, access constraints, and delivery timing are aligned before the shipment is dispatched.",
+      },
+      {
+        step: "03",
+        title: "Run the move against milestone and custody control",
+        body: "Once the shipment is in motion, SSP manages the move against pickup, transit, and delivery milestones with communication tied to the checkpoints that matter for premium-asset handling.",
+      },
+      {
+        step: "04",
+        title: "Close delivery with documented handoff discipline",
+        body: "Delivery confirmation, condition-aware closeout, and any exception follow-through stay connected to the shipment so accountability does not fall away at the end of the move.",
+      },
+    ],
+  },
+  freightFit: {
+    eyebrow: "Freight Fit Guide",
+    title: "Specialized vehicle fit should be confirmed before capacity is committed.",
+    description:
+      "Use this guide to confirm that the shipment truly needs condition-controlled vehicle handling, specialized equipment fit, or route-screened execution. If another service should define the move, SSP should route it early.",
+    guide: {
+      title: "Specialized Vehicle Transport Freight Fit Guide",
+      intro:
+        "Specialized vehicle transport is for exotic vehicles, collector units, premium rolling assets, and non-standard vehicle moves where condition integrity, enclosed handling, and route feasibility are non-negotiable. Use this guide to confirm fit and identify the better SSP path when another operating model should lead the move.",
+      diagram: "/_optimized/solution/specializedVehicleTransport/svtHero-Img.png",
+      diagramAlt: "Specialized vehicle transport overview",
+      specs: {
+        length: "Equipment path depends on unit profile, ride height, and loading method",
+        width: "Standard enclosed width unless the unit profile requires another equipment plan",
+        height: "Interior clearance, ramp angle, and roof clearance must be validated before commitment",
+        weight: "Per unit or load; equipment and securement are matched to the actual vehicle profile",
+      },
+      rules: [
+        {
+          condition: "Standard freight or vehicle moves that fit conventional truckload equipment",
+          description:
+            "If the shipment does not require premium-asset handling, enclosed specialty equipment, or route-screened execution, a standard truckload path is usually cleaner.",
+          recommendation: "Truckload",
+          serviceSlug: "/solutions/truckload",
+        },
+        {
+          condition: "Oversized, overweight, or permit-required vehicle or equipment moves",
+          description:
+            "If the unit exceeds standard legal dimensions, needs lower loading geometry, or requires permit-led route control, specialized vehicle transport is no longer the lead answer.",
+          recommendation: "RGN / Heavy Haul",
+          serviceSlug: "/solutions/rgn-heavy-haul",
+        },
+        {
+          condition: "Shipments where urgency matters more than premium-asset handling",
+          description:
+            "If the move is being driven mainly by a hard deadline or recovery window rather than enclosed condition control, an expedited operating path may be the better fit.",
+          recommendation: "Expedited",
+          serviceSlug: "/solutions/expedited",
+        },
+        {
+          condition: "Recurring premium-asset lanes that need program governance",
+          description:
+            "If the move is part of an ongoing vehicle flow with recurring requirements, the shipment may need a more structured program design than one-off dispatch execution.",
+          recommendation: "Dedicated / Contract",
+          serviceSlug: "/solutions/dedicated-contract",
+        },
+      ],
+      disclaimer:
+        "Planning guidance only. Final fit depends on vehicle profile, access conditions, route feasibility, equipment availability, and the exact handling standard required.",
+    },
+  },
+  relatedSolutions: {
+    eyebrow: "Related Services",
+    title: "If specialized vehicle transport is not the only requirement, lead with the right path.",
+    description:
+      "These are the first SSP paths to review when specialized vehicle handling should not be the only operating model shaping the move.",
+    items: [
+      {
+        label: "Truckload",
+        href: "/solutions/truckload",
+        reason: "Move to truckload when the unit or cargo fits standard dedicated equipment and does not require premium enclosed handling controls.",
+      },
+      {
+        label: "Expedited",
+        href: "/solutions/expedited",
+        reason: "Move to expedited when timing risk is the dominant issue and the move has to be structured around faster recovery and tighter milestones.",
+      },
+      {
+        label: "RGN / Heavy Haul",
+        href: "/solutions/rgn-heavy-haul",
+        reason: "Move to RGN or heavy haul when the shipment needs permit-led planning, lower loading geometry, or specialized oversized handling.",
+      },
+      {
+        label: "Managed Capacity",
+        href: "/solutions/managed-capacity",
+        reason: "Move to managed capacity when recurring specialized moves require procurement governance, lane discipline, and program-level control across ongoing volume.",
+      },
+      {
+        label: "Dedicated / Contract",
+        href: "/solutions/dedicated-contract",
+        reason: "Move to dedicated or contract when the operating model needs committed capacity, repeatable SOPs, and a more permanent service structure around recurring vehicle programs.",
+      },
+    ],
+  },
+  faq: {
+    eyebrow: "Specialized Vehicle FAQs",
+    title: "The questions that matter before booking specialized vehicle transport.",
+    description:
+      "These are the qualification questions that usually determine whether specialized vehicle transport is the right operating path and what SSP needs to structure the move cleanly.",
+    items: [
+      {
+        question: "What qualifies as a specialized vehicle transport move?",
+        answer:
+          "It qualifies when the unit needs enclosed handling, condition-accountable execution, non-standard loading planning, or route screening that standard vehicle or truckload assumptions cannot support cleanly. The real qualifier is handling risk and operating sensitivity, not just the fact that it is a vehicle.",
+      },
+      {
+        question: "What information matters most before I request a quote?",
+        answer:
+          "Vehicle dimensions, ride height, weight, pickup and delivery locations, loading method, access constraints, condition requirements, and timing expectations matter most. Clean equipment-fit and route inputs are what make the plan credible.",
+      },
+      {
+        question: "Does specialized vehicle transport always mean enclosed equipment?",
+        answer:
+          "Not always, but it often does when condition integrity is the priority. The right answer depends on the unit profile, exposure risk, handling method, and route conditions that need to be controlled before dispatch.",
+      },
+      {
+        question: "When should a specialized vehicle move be routed to another SSP service?",
+        answer:
+          "It should be rerouted when the unit fits standard truckload equipment, when urgency rather than handling sensitivity defines the move, when the shipment becomes permit-led heavy haul, or when recurring volume calls for a more programmatic managed-capacity or dedicated model.",
+      },
+      {
+        question: "Can SSP support cross-border specialized vehicle transport?",
+        answer:
+          "Yes. Specialized vehicle moves can be structured across Canada, the United States, and Mexico when route feasibility, border sequence, documentation, and handling controls are aligned before pickup.",
+      },
+    ],
+  },
+  finalCta: {
+    kicker: "Confirm the handling fit",
+    title: "Validate the specialized vehicle plan before the unit moves.",
+    body: "Share the unit profile, origin and destination, dimensions, weight, handling requirements, and timing expectations. SSP will confirm whether specialized vehicle transport is the right operating path, test equipment and route fit early, and structure the move for controlled execution.",
+    trustSignals: [
+      "Specialized vehicle transport across Canada, the United States, and Mexico",
+      "Equipment-fit, route, and custody discipline built into the planning path",
+      "Freight-fit review tied to truckload, expedited, heavy haul, and program-level service paths",
+    ],
+    proof: [
+      { label: "Model", value: "Condition-led" },
+      { label: "Path", value: "Enclosed / specialty" },
+      { label: "Reach", value: "CA-US-MX" },
+    ],
+    ctas: {
+      primary: {
+        label: "Request a Specialized Vehicle Quote",
+        href: "/quote?service=expedited-specialized&mode=specialized-vehicles",
+        ctaId: "solutions_specialized_vehicles_final_request_quote",
+      },
+      secondary: {
+        label: "Talk to the Specialized Vehicle Team",
+        href: "/contact?topic=expedited-specialized&mode=specialized-vehicles",
+        ctaId: "solutions_specialized_vehicles_final_talk_team",
+      },
+    },
+  },
+};
+
 const SOLUTION_PAGES = {
   [TRUCKLOAD_SOLUTION_PAGE.slug]: TRUCKLOAD_SOLUTION_PAGE,
   [LTL_SOLUTION_PAGE.slug]: LTL_SOLUTION_PAGE,
@@ -3483,6 +3782,7 @@ const SOLUTION_PAGES = {
   [TEMPERATURE_CONTROLLED_SOLUTION_PAGE.slug]: TEMPERATURE_CONTROLLED_SOLUTION_PAGE,
   [HAZMAT_SOLUTION_PAGE.slug]: HAZMAT_SOLUTION_PAGE,
   [EXPEDITED_SOLUTION_PAGE.slug]: EXPEDITED_SOLUTION_PAGE,
+  [SPECIALIZED_VEHICLES_SOLUTION_PAGE.slug]: SPECIALIZED_VEHICLES_SOLUTION_PAGE,
   [DRY_VAN_SOLUTION_PAGE.slug]: DRY_VAN_SOLUTION_PAGE,
 } satisfies Record<string, SolutionPageData>;
 

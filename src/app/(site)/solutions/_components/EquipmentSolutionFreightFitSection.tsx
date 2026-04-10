@@ -6,6 +6,7 @@ import type { SolutionFreightFitSectionData } from "@/config/solutionPages";
 type Props = {
   slug: string;
   section: SolutionFreightFitSectionData;
+  accent: string;
   scrollMarginTop?: number;
 };
 
@@ -15,6 +16,7 @@ const NOISE_TEXTURE =
 export function EquipmentSolutionFreightFitSection({
   slug,
   section,
+  accent,
   scrollMarginTop,
 }: Props) {
   const headingId = `solution-${slug}-freight-fit-heading`;
@@ -27,7 +29,12 @@ export function EquipmentSolutionFreightFitSection({
       style={scrollMarginTop ? { scrollMarginTop } : undefined}
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute inset-0 bg-[radial-gradient(46%_52%_at_86%_16%,rgba(16,167,216,0.14),transparent_72%)]" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `radial-gradient(46% 52% at 86% 16%, color-mix(in srgb, ${accent} 22%, transparent), transparent 72%)`,
+          }}
+        />
         <div className="absolute inset-0 bg-[radial-gradient(36%_40%_at_0%_100%,rgba(215,25,32,0.07),transparent_72%)]" />
         <div
           className="absolute inset-0 opacity-[0.015]"
@@ -37,10 +44,10 @@ export function EquipmentSolutionFreightFitSection({
 
       <Container className="site-page-container relative py-16 sm:py-20 lg:py-24">
         <div className="max-w-[46rem]">
-          <SectionSignalEyebrow label={section.eyebrow} light />
+          <SectionSignalEyebrow label={section.eyebrow} light accentColor={accent} />
           <h2
             id={headingId}
-            className="mt-4 max-w-[20ch] text-[2rem] font-semibold leading-[1.08] tracking-tight text-white sm:text-[2.35rem]"
+            className="mt-4 max-w-[22ch] text-balance text-[2rem] font-semibold leading-[1.08] tracking-tight text-white sm:max-w-[24ch] sm:text-[2.35rem]"
           >
             {section.title}
           </h2>
@@ -49,7 +56,12 @@ export function EquipmentSolutionFreightFitSection({
           </p>
         </div>
 
-        <div className="mt-10 rounded-md border border-[color:var(--color-border-light)] bg-[linear-gradient(180deg,var(--color-surface-0-light),var(--color-surface-1-light))] p-6 shadow-[0_12px_30px_rgba(2,6,23,0.05)]">
+        <div
+          className="mt-10 rounded-md border border-[color:var(--color-border-light)] bg-[linear-gradient(180deg,var(--color-surface-0-light),var(--color-surface-1-light))] p-6 shadow-[0_12px_30px_rgba(2,6,23,0.05)]"
+          style={{
+            boxShadow: `0 12px 30px rgba(2,6,23,0.05), 0 1px 0 color-mix(in srgb, ${accent} 18%, transparent) inset`,
+          }}
+        >
           <SolutionFreightGuideRecommendations
             title={section.guide.title}
             intro={section.guide.intro}

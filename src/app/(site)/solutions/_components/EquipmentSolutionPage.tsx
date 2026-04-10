@@ -39,6 +39,7 @@ export function EquipmentSolutionPage({ page }: { page: SolutionDetailPageData }
       <EquipmentSolutionFreightFitSection
         slug={page.slug}
         section={page.freightFit}
+        accent={page.theme.accent}
         scrollMarginTop={SECTION_SCROLL_MARGIN}
       />
 
@@ -55,12 +56,13 @@ export function EquipmentSolutionPage({ page }: { page: SolutionDetailPageData }
       />
 
       <SharedFaqSection
-        eyebrow={<SectionSignalEyebrow label={page.faq.eyebrow} />}
+        eyebrow={<SectionSignalEyebrow label={page.faq.eyebrow} accentColor={page.theme.accent} />}
         title={page.faq.title}
         description={page.faq.description ?? ""}
         items={page.faq.items.map((item) => ({ q: item.question, a: item.answer }))}
         theme="light"
         panelIdPrefix={`solution-${page.slug}-faq`}
+        accentColor={page.theme.accent}
       />
 
       <StandardFinalCta

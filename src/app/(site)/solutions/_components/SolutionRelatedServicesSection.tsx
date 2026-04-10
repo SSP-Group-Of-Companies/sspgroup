@@ -48,17 +48,17 @@ export function SolutionRelatedServicesSection({
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
           variants={stagger}
-          className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.42fr)_minmax(0,0.58fr)] lg:gap-12 xl:gap-16"
+          className="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.46fr)_minmax(0,0.54fr)] lg:gap-12 xl:gap-16"
         >
           <motion.div
             variants={fadeUp}
             transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut" }}
-            className="max-w-[32rem]"
+            className="max-w-[35rem]"
           >
-            <SectionSignalEyebrow label={section.eyebrow} />
+            <SectionSignalEyebrow label={section.eyebrow} accentColor={accent} />
             <h2
               id={headingId}
-              className="mt-4 max-w-[17ch] text-[1.95rem] font-semibold leading-[1.08] tracking-tight text-[color:var(--color-text-light)] sm:text-[2.2rem] xl:text-[2.35rem]"
+              className="mt-4 max-w-[20ch] text-balance text-[1.95rem] font-semibold leading-[1.08] tracking-tight text-[color:var(--color-text-light)] sm:max-w-[22ch] sm:text-[2.2rem] xl:text-[2.35rem]"
             >
               {section.title}
             </h2>

@@ -261,7 +261,7 @@ export function SolutionWhySspSection({
             transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut" }}
             className="flex justify-center"
           >
-            <SectionSignalEyebrow label={section.eyebrow} />
+            <SectionSignalEyebrow label={section.eyebrow} accentColor={accent} />
           </motion.div>
 
           {/* ── Mobile: medallions on road, quiet premium cards ── */}

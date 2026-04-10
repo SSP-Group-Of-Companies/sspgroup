@@ -38,10 +38,10 @@ export function EquipmentSolutionOverviewSection({
       <Container className="site-page-container relative py-16 sm:py-20">
         <div className="mx-auto grid max-w-[73rem] gap-10 md:grid-cols-[minmax(0,1fr)_minmax(300px,0.96fr)] md:items-center md:gap-8 lg:grid-cols-[minmax(0,1.04fr)_minmax(400px,580px)] lg:gap-10 xl:max-w-[75rem] xl:gap-12">
           <div className="max-w-none md:max-w-[32rem] lg:max-w-[36rem]">
-            <SectionSignalEyebrow label={section.eyebrow} />
+            <SectionSignalEyebrow label={section.eyebrow} accentColor={accent} />
             <h2
               id={headingId}
-              className="mt-4 max-w-[17ch] text-[1.95rem] font-semibold leading-[1.08] tracking-tight text-[color:var(--color-text-light)] sm:text-[2.2rem] xl:text-[2.35rem]"
+              className="mt-4 max-w-[19ch] text-balance text-[1.95rem] font-semibold leading-[1.08] tracking-tight text-[color:var(--color-text-light)] sm:max-w-[21ch] sm:text-[2.2rem] xl:text-[2.35rem]"
             >
               {section.title ?? "Technical specs and dimensions."}
             </h2>

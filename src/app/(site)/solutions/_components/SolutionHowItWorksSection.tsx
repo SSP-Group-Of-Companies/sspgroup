@@ -84,14 +84,14 @@ export function SolutionHowItWorksSection({
             transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut" }}
             className="flex justify-center"
           >
-            <SectionSignalEyebrow label={section.eyebrow} />
+            <SectionSignalEyebrow label={section.eyebrow} accentColor={accent} />
           </motion.div>
 
           <motion.h2
             id={headingId}
             variants={fadeUp}
             transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut" }}
-            className="mx-auto mt-4 max-w-[18ch] text-[1.95rem] font-semibold leading-[1.08] tracking-tight text-[color:var(--color-text-light)] sm:max-w-[20ch] sm:text-[2.2rem] lg:max-w-none lg:whitespace-nowrap xl:text-[2.35rem]"
+            className="mx-auto mt-4 max-w-[18ch] text-[1.95rem] font-semibold leading-[1.08] tracking-tight text-[color:var(--color-text-light)] sm:max-w-[20ch] sm:text-[2.2rem] lg:max-w-none lg:whitespace-nowrap lg:text-[2.08rem] xl:text-[2.24rem] 2xl:text-[2.35rem]"
           >
             {section.title}
           </motion.h2>
