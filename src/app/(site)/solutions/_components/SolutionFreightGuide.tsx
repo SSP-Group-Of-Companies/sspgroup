@@ -15,7 +15,10 @@ export type SolutionFreightSpecs = {
   width: string;
   height: string;
   weight: string;
-  pallets?: string;
+  capacity?: {
+    label: string;
+    value: string;
+  };
 };
 
 const SOLUTION_LINKS: Record<string, string> = {

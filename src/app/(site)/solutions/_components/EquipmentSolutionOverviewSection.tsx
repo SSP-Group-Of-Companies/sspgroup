@@ -23,8 +23,8 @@ export function EquipmentSolutionOverviewSection({
     { label: "Width", value: guide.specs.width },
     { label: "Height", value: guide.specs.height },
     { label: "Max Freight Weight", value: guide.specs.weight },
-    ...(guide.specs.pallets
-      ? [{ label: "Pallet Capacity", value: guide.specs.pallets }]
+    ...(guide.specs.capacity
+      ? [{ label: guide.specs.capacity.label, value: guide.specs.capacity.value }]
       : []),
   ];
 
@@ -36,7 +36,7 @@ export function EquipmentSolutionOverviewSection({
       style={scrollMarginTop ? { scrollMarginTop } : undefined}
     >
       <Container className="site-page-container relative py-16 sm:py-20">
-        <div className="mx-auto grid max-w-[71rem] gap-10 md:grid-cols-[minmax(0,1fr)_minmax(280px,0.92fr)] md:items-center md:gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,520px)] lg:gap-10 xl:max-w-[73rem] xl:gap-12">
+        <div className="mx-auto grid max-w-[73rem] gap-10 md:grid-cols-[minmax(0,1fr)_minmax(300px,0.96fr)] md:items-center md:gap-8 lg:grid-cols-[minmax(0,1.04fr)_minmax(400px,580px)] lg:gap-10 xl:max-w-[75rem] xl:gap-12">
           <div className="max-w-none md:max-w-[32rem] lg:max-w-[36rem]">
             <SectionSignalEyebrow label={section.eyebrow} />
             <h2
@@ -86,7 +86,7 @@ export function EquipmentSolutionOverviewSection({
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-[520px] md:mx-0 md:justify-self-end">
+          <div className="relative mx-auto w-full max-w-[580px] md:mx-0 md:justify-self-end">
             <div
               aria-hidden
               className="pointer-events-none absolute inset-x-10 inset-y-12 rounded-full blur-3xl"
@@ -97,7 +97,7 @@ export function EquipmentSolutionOverviewSection({
             <SolutionFreightGuideDiagram
               diagram={guide.diagram}
               diagramAlt={guide.diagramAlt}
-              className="relative rounded-md border-[color:color-mix(in_srgb,var(--color-border-light)_58%,white)] bg-[linear-gradient(180deg,rgba(255,255,255,0.985),rgba(249,250,252,0.96))] p-3 shadow-[0_24px_54px_rgba(15,23,42,0.06),0_3px_10px_rgba(15,23,42,0.03)] sm:p-3.5"
+              className="relative rounded-md border-[color:color-mix(in_srgb,var(--color-border-light)_58%,white)] bg-[linear-gradient(180deg,rgba(255,255,255,0.985),rgba(249,250,252,0.96))] p-2.5 shadow-[0_24px_54px_rgba(15,23,42,0.06),0_3px_10px_rgba(15,23,42,0.03)] sm:p-3"
             />
           </div>
         </div>
