@@ -166,9 +166,9 @@ export const NAV = {
             icon: "truck",
           },
           {
-            label: "Project Freight",
+            label: "Project-Specific",
             href: "/solutions/project-freight",
-            description: "Program-managed freight for complex and phased moves.",
+            description: "Program-managed freight for engineered and phased moves.",
             icon: "briefcase",
           },
         ],

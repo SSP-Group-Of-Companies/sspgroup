@@ -106,6 +106,11 @@ export type SolutionFreightFitSectionData = {
   guide: SolutionFreightFitGuide;
 };
 
+export type SolutionOverviewImageCard = {
+  src: string;
+  alt: string;
+};
+
 export type SolutionFamilyPageData = {
   pageType: "family";
   slug: string;
@@ -137,7 +142,8 @@ export type SolutionFamilyPageData = {
     eyebrow: string;
     title: string;
     description: string;
-    video: SolutionVideoAsset;
+    video?: SolutionVideoAsset;
+    imageCard?: SolutionOverviewImageCard;
   };
   whySsp: {
     eyebrow: string;
@@ -3772,6 +3778,1227 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
   },
 };
 
+export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
+  pageType: "family",
+  slug: "project-freight",
+  theme: {
+    accent: "#14b8a6",
+    heroOverlay:
+      "linear-gradient(108deg, rgba(8,16,18,0.94) 0%, rgba(12,30,34,0.86) 30%, rgba(15,118,110,0.32) 66%, rgba(20,184,166,0.12) 100%)",
+    heroGlow: "radial-gradient(46%_54%_at_82%_18%,rgba(20,184,166,0.14),transparent_72%)",
+  },
+  meta: {
+    title: "Project-Specific Freight | SSP Group",
+    description:
+      "Project-specific freight across Canada, the United States, and Mexico with sequencing control, route validation, and milestone-led execution for engineered moves.",
+    ogImage: "/_optimized/brand/SSPlogo.png",
+  },
+  hero: {
+    eyebrow: "Project-Specific",
+    title: "Project-specific freight built around sequence, control, and site reality.",
+    description:
+      "SSP structures project-specific freight around load sequencing, equipment fit, route and site feasibility, permit exposure, and milestone ownership before the first piece moves. Across Canada, the United States, and Mexico, this is the operating model for engineered shipments, phased site deliveries, shutdown freight, and multi-party moves that cannot be managed as isolated loads.",
+    descriptionMaxWidth: "52rem",
+    supportingPoints: [],
+    primaryCta: {
+      label: "Request a Project-Specific Quote",
+      href: "/quote?service=truckload&mode=project-freight",
+    },
+    secondaryCta: {
+      label: "Talk to the Project Team",
+      href: "/contact?topic=truckload&mode=project-freight",
+    },
+    media: {
+      src: "/_optimized/solution/projectSpecific/projectSpecificHero-Img.png",
+      alt: "Project-specific industrial freight staged for coordinated execution",
+    },
+    mediaBrief: [
+      {
+        title: "Project-specific hero image",
+        orientation: "landscape",
+        description:
+          "Premium flagship image for project-specific freight. It should feel engineered, controlled, and operationally credible, with obvious signs of complex freight planning rather than generic trucking.",
+        mustShow: [
+          "Industrial or engineered freight that clearly signals a complex move",
+          "A scene that implies sequencing, site coordination, or specialized handling discipline",
+          "Calm composition with enough negative space to support premium hero copy",
+        ],
+        avoid: [
+          "Generic truck glamour shots with no project-execution signal",
+          "Chaotic jobsites that feel unsafe or visually noisy",
+          "Low-resolution, dated, or over-processed imagery",
+        ],
+      },
+    ],
+  },
+  proof: [
+    { value: "Sequence-led", label: "Operating model" },
+    { value: "Engineered / phased", label: "Move profile" },
+    { value: "CA-US-MX", label: "Operating reach" },
+  ],
+  subnavLabel: "Project-specific page sections",
+  pageSections: [
+    {
+      key: "mode-overview",
+      label: "Mode Overview",
+      summary: "What project-specific freight is and the execution discipline it depends on.",
+      accent: "#0d4f78",
+    },
+    {
+      key: "why-ssp",
+      label: "Why SSP",
+      summary: "The control points that matter when a move is shaped by sequence, access, and stakeholder timing.",
+      accent: "#14b8a6",
+    },
+    {
+      key: "freight-fit",
+      label: "Freight Fit Guide",
+      summary: "How to confirm project-specific fit and when another SSP path should lead the move.",
+      accent: "#10a7d8",
+    },
+    {
+      key: "how-it-works",
+      label: "How It Works",
+      summary: "The operating sequence SSP uses to structure a project-specific move.",
+      accent: "#d71920",
+    },
+    {
+      key: "related",
+      label: "Related Services",
+      summary: "Where SSP routes the shipment when project-specific control should not be the only operating model in scope.",
+      accent: "#b37a20",
+    },
+    {
+      key: "faq",
+      label: "FAQ",
+      summary: "The qualification questions that matter before committing complex freight to a project-specific plan.",
+      accent: "#14b8a6",
+    },
+  ],
+  modeOverview: {
+    eyebrow: "Mode Overview",
+    title: "Project-specific freight is built around sequence before dispatch.",
+    description:
+      "This mode is used when delivery order, equipment mix, route feasibility, permit exposure, site access, crane timing, or multi-party dependencies need to be resolved before capacity is assigned. The move is qualified as a program, not priced like a single isolated shipment.",
+    video: {
+      src: "/_optimized/solution/projectSpecific/commercialVideo.mp4",
+      posterSrc: "/_optimized/solution/projectSpecific/mode-overview-poster.jpg",
+      title: "Project-specific freight in motion",
+    },
+  },
+  whySsp: {
+    eyebrow: "Why SSP For Project-Specific Freight",
+    points: [
+      {
+        title: "The move design starts before capacity is booked",
+        body: "SSP reviews piece count, load order, handling requirements, delivery dependencies, and site constraints before trailers are assigned, so execution starts from an operating plan rather than from disconnected dispatch decisions.",
+      },
+      {
+        title: "Route, permit, and site reality are tested early",
+        body: "Clearance risk, escort needs, appointment windows, crane coordination, staging limitations, and access feasibility are aligned before movement begins so preventable failures do not surface at the most expensive handoff points.",
+      },
+      {
+        title: "Milestone ownership stays attached across every phase",
+        body: "Pickup readiness, transit milestones, site delivery sequence, and exception management remain tied to one accountable execution path instead of being fragmented across carriers, brokers, and field teams.",
+      },
+    ],
+  },
+  howItWorks: {
+    eyebrow: "How It Works",
+    title: "Project-specific freight should be sequenced before dispatch.",
+    description:
+      "Complex freight performs best when schedule logic, equipment fit, site readiness, and route control are aligned before the first piece moves. This is the sequence SSP uses to structure the move.",
+    steps: [
+      {
+        step: "01",
+        title: "Define the move scope and dependency chain",
+        body: "SSP starts by reviewing piece list, dimensions, weights, origins, destinations, unload order, site windows, and stakeholder dependencies so the move is structured around the real project sequence.",
+      },
+      {
+        step: "02",
+        title: "Align equipment, route, and permit path",
+        body: "Trailer mix, securement method, route feasibility, permit exposure, escorts, and access constraints are qualified before dispatch so the schedule is built on workable operating assumptions.",
+      },
+      {
+        step: "03",
+        title: "Execute against the milestone plan",
+        body: "Once freight is in motion, SSP manages pickups, transfers, border events when needed, and delivery milestones against the planned sequence rather than treating each load as an independent move.",
+      },
+      {
+        step: "04",
+        title: "Close each phase with documented control",
+        body: "Delivery confirmation, site handoff, exception follow-through, and next-phase readiness are recorded so accountability stays intact from first pickup through final closeout.",
+      },
+    ],
+  },
+  freightFit: {
+    eyebrow: "Freight Fit Guide",
+    title: "Project-specific fit should be confirmed before the schedule is committed.",
+    description:
+      "Use this guide to confirm that the shipment truly needs sequence-led planning, site-aware execution, or multi-load governance. If another service should lead the move, SSP should route it early.",
+    guide: {
+      title: "Project-Specific Freight Fit Guide",
+      intro:
+        "Project-specific freight is for engineered and phased moves where load order, site readiness, route feasibility, permits, and multi-party coordination shape the execution plan. Use this guide to confirm fit and identify the better SSP path when another service should define the move.",
+      diagram: "/_optimized/solution/projectSpecific/projectSpecificHero-Img.png",
+      diagramAlt: "Project-specific freight overview",
+      specs: {
+        length: "Equipment path depends on each piece profile and the required delivery sequence",
+        width: "Legal versus permit width must be qualified before routing and staging decisions are made",
+        height: "Clearance, loading geometry, and site access may determine the equipment plan",
+        weight: "Per-piece and aggregate weights are reviewed against equipment, route, and unload conditions",
+      },
+      rules: [
+        {
+          condition: "Single legal-dimension open-deck loads with standard handling requirements",
+          description:
+            "If the shipment is a straightforward open-deck move without phased delivery logic or project-level dependencies, a standard flatbed path is usually cleaner.",
+          recommendation: "Flatbed",
+          serviceSlug: "/solutions/flatbed",
+        },
+        {
+          condition: "Loads where height and lower-deck geometry drive the equipment choice",
+          description:
+            "If deck height, top-heavy cargo, or clearance pressure is the dominant issue, the move may need to be led by a step deck operating path instead of a broader project plan.",
+          recommendation: "Step Deck",
+          serviceSlug: "/solutions/step-deck",
+        },
+        {
+          condition: "Permit-required, oversized, or superload pieces",
+          description:
+            "If the shipment is led primarily by permit engineering, lower loading geometry, escort requirements, or extreme dimensional control, heavy haul should lead the move.",
+          recommendation: "RGN / Heavy Haul",
+          serviceSlug: "/solutions/rgn-heavy-haul",
+        },
+        {
+          condition: "Cross-border phases where customs and corridor control shape the sequence",
+          description:
+            "If the project depends on Canada-USA or Mexico border execution, documentation control and corridor governance may need to sit inside a cross-border operating plan.",
+          recommendation: "Cross-Border",
+          serviceSlug: "/solutions/cross-border",
+        },
+        {
+          condition: "Recurring project lanes or repeat site programs that need longer-term structure",
+          description:
+            "If the freight pattern repeats over time with ongoing coverage, procurement governance, or site shuttles, the move may need a managed-capacity or dedicated service model rather than one-off project dispatch.",
+          recommendation: "Managed Capacity",
+          serviceSlug: "/solutions/managed-capacity",
+        },
+      ],
+      disclaimer:
+        "Planning guidance only. Final fit depends on exact dimensions, weight distribution, load count, site conditions, route feasibility, permit requirements, and delivery sequence.",
+    },
+  },
+  relatedSolutions: {
+    eyebrow: "Related Services",
+    title: "If project-specific freight is not the only requirement, lead with the right path.",
+    description:
+      "These are the first SSP paths to review when equipment geometry, recurring volume, or border control should shape the move more than the project label itself.",
+    items: [
+      {
+        label: "Flatbed",
+        href: "/solutions/flatbed",
+        reason: "Move to flatbed when the shipment is a standard open-deck load and project-level sequencing is not the main operating issue.",
+      },
+      {
+        label: "Step Deck",
+        href: "/solutions/step-deck",
+        reason: "Move to step deck when lower deck height and taller freight geometry drive equipment choice more than phased project coordination.",
+      },
+      {
+        label: "RGN / Heavy Haul",
+        href: "/solutions/rgn-heavy-haul",
+        reason: "Move to RGN or heavy haul when permit-led planning, extreme dimensions, and route engineering define the shipment.",
+      },
+      {
+        label: "Cross-Border",
+        href: "/solutions/cross-border",
+        reason: "Move to cross-border when customs, broker coordination, and corridor execution become inseparable from the project schedule.",
+      },
+      {
+        label: "Dedicated / Contract",
+        href: "/solutions/dedicated-contract",
+        reason: "Move to dedicated or contract when the project becomes an ongoing service model with committed capacity, repeatable SOPs, and long-term operating ownership.",
+      },
+    ],
+  },
+  faq: {
+    eyebrow: "Project-Specific FAQs",
+    title: "The questions that matter before booking project-specific freight.",
+    description:
+      "These are the qualification questions that usually determine whether project-specific freight is the right operating path and what SSP needs to structure the move cleanly.",
+    items: [
+      {
+        question: "What qualifies as a project-specific freight move?",
+        answer:
+          "It qualifies when the move depends on more than trailer assignment. Typical triggers include phased delivery order, multi-piece coordination, site windows, crane timing, route feasibility reviews, permit exposure, and multiple stakeholders who must stay aligned from first pickup through final delivery.",
+      },
+      {
+        question: "What information matters most before I request a quote?",
+        answer:
+          "Piece count, dimensions, weights, origins and destinations, target delivery sequence, site constraints, handling method, crane or crew windows, and any permit or escort assumptions matter most. The more exact the sequence inputs, the stronger the operating plan.",
+      },
+      {
+        question: "Does project-specific always mean oversized or heavy haul?",
+        answer:
+          "No. Some project-specific moves are fully legal-dimension and can travel on flatbed or step deck equipment. What makes the move project-specific is the coordination burden, sequence dependency, and site control around the freight, not only its size.",
+      },
+      {
+        question: "Can SSP manage phased site deliveries and multi-load sequences?",
+        answer:
+          "Yes. SSP can structure multi-load execution around unload order, appointment windows, staging constraints, and project milestones so each load supports the next phase instead of arriving as disconnected freight events.",
+      },
+      {
+        question: "Can project-specific freight move across Canada, the United States, and Mexico?",
+        answer:
+          "Yes. Project-specific freight can be structured across Canada, the United States, and Mexico when border sequence, documentation, route feasibility, and stakeholder timing are aligned before dispatch.",
+      },
+      {
+        question: "When should a project-specific move be routed to another SSP service?",
+        answer:
+          "It should be rerouted when the shipment is really a standard flatbed move, a height-led step deck move, a permit-led heavy haul move, or an ongoing program that needs managed-capacity or dedicated governance more than a one-off project structure.",
+      },
+    ],
+  },
+  finalCta: {
+    kicker: "Confirm the execution plan",
+    title: "Qualify the project-specific move before the first piece moves.",
+    body: "Share the piece list, dimensions, weights, origins, destinations, site windows, unload order, and timing expectations. SSP will confirm whether project-specific freight is the right operating path, test the equipment and route fit early, and structure the move for controlled execution.",
+    trustSignals: [
+      "Project-specific freight across Canada, the United States, and Mexico",
+      "Sequence-led planning tied to site access, route control, and delivery order",
+      "Freight-fit review connected to flatbed, step deck, heavy haul, border, and program-level service paths",
+    ],
+    proof: [
+      { label: "Model", value: "Sequence-led" },
+      { label: "Profile", value: "Engineered / phased" },
+      { label: "Reach", value: "CA-US-MX" },
+    ],
+    ctas: {
+      primary: {
+        label: "Request a Project-Specific Quote",
+        href: "/quote?service=truckload&mode=project-freight",
+        ctaId: "solutions_project_specific_final_request_quote",
+      },
+      secondary: {
+        label: "Talk to the Project Team",
+        href: "/contact?topic=truckload&mode=project-freight",
+        ctaId: "solutions_project_specific_final_talk_team",
+      },
+    },
+  },
+};
+
+export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
+  pageType: "family",
+  slug: "managed-capacity",
+  theme: {
+    accent: "#0f766e",
+    heroOverlay:
+      "linear-gradient(108deg, rgba(8,16,16,0.94) 0%, rgba(10,30,30,0.86) 30%, rgba(15,118,110,0.3) 66%, rgba(15,118,110,0.12) 100%)",
+    heroGlow: "radial-gradient(46%_54%_at_82%_18%,rgba(15,118,110,0.14),transparent_72%)",
+  },
+  meta: {
+    title: "Managed Capacity Freight | SSP Group",
+    description:
+      "Managed capacity across Canada, the United States, and Mexico with carrier governance, lane discipline, and KPI-led execution control for recurring freight programs.",
+    ogImage: "/_optimized/brand/SSPlogo.png",
+  },
+  hero: {
+    eyebrow: "Managed Capacity",
+    title: "Managed capacity built around procurement discipline and lane control.",
+    description:
+      "SSP structures managed capacity around recurring freight demand, carrier governance, routing discipline, and continuous performance review before service failures become normal operating noise. Across Canada, the United States, and Mexico, this is the operating path for shippers that need more control than one-off load coverage but do not need a fully embedded dedicated fleet model.",
+    descriptionMaxWidth: "52rem",
+    supportingPoints: [],
+    primaryCta: {
+      label: "Request a Managed Capacity Assessment",
+      href: "/quote?service=value-added&mode=managed-capacity",
+    },
+    secondaryCta: {
+      label: "Talk to the Managed Capacity Team",
+      href: "/contact?topic=value-added-services&mode=managed-capacity",
+    },
+    media: {
+      src: "/_optimized/solution/managedCapacity/managedCapacityHero-Img.png",
+      alt: "Managed capacity program with coordinated freight planning and lane oversight",
+    },
+    mediaBrief: [
+      {
+        title: "Managed capacity hero image",
+        orientation: "landscape",
+        description:
+          "Premium flagship image for managed capacity. It should feel operationally controlled and executive-grade, with a clear signal of planning discipline, not generic brokerage or abstract software imagery.",
+        mustShow: [
+          "A real logistics scene that implies network orchestration, planning, or control-tower discipline",
+          "Professional composition with enough quiet space for premium hero copy",
+          "A visual that feels credible for enterprise transportation governance rather than day-to-day dispatch only",
+        ],
+        avoid: [
+          "Generic dashboard mockups with no freight reality",
+          "Chaotic warehouse or yard scenes with no sense of control",
+          "Low-resolution, dated, or over-stylized imagery",
+        ],
+      },
+    ],
+  },
+  proof: [
+    { value: "Program-led", label: "Operating model" },
+    { value: "Recurring / variable", label: "Demand profile" },
+    { value: "CA-US-MX", label: "Operating reach" },
+  ],
+  subnavLabel: "Managed capacity page sections",
+  pageSections: [
+    {
+      key: "mode-overview",
+      label: "Mode Overview",
+      summary: "What managed capacity is and the control structure it depends on.",
+      accent: "#0d4f78",
+    },
+    {
+      key: "why-ssp",
+      label: "Why SSP",
+      summary: "The execution controls that matter when recurring freight needs governance beyond the spot market.",
+      accent: "#0f766e",
+    },
+    {
+      key: "freight-fit",
+      label: "Freight Fit Guide",
+      summary: "How to confirm managed-capacity fit and when another SSP path should lead the move.",
+      accent: "#10a7d8",
+    },
+    {
+      key: "how-it-works",
+      label: "How It Works",
+      summary: "The operating sequence SSP uses to structure a managed-capacity program.",
+      accent: "#d71920",
+    },
+    {
+      key: "related",
+      label: "Related Services",
+      summary: "Where SSP routes the shipper when managed capacity should not be the only operating model in scope.",
+      accent: "#b37a20",
+    },
+    {
+      key: "faq",
+      label: "FAQ",
+      summary: "The qualification questions that matter before committing freight to a managed-capacity program.",
+      accent: "#0f766e",
+    },
+  ],
+  modeOverview: {
+    eyebrow: "Mode Overview",
+    title: "Managed capacity is built around governance, not one-off load coverage.",
+    description:
+      "This model is used when recurring freight needs procurement control, lane strategy, routing-guide discipline, and KPI-led exception ownership across ongoing volume. The goal is not to book the next load faster. It is to govern the network better over time.",
+    imageCard: {
+      src: "/_optimized/solution/managedCapacity/managedCapacity.webp",
+      alt: "Managed capacity overview showing transportation planning and control",
+    },
+  },
+  whySsp: {
+    eyebrow: "Why SSP For Managed Capacity",
+    points: [
+      {
+        title: "Carrier strategy and lane governance are structured together",
+        body: "SSP aligns procurement, routing decisions, service expectations, and carrier accountability inside one operating framework so recurring freight is not left to a reactive mix of tenders, expedites, and unmanaged exceptions.",
+      },
+      {
+        title: "Execution issues are reviewed as network signals, not isolated misses",
+        body: "Tender failures, accessorial drift, service inconsistency, and expedite patterns are treated as indicators of planning weakness that need correction at the lane and carrier level, not just load-by-load reaction.",
+      },
+      {
+        title: "Improvement cadence stays attached to the program",
+        body: "Performance reviews, KPI reporting, and operating adjustments remain tied to the live freight program so service reliability and cost control improve through governance rather than through periodic procurement resets alone.",
+      },
+    ],
+  },
+  howItWorks: {
+    eyebrow: "How It Works",
+    title: "Managed capacity should be governed before disruption becomes normal.",
+    description:
+      "Managed-capacity programs perform best when the network, carrier mix, failure points, and KPI expectations are aligned before the freight rhythm drifts into reactive execution. This is the sequence SSP uses to structure the program.",
+    steps: [
+      {
+        step: "01",
+        title: "Baseline the network and recurring failure points",
+        body: "SSP reviews lane map, mode mix, carrier behavior, tender acceptance, service volatility, accessorial exposure, and expedite drivers so the real control problem is defined before changes are made.",
+      },
+      {
+        step: "02",
+        title: "Build the carrier and routing governance model",
+        body: "Carrier strategy, routing-guide logic, escalation rules, reporting cadence, and KPI targets are aligned so execution runs through a repeatable operating structure instead of ad hoc load coverage.",
+      },
+      {
+        step: "03",
+        title: "Run daily execution against the program rules",
+        body: "Once the program is active, SSP manages tenders, exceptions, mode decisions, and carrier follow-through against the agreed governance model and not as disconnected shipment events.",
+      },
+      {
+        step: "04",
+        title: "Refine the network through recurring review",
+        body: "Lane performance, cost variance, service misses, and recurring accessorial patterns are reviewed in cadence so the program gets stronger over time rather than merely staying busy.",
+      },
+    ],
+  },
+  freightFit: {
+    eyebrow: "Freight Fit Guide",
+    title: "Managed-capacity fit should be confirmed before the network is handed over.",
+    description:
+      "Use this guide to confirm that the freight profile truly needs ongoing procurement and execution governance. If another service should define the operating model, SSP should route it early.",
+    guide: {
+      title: "Managed Capacity Freight Fit Guide",
+      intro:
+        "Managed capacity is for recurring freight programs where planning, carrier strategy, cost control, and service governance need to be centralized across ongoing volume. Use this guide to confirm fit and identify the better SSP path when another model should lead the move.",
+      diagram: "/_optimized/solution/managedCapacity/managedCapacity.webp",
+      diagramAlt: "Managed capacity freight overview",
+      specs: {
+        length: "Lane count and network scope shape the governance model",
+        width: "Carrier mix and mode breadth determine sourcing complexity",
+        height: "Demand variability and peak exposure affect program design",
+        weight: "Cost and service KPIs define how performance is governed",
+      },
+      rules: [
+        {
+          condition: "Single-load or tactical freight without recurring network complexity",
+          description:
+            "If the need is straightforward shipment execution without broader procurement or carrier-governance requirements, a truckload or LTL path is usually cleaner.",
+          recommendation: "Truckload",
+          serviceSlug: "/solutions/truckload",
+        },
+        {
+          condition: "Committed equipment and embedded service structure by lane or facility",
+          description:
+            "If the operation needs fixed equipment, dedicated drivers, or a more permanent service model around recurring freight, dedicated or contract should lead the move.",
+          recommendation: "Dedicated / Contract",
+          serviceSlug: "/solutions/dedicated-contract",
+        },
+        {
+          condition: "Inventory, fulfillment, and outbound execution are the primary challenge",
+          description:
+            "If storage, pick-pack, order flow, and distribution orchestration lead the requirement, warehousing and distribution is the better operating path.",
+          recommendation: "Warehousing & Distribution",
+          serviceSlug: "/solutions/warehousing-distribution",
+        },
+        {
+          condition: "One-off engineered, phased, or permit-led freight programs",
+          description:
+            "If the shipment is being driven by project sequencing, route engineering, or permit-led planning rather than by recurring network governance, a project-specific path is more appropriate.",
+          recommendation: "Project-Specific",
+          serviceSlug: "/solutions/project-freight",
+        },
+      ],
+      disclaimer:
+        "Planning guidance only. Final fit depends on lane density, mode mix, carrier strategy, KPI expectations, freight variability, and the operating ownership SSP is expected to assume.",
+    },
+  },
+  relatedSolutions: {
+    eyebrow: "Related Services",
+    title: "If managed capacity is not the only requirement, lead with the right path.",
+    description:
+      "These are the first SSP paths to review when embedded assets, fulfillment execution, or corridor control should shape the operating model more than managed-capacity governance alone.",
+    items: [
+      {
+        label: "Truckload",
+        href: "/solutions/truckload",
+        reason: "Move to truckload when the requirement is straightforward freight execution rather than ongoing procurement and network governance.",
+      },
+      {
+        label: "Dedicated / Contract",
+        href: "/solutions/dedicated-contract",
+        reason: "Move to dedicated or contract when the program needs committed capacity, embedded execution resources, and SLA-led continuity rather than flexible governed sourcing.",
+      },
+      {
+        label: "Warehousing & Distribution",
+        href: "/solutions/warehousing-distribution",
+        reason: "Move to warehousing and distribution when inventory, fulfillment rhythm, and outbound orchestration are the real control center of the freight program.",
+      },
+      {
+        label: "Cross-Border",
+        href: "/solutions/cross-border",
+        reason: "Move to cross-border when customs, brokerage alignment, and corridor execution become inseparable from recurring freight planning.",
+      },
+      {
+        label: "Project-Specific",
+        href: "/solutions/project-freight",
+        reason: "Move to project-specific when the requirement is an engineered or phased move with route, permit, and stakeholder sequencing that should not be treated as steady-state network governance.",
+      },
+    ],
+  },
+  faq: {
+    eyebrow: "Managed Capacity FAQs",
+    title: "The questions that matter before building a managed-capacity program.",
+    description:
+      "These are the qualification questions that usually determine whether managed capacity is the right operating path and what SSP needs to structure the program cleanly.",
+    items: [
+      {
+        question: "What qualifies as a managed-capacity program?",
+        answer:
+          "It qualifies when the freight pattern is recurring enough that procurement, carrier strategy, routing discipline, KPI reporting, and exception ownership need to be governed as a program rather than handled load by load.",
+      },
+      {
+        question: "What information matters most before I request an assessment?",
+        answer:
+          "Lane map, shipment volume, mode mix, current carrier base, tender performance, service failures, accessorial exposure, expedite spend, and KPI expectations matter most. The stronger the baseline, the faster SSP can size the right governance model.",
+      },
+      {
+        question: "How is managed capacity different from dedicated or contract logistics?",
+        answer:
+          "Managed capacity governs planning, procurement, execution oversight, and continuous improvement across flexible carrier capacity. Dedicated or contract programs commit assets and operating structure more directly to your network. One is primarily a governance model. The other is a committed operating model.",
+      },
+      {
+        question: "Can SSP work with an existing carrier base?",
+        answer:
+          "Yes. Managed-capacity programs can be structured around incumbent carriers, a blended carrier model, or a reworked sourcing strategy depending on service performance, coverage gaps, and the control objectives of the program.",
+      },
+      {
+        question: "Can managed capacity reduce expedite and spot exposure?",
+        answer:
+          "Yes, when the root cause is weak planning, poor routing-guide discipline, misaligned carrier strategy, or recurring exception patterns. Managed capacity improves results by correcting the operating model behind the spend, not by simply chasing cheaper loads.",
+      },
+      {
+        question: "Can SSP support managed capacity across Canada, the United States, and Mexico?",
+        answer:
+          "Yes. Managed-capacity programs can be structured across Canada, the United States, and Mexico when the lane map, carrier strategy, border requirements, and KPI framework are aligned inside one operating model.",
+      },
+    ],
+  },
+  finalCta: {
+    kicker: "Assess the network fit",
+    title: "Qualify the managed-capacity program before the network drifts further.",
+    body: "Share the lane map, mode mix, service pain points, and performance expectations. SSP will confirm whether managed capacity is the right operating path, define the governance model early, and structure the program for stronger control over cost and service.",
+    trustSignals: [
+      "Managed-capacity programs across Canada, the United States, and Mexico",
+      "Carrier strategy, routing discipline, and KPI review tied to one governance model",
+      "Freight-fit review connected to truckload, dedicated, warehousing, cross-border, and project-specific paths",
+    ],
+    proof: [
+      { label: "Model", value: "Program-led" },
+      { label: "Profile", value: "Recurring / variable" },
+      { label: "Reach", value: "CA-US-MX" },
+    ],
+    ctas: {
+      primary: {
+        label: "Request a Managed Capacity Assessment",
+        href: "/quote?service=value-added&mode=managed-capacity",
+        ctaId: "solutions_managed_capacity_final_request_assessment",
+      },
+      secondary: {
+        label: "Talk to the Managed Capacity Team",
+        href: "/contact?topic=value-added-services&mode=managed-capacity",
+        ctaId: "solutions_managed_capacity_final_talk_team",
+      },
+    },
+  },
+};
+
+export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
+  pageType: "family",
+  slug: "dedicated-contract",
+  theme: {
+    accent: "#1d4ed8",
+    heroOverlay:
+      "linear-gradient(108deg, rgba(8,14,28,0.94) 0%, rgba(16,28,52,0.86) 30%, rgba(29,78,216,0.28) 66%, rgba(59,130,246,0.12) 100%)",
+    heroGlow: "radial-gradient(46%_54%_at_82%_18%,rgba(59,130,246,0.14),transparent_72%)",
+  },
+  meta: {
+    title: "Dedicated Contract Freight | SSP Group",
+    description:
+      "Dedicated and contract freight across Canada, the United States, and Mexico with committed capacity, SLA-led execution, and lane-level accountability.",
+    ogImage: "/_optimized/brand/SSPlogo.png",
+  },
+  hero: {
+    eyebrow: "Dedicated / Contract",
+    title: "Dedicated contract freight built around committed execution and SLA control.",
+    description:
+      "SSP structures dedicated and contract freight around recurring demand, committed capacity, operating ownership, and service-level accountability before daily execution begins. Across Canada, the United States, and Mexico, this is the operating path for shippers that need more than governed procurement and want a more permanent service structure around critical lanes, facilities, and delivery commitments.",
+    descriptionMaxWidth: "52rem",
+    supportingPoints: [],
+    primaryCta: {
+      label: "Request a Dedicated Program Consultation",
+      href: "/quote?service=value-added&mode=dedicated-contract",
+    },
+    secondaryCta: {
+      label: "Talk to the Contract Logistics Team",
+      href: "/contact?topic=value-added-services&mode=dedicated-contract",
+    },
+    media: {
+      src: "/_optimized/solution/dedicatedContract/dedicatedContractHero-Img.png",
+      alt: "Dedicated contract freight operation with committed capacity and repeatable execution",
+    },
+    mediaBrief: [
+      {
+        title: "Dedicated contract hero image",
+        orientation: "landscape",
+        description:
+          "Premium flagship image for dedicated and contract freight. It should feel stable, operationally mature, and enterprise-ready, with a clear signal of committed capacity and disciplined daily execution.",
+        mustShow: [
+          "A real freight setting that implies recurring operations and controlled execution",
+          "A calm, premium composition with enough negative space for hero copy",
+          "Visual cues of dependable fleet or repeatable lane structure rather than ad hoc spot freight",
+        ],
+        avoid: [
+          "Generic truck imagery with no signal of long-term operating commitment",
+          "Overly dramatic blue treatment that overwhelms the SSP tone",
+          "Low-resolution, dated, or artificial-looking visuals",
+        ],
+      },
+    ],
+  },
+  proof: [
+    { value: "Committed", label: "Capacity model" },
+    { value: "SLA-led", label: "Execution standard" },
+    { value: "CA-US-MX", label: "Operating reach" },
+  ],
+  subnavLabel: "Dedicated contract page sections",
+  pageSections: [
+    {
+      key: "mode-overview",
+      label: "Mode Overview",
+      summary: "What dedicated and contract freight is and the operating discipline it depends on.",
+      accent: "#0d4f78",
+    },
+    {
+      key: "why-ssp",
+      label: "Why SSP",
+      summary: "The controls that matter when recurring freight needs committed resources and service continuity.",
+      accent: "#1d4ed8",
+    },
+    {
+      key: "freight-fit",
+      label: "Freight Fit Guide",
+      summary: "How to confirm dedicated-contract fit and when another SSP path should lead the move.",
+      accent: "#10a7d8",
+    },
+    {
+      key: "how-it-works",
+      label: "How It Works",
+      summary: "The operating sequence SSP uses to structure a dedicated-contract program.",
+      accent: "#d71920",
+    },
+    {
+      key: "related",
+      label: "Related Services",
+      summary: "Where SSP routes the shipper when dedicated-contract should not be the only operating model in scope.",
+      accent: "#b37a20",
+    },
+    {
+      key: "faq",
+      label: "FAQ",
+      summary: "The qualification questions that matter before committing freight to a dedicated-contract program.",
+      accent: "#1d4ed8",
+    },
+  ],
+  modeOverview: {
+    eyebrow: "Mode Overview",
+    title: "Dedicated contract freight is built around continuity before dispatch.",
+    description:
+      "This model is used when recurring freight justifies committed resources, daily operating ownership, and explicit service standards across lanes or facilities. The objective is not only to improve carrier governance. It is to create a repeatable operating structure that protects service continuity over time.",
+    imageCard: {
+      src: "/_optimized/solution/dedicatedContract/dedicatedContract.png",
+      alt: "Dedicated contract freight overview showing committed-capacity operations",
+    },
+  },
+  whySsp: {
+    eyebrow: "Why SSP For Dedicated / Contract",
+    points: [
+      {
+        title: "Capacity and workflow are designed together",
+        body: "SSP aligns lane demand, service windows, staffing assumptions, equipment needs, escalation rules, and communication cadence before launch so the program starts as an operating model rather than a promise of future consistency.",
+      },
+      {
+        title: "Daily execution stays tied to service-level accountability",
+        body: "Pickup performance, on-time delivery, exception response, and communication discipline are governed against explicit expectations, so recurring freight is managed to outcomes rather than left to informal habits.",
+      },
+      {
+        title: "Program reviews stay connected to operating reality",
+        body: "Performance cadence, stakeholder feedback, and improvement planning remain tied to the live network so the program can be corrected, refined, and scaled without losing continuity.",
+      },
+    ],
+  },
+  howItWorks: {
+    eyebrow: "How It Works",
+    title: "Dedicated contract freight should be structured before launch.",
+    description:
+      "Dedicated and contract programs perform best when demand rhythm, operating ownership, service windows, and KPI expectations are aligned before the first live day. This is the sequence SSP uses to structure the program.",
+    steps: [
+      {
+        step: "01",
+        title: "Define demand, lane scope, and service targets",
+        body: "SSP reviews recurring volume, lane profile, seasonality, facility needs, service windows, and escalation expectations so the program is sized around the real operating requirement.",
+      },
+      {
+        step: "02",
+        title: "Build the resource and governance model",
+        body: "Equipment assumptions, staffing model, communication rhythm, KPI framework, and ownership boundaries are aligned before launch so day-to-day execution runs through a stable structure.",
+      },
+      {
+        step: "03",
+        title: "Launch execution against the agreed service standard",
+        body: "Once active, SSP runs the program against defined pickup, delivery, exception, and reporting expectations rather than managing recurring freight as a string of unrelated loads.",
+      },
+      {
+        step: "04",
+        title: "Refine the program through recurring review",
+        body: "Service misses, cost drift, network changes, and stakeholder feedback are reviewed in cadence so the program evolves without losing operational consistency.",
+      },
+    ],
+  },
+  freightFit: {
+    eyebrow: "Freight Fit Guide",
+    title: "Dedicated-contract fit should be confirmed before capacity is committed.",
+    description:
+      "Use this guide to confirm that the freight profile truly needs embedded execution continuity and a committed service model. If another SSP path should define the operating model, route it early.",
+    guide: {
+      title: "Dedicated / Contract Freight Fit Guide",
+      intro:
+        "Dedicated and contract freight is for recurring programs where committed capacity, repeatable execution, and service-level accountability matter more than flexible sourcing alone. Use this guide to confirm fit and identify the better SSP path when another operating model should lead the move.",
+      diagram: "/_optimized/solution/dedicatedContract/dedicatedContract.png",
+      diagramAlt: "Dedicated contract freight overview",
+      specs: {
+        length: "Lane commitment and service windows shape the operating model",
+        width: "Equipment mix and facility coverage define the resource plan",
+        height: "Seasonality and peak demand affect staffing and continuity requirements",
+        weight: "Service and cost KPIs determine how the program is governed",
+      },
+      rules: [
+        {
+          condition: "Planning and procurement governance without committed equipment structure",
+          description:
+            "If the primary need is carrier governance, routing discipline, and performance oversight without a more permanent operating footprint, managed capacity is usually the cleaner fit.",
+          recommendation: "Managed Capacity",
+          serviceSlug: "/solutions/managed-capacity",
+        },
+        {
+          condition: "Inventory, fulfillment, and outbound flow are the main control center",
+          description:
+            "If the operation is really being driven by storage, pick-pack, order flow, and outbound orchestration, warehousing and distribution should lead the move.",
+          recommendation: "Warehousing & Distribution",
+          serviceSlug: "/solutions/warehousing-distribution",
+        },
+        {
+          condition: "One-off engineered or permit-led freight programs",
+          description:
+            "If the requirement is a project sequence, route engineering, or oversize move rather than recurring lane continuity, a project-specific path is more appropriate.",
+          recommendation: "Project-Specific",
+          serviceSlug: "/solutions/project-freight",
+        },
+        {
+          condition: "Standard recurring freight that does not justify a committed operating model",
+          description:
+            "If volume is recurring but not stable or critical enough to support embedded resources and SLA-led continuity, a standard truckload path may remain the better choice.",
+          recommendation: "Truckload",
+          serviceSlug: "/solutions/truckload",
+        },
+      ],
+      disclaimer:
+        "Planning guidance only. Final fit depends on lane stability, volume profile, service targets, operating ownership, facility needs, and the level of committed continuity required.",
+    },
+  },
+  relatedSolutions: {
+    eyebrow: "Related Services",
+    title: "If dedicated-contract is not the only requirement, lead with the right path.",
+    description:
+      "These are the first SSP paths to review when the network needs flexible governance, fulfillment control, or project sequencing more than a committed recurring operating model.",
+    items: [
+      {
+        label: "Managed Capacity",
+        href: "/solutions/managed-capacity",
+        reason: "Move to managed capacity when the network needs governance, carrier strategy, and KPI control without a more permanent committed-capacity structure.",
+      },
+      {
+        label: "Warehousing & Distribution",
+        href: "/solutions/warehousing-distribution",
+        reason: "Move to warehousing and distribution when inventory flow and outbound fulfillment are the true center of operational control.",
+      },
+      {
+        label: "Truckload",
+        href: "/solutions/truckload",
+        reason: "Move to truckload when the requirement is recurring freight execution but not a program that justifies embedded resources and SLA-led continuity.",
+      },
+      {
+        label: "Project-Specific",
+        href: "/solutions/project-freight",
+        reason: "Move to project-specific when the freight is being shaped by engineered sequencing, route control, or permit-led planning instead of steady-state program continuity.",
+      },
+      {
+        label: "Cross-Border",
+        href: "/solutions/cross-border",
+        reason: "Move to cross-border when customs readiness, brokerage alignment, and corridor governance should define the operating model around recurring freight.",
+      },
+    ],
+  },
+  faq: {
+    eyebrow: "Dedicated / Contract FAQs",
+    title: "The questions that matter before building a dedicated-contract program.",
+    description:
+      "These are the qualification questions that usually determine whether dedicated or contract freight is the right operating path and what SSP needs to structure the program cleanly.",
+    items: [
+      {
+        question: "What qualifies as a dedicated or contract freight program?",
+        answer:
+          "It qualifies when recurring freight volume, service criticality, or facility dependence justify committed resources, repeatable workflows, and explicit accountability beyond a flexible sourcing model.",
+      },
+      {
+        question: "What information matters most before I request a consultation?",
+        answer:
+          "Lane volume, shipment frequency, seasonality, equipment needs, pickup and delivery windows, facility requirements, KPI expectations, and escalation standards matter most. Those inputs determine whether SSP should design the program around fleet, staffing, workflow governance, or a blended model.",
+      },
+      {
+        question: "How is dedicated-contract different from managed capacity?",
+        answer:
+          "Managed capacity governs procurement and execution across flexible carrier capacity. Dedicated-contract programs commit more permanent operating structure around your network, with embedded continuity and clearer service ownership. One is primarily a governed sourcing model. The other is a committed execution model.",
+      },
+      {
+        question: "Does dedicated always mean one lane or one facility?",
+        answer:
+          "No. Some dedicated programs are built around a single corridor or facility, while others span multiple lanes, plants, DCs, or delivery regions. The deciding factor is not geography alone but whether the recurring freight justifies committed continuity and a stable operating design.",
+      },
+      {
+        question: "Can SSP support dedicated programs across Canada, the United States, and Mexico?",
+        answer:
+          "Yes. Dedicated and contract programs can be structured across Canada, the United States, and Mexico when the lane map, operating ownership, border requirements, and service expectations are aligned into one workable model.",
+      },
+      {
+        question: "When should dedicated-contract be routed to another SSP service?",
+        answer:
+          "It should be rerouted when the real need is managed procurement rather than committed continuity, when fulfillment and inventory flow are the main challenge, or when the move is project-led rather than steady-state recurring execution.",
+      },
+    ],
+  },
+  finalCta: {
+    kicker: "Assess the continuity fit",
+    title: "Qualify the dedicated-contract model before capacity is committed.",
+    body: "Share the lane profile, recurring demand, service expectations, and facility requirements. SSP will confirm whether dedicated-contract is the right operating path, define the resource model early, and structure the program for stable execution over time.",
+    trustSignals: [
+      "Dedicated and contract freight across Canada, the United States, and Mexico",
+      "Committed capacity, SLA discipline, and recurring performance review inside one operating model",
+      "Freight-fit review connected to managed capacity, warehousing, truckload, project-specific, and cross-border paths",
+    ],
+    proof: [
+      { label: "Model", value: "Committed" },
+      { label: "Standard", value: "SLA-led" },
+      { label: "Reach", value: "CA-US-MX" },
+    ],
+    ctas: {
+      primary: {
+        label: "Request a Dedicated Program Consultation",
+        href: "/quote?service=value-added&mode=dedicated-contract",
+        ctaId: "solutions_dedicated_contract_final_request_consultation",
+      },
+      secondary: {
+        label: "Talk to the Contract Logistics Team",
+        href: "/contact?topic=value-added-services&mode=dedicated-contract",
+        ctaId: "solutions_dedicated_contract_final_talk_team",
+      },
+    },
+  },
+};
+
+export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
+  pageType: "family",
+  slug: "warehousing-distribution",
+  theme: {
+    accent: "#0ea5a4",
+    heroOverlay:
+      "linear-gradient(108deg, rgba(8,16,20,0.94) 0%, rgba(10,30,36,0.86) 30%, rgba(13,148,136,0.28) 66%, rgba(45,212,191,0.12) 100%)",
+    heroGlow: "radial-gradient(46%_54%_at_82%_18%,rgba(45,212,191,0.14),transparent_72%)",
+  },
+  meta: {
+    title: "Warehousing & Distribution | SSP Group",
+    description:
+      "Warehousing and distribution across Canada, the United States, and Mexico with inventory control, fulfillment discipline, and outbound execution aligned to service commitments.",
+    ogImage: "/_optimized/brand/SSPlogo.png",
+  },
+  hero: {
+    eyebrow: "Warehousing & Distribution",
+    title: "Warehousing and distribution built around inventory control and outbound discipline.",
+    description:
+      "SSP structures warehousing and distribution around receiving accuracy, storage logic, order flow, and outbound execution before service misses become part of the operating model. Across Canada, the United States, and Mexico, this is the path for shippers that need inventory positioned correctly, fulfillment run with control, and outbound performance aligned to customer commitments.",
+    descriptionMaxWidth: "52rem",
+    supportingPoints: [],
+    primaryCta: {
+      label: "Request a Warehousing Program Quote",
+      href: "/quote?service=value-added&mode=warehousing-distribution",
+    },
+    secondaryCta: {
+      label: "Talk to the Distribution Team",
+      href: "/contact?topic=value-added-services&mode=warehousing-distribution",
+    },
+    media: {
+      src: "/_optimized/solution/warehouse/warehouseDistributionHero-Img.png",
+      alt: "Warehouse distribution operation with inventory handling and outbound staging",
+    },
+    mediaBrief: [
+      {
+        title: "Warehousing distribution hero image",
+        orientation: "landscape",
+        description:
+          "Premium flagship image for warehousing and distribution. It should feel controlled, operationally real, and enterprise-ready, with clear signs of organized inventory handling and outbound execution rather than generic warehouse bustle.",
+        mustShow: [
+          "A real warehouse or distribution setting with visible order, structure, and controlled workflow",
+          "A composition calm enough to support premium hero copy without visual noise",
+          "Clear cues of inventory or outbound execution rather than only racking or forklifts in isolation",
+        ],
+        avoid: [
+          "Chaotic warehouse scenes with visual clutter or poor operational signals",
+          "Overly bright accent treatment that overwhelms the SSP tone",
+          "Low-resolution, dated, or artificial-looking imagery",
+        ],
+      },
+    ],
+  },
+  proof: [
+    { value: "Fulfillment-led", label: "Operating model" },
+    { value: "Storage to ship", label: "Execution path" },
+    { value: "CA-US-MX", label: "Operating reach" },
+  ],
+  subnavLabel: "Warehousing distribution page sections",
+  pageSections: [
+    {
+      key: "mode-overview",
+      label: "Mode Overview",
+      summary: "What warehousing and distribution is and the operating discipline it depends on.",
+      accent: "#0d4f78",
+    },
+    {
+      key: "why-ssp",
+      label: "Why SSP",
+      summary: "The controls that matter when inventory accuracy and outbound service have to stay aligned.",
+      accent: "#0ea5a4",
+    },
+    {
+      key: "freight-fit",
+      label: "Freight Fit Guide",
+      summary: "How to confirm warehousing-distribution fit and when another SSP path should lead the requirement.",
+      accent: "#10a7d8",
+    },
+    {
+      key: "how-it-works",
+      label: "How It Works",
+      summary: "The operating sequence SSP uses to structure a warehousing-distribution program.",
+      accent: "#d71920",
+    },
+    {
+      key: "related",
+      label: "Related Services",
+      summary: "Where SSP routes the shipper when warehousing-distribution should not be the only operating model in scope.",
+      accent: "#b37a20",
+    },
+    {
+      key: "faq",
+      label: "FAQ",
+      summary: "The qualification questions that matter before committing inventory and outbound flow to a warehouse program.",
+      accent: "#0ea5a4",
+    },
+  ],
+  modeOverview: {
+    eyebrow: "Mode Overview",
+    title: "Warehousing and distribution is built around outbound reliability.",
+    description:
+      "This mode is used when inventory position, receiving discipline, order flow, and shipping performance have to operate as one controlled system. The objective is not simply to store product. It is to convert inventory into dependable outbound execution with fewer misses, less rework, and better service consistency.",
+    video: {
+      src: "/_optimized/solution/warehouse/commercialVideo.mp4",
+      posterSrc: "/_optimized/solution/warehouse/mode-overview-poster.jpg",
+      title: "Warehousing and distribution in motion",
+    },
+  },
+  whySsp: {
+    eyebrow: "Why SSP For Warehousing & Distribution",
+    points: [
+      {
+        title: "Receiving, storage, and outbound rules are aligned early",
+        body: "SSP defines inbound handling, inventory logic, order rules, and shipping workflows before go-live so warehouse execution starts from a controlled operating design rather than from improvised floor habits.",
+      },
+      {
+        title: "Inventory accuracy and service performance are governed together",
+        body: "Order errors, cycle-time misses, inventory variance, and outbound exceptions are treated as connected signals of operating quality, not as separate issues owned by disconnected teams.",
+      },
+      {
+        title: "Distribution rhythm is built to hold through volume swings",
+        body: "Peak periods, seasonal shifts, and changing order profiles are managed through defined labor, throughput, and review cadence so the network can absorb variability without losing execution discipline.",
+      },
+    ],
+  },
+  howItWorks: {
+    eyebrow: "How It Works",
+    title: "Warehousing and distribution should be structured before go-live.",
+    description:
+      "Warehouse programs perform best when receiving logic, storage discipline, order rules, and outbound timing are aligned before inventory starts moving through the operation. This is the sequence SSP uses to structure the program.",
+    steps: [
+      {
+        step: "01",
+        title: "Define inventory, order, and service requirements",
+        body: "SSP reviews SKU profile, velocity segmentation, inbound cadence, storage constraints, order logic, and service expectations so the warehouse model matches the real operating requirement.",
+      },
+      {
+        step: "02",
+        title: "Build the workflow and control model",
+        body: "Receiving standards, put-away logic, slotting assumptions, pick strategy, shipping cutoffs, and exception ownership are aligned before live inventory enters the operation.",
+      },
+      {
+        step: "03",
+        title: "Run daily execution against the program rules",
+        body: "Once active, SSP manages inbound receipt, inventory movement, order fulfillment, and outbound staging against the agreed workflow rather than treating each task as an isolated warehouse event.",
+      },
+      {
+        step: "04",
+        title: "Refine throughput, accuracy, and service in cadence",
+        body: "Cycle-time performance, inventory variance, fulfillment misses, and outbound trends are reviewed on rhythm so the operation improves without losing consistency.",
+      },
+    ],
+  },
+  freightFit: {
+    eyebrow: "Freight Fit Guide",
+    title: "Warehousing-distribution fit should be confirmed before inventory is committed.",
+    description:
+      "Use this guide to confirm that the requirement truly needs storage, fulfillment, and outbound control in one operating model. If another SSP path should lead the requirement, route it early.",
+    guide: {
+      title: "Warehousing & Distribution Freight Fit Guide",
+      intro:
+        "Warehousing and distribution is for operations where inventory positioning, order flow, and outbound execution directly support customer service commitments. Use this guide to confirm fit and identify the better SSP path when another operating model should lead the requirement.",
+      diagram: "/_optimized/solution/warehouse/warehouseDistributionHero-Img.png",
+      diagramAlt: "Warehousing and distribution overview",
+      specs: {
+        length: "Order cycle and lead time shape the warehouse operating rhythm",
+        width: "SKU breadth, channel mix, and outbound reach define workflow complexity",
+        height: "Peak throughput and storage profile affect labor and capacity planning",
+        weight: "Unit handling and volume profile influence equipment and process design",
+      },
+      rules: [
+        {
+          condition: "Transport-only freight without ongoing inventory or fulfillment control",
+          description:
+            "If the requirement is shipment execution rather than storage, order handling, and outbound orchestration, a truckload or LTL path is usually cleaner.",
+          recommendation: "Truckload",
+          serviceSlug: "/solutions/truckload",
+        },
+        {
+          condition: "Recurring freight that needs procurement governance more than warehouse operations",
+          description:
+            "If the control problem sits mainly in carrier strategy, routing discipline, and service oversight across lanes, managed capacity should lead the program.",
+          recommendation: "Managed Capacity",
+          serviceSlug: "/solutions/managed-capacity",
+        },
+        {
+          condition: "Committed lane continuity and embedded execution resources",
+          description:
+            "If the real requirement is fixed operating continuity around recurring freight rather than inventory flow, dedicated or contract is the better fit.",
+          recommendation: "Dedicated / Contract",
+          serviceSlug: "/solutions/dedicated-contract",
+        },
+        {
+          condition: "Cross-border inventory programs where customs and corridor control lead the design",
+          description:
+            "If inventory and outbound flow are being shaped primarily by border sequence, broker alignment, and customs readiness, a cross-border operating path may need to lead the model.",
+          recommendation: "Cross-Border",
+          serviceSlug: "/solutions/cross-border",
+        },
+      ],
+      disclaimer:
+        "Planning guidance only. Final fit depends on SKU profile, order rhythm, throughput, storage needs, service targets, and the operating ownership SSP is expected to assume.",
+    },
+  },
+  relatedSolutions: {
+    eyebrow: "Related Services",
+    title: "If warehousing-distribution is not the only requirement, lead with the right path.",
+    description:
+      "These are the first SSP paths to review when carrier governance, committed lane continuity, or corridor control should shape the operating model more than storage and fulfillment alone.",
+    items: [
+      {
+        label: "Managed Capacity",
+        href: "/solutions/managed-capacity",
+        reason: "Move to managed capacity when the network needs planning, procurement, and KPI governance more than warehouse execution.",
+      },
+      {
+        label: "Dedicated / Contract",
+        href: "/solutions/dedicated-contract",
+        reason: "Move to dedicated or contract when recurring freight demands committed continuity and embedded operating structure beyond flexible distribution support.",
+      },
+      {
+        label: "Truckload",
+        href: "/solutions/truckload",
+        reason: "Move to truckload when the real need is straightforward freight execution rather than ongoing inventory positioning and fulfillment control.",
+      },
+      {
+        label: "Cross-Border",
+        href: "/solutions/cross-border",
+        reason: "Move to cross-border when customs readiness, brokerage alignment, and corridor execution define how inventory should flow to market.",
+      },
+      {
+        label: "Temperature-Controlled",
+        href: "/solutions/temperature-controlled",
+        reason: "Move to temperature-controlled when product integrity, monitoring, and cold-chain requirements define the storage and transportation model.",
+      },
+    ],
+  },
+  faq: {
+    eyebrow: "Warehousing & Distribution FAQs",
+    title: "The questions that matter before building a warehousing-distribution program.",
+    description:
+      "These are the qualification questions that usually determine whether warehousing and distribution is the right operating path and what SSP needs to structure the program cleanly.",
+    items: [
+      {
+        question: "What qualifies as a warehousing and distribution program?",
+        answer:
+          "It qualifies when inventory positioning, receiving discipline, order processing, and outbound execution all need to operate under one controlled model to support customer or channel service commitments.",
+      },
+      {
+        question: "What information matters most before I request a quote?",
+        answer:
+          "SKU profile, velocity segmentation, storage constraints, inbound cadence, order logic, shipping cutoffs, channel mix, and service expectations matter most. Those inputs determine space, labor rhythm, workflow design, and outbound control requirements.",
+      },
+      {
+        question: "Can SSP support cross-docking and same-day outbound response?",
+        answer:
+          "Yes, when the operating model is designed for it. SSP can structure cross-docking, staged inventory flow, and responsive outbound execution where order timing and throughput expectations justify that design.",
+      },
+      {
+        question: "How is warehousing-distribution different from managed capacity?",
+        answer:
+          "Warehousing and distribution governs inventory, fulfillment, and outbound execution inside the facility and through shipping handoff. Managed capacity governs transportation planning, procurement, and carrier performance across the network. One leads from inventory to ship. The other leads from lane to carrier execution.",
+      },
+      {
+        question: "Can SSP support warehousing and distribution across Canada, the United States, and Mexico?",
+        answer:
+          "Yes. Warehousing and distribution programs can be structured across Canada, the United States, and Mexico when facility needs, order profile, outbound lanes, and service expectations are aligned in one operating model.",
+      },
+      {
+        question: "When should warehousing-distribution be routed to another SSP service?",
+        answer:
+          "It should be rerouted when the requirement is really transportation governance, committed lane continuity, or border-led execution rather than ongoing inventory control and fulfillment performance.",
+      },
+    ],
+  },
+  finalCta: {
+    kicker: "Assess the facility fit",
+    title: "Qualify the warehousing-distribution model before inventory goes live.",
+    body: "Share the SKU profile, order flow, storage needs, inbound schedule, and service expectations. SSP will confirm whether warehousing and distribution is the right operating path, define the workflow early, and structure the program for controlled outbound execution.",
+    trustSignals: [
+      "Warehousing and distribution across Canada, the United States, and Mexico",
+      "Receiving, inventory, fulfillment, and outbound control aligned in one operating model",
+      "Freight-fit review connected to truckload, managed capacity, dedicated, cross-border, and temperature-controlled paths",
+    ],
+    proof: [
+      { label: "Model", value: "Fulfillment-led" },
+      { label: "Path", value: "Storage to ship" },
+      { label: "Reach", value: "CA-US-MX" },
+    ],
+    ctas: {
+      primary: {
+        label: "Request a Warehousing Program Quote",
+        href: "/quote?service=value-added&mode=warehousing-distribution",
+        ctaId: "solutions_warehousing_distribution_final_request_quote",
+      },
+      secondary: {
+        label: "Talk to the Distribution Team",
+        href: "/contact?topic=value-added-services&mode=warehousing-distribution",
+        ctaId: "solutions_warehousing_distribution_final_talk_team",
+      },
+    },
+  },
+};
+
 const SOLUTION_PAGES = {
   [TRUCKLOAD_SOLUTION_PAGE.slug]: TRUCKLOAD_SOLUTION_PAGE,
   [LTL_SOLUTION_PAGE.slug]: LTL_SOLUTION_PAGE,
@@ -3783,6 +5010,10 @@ const SOLUTION_PAGES = {
   [HAZMAT_SOLUTION_PAGE.slug]: HAZMAT_SOLUTION_PAGE,
   [EXPEDITED_SOLUTION_PAGE.slug]: EXPEDITED_SOLUTION_PAGE,
   [SPECIALIZED_VEHICLES_SOLUTION_PAGE.slug]: SPECIALIZED_VEHICLES_SOLUTION_PAGE,
+  [PROJECT_FREIGHT_SOLUTION_PAGE.slug]: PROJECT_FREIGHT_SOLUTION_PAGE,
+  [MANAGED_CAPACITY_SOLUTION_PAGE.slug]: MANAGED_CAPACITY_SOLUTION_PAGE,
+  [DEDICATED_CONTRACT_SOLUTION_PAGE.slug]: DEDICATED_CONTRACT_SOLUTION_PAGE,
+  [WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE.slug]: WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE,
   [DRY_VAN_SOLUTION_PAGE.slug]: DRY_VAN_SOLUTION_PAGE,
 } satisfies Record<string, SolutionPageData>;
 

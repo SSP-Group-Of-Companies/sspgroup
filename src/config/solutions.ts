@@ -217,9 +217,9 @@ export const SOLUTIONS_DATA = {
       },
       {
         analyticsId: "project_oversize_programs",
-        label: "Project-Specific (Oversize) Programs",
+        label: "Project-Specific",
         href: "/solutions/project-freight",
-        description: "Specialized handling for large-scale and oversize projects.",
+        description: "Program-managed freight for engineered and phased moves.",
         icon: "truck",
         bestFor: "Complex, oversized cargo",
         image: "/_optimized/solutions/card-project-oversize.webp",

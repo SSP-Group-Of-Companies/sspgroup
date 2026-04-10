@@ -5,6 +5,7 @@ import { StandardFinalCta } from "@/app/(site)/components/cta/StandardFinalCta";
 import type { SolutionFamilyPageData } from "@/config/solutionPages";
 import { SolutionHero } from "@/app/(site)/solutions/_components/SolutionHero";
 import { ModeSolutionOverviewSection } from "@/app/(site)/solutions/_components/ModeSolutionOverviewSection";
+import { DedicatedSolutionOverviewSection } from "@/app/(site)/solutions/_components/DedicatedSolutionOverviewSection";
 import { SolutionWhySspSection } from "@/app/(site)/solutions/_components/SolutionWhySspSection";
 import { SolutionBestFitSection } from "@/app/(site)/solutions/_components/SolutionBestFitSection";
 import { EquipmentSolutionFreightFitSection } from "@/app/(site)/solutions/_components/EquipmentSolutionFreightFitSection";
@@ -29,12 +30,27 @@ export function ModeSolutionPage({ page }: { page: SolutionFamilyPageData }) {
         theme={page.theme}
       />
 
-      <ModeSolutionOverviewSection
-        slug={page.slug}
-        section={page.modeOverview}
-        accent={page.theme.accent}
-        scrollMarginTop={SECTION_SCROLL_MARGIN}
-      />
+      {page.modeOverview.imageCard ? (
+        <DedicatedSolutionOverviewSection
+          slug={page.slug}
+          section={{
+            ...page.modeOverview,
+            imageCard: page.modeOverview.imageCard,
+          }}
+          accent={page.theme.accent}
+          scrollMarginTop={SECTION_SCROLL_MARGIN}
+        />
+      ) : page.modeOverview.video ? (
+        <ModeSolutionOverviewSection
+          slug={page.slug}
+          section={{
+            ...page.modeOverview,
+            video: page.modeOverview.video,
+          }}
+          accent={page.theme.accent}
+          scrollMarginTop={SECTION_SCROLL_MARGIN}
+        />
+      ) : null}
 
       <SolutionWhySspSection section={page.whySsp} accent={page.theme.accent} />
 

@@ -1029,7 +1029,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     key: "construction",
     slug: "construction-building-materials",
     meta: {
-      title: "Construction & Building Materials Logistics | Project Freight | SSP Group",
+      title: "Construction & Building Materials Logistics | Project-Specific Freight | SSP Group",
       description:
         "Heavy equipment, building materials, and site-critical freight delivered with permit-aware planning, safety governance, and checkpoint visibility across North America.",
       heroImage: "/_optimized/industries/construction-hero-premium-v1.png",
@@ -1042,7 +1042,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       description:
         "From heavy equipment and structural steel to building materials and oversized loads across North America, SSP manages construction freight with permit-aware route engineering, safety-governed execution, and checkpoint visibility that keeps project timelines intact.",
       cta: {
-        label: "Review Your Project Freight",
+        label: "Review Your Project-Specific Freight",
         href: "/contact",
         ctaId: "industry_construction_hero_contact",
       },

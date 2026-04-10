@@ -70,8 +70,8 @@ const SOLUTION_PAGES = {
     description: "Dedicated fleet and contract logistics support built around SLAs.",
   },
   "project-freight": {
-    title: "Project Freight",
-    description: "Project-based logistics with schedule governance and cross-functional planning.",
+    title: "Project-Specific",
+    description: "Project-specific freight with sequence control, route validation, and site-aware execution.",
   },
 } as const;
 

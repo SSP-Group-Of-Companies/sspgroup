@@ -44,7 +44,7 @@ const capabilities = [
     body: "Bonded warehouse coordination and staged customs clearance for freight requiring temporary holding or phased release at the border zone before final delivery.",
   },
   {
-    title: "Project Freight",
+    title: "Project-Specific",
     body: "Complex multi-load programs for industrial, energy, and manufacturing projects requiring phased border execution, coordinated delivery schedules, and security-grade oversight.",
     href: "/solutions/project-freight",
     ctaId: "cb_mexico_capability_project_freight",

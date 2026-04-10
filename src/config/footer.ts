@@ -53,7 +53,7 @@ function getSolutionsFooterLinks(): FooterLink[] {
     { label: "Temperature-Controlled", href: "/solutions/temperature-controlled" },
     { label: "Cross-Border", href: "/solutions/cross-border" },
     { label: "Managed Capacity", href: "/solutions/managed-capacity" },
-    { label: "Project Freight", href: "/solutions/project-freight" },
+    { label: "Project-Specific", href: "/solutions/project-freight" },
   ];
 
   const flattenedByHref = new Map(flattened.map((l) => [l.href, l]));
