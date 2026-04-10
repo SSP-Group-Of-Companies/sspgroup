@@ -1,7 +1,7 @@
 // src/app/(site)/components/layout/SiteFooter.tsx
 
 import Link from "next/link";
-import { ArrowUpRight, ChevronDown, Facebook, Instagram, Linkedin, Mail, Youtube } from "lucide-react";
+import { ArrowUpRight, Facebook, Instagram, Linkedin, Mail, Youtube } from "lucide-react";
 import { CardImage } from "@/components/media/CardImage";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { TrackedLink } from "@/app/(site)/components/analytics/TrackedLink";
@@ -18,11 +18,6 @@ const footerLink = cn(
 );
 
 const footerHeading = "text-[11px] font-bold tracking-[0.08em] text-[color:var(--color-footer-heading)] uppercase sm:text-[12px]";
-const mobileFooterLink = cn(
-  "inline-flex w-fit items-center text-[13px] leading-6 font-normal text-[color:var(--color-footer-link)] transition-colors",
-  "hover:text-[color:var(--color-footer-link-hover)]",
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)]",
-);
 
 const footerLegalLink = cn(
   "text-[13px] text-[color:var(--color-footer-legal-muted)] transition-colors",
@@ -45,11 +40,11 @@ export function SiteFooter() {
     <footer
       className={cn(
         "relative overflow-hidden",
-        "bg-[color:var(--color-footer-bg)]",
-        "border-t border-[color:var(--color-footer-border)]",
+        "md:border-t md:border-[color:var(--color-footer-border)]",
+        "md:bg-[color:var(--color-footer-bg)]",
       )}
     >
-      <Container className="relative max-w-[1440px] px-4 pt-14 pb-14 sm:px-6 sm:pt-16 sm:pb-16 lg:px-6">
+      <Container className="relative hidden max-w-[1440px] px-4 pt-14 pb-14 sm:px-6 sm:pt-16 sm:pb-16 md:block lg:px-6">
         {/* Footer navigation (desktop/tablet) */}
         <nav aria-label="Footer">
           <div className="hidden gap-8 md:grid md:grid-cols-2 md:gap-x-12 md:gap-y-10 lg:grid-cols-3 xl:grid-cols-[repeat(5,minmax(0,1fr))_minmax(220px,0.95fr)] xl:gap-x-9 xl:gap-y-10">
@@ -243,150 +238,6 @@ export function SiteFooter() {
             </aside>
           </div>
 
-          {/* Footer navigation (mobile) — clean accordion matching nav premium feel */}
-          <div className="md:hidden">
-            <div className="border-t border-[color:var(--color-footer-border)]">
-              <details className="group">
-                <summary className="flex cursor-pointer list-none items-center justify-between py-3.5">
-                  <span className={footerHeading}>Solutions</span>
-                  <ChevronDown className="h-4 w-4 text-[color:var(--color-footer-icon-muted)] transition-transform duration-200 group-open:rotate-180" />
-                </summary>
-                <ul className="pb-4 space-y-2">
-                  <li>
-                    <TrackedLink href="/solutions" ctaId="footer_m_solutions_all" location="footer:mobile_solutions" label="View all solutions" className={mobileFooterLink}>
-                      View all solutions →
-                    </TrackedLink>
-                  </li>
-                  {FOOTER_SECTIONS.solutions.links.slice(0, 6).map((item, idx) => (
-                    <li key={`m-sol-${item.href}-${idx}`}>
-                      <TrackedLink href={item.href} ctaId={`footer_m_solution_${item.label}`} location="footer:mobile_solutions" label={item.label} className={mobileFooterLink}>
-                        {item.label}
-                      </TrackedLink>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </div>
-
-            <div className="border-t border-[color:var(--color-footer-border)]">
-              <details className="group">
-                <summary className="flex cursor-pointer list-none items-center justify-between py-3.5">
-                  <span className={footerHeading}>Industries</span>
-                  <ChevronDown className="h-4 w-4 text-[color:var(--color-footer-icon-muted)] transition-transform duration-200 group-open:rotate-180" />
-                </summary>
-                <ul className="pb-4 space-y-2">
-                  <li>
-                    <TrackedLink href="/industries" ctaId="footer_m_industries_all" location="footer:mobile_industries" label="View all industries" className={mobileFooterLink}>
-                      View all industries →
-                    </TrackedLink>
-                  </li>
-                  {FOOTER_SECTIONS.industries.links.slice(0, 6).map((item, idx) => (
-                    <li key={`m-ind-${item.href}-${idx}`}>
-                      <TrackedLink href={item.href} ctaId={`footer_m_industry_${item.label}`} location="footer:mobile_industries" label={item.label} className={mobileFooterLink}>
-                        {item.label}
-                      </TrackedLink>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </div>
-
-            <div className="border-t border-[color:var(--color-footer-border)]">
-              <details className="group">
-                <summary className="flex cursor-pointer list-none items-center justify-between py-3.5">
-                  <span className={footerHeading}>Company</span>
-                  <ChevronDown className="h-4 w-4 text-[color:var(--color-footer-icon-muted)] transition-transform duration-200 group-open:rotate-180" />
-                </summary>
-                <ul className="pb-4 space-y-2">
-                  {FOOTER_SECTIONS.company.links.map((item, idx) => (
-                    <li key={`m-co-${item.href}-${idx}`}>
-                      <TrackedLink href={item.href} ctaId={`footer_m_company_${item.label}`} location="footer:mobile_company" label={item.label} className={mobileFooterLink}>
-                        {item.label}
-                      </TrackedLink>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </div>
-
-            <div className="border-t border-[color:var(--color-footer-border)]">
-              <details className="group">
-                <summary className="flex cursor-pointer list-none items-center justify-between py-3.5">
-                  <span className={footerHeading}>Careers</span>
-                  <ChevronDown className="h-4 w-4 text-[color:var(--color-footer-icon-muted)] transition-transform duration-200 group-open:rotate-180" />
-                </summary>
-                <ul className="pb-4 space-y-2">
-                  {FOOTER_SECTIONS.careers.links.map((item, idx) => (
-                    <li key={`m-car-${item.href}-${idx}`}>
-                      <TrackedLink href={item.href} ctaId={`footer_m_careers_${item.label}`} location="footer:mobile_careers" label={item.label} className={mobileFooterLink}>
-                        {item.label}
-                      </TrackedLink>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </div>
-
-            <div className="border-t border-[color:var(--color-footer-border)]">
-              <details className="group">
-                <summary className="flex cursor-pointer list-none items-center justify-between py-3.5">
-                  <span className={footerHeading}>Quick actions</span>
-                  <ChevronDown className="h-4 w-4 text-[color:var(--color-footer-icon-muted)] transition-transform duration-200 group-open:rotate-180" />
-                </summary>
-                <ul className="pb-4 space-y-2">
-                  {FOOTER_QUICK_ACTIONS.filter((action) => action.mobileVisible).map((action) => (
-                    <li key={`m-${action.href}`}>
-                      <TrackedLink
-                        href={action.href}
-                        ctaId={action.ctaIdMobile}
-                        location="footer:mobile_actions"
-                        label={action.label}
-                        className={
-                          action.highlight
-                            ? "inline-flex items-center gap-1 text-[13px] leading-6 font-semibold text-[color:var(--color-brand-500)]"
-                            : cn(mobileFooterLink, action.externalCue && "inline-flex items-center gap-1")
-                        }
-                      >
-                        {action.label}
-                        {action.externalCue ? <ArrowUpRight className="h-3.5 w-3.5 opacity-80" aria-hidden="true" /> : null}
-                      </TrackedLink>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </div>
-
-            {/* Brand strip */}
-            <div className="border-t border-[color:var(--color-footer-border)] pt-5 pb-2">
-              <Link href="/" className="inline-flex items-center">
-                <CardImage src="/_optimized/brand/SSPlogo.png" alt="SSP Group" width={138} height={40} className="h-9 w-auto object-contain" />
-              </Link>
-              <p className="mt-3 text-[11px] font-semibold tracking-[0.08em] text-[color:var(--color-footer-tagline)] uppercase">
-                Your Success is our success
-              </p>
-              <div className="mt-3 flex items-center gap-2.5">
-                {FOOTER_SOCIALS.map((social) => {
-                  const Icon = SOCIAL_ICON_MAP[social.icon];
-                  return (
-                    <Link
-                      key={`m-${social.href}`}
-                      href={social.href}
-                      target={social.external ? "_blank" : undefined}
-                      rel={social.external ? "noopener noreferrer" : undefined}
-                      aria-label={social.label}
-                      className={cn(
-                        "inline-flex h-8 w-8 items-center justify-center rounded-full border border-[color:var(--color-footer-social-border)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)]",
-                        social.toneClass,
-                        social.hoverClass,
-                      )}
-                    >
-                      <Icon className="h-4 w-4" />
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
         </nav>
 
         {/* Single oversized watermark on the light quick-links surface */}
@@ -405,6 +256,54 @@ export function SiteFooter() {
         </div>
 
       </Container>
+
+      <div className="border-t border-[color:var(--color-footer-border)] bg-[color:var(--color-footer-bg)] md:hidden">
+        <Container className="px-4 pt-5 pb-4">
+          <div>
+            <Link
+              href="/"
+              className={cn(
+                "inline-flex items-center",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)]",
+              )}
+            >
+              <CardImage
+                src="/_optimized/brand/SSPlogo.png"
+                alt="SSP Group"
+                width={138}
+                height={40}
+                className="h-9 w-auto object-contain"
+              />
+            </Link>
+
+            <p className="mt-3 text-[11px] font-semibold tracking-[0.08em] text-[color:var(--color-footer-tagline)] uppercase">
+              Your Success is our success
+            </p>
+
+            <div className="mt-3 flex items-center gap-2.5">
+              {FOOTER_SOCIALS.map((social) => {
+                const Icon = SOCIAL_ICON_MAP[social.icon];
+                return (
+                  <Link
+                    key={`m-${social.href}`}
+                    href={social.href}
+                    target={social.external ? "_blank" : undefined}
+                    rel={social.external ? "noopener noreferrer" : undefined}
+                    aria-label={social.label}
+                    className={cn(
+                      "inline-flex h-8 w-8 items-center justify-center rounded-full border border-[color:var(--color-footer-social-border)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)]",
+                      social.toneClass,
+                      social.hoverClass,
+                    )}
+                  >
+                    <Icon className="h-4 w-4" />
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </Container>
+      </div>
 
       <FooterLegalLane className="mt-0">
         <Container className="max-w-[1440px] px-4 pt-7 pb-12 sm:px-6 sm:py-7 lg:px-6">

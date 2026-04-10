@@ -375,12 +375,7 @@ export default function CareersClient({
     const id = hash.replace("#", "");
     const track = new URLSearchParams(window.location.search).get("track");
     const targetId =
-      id ||
-      (track === "drivers"
-        ? "drive"
-        : track === "office-operations"
-          ? "jobs"
-          : "");
+      id || (track === "drivers" ? "drive" : track === "office-operations" ? "jobs" : "");
 
     if (!targetId) return;
     const t = window.setTimeout(() => scrollToId(targetId), 50);
@@ -464,7 +459,9 @@ export default function CareersClient({
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-ssp-cyan-500)]/32 to-transparent" />
           <div
             className="absolute inset-x-0 bottom-0 h-20"
-            style={{ background: "linear-gradient(to bottom, transparent, var(--color-careers-drive-bg))" }}
+            style={{
+              background: "linear-gradient(to bottom, transparent, var(--color-careers-drive-bg))",
+            }}
             aria-hidden
           />
         </div>
@@ -475,7 +472,7 @@ export default function CareersClient({
               initial="hidden"
               animate="show"
               variants={stagger}
-            className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(350px,0.88fr)]"
+              className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(350px,0.88fr)]"
             >
               <div className="relative z-20">
                 <motion.div
@@ -489,7 +486,7 @@ export default function CareersClient({
                   variants={fadeUp}
                   transition={{ duration: reduceMotion ? 0 : 0.5, ease: "easeOut" }}
                   className={cn(
-                    "mt-4 max-w-3xl text-balance font-bold tracking-tight text-white",
+                    "mt-4 max-w-3xl font-bold tracking-tight text-balance text-white",
                     "text-[2.05rem] leading-[1.04] sm:text-[2.45rem] lg:text-[2.92rem]",
                   )}
                 >
@@ -501,9 +498,9 @@ export default function CareersClient({
                   transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
                   className="mt-4 max-w-[54ch] text-[14.25px] leading-[1.74] text-white/84 sm:text-[15px]"
                 >
-                  Join a team where ownership, safety, and operating discipline define daily execution.
-                  Whether you are on the road or in operations, SSP provides the structure, support,
-                  and accountability required for long-term growth.
+                  Join a team where ownership, safety, and operating discipline define daily
+                  execution. Whether you are on the road or in operations, SSP provides the
+                  structure, support, and accountability required for long-term growth.
                 </motion.p>
 
                 <motion.div
@@ -566,15 +563,15 @@ export default function CareersClient({
                 className="relative hidden overflow-hidden rounded-3xl border border-white/16 bg-black/24 p-6 shadow-[var(--shadow-glass-card)] backdrop-blur-xl lg:block"
               >
                 <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
-                <p className="text-[10.5px] font-semibold uppercase tracking-[0.15em] text-white/64">
+                <p className="text-[10.5px] font-semibold tracking-[0.15em] text-white/64 uppercase">
                   Talent Command Desk
                 </p>
-                <h2 className="mt-3 text-[1.3rem] font-semibold leading-tight tracking-tight text-white">
+                <h2 className="mt-3 text-[1.3rem] leading-tight font-semibold tracking-tight text-white">
                   Hiring across fleet, operations, and growth-critical functions.
                 </h2>
                 <p className="mt-3 text-[13px] leading-[1.72] text-white/74">
-                  Structured onboarding, clear role ownership, and leadership support from application
-                  through placement.
+                  Structured onboarding, clear role ownership, and leadership support from
+                  application through placement.
                 </p>
 
                 <div className="mt-5 grid grid-cols-2 gap-2.5">
@@ -582,27 +579,29 @@ export default function CareersClient({
                     <p className="text-[1.05rem] font-semibold tracking-tight text-white">
                       {meta?.total ?? items.length}
                     </p>
-                    <p className="mt-1 text-[10px] uppercase tracking-[0.14em] text-white/60">
+                    <p className="mt-1 text-[10px] tracking-[0.14em] text-white/60 uppercase">
                       Live openings
                     </p>
                   </div>
                   <div className="rounded-xl border border-white/18 bg-black/18 px-3 py-2.5">
                     <p className="text-[1.05rem] font-semibold tracking-tight text-white">24 / 7</p>
-                    <p className="mt-1 text-[10px] uppercase tracking-[0.14em] text-white/60">
+                    <p className="mt-1 text-[10px] tracking-[0.14em] text-white/60 uppercase">
                       Ops support
                     </p>
                   </div>
                 </div>
 
                 <div className="mt-5 flex flex-wrap gap-2">
-                  {["Driver opportunities", "Office and operations", "Leadership tracks"].map((x) => (
-                    <span
-                      key={x}
-                      className="rounded-full border border-white/20 bg-white/[0.1] px-2.5 py-1 text-[10px] font-medium text-white/82"
-                    >
-                      {x}
-                    </span>
-                  ))}
+                  {["Driver opportunities", "Office and operations", "Leadership tracks"].map(
+                    (x) => (
+                      <span
+                        key={x}
+                        className="rounded-full border border-white/20 bg-white/[0.1] px-2.5 py-1 text-[10px] font-medium text-white/82"
+                      >
+                        {x}
+                      </span>
+                    ),
+                  )}
                 </div>
               </motion.aside>
             </motion.div>
@@ -611,7 +610,7 @@ export default function CareersClient({
               initial={reduceMotion ? { opacity: 0.1 } : { opacity: 0.04, x: -34, y: 20 }}
               animate={reduceMotion ? { opacity: 0.1 } : { opacity: 0.14, x: 0, y: 0 }}
               transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
-              className="pointer-events-none absolute right-[-45%] top-[-2%] h-[120%] w-[118%] sm:right-[-40%] sm:top-[-4%] sm:h-[126%] sm:w-[110%] md:right-[-31%] md:top-[-7%] md:h-[130%] md:w-[98%] lg:right-[-23%] lg:top-[-10%] lg:h-[134%] lg:w-[80%]"
+              className="pointer-events-none absolute top-[-2%] right-[-45%] h-[120%] w-[118%] sm:top-[-4%] sm:right-[-40%] sm:h-[126%] sm:w-[110%] md:top-[-7%] md:right-[-31%] md:h-[130%] md:w-[98%] lg:top-[-10%] lg:right-[-23%] lg:h-[134%] lg:w-[80%]"
               aria-hidden
               style={heroShardFadeStyle}
             >
@@ -651,8 +650,8 @@ export default function CareersClient({
                   </h2>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--color-muted-light)]">
                     We run freight with clear expectations, direct communication, and accountable
-                    follow-through. The result is an operating environment where execution quality is
-                    supported, measured, and consistently recognized.
+                    follow-through. The result is an operating environment where execution quality
+                    is supported, measured, and consistently recognized.
                   </p>
                 </div>
 
@@ -807,8 +806,8 @@ export default function CareersClient({
                 </h3>
                 <p className="mb-6 text-sm leading-relaxed text-white/72">
                   SSP driver applications run through DriveDock, our digital onboarding platform.
-                  Start your profile, submit required details, and move through qualification steps in
-                  one secure workflow.
+                  Start your profile, submit required details, and move through qualification steps
+                  in one secure workflow.
                 </p>
 
                 <a
@@ -884,9 +883,9 @@ export default function CareersClient({
                 Office and Operations Roles
               </h2>
               <p className="mt-1 max-w-2xl text-sm text-[color:var(--color-muted-light)]">
-                Explore open positions across dispatch, planning, compliance, customer operations, and
-                leadership support. Every role contributes directly to disciplined execution across
-                the SSP network.
+                Explore open positions across dispatch, planning, compliance, customer operations,
+                and leadership support. Every role contributes directly to disciplined execution
+                across the SSP network.
               </p>
             </div>
 

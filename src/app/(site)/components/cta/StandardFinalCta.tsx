@@ -116,20 +116,21 @@ export function StandardFinalCta({
 
   const preset = variantDefaults[variant];
   const effectiveSectionClassName = sectionClassName ?? preset.sectionClassName;
-  const effectiveSectionBgColor = sectionBgColor ?? preset.sectionBgColor ?? "var(--color-company-ink)";
+  const effectiveSectionBgColor =
+    sectionBgColor ?? preset.sectionBgColor ?? "var(--color-company-ink)";
   const effectiveSectionBackground = sectionBackground ?? preset.sectionBackground;
   const effectiveAccentColor = accentColor ?? preset.accentColor ?? DEFAULT_ACCENT;
   const effectiveTrustSignalAccentColor = trustSignalAccentColor ?? DEFAULT_ACCENT;
   const effectiveOrbMainColor = orbMainColor ?? preset.orbMainColor ?? "rgba(224,43,53,0.1)";
-  const effectiveOrbSecondaryColor = orbSecondaryColor ?? preset.orbSecondaryColor ?? "rgba(16,167,216,0.1)";
+  const effectiveOrbSecondaryColor =
+    orbSecondaryColor ?? preset.orbSecondaryColor ?? "rgba(16,167,216,0.1)";
   const effectiveShowNoise = showNoise ?? preset.showNoise ?? true;
 
   const reduceMotion = !!useReducedMotion();
   const trustSignals = data.trustSignals ?? [];
   const proof = data.proof ?? [];
   const secondaryIsLiveChat =
-    data.ctas.secondary.action === "live-chat" ||
-    data.ctas.secondary.href === "#live-chat";
+    data.ctas.secondary.action === "live-chat" || data.ctas.secondary.href === "#live-chat";
 
   return (
     <section
@@ -154,11 +155,11 @@ export function StandardFinalCta({
 
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         <div
-          className="absolute -left-20 bottom-[-60px] h-[200px] w-[200px] rounded-full blur-[100px]"
+          className="absolute bottom-[-60px] -left-20 h-[200px] w-[200px] rounded-full blur-[100px]"
           style={{ backgroundColor: effectiveOrbMainColor }}
         />
         <div
-          className="absolute right-[10%] top-[-40px] h-[180px] w-[180px] rounded-full blur-[80px]"
+          className="absolute top-[-40px] right-[10%] h-[180px] w-[180px] rounded-full blur-[80px]"
           style={{ backgroundColor: effectiveOrbSecondaryColor }}
         />
       </div>
@@ -186,7 +187,7 @@ export function StandardFinalCta({
               <h2
                 id={headingId}
                 className={cn(
-                  "mt-4 text-[1.75rem] font-bold leading-[1.1] tracking-tight text-white sm:text-[2.2rem] lg:text-[2.5rem]",
+                  "mt-4 text-[1.75rem] leading-[1.1] font-bold tracking-tight text-white sm:text-[2.2rem] lg:text-[2.5rem]",
                   titleClassName,
                 )}
               >
@@ -203,7 +204,7 @@ export function StandardFinalCta({
               </p>
 
               {trustSignals.length > 0 ? (
-                <div className="mt-5 flex flex-wrap gap-2">
+                <div className="mt-5 hidden flex-wrap gap-2 sm:flex">
                   {trustSignals.map((signal) => (
                     <span
                       key={signal}
@@ -229,12 +230,12 @@ export function StandardFinalCta({
 
             <div className="lg:col-span-4">
               <div className="rounded-xl border border-[color:var(--color-glass-border)] bg-[color:var(--color-glass-bg)] p-5 sm:p-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
+                <p className="text-xs font-semibold tracking-[0.12em] text-white/50 uppercase">
                   {data.kicker}
                 </p>
 
                 {proof.length > 0 ? (
-                  <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                  <div className="mt-4 hidden gap-2 sm:grid sm:grid-cols-3">
                     {proof.map((item) => (
                       <div
                         key={item.label}
@@ -243,7 +244,7 @@ export function StandardFinalCta({
                         <div className="text-[13px] font-semibold tracking-tight text-white/75">
                           {item.value}
                         </div>
-                        <div className="mt-0.5 text-[9px] uppercase tracking-wider text-white/30">
+                        <div className="mt-0.5 text-[9px] tracking-wider text-white/30 uppercase">
                           {item.label}
                         </div>
                       </div>
@@ -301,7 +302,10 @@ export function StandardFinalCta({
                         FOCUS_RING_DARK,
                       )}
                     >
-                      <span className="h-2 w-2 rounded-full bg-emerald-400 motion-safe:animate-pulse" aria-hidden />
+                      <span
+                        className="h-2 w-2 rounded-full bg-emerald-400 motion-safe:animate-pulse"
+                        aria-hidden
+                      />
                       {data.ctas.secondary.label}
                     </button>
                   ) : (
