@@ -23,8 +23,9 @@ export default function GuidedChatbot() {
 
   const [open, setOpen] = React.useState(false);
   const [closing, setClosing] = React.useState(false);
+  /** Once true, the chat widget stays mounted (off-screen when closed) so messages survive close/reopen until a full page load. */
+  const [chatSessionActive, setChatSessionActive] = React.useState(false);
   const [showTooltip, setShowTooltip] = React.useState(false);
-  const [closingBodyHeight, setClosingBodyHeight] = React.useState<number>(420);
   const [showLauncher, setShowLauncher] = React.useState(true);
   const [launcherVisible, setLauncherVisible] = React.useState(true);
 
@@ -129,6 +130,7 @@ export default function GuidedChatbot() {
       closeTimerRef.current = null;
     }
 
+    setChatSessionActive(true);
     hideLauncherImmediately();
     setClosing(false);
     setOpen(true);
@@ -143,11 +145,6 @@ export default function GuidedChatbot() {
 
   function closeChat() {
     if (!open || closing) return;
-
-    const measuredHeight = bodyRef.current?.getBoundingClientRect().height;
-    if (measuredHeight && Number.isFinite(measuredHeight)) {
-      setClosingBodyHeight(Math.ceil(measuredHeight));
-    }
 
     setClosing(true);
 
@@ -186,72 +183,75 @@ export default function GuidedChatbot() {
 
   const showPanel = open || closing;
   const panelEntering = open && !closing;
-  const showLiveBody = open && !closing;
 
   return (
     <div className="fixed right-5 bottom-5 z-50">
-      {showPanel && (
+      {chatSessionActive && (
         <div
           ref={panelRef}
-          className={[
-            "absolute right-0 bottom-0 w-[360px] max-w-[92vw] overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl",
-            "origin-bottom-right transition-all",
-            panelEntering
-              ? "pointer-events-auto visible translate-y-0 scale-100 opacity-100"
-              : "pointer-events-none visible translate-y-3 scale-[0.975] opacity-0",
-          ].join(" ")}
-          style={{
-            transitionDuration: `${PANEL_ANIMATION_MS}ms`,
-            transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
-            willChange: "transform, opacity",
-          }}
+          className={
+            showPanel
+              ? [
+                  "absolute right-0 bottom-0 w-[360px] max-w-[92vw] overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl",
+                  "origin-bottom-right transition-all",
+                  panelEntering
+                    ? "pointer-events-auto visible translate-y-0 scale-100 opacity-100"
+                    : "pointer-events-none visible translate-y-3 scale-[0.975] opacity-0",
+                ].join(" ")
+              : [
+                  "pointer-events-none invisible fixed top-0 -left-[10000px] z-[-1] w-[360px] max-w-[92vw] overflow-hidden opacity-0",
+                ].join(" ")
+          }
+          style={
+            showPanel
+              ? {
+                  transitionDuration: `${PANEL_ANIMATION_MS}ms`,
+                  transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+                  willChange: "transform, opacity",
+                }
+              : undefined
+          }
           role="dialog"
           aria-label="Chatbot"
-          aria-hidden={!panelEntering}
+          aria-hidden={!showPanel || !panelEntering}
         >
-          <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-            <div className="flex items-center gap-2">
-              <span
-                className="relative inline-flex h-8 w-8 shrink-0 items-center justify-center"
-                aria-hidden="true"
+          {showPanel && (
+            <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+              <div className="flex items-center gap-2">
+                <span
+                  className="relative inline-flex h-8 w-8 shrink-0 items-center justify-center"
+                  aria-hidden="true"
+                >
+                  <Image
+                    src="/_optimized/brand/SSPlogo.png"
+                    alt="SSP Group"
+                    fill
+                    sizes="32px"
+                    className="object-contain"
+                  />
+                </span>
+                <div className="text-sm font-semibold text-gray-900">SSP Assistant</div>
+              </div>
+
+              <button
+                type="button"
+                onClick={closeChat}
+                className="rounded-md p-2 text-gray-600 hover:cursor-pointer hover:bg-gray-100"
+                aria-label="Close chat"
               >
-                <Image
-                  src="/_optimized/brand/SSPlogo.png"
-                  alt="SSP Group"
-                  fill
-                  sizes="32px"
-                  className="object-contain"
-                />
-              </span>
-              <div className="text-sm font-semibold text-gray-900">SSP Assistant</div>
+                <X size={18} />
+              </button>
             </div>
-
-            <button
-              type="button"
-              onClick={closeChat}
-              className="rounded-md p-2 text-gray-600 hover:cursor-pointer hover:bg-gray-100"
-              aria-label="Close chat"
-            >
-              <X size={18} />
-            </button>
-          </div>
-
-          {showLiveBody ? (
-            <div ref={bodyRef} className="ssp-chatbot">
-              <Chatbot
-                config={botConfig as never}
-                messageParser={MessageParser as never}
-                actionProvider={ActionProvider as never}
-                placeholderText="Ask about quotes, tracking, solutions, FAQs, lanes, or support…"
-              />
-            </div>
-          ) : (
-            <div
-              aria-hidden="true"
-              className="bg-white"
-              style={{ height: `${closingBodyHeight}px` }}
-            />
           )}
+
+          <div ref={bodyRef} className="ssp-chatbot">
+            <Chatbot
+              config={botConfig as never}
+              messageParser={MessageParser as never}
+              actionProvider={ActionProvider as never}
+              placeholderText="Ask about quotes, tracking, solutions, FAQs, lanes, or support…"
+            />
+          </div>
         </div>
       )}
 
