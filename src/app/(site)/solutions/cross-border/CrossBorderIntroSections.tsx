@@ -112,7 +112,7 @@ export function CrossBorderIntroSections({
                     label: "Discuss Your Requirements",
                   })
                 }
-                className={cn("inline-flex h-12 items-center rounded-lg bg-[color:var(--color-ssp-cyan-500)] px-6 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(16,167,216,0.35)] transition hover:bg-[color:var(--color-ssp-cyan-600)] hover:shadow-[0_10px_28px_rgba(16,167,216,0.45)]", focusRingDark)}
+                className={cn("inline-flex h-12 items-center bg-[color:var(--color-ssp-cyan-500)] px-6 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(16,167,216,0.35)] transition hover:bg-[color:var(--color-ssp-cyan-600)] hover:shadow-[0_10px_28px_rgba(16,167,216,0.45)]", "site-cta-radius", focusRingDark)}
               >
                 Discuss Your Requirements
               </Link>
@@ -127,7 +127,7 @@ export function CrossBorderIntroSections({
                     label: "Explore Corridors",
                   })
                 }
-                className={cn("inline-flex h-12 items-center rounded-lg border border-white/22 px-6 text-sm font-medium text-white/75 transition hover:border-white/40 hover:bg-white/10 hover:text-white", focusRingDark)}
+                className={cn("inline-flex h-12 items-center border border-white/22 px-6 text-sm font-medium text-white/75 transition hover:border-white/40 hover:bg-white/10 hover:text-white", "site-cta-radius", focusRingDark)}
               >
                 Explore Corridors
               </Link>

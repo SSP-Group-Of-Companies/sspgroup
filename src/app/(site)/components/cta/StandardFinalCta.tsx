@@ -271,7 +271,8 @@ export function StandardFinalCta({
                         : undefined
                     }
                     className={cn(
-                      "inline-flex h-12 w-full items-center justify-center rounded-lg px-5 text-sm font-semibold text-white transition-all duration-200 motion-safe:hover:-translate-y-[1px]",
+                      "inline-flex h-12 w-full items-center justify-center px-5 text-sm font-semibold text-white transition-all duration-200 motion-safe:hover:-translate-y-[1px]",
+                      "site-cta-radius",
                       FOCUS_RING_DARK,
                     )}
                     style={{
@@ -298,7 +299,8 @@ export function StandardFinalCta({
                         window.dispatchEvent(new CustomEvent("ssp:open-live-chat"));
                       }}
                       className={cn(
-                        "inline-flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-[color:var(--color-glass-border-hover)] px-5 text-sm font-semibold text-white/80 transition-all duration-200 hover:border-[color:var(--color-glass-border-hover)] hover:bg-[color:var(--color-glass-bg-hover)]",
+                        "inline-flex h-12 w-full items-center justify-center gap-2 border border-[color:var(--color-glass-border-hover)] px-5 text-sm font-semibold text-white/80 transition-all duration-200 hover:border-[color:var(--color-glass-border-hover)] hover:bg-[color:var(--color-glass-bg-hover)]",
+                        "site-cta-radius",
                         FOCUS_RING_DARK,
                       )}
                     >
@@ -323,7 +325,8 @@ export function StandardFinalCta({
                           : undefined
                       }
                       className={cn(
-                        "inline-flex h-12 w-full items-center justify-center rounded-lg border border-[color:var(--color-glass-border-hover)] px-5 text-sm font-semibold text-white/80 transition-all duration-200 hover:border-[color:var(--color-glass-border-hover)] hover:bg-[color:var(--color-glass-bg-hover)]",
+                        "inline-flex h-12 w-full items-center justify-center border border-[color:var(--color-glass-border-hover)] px-5 text-sm font-semibold text-white/80 transition-all duration-200 hover:border-[color:var(--color-glass-border-hover)] hover:bg-[color:var(--color-glass-bg-hover)]",
+                        "site-cta-radius",
                         FOCUS_RING_DARK,
                       )}
                     >

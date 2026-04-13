@@ -38,8 +38,9 @@ export function PremiumPageScaffold({
                 <Link
                   href={primaryCta.href}
                   className={cn(
-                    "inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold text-white",
+                    "inline-flex h-11 items-center justify-center px-5 text-sm font-semibold text-white",
                     "bg-[color:var(--color-brand-600)] hover:bg-[color:var(--color-brand-700)]",
+                    "site-cta-radius",
                     "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-company-ink)]",
                   )}
                 >
@@ -51,8 +52,9 @@ export function PremiumPageScaffold({
                 <Link
                   href={secondaryCta.href}
                   className={cn(
-                    "inline-flex h-11 items-center justify-center rounded-full border border-white/22 px-5 text-sm font-medium text-white/90",
+                    "inline-flex h-11 items-center justify-center border border-white/22 px-5 text-sm font-medium text-white/90",
                     "hover:bg-white/8",
+                    "site-cta-radius",
                     "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-company-ink)]",
                   )}
                 >

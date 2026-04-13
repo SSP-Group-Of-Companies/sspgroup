@@ -149,8 +149,9 @@ export function AboutSspHero({ data }: { data: HeroData }) {
                   })
                 }
                 className={cn(
-                  "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold transition-all duration-200 motion-safe:hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
+                  "inline-flex h-12 w-full items-center justify-center px-7 text-sm font-semibold transition-all duration-200 motion-safe:hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
                   "bg-[color:var(--color-brand-600)] text-white shadow-[var(--shadow-action-primary)]",
+                  "site-cta-radius",
                   FOCUS_RING,
                 )}
               >
@@ -168,7 +169,8 @@ export function AboutSspHero({ data }: { data: HeroData }) {
                   })
                 }
                 className={cn(
-                  "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/22 bg-black/20 px-7 text-sm font-semibold text-white/92 backdrop-blur-sm transition-all duration-200 hover:border-white/35 hover:bg-black/28 hover:text-white sm:w-auto",
+                  "inline-flex h-12 w-full items-center justify-center border border-white/22 bg-black/20 px-7 text-sm font-semibold text-white/92 backdrop-blur-sm transition-all duration-200 hover:border-white/35 hover:bg-black/28 hover:text-white sm:w-auto",
+                  "site-cta-radius",
                   FOCUS_RING,
                 )}
               >

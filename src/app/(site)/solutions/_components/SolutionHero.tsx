@@ -125,7 +125,8 @@ export function SolutionHero({
                 })
               }
               className={cn(
-                "inline-flex h-12 items-center rounded-lg px-6 text-sm font-semibold text-white transition hover:bg-[var(--solution-accent-hover)] hover:shadow-[var(--solution-accent-shadow-hover)]",
+                "inline-flex h-12 items-center px-6 text-sm font-semibold text-white transition hover:bg-[var(--solution-accent-hover)] hover:shadow-[var(--solution-accent-shadow-hover)]",
+                "site-cta-radius",
                 FOCUS_RING,
               )}
               style={{
@@ -152,7 +153,8 @@ export function SolutionHero({
                 })
               }
               className={cn(
-                "inline-flex h-12 items-center rounded-lg border border-white/22 px-6 text-sm font-medium text-white/75 transition hover:border-white/40 hover:bg-white/10 hover:text-white",
+                "inline-flex h-12 items-center border border-white/22 px-6 text-sm font-medium text-white/75 transition hover:border-white/40 hover:bg-white/10 hover:text-white",
+                "site-cta-radius",
                 FOCUS_RING,
               )}
             >

@@ -98,6 +98,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const solutionRoutes = [
+    "/solutions/core-freight-modes",
     "/solutions/truckload",
     "/solutions/dry-van",
     "/solutions/flatbed",
@@ -105,6 +106,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/solutions/rgn-heavy-haul",
     "/solutions/conestoga-roll-tite",
     "/solutions/ltl",
+    "/solutions/specialized-critical-freight",
     "/solutions/expedited",
     "/solutions/specialized-vehicles",
     "/solutions/hazmat",
@@ -114,6 +116,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/solutions/cross-border/mexico",
     "/solutions/cross-border/air-freight",
     "/solutions/cross-border/ocean-freight",
+    "/solutions/managed-logistics",
     "/solutions/warehousing-distribution",
     "/solutions/managed-capacity",
     "/solutions/dedicated-contract",

@@ -505,8 +505,9 @@ export default function InsightsIndexClient({
                   type="button"
                   onClick={() => scrollToId("insights")}
                   className={cn(
-                    "inline-flex h-11 items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold",
+                    "inline-flex h-11 items-center justify-center gap-2 px-5 text-sm font-semibold",
                     "cursor-pointer border border-[color:var(--color-brand-600)] bg-[linear-gradient(180deg,var(--color-brand-500),var(--color-brand-600)_54%,var(--color-brand-700))] text-white shadow-[var(--shadow-action-primary)] transition hover:-translate-y-[2px] hover:brightness-[1.04]",
+                    "site-cta-radius",
                     "focus-ring-surface",
                   )}
                 >

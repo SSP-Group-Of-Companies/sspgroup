@@ -530,7 +530,8 @@ function CenteredHeroContent({
             })
           }
           className={cn(
-            "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold transition-all duration-200 hover:shadow-lg motion-safe:hover:-translate-y-[1px] sm:w-auto",
+            "inline-flex h-12 w-full items-center justify-center px-7 text-sm font-semibold transition-all duration-200 hover:shadow-lg motion-safe:hover:-translate-y-[1px] sm:w-auto",
+            "site-cta-radius",
             FOCUS_RING_DARK,
           )}
           style={{
@@ -555,7 +556,8 @@ function CenteredHeroContent({
               })
             }
             className={cn(
-              "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/18 bg-black/18 px-7 text-sm font-semibold text-white/84 backdrop-blur-sm transition-all duration-200 hover:border-white/28 hover:bg-black/24 hover:text-white sm:w-auto",
+              "inline-flex h-12 w-full items-center justify-center border border-white/18 bg-black/18 px-7 text-sm font-semibold text-white/84 backdrop-blur-sm transition-all duration-200 hover:border-white/28 hover:bg-black/24 hover:text-white sm:w-auto",
+              "site-cta-radius",
               FOCUS_RING_DARK,
             )}
           >
@@ -758,7 +760,8 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                       })
                     }
                     className={cn(
-                      "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 hover:shadow-lg motion-safe:hover:-translate-y-[1px] sm:w-auto",
+                      "inline-flex h-12 w-full items-center justify-center px-7 text-sm font-semibold text-white transition-all duration-200 hover:shadow-lg motion-safe:hover:-translate-y-[1px] sm:w-auto",
+                      "site-cta-radius",
                       FOCUS_RING_DARK,
                     )}
                     style={{
@@ -782,7 +785,8 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                         })
                       }
                       className={cn(
-                        "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/15 bg-white/5 px-7 text-sm font-semibold text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/8 hover:text-white sm:w-auto",
+                        "inline-flex h-12 w-full items-center justify-center border border-white/15 bg-white/5 px-7 text-sm font-semibold text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/8 hover:text-white sm:w-auto",
+                        "site-cta-radius",
                         FOCUS_RING_DARK,
                       )}
                     >
@@ -876,7 +880,8 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                     })
                   }
                   className={cn(
-                    "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 hover:shadow-lg motion-safe:hover:-translate-y-[1px] sm:w-auto",
+                    "inline-flex h-12 w-full items-center justify-center px-7 text-sm font-semibold text-white transition-all duration-200 hover:shadow-lg motion-safe:hover:-translate-y-[1px] sm:w-auto",
+                    "site-cta-radius",
                     FOCUS_RING_DARK,
                   )}
                   style={{
@@ -900,7 +905,8 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                       })
                     }
                     className={cn(
-                      "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/15 bg-white/5 px-7 text-sm font-semibold text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/8 hover:text-white sm:w-auto",
+                      "inline-flex h-12 w-full items-center justify-center border border-white/15 bg-white/5 px-7 text-sm font-semibold text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/8 hover:text-white sm:w-auto",
+                      "site-cta-radius",
                       FOCUS_RING_DARK,
                     )}
                   >
