@@ -182,7 +182,9 @@ export function StandardFinalCta({
         >
           <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-8">
-              {eyebrow ?? <SectionSignalEyebrow label={data.kicker} light />}
+              {eyebrow ?? (
+                <SectionSignalEyebrow label={data.kicker} light accentColor={effectiveAccentColor} />
+              )}
 
               <h2
                 id={headingId}

@@ -18,9 +18,9 @@ export type SolutionsHubFamily = {
 export const SOLUTIONS_HUB_PAGE = {
   hero: {
     eyebrow: "Solutions",
-    title: "Freight execution starts with the right operating model",
+    title: "Freight logistics across every mode, constraint, and corridor in North America",
     description:
-      "SSP structures freight around the condition that most changes execution: mode fit, cargo constraints, border exposure, or network governance. Start with the family that fits the move across Canada, the United States, and Mexico.",
+      "SSP Group operates truckload, LTL, specialized, cross-border, and managed logistics programs across Canada, the United States, and Mexico. Every shipment is routed through the service family that fits how it actually needs to move — by equipment, by constraint, by corridor, or by program.",
     primaryCta: {
       label: "Request a Freight Quote",
       href: "/quote",
@@ -34,48 +34,48 @@ export const SOLUTIONS_HUB_PAGE = {
   },
   operatingModel: {
     eyebrow: "Operating Model",
-    title: "SSP qualifies the shipment before it assigns capacity.",
+    title: "The shipment is qualified before capacity is assigned.",
     description:
-      "The first question is not which service to sell. It is what will govern execution. Equipment profile, timing pressure, regulatory exposure, corridor design, and program cadence determine which family should lead the move.",
+      "SSP does not default to a service and work backward. Equipment profile, cargo condition, timing pressure, regulatory exposure, corridor complexity, and program cadence are assessed first — then the right operating family leads the move.",
     pillars: [
       {
         key: "equipment-profile",
-        title: "Equipment fit and shipment profile",
-        body: "Trailer environment, loading method, dimensions, weight, shipment size, and cargo protection requirements establish the base path.",
+        title: "Equipment and shipment profile",
+        body: "Trailer type, loading method, dimensions, weight, and cargo protection requirements are confirmed so the move starts on the right equipment path.",
       },
       {
         key: "constraints",
-        title: "Timing, cargo, and compliance conditions",
-        body: "Expedited windows, temperature control, hazmat exposure, and handling sensitivity can override standard mode selection and require tighter controls.",
+        title: "Timing, cargo, and regulatory conditions",
+        body: "Expedited windows, temperature integrity, hazmat classification, and handling sensitivity are identified when they should change how the shipment is controlled.",
       },
       {
         key: "corridor",
         title: "Corridor and customs exposure",
-        body: "When border handoffs, customs readiness, or international mode selection carry the risk, corridor execution has to lead the design.",
+        body: "Canada-USA, Mexico, and international lanes are structured around documentation readiness, border handoffs, and corridor-specific operating standards.",
       },
       {
         key: "governance",
-        title: "Program cadence and operating governance",
-        body: "Recurring volumes, warehouse-connected flows, and SLA commitments require a managed model with ongoing review and ownership.",
+        title: "Program cadence and logistics governance",
+        body: "Recurring freight, warehouse-connected flows, and SLA-driven programs require managed oversight with defined review cadence and named accountability.",
       },
     ],
   },
   serviceFamilies: {
-    eyebrow: "Solutions Architecture",
-    title: "Four service families built around how freight moves",
+    eyebrow: "Service Families",
+    title: "Four families organized around how freight moves",
     description:
-      "SSP organizes freight across four service families based on shipment profile, operating constraints, corridor complexity, and logistics governance. This structure helps shippers move from broad service fit to the right execution path with more clarity and less friction.",
+      "Each family addresses a different operating condition. Core Freight Modes covers standard truckload and LTL execution. Specialized & Critical Freight applies when cargo condition or urgency must lead. Cross-Border structures corridor and customs control. Managed Logistics governs recurring programs.",
   },
   families: [
     {
       key: "core-freight-modes",
       sectionId: "core-freight-modes",
       label: "Core Freight Modes",
-      title: "Standard freight execution starts with the right mode and equipment fit.",
+      title: "Truckload and LTL execution with equipment-fit routing across North America.",
       hubSummary:
-        "When the move is led by shipment size, trailer fit, and loading profile. Full truckload and LTL execution, with equipment-specific routing when geometry or handling demands it.",
+        "Full truckload capacity across dry van, flatbed, step deck, Conestoga, and heavy haul — plus LTL for palletized freight that fits shared-capacity networks. The mode and equipment path are matched to the shipment before dispatch.",
       description:
-        "This family covers freight whose operating path is principally defined by mode, trailer fit, shipment size, and equipment requirements. SSP qualifies the load early, then aligns the right truckload, LTL, or equipment-specific path to protect loading access, cargo protection, and delivery control.",
+        "This family covers freight defined by mode selection and equipment fit. SSP qualifies the load against trailer type, shipment size, and cargo handling requirements, then routes it to the truckload or LTL path that delivers controlled execution from pickup through final delivery.",
       familyHref: "/solutions/core-freight-modes",
       familyCtaLabel: "Explore Core Freight Modes",
       childReferences: [
@@ -86,7 +86,7 @@ export const SOLUTIONS_HUB_PAGE = {
         },
         {
           label:
-            "Less than Truckload (Palletized freight, Consolidation-based routing, Class-ready execution)",
+            "Less-Than-Truckload (Palletized freight, Class-ready execution, Consolidation routing)",
           href: "/solutions/ltl",
         },
       ],
@@ -95,11 +95,11 @@ export const SOLUTIONS_HUB_PAGE = {
       key: "specialized-critical-freight",
       sectionId: "specialized-critical-freight",
       label: "Specialized & Critical Freight",
-      title: "Some freight requires a tighter operating model from the start.",
+      title: "Higher-consequence shipments controlled from intake through delivery.",
       hubSummary:
-        "When urgency, cargo sensitivity, compliance, or handling changes the plan before pickup. Tighter intake, controls, and execution discipline from first contact through delivery.",
+        "Expedited, temperature-controlled, hazmat, and sensitive vehicle transport — where urgency, product integrity, or regulatory compliance must shape the plan before the shipment is released.",
       description:
-        "This family applies when urgency, product sensitivity, compliance exposure, or handling constraints materially change how the shipment has to be planned and executed. SSP structures these moves around tighter intake, clearer controls, and faster exception ownership before the shipment is released.",
+        "This family applies when cargo condition, time sensitivity, regulatory classification, or handling constraints materially change how a shipment must be planned, documented, and executed. SSP structures tighter intake, active monitoring, and faster escalation around the constraint that carries the most risk.",
       familyHref: "/solutions/specialized-critical-freight",
       familyCtaLabel: "Explore Specialized & Critical Freight",
       childReferences: [
@@ -113,11 +113,11 @@ export const SOLUTIONS_HUB_PAGE = {
       key: "cross-border",
       sectionId: "cross-border",
       label: "Cross-Border",
-      title: "Border execution depends on corridor control, documentation, and mode selection.",
+      title: "Customs-ready corridor execution across Canada, the United States, and Mexico.",
       hubSummary:
-        "When customs readiness, corridor control, and international handoffs define the outcome. North American lanes plus air and ocean when the move extends beyond regional freight planning.",
+        "Canada-USA, Mexico, air freight, and ocean freight lanes structured around documentation readiness, border-zone handoffs, and corridor-specific compliance before the shipment reaches the crossing.",
       description:
-        "This family covers freight whose success is defined by customs preparation, corridor discipline, border-zone handoffs, and international mode selection. SSP aligns documentation readiness, lane-specific operating controls, and milestone ownership so the corridor is structured before the shipment reaches the border.",
+        "This family covers freight whose outcome depends on customs preparation, corridor discipline, and international mode selection. SSP aligns documentation, broker coordination, and lane-specific controls so the corridor is structured before the shipment moves — not resolved under pressure at the border.",
       familyHref: "/solutions/cross-border",
       familyCtaLabel: "Explore Cross-Border",
       childReferences: [
@@ -131,11 +131,11 @@ export const SOLUTIONS_HUB_PAGE = {
       key: "managed-logistics",
       sectionId: "managed-logistics",
       label: "Managed Logistics",
-      title: "Some freight needs program governance, not just shipment coverage.",
+      title: "Recurring freight programs with built-in governance and accountability.",
       hubSummary:
-        "For recurring programs that need coordinated capacity, warehousing, dedicated assets, or project execution. Governance and operating continuity beyond single-shipment coverage.",
+        "Managed capacity, dedicated and contract logistics, warehousing and distribution, and project freight — for shippers whose operations need ongoing oversight, not one-off coverage.",
       description:
-        "This family is built for shippers that need more than one-off shipment coverage. Managed capacity, dedicated resources, warehousing coordination, and project execution all require governance, recurring review, and operating ownership that stays attached to the live program.",
+        "This family is built for freight programs that repeat. Managed capacity, dedicated resources, warehouse-connected operations, and phased project moves all require defined ownership, recurring review, and governance that stays attached to the program over time — not just the next shipment.",
       familyHref: "/solutions/managed-logistics",
       familyCtaLabel: "Explore Managed Logistics",
       childReferences: [
@@ -147,50 +147,50 @@ export const SOLUTIONS_HUB_PAGE = {
     },
   ] satisfies readonly SolutionsHubFamily[],
   executionStandard: {
-    eyebrow: "SSP Execution Standard",
-    title: "The same control disciplines carry across every family.",
+    eyebrow: "Execution Standard",
+    title: "The operating standard does not change between families.",
     description:
-      "SSP changes the operating path to fit the freight. It does not change the standard of execution. Qualification, documentation control, milestone ownership, and program governance stay attached to the move where they are required.",
+      "The service path changes to fit the freight. The execution discipline does not. Qualification, documentation control, milestone ownership, and escalation accountability carry across every family and every lane SSP operates.",
     pillars: [
       {
-        title: "Capacity and equipment alignment",
-        body: "Freight is matched to the right equipment path before dispatch so execution does not start with preventable fit errors.",
+        title: "Equipment and capacity alignment",
+        body: "Every shipment is matched to the right trailer, mode, and capacity model before dispatch — so execution does not begin with a preventable fit error.",
       },
       {
         title: "Documentation and compliance readiness",
-        body: "Commercial, customs, and regulated-freight requirements are reviewed before movement where the service model demands it.",
+        body: "Commercial invoices, customs paperwork, regulated-freight documentation, and BOLs are reviewed before movement where the service model requires it.",
       },
       {
-        title: "Cross-border control",
-        body: "Canada-USA and Mexico moves are run against corridor-specific documentation, handoff, and escalation standards.",
+        title: "Cross-border corridor control",
+        body: "Canada-USA and Mexico lanes run against corridor-specific documentation, handoff, and compliance standards — with milestone ownership from origin to final delivery.",
       },
       {
         title: "Shipment-level accountability",
-        body: "Updates are tied to milestones, exceptions, and next actions rather than generic tracking language.",
+        body: "Updates follow milestones, exceptions, and next actions. Communication is tied to what changed and what happens next — not generic status language.",
       },
       {
-        title: "Managed logistics governance",
-        body: "When the requirement is recurring, SSP adds routing discipline, KPI cadence, stakeholder review, and corrective ownership.",
+        title: "Program-level governance",
+        body: "When freight recurs, SSP adds routing discipline, KPI review cadence, stakeholder reporting, and corrective ownership over the life of the program.",
       },
     ],
     trustSignals: [
-      "Asset-based trucking model",
-      "Canada-US-Mexico operating coverage",
+      "Asset-based North American fleet",
+      "Canada, United States, and Mexico coverage",
       "Specialized and regulated freight capability",
-      "Warehouse-connected and program-managed execution",
+      "Warehouse-connected and program-managed operations",
     ],
   },
   finalCta: {
-    kicker: "Next Step",
-    title: "Start with the condition that governs the move.",
-    body: "Share the shipment profile, lane, and operating requirement. SSP will route the freight into the family that fits the execution risk, then align the right service path from there.",
+    kicker: "Start the Conversation",
+    title: "Share the shipment. SSP will confirm the right path.",
+    body: "Provide the lane, commodity, equipment requirement, and service expectation. SSP will route the freight into the family and service path that fits the operating risk — then structure execution from there.",
     trustSignals: [
-      "Asset-based carrier",
+      "Asset-based carrier with owned fleet",
       "Canada, USA, and Mexico coverage",
       "Mode, corridor, and program execution",
     ],
     proof: [
-      { value: "Mode fit", label: "Qualification lens" },
+      { value: "Qualified", label: "Routing method" },
       { value: "CA-US-MX", label: "Coverage" },
       { value: "Asset-based", label: "Carrier model" },
     ],

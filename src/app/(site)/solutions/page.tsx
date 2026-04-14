@@ -5,7 +5,7 @@ import { SITE_URL } from "@/lib/seo/site";
 
 const PAGE_TITLE = "Freight Solutions | SSP Group";
 const PAGE_DESCRIPTION =
-  "Freight solutions across truckload, LTL, specialized, cross-border, and managed logistics in Canada, the United States, and Mexico.";
+  "Truckload, LTL, expedited, temperature-controlled, hazmat, cross-border, and managed logistics services across Canada, the United States, and Mexico.";
 const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/cross-BorderHeroImg.png";
 
 export const metadata: Metadata = {
