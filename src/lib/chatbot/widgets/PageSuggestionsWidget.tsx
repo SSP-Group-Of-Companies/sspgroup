@@ -25,13 +25,15 @@ export default function PageSuggestionsWidget({
 
   return (
     <div className="space-y-2">
-      <div className="text-[11px] font-medium text-gray-600">{title}</div>
+      <div className="text-ssp-ink-800/55 text-[11px] font-semibold tracking-wide uppercase">
+        {title}
+      </div>
 
       <div className="space-y-2">
         {suggestions.slice(0, 3).map((suggestion) => (
           <div
             key={`${suggestion.href}-${suggestion.label}`}
-            className="rounded-xl border border-gray-200 bg-white p-2"
+            className="border-ssp-ink-900/10 ring-ssp-cyan-500/10 rounded-xl border bg-white/90 p-2.5 shadow-sm ring-1"
           >
             <div className="flex flex-wrap gap-2">
               <LinkButton onClick={() => actionProvider.goTo(suggestion.href)}>
@@ -40,7 +42,9 @@ export default function PageSuggestionsWidget({
             </div>
 
             {suggestion.description ? (
-              <div className="mt-2 text-xs text-gray-600">{suggestion.description}</div>
+              <div className="mt-2 text-xs text-[color:var(--color-muted-light)]">
+                {suggestion.description}
+              </div>
             ) : null}
           </div>
         ))}

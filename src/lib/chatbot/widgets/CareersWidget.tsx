@@ -10,7 +10,7 @@ function href(label: string, fallback: string) {
   return links.find((link) => link.label === label)?.href ?? fallback;
 }
 
-const JOBS = href("Careers Overview", "/careers#jobs");
+const JOBS = href("Office & Operations Roles", "/careers#jobs");
 const DRIVERS = href("Driver Opportunities", "/careers#drive");
 
 export default function CareersWidget({ actionProvider }: WidgetComponentProps) {

@@ -158,6 +158,8 @@ export const FAQ_PAGE_ROUTES = {
   aboutSsp: "/about-us",
   insights: "/insights",
   contact: "/contact",
+  /** Same destination as Company → FAQs in site navigation. */
+  faqs: "/company/faqs",
   liveChat: "#live-chat",
 } as const;
 
@@ -176,7 +178,8 @@ export const FAQ_FINAL_CTA = {
     { value: "Named", label: "Response ownership" },
     { value: "Scope-fit", label: "Program review" },
   ] as const,
-  microCopy: "Prefer a call? We can align on lane profile, service windows, and escalation expectations.",
+  microCopy:
+    "Prefer a call? We can align on lane profile, service windows, and escalation expectations.",
   ctas: {
     primary: {
       label: "Contact Us",

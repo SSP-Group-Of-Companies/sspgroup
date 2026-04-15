@@ -65,8 +65,8 @@ export const botConfig: BotConfig = {
     ),
   ],
   customStyles: {
-    botMessageBox: { backgroundColor: "#070a12" },
-    chatButton: { backgroundColor: "#070a12" },
+    botMessageBox: { backgroundColor: "var(--color-ssp-ink-900)" },
+    chatButton: { backgroundColor: "var(--color-ssp-ink-900)" },
   },
   customComponents: {
     botAvatar: () => <BotLogoAvatar />,

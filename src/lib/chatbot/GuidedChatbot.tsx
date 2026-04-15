@@ -13,6 +13,11 @@ import { makeActionProvider } from "@/lib/chatbot/ActionProvider";
 import { useChatActions } from "@/lib/chatbot/useChatActions";
 
 const TOOLTIP_KEY = "ssp_chatbot_tooltip_dismissed";
+/** When set, the launcher ping/dot is hidden — user has opened the chat at least once. */
+const LAUNCHER_NOTIFICATION_KEY = "ssp_chatbot_launcher_notification_dismissed";
+
+/** Matches Tailwind `md:` — layout/tooltip/dot differ on small screens. */
+const MOBILE_MEDIA_QUERY = "(max-width: 767px)";
 
 const PANEL_ANIMATION_MS = 480;
 const LAUNCHER_ANIMATION_MS = 100;
@@ -28,6 +33,9 @@ export default function GuidedChatbot() {
   const [showTooltip, setShowTooltip] = React.useState(false);
   const [showLauncher, setShowLauncher] = React.useState(true);
   const [launcherVisible, setLauncherVisible] = React.useState(true);
+  /** False until client reads storage; then true only if the user has never opened the chat. */
+  const [showLauncherNotification, setShowLauncherNotification] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
 
   const panelRef = React.useRef<HTMLDivElement | null>(null);
   const bodyRef = React.useRef<HTMLDivElement | null>(null);
@@ -36,16 +44,42 @@ export default function GuidedChatbot() {
   const launcherEnterTimerRef = React.useRef<number | null>(null);
 
   React.useEffect(() => {
+    const mq = window.matchMedia(MOBILE_MEDIA_QUERY);
+    function syncMobile() {
+      setIsMobile(mq.matches);
+    }
+    syncMobile();
+    mq.addEventListener("change", syncMobile);
+    return () => mq.removeEventListener("change", syncMobile);
+  }, []);
+
+  React.useEffect(() => {
+    if (isMobile) {
+      setShowTooltip(false);
+      return;
+    }
+
     const dismissed = typeof window !== "undefined" && sessionStorage.getItem(TOOLTIP_KEY) === "1";
     if (dismissed) return;
 
-    const t = window.setTimeout(() => {
+    let dismissTimer: number | null = null;
+    const showTimer = window.setTimeout(() => {
       setShowTooltip(true);
-      const t2 = window.setTimeout(() => setShowTooltip(false), 7000);
-      return () => window.clearTimeout(t2);
+      dismissTimer = window.setTimeout(() => setShowTooltip(false), 7000);
     }, 1800);
 
-    return () => window.clearTimeout(t);
+    return () => {
+      window.clearTimeout(showTimer);
+      if (dismissTimer) window.clearTimeout(dismissTimer);
+    };
+  }, [isMobile]);
+
+  React.useEffect(() => {
+    try {
+      setShowLauncherNotification(localStorage.getItem(LAUNCHER_NOTIFICATION_KEY) !== "1");
+    } catch {
+      setShowLauncherNotification(true);
+    }
   }, []);
 
   React.useEffect(() => {
@@ -81,6 +115,18 @@ export default function GuidedChatbot() {
     window.addEventListener("mousedown", onMouseDown);
     return () => window.removeEventListener("mousedown", onMouseDown);
   }, [open, closing]);
+
+  const showPanel = open || closing;
+  const fullScreenMobile = isMobile && showPanel;
+
+  React.useEffect(() => {
+    if (!isMobile || !showPanel) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [isMobile, showPanel]);
 
   React.useEffect(() => {
     return () => {
@@ -135,9 +181,11 @@ export default function GuidedChatbot() {
     setClosing(false);
     setOpen(true);
     setShowTooltip(false);
+    setShowLauncherNotification(false);
 
     try {
       sessionStorage.setItem(TOOLTIP_KEY, "1");
+      localStorage.setItem(LAUNCHER_NOTIFICATION_KEY, "1");
     } catch {
       // Ignore
     }
@@ -181,23 +229,39 @@ export default function GuidedChatbot() {
     [pageActionsWithAutoClose],
   );
 
-  const showPanel = open || closing;
   const panelEntering = open && !closing;
 
   return (
-    <div className="fixed right-5 bottom-5 z-50">
+    <div
+      className={[
+        fullScreenMobile
+          ? "fixed inset-0 flex flex-col"
+          : "fixed right-4 bottom-4 md:right-5 md:bottom-5",
+        "z-[10000]",
+      ].join(" ")}
+    >
       {chatSessionActive && (
         <div
           ref={panelRef}
           className={
             showPanel
-              ? [
-                  "absolute right-0 bottom-0 w-[360px] max-w-[92vw] overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl",
-                  "origin-bottom-right transition-all",
-                  panelEntering
-                    ? "pointer-events-auto visible translate-y-0 scale-100 opacity-100"
-                    : "pointer-events-none visible translate-y-3 scale-[0.975] opacity-0",
-                ].join(" ")
+              ? fullScreenMobile
+                ? [
+                    "border-ssp-ink-900/10 absolute inset-0 flex h-full min-h-0 w-full flex-col overflow-hidden rounded-none border bg-white",
+                    "shadow-none",
+                    "origin-bottom transition-all",
+                    panelEntering
+                      ? "pointer-events-auto visible translate-y-0 opacity-100"
+                      : "pointer-events-none visible translate-y-2 opacity-0",
+                  ].join(" ")
+                : [
+                    "border-ssp-ink-900/10 absolute right-0 bottom-0 w-[360px] max-w-[92vw] overflow-hidden rounded-2xl border bg-white",
+                    "shadow-[0_25px_50px_-12px_rgba(11,62,94,0.28),0_0_0_1px_rgba(16,167,216,0.06)_inset]",
+                    "origin-bottom-right transition-all",
+                    panelEntering
+                      ? "pointer-events-auto visible translate-y-0 scale-100 opacity-100"
+                      : "pointer-events-none visible translate-y-3 scale-[0.975] opacity-0",
+                  ].join(" ")
               : [
                   "pointer-events-none invisible fixed top-0 -left-[10000px] z-[-1] w-[360px] max-w-[92vw] overflow-hidden opacity-0",
                 ].join(" ")
@@ -216,10 +280,15 @@ export default function GuidedChatbot() {
           aria-hidden={!showPanel || !panelEntering}
         >
           {showPanel && (
-            <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-              <div className="flex items-center gap-2">
+            <div
+              className={[
+                "border-ssp-ink-900/10 via-ocean-50/40 flex shrink-0 items-center justify-between border-b bg-gradient-to-r from-white to-white px-4 py-3",
+                fullScreenMobile ? "pt-[max(0.75rem,env(safe-area-inset-top))]" : "",
+              ].join(" ")}
+            >
+              <div className="flex items-center gap-2.5">
                 <span
-                  className="relative inline-flex h-8 w-8 shrink-0 items-center justify-center"
+                  className="bg-ocean-50/80 ring-ssp-cyan-500/20 relative inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full p-0.5 ring-1"
                   aria-hidden="true"
                 >
                   <Image
@@ -230,13 +299,15 @@ export default function GuidedChatbot() {
                     className="object-contain"
                   />
                 </span>
-                <div className="text-sm font-semibold text-gray-900">SSP Assistant</div>
+                <div className="text-ssp-ink-900 text-sm font-semibold tracking-tight">
+                  SSP Assistant
+                </div>
               </div>
 
               <button
                 type="button"
                 onClick={closeChat}
-                className="rounded-md p-2 text-gray-600 hover:cursor-pointer hover:bg-gray-100"
+                className="text-ssp-ink-800/70 hover:bg-ocean-50 hover:text-ssp-ink-900 rounded-xl p-2 transition-colors hover:cursor-pointer"
                 aria-label="Close chat"
               >
                 <X size={18} />
@@ -244,7 +315,13 @@ export default function GuidedChatbot() {
             </div>
           )}
 
-          <div ref={bodyRef} className="ssp-chatbot">
+          <div
+            ref={bodyRef}
+            className={[
+              "ssp-chatbot",
+              fullScreenMobile ? "ssp-chatbot--mobile-full min-h-0 flex-1" : "",
+            ].join(" ")}
+          >
             <Chatbot
               config={botConfig as never}
               messageParser={MessageParser as never}
@@ -271,26 +348,26 @@ export default function GuidedChatbot() {
           }}
           aria-hidden={!launcherVisible}
         >
-          {showTooltip && (
+          {showTooltip && !isMobile && (
             <div className="absolute right-0 bottom-16 w-[260px]">
-              <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-xl">
+              <div className="border-ssp-ink-900/10 to-ocean-50/50 relative rounded-2xl border bg-gradient-to-b from-white px-4 py-3 shadow-[0_20px_40px_-12px_rgba(11,62,94,0.25)]">
                 <button
                   type="button"
                   onClick={dismissTooltip}
-                  className="absolute top-2 right-2 rounded-md p-1 text-gray-500 hover:bg-gray-100"
+                  className="text-ssp-ink-800/55 hover:bg-ocean-50 hover:text-ssp-ink-900 absolute top-2 right-2 rounded-lg p-1 transition-colors"
                   aria-label="Dismiss tip"
                 >
                   <X size={14} />
                 </button>
 
                 <div className="flex items-start gap-3">
-                  <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-900 text-white">
+                  <span className="from-ssp-cyan-600 to-utility-bg text-utility-text mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br shadow-md ring-1 ring-white/20">
                     <Sparkles size={16} />
                   </span>
 
                   <div className="text-sm">
-                    <div className="font-semibold text-gray-900">Hi 👋</div>
-                    <div className="mt-0.5 text-gray-600">
+                    <div className="text-ssp-ink-900 font-semibold">Hi 👋</div>
+                    <div className="mt-0.5 text-[color:var(--color-muted-light)]">
                       Need help with a quote, tracking, FAQs, or finding the right page?
                     </div>
 
@@ -298,14 +375,14 @@ export default function GuidedChatbot() {
                       <button
                         type="button"
                         onClick={openChat}
-                        className="rounded-full bg-gray-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-gray-800"
+                        className="from-ssp-cyan-600 to-utility-bg text-utility-text rounded-full bg-gradient-to-r px-3 py-1.5 text-xs font-semibold shadow-md transition hover:brightness-105"
                       >
                         Open chat
                       </button>
                       <button
                         type="button"
                         onClick={dismissTooltip}
-                        className="rounded-full border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                        className="border-ssp-ink-900/12 text-ssp-ink-900 hover:bg-ocean-50 rounded-full border bg-white px-3 py-1.5 text-xs font-semibold transition"
                       >
                         Not now
                       </button>
@@ -313,7 +390,7 @@ export default function GuidedChatbot() {
                   </div>
                 </div>
 
-                <div className="absolute right-6 -bottom-2 h-4 w-4 rotate-45 border-r border-b border-gray-200 bg-white" />
+                <div className="border-ssp-ink-900/10 absolute right-6 -bottom-2 h-4 w-4 rotate-45 border-r border-b bg-white" />
               </div>
             </div>
           )}
@@ -323,9 +400,9 @@ export default function GuidedChatbot() {
             onClick={openChat}
             aria-label="Open chat"
             className={[
-              "group relative inline-flex h-14 w-14 cursor-pointer items-center justify-center rounded-full",
+              "group relative inline-flex h-12 w-12 cursor-pointer items-center justify-center rounded-full md:h-14 md:w-14",
               "shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-0)]",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ssp-cyan-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-0)]",
             ].join(" ")}
             style={{
               background:
@@ -339,7 +416,7 @@ export default function GuidedChatbot() {
               className="pointer-events-none absolute -inset-px rounded-full opacity-80 transition group-hover:opacity-100"
               style={{
                 background:
-                  "conic-gradient(from 210deg, color-mix(in srgb, var(--color-ssp-cyan-500) 55%, transparent), color-mix(in srgb, var(--color-brand-500) 40%, transparent) 38%, transparent 58%, color-mix(in srgb, var(--color-ssp-cyan-500) 45%, transparent))",
+                  "conic-gradient(from 210deg, color-mix(in srgb, var(--color-ssp-cyan-500) 55%, transparent), color-mix(in srgb, var(--color-utility-bg) 40%, transparent) 38%, transparent 58%, color-mix(in srgb, var(--color-ssp-cyan-500) 45%, transparent))",
               }}
             />
             <span
@@ -350,19 +427,21 @@ export default function GuidedChatbot() {
               }}
             />
 
-            <span
-              className="pointer-events-none absolute top-1 -right-0.5 z-10 flex h-3 w-3 items-center justify-center"
-              aria-hidden="true"
-            >
+            {showLauncherNotification && !isMobile && (
               <span
-                className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-brand-500)] opacity-25 motion-reduce:animate-none motion-reduce:opacity-0"
+                className="pointer-events-none absolute top-1 -right-0.5 z-10 flex h-3 w-3 items-center justify-center"
                 aria-hidden="true"
-              />
-              <span className="relative h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--color-brand-500)] ring-1 ring-[var(--color-ssp-ink-900)]" />
-            </span>
+              >
+                <span
+                  className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-ssp-cyan-500)] opacity-25 motion-reduce:animate-none motion-reduce:opacity-0"
+                  aria-hidden="true"
+                />
+                <span className="relative h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--color-ssp-cyan-500)] ring-1 ring-[var(--color-ssp-ink-900)]" />
+              </span>
+            )}
 
             <span
-              className="relative inline-flex h-10 w-10 items-center justify-center rounded-full transition group-hover:scale-[1.02]"
+              className="relative inline-flex h-9 w-9 items-center justify-center rounded-full transition group-hover:scale-[1.02] md:h-10 md:w-10"
               style={{
                 background: "var(--color-glass-bg)",
                 border: "1px solid var(--color-glass-border)",
@@ -370,9 +449,9 @@ export default function GuidedChatbot() {
               }}
             >
               <Sparkles
-                size={20}
+                aria-hidden
                 style={{ color: "var(--color-utility-text)" }}
-                className="transition group-hover:scale-105"
+                className="h-[18px] w-[18px] transition group-hover:scale-105 md:h-5 md:w-5"
               />
             </span>
           </button>

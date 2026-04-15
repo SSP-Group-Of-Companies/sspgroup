@@ -1,6 +1,7 @@
 // src/lib/chatbot/widgets/ResourcesWidget.tsx
 "use client";
 
+import { FAQ_PAGE_ROUTES } from "@/config/faqs";
 import type { WidgetComponentProps } from "../chatbot.types";
 import { LinkButton, ResponseButton } from "./_shared";
 
@@ -11,7 +12,7 @@ export default function ResourcesWidget({ actionProvider }: WidgetComponentProps
         Insights & articles
       </LinkButton>
 
-      <LinkButton onClick={() => actionProvider.goToFromNav("FAQs", "/company/faqs")}>
+      <LinkButton onClick={() => actionProvider.goToFromNav("FAQs", FAQ_PAGE_ROUTES.faqs)}>
         FAQs
       </LinkButton>
 

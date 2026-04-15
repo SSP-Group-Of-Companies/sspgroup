@@ -1,5 +1,5 @@
 // src/lib/chatbot/ActionProvider.tsx
-import { FAQ, COMPANY_FACTS } from "./knowledgeBase";
+import { FAQ, COMPANY_FACTS, FAQ_HELP_FALLBACK } from "./knowledgeBase";
 import { getSectionCtas, searchNavMatches, type NavMatch } from "./navIndex";
 import type { ActionProviderShape, PageSuggestionPayload } from "./chatbot.types";
 
@@ -359,7 +359,7 @@ export function makeActionProvider(pageActions?: PageActions) {
       if (suggested) return;
 
       this.sendWidget(
-        `I’m not sure I understood that. For SSP service scope, cross-border, and billing topics, try the FAQ page — or reach customer support below.`,
+        `I’m not sure I understood that. ${FAQ_HELP_FALLBACK.title} — ${FAQ_HELP_FALLBACK.body} You can also reach customer support below.`,
         "contactWidget",
       );
     };

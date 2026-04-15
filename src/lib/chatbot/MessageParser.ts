@@ -1,5 +1,6 @@
 // src/lib/chatbot/MessageParser.ts
-import { FAQ_HERO } from "@/config/faqs";
+import { FAQ_HERO, FAQ_PAGE_ROUTES } from "@/config/faqs";
+import { getSolutionNavSuggestion } from "./navIndex";
 import type { ActionProviderShape } from "./chatbot.types";
 
 function normText(s: string) {
@@ -32,6 +33,14 @@ export default class MessageParser {
 
   constructor(actionProvider: ActionProviderShape) {
     this.actionProvider = actionProvider;
+  }
+
+  /** Uses labels and descriptions from `navigation.ts` via `getSolutionNavSuggestion`. */
+  private trySuggestSolution(href: string): boolean {
+    const s = getSolutionNavSuggestion(href);
+    if (!s) return false;
+    this.actionProvider.suggestNavPage(s.label, s.href, s.description);
+    return true;
   }
 
   parse(message: string) {
@@ -94,8 +103,14 @@ export default class MessageParser {
       hasAnyToken(tokens, [
         "automotive",
         "manufacturing",
+        "retail",
+        "consumer",
+        "food",
+        "beverage",
         "construction",
         "steel",
+        "aluminum",
+        "metals",
         "chemical",
         "plastics",
       ])
@@ -124,7 +139,7 @@ export default class MessageParser {
     }
 
     if (hasAnyToken(tokens, ["faq", "faqs"])) {
-      return this.actionProvider.suggestNavPage("FAQs", "/company/faqs", FAQ_HERO.subtitle);
+      return this.actionProvider.suggestNavPage("FAQs", FAQ_PAGE_ROUTES.faqs, FAQ_HERO.subtitle);
     }
 
     if (hasAnyToken(tokens, ["media", "video", "videos", "footage"])) {
@@ -201,7 +216,7 @@ export default class MessageParser {
     }
 
     if (hasAnyToken(tokens, ["question", "questions"])) {
-      return this.actionProvider.suggestNavPage("FAQs", "/company/faqs", FAQ_HERO.subtitle);
+      return this.actionProvider.suggestNavPage("FAQs", FAQ_PAGE_ROUTES.faqs, FAQ_HERO.subtitle);
     }
 
     if (
@@ -243,161 +258,130 @@ export default class MessageParser {
     }
 
     if (tokens.includes("ltl")) {
-      return this.actionProvider.suggestNavPage(
-        "Less-Than-Truckload (LTL)",
-        "/solutions/ltl",
-        "Cost-efficient LTL shipping across shared lane networks.",
-      );
+      if (this.trySuggestSolution("/solutions/ltl")) return;
     }
 
     if (tokens.includes("truckload") || tokens.includes("tl") || tokens.includes("ftl")) {
-      return this.actionProvider.suggestNavPage(
-        "Full Truckload",
-        "/solutions/truckload",
-        "Full truckload shipping for high-control lanes.",
-      );
+      if (this.trySuggestSolution("/solutions/truckload")) return;
     }
 
     if (tokens.includes("dry") && tokens.includes("van")) {
-      return this.actionProvider.suggestNavPage(
-        "Dry Van",
-        "/solutions/dry-van",
-        "Enclosed freight coverage with stable transit discipline.",
-      );
+      if (this.trySuggestSolution("/solutions/dry-van")) return;
     }
 
     if (tokens.includes("flatbed") || (tokens.includes("flat") && tokens.includes("bed"))) {
       if (hasAnyToken(tokens, ["step"])) {
-        return this.actionProvider.suggestNavPage(
-          "Step Deck",
-          "/solutions/step-deck",
-          "Drop-deck geometry for taller freight profiles.",
-        );
+        if (this.trySuggestSolution("/solutions/step-deck")) return;
       }
-      return this.actionProvider.suggestNavPage(
-        "Flatbed",
-        "/solutions/flatbed",
-        "Open-deck freight for industrial and construction cargo.",
-      );
+      if (this.trySuggestSolution("/solutions/flatbed")) return;
     }
 
     if (hasAnyToken(tokens, ["conestoga", "roll", "tite", "rolltite"])) {
-      return this.actionProvider.suggestNavPage(
-        "Conestoga / Roll-Tite",
-        "/solutions/conestoga-roll-tite",
-        "Covered deck protection without sacrificing loading flexibility.",
-      );
+      if (this.trySuggestSolution("/solutions/conestoga-roll-tite")) return;
     }
 
     if (hasAnyToken(tokens, ["rgn", "heavy", "haul", "oversize", "overweight"])) {
-      return this.actionProvider.suggestNavPage(
-        "RGN / Heavy Haul",
-        "/solutions/rgn-heavy-haul",
-        "Permit-aware movement for oversize and heavy units.",
-      );
+      if (this.trySuggestSolution("/solutions/rgn-heavy-haul")) return;
     }
 
     if (hasAnyToken(tokens, ["expedite", "expedited", "rush", "hotshot", "urgent"])) {
-      return this.actionProvider.suggestNavPage(
-        "Expedited",
-        "/solutions/expedited",
-        "Priority execution for time-critical shipments.",
-      );
+      if (this.trySuggestSolution("/solutions/expedited")) return;
     }
 
     if (
       hasAnyToken(tokens, ["specialized", "vehicle", "vehicles"]) ||
       normIncludes(message, "car hauling")
     ) {
-      return this.actionProvider.suggestNavPage(
-        "Specialized Vehicles Transport",
-        "/solutions/specialized-vehicles",
-        "Specialized equipment programs matched to cargo constraints.",
-      );
+      if (this.trySuggestSolution("/solutions/specialized-vehicles")) return;
     }
 
     if (
       hasAnyToken(tokens, ["project"]) &&
       hasAnyToken(tokens, ["freight", "cargo", "move", "phase"])
     ) {
-      return this.actionProvider.suggestNavPage(
-        "Project Freight",
-        "/solutions/project-freight",
-        "Program-managed freight for complex and phased moves.",
-      );
+      if (this.trySuggestSolution("/solutions/project-freight")) return;
     }
 
     if (hasAnyToken(tokens, ["hazmat", "hazardous", "tdg"])) {
-      return this.actionProvider.suggestNavPage(
-        "Hazmat",
-        "/solutions/hazmat",
-        "Compliant hazmat movement and documentation controls.",
-      );
+      if (this.trySuggestSolution("/solutions/hazmat")) return;
     }
 
     if (hasAnyToken(tokens, ["temperature", "reefer", "cold", "refrigerated", "frozen"])) {
-      return this.actionProvider.suggestNavPage(
-        "Temperature-Controlled",
-        "/solutions/temperature-controlled",
-        "Refrigerated and controlled-temperature freight.",
-      );
+      if (this.trySuggestSolution("/solutions/temperature-controlled")) return;
+    }
+
+    if (
+      hasAnyToken(tokens, ["mexico", "mexican"]) &&
+      (hasAnyToken(tokens, ["border", "cross", "freight", "shipping", "corridor", "lane"]) ||
+        hasAnyToken(tokens, ["pedimento"]))
+    ) {
+      if (this.trySuggestSolution("/solutions/cross-border/mexico")) return;
+    }
+
+    if (
+      (hasAnyToken(tokens, ["canada", "canadian"]) &&
+        hasAnyToken(tokens, ["usa", "us", "american", "united", "states"])) ||
+      normIncludes(message, "canada to us") ||
+      normIncludes(message, "us to canada") ||
+      normIncludes(message, "canada usa")
+    ) {
+      if (this.trySuggestSolution("/solutions/cross-border/canada-usa")) return;
+    }
+
+    if (
+      hasAnyToken(tokens, ["managed"]) &&
+      hasAnyToken(tokens, ["logistics"]) &&
+      !hasAnyToken(tokens, ["capacity"])
+    ) {
+      if (this.trySuggestSolution("/solutions/managed-logistics")) return;
+    }
+
+    if (
+      (hasAnyToken(tokens, ["specialized", "critical"]) &&
+        hasAnyToken(tokens, ["freight", "cargo", "shipment"])) ||
+      normIncludes(message, "specialized freight")
+    ) {
+      if (this.trySuggestSolution("/solutions/specialized-critical-freight")) return;
+    }
+
+    if (
+      (hasAnyToken(tokens, ["core"]) && hasAnyToken(tokens, ["freight", "modes", "equipment"])) ||
+      normIncludes(message, "core freight modes")
+    ) {
+      if (this.trySuggestSolution("/solutions/core-freight-modes")) return;
     }
 
     if (
       hasAnyToken(tokens, ["cross", "border", "customs", "pedimento", "broker", "importer"]) ||
       normIncludes(message, "cross border")
     ) {
-      return this.actionProvider.suggestNavPage(
-        "Cross-Border & Global",
-        "/solutions/cross-border",
-        "North American cross-border planning, compliance, and execution.",
-      );
+      if (this.trySuggestSolution("/solutions/cross-border")) return;
     }
 
     if (
       (tokens.includes("air") && hasAnyToken(tokens, ["freight", "cargo"])) ||
       normIncludes(message, "air freight")
     ) {
-      return this.actionProvider.suggestNavPage(
-        "Air Freight",
-        "/solutions/cross-border/air-freight",
-        "Time-critical air freight for urgent cross-border shipments.",
-      );
+      if (this.trySuggestSolution("/solutions/cross-border/air-freight")) return;
     }
 
     if (hasAnyToken(tokens, ["ocean", "container"]) || normIncludes(message, "ocean freight")) {
-      return this.actionProvider.suggestNavPage(
-        "Ocean Freight",
-        "/solutions/cross-border/ocean-freight",
-        "Managed ocean programs with inland cross-border distribution.",
-      );
+      if (this.trySuggestSolution("/solutions/cross-border/ocean-freight")) return;
     }
 
     if (hasAnyToken(tokens, ["managed"]) && hasAnyToken(tokens, ["capacity"])) {
-      return this.actionProvider.suggestNavPage(
-        "Managed Capacity",
-        "/solutions/managed-capacity",
-        "Elastic capacity strategy for volatile lane demand.",
-      );
+      if (this.trySuggestSolution("/solutions/managed-capacity")) return;
     }
 
     if (hasAnyToken(tokens, ["dedicated", "contract"]) || hasAnyToken(tokens, ["sla"])) {
-      return this.actionProvider.suggestNavPage(
-        "Dedicated / Contract",
-        "/solutions/dedicated-contract",
-        "Dedicated fleet programs structured around SLAs.",
-      );
+      if (this.trySuggestSolution("/solutions/dedicated-contract")) return;
     }
 
     if (
       hasAnyToken(tokens, ["warehouse", "warehousing", "distribution", "storage"]) ||
       tokens.includes("3pl")
     ) {
-      return this.actionProvider.suggestNavPage(
-        "Warehousing & Distribution",
-        "/solutions/warehousing-distribution",
-        "Storage, handling, and distribution orchestration.",
-      );
+      if (this.trySuggestSolution("/solutions/warehousing-distribution")) return;
     }
 
     const suggested = this.actionProvider.suggestNavOptions(message, { limit: 3 });

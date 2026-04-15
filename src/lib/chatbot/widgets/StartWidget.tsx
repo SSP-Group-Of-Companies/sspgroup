@@ -1,6 +1,7 @@
 // src/lib/chatbot/widgets/StartWidget.tsx
 "use client";
 
+import { FAQ_PAGE_ROUTES } from "@/config/faqs";
 import { START_REPLIES } from "../knowledgeBase";
 import type { BotIntentId, WidgetComponentProps } from "../chatbot.types";
 import { LinkButton, ResponseButton } from "./_shared";
@@ -33,7 +34,7 @@ export default function StartWidget({ actionProvider }: WidgetComponentProps) {
         return actionProvider.goToFromNav("Insights", "/insights");
 
       case "RESOURCES_FAQS":
-        return actionProvider.goToFromNav("FAQs", "/company/faqs");
+        return actionProvider.goToFromNav("FAQs", FAQ_PAGE_ROUTES.faqs);
 
       case "HUMAN_CONTACT":
         return actionProvider.showContact();

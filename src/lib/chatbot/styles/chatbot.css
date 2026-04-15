@@ -1,5 +1,6 @@
 /* src/lib/chatbot/styles/chatbot.css */
-/* --- react-chatbot-kit sizing fixes --- */
+/* SSP Assistant — brand-aligned chat UI (react-chatbot-kit overrides) */
+
 .react-chatbot-kit-chat-container {
   width: 100% !important;
 }
@@ -21,95 +22,29 @@
   border-bottom-left-radius: 15px !important;
 }
 
-/* --- base colors --- */
-.ssp-chatbot,
-.ssp-chatbot * {
-  color: #111827;
+/* --- Scoped tokens (inherit site @theme) --- */
+.ssp-chatbot {
+  --chat-bot-fg: var(--color-utility-text);
+  --chat-bot-fg-muted: color-mix(in srgb, var(--color-utility-text) 82%, transparent);
+  --chat-user-fg: var(--color-text-strong);
+  --chat-accent: var(--color-ssp-cyan-500);
+  --chat-accent-soft: color-mix(in srgb, var(--color-ssp-cyan-500) 18%, transparent);
+  --chat-ink-border: color-mix(in srgb, var(--color-ssp-ink-900) 12%, transparent);
 }
 
+/* --- Message list surface --- */
 .ssp-chatbot .react-chatbot-kit-chat-message-container {
-  background: #ffffff !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-bot-message {
-  background: #070a12 !important;
-  color: #ffffff !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-bot-message * {
-  color: #ffffff !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-user-chat-message {
-  background: #f3f4f6 !important;
-  color: #111827 !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-btn {
-  background: #ffffff !important;
-  border: 1px solid #e5e7eb !important;
-  color: #111827 !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-btn:hover {
-  background: #f9fafb !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-input-form {
-  background: #ffffff !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-input {
-  background: #ffffff !important;
-  color: #111827 !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-input::placeholder {
-  color: #6b7280 !important;
-  opacity: 1;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-btn-send {
-  background: #070a12 !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-btn-send:hover {
-  background: #0b0f1a !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-btn-send-icon {
-  fill: #ffffff !important;
-}
-
-/* --- remove internal borders/edges --- */
-.ssp-chatbot .react-chatbot-kit-chat-container,
-.ssp-chatbot .react-chatbot-kit-chat-inner-container {
-  width: 100% !important;
-  background: #ffffff !important;
-  border: 0 !important;
-  outline: 0 !important;
-  box-shadow: none !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-message-container {
-  background: #ffffff !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-input-form {
-  border: 0 !important;
-  box-shadow: none !important;
-  background: #ffffff !important;
-}
-
-.ssp-chatbot .react-chatbot-kit-chat-message-container {
+  background: linear-gradient(
+    180deg,
+    var(--color-ssp-cloud-50) 0%,
+    var(--color-surface-1) 32%
+  ) !important;
   scrollbar-width: thin;
-  scrollbar-color: rgba(15, 23, 42, 0.25) transparent;
+  scrollbar-color: color-mix(in srgb, var(--color-ssp-ink-900) 22%, transparent) transparent;
 }
 
 .ssp-chatbot .react-chatbot-kit-chat-message-container::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 .ssp-chatbot .react-chatbot-kit-chat-message-container::-webkit-scrollbar-track {
@@ -117,10 +52,189 @@
 }
 
 .ssp-chatbot .react-chatbot-kit-chat-message-container::-webkit-scrollbar-thumb {
-  background: rgba(15, 23, 42, 0.18);
+  background: color-mix(in srgb, var(--color-ssp-cyan-600) 35%, var(--color-ssp-ink-900) 65%);
   border-radius: 999px;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
   background-clip: padding-box;
+}
+
+/* --- Bot messages --- */
+.ssp-chatbot .react-chatbot-kit-chat-bot-message {
+  background: linear-gradient(
+    145deg,
+    var(--color-ssp-ink-800) 0%,
+    var(--color-ssp-ink-900) 52%,
+    #082a40 100%
+  ) !important;
+  color: var(--chat-bot-fg) !important;
+  border-radius: 18px 18px 18px 5px !important;
+  border: 1px solid color-mix(in srgb, var(--color-ssp-cyan-500) 28%, transparent) !important;
+  box-shadow:
+    0 10px 28px color-mix(in srgb, var(--color-ssp-ink-900) 42%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #fff 10%, transparent) !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-bot-message * {
+  color: var(--chat-bot-fg) !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-bot-message a {
+  color: var(--chat-accent) !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
+  font-weight: 600 !important;
+  transition: color 0.15s ease !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-bot-message a:hover {
+  color: var(--color-ocean-200) !important;
+}
+
+/* --- User messages --- */
+.ssp-chatbot .react-chatbot-kit-user-chat-message {
+  background: linear-gradient(
+    180deg,
+    var(--color-ocean-50) 0%,
+    var(--color-surface-1) 100%
+  ) !important;
+  color: var(--chat-user-fg) !important;
+  border-radius: 18px 18px 5px 18px !important;
+  border: 1px solid var(--chat-ink-border) !important;
+  box-shadow:
+    0 4px 14px color-mix(in srgb, var(--color-ssp-ink-900) 8%, transparent),
+    inset 0 1px 0 #fff !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-user-chat-message * {
+  color: var(--chat-user-fg) !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-user-chat-message a {
+  color: var(--color-ssp-cyan-600) !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-user-chat-message a:hover {
+  color: var(--color-ssp-ink-800) !important;
+}
+
+/* --- Quick-reply / kit chat buttons (not send) --- */
+.ssp-chatbot .react-chatbot-kit-chat-btn {
+  background: var(--color-surface-1) !important;
+  border: 1px solid var(--chat-ink-border) !important;
+  color: var(--color-ssp-ink-900) !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-ssp-ink-900) 6%, transparent) !important;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-btn:hover {
+  background: var(--color-ocean-50) !important;
+  border-color: color-mix(in srgb, var(--color-ssp-cyan-500) 38%, transparent) !important;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-ssp-ink-900) 10%, transparent) !important;
+  transform: translateY(-1px);
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-btn:active {
+  transform: translateY(0);
+}
+
+/* --- Composer --- */
+.ssp-chatbot .react-chatbot-kit-chat-input-form {
+  background: color-mix(in srgb, var(--color-ocean-50) 45%, var(--color-surface-1)) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  border-top: 1px solid var(--chat-ink-border) !important;
+  padding: 10px 12px 12px !important;
+  gap: 8px !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-input {
+  background: var(--color-surface-1) !important;
+  color: var(--color-text-strong) !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--chat-ink-border) !important;
+  padding: 11px 14px !important;
+  font-size: 0.9375rem !important;
+  line-height: 1.45 !important;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-input::placeholder {
+  color: var(--color-muted-strong) !important;
+  opacity: 1;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-input:hover {
+  border-color: color-mix(in srgb, var(--color-ssp-ink-900) 18%, transparent) !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-input:focus {
+  outline: none !important;
+  border-color: color-mix(
+    in srgb,
+    var(--color-ssp-cyan-500) 55%,
+    var(--color-ssp-ink-900)
+  ) !important;
+  box-shadow: 0 0 0 3px var(--chat-accent-soft) !important;
+}
+
+/* --- Send --- */
+.ssp-chatbot .react-chatbot-kit-chat-btn-send {
+  border-radius: 14px !important;
+  min-width: 46px !important;
+  min-height: 46px !important;
+  background: linear-gradient(
+    155deg,
+    var(--color-ssp-cyan-600) 0%,
+    var(--color-utility-bg) 88%
+  ) !important;
+  border: 1px solid color-mix(in srgb, var(--color-ssp-cyan-500) 42%, transparent) !important;
+  box-shadow:
+    0 6px 18px color-mix(in srgb, var(--color-ssp-ink-900) 28%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #fff 18%, transparent) !important;
+  transition:
+    filter 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-btn-send:hover {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+  box-shadow:
+    0 10px 24px color-mix(in srgb, var(--color-ssp-ink-900) 34%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #fff 22%, transparent) !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-btn-send:active {
+  transform: translateY(0);
+  filter: brightness(0.98);
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-btn-send-icon {
+  fill: var(--color-utility-text) !important;
+}
+
+/* --- Shell: remove double borders from kit --- */
+.ssp-chatbot .react-chatbot-kit-chat-container,
+.ssp-chatbot .react-chatbot-kit-chat-inner-container {
+  width: 100% !important;
+  background: transparent !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-message-container {
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
 .ssp-chatbot button,
@@ -132,20 +246,24 @@
   align-items: flex-start !important;
 }
 
+/* --- Avatar --- */
 .ssp-chatbot .react-chatbot-kit-chat-bot-avatar-container {
-  width: 36px !important;
-  height: 36px !important;
-  min-width: 36px !important;
-  min-height: 36px !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
   margin-right: 10px !important;
-  background: transparent !important;
-  border: 0 !important;
+  background: color-mix(in srgb, var(--color-ssp-cyan-500) 12%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--color-ssp-cyan-500) 35%, transparent) !important;
   border-radius: 9999px !important;
   display: flex !important;
   align-items: flex-start !important;
   justify-content: center !important;
   overflow: visible !important;
-  padding: 0 !important;
+  padding: 2px !important;
+  box-shadow:
+    0 4px 12px color-mix(in srgb, var(--color-ssp-ink-900) 22%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #fff 14%, transparent) !important;
 }
 
 .ssp-chatbot .react-chatbot-kit-chat-bot-avatar-letter {
@@ -155,9 +273,9 @@
 .ssp-chatbot-logo-avatar {
   position: relative;
   display: block;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
   margin-top: 0;
   border-radius: 0;
   overflow: visible;
@@ -169,4 +287,50 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--color-ssp-ink-900) 35%, transparent));
+}
+
+/* Full-viewport chat on small screens — flex chain so messages scroll inside */
+.ssp-chatbot--mobile-full {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+}
+
+.ssp-chatbot--mobile-full .react-chatbot-kit-chat-container {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+}
+
+.ssp-chatbot--mobile-full .react-chatbot-kit-chat-inner-container {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+.ssp-chatbot--mobile-full .react-chatbot-kit-chat-message-container {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+}
+
+/* Kit defaults to absolute bottom input — switch to flex column for full-screen mobile */
+.ssp-chatbot--mobile-full .react-chatbot-kit-chat-input-container {
+  position: relative !important;
+  bottom: auto !important;
+  flex-shrink: 0 !important;
+  width: 100% !important;
+}
+
+.ssp-chatbot--mobile-full .react-chatbot-kit-chat-input-form {
+  padding-bottom: max(12px, env(safe-area-inset-bottom, 0px)) !important;
 }
