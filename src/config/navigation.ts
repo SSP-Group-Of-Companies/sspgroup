@@ -32,6 +32,13 @@ export type NavSection = {
   links: readonly NavLink[];
 };
 
+/** Solutions mega-menu column: family hub + child solution pages. */
+export type NavSolutionCategory = {
+  readonly title: string;
+  readonly href: string;
+  readonly links: readonly NavLink[];
+};
+
 const INDUSTRY_NAV_LINK_CONTENT: Record<IndustryKey, Omit<NavLink, "href">> = {
   automotive: {
     label: "Automotive",
@@ -86,19 +93,26 @@ export const NAV = {
     intro: {
       title: "Shipping Solutions",
       description:
-        "Dedicated solution pages across truckload, specialized freight, cross-border, and integrated logistics for North American shippers.",
+        "Service paths across truckload, specialized freight, cross-border execution, and managed logistics across North America.",
       ctaLabel: "View All Solutions",
       ctaHref: "/solutions",
     },
     categories: [
       {
         title: "Core Freight Modes",
+        href: "/solutions/core-freight-modes",
         links: [
           {
             label: "Truckload",
             href: "/solutions/truckload",
             description: "Dedicated truckload capacity with equipment-fit planning by freight profile.",
             icon: "truck",
+          },
+          {
+            label: "Less-Than-Truckload",
+            href: "/solutions/ltl",
+            description: "Cost-efficient LTL shipping across shared lane networks.",
+            icon: "package",
           },
           {
             label: "Dry Van",
@@ -130,16 +144,11 @@ export const NAV = {
             description: "Permit-aware movement for oversize and heavy units.",
             icon: "shield",
           },
-          {
-            label: "Less-Than-Truckload",
-            href: "/solutions/ltl",
-            description: "Cost-efficient LTL shipping across shared lane networks.",
-            icon: "package",
-          },
         ],
       },
       {
-        title: "Specialized & Time-Sensitive",
+        title: "Specialized & Critical Freight",
+        href: "/solutions/specialized-critical-freight",
         links: [
           {
             label: "Expedited",
@@ -165,23 +174,12 @@ export const NAV = {
             description: "Specialized equipment programs matched to cargo constraints.",
             icon: "truck",
           },
-          {
-            label: "Project-Specific",
-            href: "/solutions/project-freight",
-            description: "Program-managed freight for engineered and phased moves.",
-            icon: "briefcase",
-          },
         ],
       },
       {
-        title: "Cross-Border & Global",
+        title: "Cross-Border",
+        href: "/solutions/cross-border",
         links: [
-          {
-            label: "Explore All",
-            href: "/solutions/cross-border",
-            description: "North American cross-border planning, compliance, and execution.",
-            icon: "globe",
-          },
           {
             label: "Canada–USA",
             href: "/solutions/cross-border/canada-usa",
@@ -209,14 +207,9 @@ export const NAV = {
         ],
       },
       {
-        title: "Integrated Logistics",
+        title: "Managed Logistics",
+        href: "/solutions/managed-logistics",
         links: [
-          {
-            label: "Managed Capacity",
-            href: "/solutions/managed-capacity",
-            description: "Elastic capacity strategy for volatile lane demand.",
-            icon: "briefcase",
-          },
           {
             label: "Dedicated / Contract",
             href: "/solutions/dedicated-contract",
@@ -224,14 +217,26 @@ export const NAV = {
             icon: "building",
           },
           {
+            label: "Managed Capacity",
+            href: "/solutions/managed-capacity",
+            description: "Elastic capacity strategy for volatile lane demand.",
+            icon: "briefcase",
+          },
+          {
             label: "Warehousing & Distribution",
             href: "/solutions/warehousing-distribution",
             description: "Storage, handling, and distribution orchestration.",
             icon: "warehouse",
           },
+          {
+            label: "Project-Specific",
+            href: "/solutions/project-freight",
+            description: "Program-managed freight for engineered and phased moves.",
+            icon: "briefcase",
+          },
         ],
       },
-    ],
+    ] satisfies readonly NavSolutionCategory[],
   },
 
   industries: {

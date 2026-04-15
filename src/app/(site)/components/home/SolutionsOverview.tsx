@@ -101,15 +101,15 @@ function resolveCategoryPresentation(
   // Prefer config if present, otherwise fall back to prior behavior.
   const theme =
     data.theme ??
-    (category === "Specialized & Time-Sensitive" || category === "Logistics & Value-Added"
+    (category === "Specialized & Critical Freight" || category === "Managed Logistics"
       ? "dark"
       : "default");
 
   const layout =
     data.layout ??
-    (category === "Specialized & Time-Sensitive" ||
-    category === "Logistics & Value-Added" ||
-    category === "Cross-Border & Global"
+    (category === "Specialized & Critical Freight" ||
+    category === "Managed Logistics" ||
+    category === "Cross-Border"
       ? "four"
       : "three");
 

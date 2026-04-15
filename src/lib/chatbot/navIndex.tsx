@@ -116,12 +116,28 @@ export function buildNavIndex() {
       }),
     });
 
-    // Solutions has categories; others have links
-    const links: readonly NavLink[] =
-      sectionKey === "solutions"
-        ? (section.categories || []).flatMap((c) => c.links || [])
-        : section.links || [];
+    if (sectionKey === "solutions" && section.categories) {
+      section.categories.forEach((cat) => {
+        const c = cat as { title: string; href: string; links: readonly NavLink[] };
+        items.push({
+          sectionKey,
+          sectionLabel: section.label,
+          label: c.title,
+          href: c.href,
+          description: `Solution family overview: ${c.title}.`,
+          icon: undefined,
+          keywords: keywordsFor({
+            label: `${c.title} overview`,
+            description: section.intro?.description,
+            href: c.href,
+          }),
+        });
+        (c.links || []).forEach((l) => pushLink(items, sectionKey, section.label, l));
+      });
+      return;
+    }
 
+    const links: readonly NavLink[] = section.links || [];
     links.forEach((l) => pushLink(items, sectionKey, section.label, l));
   });
 

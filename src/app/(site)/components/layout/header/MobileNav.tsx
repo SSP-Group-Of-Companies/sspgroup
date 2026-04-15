@@ -33,6 +33,7 @@ function MobileRowLink({
   ctaId,
   externalCue,
   onNavigate,
+  tone = "default",
 }: {
   href: string;
   label: string;
@@ -40,6 +41,9 @@ function MobileRowLink({
   ctaId: string;
   externalCue?: boolean;
   onNavigate: () => void;
+  /** Family hub row: accent ink (matches desktop mega-menu column headers). */
+  /** Solution list rows under a family: footer-weight typography (not menu-title heavy). */
+  tone?: "default" | "familySection" | "solutionLeaf";
 }) {
   const pathname = usePathname();
   const handleClick = React.useCallback(
@@ -67,7 +71,11 @@ function MobileRowLink({
       onClick={handleClick}
       className={cn(
         "group flex items-center justify-between gap-3 rounded-md px-2 py-2 transition",
-        "text-[14px] font-medium text-[color:var(--color-menu-title)]",
+        tone === "familySection"
+          ? "text-[11px] font-semibold tracking-[0.1em] text-[color:var(--color-menu-accent)] uppercase"
+          : tone === "solutionLeaf"
+            ? "text-[13px] font-normal leading-6 text-[color:var(--color-footer-link)] hover:text-[color:var(--color-footer-link-hover)]"
+            : "text-[14px] font-medium text-[color:var(--color-menu-title)]",
         "[-webkit-tap-highlight-color:transparent] hover:bg-[color:var(--color-menu-hover)]",
         focusRingMenu,
       )}
@@ -271,9 +279,16 @@ export function MobileNav() {
           </Link>
           {NAV.solutions.categories.map((cat) => (
             <div key={cat.title}>
-              <p className="mb-2 text-[11px] font-semibold tracking-[0.1em] text-[color:var(--color-menu-subtle)] uppercase">
-                {cat.title}
-              </p>
+              <div className="mb-1.5">
+                <MobileRowLink
+                  href={cat.href}
+                  label={cat.title}
+                  location="nav_mobile:menu"
+                  ctaId={`nav_mobile_menu_${navId(cat.href)}`}
+                  onNavigate={closeAll}
+                  tone="familySection"
+                />
+              </div>
               <div className="space-y-1">
                 {cat.links.map((l) => (
                   <MobileRowLink
@@ -283,6 +298,7 @@ export function MobileNav() {
                     location="nav_mobile:menu"
                     ctaId={`nav_mobile_menu_${navId(l.href)}`}
                     onNavigate={closeAll}
+                    tone="solutionLeaf"
                   />
                 ))}
               </div>

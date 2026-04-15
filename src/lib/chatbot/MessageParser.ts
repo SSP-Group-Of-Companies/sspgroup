@@ -135,7 +135,7 @@ export default class MessageParser {
 
     if (hasAnyToken(tokens, ["cross", "border", "customs", "canada", "usa", "mexico"])) {
       return this.actionProvider.suggestNavPage(
-        "Cross-Border & Global",
+        "Cross-Border",
         "/services/cross-border",
         "Cross-border execution and global freight support.",
       );
@@ -143,7 +143,7 @@ export default class MessageParser {
 
     if (hasAnyToken(tokens, ["warehouse", "warehousing", "distribution", "storage"])) {
       return this.actionProvider.suggestNavPage(
-        "Logistics & Value-Added",
+        "Managed Logistics",
         "/services/value-added",
         "Warehousing, managed capacity, and value-added logistics.",
       );

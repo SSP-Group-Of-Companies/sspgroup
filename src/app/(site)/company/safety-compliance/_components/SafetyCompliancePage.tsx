@@ -3,17 +3,10 @@
 import Link from "next/link";
 import { useState, type CSSProperties } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import {
-  ChevronLeft,
-  Pause,
-  Play,
-  Radio,
-  Route,
-  Scale,
-  ShieldCheck,
-  FileText,
-} from "lucide-react";
+import { ChevronLeft, Pause, Play, Radio, Route, ShieldCheck } from "lucide-react";
 import { Container } from "@/app/(site)/components/layout/Container";
+import { HEADER_HEIGHT_PX } from "@/app/(site)/components/layout/header/constants";
+import { ModeSolutionOverviewSection } from "@/app/(site)/solutions/_components/ModeSolutionOverviewSection";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 import { SharedFaqSection } from "@/app/(site)/components/faq/SharedFaqSection";
 import { StandardFinalCta } from "@/app/(site)/components/cta/StandardFinalCta";
@@ -25,7 +18,8 @@ import { LogoImage } from "@/components/media/LogoImage";
 const FOCUS_RING_LIGHT =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-0-light)]";
 
-const GOVERNANCE_ICONS = [ShieldCheck, FileText, Scale] as const;
+const SAFETY_SECTION_SCROLL_MARGIN = HEADER_HEIGHT_PX + 56 + 16;
+
 const VISIBILITY_CONTROL_ICONS = {
   radio: Radio,
   route: Route,
@@ -194,65 +188,12 @@ export function SafetyCompliancePage() {
         </Container>
       </section>
 
-      <section className="border-b border-[color:var(--color-border-light-soft)] py-18 sm:py-20 lg:py-24" aria-labelledby="safety-thesis-heading">
-        <Container className="site-page-container">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={stagger}
-            className="grid gap-8 lg:grid-cols-12 lg:gap-10"
-          >
-            <div className="lg:col-span-5">
-              <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}>
-                <SectionSignalEyebrow label="Governance model" />
-              </motion.div>
-              <motion.h2
-                id="safety-thesis-heading"
-                variants={revealUp}
-                transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
-                className="mt-4 max-w-[16ch] text-[2rem] font-bold leading-[1.06] tracking-tight text-[color:var(--color-text-strong)] sm:text-[2.45rem]"
-              >
-                {safetyCompliancePage.governance.title}
-              </motion.h2>
-            </div>
-
-            <div className="lg:col-span-7">
-              <motion.p
-                variants={revealUp}
-                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-                className="max-w-[74ch] text-[15px] leading-[1.88] text-[color:var(--color-muted)] sm:text-[16px]"
-              >
-                {safetyCompliancePage.governance.intro}
-              </motion.p>
-
-              <motion.div variants={stagger} className="mt-8 grid gap-4 md:grid-cols-3">
-                {safetyCompliancePage.governance.domains.map((domain, idx) => {
-                  const Icon = GOVERNANCE_ICONS[idx] ?? ShieldCheck;
-                  return (
-                  <motion.article
-                    key={domain.title}
-                    variants={revealUp}
-                    transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-                    className="group rounded-2xl border border-[color:var(--color-border-light)] bg-white p-5 shadow-[var(--shadow-company-card-soft)] transition-all duration-200 hover:-translate-y-[1px] hover:shadow-[0_14px_28px_rgba(2,6,23,0.12)]"
-                  >
-                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-1-light)] text-[color:var(--color-menu-accent)]">
-                      <Icon className="h-4 w-4" aria-hidden />
-                    </span>
-                    <p className="mt-4 text-[10.5px] font-semibold uppercase tracking-[0.15em] text-[color:var(--color-subtle)]">
-                      {domain.title}
-                    </p>
-                    <p className="mt-3 text-[13.5px] leading-[1.74] text-[color:var(--color-muted)]">
-                      {domain.body}
-                    </p>
-                  </motion.article>
-                  );
-                })}
-              </motion.div>
-            </div>
-          </motion.div>
-        </Container>
-      </section>
+      <ModeSolutionOverviewSection
+        slug="safety-compliance"
+        section={safetyCompliancePage.complianceOverview}
+        accent="var(--color-ssp-cyan-500)"
+        scrollMarginTop={SAFETY_SECTION_SCROLL_MARGIN}
+      />
 
       <section
         className="relative overflow-hidden border-b border-[color:var(--color-border-light-soft)] bg-[color:var(--color-surface-0-light)] py-18 sm:py-20 lg:py-24"

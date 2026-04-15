@@ -1,5 +1,6 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
@@ -27,6 +28,23 @@ function resolveQuadrantImageSrc(item: SolutionFamilyLandingCard, fallbackIndex:
   return item.imageSrc ?? quadrantPlaceholderImageSrc(fallbackIndex);
 }
 
+function resolvePathAccent(item: SolutionFamilyLandingCard, fallbackAccent = "var(--family-accent)"): string {
+  return item.accentColor ?? fallbackAccent;
+}
+
+function pathAccentStyle(accent: string): CSSProperties {
+  return { ["--path-accent" as string]: accent } as CSSProperties;
+}
+
+const pathCtaClass = cn(
+  "mt-1.5 relative inline-flex w-fit items-center gap-1.5 pb-0.5 text-[12.5px] font-semibold tracking-[0.06em]",
+  "text-[color:var(--color-menu-title)] transition-colors duration-200 sm:mt-2",
+  "after:absolute after:right-0 after:-bottom-0.5 after:left-0 after:h-[1.5px] after:origin-left after:scale-x-0",
+  "after:bg-[color:var(--path-accent)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
+  "group-hover:text-[color:var(--path-accent)] group-hover:after:scale-x-100",
+  "group-focus-within:text-[color:var(--path-accent)] group-focus-within:after:scale-x-100",
+);
+
 type ModePathsTrackLocation = "mode_paths" | "service_paths";
 
 function modePathsTrackLocation(page: SolutionFamilyLandingPageData, scope: ModePathsTrackLocation): string {
@@ -52,6 +70,7 @@ function BranchComposition({
   analyticsLocation: string;
 }) {
   const isLeading = edge === "leading";
+  const pathAccent = resolvePathAccent(item);
 
   const frameScale = isLeading
     ? "max-lg:scale-[1.08] max-lg:sm:scale-[1.11] lg:scale-[1.32] xl:scale-[1.36]"
@@ -66,17 +85,18 @@ function BranchComposition({
     <motion.article
       variants={revealUp}
       transition={{ duration: reduceMotion ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+      style={pathAccentStyle(pathAccent)}
       className={cn(
         "group relative isolate min-h-0 overflow-visible bg-transparent",
         isLeading &&
-          "max-lg:border-b max-lg:border-[color:color-mix(in_srgb,var(--family-accent)_20%,var(--color-border-light-soft))] max-lg:pb-10 sm:max-lg:pb-12",
+          "max-lg:border-b max-lg:border-[color:var(--color-border-light-soft)] max-lg:pb-10 sm:max-lg:pb-12",
         !isLeading && "max-lg:pt-8 sm:max-lg:pt-10",
       )}
     >
       {/* Inner-edge demarcation only (toward pair center) — no top/left/bottom box */}
       <div
         className={cn(
-          "pointer-events-none absolute z-[15] hidden w-px lg:block",
+          "pointer-events-none absolute z-[15] hidden w-px transition-opacity duration-500 lg:block lg:opacity-100 lg:group-hover:opacity-[0.16] lg:group-focus-within:opacity-[0.16]",
           isLeading ? "top-[5%] bottom-[14%] right-0" : "top-[5%] bottom-[14%] left-0",
         )}
         style={{
@@ -93,16 +113,24 @@ function BranchComposition({
         )}
         style={{
           background:
-            "linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--family-accent) 42%, white) 42%, color-mix(in srgb, var(--family-accent) 28%, white) 50%, color-mix(in srgb, var(--family-accent) 42%, white) 58%, transparent 100%)",
+            "linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--path-accent) 38%, white) 42%, color-mix(in srgb, var(--path-accent) 24%, white) 50%, color-mix(in srgb, var(--path-accent) 38%, white) 58%, transparent 100%)",
           boxShadow: isLeading
-            ? "4px 0 22px -2px color-mix(in srgb, var(--family-accent) 22%, transparent), 1px 0 12px color-mix(in srgb, var(--family-accent) 14%, transparent)"
-            : "-4px 0 22px -2px color-mix(in srgb, var(--family-accent) 22%, transparent), -1px 0 12px color-mix(in srgb, var(--family-accent) 14%, transparent)",
+            ? "3px 0 16px -3px color-mix(in srgb, var(--path-accent) 12%, transparent)"
+            : "-3px 0 16px -3px color-mix(in srgb, var(--path-accent) 12%, transparent)",
+        }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-x-0 inset-y-[4%] z-0 opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:opacity-[0.78] group-focus-within:opacity-[0.78] max-lg:hidden"
+        style={{
+          background:
+            "radial-gradient(122% 92% at 50% 46%, color-mix(in srgb, var(--path-accent) 8.5%, white) 0%, color-mix(in srgb, var(--path-accent) 3.2%, transparent) 44%, transparent 78%)",
         }}
         aria-hidden
       />
 
       {/* Truck — relative, drives height via aspect ratio */}
-      <div className="relative aspect-[16/10.5] sm:aspect-[16/10] lg:aspect-[16/9]">
+      <div className="relative z-[2] aspect-[16/10.5] sm:aspect-[16/10] lg:aspect-[16/9]">
         <div
           className={cn(
             "absolute inset-0 will-change-transform transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
@@ -154,7 +182,7 @@ function BranchComposition({
           {item.description}
         </p>
         {item.ctaLabel ? (
-          <span className="mt-1.5 inline-flex items-center gap-1.5 text-[12.5px] font-semibold tracking-[0.06em] text-[color:var(--family-accent)] transition duration-300 group-hover:opacity-95 sm:mt-2">
+          <span className={pathCtaClass}>
             {item.ctaLabel}
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5" />
           </span>
@@ -204,13 +232,14 @@ function QuadrantBranchComposition({
   mobileShowDividerBelow: boolean;
 }) {
   const ctaLabel = item.ctaLabel ?? "View details";
+  const pathAccent = resolvePathAccent(item);
 
   const innerVertical = cn(
-    "pointer-events-none absolute z-[15] hidden w-px lg:block",
+    "pointer-events-none absolute z-[15] hidden w-px transition-opacity duration-500 lg:block lg:opacity-100 lg:group-hover:opacity-[0.14] lg:group-focus-within:opacity-[0.14]",
     quadrant === "tl" || quadrant === "bl" ? "top-[6%] bottom-[12%] right-0" : "top-[6%] bottom-[12%] left-0",
   );
   const innerHorizontal = cn(
-    "pointer-events-none absolute z-[15] hidden h-px lg:block",
+    "pointer-events-none absolute z-[15] hidden h-px transition-opacity duration-500 lg:block lg:opacity-100 lg:group-hover:opacity-[0.14] lg:group-focus-within:opacity-[0.14]",
     quadrant === "tl" || quadrant === "tr" ? "bottom-0 left-[6%] right-[6%]" : "top-0 left-[6%] right-[6%]",
   );
 
@@ -260,28 +289,29 @@ function QuadrantBranchComposition({
     "linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--color-border-light) 52%, transparent) 18%, color-mix(in srgb, var(--color-border-light) 40%, transparent) 50%, color-mix(in srgb, var(--color-border-light) 52%, transparent) 82%, transparent 100%)";
 
   const glareV =
-    "linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--family-accent) 42%, white) 42%, color-mix(in srgb, var(--family-accent) 28%, white) 50%, color-mix(in srgb, var(--family-accent) 42%, white) 58%, transparent 100%)";
+    "linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--path-accent) 42%, white) 42%, color-mix(in srgb, var(--path-accent) 28%, white) 50%, color-mix(in srgb, var(--path-accent) 42%, white) 58%, transparent 100%)";
   const glareH =
-    "linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--family-accent) 42%, white) 42%, color-mix(in srgb, var(--family-accent) 28%, white) 50%, color-mix(in srgb, var(--family-accent) 42%, white) 58%, transparent 100%)";
+    "linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--path-accent) 42%, white) 42%, color-mix(in srgb, var(--path-accent) 28%, white) 50%, color-mix(in srgb, var(--path-accent) 42%, white) 58%, transparent 100%)";
 
   const verticalGlareShadow =
     quadrant === "tl" || quadrant === "bl"
-      ? "4px 0 18px -2px color-mix(in srgb, var(--family-accent) 18%, transparent), 1px 0 10px color-mix(in srgb, var(--family-accent) 12%, transparent)"
-      : "-4px 0 18px -2px color-mix(in srgb, var(--family-accent) 18%, transparent), -1px 0 10px color-mix(in srgb, var(--family-accent) 12%, transparent)";
+      ? "3px 0 14px -3px color-mix(in srgb, var(--path-accent) 11%, transparent)"
+      : "-3px 0 14px -3px color-mix(in srgb, var(--path-accent) 11%, transparent)";
 
   const horizontalGlareShadow =
     quadrant === "tl" || quadrant === "tr"
-      ? "0 4px 18px -2px color-mix(in srgb, var(--family-accent) 16%, transparent), 0 1px 10px color-mix(in srgb, var(--family-accent) 10%, transparent)"
-      : "0 -4px 18px -2px color-mix(in srgb, var(--family-accent) 16%, transparent), 0 -1px 10px color-mix(in srgb, var(--family-accent) 10%, transparent)";
+      ? "0 3px 14px -3px color-mix(in srgb, var(--path-accent) 9%, transparent)"
+      : "0 -3px 14px -3px color-mix(in srgb, var(--path-accent) 9%, transparent)";
 
   return (
     <motion.article
       variants={revealUp}
       transition={{ duration: reduceMotion ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+      style={pathAccentStyle(pathAccent)}
       className={cn(
         "group relative isolate min-h-0 overflow-visible bg-transparent",
         mobileShowDividerBelow &&
-          "max-lg:border-b max-lg:border-[color:color-mix(in_srgb,var(--family-accent)_18%,var(--color-border-light-soft))] max-lg:pb-12 sm:max-lg:pb-14",
+          "max-lg:border-b max-lg:border-[color:var(--color-border-light-soft)] max-lg:pb-12 sm:max-lg:pb-14",
       )}
     >
       <div className={innerVertical} style={{ background: lineGradient }} aria-hidden />
@@ -303,9 +333,17 @@ function QuadrantBranchComposition({
         }}
         aria-hidden
       />
+      <div
+        className="pointer-events-none absolute inset-x-0 inset-y-[3%] z-0 opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:opacity-[0.74] group-focus-within:opacity-[0.74] max-lg:hidden"
+        style={{
+          background:
+            "radial-gradient(120% 90% at 50% 44%, color-mix(in srgb, var(--path-accent) 7.5%, white) 0%, color-mix(in srgb, var(--path-accent) 2.8%, transparent) 42%, transparent 76%)",
+        }}
+        aria-hidden
+      />
 
       {/* Clip to cell; inset art box toward the inner cross on desktop — Hazmat (bl) needs more gutter than Expedited (tl) so the tanker clears the vertical rule like the top row. */}
-      <div className="relative aspect-[16/10.45] sm:aspect-[16/9.95] lg:aspect-[16/9.2] overflow-hidden">
+      <div className="relative z-[2] aspect-[16/10.45] sm:aspect-[16/9.95] lg:aspect-[16/9.2] overflow-hidden">
         <div
           className={cn(
             "absolute inset-0 will-change-transform transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
@@ -359,7 +397,7 @@ function QuadrantBranchComposition({
           {item.description}
         </p>
         {item.ctaLabel ? (
-          <span className="mt-1.5 inline-flex items-center gap-1.5 text-[12px] font-semibold tracking-[0.06em] text-[color:var(--family-accent)] transition duration-300 group-hover:opacity-95 sm:mt-2">
+          <span className={cn(pathCtaClass, "text-[12px]")}>
             {item.ctaLabel}
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 motion-safe:group-hover:translate-x-0.5" />
           </span>

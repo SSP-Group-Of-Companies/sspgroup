@@ -8,6 +8,7 @@ export type SolutionFamilyLandingCard = {
   description: string;
   href?: string;
   ctaLabel?: string;
+  accentColor?: string;
   /** Optional hero art for four-up `ModePathsSplitSection` (falls back to TL/LTL placeholders when omitted). */
   imageSrc?: string;
   imageAlt?: string;
@@ -97,7 +98,7 @@ export const CORE_FREIGHT_MODES_FAMILY_PAGE: SolutionFamilyLandingPageData = {
     title: "Truckload & LTL Freight Services | SSP Group",
     description:
       "Full truckload and LTL freight services across dry van, flatbed, step deck, Conestoga, and heavy haul in Canada, the United States, and Mexico.",
-    ogImage: "/_optimized/solution/truckload/truckload-Img.png",
+    ogImage: "/_optimized/solution/truckload/truckload-Image.png",
   },
   hero: {
     eyebrow: "Core Freight Modes",
@@ -108,7 +109,7 @@ export const CORE_FREIGHT_MODES_FAMILY_PAGE: SolutionFamilyLandingPageData = {
   },
   signatureSection: {
     variant: "split-branches",
-    eyebrow: "Mode Paths",
+    eyebrow: "Service Paths",
     title: "Two primary execution paths. One decision first.",
     description:
       "Every core freight shipment resolves to one of two operating models: dedicated full-trailer capacity or shared consolidation. The first decision is whether the freight needs its own trailer or can move through a terminal network. Equipment detail follows from there.",
@@ -122,6 +123,7 @@ export const CORE_FREIGHT_MODES_FAMILY_PAGE: SolutionFamilyLandingPageData = {
           "Full-trailer capacity with direct routing, equipment-fit planning, and shipment-level control from pickup through delivery.",
         href: "/solutions/truckload",
         ctaLabel: "View Truckload",
+        accentColor: "#10a7d8",
       },
       {
         key: "ltl",
@@ -130,6 +132,7 @@ export const CORE_FREIGHT_MODES_FAMILY_PAGE: SolutionFamilyLandingPageData = {
         description: "Shared-capacity execution for palletized freight with class-ready documentation and terminal-compatible handling.",
         href: "/solutions/ltl",
         ctaLabel: "View LTL",
+        accentColor: "#3064a8",
       },
     ],
   },
@@ -257,6 +260,7 @@ export const SPECIALIZED_CRITICAL_FREIGHT_FAMILY_PAGE: SolutionFamilyLandingPage
           "Deadline-driven freight where transit compression, recovery windows, or production-line timing cannot absorb standard network delays. Team drivers, dedicated equipment, and active milestone management.",
         href: "/solutions/expedited",
         ctaLabel: "View Expedited",
+        accentColor: "#ef4444",
         imageSrc: "/_optimized/solution/expedited/Exp-mode-Img.png",
         imageAlt: "Expedited freight equipment and time-critical trucking execution",
       },
@@ -268,6 +272,7 @@ export const SPECIALIZED_CRITICAL_FREIGHT_FAMILY_PAGE: SolutionFamilyLandingPage
           "Reefer and climate-controlled shipments where setpoint discipline, continuous monitoring, and chain-of-custody documentation protect product integrity from pickup through delivery.",
         href: "/solutions/temperature-controlled",
         ctaLabel: "View Temperature-Controlled",
+        accentColor: "#38bdf8",
         imageSrc: "/_optimized/solution/tempCtrl/TC-mode-Img.png",
         imageAlt: "Temperature-controlled reefer freight and thermal integrity execution",
       },
@@ -279,6 +284,7 @@ export const SPECIALIZED_CRITICAL_FREIGHT_FAMILY_PAGE: SolutionFamilyLandingPage
           "DOT and TDG-regulated freight where commodity classification, compliant documentation, qualified carriers, and proper placarding must be confirmed before the shipment is released.",
         href: "/solutions/hazmat",
         ctaLabel: "View Hazmat",
+        accentColor: "#f59e0b",
         imageSrc: "/_optimized/solution/hazmat/Hazmat-mode-Img.png",
         imageAlt: "Hazmat-regulated freight transport and compliance-ready equipment",
       },
@@ -290,6 +296,7 @@ export const SPECIALIZED_CRITICAL_FREIGHT_FAMILY_PAGE: SolutionFamilyLandingPage
           "Vehicle and high-value equipment transport requiring controlled loading, premium chain of custody, and handling protocols that standard truckload cannot provide.",
         href: "/solutions/specialized-vehicles",
         ctaLabel: "View Specialized Vehicles",
+        accentColor: "#7c3aed",
         imageSrc: "/_optimized/solution/specializedVehicleTransport/SVTt-mode-Img.png",
         imageAlt: "Specialized vehicle transport and high-value unit handling",
       },
@@ -419,6 +426,9 @@ export const MANAGED_LOGISTICS_FAMILY_PAGE: SolutionFamilyLandingPageData = {
           "Carrier strategy, network optimization, and KPI-led governance for shippers with recurring freight volume across multiple lanes and carriers.",
         href: "/solutions/managed-capacity",
         ctaLabel: "View Managed Capacity",
+        accentColor: "#0f766e",
+        imageSrc: "/_optimized/solution/managedCapacity/managedCapacity-mode-Img.png",
+        imageAlt: "Managed capacity programs and multi-lane freight procurement governance",
       },
       {
         key: "dedicated-contract",
@@ -428,6 +438,9 @@ export const MANAGED_LOGISTICS_FAMILY_PAGE: SolutionFamilyLandingPageData = {
           "Committed equipment, embedded operations, and SLA-driven service for programs that need consistent capacity and operating continuity at defined facilities or lanes.",
         href: "/solutions/dedicated-contract",
         ctaLabel: "View Dedicated / Contract",
+        accentColor: "#1d4ed8",
+        imageSrc: "/_optimized/solution/dedicatedContract/dedicated-mode-Img.png",
+        imageAlt: "Dedicated contract logistics and committed fleet capacity at scale",
       },
       {
         key: "warehousing-distribution",
@@ -437,6 +450,9 @@ export const MANAGED_LOGISTICS_FAMILY_PAGE: SolutionFamilyLandingPageData = {
           "Inventory management, cross-docking, and outbound coordination where warehouse flow and transport execution are planned as one connected operation.",
         href: "/solutions/warehousing-distribution",
         ctaLabel: "View Warehousing & Distribution",
+        accentColor: "#0ea5a4",
+        imageSrc: "/_optimized/solution/warehouse/warehouse-mode-Img.png",
+        imageAlt: "Warehousing and distribution operations connected to outbound freight",
       },
       {
         key: "project-freight",
@@ -446,6 +462,9 @@ export const MANAGED_LOGISTICS_FAMILY_PAGE: SolutionFamilyLandingPageData = {
           "Milestone-driven coordination for phased, engineered, or site-sensitive moves where sequencing, permitting, and multi-carrier orchestration define the project.",
         href: "/solutions/project-freight",
         ctaLabel: "View Project Freight",
+        accentColor: "#14b8a6",
+        imageSrc: "/_optimized/solution/projectSpecific/projectSpecific-mode-Img.png",
+        imageAlt: "Project freight and phased heavy or engineered cargo coordination",
       },
     ],
   },

@@ -286,9 +286,28 @@ export function DesktopNav() {
                     <div className="grid grid-cols-4 gap-x-10 gap-y-8">
                       {NAV.solutions.categories.map((category) => (
                         <div key={category.title}>
-                          <p className="mb-4 text-[10.5px] font-semibold tracking-[0.12em] text-[color:var(--color-menu-subtle)] uppercase">
-                            {category.title}
-                          </p>
+                          <Link
+                            href={category.href}
+                            onClick={() => {
+                              closeMenu();
+                              trackCtaClick({
+                                ctaId: `nav_desktop_menu_${navId(category.href)}`,
+                                location: "nav_desktop:menu",
+                                destination: category.href,
+                                label: category.title,
+                              });
+                            }}
+                            className={cn(
+                              "relative mb-3.5 inline-flex w-fit rounded-sm px-2 py-1.5 text-left",
+                              "after:pointer-events-none after:absolute after:right-2 after:bottom-0.5 after:left-2 after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[color:var(--color-menu-accent)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
+                              "hover:after:scale-x-100 focus-visible:after:scale-x-100",
+                              focusRingNav,
+                            )}
+                          >
+                            <span className="block text-[11px] font-semibold tracking-[0.1em] text-[color:var(--color-menu-accent)] uppercase">
+                              {category.title}
+                            </span>
+                          </Link>
                           <ul className="space-y-2.5">
                             {category.links.map((link) => (
                               <li key={link.href}>
@@ -304,9 +323,10 @@ export function DesktopNav() {
                                     });
                                   }}
                                   className={cn(
-                                    "relative inline-flex w-fit px-2 py-1.5 text-[14px] font-medium text-[color:var(--color-menu-title)] transition-colors duration-200",
+                                    "relative inline-flex w-fit px-2 py-1.5 text-[13px] font-normal leading-6 text-[color:var(--color-footer-link)] transition-colors duration-200",
                                     "after:absolute after:right-2 after:bottom-0.5 after:left-2 after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[color:var(--color-menu-accent)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
-                                    "hover:text-[color:var(--color-ssp-ink-800)] hover:after:scale-x-100",
+                                    "hover:text-[color:var(--color-footer-link-hover)] hover:after:scale-x-100",
+                                    "focus-visible:text-[color:var(--color-footer-link-hover)] focus-visible:after:scale-x-100",
                                     focusRingNav,
                                   )}
                                 >

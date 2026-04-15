@@ -46,14 +46,14 @@ function getSolutionsFooterLinks(): FooterLink[] {
   });
 
   const curatedOrder: FooterLink[] = [
-    { label: "Full Truckload", href: "/solutions/truckload" },
+    { label: "Core Freight Modes", href: "/solutions/core-freight-modes" },
+    { label: "Truckload", href: "/solutions/truckload" },
     { label: "Less-Than-Truckload", href: "/solutions/ltl" },
-    { label: "Expedited", href: "/solutions/expedited" },
-    { label: "Hazmat", href: "/solutions/hazmat" },
-    { label: "Temperature-Controlled", href: "/solutions/temperature-controlled" },
+    { label: "Specialized & Critical Freight", href: "/solutions/specialized-critical-freight" },
     { label: "Cross-Border", href: "/solutions/cross-border" },
+    { label: "Managed Logistics", href: "/solutions/managed-logistics" },
+    { label: "Dedicated / Contract", href: "/solutions/dedicated-contract" },
     { label: "Managed Capacity", href: "/solutions/managed-capacity" },
-    { label: "Project-Specific", href: "/solutions/project-freight" },
   ];
 
   const flattenedByHref = new Map(flattened.map((l) => [l.href, l]));

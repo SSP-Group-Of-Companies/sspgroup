@@ -302,7 +302,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
       href: "/contact?topic=truckload",
     },
     media: {
-      src: "/_optimized/solution/truckload/truckload-Img.png",
+      src: "/_optimized/solution/truckload/truckload-Image.png",
       alt: "Truckload tractor trailer moving on an open North American highway",
     },
     mediaBrief: [

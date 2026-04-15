@@ -2831,7 +2831,7 @@ export const SERVICES: Record<ServiceKey, ServicePageModel> = {
           reason: "To govern recurring regulated lanes through KPI and carrier controls.",
         },
         {
-          label: "Cross-Border & Global",
+          label: "Cross-Border",
           href: "/services/cross-border",
           reason: "For regulated freight programs involving customs and international handoffs.",
         },

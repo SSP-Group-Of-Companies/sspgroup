@@ -296,7 +296,7 @@ const CONTEXTUAL_RELATED_BY_TYPE: Record<
       reason: "To coordinate multi-lane project flows with KPI-led transport governance.",
     },
     {
-      label: "Cross-Border & Global",
+      label: "Cross-Border",
       href: "/services/cross-border",
       reason: "When project cargo spans customs boundaries and global transport handoffs.",
     },
