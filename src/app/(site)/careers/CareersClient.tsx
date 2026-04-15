@@ -517,8 +517,9 @@ export default function CareersClient({
                       scrollToId("jobs");
                     }}
                     className={cn(
-                      "inline-flex h-11 items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold",
+                      "inline-flex h-11 items-center justify-center gap-2 px-5 text-sm font-semibold",
                       "cursor-pointer border border-[color:var(--color-brand-600)] bg-[linear-gradient(180deg,var(--color-brand-500),var(--color-brand-600)_54%,var(--color-brand-700))] text-white shadow-[var(--shadow-action-primary)] transition hover:-translate-y-[2px] hover:brightness-[1.04]",
+                      "site-cta-radius",
                       "focus-ring-surface",
                     )}
                   >
@@ -531,8 +532,9 @@ export default function CareersClient({
                       scrollToId("drive");
                     }}
                     className={cn(
-                      "inline-flex h-11 items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold",
+                      "inline-flex h-11 items-center justify-center gap-2 px-5 text-sm font-semibold",
                       "cursor-pointer border border-white/24 bg-white/12 text-white/94 shadow-sm backdrop-blur transition hover:-translate-y-[2px] hover:border-white/40 hover:bg-white/16 hover:text-white",
+                      "site-cta-radius",
                       "focus-ring-surface",
                     )}
                   >

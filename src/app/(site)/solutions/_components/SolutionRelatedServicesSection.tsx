@@ -1,11 +1,14 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
+import { SITE_SECTION_H2_LIGHT, SITE_SECTION_LEDE_LIGHT } from "@/app/(site)/components/ui/siteSectionHeading";
 import type { SolutionFamilyPageData } from "@/config/solutionPages";
+import { cn } from "@/lib/cn";
 
 type Props = {
   section: SolutionFamilyPageData["relatedSolutions"];
@@ -25,22 +28,21 @@ export function SolutionRelatedServicesSection({
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
     : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
-  const stagger: Variants = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: reduced ? 0 : 0.05,
-        delayChildren: reduced ? 0 : 0.03,
-      },
-    },
-  };
+  const stagger: Variants = reduced
+    ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   return (
     <section
       id="solution-related"
       aria-labelledby={headingId}
       className="relative overflow-hidden border-t border-[color:var(--color-border-light-soft)] bg-[color:var(--color-surface-0-light)]"
-      style={scrollMarginTop ? { scrollMarginTop } : undefined}
+      style={
+        {
+          ...(scrollMarginTop ? { scrollMarginTop } : {}),
+          ["--related-accent" as string]: accent,
+        } as CSSProperties
+      }
     >
       <Container className="site-page-container relative py-16 sm:py-20 lg:py-24">
         <motion.div
@@ -55,16 +57,13 @@ export function SolutionRelatedServicesSection({
             transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut" }}
             className="max-w-[35rem]"
           >
-            <SectionSignalEyebrow label={section.eyebrow} accentColor={accent} />
-            <h2
-              id={headingId}
-              className="mt-4 max-w-[20ch] text-balance text-[1.95rem] font-semibold leading-[1.08] tracking-tight text-[color:var(--color-text-light)] sm:max-w-[22ch] sm:text-[2.2rem] xl:text-[2.35rem]"
-            >
+            <div className="flex justify-start">
+              <SectionSignalEyebrow label={section.eyebrow} accentColor={accent} />
+            </div>
+            <h2 id={headingId} className={SITE_SECTION_H2_LIGHT}>
               {section.title}
             </h2>
-            <p className="mt-5 max-w-[34rem] text-[14.85px] leading-[1.82] text-[color:var(--color-muted-light)] sm:text-[15.2px]">
-              {section.description}
-            </p>
+            <p className={SITE_SECTION_LEDE_LIGHT}>{section.description}</p>
           </motion.div>
 
           <motion.div variants={stagger} className="space-y-2 sm:space-y-3.5">
@@ -82,14 +81,13 @@ export function SolutionRelatedServicesSection({
                 >
                   <Link
                     href={item.href}
-                    className="group block rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-0-light)] sm:rounded-[22px]"
+                    className="group block rounded-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--related-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-0-light)] sm:rounded-[22px]"
                   >
                     <article
-                      className={`grid grid-cols-[1fr_auto] grid-rows-[auto_auto] items-start gap-x-3 gap-y-1.5 rounded-xl px-4 py-3.5 transition-all duration-300 sm:grid-cols-[minmax(170px,0.44fr)_minmax(0,1fr)_auto] sm:grid-rows-none sm:items-center sm:gap-4 sm:rounded-[22px] sm:px-6 sm:py-5 lg:px-7 ${
-                        featured
-                          ? "border-0 overflow-hidden"
-                          : "border"
-                      }`}
+                      className={cn(
+                        "grid grid-cols-[1fr_auto] grid-rows-[auto_auto] items-start gap-x-3 gap-y-1.5 rounded-xl px-4 py-3.5 transition-all duration-300 sm:grid-cols-[minmax(170px,0.44fr)_minmax(0,1fr)_auto] sm:grid-rows-none sm:items-center sm:gap-4 sm:rounded-[22px] sm:px-6 sm:py-5 lg:px-7",
+                        featured ? "border-0 overflow-hidden" : "border",
+                      )}
                       style={
                         featured
                           ? {

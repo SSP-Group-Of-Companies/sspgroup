@@ -24,7 +24,7 @@ export function DedicatedSolutionOverviewSection({
 
   return (
     <section
-      id="solution-mode-overview"
+      id={`solution-${slug}-mode-overview`}
       aria-labelledby={headingId}
       className="border-y border-[color:var(--color-border-light-soft)] bg-[color:var(--color-surface-1-light)]"
       style={scrollMarginTop ? { scrollMarginTop } : undefined}

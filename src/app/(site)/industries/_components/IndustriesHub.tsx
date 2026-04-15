@@ -294,8 +294,9 @@ export function IndustriesHub() {
                   })
                 }
                 className={cn(
-                  "inline-flex h-12 items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 motion-safe:hover:-translate-y-[1px]",
+                  "inline-flex h-12 items-center justify-center px-7 text-sm font-semibold text-white transition-all duration-200 motion-safe:hover:-translate-y-[1px]",
                   "bg-[color:var(--color-ssp-ink-800)] shadow-[0_8px_28px_rgba(13,79,120,0.22)] hover:bg-[color:var(--color-ssp-ink-900)] hover:shadow-[0_12px_36px_rgba(13,79,120,0.32)]",
+                  "site-cta-radius",
                   "focus-ring-surface",
                 )}
               >
@@ -312,7 +313,11 @@ export function IndustriesHub() {
                     label: "View All Programs",
                   })
                 }
-                className="inline-flex h-12 items-center justify-center rounded-xl border border-[color:var(--color-border)] px-7 text-sm font-semibold text-[color:var(--color-text)] transition-all duration-200 hover:border-[color:var(--color-ssp-ink-800)]/30 hover:bg-[color:var(--color-ssp-ink-800)]/[0.04] focus-ring-surface"
+                className={cn(
+                  "inline-flex h-12 items-center justify-center border border-[color:var(--color-border)] px-7 text-sm font-semibold text-[color:var(--color-text)] transition-all duration-200 hover:border-[color:var(--color-ssp-ink-800)]/30 hover:bg-[color:var(--color-ssp-ink-800)]/[0.04]",
+                  "site-cta-radius",
+                  "focus-ring-surface",
+                )}
               >
                 View All Programs
               </Link>
@@ -542,7 +547,8 @@ export function IndustriesHub() {
                       })
                     }
                     className={cn(
-                      "inline-flex h-12 items-center justify-center rounded-lg bg-[color:var(--color-ssp-cyan-500)] px-5 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(16,167,216,0.35)] transition hover:bg-[color:var(--color-ssp-cyan-600)] hover:shadow-[0_10px_28px_rgba(16,167,216,0.45)]",
+                      "inline-flex h-12 items-center justify-center bg-[color:var(--color-ssp-cyan-500)] px-5 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(16,167,216,0.35)] transition hover:bg-[color:var(--color-ssp-cyan-600)] hover:shadow-[0_10px_28px_rgba(16,167,216,0.45)]",
+                      "site-cta-radius",
                       focusRingDark,
                     )}
                   >
@@ -560,7 +566,8 @@ export function IndustriesHub() {
                       })
                     }
                     className={cn(
-                      "inline-flex h-12 items-center justify-center rounded-lg border border-white/24 px-5 text-sm font-semibold text-white/92 transition hover:border-white/40 hover:bg-white/10",
+                      "inline-flex h-12 items-center justify-center border border-white/24 px-5 text-sm font-semibold text-white/92 transition hover:border-white/40 hover:bg-white/10",
+                      "site-cta-radius",
                       focusRingDark,
                     )}
                   >

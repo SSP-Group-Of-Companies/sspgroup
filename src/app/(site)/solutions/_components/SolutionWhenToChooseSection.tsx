@@ -3,18 +3,25 @@
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
-import type { SolutionFamilyPageData } from "@/config/solutionPages";
+import { WhenToChooseIcon, type WhenToChooseIconKey } from "@/app/(site)/solutions/_components/WhenToChooseIcons";
 
-type ServiceUseSectionData = NonNullable<SolutionFamilyPageData["serviceUse"]>;
+export type { WhenToChooseIconKey } from "@/app/(site)/solutions/_components/WhenToChooseIcons";
+
+/** Shared by mode solution `serviceUse` and family `decisionGuide` (same layout + card grid). */
+export type WhenToChooseSectionData = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  steps: readonly { title: string; body: string; footer?: string; iconKey: WhenToChooseIconKey }[];
+};
 
 type Props = {
-  section: ServiceUseSectionData;
+  section: WhenToChooseSectionData;
   accent: string;
   scrollMarginTop?: number;
 };
 
 type CardPresentation = Readonly<{
-  icon: React.ReactNode;
   footer: string;
   dark: boolean;
   showLongLineLeft?: "top" | "bottom";
@@ -31,9 +38,9 @@ const DARK_CARD_BACKGROUND =
   "linear-gradient(168deg, var(--color-ssp-ink-800) 0%, var(--color-company-ink) 100%)";
 const CARD_COUNT = 4;
 
+/** Visual shell only (icons come from each step’s `iconKey`). */
 const CARD_PRESENTATIONS: readonly CardPresentation[] = [
   {
-    icon: <DedicatedCapacityIcon key="cap" />,
     footer: "Capacity signal",
     dark: true,
     showLongLineLeft: "top",
@@ -41,20 +48,17 @@ const CARD_PRESENTATIONS: readonly CardPresentation[] = [
     showConnectorBottom: true,
   },
   {
-    icon: <EquipmentFitIcon key="eq" />,
     footer: "Routing signal",
     dark: false,
     showConnectorBottom: true,
   },
   {
-    icon: <ExecutionControlIcon key="exec" />,
     footer: "Control signal",
     dark: false,
     showLongLineLeft: "bottom",
     showConnectorRight: true,
   },
   {
-    icon: <AlternativeRouteIcon key="alt" />,
     footer: "Better-fit signal",
     dark: false,
   },
@@ -78,15 +82,9 @@ export function SolutionWhenToChooseSection({
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
     : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
-  const stagger: Variants = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: reduced ? 0 : 0.05,
-        delayChildren: reduced ? 0 : 0.03,
-      },
-    },
-  };
+  const stagger: Variants = reduced
+    ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
+    : { hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } } };
 
   return (
     <section
@@ -141,9 +139,7 @@ export function SolutionWhenToChooseSection({
           {/* ── Right: connected 2×2 card grid ── */}
           <div className="relative">
             <div className="sm:hidden">
-              {section.steps.map((step, index) => {
-                const card = CARD_PRESENTATIONS[index];
-
+              {section.steps.map((step) => {
                 return (
                   <motion.article
                     key={step.title}
@@ -168,7 +164,7 @@ export function SolutionWhenToChooseSection({
                             ["--when-icon-color" as string]: `color-mix(in srgb, ${accent} 76%, var(--color-company-ink))`,
                           }}
                         >
-                          {card.icon}
+                          <WhenToChooseIcon name={step.iconKey} />
                         </span>
                       </div>
                     </div>
@@ -266,7 +262,7 @@ export function SolutionWhenToChooseSection({
                             : `color-mix(in srgb, ${accent} 76%, var(--color-company-ink))`,
                         }}
                       >
-                        {card.icon}
+                        <WhenToChooseIcon name={step.iconKey} />
                       </span>
                     </div>
 
@@ -306,7 +302,7 @@ export function SolutionWhenToChooseSection({
                               : "color-mix(in srgb, var(--color-subtle) 82%, white)",
                           }}
                         >
-                          {card.footer}
+                          {step.footer ?? card.footer}
                         </span>
                       </div>
                     </div>
@@ -318,49 +314,5 @@ export function SolutionWhenToChooseSection({
         </motion.div>
       </Container>
     </section>
-  );
-}
-
-/* ────────────────────────────────────────────────────────── */
-/*  Card icons — clean line-style, matching SSP design lang   */
-/* ────────────────────────────────────────────────────────── */
-
-function DedicatedCapacityIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="1" y="3" width="15" height="13" rx="2" />
-      <path d="M16 8h4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1" />
-      <circle cx="5.5" cy="18.5" r="2.5" />
-      <circle cx="18.5" cy="18.5" r="2.5" />
-      <path d="M8 18.5h8" />
-    </svg>
-  );
-}
-
-function EquipmentFitIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-      <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
-    </svg>
-  );
-}
-
-function ExecutionControlIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" />
-      <polyline points="12 6 12 12 16 14" />
-    </svg>
-  );
-}
-
-function AlternativeRouteIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="18" cy="18" r="3" />
-      <circle cx="6" cy="6" r="3" />
-      <path d="M6 21V9a9 9 0 0 0 9 9" />
-    </svg>
   );
 }

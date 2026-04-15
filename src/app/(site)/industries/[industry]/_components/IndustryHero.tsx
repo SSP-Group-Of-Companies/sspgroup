@@ -48,7 +48,7 @@ function FloatingIcons() {
   return (
     <div className="pointer-events-none absolute inset-0 hidden text-white sm:block" aria-hidden>
       <svg
-        className="absolute left-[6%] top-[15%] h-10 w-10 opacity-[0.12] lg:left-[8%] lg:h-12 lg:w-12"
+        className="absolute top-[15%] left-[6%] h-10 w-10 opacity-[0.12] lg:left-[8%] lg:h-12 lg:w-12"
         viewBox="0 0 24 24"
         fill="none"
         stroke={s}
@@ -63,7 +63,7 @@ function FloatingIcons() {
         <circle cx="7" cy="18" r="2" />
       </svg>
       <svg
-        className="absolute right-[7%] top-[12%] h-10 w-10 opacity-[0.12] lg:right-[9%] lg:h-12 lg:w-12"
+        className="absolute top-[12%] right-[7%] h-10 w-10 opacity-[0.12] lg:right-[9%] lg:h-12 lg:w-12"
         viewBox="0 0 24 24"
         fill="none"
         stroke={s}
@@ -76,7 +76,7 @@ function FloatingIcons() {
         <path d="m9 14 2 2 4-4" />
       </svg>
       <svg
-        className="absolute left-[5%] top-[52%] h-9 w-9 -translate-y-1/2 opacity-[0.09] lg:left-[6%] lg:h-11 lg:w-11"
+        className="absolute top-[52%] left-[5%] h-9 w-9 -translate-y-1/2 opacity-[0.09] lg:left-[6%] lg:h-11 lg:w-11"
         viewBox="0 0 24 24"
         fill="none"
         stroke={s}
@@ -88,7 +88,7 @@ function FloatingIcons() {
         <circle cx="12" cy="12" r="3" />
       </svg>
       <svg
-        className="absolute bottom-[16%] right-[6%] h-9 w-9 opacity-[0.10] lg:right-[8%] lg:h-11 lg:w-11"
+        className="absolute right-[6%] bottom-[16%] h-9 w-9 opacity-[0.10] lg:right-[8%] lg:h-11 lg:w-11"
         viewBox="0 0 24 24"
         fill="none"
         stroke={s}
@@ -114,7 +114,7 @@ function FloatingIcons() {
         <path d="m9 12 2 2 4-4" />
       </svg>
       <svg
-        className="absolute right-[4%] top-[48%] h-9 w-9 opacity-[0.08] lg:right-[5%] lg:h-10 lg:w-10"
+        className="absolute top-[48%] right-[4%] h-9 w-9 opacity-[0.08] lg:right-[5%] lg:h-10 lg:w-10"
         viewBox="0 0 24 24"
         fill="none"
         stroke={s}
@@ -157,10 +157,10 @@ function AutomotiveHeroBadge({ accentColor }: { accentColor: string }) {
       <div className="rounded-[18px] border border-white/10 bg-[#10161d]/92 p-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/45">
+            <p className="text-[10px] font-semibold tracking-[0.16em] text-white/45 uppercase">
               Automotive Program
             </p>
-            <p className="mt-1 text-[13px] font-semibold leading-tight text-white">
+            <p className="mt-1 text-[13px] leading-tight font-semibold text-white">
               Enclosed, sequenced, and cross-border freight with named control.
             </p>
           </div>
@@ -169,15 +169,23 @@ function AutomotiveHeroBadge({ accentColor }: { accentColor: string }) {
 
         <div className="mt-4 grid grid-cols-2 gap-2">
           {stats.map((stat) => (
-            <div key={stat.label} className="rounded-xl border border-white/8 bg-white/[0.03] px-2.5 py-2.5">
+            <div
+              key={stat.label}
+              className="rounded-xl border border-white/8 bg-white/[0.03] px-2.5 py-2.5"
+            >
               <p className="text-[11px] font-semibold tracking-tight text-white">{stat.value}</p>
-              <p className="mt-1 text-[9px] uppercase tracking-[0.14em] text-white/40">{stat.label}</p>
+              <p className="mt-1 text-[9px] tracking-[0.14em] text-white/40 uppercase">
+                {stat.label}
+              </p>
             </div>
           ))}
         </div>
 
         <div className="mt-4 rounded-xl border border-white/8 bg-black/10 px-3 py-2.5">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.14em]" style={{ color: accentColor }}>
+          <p
+            className="text-[10px] font-semibold tracking-[0.14em] uppercase"
+            style={{ color: accentColor }}
+          >
             Protection posture
           </p>
           <p className="mt-1 text-[11px] leading-[1.55] text-white/72">
@@ -189,22 +197,16 @@ function AutomotiveHeroBadge({ accentColor }: { accentColor: string }) {
   );
 }
 
-function AutomotiveHeroMedia({
-  accentColor,
-  imageSrc,
-}: {
-  accentColor: string;
-  imageSrc: string;
-}) {
+function AutomotiveHeroMedia({ accentColor, imageSrc }: { accentColor: string; imageSrc: string }) {
   return (
     <div className="relative mx-auto w-full max-w-[43rem]">
       <div
-        className="absolute -right-8 top-10 h-36 w-36 rounded-full blur-3xl"
+        className="absolute top-10 -right-8 h-36 w-36 rounded-full blur-3xl"
         style={{ backgroundColor: `${accentColor}22` }}
         aria-hidden
       />
       <div
-        className="absolute -left-10 bottom-8 h-32 w-32 rounded-full blur-3xl"
+        className="absolute bottom-8 -left-10 h-32 w-32 rounded-full blur-3xl"
         style={{ backgroundColor: `${accentColor}16` }}
         aria-hidden
       />
@@ -223,16 +225,10 @@ function AutomotiveHeroMedia({
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0c1117]/62 via-[#0c1117]/14 to-transparent" />
         </div>
 
-        <div className="pointer-events-none absolute inset-0 rounded-[30px] ring-1 ring-inset ring-white/8" />
+        <div className="pointer-events-none absolute inset-0 rounded-[30px] ring-1 ring-white/8 ring-inset" />
 
-        <div className="absolute left-3 bottom-3 sm:left-6 sm:bottom-6">
+        <div className="absolute bottom-3 left-3 sm:bottom-6 sm:left-6">
           <AutomotiveHeroBadge accentColor={accentColor} />
-        </div>
-
-        <div className="absolute right-3 top-3 sm:right-5 sm:top-5">
-          <div className="rounded-full border border-white/12 bg-black/30 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/78 backdrop-blur-md">
-            Finished vehicle transport
-          </div>
         </div>
       </div>
     </div>
@@ -305,12 +301,12 @@ function ImmersiveHeroMedia({
   return (
     <div className="pointer-events-none absolute inset-0">
       <div
-        className="absolute right-[6%] top-[8%] h-56 w-56 rounded-full blur-[100px]"
+        className="absolute top-[8%] right-[6%] h-56 w-56 rounded-full blur-[100px]"
         style={{ backgroundColor: `${accentColor}0c` }}
         aria-hidden
       />
       <div
-        className="absolute left-[10%] bottom-[14%] h-44 w-44 rounded-full blur-[100px]"
+        className="absolute bottom-[14%] left-[10%] h-44 w-44 rounded-full blur-[100px]"
         style={{ backgroundColor: secondaryOrb ?? `${accentColor}08` }}
         aria-hidden
       />
@@ -318,15 +314,14 @@ function ImmersiveHeroMedia({
       <div
         className="absolute inset-0 overflow-hidden"
         style={{
-          maskImage:
-            "radial-gradient(ellipse 92% 88% at 50% 46%, black 42%, transparent 72%)",
+          maskImage: "radial-gradient(ellipse 92% 88% at 50% 46%, black 42%, transparent 72%)",
           WebkitMaskImage:
             "radial-gradient(ellipse 92% 88% at 50% 46%, black 42%, transparent 72%)",
         }}
       >
         <div className="absolute inset-0">
           <Image
-          src={imageSrc}
+            src={imageSrc}
             alt={alt}
             fill
             priority
@@ -350,10 +345,30 @@ function ImmersiveHeroMedia({
         aria-hidden
       />
 
-      <div className="absolute inset-y-0 left-0 w-[14%] bg-gradient-to-r to-transparent" style={{ backgroundImage: `linear-gradient(to right, ${themeColor}, ${themeColor}99, transparent)` }} />
-      <div className="absolute inset-y-0 right-0 w-[14%] bg-gradient-to-l to-transparent" style={{ backgroundImage: `linear-gradient(to left, ${themeColor}, ${themeColor}99, transparent)` }} />
-      <div className="absolute inset-x-0 top-0 h-24" style={{ backgroundImage: `linear-gradient(to bottom, ${themeColor}, ${themeColor}80, transparent)` }} />
-      <div className="absolute inset-x-0 bottom-0 h-36" style={{ backgroundImage: `linear-gradient(to top, ${themeColor}, ${themeColor}99, transparent)` }} />
+      <div
+        className="absolute inset-y-0 left-0 w-[14%] bg-gradient-to-r to-transparent"
+        style={{
+          backgroundImage: `linear-gradient(to right, ${themeColor}, ${themeColor}99, transparent)`,
+        }}
+      />
+      <div
+        className="absolute inset-y-0 right-0 w-[14%] bg-gradient-to-l to-transparent"
+        style={{
+          backgroundImage: `linear-gradient(to left, ${themeColor}, ${themeColor}99, transparent)`,
+        }}
+      />
+      <div
+        className="absolute inset-x-0 top-0 h-24"
+        style={{
+          backgroundImage: `linear-gradient(to bottom, ${themeColor}, ${themeColor}80, transparent)`,
+        }}
+      />
+      <div
+        className="absolute inset-x-0 bottom-0 h-36"
+        style={{
+          backgroundImage: `linear-gradient(to top, ${themeColor}, ${themeColor}99, transparent)`,
+        }}
+      />
 
       <div
         className="absolute inset-0"
@@ -453,7 +468,7 @@ function CenteredHeroContent({
         <motion.p
           variants={reveal}
           transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
-          className="mt-5 text-[12px] font-semibold uppercase tracking-[0.22em] drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] sm:text-[12px]"
+          className="mt-5 text-[12px] font-semibold tracking-[0.22em] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)] sm:text-[12px]"
           style={{ color: style.valueHeadlineColor }}
         >
           {hero.valueHeadline}
@@ -464,7 +479,7 @@ function CenteredHeroContent({
         id="industry-hero-heading"
         variants={reveal}
         transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-        className="mx-auto mt-4 max-w-4xl text-[2.6rem] font-bold leading-[0.96] tracking-tight text-white sm:text-[3.35rem] lg:text-[4.15rem]"
+        className="mx-auto mt-4 max-w-4xl text-[2.6rem] leading-[0.96] font-bold tracking-tight text-white sm:text-[3.35rem] lg:text-[4.15rem]"
         style={{
           textShadow: `0 2px 16px rgba(0,0,0,0.5), 0 8px 32px rgba(${style.textShadowRgb},0.4)`,
         }}
@@ -484,7 +499,7 @@ function CenteredHeroContent({
         <motion.ul
           variants={reveal}
           transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-          className="mx-auto mt-6 grid max-w-2xl gap-2 sm:grid-cols-3"
+          className="mx-auto mt-6 hidden max-w-2xl gap-2 sm:grid sm:grid-cols-3"
         >
           {heroSignals.map((signal) => (
             <li
@@ -515,7 +530,8 @@ function CenteredHeroContent({
             })
           }
           className={cn(
-            "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold transition-all duration-200 motion-safe:hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
+            "inline-flex h-12 w-full items-center justify-center px-7 text-sm font-semibold transition-all duration-200 hover:shadow-lg motion-safe:hover:-translate-y-[1px] sm:w-auto",
+            "site-cta-radius",
             FOCUS_RING_DARK,
           )}
           style={{
@@ -540,7 +556,8 @@ function CenteredHeroContent({
               })
             }
             className={cn(
-              "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/18 bg-black/18 px-7 text-sm font-semibold text-white/84 backdrop-blur-sm transition-all duration-200 hover:border-white/28 hover:bg-black/24 hover:text-white sm:w-auto",
+              "inline-flex h-12 w-full items-center justify-center border border-white/18 bg-black/18 px-7 text-sm font-semibold text-white/84 backdrop-blur-sm transition-all duration-200 hover:border-white/28 hover:bg-black/24 hover:text-white sm:w-auto",
+              "site-cta-radius",
               FOCUS_RING_DARK,
             )}
           >
@@ -576,12 +593,13 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         {isSplitHero ? (
           <div
-            className="absolute left-0 top-0 h-[min(21rem,54vh)] w-full max-w-4xl opacity-[0.036]"
+            className="absolute top-0 left-0 h-[min(21rem,54vh)] w-full max-w-4xl opacity-[0.036]"
             style={{
               backgroundImage:
                 "linear-gradient(to right, rgba(255,255,255,0.62) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.62) 1px, transparent 1px)",
               backgroundSize: "62px 62px",
-              maskImage: "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+              maskImage:
+                "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
               WebkitMaskImage:
                 "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
             }}
@@ -638,11 +656,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
           initial="hidden"
           animate="show"
           variants={stagger}
-          className={cn(
-            isSplitHero
-              ? "mx-auto max-w-6xl"
-              : "mx-auto max-w-5xl text-center",
-          )}
+          className={cn(isSplitHero ? "mx-auto max-w-6xl" : "mx-auto max-w-5xl text-center")}
         >
           <motion.div
             variants={reveal}
@@ -670,7 +684,6 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
             </Link>
           </motion.div>
 
-
           {isSplitHero ? (
             <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(380px,1.05fr)] lg:gap-12 xl:grid-cols-[minmax(0,0.92fr)_minmax(460px,1.08fr)]">
               <div className="max-w-2xl text-left">
@@ -690,7 +703,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                   <motion.p
                     variants={reveal}
                     transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
-                    className="mt-6 text-[12px] font-semibold uppercase tracking-[0.22em] sm:text-[12px]"
+                    className="mt-6 text-[12px] font-semibold tracking-[0.22em] uppercase sm:text-[12px]"
                     style={{ color: `${accentColor}f0` }}
                   >
                     {hero.valueHeadline}
@@ -701,7 +714,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                   id="industry-hero-heading"
                   variants={reveal}
                   transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-                  className="mt-4 text-[2.8rem] font-bold leading-[0.96] tracking-tight text-white sm:text-[3.6rem] lg:text-[4.6rem]"
+                  className="mt-4 text-[2.8rem] leading-[0.96] font-bold tracking-tight text-white sm:text-[3.6rem] lg:text-[4.6rem]"
                 >
                   {hero.title}
                 </motion.h1>
@@ -717,7 +730,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                 <motion.ul
                   variants={reveal}
                   transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-                  className="mt-6 grid gap-2 sm:grid-cols-2"
+                  className="mt-6 hidden gap-2 sm:grid sm:grid-cols-2"
                 >
                   {heroSignals.map((signal) => (
                     <li
@@ -747,7 +760,8 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                       })
                     }
                     className={cn(
-                      "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 motion-safe:hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
+                      "inline-flex h-12 w-full items-center justify-center px-7 text-sm font-semibold text-white transition-all duration-200 hover:shadow-lg motion-safe:hover:-translate-y-[1px] sm:w-auto",
+                      "site-cta-radius",
                       FOCUS_RING_DARK,
                     )}
                     style={{
@@ -771,7 +785,8 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                         })
                       }
                       className={cn(
-                        "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/15 bg-white/5 px-7 text-sm font-semibold text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/8 hover:text-white sm:w-auto",
+                        "inline-flex h-12 w-full items-center justify-center border border-white/15 bg-white/5 px-7 text-sm font-semibold text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/8 hover:text-white sm:w-auto",
+                        "site-cta-radius",
                         FOCUS_RING_DARK,
                       )}
                     >
@@ -790,7 +805,11 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
             </div>
           ) : isImmersiveCenteredHero && immersiveHeroConfig && immersiveHeroStyle ? (
             <>
-              <ImmersiveHeroMedia accentColor={accentColor} config={immersiveHeroConfig} imageSrc={model.meta.heroImage} />
+              <ImmersiveHeroMedia
+                accentColor={accentColor}
+                config={immersiveHeroConfig}
+                imageSrc={model.meta.heroImage}
+              />
               <CenteredHeroContent
                 hero={hero}
                 industryKey={model.key}
@@ -819,7 +838,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                 id="industry-hero-heading"
                 variants={reveal}
                 transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-                className="mt-6 text-[2.45rem] font-bold leading-[1.02] tracking-tight text-white sm:text-[3.1rem] lg:text-[4rem]"
+                className="mt-6 text-[2.45rem] leading-[1.02] font-bold tracking-tight text-white sm:text-[3.1rem] lg:text-[4rem]"
               >
                 {hero.title}
               </motion.h1>
@@ -861,7 +880,8 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                     })
                   }
                   className={cn(
-                    "inline-flex h-12 w-full items-center justify-center rounded-xl px-7 text-sm font-semibold text-white transition-all duration-200 motion-safe:hover:-translate-y-[1px] hover:shadow-lg sm:w-auto",
+                    "inline-flex h-12 w-full items-center justify-center px-7 text-sm font-semibold text-white transition-all duration-200 hover:shadow-lg motion-safe:hover:-translate-y-[1px] sm:w-auto",
+                    "site-cta-radius",
                     FOCUS_RING_DARK,
                   )}
                   style={{
@@ -885,7 +905,8 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                       })
                     }
                     className={cn(
-                      "inline-flex h-12 w-full items-center justify-center rounded-xl border border-white/15 bg-white/5 px-7 text-sm font-semibold text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/8 hover:text-white sm:w-auto",
+                      "inline-flex h-12 w-full items-center justify-center border border-white/15 bg-white/5 px-7 text-sm font-semibold text-white/80 backdrop-blur-sm transition-all duration-200 hover:border-white/25 hover:bg-white/8 hover:text-white sm:w-auto",
+                      "site-cta-radius",
                       FOCUS_RING_DARK,
                     )}
                   >
@@ -902,7 +923,7 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
             initial="hidden"
             animate="show"
             variants={stagger}
-            className="mx-auto mt-9 grid max-w-4xl gap-3 sm:grid-cols-3"
+            className="mx-auto mt-9 hidden max-w-4xl gap-3 sm:grid sm:grid-cols-3"
           >
             {proofStrip.map((item) => (
               <motion.div
@@ -911,8 +932,12 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
                 transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
                 className="rounded-2xl border border-white/8 bg-black/14 px-4 py-3.5 backdrop-blur-sm"
               >
-                <p className="text-[0.98rem] font-semibold tracking-tight text-white">{item.value}</p>
-                <p className="mt-1 text-[10px] uppercase tracking-[0.16em] text-white/38">{item.label}</p>
+                <p className="text-[0.98rem] font-semibold tracking-tight text-white">
+                  {item.value}
+                </p>
+                <p className="mt-1 text-[10px] tracking-[0.16em] text-white/38 uppercase">
+                  {item.label}
+                </p>
               </motion.div>
             ))}
           </motion.div>

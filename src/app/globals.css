@@ -4,6 +4,10 @@
 @import "../lib/chatbot/styles/chatbot.css";
 @import "tailwindcss";
 
+.site-cta-radius {
+  border-radius: var(--radius-action);
+}
+
 html {
   overflow-x: clip;
   -webkit-text-size-adjust: 100%;

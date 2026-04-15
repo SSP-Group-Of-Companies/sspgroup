@@ -106,9 +106,10 @@ export function SubmitSection({ turnstileRef }: SubmitSectionProps) {
           type="submit"
           disabled={isSubmitting}
           className={cn(
-            "inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl px-6 text-sm font-semibold text-white",
+            "inline-flex h-11 w-full items-center justify-center gap-2 px-6 text-sm font-semibold text-white",
             "bg-[color:var(--color-brand-600)] hover:cursor-pointer hover:bg-[color:var(--color-brand-700)]",
             "shadow-[0_10px_28px_rgba(215,25,32,0.35)] transition focus:ring-2 focus:ring-[color:var(--color-brand-500)]/45 focus:outline-none",
+            "site-cta-radius",
             isSubmitting && "opacity-70",
           )}
         >

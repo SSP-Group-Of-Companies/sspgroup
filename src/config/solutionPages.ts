@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { WhenToChooseIconKey } from "@/app/(site)/solutions/_components/WhenToChooseIcons";
 import { SITE_NAME, toAbsoluteUrl } from "@/lib/seo/site";
 
 export type SolutionHeroImageBrief = {
@@ -49,6 +50,9 @@ export type SolutionPillar = {
   imageSrc?: string;
   imageAlt?: string;
 };
+
+/** `serviceUse.steps` entry for `SolutionWhenToChooseSection` (requires `iconKey`). */
+export type SolutionServiceUseStep = SolutionPillar & { iconKey: WhenToChooseIconKey };
 
 export type SolutionVideoAsset = {
   src: string;
@@ -147,6 +151,7 @@ export type SolutionFamilyPageData = {
   };
   whySsp: {
     eyebrow: string;
+    title: string;
     points: readonly SolutionPillar[];
   };
   howItWorks: {
@@ -168,7 +173,7 @@ export type SolutionFamilyPageData = {
     description: string;
     checklistTitle: string;
     checklist: readonly string[];
-    steps: readonly SolutionPillar[];
+    steps: readonly SolutionServiceUseStep[];
   };
   relatedSolutions: {
     eyebrow: string;
@@ -231,6 +236,7 @@ export type SolutionDetailPageData = {
   freightFit: SolutionFreightFitSectionData;
   whySsp: {
     eyebrow: string;
+    title: string;
     points: readonly SolutionPillar[];
   };
   execution: {
@@ -296,7 +302,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
       href: "/contact?topic=truckload",
     },
     media: {
-      src: "/_optimized/solution/truckload/truckload-Img.png",
+      src: "/_optimized/solution/truckload/truckload-Image.png",
       alt: "Truckload tractor trailer moving on an open North American highway",
     },
     mediaBrief: [
@@ -380,7 +386,8 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Truckload",
+    eyebrow: "Why SSP",
+    title: "For Truckload",
     points: [
       {
         title: "Freight fit is resolved before capacity is assigned",
@@ -553,18 +560,22 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         title: "Dedicated Capacity",
         body: "The shipment needs full-trailer space, cleaner handling control, and a direct operating thread from pickup through delivery.",
+        iconKey: "dedicated-trailer",
       },
       {
         title: "Equipment-Fit Routing",
         body: "The freight points toward the right trailer structure for the cargo, whether that means enclosed van, open-deck, protected deck, heavy-haul, or another specialized truckload configuration.",
+        iconKey: "equipment-clipboard",
       },
       {
         title: "Execution Control",
         body: "Appointments, securement, site access, or delivery coordination create operating pressure that lighter service models are not built to absorb.",
+        iconKey: "clock-control",
       },
       {
         title: "Alternative Routing",
         body: "If the freight is too small for dedicated economics, requires temperature control, or belongs in a cross-border structure, SSP routes the shipment to the better-fit service.",
+        iconKey: "branch-route",
       },
     ],
   },
@@ -767,7 +778,8 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For LTL",
+    eyebrow: "Why SSP",
+    title: "For LTL",
     points: [
       {
         title: "Shipment quality is checked before tender",
@@ -882,18 +894,22 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         title: "Economic Fit",
         body: "The shipment belongs in pooled trailer space because volume, weight, or order pattern does not justify dedicated capacity.",
+        iconKey: "scale-economics",
       },
       {
         title: "Data Discipline",
         body: "Dimensions, weight, commodity detail, packaging profile, and class inputs are known before booking, which protects both rating accuracy and execution.",
+        iconKey: "clipboard-data",
       },
       {
         title: "Site Readiness",
         body: "Pickup and delivery locations can support dock-based handling, or any accessorial requirements are identified early enough to plan the move correctly.",
+        iconKey: "warehouse-dock",
       },
       {
         title: "Rerouting Threshold",
         body: "If the freight grows beyond LTL economics or needs tighter handling, temperature protection, or faster recovery, SSP should move it to the better-fit service before pickup.",
+        iconKey: "branch-route",
       },
     ],
   },
@@ -1152,7 +1168,8 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Dry Van",
+    eyebrow: "Why SSP",
+    title: "For Dry Van",
     points: [
       {
         title: "Equipment fit is qualified before the load is covered",
@@ -1446,7 +1463,8 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Flatbed",
+    eyebrow: "Why SSP",
+    title: "For Flatbed",
     points: [
       {
         title: "Equipment fit and securement logic are resolved before dispatch",
@@ -1740,7 +1758,8 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Step Deck",
+    eyebrow: "Why SSP",
+    title: "For Step Deck",
     points: [
       {
         title: "Height-risk qualification happens before capacity is assigned",
@@ -2034,7 +2053,8 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Conestoga",
+    eyebrow: "Why SSP",
+    title: "For Conestoga",
     points: [
       {
         title: "Protection requirements are qualified before capacity is committed",
@@ -2328,7 +2348,8 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For RGN / Heavy Haul",
+    eyebrow: "Why SSP",
+    title: "For RGN / Heavy Haul",
     points: [
       {
         title: "Route, permit, and equipment logic are qualified before dispatch",
@@ -2582,7 +2603,8 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Temperature-Controlled",
+    eyebrow: "Why SSP",
+    title: "For Temperature-Controlled",
     points: [
       {
         title: "Setpoint and commodity requirements are qualified before dispatch",
@@ -2697,18 +2719,22 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         title: "Thermal Dependence",
         body: "The product can be damaged, rejected, or placed out of specification if transit temperature falls outside the required range.",
+        iconKey: "thermometer-thermal",
       },
       {
         title: "Equipment Readiness",
         body: "Shipment success depends on the correct reefer equipment, pre-load preparation, and loading conditions rather than trailer availability alone.",
+        iconKey: "reefer-ready",
       },
       {
         title: "Monitoring and Response",
         body: "The move requires active operating control around timing, temperature, and exception escalation because passive milestone tracking is not enough.",
+        iconKey: "pulse-monitor",
       },
       {
         title: "Rerouting Threshold",
         body: "If active temperature control is no longer necessary, or another operating structure should lead the move, SSP should reroute before pickup instead of correcting it in transit.",
+        iconKey: "branch-route",
       },
     ],
   },
@@ -2922,7 +2948,8 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Hazmat",
+    eyebrow: "Why SSP",
+    title: "For Hazmat",
     points: [
       {
         title: "Classification and documentation are checked before dispatch",
@@ -3033,18 +3060,22 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         title: "Regulatory Dependence",
         body: "The shipment cannot move legally or safely without the correct transport classification, documentation, and hazard communication.",
+        iconKey: "hazard-diamond",
       },
       {
         title: "Packaging and Communication Discipline",
         body: "Shipment success depends on compliant packaging, markings, labels, and shipping-paper readiness before pickup rather than after-the-fact correction.",
+        iconKey: "package-docs",
       },
       {
         title: "Controlled Handoffs",
         body: "The move requires disciplined coordination across shipper, carrier, and receiver touchpoints because documentation or site failures can stop the shipment.",
+        iconKey: "nodes-handoff",
       },
       {
         title: "Rerouting Threshold",
         body: "If the freight is not regulated as hazardous in transport, or another operating model such as temperature control or cross-border execution should lead the move, SSP should reroute early.",
+        iconKey: "branch-route",
       },
     ],
   },
@@ -3258,7 +3289,8 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Expedited",
+    eyebrow: "Why SSP",
+    title: "For Expedited",
     points: [
       {
         title: "Urgency is qualified before capacity is assigned",
@@ -3369,18 +3401,22 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         title: "Business Consequence",
         body: "Delay creates a production, service, customer, or revenue impact that standard freight timing cannot absorb.",
+        iconKey: "bolt-consequence",
       },
       {
         title: "Route Urgency",
         body: "The shipment needs a tighter route plan, shorter recovery window, or more direct operating path than standard truckload or LTL would normally provide.",
+        iconKey: "route-urgent",
       },
       {
         title: "Active Control",
         body: "The move requires milestone-led communication and active exception handling because passive tracking is not enough for the operating risk.",
+        iconKey: "radar-control",
       },
       {
         title: "Rerouting Threshold",
         body: "If urgency is not the lead requirement, or another service such as cross-border or temperature-controlled should define the move, SSP should reroute before pickup.",
+        iconKey: "branch-route",
       },
     ],
   },
@@ -3588,7 +3624,8 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Specialized Vehicle Transport",
+    eyebrow: "Why SSP",
+    title: "For Specialized Vehicle Transport",
     points: [
       {
         title: "Equipment fit and handling standards are resolved before dispatch",
@@ -3887,7 +3924,8 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Project-Specific Freight",
+    eyebrow: "Why SSP",
+    title: "For Project-Specific Freight",
     points: [
       {
         title: "The move design starts before capacity is booked",
@@ -4197,7 +4235,8 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Managed Capacity",
+    eyebrow: "Why SSP",
+    title: "For Managed Capacity",
     points: [
       {
         title: "Carrier strategy and lane governance are structured together",
@@ -4500,7 +4539,8 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Dedicated / Contract",
+    eyebrow: "Why SSP",
+    title: "For Dedicated / Contract",
     points: [
       {
         title: "Capacity and workflow are designed together",
@@ -4804,7 +4844,8 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
     },
   },
   whySsp: {
-    eyebrow: "Why SSP For Warehousing & Distribution",
+    eyebrow: "Why SSP",
+    title: "For Warehousing & Distribution",
     points: [
       {
         title: "Receiving, storage, and outbound rules are aligned early",

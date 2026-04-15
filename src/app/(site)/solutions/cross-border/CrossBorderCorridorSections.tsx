@@ -211,7 +211,7 @@ export function CorridorHero({
                     })
                   : undefined
               }
-              className={cn("inline-flex h-12 items-center rounded-lg bg-[color:var(--color-corridor-400)] px-6 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(43,74,142,0.3)] transition hover:bg-[color:var(--color-corridor-500)] hover:shadow-[0_10px_28px_rgba(43,74,142,0.4)]", focusRing)}
+              className={cn("inline-flex h-12 items-center bg-[color:var(--color-corridor-400)] px-6 text-sm font-semibold text-white shadow-[0_6px_20px_rgba(43,74,142,0.3)] transition hover:bg-[color:var(--color-corridor-500)] hover:shadow-[0_10px_28px_rgba(43,74,142,0.4)]", "site-cta-radius", focusRing)}
             >
               {primaryCta.label}
             </Link>
@@ -228,7 +228,7 @@ export function CorridorHero({
                     })
                   : undefined
               }
-              className={cn("inline-flex h-12 items-center rounded-lg border border-[color:var(--color-ssp-ink-800)]/20 px-6 text-sm font-medium text-[color:var(--color-ssp-ink-800)] transition hover:border-[color:var(--color-ssp-ink-800)]/40 hover:bg-[color:var(--color-ssp-ink-800)]/5", focusRing)}
+              className={cn("inline-flex h-12 items-center border border-[color:var(--color-ssp-ink-800)]/20 px-6 text-sm font-medium text-[color:var(--color-ssp-ink-800)] transition hover:border-[color:var(--color-ssp-ink-800)]/40 hover:bg-[color:var(--color-ssp-ink-800)]/5", "site-cta-radius", focusRing)}
             >
               {secondaryCta.label}
             </Link>

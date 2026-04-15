@@ -11,24 +11,17 @@ export const safetyCompliancePage = {
     subtitle:
       "Safety is built into planning, handling, documentation, and cross-border execution so freight moves with control.",
   },
-  governance: {
-    title: "Governance built for execution, not optics.",
-    intro:
-      "Enterprise shippers evaluate safety through execution evidence: pre-move control, documentation quality, in-transit discipline, and exception response. SSP runs these controls as one operating system across North American lanes.",
-    domains: [
-      {
-        title: "People governance",
-        body: "Role clarity, operational accountability, and recurring reinforcement of standards at dispatch, planning, and handoff points.",
-      },
-      {
-        title: "Equipment and cargo governance",
-        body: "Readiness checks, securement controls, and shipment-specific handling requirements aligned before dispatch release.",
-      },
-      {
-        title: "Documentation governance",
-        body: "Document integrity, border readiness, and auditable workflow discipline from booking through closeout.",
-      },
-    ],
+  /** Same layout as solution `ModeSolutionOverviewSection` (truckload, solutions hub). */
+  complianceOverview: {
+    eyebrow: "Safety & compliance",
+    title: "Evidence-led controls from booking through closeout—not policy slides after the fact.",
+    description:
+      "In freight logistics, safety and compliance only hold weight when they show up in dispatch readiness, driver and hours discipline, equipment checks, regulated commodity handling, border documentation, and how exceptions are owned while cargo is in motion. SSP aligns each shipment to lane-appropriate US, Canadian, and Mexican expectations—with traceable controls from intake through delivery.",
+    video: {
+      src: "/_optimized/company/safety&ComplianceVideo.mp4",
+      posterSrc: "/_optimized/company/safety&compliancePoster.jpg",
+      title: "SSP safety and compliance in practice",
+    },
   },
   operatingApproach: {
     title: "How SSP controls risk from planning to closeout.",

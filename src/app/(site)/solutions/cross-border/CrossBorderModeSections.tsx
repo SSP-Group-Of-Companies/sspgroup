@@ -263,7 +263,7 @@ export function ModeHero({
                       })
                     : undefined
                 }
-                className={cn("inline-flex h-12 items-center rounded-lg px-6 text-sm font-semibold text-white transition", styles.heroPrimary, styles.focusRingDark)}
+                className={cn("inline-flex h-12 items-center px-6 text-sm font-semibold text-white transition", "site-cta-radius", styles.heroPrimary, styles.focusRingDark)}
               >
                 {primaryCta.label}
               </Link>
@@ -280,7 +280,7 @@ export function ModeHero({
                       })
                     : undefined
                 }
-                className={cn("inline-flex h-12 items-center rounded-lg border px-6 text-sm font-medium transition", styles.heroSecondary, styles.focusRingDark)}
+                className={cn("inline-flex h-12 items-center border px-6 text-sm font-medium transition", "site-cta-radius", styles.heroSecondary, styles.focusRingDark)}
               >
                 {secondaryCta.label}
               </Link>

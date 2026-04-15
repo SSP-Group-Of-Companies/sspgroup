@@ -94,7 +94,7 @@ export const SOLUTIONS_DATA = {
       */
     ],
   },
-  "Specialized & Time-Sensitive": {
+  "Specialized & Critical Freight": {
     description: "Expert handling for urgent and specialized freight requirements.",
     image: "/_optimized/solutions/card-specialized-vehicleImg.webp",
     layout: "four",
@@ -138,7 +138,7 @@ export const SOLUTIONS_DATA = {
       },
     ],
   },
-  "Cross-Border & Global": {
+  "Cross-Border": {
     description: "Seamless international shipping across borders and oceans.",
     image: "/_optimized/hero/hero-poster.webp",
     layout: "four",
@@ -182,20 +182,20 @@ export const SOLUTIONS_DATA = {
       },
     ],
   },
-  "Logistics & Value-Added": {
+  "Managed Logistics": {
     description: "Comprehensive logistics solutions beyond transportation.",
     image: "/_optimized/solutions/solutions-logistics.webp",
     layout: "four",
     theme: "dark",
     cards: [
       {
-        analyticsId: "warehousing_distribution",
-        label: "Warehousing & Distribution",
-        href: "/solutions/warehousing-distribution",
-        description: "Strategic warehousing and distribution networks.",
-        icon: "warehouse",
-        bestFor: "Inventory management",
-        image: "/_optimized/solutions/card-warehousing-distribution.webp",
+        analyticsId: "dedicated_contract_logistics",
+        label: "Dedicated / Contract Logistics",
+        href: "/solutions/dedicated-contract",
+        description: "Custom logistics programs tailored to your needs.",
+        icon: "briefcase",
+        bestFor: "Long-term partnerships",
+        image: "/_optimized/solutions/card-dedicated-contract.webp",
       },
       {
         analyticsId: "managed_capacity",
@@ -207,13 +207,13 @@ export const SOLUTIONS_DATA = {
         image: "/_optimized/solutions/card-managed-capacity.webp",
       },
       {
-        analyticsId: "dedicated_contract_logistics",
-        label: "Dedicated / Contract Logistics",
-        href: "/solutions/dedicated-contract",
-        description: "Custom logistics programs tailored to your needs.",
-        icon: "briefcase",
-        bestFor: "Long-term partnerships",
-        image: "/_optimized/solutions/card-dedicated-contract.webp",
+        analyticsId: "warehousing_distribution",
+        label: "Warehousing & Distribution",
+        href: "/solutions/warehousing-distribution",
+        description: "Strategic warehousing and distribution networks.",
+        icon: "warehouse",
+        bestFor: "Inventory management",
+        image: "/_optimized/solutions/card-warehousing-distribution.webp",
       },
       {
         analyticsId: "project_oversize_programs",

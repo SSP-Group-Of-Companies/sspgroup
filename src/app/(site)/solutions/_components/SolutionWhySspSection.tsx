@@ -249,7 +249,7 @@ export function SolutionWhySspSection({
 
       <Container className="site-page-container relative py-16 sm:py-22 lg:py-28">
         <h2 id={headingId} className="sr-only">
-          {section.eyebrow}
+          {section.title}
         </h2>
         <motion.div
           initial="hidden"
@@ -259,10 +259,18 @@ export function SolutionWhySspSection({
           <motion.div
             variants={fadeUp}
             transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut" }}
-            className="flex justify-center"
+            className="flex justify-start sm:justify-center"
           >
             <SectionSignalEyebrow label={section.eyebrow} accentColor={accent} />
           </motion.div>
+
+          <motion.h2
+            variants={fadeUp}
+            transition={{ duration: reduced ? 0 : 0.35, ease: "easeOut", delay: reduced ? 0 : 0.04 }}
+            className="mt-4 text-left text-balance text-[1.95rem] font-semibold leading-[1.08] tracking-tight text-[color:var(--color-text-light)] sm:hidden"
+          >
+            {section.title}
+          </motion.h2>
 
           {/* ── Mobile: medallions on road, quiet premium cards ── */}
           <div className="mt-12 sm:hidden">
