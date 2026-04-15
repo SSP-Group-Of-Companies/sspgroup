@@ -29,6 +29,18 @@ export function SiteHeader() {
   const mobileSearchTriggerRef = React.useRef<HTMLButtonElement | null>(null);
   const desktopSearchTriggerRef = React.useRef<HTMLButtonElement | null>(null);
 
+  const toggleDesktopSearch = React.useCallback((location: string) => {
+    const next = desktopSearchVisible ? !desktopSearchOpen : true;
+    setDesktopSearchVisible(true);
+    setDesktopSearchOpen(next);
+    trackCtaClick({
+      ctaId: next ? "header_utility_search_open" : "header_utility_search_close",
+      location,
+      destination: "site_search_mode",
+      label: next ? "Open site search" : "Close site search",
+    });
+  }, [desktopSearchOpen, desktopSearchVisible]);
+
   React.useLayoutEffect(() => {
     let rafId: number | null = null;
     const desktopMq = window.matchMedia(NAV_DESKTOP_MEDIA_QUERY);
@@ -189,19 +201,9 @@ export function SiteHeader() {
 
               <div className="ml-auto hidden items-center lg:flex">
                 <button
-                  ref={desktopSearchTriggerRef}
+                  ref={isCondensed ? undefined : desktopSearchTriggerRef}
                   type="button"
-                  onClick={() => {
-                    const next = desktopSearchVisible ? !desktopSearchOpen : true;
-                    setDesktopSearchVisible(true);
-                    setDesktopSearchOpen(next);
-                    trackCtaClick({
-                      ctaId: next ? "header_utility_search_open" : "header_utility_search_close",
-                      location: "site_header:utility_strip",
-                      destination: "site_search_mode",
-                      label: next ? "Open site search" : "Close site search",
-                    });
-                  }}
+                  onClick={() => toggleDesktopSearch("site_header:utility_strip")}
                   className={cn(
                     "hidden h-8 w-8 items-center justify-center rounded-full text-[color:var(--color-utility-text)] transition hover:bg-white/15 lg:inline-flex",
                     focusRing,
@@ -244,7 +246,13 @@ export function SiteHeader() {
 
           {/* Desktop nav / desktop search mode */}
           <div className={cn("min-w-0 flex-1", desktopSearchVisible && "hidden")}>
-            <DesktopNav />
+            <DesktopNav
+              condensedDesktopSearch={isCondensed && !desktopSearchVisible}
+              desktopSearchVisible={desktopSearchVisible}
+              desktopSearchOpen={desktopSearchOpen}
+              onDesktopSearchToggle={toggleDesktopSearch}
+              desktopSearchTriggerRef={desktopSearchTriggerRef}
+            />
           </div>
           {desktopSearchVisible ? (
             <HeaderSearchMode

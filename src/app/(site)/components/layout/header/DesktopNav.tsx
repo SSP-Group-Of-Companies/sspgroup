@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
 import { trackCtaClick } from "@/lib/analytics/cta";
 import { NAV } from "@/config/navigation";
 import {
@@ -27,7 +27,22 @@ function navId(label: string) {
   return label.toLowerCase().replace(/[^\w]+/g, "_");
 }
 
-export function DesktopNav() {
+type DesktopNavProps = {
+  /** When the utility strip is scrolled away on desktop, show search beside Contact. */
+  condensedDesktopSearch?: boolean;
+  desktopSearchVisible?: boolean;
+  desktopSearchOpen?: boolean;
+  onDesktopSearchToggle?: (location: string) => void;
+  desktopSearchTriggerRef?: React.RefObject<HTMLButtonElement | null>;
+};
+
+export function DesktopNav({
+  condensedDesktopSearch = false,
+  desktopSearchVisible = false,
+  desktopSearchOpen = false,
+  onDesktopSearchToggle,
+  desktopSearchTriggerRef,
+}: DesktopNavProps) {
   const [activeKey, setActiveKey] = React.useState<HeaderDropdownKey | null>(null);
   const [dropdownTop, setDropdownTop] = React.useState<number | null>(null);
   const navRef = React.useRef<HTMLElement | null>(null);
@@ -206,6 +221,25 @@ export function DesktopNav() {
             </Link>
           </li>
         ))}
+
+        {condensedDesktopSearch && onDesktopSearchToggle ? (
+          <li className="flex h-full items-center">
+            <button
+              ref={desktopSearchTriggerRef}
+              type="button"
+              onClick={() => onDesktopSearchToggle("nav_desktop:primary_search")}
+              className={cn(
+                "inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition",
+                "text-[color:var(--color-nav-text)] hover:bg-[color:var(--color-nav-hover)]",
+                focusRingNav,
+              )}
+              aria-expanded={desktopSearchVisible && desktopSearchOpen}
+              aria-label="Search site"
+            >
+              <Search className="h-4 w-4" aria-hidden />
+            </button>
+          </li>
+        ) : null}
       </ul>
 
       <AnimatePresence>
