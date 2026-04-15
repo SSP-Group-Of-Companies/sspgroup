@@ -103,12 +103,11 @@ export function SiteHeader() {
       <div
         className={cn(
           "grid overflow-hidden border-b border-white/12 bg-[color:var(--color-utility-bg)] text-[color:var(--color-utility-text)] motion-reduce:transition-none",
+          "grid-rows-[1fr] opacity-100",
           scrollStateReady
             ? "transition-[grid-template-rows,opacity,border-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]"
             : "transition-none",
-          isCondensed
-            ? "grid-rows-[0fr] border-transparent opacity-0"
-            : "grid-rows-[1fr] opacity-100",
+          isCondensed && "lg:grid-rows-[0fr] lg:border-transparent lg:opacity-0",
         )}
       >
         <div className="min-h-0 overflow-hidden">
@@ -116,10 +115,11 @@ export function SiteHeader() {
             <div
               className={cn(
                 "flex min-h-11 items-center justify-between gap-4 py-2 motion-reduce:transition-none",
+                "translate-y-0",
                 scrollStateReady
                   ? "transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]"
                   : "transition-none",
-                isCondensed ? "-translate-y-2" : "translate-y-0",
+                isCondensed && "lg:-translate-y-2",
               )}
             >
               <div className="hidden min-w-0 items-center gap-5 text-xs tracking-wide text-[color:var(--color-utility-text)]/90 lg:flex">

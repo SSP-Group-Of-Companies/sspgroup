@@ -27,9 +27,15 @@ export function lockViewportScroll() {
   const root = document.documentElement;
   const body = document.body;
   const header = getSiteHeaderElement();
+  const scrollY = window.scrollY;
   const previous = {
     rootOverflow: root.style.overflow,
     rootOverscrollBehavior: root.style.overscrollBehavior,
+    bodyPosition: body.style.position,
+    bodyTop: body.style.top,
+    bodyLeft: body.style.left,
+    bodyRight: body.style.right,
+    bodyWidth: body.style.width,
     bodyOverflow: body.style.overflow,
     bodyPaddingRight: body.style.paddingRight,
     bodyTouchAction: body.style.touchAction,
@@ -43,6 +49,11 @@ export function lockViewportScroll() {
 
   root.style.overflow = "hidden";
   root.style.overscrollBehavior = "none";
+  body.style.position = "fixed";
+  body.style.top = `-${scrollY}px`;
+  body.style.left = "0";
+  body.style.right = "0";
+  body.style.width = "100%";
   body.style.overflow = "hidden";
   body.style.touchAction = "none";
 
@@ -61,6 +72,11 @@ export function lockViewportScroll() {
   return () => {
     root.style.overflow = previous.rootOverflow;
     root.style.overscrollBehavior = previous.rootOverscrollBehavior;
+    body.style.position = previous.bodyPosition;
+    body.style.top = previous.bodyTop;
+    body.style.left = previous.bodyLeft;
+    body.style.right = previous.bodyRight;
+    body.style.width = previous.bodyWidth;
     body.style.overflow = previous.bodyOverflow;
     body.style.paddingRight = previous.bodyPaddingRight;
     body.style.touchAction = previous.bodyTouchAction;
@@ -71,5 +87,6 @@ export function lockViewportScroll() {
       header.style.right = previous.headerRight;
       header.style.width = previous.headerWidth;
     }
+    window.scrollTo(0, scrollY);
   };
 }
