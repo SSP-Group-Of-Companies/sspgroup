@@ -275,6 +275,43 @@
   --shadow-insights-sidebar-cta: 0 2px 0 rgba(0, 0, 0, 0.22), 0 20px 56px rgba(0, 0, 0, 0.2);
 
   /* ═══════════════════════════════════════════════════════════════════════
+     HOME PAGE — Hero video veil & CTA (flagship; tune without touching TSX)
+     Depends on: --color-ssp-ink-900, --color-company-ink, --color-ssp-cyan-500,
+                 --color-brand-500/600/700, --shadow-action-primary
+     ═══════════════════════════════════════════════════════════════════════ */
+  --color-home-hero-veil-film: color-mix(in srgb, var(--color-ssp-ink-900) 20%, transparent);
+  --color-home-hero-veil-start: color-mix(in srgb, var(--color-company-ink) 93%, var(--color-ssp-cyan-500) 7%);
+  --color-home-hero-veil-mid: color-mix(in srgb, var(--color-company-ink) 52%, transparent);
+  --color-home-hero-veil-open: rgba(6, 18, 30, 0.22);
+  --gradient-home-hero-readability: linear-gradient(
+    105deg,
+    var(--color-home-hero-veil-start) 0%,
+    var(--color-home-hero-veil-mid) 48%,
+    var(--color-home-hero-veil-open) 100%
+  );
+
+  --color-home-hero-veil-vertical-start: rgba(11, 62, 94, 0.07);
+  --color-home-hero-veil-vertical-mid: rgba(8, 26, 43, 0.26);
+  --color-home-hero-veil-vertical-end: rgba(4, 12, 22, 0.5);
+  --gradient-home-hero-vertical: linear-gradient(
+    180deg,
+    var(--color-home-hero-veil-vertical-start) 0%,
+    var(--color-home-hero-veil-vertical-mid) 52%,
+    var(--color-home-hero-veil-vertical-end) 100%
+  );
+
+  --color-home-hero-glow-cyan: color-mix(in srgb, var(--color-ssp-cyan-500) 10%, transparent);
+  --color-home-hero-glow-brand: color-mix(in srgb, var(--color-brand-600) 10%, transparent);
+
+  --gradient-home-hero-primary-cta: linear-gradient(
+    180deg,
+    var(--color-brand-500) 0%,
+    var(--color-brand-600) 52%,
+    var(--color-brand-700) 100%
+  );
+  --shadow-home-hero-primary-cta: var(--shadow-action-primary), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+
+  /* ═══════════════════════════════════════════════════════════════════════
      9. AUDIENCE SECTION
      ═══════════════════════════════════════════════════════════════════════ */
   --color-audience-bg: #f5f4f2;
