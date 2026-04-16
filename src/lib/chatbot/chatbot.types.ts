@@ -7,7 +7,7 @@ export type BotIntentId =
   | "SOLUTIONS"
   | "INDUSTRIES"
   | "CAREERS"
-  | "WHY_NPT"
+  | "WHY_SSP"
   | "COMPANY"
   | "RESOURCES_GUIDES"
   | "RESOURCES_FAQS"
@@ -60,7 +60,7 @@ export type ActionProviderShape = {
   showContact: () => void;
   showIndustries: () => void;
   showCareers: () => void;
-  showWhyNpt: () => void;
+  showWhySsp: () => void;
 
   suggestNavOptions: (userText: string, opts?: { limit?: number }) => boolean;
   suggestNavPage: (labelHint: string, fallbackHref: string, description?: string) => void;

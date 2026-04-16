@@ -12,7 +12,12 @@ import MessageParser from "@/lib/chatbot/MessageParser";
 import { makeActionProvider } from "@/lib/chatbot/ActionProvider";
 import { useChatActions } from "@/lib/chatbot/useChatActions";
 
-const TOOLTIP_KEY = "npt_chatbot_tooltip_dismissed";
+const TOOLTIP_KEY = "ssp_chatbot_tooltip_dismissed";
+/** When set, the launcher ping/dot is hidden — user has opened the chat at least once. */
+const LAUNCHER_NOTIFICATION_KEY = "ssp_chatbot_launcher_notification_dismissed";
+
+/** Matches Tailwind `md:` — layout/tooltip/dot differ on small screens. */
+const MOBILE_MEDIA_QUERY = "(max-width: 767px)";
 
 const PANEL_ANIMATION_MS = 480;
 const LAUNCHER_ANIMATION_MS = 100;
@@ -23,28 +28,60 @@ export default function GuidedChatbot() {
 
   const [open, setOpen] = React.useState(false);
   const [closing, setClosing] = React.useState(false);
+  const [opening, setOpening] = React.useState(false);
+  /** Once true, the chat widget stays mounted (off-screen when closed) so messages survive close/reopen until a full page load. */
+  const [chatSessionActive, setChatSessionActive] = React.useState(false);
   const [showTooltip, setShowTooltip] = React.useState(false);
-  const [closingBodyHeight, setClosingBodyHeight] = React.useState<number>(420);
   const [showLauncher, setShowLauncher] = React.useState(true);
   const [launcherVisible, setLauncherVisible] = React.useState(true);
+  /** False until client reads storage; then true only if the user has never opened the chat. */
+  const [showLauncherNotification, setShowLauncherNotification] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
 
   const panelRef = React.useRef<HTMLDivElement | null>(null);
   const bodyRef = React.useRef<HTMLDivElement | null>(null);
   const closeTimerRef = React.useRef<number | null>(null);
+  const openTimerRef = React.useRef<number | null>(null);
   const launcherShowTimerRef = React.useRef<number | null>(null);
   const launcherEnterTimerRef = React.useRef<number | null>(null);
 
   React.useEffect(() => {
+    const mq = window.matchMedia(MOBILE_MEDIA_QUERY);
+    function syncMobile() {
+      setIsMobile(mq.matches);
+    }
+    syncMobile();
+    mq.addEventListener("change", syncMobile);
+    return () => mq.removeEventListener("change", syncMobile);
+  }, []);
+
+  React.useEffect(() => {
+    if (isMobile) {
+      setShowTooltip(false);
+      return;
+    }
+
     const dismissed = typeof window !== "undefined" && sessionStorage.getItem(TOOLTIP_KEY) === "1";
     if (dismissed) return;
 
-    const t = window.setTimeout(() => {
+    let dismissTimer: number | null = null;
+    const showTimer = window.setTimeout(() => {
       setShowTooltip(true);
-      const t2 = window.setTimeout(() => setShowTooltip(false), 7000);
-      return () => window.clearTimeout(t2);
+      dismissTimer = window.setTimeout(() => setShowTooltip(false), 7000);
     }, 1800);
 
-    return () => window.clearTimeout(t);
+    return () => {
+      window.clearTimeout(showTimer);
+      if (dismissTimer) window.clearTimeout(dismissTimer);
+    };
+  }, [isMobile]);
+
+  React.useEffect(() => {
+    try {
+      setShowLauncherNotification(localStorage.getItem(LAUNCHER_NOTIFICATION_KEY) !== "1");
+    } catch {
+      setShowLauncherNotification(true);
+    }
   }, []);
 
   React.useEffect(() => {
@@ -81,9 +118,22 @@ export default function GuidedChatbot() {
     return () => window.removeEventListener("mousedown", onMouseDown);
   }, [open, closing]);
 
+  const showPanel = open || closing || opening;
+  const fullScreenMobile = isMobile && showPanel;
+
+  React.useEffect(() => {
+    if (!isMobile || !showPanel) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [isMobile, showPanel]);
+
   React.useEffect(() => {
     return () => {
       if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+      if (openTimerRef.current) window.clearTimeout(openTimerRef.current);
       if (launcherShowTimerRef.current) window.clearTimeout(launcherShowTimerRef.current);
       if (launcherEnterTimerRef.current) window.clearTimeout(launcherEnterTimerRef.current);
     };
@@ -128,26 +178,45 @@ export default function GuidedChatbot() {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
+    if (openTimerRef.current) {
+      window.clearTimeout(openTimerRef.current);
+      openTimerRef.current = null;
+    }
 
+    setChatSessionActive(true);
     hideLauncherImmediately();
     setClosing(false);
-    setOpen(true);
+    if (isMobile && !chatSessionActive && !open) {
+      setOpen(false);
+      setOpening(true);
+      openTimerRef.current = window.setTimeout(() => {
+        setOpen(true);
+        setOpening(false);
+        openTimerRef.current = null;
+      }, 16);
+    } else {
+      setOpening(false);
+      setOpen(true);
+    }
     setShowTooltip(false);
+    setShowLauncherNotification(false);
 
     try {
       sessionStorage.setItem(TOOLTIP_KEY, "1");
+      localStorage.setItem(LAUNCHER_NOTIFICATION_KEY, "1");
     } catch {
       // Ignore
     }
   }
 
   function closeChat() {
-    if (!open || closing) return;
+    if ((!open && !opening) || closing) return;
 
-    const measuredHeight = bodyRef.current?.getBoundingClientRect().height;
-    if (measuredHeight && Number.isFinite(measuredHeight)) {
-      setClosingBodyHeight(Math.ceil(measuredHeight));
+    if (openTimerRef.current) {
+      window.clearTimeout(openTimerRef.current);
+      openTimerRef.current = null;
     }
+    setOpening(false);
 
     setClosing(true);
 
@@ -184,74 +253,107 @@ export default function GuidedChatbot() {
     [pageActionsWithAutoClose],
   );
 
-  const showPanel = open || closing;
   const panelEntering = open && !closing;
-  const showLiveBody = open && !closing;
 
   return (
-    <div className="fixed right-5 bottom-5 z-50">
-      {showPanel && (
+    <div
+      className={[
+        fullScreenMobile
+          ? "fixed inset-0 flex flex-col"
+          : "fixed right-4 bottom-4 md:right-5 md:bottom-5",
+        "z-[10000]",
+      ].join(" ")}
+    >
+      {chatSessionActive && (
         <div
           ref={panelRef}
-          className={[
-            "absolute right-0 bottom-0 w-[360px] max-w-[92vw] overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl",
-            "origin-bottom-right transition-all",
-            panelEntering
-              ? "pointer-events-auto visible translate-y-0 scale-100 opacity-100"
-              : "pointer-events-none visible translate-y-3 scale-[0.975] opacity-0",
-          ].join(" ")}
-          style={{
-            transitionDuration: `${PANEL_ANIMATION_MS}ms`,
-            transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
-            willChange: "transform, opacity",
-          }}
+          className={
+            showPanel
+              ? fullScreenMobile
+                ? [
+                    "border-ssp-ink-900/10 absolute inset-0 flex h-full min-h-0 w-full flex-col overflow-hidden rounded-none border bg-white",
+                    "shadow-none",
+                    "origin-bottom transition-all",
+                    panelEntering
+                      ? "pointer-events-auto visible translate-y-0 opacity-100"
+                      : "pointer-events-none visible translate-y-2 opacity-0",
+                  ].join(" ")
+                : [
+                    "border-ssp-ink-900/10 absolute right-0 bottom-0 w-[360px] max-w-[92vw] overflow-hidden rounded-2xl border bg-white",
+                    "shadow-[0_25px_50px_-12px_rgba(11,62,94,0.28),0_0_0_1px_rgba(16,167,216,0.06)_inset]",
+                    "origin-bottom-right transition-all",
+                    panelEntering
+                      ? "pointer-events-auto visible translate-y-0 scale-100 opacity-100"
+                      : "pointer-events-none visible translate-y-3 scale-[0.975] opacity-0",
+                  ].join(" ")
+              : [
+                  "pointer-events-none invisible fixed top-0 -left-[10000px] z-[-1] w-[360px] max-w-[92vw] overflow-hidden opacity-0",
+                ].join(" ")
+          }
+          style={
+            showPanel
+              ? {
+                  transitionDuration: `${PANEL_ANIMATION_MS}ms`,
+                  transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+                  willChange: "transform, opacity",
+                }
+              : undefined
+          }
           role="dialog"
           aria-label="Chatbot"
-          aria-hidden={!panelEntering}
+          aria-hidden={!showPanel || !panelEntering}
         >
-          <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
-            <div className="flex items-center gap-2">
-              <span
-                className="relative inline-flex h-8 w-8 shrink-0 items-center justify-center"
-                aria-hidden="true"
-              >
-                <Image
-                  src="/_optimized/brand/SSPlogo.png"
-                  alt="NPT"
-                  fill
-                  sizes="32px"
-                  className="object-contain"
-                />
-              </span>
-              <div className="text-sm font-semibold text-gray-900">NPT Assistant</div>
-            </div>
-
-            <button
-              type="button"
-              onClick={closeChat}
-              className="rounded-md p-2 text-gray-600 hover:cursor-pointer hover:bg-gray-100"
-              aria-label="Close chat"
-            >
-              <X size={18} />
-            </button>
-          </div>
-
-          {showLiveBody ? (
-            <div ref={bodyRef} className="npt-chatbot">
-              <Chatbot
-                config={botConfig as never}
-                messageParser={MessageParser as never}
-                actionProvider={ActionProvider as never}
-                placeholderText="Ask about quotes, tracking, services, FAQs, or support…"
-              />
-            </div>
-          ) : (
+          {showPanel && (
             <div
-              aria-hidden="true"
-              className="bg-white"
-              style={{ height: `${closingBodyHeight}px` }}
-            />
+              className={[
+                "border-ssp-ink-900/10 via-ocean-50/40 flex shrink-0 items-center justify-between border-b bg-gradient-to-r from-white to-white px-4 py-3",
+                fullScreenMobile ? "pt-[max(0.75rem,env(safe-area-inset-top))]" : "",
+              ].join(" ")}
+            >
+              <div className="flex items-center gap-2.5">
+                <span
+                  className="bg-ocean-50/80 ring-ssp-cyan-500/20 relative inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full p-0.5 ring-1"
+                  aria-hidden="true"
+                >
+                  <Image
+                    src="/_optimized/brand/SSPlogo.png"
+                    alt="SSP Group"
+                    fill
+                    sizes="32px"
+                    className="object-contain"
+                  />
+                </span>
+                <div className="text-ssp-ink-900 text-sm font-semibold tracking-tight">
+                  SSP Assistant
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={closeChat}
+                className="text-ssp-ink-800/70 hover:bg-ocean-50 hover:text-ssp-ink-900 rounded-xl p-2 transition-colors hover:cursor-pointer"
+                aria-label="Close chat"
+              >
+                <X size={18} />
+              </button>
+            </div>
           )}
+
+          <div
+            ref={bodyRef}
+            className={[
+              "ssp-chatbot",
+              fullScreenMobile ? "ssp-chatbot--mobile-full min-h-0 flex-1" : "",
+            ].join(" ")}
+          >
+            <Chatbot
+              config={botConfig as never}
+              messageParser={MessageParser as never}
+              actionProvider={ActionProvider as never}
+              placeholderText="Ask about quotes, tracking, solutions, FAQs, lanes, or support…"
+              validator={(message: string) => message.trim().length > 0}
+            />
+          </div>
         </div>
       )}
 
@@ -271,26 +373,32 @@ export default function GuidedChatbot() {
           }}
           aria-hidden={!launcherVisible}
         >
-          {showTooltip && (
-            <div className="absolute right-0 bottom-16 w-[260px]">
-              <div className="relative rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-xl">
+          {showTooltip && !isMobile && (
+            <div className="absolute right-0 bottom-[53px] w-[260px] md:bottom-[61px]">
+              <div
+                className="border-ssp-ink-900/10 relative overflow-visible rounded-2xl border px-4 py-3 shadow-[0_20px_40px_-12px_rgba(11,62,94,0.25)] backdrop-blur-md"
+                style={{
+                  background:
+                    "linear-gradient(180deg, color-mix(in srgb, var(--color-surface-1) 96%, #fff) 0%, color-mix(in srgb, var(--color-ocean-50) 24%, var(--color-surface-1)) 100%)",
+                }}
+              >
                 <button
                   type="button"
                   onClick={dismissTooltip}
-                  className="absolute top-2 right-2 rounded-md p-1 text-gray-500 hover:bg-gray-100"
+                  className="text-ssp-ink-800/55 hover:bg-ocean-50 hover:text-ssp-ink-900 absolute top-2 right-2 rounded-lg p-1 transition-colors"
                   aria-label="Dismiss tip"
                 >
                   <X size={14} />
                 </button>
 
                 <div className="flex items-start gap-3">
-                  <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gray-900 text-white">
+                  <span className="from-ssp-cyan-600 to-utility-bg text-utility-text mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br shadow-md ring-1 ring-white/20">
                     <Sparkles size={16} />
                   </span>
 
                   <div className="text-sm">
-                    <div className="font-semibold text-gray-900">Hi 👋</div>
-                    <div className="mt-0.5 text-gray-600">
+                    <div className="text-ssp-ink-900 font-semibold">Hi 👋</div>
+                    <div className="mt-0.5 text-[color:var(--color-muted-light)]">
                       Need help with a quote, tracking, FAQs, or finding the right page?
                     </div>
 
@@ -298,14 +406,14 @@ export default function GuidedChatbot() {
                       <button
                         type="button"
                         onClick={openChat}
-                        className="rounded-full bg-gray-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-gray-800"
+                        className="from-ssp-cyan-600 to-utility-bg text-utility-text rounded-full bg-gradient-to-r px-3 py-1.5 text-xs font-semibold shadow-md transition hover:brightness-105"
                       >
                         Open chat
                       </button>
                       <button
                         type="button"
                         onClick={dismissTooltip}
-                        className="rounded-full border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+                        className="border-ssp-ink-900/12 text-ssp-ink-900 hover:bg-ocean-50 rounded-full border bg-white px-3 py-1.5 text-xs font-semibold transition"
                       >
                         Not now
                       </button>
@@ -313,7 +421,20 @@ export default function GuidedChatbot() {
                   </div>
                 </div>
 
-                <div className="absolute right-6 -bottom-2 h-4 w-4 rotate-45 border-r border-b border-gray-200 bg-white" />
+                <div
+                  className="pointer-events-none absolute top-full right-[calc(1.5rem-7px)] z-[1] mt-[-3px] h-[8px] w-[14px] md:right-[calc(1.75rem-7px)]"
+                  aria-hidden
+                >
+                  <div
+                    className="absolute inset-0 [clip-path:polygon(50%_100%,0_0,100%_0)]"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, color-mix(in srgb, var(--color-surface-1) 58%, transparent) 0%, color-mix(in srgb, var(--color-ocean-50) 18%, color-mix(in srgb, var(--color-surface-1) 82%, transparent)) 100%)",
+                      boxShadow:
+                        "0 0 0 1px color-mix(in srgb, var(--color-ssp-ink-900) 6%, transparent)",
+                    }}
+                  />
+                </div>
               </div>
             </div>
           )}
@@ -323,55 +444,58 @@ export default function GuidedChatbot() {
             onClick={openChat}
             aria-label="Open chat"
             className={[
-              "group relative inline-flex h-14 w-14 cursor-pointer items-center justify-center rounded-full",
+              "group relative inline-flex h-12 w-12 cursor-pointer items-center justify-center rounded-full md:h-14 md:w-14",
               "shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0",
-              "focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ssp-cyan-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-surface-0)]",
             ].join(" ")}
             style={{
-              background: "linear-gradient(145deg, var(--color-surface-1), var(--color-surface-2))",
-              border: "1px solid var(--color-border)",
-              boxShadow: "0 14px 30px rgba(0,0,0,0.28), 0 1px 0 rgba(255,255,255,0.06) inset",
+              background:
+                "linear-gradient(155deg, var(--color-ssp-ink-900) 0%, var(--color-ssp-ink-800) 52%, var(--color-utility-bg) 125%)",
+              border: "1px solid var(--color-glass-border)",
+              boxShadow:
+                "0 14px 34px rgba(11, 62, 94, 0.42), 0 0 0 1px rgba(255, 255, 255, 0.06) inset, 0 1px 0 rgba(255, 255, 255, 0.12) inset",
             }}
           >
             <span
-              className="pointer-events-none absolute -inset-[2px] rounded-full opacity-70 transition group-hover:opacity-100"
+              className="pointer-events-none absolute -inset-px rounded-full opacity-80 transition group-hover:opacity-100"
               style={{
                 background:
-                  "conic-gradient(from 220deg, rgba(185,28,28,0.85), rgba(220,38,38,0.25), rgba(255,255,255,0.08), rgba(185,28,28,0.85))",
-                filter: "blur(0.2px)",
+                  "conic-gradient(from 210deg, color-mix(in srgb, var(--color-ssp-cyan-500) 55%, transparent), color-mix(in srgb, var(--color-utility-bg) 40%, transparent) 38%, transparent 58%, color-mix(in srgb, var(--color-ssp-cyan-500) 45%, transparent))",
               }}
             />
             <span
               className="pointer-events-none absolute inset-0 rounded-full"
               style={{
                 background:
-                  "radial-gradient(circle at 30% 25%, rgba(255,255,255,0.10), transparent 55%)",
+                  "radial-gradient(circle at 30% 22%, rgba(255, 255, 255, 0.14), transparent 52%)",
               }}
             />
 
-            <span className="absolute -top-0.5 -right-0.5 inline-flex h-3.5 w-3.5">
+            {showLauncherNotification && !isMobile && (
               <span
-                className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-40"
-                style={{ background: "rgba(220,38,38,0.9)" }}
-              />
-              <span
-                className="relative inline-flex h-3.5 w-3.5 rounded-full ring-2"
-                style={{ background: "rgb(220,38,38)" }}
-              />
-            </span>
+                className="pointer-events-none absolute top-1 -right-0.5 z-10 flex h-3 w-3 items-center justify-center"
+                aria-hidden="true"
+              >
+                <span
+                  className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-ssp-cyan-500)] opacity-25 motion-reduce:animate-none motion-reduce:opacity-0"
+                  aria-hidden="true"
+                />
+                <span className="relative h-2.5 w-2.5 shrink-0 rounded-full bg-[var(--color-ssp-cyan-500)] ring-1 ring-[var(--color-ssp-ink-900)]" />
+              </span>
+            )}
 
             <span
-              className="relative inline-flex h-10 w-10 items-center justify-center rounded-full transition group-hover:scale-[1.02]"
+              className="relative inline-flex h-9 w-9 items-center justify-center rounded-full transition group-hover:scale-[1.02] md:h-10 md:w-10"
               style={{
-                background: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.10)",
+                background: "var(--color-glass-bg)",
+                border: "1px solid var(--color-glass-border)",
                 backdropFilter: "blur(8px)",
               }}
             >
               <Sparkles
-                size={20}
-                style={{ color: "rgba(255,255,255,0.92)" }}
-                className="transition group-hover:scale-105"
+                aria-hidden
+                style={{ color: "var(--color-utility-text)" }}
+                className="h-[18px] w-[18px] transition group-hover:scale-105 md:h-5 md:w-5"
               />
             </span>
           </button>

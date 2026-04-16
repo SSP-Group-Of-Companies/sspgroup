@@ -25,11 +25,11 @@ export function Checkbox({
       disabled={disabled}
       onClick={() => onChange(!checked)}
       className={cn(
-        "relative inline-flex h-[18px] w-[18px] items-center justify-center rounded-md border transition",
+        "relative inline-flex h-[18px] w-[18px] cursor-pointer items-center justify-center rounded-md border transition",
         "border-[var(--dash-border)] bg-[var(--dash-bg)]",
         "shadow-[var(--dash-shadow)]/10",
         "hover:bg-[var(--dash-surface-2)]",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
         disabled && "cursor-not-allowed opacity-50",
         className,
       )}
@@ -37,14 +37,14 @@ export function Checkbox({
       <span
         className={cn(
           "absolute inset-0 rounded-md transition",
-          checked ? "bg-[var(--dash-red-soft)]" : "bg-transparent",
+          checked ? "bg-[var(--dash-accent-soft)]" : "bg-transparent",
         )}
         aria-hidden
       />
       <Check
         className={cn(
           "relative h-4 w-4 transition",
-          checked ? "text-[var(--dash-red)] opacity-100" : "opacity-0",
+          checked ? "text-[var(--dash-accent)] opacity-100" : "opacity-0",
         )}
       />
     </button>

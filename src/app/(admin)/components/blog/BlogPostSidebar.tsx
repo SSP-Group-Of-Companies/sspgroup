@@ -69,7 +69,7 @@ type Props = {
 const inputBase = cn(
   "w-full rounded-2xl border px-3 py-2 text-sm outline-none transition",
   "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)] placeholder:text-[var(--dash-muted)]",
-  "focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+  "focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
 );
 
 const softCard = cn(
@@ -344,7 +344,7 @@ export default function BlogPostSidebar(props: Props) {
                       <button
                         type="button"
                         onClick={() => toggleCategory(id)}
-                        className="flex min-w-0 flex-1 items-center gap-2 text-left"
+                        className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 text-left"
                       >
                         <span className="truncate text-sm font-medium text-[var(--dash-text)]">
                           {c.name}
@@ -375,9 +375,9 @@ export default function BlogPostSidebar(props: Props) {
               type="button"
               onClick={createCategory}
               className={cn(
-                "inline-flex shrink-0 items-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold transition",
+                "inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold transition",
                 "bg-[var(--dash-red)] text-white hover:brightness-110",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
               )}
             >
               <Plus className="h-4 w-4" />
@@ -396,10 +396,10 @@ export default function BlogPostSidebar(props: Props) {
               disabled={props.saving}
               onClick={props.onPrimary}
               className={cn(
-                "inline-flex w-full items-center justify-center gap-2 rounded-2xl border px-3 py-2 text-sm font-semibold transition",
+                "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border px-3 py-2 text-sm font-semibold transition",
                 "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
-                "disabled:opacity-50",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
+                "disabled:cursor-not-allowed disabled:opacity-50",
               )}
             >
               <Save className="h-4 w-4 text-[var(--dash-muted)]" />
@@ -411,10 +411,10 @@ export default function BlogPostSidebar(props: Props) {
               disabled={props.saving || props.secondaryDisabled}
               onClick={props.onSecondary}
               className={cn(
-                "inline-flex w-full items-center justify-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold transition",
+                "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold transition",
                 "bg-[var(--dash-red)] text-white hover:brightness-110",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
-                "disabled:opacity-50",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
+                "disabled:cursor-not-allowed disabled:opacity-50",
               )}
             >
               <Rocket className="h-4 w-4" />
@@ -429,12 +429,12 @@ export default function BlogPostSidebar(props: Props) {
                   disabled={props.saving || props.dangerDisabled}
                   onClick={() => props.onDanger?.()}
                   className={cn(
-                    "inline-flex w-full items-center justify-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold transition",
+                    "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold transition",
                     isDark
                       ? "border border-red-500/25 bg-red-600/15 text-red-50 hover:bg-red-600/20"
                       : "border border-red-200 bg-red-50 text-red-900 hover:bg-red-100",
                     "focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30",
-                    "disabled:opacity-50",
+                    "disabled:cursor-not-allowed disabled:opacity-50",
                   )}
                 >
                   <Archive className="h-4 w-4" />

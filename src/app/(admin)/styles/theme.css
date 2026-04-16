@@ -1,90 +1,198 @@
-/* src/app/(admin)/styles/theme.css */
-/* =========================
-   ADMIN Dashboard tokens
-   ========================= */
+/* src/app/(admin)/styles/theme.css
+   SSP-aligned admin surface system (mirrors site brand: ink, cyan accent, brand red).
+   html[data-admin-theme="light"|"dark"] drives --dash-* tokens. */
 
-/* Base admin token palette */
+/* ── Brand reference (aligned with src/app/(site)/styles/theme.css) ── */
 :root {
-  --adm-bg: #0b1020; /* page */
-  --adm-surface: #0f172a; /* cards / sidebar */
-  --adm-surface-2: #111c36; /* hover surfaces */
-  --adm-border: rgba(255, 255, 255, 0.12);
-
-  --adm-text: rgba(255, 255, 255, 0.92);
-  --adm-muted: rgba(255, 255, 255, 0.68);
-
-  --adm-red: #dc2626;
-  --adm-red-soft: rgba(220, 38, 38, 0.16);
-
-  --adm-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-
-  /* Light mode tokens */
-  --adm-bg-light: #f6f8fc;
-  --adm-surface-light: #ffffff;
-  --adm-surface-2-light: #eef3fb;
-  --adm-border-light: rgba(15, 23, 42, 0.1);
-
-  --adm-text-light: rgba(15, 23, 42, 0.95);
-  --adm-muted-light: rgba(15, 23, 42, 0.65);
-
-  --adm-shadow-light: 0 10px 25px rgba(15, 23, 42, 0.08);
-
-  /* Brand red used in light admin theme binding */
-  --color-brand-600: #dc2626;
+  --ssp-ink-900: #0b3e5e;
+  --ssp-ink-800: #0d4f78;
+  --ssp-cyan-500: #10a7d8;
+  --ssp-cyan-600: #0b8fbb;
+  --ssp-brand-500: #e02b35;
+  --ssp-brand-600: #d71920;
+  /* Deepest brand red in site @theme — best for solid primary/destructive fills */
+  --ssp-brand-700: #b91519;
+  --ssp-cloud-50: #f5f7fa;
+  --ssp-cloud-100: #f2f4f7;
 }
 
-/* Admin theme binding (html[data-admin-theme]) */
+/* Base admin palette (light: premium paper; dark: ink navy like site footer / company hero) */
+:root {
+  --adm-bg: var(--ssp-cloud-50);
+  --adm-surface: #ffffff;
+  --adm-surface-2: #eef2f6;
+  --adm-border: rgba(15, 23, 42, 0.1);
+  --adm-border-strong: rgba(15, 23, 42, 0.14);
+
+  --adm-text: rgba(12, 23, 38, 0.94);
+  --adm-muted: rgba(12, 23, 38, 0.68);
+  --adm-subtle: rgba(15, 23, 42, 0.5);
+
+  /* Primary “brand” reference for typography/orbs; solid buttons use --dash-red → brand-700 */
+  --adm-brand: var(--ssp-brand-600);
+  --adm-brand-soft: rgba(215, 25, 32, 0.12);
+  --adm-accent: var(--ssp-cyan-500);
+  --adm-accent-soft: rgba(16, 167, 216, 0.14);
+  --adm-accent-muted: rgba(16, 167, 216, 0.09);
+
+  --adm-shadow: 0 10px 40px rgba(15, 23, 42, 0.07);
+  --adm-shadow-soft: 0 4px 16px rgba(2, 6, 23, 0.05);
+  --adm-ambient-light:
+    radial-gradient(1100px 520px at 10% 0%, rgba(16, 167, 216, 0.09), transparent 55%),
+    radial-gradient(900px 480px at 92% 8%, rgba(215, 25, 32, 0.05), transparent 55%);
+
+  /* Dark */
+  --adm-bg-dark: #060d16;
+  --adm-surface-dark: #0c1522;
+  --adm-surface-2-dark: #111d2e;
+  --adm-border-dark: rgba(255, 255, 255, 0.1);
+  --adm-border-strong-dark: rgba(255, 255, 255, 0.14);
+
+  --adm-text-dark: rgba(255, 255, 255, 0.92);
+  --adm-muted-dark: rgba(255, 255, 255, 0.62);
+  --adm-subtle-dark: rgba(255, 255, 255, 0.42);
+
+  --adm-brand-dark: #f87171;
+  --adm-brand-soft-dark: rgba(248, 113, 113, 0.14);
+  --adm-accent-dark: #38bdf8;
+  --adm-accent-soft-dark: rgba(56, 189, 248, 0.12);
+  --adm-accent-muted-dark: rgba(56, 189, 248, 0.07);
+
+  --adm-shadow-dark: 0 12px 40px rgba(0, 0, 0, 0.45);
+  --adm-ambient-dark:
+    radial-gradient(1000px 560px at 8% 0%, rgba(16, 167, 216, 0.12), transparent 58%),
+    radial-gradient(880px 480px at 96% 0%, rgba(215, 25, 32, 0.1), transparent 55%),
+    radial-gradient(800px 400px at 50% 100%, rgba(11, 62, 94, 0.35), transparent 60%);
+}
+
 html[data-admin-theme="dark"] {
+  --dash-bg: var(--adm-bg-dark);
+  --dash-surface: var(--adm-surface-dark);
+  --dash-surface-2: var(--adm-surface-2-dark);
+  --dash-border: var(--adm-border-dark);
+  --dash-border-strong: var(--adm-border-strong-dark);
+  --dash-text: var(--adm-text-dark);
+  --dash-muted: var(--adm-muted-dark);
+  --dash-subtle: var(--adm-subtle-dark);
+  --dash-brand: var(--adm-brand-dark);
+  --dash-brand-soft: var(--adm-brand-soft-dark);
+  --dash-red: var(--ssp-brand-700);
+  --dash-red-soft: var(--adm-brand-soft-dark);
+  --dash-accent: var(--adm-accent-dark);
+  --dash-accent-soft: var(--adm-accent-soft-dark);
+  --dash-accent-muted: var(--adm-accent-muted-dark);
+  --dash-shadow: var(--adm-shadow-dark);
+  --dash-shadow-soft: var(--adm-shadow-dark);
+  --dash-focus-ring: var(--dash-brand-soft);
+  --dash-ambient-layer: var(--adm-ambient-dark);
+}
+
+html[data-admin-theme="light"] {
   --dash-bg: var(--adm-bg);
   --dash-surface: var(--adm-surface);
   --dash-surface-2: var(--adm-surface-2);
   --dash-border: var(--adm-border);
+  --dash-border-strong: var(--adm-border-strong);
   --dash-text: var(--adm-text);
   --dash-muted: var(--adm-muted);
-  --dash-red: var(--adm-red);
-  --dash-red-soft: var(--adm-red-soft);
+  --dash-subtle: var(--adm-subtle);
+  --dash-brand: var(--adm-brand);
+  --dash-brand-soft: var(--adm-brand-soft);
+  --dash-red: var(--ssp-brand-700);
+  --dash-red-soft: var(--adm-brand-soft);
+  --dash-accent: var(--adm-accent);
+  --dash-accent-soft: var(--adm-accent-soft);
+  --dash-accent-muted: var(--adm-accent-muted);
   --dash-shadow: var(--adm-shadow);
+  --dash-shadow-soft: var(--adm-shadow-soft);
+  --dash-focus-ring: rgba(215, 25, 32, 0.22);
+  --dash-ambient-layer: var(--adm-ambient-light);
 }
 
-html[data-admin-theme="light"] {
-  --dash-bg: var(--adm-bg-light);
-  --dash-surface: var(--adm-surface-light);
-  --dash-surface-2: var(--adm-surface-2-light);
-  --dash-border: var(--adm-border-light);
-  --dash-text: var(--adm-text-light);
-  --dash-muted: var(--adm-muted-light);
-  --dash-red: var(--color-brand-600);
-  --dash-red-soft: rgba(220, 38, 38, 0.12);
-  --dash-shadow: var(--adm-shadow-light);
-}
-
-/* -----------------------------------------
-   ADMIN defaults (prevents "no theme" FOUC)
-   These are used BEFORE data-admin-theme is set.
------------------------------------------- */
+/* Defaults before data-admin-theme is set (match light + SSP ambient) */
 :root {
-  --dash-bg: var(--adm-bg-light);
-  --dash-surface: var(--adm-surface-light);
-  --dash-surface-2: var(--adm-surface-2-light);
-  --dash-border: var(--adm-border-light);
-  --dash-text: var(--adm-text-light);
-  --dash-muted: var(--adm-muted-light);
-  --dash-red: var(--color-brand-600);
-  --dash-red-soft: rgba(220, 38, 38, 0.12);
-  --dash-shadow: var(--adm-shadow-light);
+  --dash-bg: var(--adm-bg);
+  --dash-surface: var(--adm-surface);
+  --dash-surface-2: var(--adm-surface-2);
+  --dash-border: var(--adm-border);
+  --dash-border-strong: var(--adm-border-strong);
+  --dash-text: var(--adm-text);
+  --dash-muted: var(--adm-muted);
+  --dash-subtle: var(--adm-subtle);
+  --dash-brand: var(--adm-brand);
+  --dash-brand-soft: var(--adm-brand-soft);
+  --dash-red: var(--ssp-brand-700);
+  --dash-red-soft: var(--adm-brand-soft);
+  --dash-accent: var(--adm-accent);
+  --dash-accent-soft: var(--adm-accent-soft);
+  --dash-accent-muted: var(--adm-accent-muted);
+  --dash-shadow: var(--adm-shadow);
+  --dash-shadow-soft: var(--adm-shadow-soft);
+  --dash-focus-ring: rgba(215, 25, 32, 0.22);
+  --dash-ambient-layer: var(--adm-ambient-light);
 }
 
-/* Optional: if OS prefers dark, default to dark before JS runs */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --dash-bg: var(--adm-bg);
-    --dash-surface: var(--adm-surface);
-    --dash-surface-2: var(--adm-surface-2);
-    --dash-border: var(--adm-border);
-    --dash-text: var(--adm-text);
-    --dash-muted: var(--adm-muted);
-    --dash-red: var(--adm-red);
-    --dash-red-soft: var(--adm-red-soft);
-    --dash-shadow: var(--adm-shadow);
-  }
+/* ═══════════════════════════════════════════════════════════════════════
+   Shared layout primitives
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.admin-ambient {
+  min-height: 100vh;
+  background: var(--dash-bg);
+}
+
+.admin-ambient::before {
+  content: "";
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--dash-ambient-layer);
+}
+
+.admin-card {
+  border-radius: 1.5rem;
+  border: 1px solid var(--dash-border);
+  background: var(--dash-surface);
+  box-shadow: var(--dash-shadow);
+}
+
+.admin-card-subtle {
+  border-radius: 1.25rem;
+  border: 1px solid var(--dash-border);
+  background: var(--dash-surface);
+  box-shadow: var(--dash-shadow-soft);
+}
+
+.admin-input-ring:focus-within {
+  box-shadow:
+    0 0 0 2px var(--dash-surface),
+    0 0 0 4px var(--dash-accent-soft);
+}
+
+.admin-focus-ring:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--dash-accent),
+    0 0 0 4px var(--dash-surface);
+}
+
+html[data-admin-theme="dark"] .admin-focus-ring:focus-visible {
+  box-shadow:
+    0 0 0 2px var(--dash-accent),
+    0 0 0 4px var(--dash-bg);
+}
+
+/* Pointer on interactive controls (explicit cursor-pointer on components is preferred; this fills gaps) */
+.admin-root button:not(:disabled),
+.admin-root [role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
+}
+
+.admin-root button:disabled {
+  cursor: not-allowed;
+}
+
+.admin-root select:not(:disabled) {
+  cursor: pointer;
 }

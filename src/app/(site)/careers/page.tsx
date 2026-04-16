@@ -25,19 +25,6 @@ function enumOrUndefined<T extends string>(v: string | undefined, allowed: reado
 
 type SortBy = "publishedAt" | "title" | "createdAt";
 type SortDir = "asc" | "desc";
-type CareersPageData = {
-  items: Partial<IJobPosting>[];
-  meta: {
-    page: number;
-    pageSize: number;
-    total: number;
-    totalPages: number;
-    hasPrev: boolean;
-    hasNext: boolean;
-    sortBy: SortBy;
-    sortDir: SortDir;
-  };
-};
 
 export const metadata: Metadata = {
   title: { absolute: "Careers | SSP Group" },
@@ -98,9 +85,21 @@ export default async function CareersPage({
       "desc",
     ] as const) ?? "desc";
 
-  let data: CareersPageData;
+  const emptyMeta = {
+    page,
+    pageSize,
+    total: 0,
+    totalPages: 1,
+    hasPrev: false,
+    hasNext: false,
+  };
+
+  let initialItems: Partial<IJobPosting>[] = [];
+  let initialMeta: typeof emptyMeta = emptyMeta;
+  let initialFetchError: string | null = null;
+
   try {
-    data = (await getPublicJobsListSSR({
+    const data = await getPublicJobsListSSR({
       page: String(page),
       pageSize: String(pageSize),
       q: q.trim() ? q.trim() : undefined,
@@ -110,21 +109,11 @@ export default async function CareersPage({
       location: location.trim() ? location.trim() : undefined,
       sortBy,
       sortDir,
-    })) as CareersPageData;
-  } catch {
-    data = {
-      items: [],
-      meta: {
-        page,
-        pageSize,
-        total: 0,
-        totalPages: 0,
-        hasPrev: false,
-        hasNext: false,
-        sortBy,
-        sortDir,
-      },
-    };
+    });
+    initialItems = data.items ?? [];
+    initialMeta = { ...emptyMeta, ...(data.meta ?? {}) };
+  } catch (e: unknown) {
+    initialFetchError = e instanceof Error ? e.message : "Failed to load careers listings.";
   }
 
   const initialQuery = {
@@ -141,9 +130,10 @@ export default async function CareersPage({
 
   return (
     <CareersClient
-      initialItems={data.items ?? []}
-      initialMeta={data.meta ?? {}}
+      initialItems={initialItems}
+      initialMeta={initialMeta}
       initialQuery={initialQuery}
+      initialFetchError={initialFetchError}
     />
   );
 }

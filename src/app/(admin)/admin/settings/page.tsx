@@ -27,8 +27,8 @@ export default function AdminSettingsPage() {
       <header className="flex items-start gap-4">
         <div
           className={cn(
-            "flex h-11 w-11 items-center justify-center rounded-2xl",
-            "bg-[var(--dash-red-soft)] text-[var(--dash-red)]",
+            "flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--dash-border)]",
+            "bg-[var(--dash-accent-muted)] text-[var(--dash-accent)]",
           )}
         >
           <SettingsIcon className="h-5 w-5" />
@@ -60,11 +60,11 @@ export default function AdminSettingsPage() {
                 type="button"
                 onClick={() => setMode(m)}
                 className={cn(
-                  "group flex items-center gap-4 rounded-2xl border p-4 text-left transition",
+                  "group flex cursor-pointer items-center gap-4 rounded-2xl border p-4 text-left transition",
                   "border-[var(--dash-border)] bg-[var(--dash-surface-2)]/40",
                   "hover:bg-[var(--dash-surface-2)]",
-                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
-                  active && "border-[var(--dash-red-soft)] bg-[var(--dash-red-soft)]",
+                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
+                  active && "border-[var(--dash-accent)]/35 bg-[var(--dash-accent-soft)]",
                 )}
                 aria-pressed={active}
               >
@@ -77,7 +77,7 @@ export default function AdminSettingsPage() {
                   <Icon
                     className={cn(
                       "h-5 w-5",
-                      active ? "text-[var(--dash-red)]" : "text-[var(--dash-muted)]",
+                      active ? "text-[var(--dash-accent)]" : "text-[var(--dash-muted)]",
                     )}
                   />
                 </div>

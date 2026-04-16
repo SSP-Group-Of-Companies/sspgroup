@@ -44,10 +44,10 @@ export function ThemeModeSwitcher() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex h-10 w-10 items-center justify-center rounded-2xl border transition",
+          "inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-2xl border transition",
           "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)] shadow-[var(--dash-shadow)]",
           "hover:bg-[var(--dash-surface-2)]",
-          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
         )}
         aria-haspopup="menu"
         aria-expanded={open}
@@ -84,7 +84,7 @@ export function ThemeModeSwitcher() {
                       setOpen(false);
                     }}
                     className={cn(
-                      "flex w-full items-center gap-3 px-4 py-2.5 text-sm transition",
+                      "flex w-full cursor-pointer items-center gap-3 px-4 py-2.5 text-sm transition",
                       active
                         ? "bg-[var(--dash-surface-2)] text-[var(--dash-text)]"
                         : "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]",
@@ -92,7 +92,7 @@ export function ThemeModeSwitcher() {
                   >
                     <Icon className="h-4 w-4 text-[var(--dash-muted)]" />
                     <span className="flex-1 text-left">{label}</span>
-                    {active && <Check className="h-4 w-4 text-[var(--dash-red)]" />}
+                    {active && <Check className="h-4 w-4 text-[var(--dash-accent)]" />}
                   </button>
                 );
               })}

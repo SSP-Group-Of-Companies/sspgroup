@@ -420,18 +420,7 @@ export default function BlogEditor(props: Props) {
   const publishAtEnabled = props.secondaryActionKind === "PUBLISH";
 
   return (
-    <div className="min-h-screen bg-[var(--dash-bg)]">
-      {/* subtle admin backdrop */}
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none fixed inset-0 -z-10",
-          isDark
-            ? "bg-[radial-gradient(1200px_600px_at_10%_0%,rgba(220,38,38,0.14),transparent_55%),radial-gradient(900px_500px_at_90%_10%,rgba(255,255,255,0.06),transparent_55%)]"
-            : "bg-[radial-gradient(1100px_520px_at_10%_0%,rgba(220,38,38,0.08),transparent_55%),radial-gradient(900px_480px_at_90%_10%,rgba(15,23,42,0.06),transparent_55%)]",
-        )}
-      />
-
+    <div className="admin-ambient">
       <ConfirmModal
         open={confirmOpen}
         tone={confirmTone}
@@ -466,7 +455,7 @@ export default function BlogEditor(props: Props) {
                 <div
                   className={cn(
                     "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border",
-                    "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
+                    "border-[var(--dash-border)] bg-[var(--dash-accent-muted)] text-[var(--dash-accent)]",
                   )}
                 >
                   <FileText className="h-5 w-5" />

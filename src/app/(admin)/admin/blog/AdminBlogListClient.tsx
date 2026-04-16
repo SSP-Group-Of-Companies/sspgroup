@@ -2,7 +2,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { cn } from "@/lib/cn";
 import {
   adminArchivePost,
@@ -14,13 +14,24 @@ import {
 import { EBlogStatus } from "@/types/blogPost.types";
 import { useAdminTheme } from "@/app/(admin)/components/theme/AdminThemeProvider";
 
-import { ConfirmModal, type ConfirmTone } from "@/app/(admin)/components/ui/ConfirmModal";
 import { Checkbox } from "@/app/(admin)/components/ui/Checkbox";
-import { Select } from "@/app/(admin)/components/ui/Select";
 import { SoftButton, IconButton } from "@/app/(admin)/components/ui/Buttons";
 
 import {
-  Briefcase,
+  AdminListBulkBar,
+  AdminListErrorAlert,
+  AdminListFilterCard,
+  AdminListFilterToolbar,
+  AdminListPageHeader,
+  AdminListPageShell,
+  AdminListPaginationBar,
+  AdminListTableShell,
+  useAdminConfirmRun,
+  useAdminUrlSyncedFilters,
+} from "@/app/(admin)/components/admin-list";
+
+import {
+  FileText,
   MoreHorizontal,
   Pencil,
   Eye,
@@ -28,9 +39,7 @@ import {
   Download,
   Archive,
   Trash2,
-  Search,
   X,
-  AlertTriangle,
 } from "lucide-react";
 
 function statusPill(status: string, isDark: boolean) {
@@ -112,7 +121,7 @@ function RowMenu({
               onArchive();
             }}
             className={cn(
-              "flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition enabled:hover:cursor-pointer",
+              "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
               "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
             )}
             role="menuitem"
@@ -131,7 +140,7 @@ function RowMenu({
               onDelete();
             }}
             className={cn(
-              "flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition enabled:hover:cursor-pointer",
+              "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
               "text-red-600 hover:bg-red-500/10 disabled:opacity-50",
               "dark:text-red-300",
             )}
@@ -154,109 +163,24 @@ export default function AdminBlogListClient({
   initialMeta: any;
 }) {
   const router = useRouter();
-  const sp = useSearchParams();
   const { resolvedTheme } = useAdminTheme();
   const isDark = resolvedTheme === "dark";
 
   const items = initialItems ?? [];
   const meta = initialMeta ?? {};
 
-  const [q, setQ] = React.useState(sp.get("q") ?? "");
-  const [status, setStatus] = React.useState(sp.get("status") ?? "");
+  const filters = useAdminUrlSyncedFilters("/admin/blog");
   const [selected, setSelected] = React.useState<string[]>([]);
   const [busy, setBusy] = React.useState(false);
   const [err, setErr] = React.useState<string | null>(null);
+  const [actionPending, startActionTransition] = React.useTransition();
 
-  // transitions for router actions (refresh/search/pagination) so we can animate refresh icon
-  const [isPending, startTransition] = React.useTransition();
-
-  // confirm modal state
-  const [confirmOpen, setConfirmOpen] = React.useState(false);
-  const confirmActionRef = React.useRef<null | (() => Promise<void>)>(null);
-  const [confirmTone, setConfirmTone] = React.useState<ConfirmTone>("neutral");
-  const [confirmTitle, setConfirmTitle] = React.useState("");
-  const [confirmDesc, setConfirmDesc] = React.useState<React.ReactNode>(null);
-  const [confirmLabel, setConfirmLabel] = React.useState("Confirm");
-  const latestFilterRequestRef = React.useRef<{ q: string; status: string } | null>(null);
-  const lastUserInputAtRef = React.useRef(0);
-
-  function pushQuery(
-    next: Record<string, string | null | undefined>,
-    opts?: { replace?: boolean },
-  ) {
-    const qs = new URLSearchParams(sp.toString());
-    for (const [k, v] of Object.entries(next)) {
-      if (!v) qs.delete(k);
-      else qs.set(k, v);
-    }
-    const href = `/admin/blog?${qs.toString()}`;
-    startTransition(() => {
-      if (opts?.replace) router.replace(href);
-      else router.push(href);
-    });
-  }
-
-  React.useEffect(() => {
-    const urlQ = sp.get("q") ?? "";
-    const urlStatus = sp.get("status") ?? "";
-
-    // Never let URL sync interrupt active typing/select changes.
-    if (Date.now() - lastUserInputAtRef.current < 450) return;
-
-    const latest = latestFilterRequestRef.current;
-
-    // Ignore stale URL updates from older in-flight filter requests.
-    if (latest) {
-      const isLatestRequestedUrl = latest.q === urlQ && latest.status === urlStatus;
-      if (!isLatestRequestedUrl) return;
-      latestFilterRequestRef.current = null;
-    }
-
-    if (q !== urlQ) setQ(urlQ);
-    if (status !== urlStatus) setStatus(urlStatus);
-  }, [sp]);
-
-  function handleQChange(next: string) {
-    lastUserInputAtRef.current = Date.now();
-    setQ(next);
-  }
-
-  function handleStatusChange(next: string) {
-    lastUserInputAtRef.current = Date.now();
-    setStatus(next);
-  }
-
-  function clearFilters() {
-    lastUserInputAtRef.current = Date.now();
-    setQ("");
-    setStatus("");
-  }
-
-  React.useEffect(() => {
-    const id = window.setTimeout(() => {
-      const nextQ = q.trim();
-      const currentQ = (sp.get("q") ?? "").trim();
-      const currentStatus = sp.get("status") ?? "";
-
-      if (nextQ === currentQ && status === currentStatus) return;
-      latestFilterRequestRef.current = { q: nextQ, status };
-      pushQuery({ q: nextQ || null, status: status || null, page: "1" }, { replace: true });
-    }, 350);
-
-    return () => window.clearTimeout(id);
-  }, [q, status, sp]);
-
-  function toggle(id: string) {
-    setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
-  }
-
-  async function run(fn: () => Promise<void>) {
+  async function run(fn: () => Promise<unknown>) {
     setErr(null);
     setBusy(true);
     try {
       await fn();
-      // refresh via transition so icon can spin + UI feels smoother
-      startTransition(() => {
+      startActionTransition(() => {
         router.refresh();
       });
       setSelected([]);
@@ -267,20 +191,10 @@ export default function AdminBlogListClient({
     }
   }
 
-  function confirm(opts: {
-    tone?: ConfirmTone;
-    title: string;
-    description?: React.ReactNode;
-    confirmLabel?: string;
-    action: () => Promise<void>;
-  }) {
-    confirmActionRef.current = opts.action;
-    setConfirmTone(opts.tone ?? "neutral");
-    setConfirmTitle(opts.title);
-    setConfirmDesc(opts.description ?? null);
-    setConfirmLabel(opts.confirmLabel ?? "Confirm");
-    setConfirmOpen(true);
-  }
+  const { requestConfirm, confirmModal } = useAdminConfirmRun({
+    busy,
+    execute: run,
+  });
 
   function openPreview(slug: string) {
     window.open(`/insights/${encodeURIComponent(slug)}`, "_blank", "noopener,noreferrer");
@@ -289,410 +203,265 @@ export default function AdminBlogListClient({
   const allChecked = items.length > 0 && selected.length === items.length;
 
   return (
-    <div className="min-h-screen bg-[var(--dash-bg)]">
-      {/* subtle backdrop */}
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none fixed inset-0 -z-10",
-          isDark
-            ? "bg-[radial-gradient(1200px_600px_at_10%_0%,rgba(220,38,38,0.14),transparent_55%),radial-gradient(900px_500px_at_90%_10%,rgba(255,255,255,0.06),transparent_55%)]"
-            : "bg-[radial-gradient(1100px_520px_at_10%_0%,rgba(220,38,38,0.08),transparent_55%),radial-gradient(900px_480px_at_90%_10%,rgba(15,23,42,0.06),transparent_55%)]",
-        )}
-      />
+    <AdminListPageShell>
+      {confirmModal}
 
-      <ConfirmModal
-        open={confirmOpen}
-        tone={confirmTone}
-        title={confirmTitle}
-        description={confirmDesc}
-        confirmLabel={confirmLabel}
-        busy={busy}
-        onClose={() => setConfirmOpen(false)}
-        onConfirm={() => {
-          const act = confirmActionRef.current;
-          setConfirmOpen(false);
-          if (!act) return;
-          run(act);
-        }}
-      />
+      <AdminListFilterCard overflowHidden>
+        <div className="p-5">
+          <AdminListPageHeader
+            icon={FileText}
+            title="Blog posts"
+            description="Manage drafts, publishing, archive, deletions."
+          />
 
-      <div className="mx-auto max-w-7xl px-6 py-8">
-        {/* Header / Filters */}
-        <div
-          className={cn(
-            "mb-6 overflow-hidden rounded-3xl border shadow-[var(--dash-shadow)]",
-            "border-[var(--dash-border)] bg-[var(--dash-surface)]",
-          )}
-        >
-          <div className="p-5">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div className="min-w-0">
-                <div className="flex items-center gap-3">
-                  <div
-                    className={cn(
-                      "inline-flex h-10 w-10 items-center justify-center rounded-2xl border",
-                      "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
-                    )}
-                  >
-                    <Briefcase className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-semibold tracking-tight text-[var(--dash-text)]">
-                      Blog posts
-                    </div>
-                    <div className="mt-1 text-sm text-[var(--dash-muted)]">
-                      Manage drafts, publishing, archive, deletions.
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <AdminListErrorAlert error={err} isDark={isDark} onDismiss={() => setErr(null)} />
 
-              <div />
-            </div>
-
-            {err ? (
-              <div
-                className={cn(
-                  "mt-4 flex items-start gap-2 rounded-2xl border px-4 py-3 text-sm",
-                  isDark
-                    ? "border-red-500/25 bg-red-600/15 text-red-50"
-                    : "border-red-200 bg-red-50 text-red-900",
-                )}
-              >
-                <AlertTriangle className="mt-0.5 h-4 w-4" />
-                <div className="flex-1">{err}</div>
-                <button
-                  type="button"
-                  onClick={() => setErr(null)}
-                  className={cn(
-                    "rounded-2xl p-1.5 transition enabled:hover:cursor-pointer",
-                    "text-inherit hover:bg-black/5",
-                    isDark && "hover:bg-white/5",
-                  )}
-                  aria-label="Dismiss error"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-            ) : null}
-
-            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-[1fr_220px_140px]">
-              {/* Search input */}
-              <div
-                className={cn(
-                  "group flex items-center gap-2 rounded-2xl border px-3 py-2 transition",
-                  "border-[var(--dash-border)] bg-[var(--dash-bg)]",
-                  "focus-within:ring-2 focus-within:ring-[var(--dash-red-soft)]",
-                )}
-              >
-                <Search className="h-4 w-4 text-[var(--dash-muted)]" />
-                <input
-                  value={q}
-                  onChange={(e) => handleQChange(e.target.value)}
-                  placeholder="Search title, slug…"
-                  className="w-full bg-transparent text-sm text-[var(--dash-text)] outline-none placeholder:text-[var(--dash-muted)]"
-                />
-                {q.trim() ? (
-                  <button
-                    type="button"
-                    onClick={() => handleQChange("")}
-                    className={cn(
-                      "rounded-2xl p-1.5 text-[var(--dash-muted)] transition enabled:hover:cursor-pointer",
-                      "hover:bg-[var(--dash-surface-2)] hover:text-[var(--dash-text)]",
-                    )}
-                    aria-label="Clear search"
-                  >
-                    <X className="h-4 w-4" />
-                  </button>
-                ) : null}
-              </div>
-
-              <Select
-                value={status}
-                onChange={handleStatusChange}
-                placeholder="All statuses"
-                disabled={busy || isPending}
-                options={[
-                  { value: "DRAFT", label: "Draft" },
-                  { value: "PUBLISHED", label: "Published" },
-                  { value: "ARCHIVED", label: "Archived" },
-                ]}
-              />
-
-              <SoftButton
-                disabled={busy || isPending}
-                onClick={clearFilters}
-                icon={<X className="h-4 w-4" />}
-                label="Clear"
-              />
-            </div>
-          </div>
-
-          {/* Bulk bar */}
-          <div className="border-t border-[var(--dash-border)] bg-[var(--dash-surface)] px-5 py-3">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="text-sm text-[var(--dash-muted)]">
-                Selected:{" "}
-                <span className="font-semibold text-[var(--dash-text)]">{selected.length}</span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  disabled={busy || isPending || selected.length === 0}
-                  onClick={() =>
-                    confirm({
-                      tone: "danger",
-                      title: "Bulk delete posts?",
-                      description: (
-                        <>
-                          You are about to delete{" "}
-                          <span className="font-semibold text-[var(--dash-text)]">
-                            {selected.length}
-                          </span>{" "}
-                          post(s). This cannot be undone.
-                        </>
-                      ),
-                      confirmLabel: "Delete",
-                      action: async () => {
-                        await adminBulkDeletePosts(selected);
-                      },
-                    })
-                  }
-                  className={cn(
-                    "inline-flex h-10 items-center gap-2 rounded-2xl border px-3 text-sm font-semibold transition enabled:hover:cursor-pointer",
-                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30",
-                    "disabled:cursor-not-allowed disabled:opacity-50",
-                    isDark
-                      ? "border-red-500/25 bg-red-600/15 text-red-50 hover:bg-red-600/20"
-                      : "border-red-200 bg-red-50 text-red-900 hover:bg-red-100",
-                  )}
-                >
-                  <Trash2 className="h-4 w-4" />
-                  Bulk delete
-                </button>
-
-                {selected.length ? (
-                  <SoftButton
-                    icon={<X className="h-4 w-4" />}
-                    label="Clear"
-                    disabled={busy || isPending}
-                    onClick={() => setSelected([])}
-                  />
-                ) : null}
-              </div>
-            </div>
-          </div>
+          <AdminListFilterToolbar
+            q={filters.q}
+            onQChange={filters.handleQChange}
+            searchPlaceholder="Search title, slug…"
+            status={filters.status}
+            onStatusChange={filters.handleStatusChange}
+            statusOptions={[
+              { value: "DRAFT", label: "Draft" },
+              { value: "PUBLISHED", label: "Published" },
+              { value: "ARCHIVED", label: "Archived" },
+            ]}
+            onClearFilters={filters.clearFilters}
+            disabled={busy || filters.isPending || actionPending}
+          />
         </div>
 
-        {/* Table */}
-        <div
-          className={cn(
-            "overflow-hidden rounded-3xl border bg-[var(--dash-surface)] shadow-[var(--dash-shadow)]",
-            "border-[var(--dash-border)]",
-          )}
-        >
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="sticky top-0 z-10">
-                <tr className="border-b border-[var(--dash-border)] bg-[var(--dash-surface-2)]/60 backdrop-blur">
-                  <th className="px-4 py-3">
-                    <Checkbox
-                      checked={allChecked}
-                      disabled={busy || isPending || items.length === 0}
-                      onChange={(next) => setSelected(next ? items.map((x) => String(x.id)) : [])}
-                      label="Select all"
-                    />
-                  </th>
-                  <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Title</th>
-                  <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Author</th>
-                  <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Read</th>
-                  <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Views</th>
-                  <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Status</th>
-                  <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Updated</th>
-                  <th className="px-4 py-3 text-right font-semibold text-[var(--dash-muted)]">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
+        <AdminListBulkBar>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="text-sm text-[var(--dash-muted)]">
+              Selected:{" "}
+              <span className="font-semibold text-[var(--dash-text)]">{selected.length}</span>
+            </div>
 
-              <tbody>
-                {items.map((p) => {
-                  const id = String(p.id);
-                  const isPublished = p.status === EBlogStatus.PUBLISHED;
+            <div className="flex items-center gap-2">
+              <button
+                disabled={busy || filters.isPending || actionPending || selected.length === 0}
+                onClick={() =>
+                  requestConfirm({
+                    tone: "danger",
+                    title: "Bulk delete posts?",
+                    description: (
+                      <>
+                        You are about to delete{" "}
+                        <span className="font-semibold text-[var(--dash-text)]">
+                          {selected.length}
+                        </span>{" "}
+                        post(s). This cannot be undone.
+                      </>
+                    ),
+                    confirmLabel: "Delete",
+                    action: async () => {
+                      await adminBulkDeletePosts(selected);
+                    },
+                  })
+                }
+                className={cn(
+                  "inline-flex h-10 cursor-pointer items-center gap-2 rounded-2xl border px-3 text-sm font-semibold transition disabled:cursor-not-allowed",
+                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30",
+                  "disabled:cursor-not-allowed disabled:opacity-50",
+                  isDark
+                    ? "border-red-500/25 bg-red-600/15 text-red-50 hover:bg-red-600/20"
+                    : "border-red-200 bg-red-50 text-red-900 hover:bg-red-100",
+                )}
+              >
+                <Trash2 className="h-4 w-4" />
+                Bulk delete
+              </button>
 
-                  const authorName = p?.author?.name || p?.author?.email || "—";
-                  const reading = p?.readingTimeMinutes != null ? `${p.readingTimeMinutes}m` : "—";
-                  const views = p?.viewCount != null ? String(p.viewCount) : "0";
+              {selected.length ? (
+                <SoftButton
+                  icon={<X className="h-4 w-4" />}
+                  label="Clear"
+                  disabled={busy || filters.isPending || actionPending}
+                  onClick={() => setSelected([])}
+                />
+              ) : null}
+            </div>
+          </div>
+        </AdminListBulkBar>
+      </AdminListFilterCard>
 
-                  return (
-                    <tr
-                      key={id}
-                      className={cn(
-                        "border-b border-[var(--dash-border)]/70 last:border-b-0",
-                        "transition hover:bg-[var(--dash-surface-2)]/45",
-                      )}
-                    >
-                      <td className="px-4 py-3">
-                        <Checkbox
-                          checked={selected.includes(id)}
-                          disabled={busy || isPending}
-                          onChange={() => toggle(id)}
-                          label={`Select ${p.title}`}
-                        />
-                      </td>
+      <AdminListTableShell>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <thead className="sticky top-0 z-10">
+              <tr className="border-b border-[var(--dash-border)] bg-[var(--dash-surface-2)]/60 backdrop-blur">
+                <th className="px-4 py-3">
+                  <Checkbox
+                    checked={allChecked}
+                    disabled={busy || filters.isPending || actionPending || items.length === 0}
+                    onChange={(next) => setSelected(next ? items.map((x) => String(x.id)) : [])}
+                    label="Select all"
+                  />
+                </th>
+                <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Title</th>
+                <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Author</th>
+                <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Read</th>
+                <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Views</th>
+                <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Status</th>
+                <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Updated</th>
+                <th className="px-4 py-3 text-right font-semibold text-[var(--dash-muted)]">
+                  Actions
+                </th>
+              </tr>
+            </thead>
 
-                      <td className="px-4 py-3">
-                        <div className="font-semibold text-[var(--dash-text)]">{p.title}</div>
-                        <div className="mt-0.5 text-xs text-[var(--dash-muted)]">{p.slug}</div>
-                      </td>
+            <tbody>
+              {items.map((p) => {
+                const id = String(p.id);
+                const isPublished = p.status === EBlogStatus.PUBLISHED;
 
-                      <td className="px-4 py-3 text-[var(--dash-text)]/90">{authorName}</td>
-                      <td className="px-4 py-3 text-[var(--dash-text)]/85">{reading}</td>
-                      <td className="px-4 py-3 text-[var(--dash-text)]/85">{views}</td>
+                const authorName = p?.author?.name || p?.author?.email || "—";
+                const reading = p?.readingTimeMinutes != null ? `${p.readingTimeMinutes}m` : "—";
+                const views = p?.viewCount != null ? String(p.viewCount) : "0";
 
-                      <td className="px-4 py-3">
-                        <span className={statusPill(p.status, isDark)}>{p.status}</span>
-                      </td>
+                return (
+                  <tr
+                    key={id}
+                    className={cn(
+                      "border-b border-[var(--dash-border)]/70 last:border-b-0",
+                      "transition hover:bg-[var(--dash-surface-2)]/45",
+                    )}
+                  >
+                    <td className="px-4 py-3">
+                      <Checkbox
+                        checked={selected.includes(id)}
+                        disabled={busy || filters.isPending || actionPending}
+                        onChange={() =>
+                          setSelected((prev) =>
+                            prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+                          )
+                        }
+                        label={`Select ${p.title}`}
+                      />
+                    </td>
 
-                      <td className="px-4 py-3 text-[var(--dash-muted)]">
-                        {p.updatedAt ? new Date(p.updatedAt).toLocaleString() : "-"}
-                      </td>
+                    <td className="px-4 py-3">
+                      <div className="font-semibold text-[var(--dash-text)]">{p.title}</div>
+                      <div className="mt-0.5 text-xs text-[var(--dash-muted)]">{p.slug}</div>
+                    </td>
 
-                      <td className="px-4 py-3">
-                        <div className="flex items-center justify-end gap-2">
-                          <SoftButton
-                            disabled={busy || isPending}
-                            onClick={() => {
-                              if (isPublished) {
-                                confirm({
-                                  tone: "danger",
-                                  title: "Unpublish this post?",
-                                  description:
-                                    "This will remove it from the public blog until published again.",
-                                  confirmLabel: "Unpublish",
-                                  action: async () => {
-                                    await adminUnpublishPost(id);
-                                  },
-                                });
-                              } else {
-                                run(async () => {
-                                  await adminPublishPost(id, null);
-                                });
-                              }
-                            }}
-                            icon={
-                              isPublished ? (
-                                <Download className="h-4 w-4" />
-                              ) : (
-                                <Upload className="h-4 w-4" />
-                              )
-                            }
-                            label={isPublished ? "Unpublish" : "Publish"}
-                          />
+                    <td className="px-4 py-3 text-[var(--dash-text)]/90">{authorName}</td>
+                    <td className="px-4 py-3 text-[var(--dash-text)]/85">{reading}</td>
+                    <td className="px-4 py-3 text-[var(--dash-text)]/85">{views}</td>
 
-                          <IconButton
-                            title="Edit"
-                            disabled={busy || isPending}
-                            onClick={() => router.push(`/admin/blog/${id}`)}
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </IconButton>
+                    <td className="px-4 py-3">
+                      <span className={statusPill(p.status, isDark)}>{p.status}</span>
+                    </td>
 
-                          <IconButton
-                            title={
-                              isPublished
-                                ? "Preview public page"
-                                : "Preview disabled (publish first)"
-                            }
-                            disabled={!isPublished || busy || isPending}
-                            onClick={() => openPreview(String(p.slug))}
-                          >
-                            <Eye className="h-4 w-4" />
-                          </IconButton>
+                    <td className="px-4 py-3 text-[var(--dash-muted)]">
+                      {p.updatedAt ? new Date(p.updatedAt).toLocaleString() : "-"}
+                    </td>
 
-                          <RowMenu
-                            busy={busy || isPending}
-                            onArchive={() =>
-                              confirm({
+                    <td className="px-4 py-3">
+                      <div className="flex items-center justify-end gap-2">
+                        <SoftButton
+                          disabled={busy || filters.isPending || actionPending}
+                          onClick={() => {
+                            if (isPublished) {
+                              requestConfirm({
                                 tone: "danger",
-                                title: "Archive this post?",
+                                title: "Unpublish this post?",
                                 description:
-                                  "Archived posts are hidden from the public blog. You can keep it for records.",
-                                confirmLabel: "Archive",
+                                  "This will remove it from the public blog until published again.",
+                                confirmLabel: "Unpublish",
                                 action: async () => {
-                                  await adminArchivePost(id);
+                                  await adminUnpublishPost(id);
                                 },
-                              })
+                              });
+                            } else {
+                              run(async () => {
+                                await adminPublishPost(id, null);
+                              });
                             }
-                            onDelete={() =>
-                              confirm({
-                                tone: "danger",
-                                title: "Delete this post?",
-                                description: "This cannot be undone.",
-                                confirmLabel: "Delete",
-                                action: async () => {
-                                  await adminDeletePost(id);
-                                },
-                              })
-                            }
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                          }}
+                          icon={
+                            isPublished ? (
+                              <Download className="h-4 w-4" />
+                            ) : (
+                              <Upload className="h-4 w-4" />
+                            )
+                          }
+                          label={isPublished ? "Unpublish" : "Publish"}
+                        />
 
-                {!items.length ? (
-                  <tr>
-                    <td colSpan={8} className="px-4 py-10 text-center text-[var(--dash-muted)]">
-                      No posts found.
+                        <IconButton
+                          title="Edit"
+                          disabled={busy || filters.isPending || actionPending}
+                          onClick={() => router.push(`/admin/blog/${id}`)}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </IconButton>
+
+                        <IconButton
+                          title={
+                            isPublished ? "Preview public page" : "Preview disabled (publish first)"
+                          }
+                          disabled={!isPublished || busy || filters.isPending || actionPending}
+                          onClick={() => openPreview(String(p.slug))}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </IconButton>
+
+                        <RowMenu
+                          busy={busy || filters.isPending}
+                          onArchive={() =>
+                            requestConfirm({
+                              tone: "danger",
+                              title: "Archive this post?",
+                              description:
+                                "Archived posts are hidden from the public blog. You can keep it for records.",
+                              confirmLabel: "Archive",
+                              action: async () => {
+                                await adminArchivePost(id);
+                              },
+                            })
+                          }
+                          onDelete={() =>
+                            requestConfirm({
+                              tone: "danger",
+                              title: "Delete this post?",
+                              description: "This cannot be undone.",
+                              confirmLabel: "Delete",
+                              action: async () => {
+                                await adminDeletePost(id);
+                              },
+                            })
+                          }
+                        />
+                      </div>
                     </td>
                   </tr>
-                ) : null}
-              </tbody>
-            </table>
-          </div>
+                );
+              })}
 
-          {/* Footer / Pagination */}
-          <div className="flex flex-col gap-2 border-t border-[var(--dash-border)] px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="text-sm text-[var(--dash-muted)]">
-              Page <span className="font-semibold text-[var(--dash-text)]">{meta?.page ?? 1}</span>{" "}
-              of{" "}
-              <span className="font-semibold text-[var(--dash-text)]">{meta?.totalPages ?? 1}</span>
-            </div>
-
-            <div className="flex gap-2">
-              <button
-                disabled={!meta?.hasPrev || busy || isPending}
-                onClick={() => pushQuery({ page: String(Math.max(1, (meta.page ?? 1) - 1)) })}
-                className={cn(
-                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition enabled:hover:cursor-pointer",
-                  "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
-                  "hover:bg-[var(--dash-surface-2)]",
-                  "disabled:cursor-not-allowed disabled:opacity-50",
-                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
-                )}
-              >
-                Prev
-              </button>
-              <button
-                disabled={!meta?.hasNext || busy || isPending}
-                onClick={() => pushQuery({ page: String((meta.page ?? 1) + 1) })}
-                className={cn(
-                  "rounded-2xl border px-3 py-2 text-sm font-semibold transition enabled:hover:cursor-pointer",
-                  "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
-                  "hover:bg-[var(--dash-surface-2)]",
-                  "disabled:cursor-not-allowed disabled:opacity-50",
-                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
-                )}
-              >
-                Next
-              </button>
-            </div>
-          </div>
+              {!items.length ? (
+                <tr>
+                  <td colSpan={8} className="px-4 py-10 text-center text-[var(--dash-muted)]">
+                    No posts found.
+                  </td>
+                </tr>
+              ) : null}
+            </tbody>
+          </table>
         </div>
-      </div>
-    </div>
+
+        <AdminListPaginationBar
+          page={meta?.page ?? 1}
+          totalPages={meta?.totalPages ?? 1}
+          hasPrev={meta?.hasPrev}
+          hasNext={meta?.hasNext}
+          disabled={busy || filters.isPending || actionPending}
+          onPrev={() => filters.pushQuery({ page: String(Math.max(1, (meta.page ?? 1) - 1)) })}
+          onNext={() => filters.pushQuery({ page: String((meta.page ?? 1) + 1) })}
+        />
+      </AdminListTableShell>
+    </AdminListPageShell>
   );
 }

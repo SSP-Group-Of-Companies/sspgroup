@@ -49,12 +49,7 @@ export function ConfirmModal({
 
   const confirmBtn =
     tone === "danger"
-      ? cn(
-          // Light mode: strong contrast
-          "bg-red-600 text-white hover:bg-red-700",
-          // Dark mode: still readable
-          "dark:bg-red-500/90 dark:hover:bg-red-500",
-        )
+      ? cn("bg-[var(--dash-red)] text-white hover:brightness-95")
       : cn(
           "border border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
           "hover:bg-[var(--dash-surface-2)]",
@@ -83,7 +78,7 @@ export function ConfirmModal({
                 className={cn(
                   "mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-2xl border",
                   "border-[var(--dash-border)] bg-[var(--dash-bg)]",
-                  tone === "danger" ? "text-red-500" : "text-[var(--dash-text)]",
+                  tone === "danger" ? "text-[var(--dash-red)]" : "text-[var(--dash-text)]",
                 )}
               >
                 <AlertTriangle className="h-4 w-4" />
@@ -100,7 +95,7 @@ export function ConfirmModal({
                 type="button"
                 onClick={onClose}
                 className={cn(
-                  "rounded-2xl p-2 transition",
+                  "cursor-pointer rounded-2xl p-2 transition",
                   "text-[var(--dash-muted)] hover:bg-[var(--dash-surface-2)] hover:text-[var(--dash-text)]",
                 )}
                 aria-label="Close"
@@ -116,10 +111,10 @@ export function ConfirmModal({
               onClick={onClose}
               disabled={busy}
               className={cn(
-                "inline-flex h-9 items-center justify-center rounded-2xl border px-3 text-sm font-semibold transition",
+                "inline-flex h-9 cursor-pointer items-center justify-center rounded-2xl border px-3 text-sm font-semibold transition",
                 "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
                 "hover:bg-[var(--dash-surface-2)]",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
                 "disabled:cursor-not-allowed disabled:opacity-50",
               )}
             >
@@ -131,8 +126,8 @@ export function ConfirmModal({
               onClick={onConfirm}
               disabled={busy}
               className={cn(
-                "inline-flex h-9 items-center justify-center rounded-2xl px-3 text-sm font-semibold transition",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+                "inline-flex h-9 cursor-pointer items-center justify-center rounded-2xl px-3 text-sm font-semibold transition",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
                 "disabled:cursor-not-allowed disabled:opacity-50",
                 confirmBtn,
               )}

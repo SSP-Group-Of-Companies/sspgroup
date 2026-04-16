@@ -129,7 +129,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                   className={cn(
                     "flex items-center gap-3 rounded-2xl px-3 py-2 text-sm font-medium transition",
                     active
-                      ? "bg-[var(--dash-red-soft)]/55 text-[var(--dash-text)]"
+                      ? "bg-[var(--dash-accent-soft)] text-[var(--dash-text)]"
                       : "text-[var(--dash-muted)] hover:bg-[var(--dash-surface-2)] hover:text-[var(--dash-text)]",
                   )}
                 >
@@ -152,7 +152,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                     <button
                       type="button"
                       onClick={() => toggleExpand(item.href)}
-                      className="w-full rounded-2xl text-left outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]"
+                      className="w-full cursor-pointer rounded-2xl text-left outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]"
                       aria-expanded={open}
                       title={item.label}
                     >
@@ -162,7 +162,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                     <Link
                       href={item.href}
                       onClick={() => setSidebarOpen(false)}
-                      className="block"
+                      className="block cursor-pointer"
                       title={item.label}
                     >
                       {Parent}
@@ -192,7 +192,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                                 href={child.href}
                                 onClick={() => setSidebarOpen(false)}
                                 className={cn(
-                                  "group relative flex items-center gap-3 rounded-xl py-2 pr-3 pl-11 text-[13px] font-medium transition",
+                                  "group relative flex cursor-pointer items-center gap-3 rounded-xl py-2 pr-3 pl-11 text-[13px] font-medium transition",
                                   childActive
                                     ? "text-[var(--dash-text)]"
                                     : "text-[var(--dash-muted)] hover:text-[var(--dash-text)]",
@@ -204,7 +204,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                                   className={cn(
                                     "absolute top-1/2 left-6 h-5 w-[2px] -translate-y-1/2 rounded-full transition-opacity",
                                     childActive
-                                      ? "bg-[var(--dash-red)] opacity-100"
+                                      ? "bg-[var(--dash-accent)] opacity-100"
                                       : "bg-transparent opacity-0",
                                   )}
                                 />
@@ -236,9 +236,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div className="min-h-screen bg-[var(--dash-bg,#f6f8fc)] text-[var(--dash-text,rgba(15,23,42,0.95))]">
+    <div className="min-h-screen bg-[var(--dash-bg)] text-[var(--dash-text)]">
       {/* Topbar */}
-      <header className="sticky top-0 z-50 border-b border-[var(--dash-border)] bg-[var(--dash-surface)]/90 backdrop-blur xl:pl-72">
+      <header className="sticky top-0 z-50 border-b border-[var(--dash-border)] bg-[var(--dash-surface)]/85 backdrop-blur-md supports-[backdrop-filter]:bg-[var(--dash-surface)]/75 xl:pl-72">
         <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center gap-3">
             {/* Collapsible sidebar trigger (below xl only) */}
@@ -246,11 +246,11 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               type="button"
               onClick={() => setSidebarOpen((v) => !v)}
               className={cn(
-                "inline-flex items-center justify-center rounded-full border shadow-sm xl:hidden",
+                "inline-flex cursor-pointer items-center justify-center rounded-full border shadow-sm xl:hidden",
                 "h-9 w-9",
                 "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-muted)]",
                 "hover:bg-[var(--dash-surface-2)]",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
               )}
               aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
               transition={{ duration: 0.18, ease: "easeOut" }}
@@ -263,7 +263,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             </motion.button>
 
             {/* Logo */}
-            <Link href="/admin" className="flex items-center gap-3">
+            <Link href="/admin" className="flex cursor-pointer items-center gap-3">
               <AdminImage
                 src="/_optimized/brand/SSPlogo.png"
                 alt="NPT Logistics"
@@ -292,8 +292,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         )}
       >
         {/* subtle inner glow */}
-        <div className="h-full">
-          <div className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(60%_40%_at_20%_0%,black,transparent)] opacity-60" />
+        <div className="relative h-full">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_0%_0%,var(--dash-accent-muted),transparent_55%)] [mask-image:radial-gradient(70%_55%_at_15%_0%,black,transparent)] opacity-90" />
           {sidebarNav}
         </div>
       </aside>
@@ -314,7 +314,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="absolute inset-0 bg-black/40" onClick={() => setSidebarOpen(false)} />
+            <div
+              className="absolute inset-0 cursor-pointer bg-black/40"
+              onClick={() => setSidebarOpen(false)}
+            />
             <motion.div
               className="absolute inset-y-0 left-0 w-80 max-w-[85vw] border-r border-[var(--dash-border)] bg-[var(--dash-surface)] shadow-2xl"
               initial={{ x: -24, opacity: 0 }}
@@ -328,7 +331,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 </div>
                 <button
                   type="button"
-                  className="rounded-full p-2 text-[var(--dash-muted)] hover:bg-[var(--dash-surface-2)]"
+                  className="cursor-pointer rounded-full p-2 text-[var(--dash-muted)] hover:bg-[var(--dash-surface-2)]"
                   onClick={() => setSidebarOpen(false)}
                   aria-label="Close sidebar"
                 >

@@ -10,8 +10,17 @@ import {
 } from "@/lib/utils/blog/adminBlogApi";
 import { cn } from "@/lib/cn";
 import { useAdminTheme } from "@/app/(admin)/components/theme/AdminThemeProvider";
-import { ConfirmModal, type ConfirmTone } from "@/app/(admin)/components/ui/ConfirmModal";
-import { Search, Plus, Pencil, Save, X, Trash2, MoreHorizontal, Hash } from "lucide-react";
+import {
+  AdminListErrorAlert,
+  AdminListFilterCard,
+  AdminListPageHeader,
+  AdminListPageShell,
+  AdminListResultsHint,
+  AdminListSearchInput,
+  AdminListTableShell,
+  useAdminConfirmRun,
+} from "@/app/(admin)/components/admin-list";
+import { Plus, Pencil, Save, X, Trash2, MoreHorizontal, Hash } from "lucide-react";
 
 function DashIconButton({
   title,
@@ -27,11 +36,11 @@ function DashIconButton({
   variant?: "neutral" | "danger";
 }) {
   const base = cn(
-    "inline-flex h-9 w-9 items-center justify-center rounded-2xl border transition",
+    "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-2xl border transition",
     "shadow-[var(--dash-shadow)]/10",
     "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
     "hover:bg-[var(--dash-surface-2)]",
-    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
     "disabled:cursor-not-allowed disabled:opacity-50",
   );
 
@@ -79,10 +88,10 @@ function PrimaryActionButton({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "inline-flex h-10 items-center gap-2 rounded-2xl px-4 text-sm font-semibold transition",
+        "inline-flex h-10 cursor-pointer items-center gap-2 rounded-2xl px-4 text-sm font-semibold transition",
         "bg-[var(--dash-red)] text-white hover:brightness-110",
         "shadow-[var(--dash-shadow)]/14",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
         "disabled:cursor-not-allowed disabled:opacity-50",
       )}
     >
@@ -134,8 +143,8 @@ function RowMenu({
               onRename();
             }}
             className={cn(
-              "flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition",
-              "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
+              "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition",
+              "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:cursor-not-allowed disabled:opacity-50",
             )}
             role="menuitem"
           >
@@ -153,8 +162,8 @@ function RowMenu({
               onDelete();
             }}
             className={cn(
-              "flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition",
-              "text-red-500 hover:bg-red-500/10 disabled:opacity-50",
+              "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition",
+              "text-red-500 hover:bg-red-500/10 disabled:cursor-not-allowed disabled:opacity-50",
             )}
             role="menuitem"
           >
@@ -174,7 +183,7 @@ function TextInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
       className={cn(
         "w-full rounded-2xl border px-3 py-2 text-sm transition outline-none",
         "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)] placeholder:text-[var(--dash-muted)]",
-        "focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+        "focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
         props.className,
       )}
     />
@@ -192,21 +201,13 @@ export default function AdminCategoriesClient({ initialItems }: { initialItems: 
   const [err, setErr] = React.useState<string | null>(null);
   const [busy, setBusy] = React.useState(false);
 
-  // Confirm modal state
-  const [confirmOpen, setConfirmOpen] = React.useState(false);
-  const [confirmTone, setConfirmTone] = React.useState<ConfirmTone>("danger");
-  const [confirmTitle, setConfirmTitle] = React.useState("");
-  const [confirmDesc, setConfirmDesc] = React.useState<React.ReactNode>(null);
-  const [confirmLabel, setConfirmLabel] = React.useState("Confirm");
-  const confirmActionRef = React.useRef<null | (() => Promise<void>)>(null);
-
   const filtered = React.useMemo(() => {
     const t = q.trim().toLowerCase();
     if (!t) return items;
     return items.filter((c) => `${c.name} ${c.slug}`.toLowerCase().includes(t));
   }, [items, q]);
 
-  async function run(fn: () => Promise<void>) {
+  async function run(fn: () => Promise<unknown>) {
     setErr(null);
     setBusy(true);
     try {
@@ -219,104 +220,32 @@ export default function AdminCategoriesClient({ initialItems }: { initialItems: 
     }
   }
 
-  function openConfirm(opts: {
-    tone?: ConfirmTone;
-    title: string;
-    description?: React.ReactNode;
-    confirmLabel?: string;
-    action: () => Promise<void>;
-  }) {
-    confirmActionRef.current = opts.action;
-    setConfirmTone(opts.tone ?? "danger");
-    setConfirmTitle(opts.title);
-    setConfirmDesc(opts.description ?? null);
-    setConfirmLabel(opts.confirmLabel ?? "Confirm");
-    setConfirmOpen(true);
-  }
+  const { requestConfirm, confirmModal } = useAdminConfirmRun({
+    busy,
+    execute: run,
+  });
 
   return (
-    <div className="min-h-screen bg-[var(--dash-bg)]">
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none fixed inset-0 -z-10",
-          isDark
-            ? "bg-[radial-gradient(1200px_600px_at_10%_0%,rgba(220,38,38,0.14),transparent_55%),radial-gradient(900px_500px_at_90%_10%,rgba(255,255,255,0.06),transparent_55%)]"
-            : "bg-[radial-gradient(1100px_520px_at_10%_0%,rgba(220,38,38,0.08),transparent_55%),radial-gradient(900px_480px_at_90%_10%,rgba(15,23,42,0.06),transparent_55%)]",
-        )}
-      />
+    <AdminListPageShell maxWidthClassName="max-w-5xl">
+      {confirmModal}
 
-      <ConfirmModal
-        open={confirmOpen}
-        tone={confirmTone}
-        title={confirmTitle}
-        description={confirmDesc}
-        confirmLabel={confirmLabel}
-        busy={busy}
-        onClose={() => setConfirmOpen(false)}
-        onConfirm={() => {
-          const act = confirmActionRef.current;
-          setConfirmOpen(false);
-          if (!act) return;
-          run(act);
-        }}
-      />
+      <AdminListFilterCard>
+        <div className="p-5">
+          <AdminListPageHeader
+            icon={Hash}
+            title="Categories"
+            description="Create, rename, and delete categories."
+          />
 
-      <div className="mx-auto max-w-5xl px-6 py-8">
-        {/* Header card */}
-        <div
-          className={cn(
-            "mb-6 rounded-3xl border p-5 shadow-[var(--dash-shadow)]",
-            "border-[var(--dash-border)] bg-[var(--dash-surface)]",
-          )}
-        >
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="min-w-0">
-              <div className="flex items-center gap-3">
-                <div
-                  className={cn(
-                    "inline-flex h-10 w-10 items-center justify-center rounded-2xl border",
-                    "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
-                  )}
-                >
-                  <Hash className="h-5 w-5" />
-                </div>
-                <div>
-                  <div className="text-2xl font-semibold tracking-tight text-[var(--dash-text)]">
-                    Categories
-                  </div>
-                  <div className="mt-1 text-sm text-[var(--dash-muted)]">
-                    Create, rename, and delete categories.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <AdminListErrorAlert error={err} isDark={isDark} onDismiss={() => setErr(null)} />
 
-          {err ? (
-            <div
-              className={cn(
-                "mt-4 rounded-2xl border px-4 py-3 text-sm",
-                isDark
-                  ? "border-red-500/25 bg-red-600/15 text-red-50"
-                  : "border-red-200 bg-red-50 text-red-900",
-              )}
-            >
-              {err}
-            </div>
-          ) : null}
-
-          {/* Controls */}
           <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-[1fr_1fr]">
-            <div className="relative">
-              <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-[var(--dash-muted)]" />
-              <TextInput
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="Search categories…"
-                className="pl-9"
-              />
-            </div>
+            <AdminListSearchInput
+              value={q}
+              onChange={setQ}
+              placeholder="Search categories…"
+              disabled={busy}
+            />
 
             <div className="flex gap-2">
               <TextInput
@@ -342,93 +271,75 @@ export default function AdminCategoriesClient({ initialItems }: { initialItems: 
             </div>
           </div>
         </div>
+      </AdminListFilterCard>
 
-        {/* Table card */}
-        <div
-          className={cn(
-            "overflow-hidden rounded-3xl border shadow-[var(--dash-shadow)]",
-            "border-[var(--dash-border)] bg-[var(--dash-surface)]",
-          )}
-        >
-          {/* subtle top bar */}
-          <div
-            className={cn(
-              "flex items-center justify-between gap-3 border-b px-4 py-3",
-              "border-[var(--dash-border)]",
-            )}
-          >
-            <div className="text-sm text-[var(--dash-muted)]">
-              Showing{" "}
-              <span className="font-semibold text-[var(--dash-text)]">{filtered.length}</span> of{" "}
-              <span className="font-semibold text-[var(--dash-text)]">{items.length}</span>
-            </div>
-          </div>
+      <AdminListTableShell>
+        <AdminListResultsHint showing={filtered.length} total={items.length} />
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className={cn("border-b", "border-[var(--dash-border)]")}>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <thead className={cn("border-b", "border-[var(--dash-border)]")}>
+              <tr>
+                <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Name</th>
+                <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Slug</th>
+                <th className="px-4 py-3 text-right font-semibold text-[var(--dash-muted)]">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {filtered.map((c) => (
+                <Row
+                  key={String(c.id)}
+                  cat={c}
+                  busy={busy}
+                  onRename={async (id, name) =>
+                    run(async () => {
+                      const nm = name.trim();
+                      if (!nm) throw new Error("Name required");
+                      const updated = await adminUpdateCategory(id, { name: nm });
+                      setItems((prev) => prev.map((x) => (String(x.id) === id ? updated : x)));
+                    })
+                  }
+                  onDelete={(id) =>
+                    requestConfirm({
+                      tone: "danger",
+                      title: "Delete category?",
+                      description: (
+                        <span className="text-[var(--dash-muted)]">
+                          This cannot be undone. Posts using this category may show without it.
+                        </span>
+                      ),
+                      confirmLabel: "Delete",
+                      action: async () => {
+                        await adminDeleteCategory(id);
+                        setItems((prev) => prev.filter((x) => String(x.id) !== id));
+                      },
+                    })
+                  }
+                />
+              ))}
+
+              {!filtered.length ? (
                 <tr>
-                  <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Name</th>
-                  <th className="px-4 py-3 font-semibold text-[var(--dash-muted)]">Slug</th>
-                  <th className="px-4 py-3 text-right font-semibold text-[var(--dash-muted)]">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {filtered.map((c) => (
-                  <Row
-                    key={String(c.id)}
-                    cat={c}
-                    busy={busy}
-                    onRename={async (id, name) =>
-                      run(async () => {
-                        const nm = name.trim();
-                        if (!nm) throw new Error("Name required");
-                        const updated = await adminUpdateCategory(id, { name: nm });
-                        setItems((prev) => prev.map((x) => (String(x.id) === id ? updated : x)));
-                      })
-                    }
-                    onDelete={(id) =>
-                      openConfirm({
-                        tone: "danger",
-                        title: "Delete category?",
-                        description: (
-                          <span className="text-[var(--dash-muted)]">
-                            This cannot be undone. Posts using this category may show without it.
-                          </span>
-                        ),
-                        confirmLabel: "Delete",
-                        action: async () => {
-                          await adminDeleteCategory(id);
-                          setItems((prev) => prev.filter((x) => String(x.id) !== id));
-                        },
-                      })
-                    }
-                  />
-                ))}
-
-                {!filtered.length ? (
-                  <tr>
-                    <td colSpan={3} className="px-4 py-10 text-center">
-                      <div className="mx-auto max-w-sm">
-                        <div className="text-sm font-semibold text-[var(--dash-text)]">
-                          No categories found
-                        </div>
-                        <div className="mt-1 text-sm text-[var(--dash-muted)]">
-                          Try a different search or create a new category.
-                        </div>
+                  <td colSpan={3} className="px-4 py-10 text-center">
+                    <div className="mx-auto max-w-sm">
+                      <div className="text-sm font-semibold text-[var(--dash-text)]">
+                        No categories found
                       </div>
-                    </td>
-                  </tr>
-                ) : null}
-              </tbody>
-            </table>
-          </div>
+                      <div className="mt-1 text-sm text-[var(--dash-muted)]">
+                        Try a different search or create a new category.
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              ) : null}
+            </tbody>
+          </table>
         </div>
-      </div>
-    </div>
+      </AdminListTableShell>
+    </AdminListPageShell>
   );
 }
 
@@ -462,7 +373,7 @@ function Row({
             className={cn(
               "w-full rounded-2xl border px-3 py-2 text-sm transition outline-none",
               "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
-              "focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+              "focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
             )}
             autoFocus
           />
@@ -489,11 +400,11 @@ function Row({
                 setEditing(false);
               }}
               className={cn(
-                "inline-flex h-9 items-center gap-2 rounded-2xl px-3 text-sm font-semibold transition",
+                "inline-flex h-9 cursor-pointer items-center gap-2 rounded-2xl px-3 text-sm font-semibold transition",
                 "bg-[var(--dash-red)] text-white hover:brightness-110",
                 "shadow-[var(--dash-shadow)]/12",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
-                "disabled:opacity-50",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
+                "disabled:cursor-not-allowed disabled:opacity-50",
               )}
             >
               <Save className="h-4 w-4" />

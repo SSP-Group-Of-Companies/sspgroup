@@ -29,8 +29,8 @@ export default function SolutionsWidget({ actionProvider }: WidgetComponentProps
           </LinkButton>
         ))}
 
-        <LinkButton onClick={() => actionProvider.goTo("/#solutions")}>
-          View all solutions
+        <LinkButton onClick={() => actionProvider.goTo(NAV.solutions.intro.ctaHref)}>
+          {NAV.solutions.intro.ctaLabel}
         </LinkButton>
       </div>
     </div>

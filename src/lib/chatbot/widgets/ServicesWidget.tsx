@@ -1,48 +1,33 @@
 // src/lib/chatbot/widgets/ServicesWidget.tsx
 "use client";
 
-export default function ServicesWidget({ actionProvider }: any) {
+import { NAV } from "@/config/navigation";
+import type { WidgetComponentProps } from "../chatbot.types";
+import { LinkButton, ResponseButton } from "./_shared";
+
+/** Legacy widget; paths align with `navigation.ts`. */
+export default function ServicesWidget({ actionProvider }: WidgetComponentProps) {
   return (
     <div className="flex flex-wrap gap-2">
-      <button
-        onClick={() => actionProvider.startSolutions()}
-        className="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm hover:bg-gray-50"
-        type="button"
-      >
+      <ResponseButton onClick={() => actionProvider.startSolutions()}>
         Browse solutions
-      </button>
+      </ResponseButton>
 
-      <button
-        onClick={() => actionProvider.goToTruckload()}
-        className="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm hover:bg-gray-50"
-        type="button"
-      >
+      <LinkButton onClick={() => actionProvider.goTo("/solutions/truckload")}>
         Truckload (FTL)
-      </button>
+      </LinkButton>
 
-      <button
-        onClick={() => actionProvider.goToLtl()}
-        className="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm hover:bg-gray-50"
-        type="button"
-      >
-        LTL
-      </button>
+      <LinkButton onClick={() => actionProvider.goTo("/solutions/ltl")}>LTL</LinkButton>
 
-      <button
-        onClick={() => actionProvider.goToCrossBorder()}
-        className="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm hover:bg-gray-50"
-        type="button"
-      >
+      <LinkButton onClick={() => actionProvider.goTo("/solutions/cross-border")}>
         Cross-border
-      </button>
+      </LinkButton>
 
-      <button
-        onClick={() => actionProvider.startQuote()}
-        className="rounded-full border border-gray-300 bg-white px-3 py-1 text-sm hover:bg-gray-50"
-        type="button"
-      >
-        Start a quote
-      </button>
+      <LinkButton onClick={() => actionProvider.goTo(NAV.solutions.intro.ctaHref)}>
+        {NAV.solutions.intro.ctaLabel}
+      </LinkButton>
+
+      <ResponseButton onClick={() => actionProvider.startQuote()}>Start a quote</ResponseButton>
     </div>
   );
 }

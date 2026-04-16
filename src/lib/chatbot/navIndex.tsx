@@ -55,7 +55,26 @@ function keywordsFor(item: { label: string; description?: string; href: string }
   if (l.includes("warehousing"))
     ["warehouse", "storage", "distribution", "3pl"].forEach((k) => words.add(k));
   if (l.includes("faq")) ["faqs", "help", "questions"].forEach((k) => words.add(k));
-  if (l.includes("guides")) ["guide", "shipping", "resources"].forEach((k) => words.add(k));
+  if (l.includes("insights") || l.includes("blog"))
+    ["guide", "guides", "articles", "news", "posts", "blog", "insights"].forEach((k) =>
+      words.add(k),
+    );
+  if (l.includes("canada") || item.href.includes("canada-usa"))
+    ["canada", "usa", "us", "united", "states", "american", "bilateral"].forEach((k) =>
+      words.add(k),
+    );
+  if (l.includes("mexico") || item.href.includes("mexico"))
+    ["mexico", "mexican", "pedimento", "border"].forEach((k) => words.add(k));
+  if (l.includes("steel") || l.includes("metals") || l.includes("aluminum"))
+    ["steel", "metals", "aluminum", "metal"].forEach((k) => words.add(k));
+  if (l.includes("retail") || l.includes("consumer"))
+    ["retail", "consumer", "store", "dc", "distribution"].forEach((k) => words.add(k));
+  if (l.includes("food") || l.includes("beverage"))
+    ["food", "beverage", "grocery", "cold", "fresh"].forEach((k) => words.add(k));
+  if (l.includes("core freight") || l.includes("freight modes"))
+    ["modes", "tl", "ltl", "equipment"].forEach((k) => words.add(k));
+  if (l.includes("managed logistics"))
+    ["managed", "logistics", "programs", "contract"].forEach((k) => words.add(k));
 
   return Array.from(words);
 }
@@ -141,6 +160,22 @@ export function buildNavIndex() {
     links.forEach((l) => pushLink(items, sectionKey, section.label, l));
   });
 
+  // Not in main NAV — used for chatbot / site search alignment with /insights
+  items.push({
+    sectionKey: "company",
+    sectionLabel: NAV.company.label,
+    label: "Insights",
+    href: "/insights",
+    description:
+      "Articles and operational perspectives on freight execution, lanes, and supply chain operations.",
+    icon: "briefcase",
+    keywords: keywordsFor({
+      label: "Insights blog articles",
+      description: "Blog posts, news, and freight perspectives",
+      href: "/insights",
+    }),
+  });
+
   return items;
 }
 
@@ -222,4 +257,31 @@ export function getSolutionsTopLinks() {
     categories: Array<{ title: string; links: readonly NavLink[] }>;
   };
   return (solutions.categories || []).flatMap((c) => c.links || []);
+}
+
+/** Single source for chatbot / parser: label + description from navigation. */
+export function getSolutionNavSuggestion(href: string): {
+  label: string;
+  href: string;
+  description?: string;
+} | null {
+  const solutions = NAV.solutions as unknown as {
+    categories: Array<{ title: string; href: string; links: readonly NavLink[] }>;
+  };
+
+  for (const cat of solutions.categories || []) {
+    if (cat.href === href) {
+      return {
+        label: cat.title,
+        href: cat.href,
+        description: `Solution family overview: ${cat.title}.`,
+      };
+    }
+    const link = (cat.links || []).find((l) => l.href === href);
+    if (link) {
+      return { label: link.label, href: link.href, description: link.description };
+    }
+  }
+
+  return null;
 }

@@ -9,7 +9,7 @@ type ChatButtonProps = PropsWithChildren<{
 }>;
 
 const baseClassName =
-  "inline-flex items-center rounded-xl p-2 text-sm font-medium transition-colors";
+  "inline-flex items-center rounded-xl px-3 py-2 text-sm font-semibold transition-all duration-150";
 
 export function ResponseButton({ onClick, children, type = "button" }: ChatButtonProps) {
   return (
@@ -18,7 +18,8 @@ export function ResponseButton({ onClick, children, type = "button" }: ChatButto
       onClick={onClick}
       className={[
         baseClassName,
-        "border border-gray-300 bg-white text-gray-900 hover:bg-gray-50",
+        "border-ssp-ink-900/15 text-ssp-ink-900 border bg-white shadow-sm",
+        "hover:border-ssp-cyan-500/35 hover:bg-ocean-50 hover:shadow-md active:scale-[0.99]",
       ].join(" ")}
     >
       {children}
@@ -33,7 +34,8 @@ export function LinkButton({ onClick, children, type = "button" }: ChatButtonPro
       onClick={onClick}
       className={[
         baseClassName,
-        "border border-gray-200 bg-gray-50 text-gray-900 hover:bg-gray-100",
+        "border-ssp-cyan-600/20 bg-ocean-50/90 text-ssp-ink-900 border",
+        "hover:border-ssp-cyan-500/40 hover:bg-ocean-100 hover:shadow-sm active:scale-[0.99]",
       ].join(" ")}
     >
       {children}

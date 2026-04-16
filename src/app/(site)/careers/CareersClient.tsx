@@ -188,10 +188,13 @@ export default function CareersClient({
   initialItems,
   initialMeta,
   initialQuery,
+  initialFetchError,
 }: {
   initialItems: JobItem[];
   initialMeta: JobsMeta;
   initialQuery: Query;
+  /** Set when SSR jobs API fails so the page renders with inline error instead of error.tsx */
+  initialFetchError?: string | null;
 }) {
   const router = useRouter();
   const sp = useSearchParams();
@@ -209,7 +212,7 @@ export default function CareersClient({
   const [items, setItems] = React.useState<JobItem[]>(initialItems ?? []);
   const [meta, setMeta] = React.useState<JobsMeta>(initialMeta ?? {});
   const [loading, setLoading] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<string | null>(initialFetchError ?? null);
 
   const jobsAbortRef = React.useRef<AbortController | null>(null);
   const resultsRef = React.useRef<HTMLDivElement | null>(null);
@@ -579,7 +582,7 @@ export default function CareersClient({
                 <div className="mt-5 grid grid-cols-2 gap-2.5">
                   <div className="rounded-xl border border-white/18 bg-black/18 px-3 py-2.5">
                     <p className="text-[1.05rem] font-semibold tracking-tight text-white">
-                      {meta?.total ?? items.length}
+                      {error ? "—" : (meta?.total ?? items.length)}
                     </p>
                     <p className="mt-1 text-[10px] tracking-[0.14em] text-white/60 uppercase">
                       Live openings
@@ -892,10 +895,18 @@ export default function CareersClient({
             </div>
 
             <div className="text-sm text-[color:var(--color-subtle-light)]">
-              Total:{" "}
-              <span className="font-semibold text-[color:var(--color-text-light)]">
-                {meta?.total ?? items.length}
-              </span>
+              {error ? (
+                <span className="text-[color:var(--color-muted-light)]">
+                  Unable to load listings
+                </span>
+              ) : (
+                <>
+                  Total:{" "}
+                  <span className="font-semibold text-[color:var(--color-text-light)]">
+                    {meta?.total ?? items.length}
+                  </span>
+                </>
+              )}
             </div>
           </div>
 
@@ -1025,6 +1036,10 @@ export default function CareersClient({
                         <Loader2 className="h-3.5 w-3.5 animate-spin" />
                         Searching…
                       </span>
+                    ) : error ? (
+                      <span className="text-[color:var(--color-muted-light)]">
+                        Unable to load results
+                      </span>
                     ) : (
                       <span>
                         <span className="font-bold text-[color:var(--color-text-light)]">
@@ -1111,7 +1126,7 @@ export default function CareersClient({
                         Loading roles…
                       </span>
                     </div>
-                  ) : items.length ? (
+                  ) : error && !items.length ? null : items.length ? (
                     items.map((j: any) => {
                       const loc = Array.isArray(j.locations) ? j.locations : [];
                       const locLabel =
@@ -1188,7 +1203,7 @@ export default function CareersClient({
                         </Link>
                       );
                     })
-                  ) : (
+                  ) : !error ? (
                     <div className="rounded-xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)]/30 p-8 text-center">
                       <p className="text-sm font-medium text-[color:var(--color-text-light)]">
                         No roles found
@@ -1197,7 +1212,7 @@ export default function CareersClient({
                         Try adjusting your search or filters.
                       </p>
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </div>
 

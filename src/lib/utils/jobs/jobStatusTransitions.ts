@@ -10,6 +10,7 @@ export function getAllowedJobActions(status: EJobPostingStatus | string | undefi
   const canPublish = s !== EJobPostingStatus.PUBLISHED; // allow publish from DRAFT/CLOSED/ARCHIVED (your requirement)
   const canClose = s === EJobPostingStatus.PUBLISHED; // only close if currently published
   const canArchive = s !== EJobPostingStatus.ARCHIVED; // allow archive from anything except already archived
+  const canUnarchive = s === EJobPostingStatus.ARCHIVED;
 
-  return { canPublish, canClose, canArchive };
+  return { canPublish, canClose, canArchive, canUnarchive };
 }

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { adminDeleteComment } from "@/lib/utils/blog/adminBlogApi";
 import { cn } from "@/lib/cn";
 import { useAdminTheme } from "@/app/(admin)/components/theme/AdminThemeProvider";
-import { ConfirmModal, type ConfirmTone } from "@/app/(admin)/components/ui/ConfirmModal";
+import { useAdminConfirmRun } from "@/app/(admin)/components/admin-list";
 import { CalendarClock, ExternalLink, MessageSquareText, Trash2 } from "lucide-react";
 
 export default function AdminCommentsClient({
@@ -24,31 +24,12 @@ export default function AdminCommentsClient({
   const [busyId, setBusyId] = React.useState<string | null>(null);
   const [err, setErr] = React.useState<string | null>(null);
 
-  // confirm modal
-  const [confirmOpen, setConfirmOpen] = React.useState(false);
-  const [confirmTone, setConfirmTone] = React.useState<ConfirmTone>("danger");
-  const [confirmTitle, setConfirmTitle] = React.useState("");
-  const [confirmDesc, setConfirmDesc] = React.useState<React.ReactNode>(null);
-  const [confirmLabel, setConfirmLabel] = React.useState("Delete");
-  const confirmActionRef = React.useRef<null | (() => Promise<void>)>(null);
-
-  function openConfirm(opts: {
-    tone?: ConfirmTone;
-    title: string;
-    description?: React.ReactNode;
-    confirmLabel?: string;
-    action: () => Promise<void>;
-  }) {
-    confirmActionRef.current = opts.action;
-    setConfirmTone(opts.tone ?? "danger");
-    setConfirmTitle(opts.title);
-    setConfirmDesc(opts.description ?? null);
-    setConfirmLabel(opts.confirmLabel ?? "Confirm");
-    setConfirmOpen(true);
-  }
+  const { requestConfirm, confirmModal } = useAdminConfirmRun({
+    busy: Boolean(busyId),
+  });
 
   async function del(id: string) {
-    openConfirm({
+    requestConfirm({
       tone: "danger",
       title: "Delete this comment?",
       description: <span className="text-[var(--dash-muted)]">This action cannot be undone.</span>,
@@ -69,32 +50,8 @@ export default function AdminCommentsClient({
   }
 
   return (
-    <div className="min-h-screen bg-[var(--dash-bg)]">
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none fixed inset-0 -z-10",
-          isDark
-            ? "bg-[radial-gradient(1200px_600px_at_10%_0%,rgba(220,38,38,0.14),transparent_55%),radial-gradient(900px_500px_at_90%_10%,rgba(255,255,255,0.06),transparent_55%)]"
-            : "bg-[radial-gradient(1100px_520px_at_10%_0%,rgba(220,38,38,0.08),transparent_55%),radial-gradient(900px_480px_at_90%_10%,rgba(15,23,42,0.06),transparent_55%)]",
-        )}
-      />
-
-      <ConfirmModal
-        open={confirmOpen}
-        tone={confirmTone}
-        title={confirmTitle}
-        description={confirmDesc}
-        confirmLabel={confirmLabel}
-        busy={!!busyId}
-        onClose={() => setConfirmOpen(false)}
-        onConfirm={() => {
-          const act = confirmActionRef.current;
-          setConfirmOpen(false);
-          if (!act) return;
-          act();
-        }}
-      />
+    <div className="admin-ambient">
+      {confirmModal}
 
       <div className="mx-auto max-w-5xl px-6 py-10">
         {/* Header */}
@@ -106,8 +63,15 @@ export default function AdminCommentsClient({
         >
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <div className="flex items-center gap-2 text-2xl font-semibold tracking-tight text-[var(--dash-text)]">
-                <MessageSquareText className="h-6 w-6 text-[var(--dash-muted)]" />
+              <div className="flex items-center gap-3 text-2xl font-semibold tracking-tight text-[var(--dash-text)]">
+                <span
+                  className={cn(
+                    "inline-flex h-11 w-11 items-center justify-center rounded-2xl border",
+                    "border-[var(--dash-border)] bg-[var(--dash-accent-muted)] text-[var(--dash-accent)]",
+                  )}
+                >
+                  <MessageSquareText className="h-6 w-6" aria-hidden />
+                </span>
                 Comments
               </div>
               <div className="mt-1 text-sm text-[var(--dash-muted)]">
@@ -200,11 +164,11 @@ export default function AdminCommentsClient({
                     disabled={!!busyId}
                     onClick={() => del(String(c.id))}
                     className={cn(
-                      "inline-flex items-center justify-center gap-2 rounded-2xl border px-3.5 py-2 text-sm font-semibold transition",
+                      "inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl border px-3.5 py-2 text-sm font-semibold transition",
                       isDark
                         ? "border-red-500/25 bg-red-600/15 text-red-50 hover:bg-red-600/20"
                         : "border-red-200 bg-red-50 text-red-900 hover:bg-red-100",
-                      "shadow-[var(--dash-shadow)]/10 disabled:opacity-50",
+                      "shadow-[var(--dash-shadow)]/10 disabled:cursor-not-allowed disabled:opacity-50",
                       "focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30",
                     )}
                     title="Delete Comment"
@@ -269,10 +233,10 @@ export default function AdminCommentsClient({
                 router.push(`/admin/blog/comments?page=${Math.max(1, (initialMeta.page ?? 1) - 1)}`)
               }
               className={cn(
-                "rounded-2xl border px-3.5 py-2 text-sm font-semibold transition",
+                "cursor-pointer rounded-2xl border px-3.5 py-2 text-sm font-semibold transition",
                 "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
-                "hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+                "hover:bg-[var(--dash-surface-2)] disabled:cursor-not-allowed disabled:opacity-50",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
               )}
             >
               Prev
@@ -284,10 +248,10 @@ export default function AdminCommentsClient({
                 router.push(`/admin/blog/comments?page=${(initialMeta.page ?? 1) + 1}`)
               }
               className={cn(
-                "rounded-2xl border px-3.5 py-2 text-sm font-semibold transition",
+                "cursor-pointer rounded-2xl border px-3.5 py-2 text-sm font-semibold transition",
                 "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
-                "hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+                "hover:bg-[var(--dash-surface-2)] disabled:cursor-not-allowed disabled:opacity-50",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
               )}
             >
               Next

@@ -326,18 +326,18 @@ export function Select({
                         btnRef.current?.focus();
                       }}
                       className={cn(
-                        "flex w-full items-center justify-between gap-2 rounded-2xl px-3 py-2 text-left text-sm transition",
+                        "flex w-full cursor-pointer items-center justify-between gap-2 rounded-2xl px-3 py-2 text-left text-sm transition",
                         isActive
                           ? "bg-[var(--dash-surface-2)] text-[var(--dash-text)]"
                           : "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]",
                         it.isPlaceholder && !isActive && "text-[var(--dash-muted)]",
-                        isHighlighted && "ring-1 ring-[var(--dash-red-soft)]",
+                        isHighlighted && "ring-1 ring-[var(--dash-accent-soft)]",
                       )}
                     >
                       <span className={cn(it.isPlaceholder ? "text-[var(--dash-muted)]" : "")}>
                         {it.label}
                       </span>
-                      {isActive ? <Check className="h-4 w-4 text-[var(--dash-red)]" /> : null}
+                      {isActive ? <Check className="h-4 w-4 text-[var(--dash-accent)]" /> : null}
                     </button>
                   );
                 })}
@@ -380,10 +380,10 @@ export function Select({
           setOpen((v) => !v);
         }}
         className={cn(
-          "inline-flex h-10 w-full items-center justify-between gap-2 rounded-2xl border px-3 text-sm font-semibold transition",
+          "inline-flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded-2xl border px-3 text-sm font-semibold transition",
           "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
           "hover:bg-[var(--dash-surface-2)]",
-          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-red-soft)]",
+          "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
           "disabled:cursor-not-allowed disabled:opacity-50",
         )}
         aria-haspopup="listbox"
