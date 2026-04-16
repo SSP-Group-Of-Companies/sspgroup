@@ -25,7 +25,7 @@ export default function PageSuggestionsWidget({
 
   return (
     <div className="space-y-2">
-      <div className="text-ssp-ink-800/55 text-[11px] font-semibold tracking-wide uppercase">
+      <div className="text-ssp-ink-800/40 text-[10px] font-medium tracking-wide uppercase">
         {title}
       </div>
 
@@ -33,9 +33,9 @@ export default function PageSuggestionsWidget({
         {suggestions.slice(0, 3).map((suggestion) => (
           <div
             key={`${suggestion.href}-${suggestion.label}`}
-            className="border-ssp-ink-900/10 ring-ssp-cyan-500/10 rounded-xl border bg-white/90 p-2.5 shadow-sm ring-1"
+            className="border-ssp-ink-900/[0.07] rounded-lg border bg-white/60 p-2"
           >
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5">
               <LinkButton onClick={() => actionProvider.goTo(suggestion.href)}>
                 {suggestion.label}
               </LinkButton>

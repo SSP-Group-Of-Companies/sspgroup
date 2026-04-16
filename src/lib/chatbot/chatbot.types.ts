@@ -53,6 +53,9 @@ export type ActionProviderShape = {
 
   startOver: () => void;
   startQuote: () => void;
+  startQuoteIntakeFlow: () => void;
+  isQuoteIntakeActive: () => boolean;
+  handleQuoteIntakeUserMessage: (message: string) => void;
   startTracking: () => void;
   startSolutions: () => void;
   showCompany: () => void;

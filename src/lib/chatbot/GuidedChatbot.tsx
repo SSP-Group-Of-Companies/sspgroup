@@ -4,13 +4,20 @@
 import React from "react";
 import Image from "next/image";
 import Chatbot from "react-chatbot-kit";
+import { createChatBotMessage } from "react-chatbot-kit";
 import "react-chatbot-kit/build/main.css";
-import { Sparkles, X } from "lucide-react";
+import { Loader2, RotateCw, Sparkles, X } from "lucide-react";
 
 import botConfig from "@/lib/chatbot/botConfig";
 import MessageParser from "@/lib/chatbot/MessageParser";
 import { makeActionProvider } from "@/lib/chatbot/ActionProvider";
 import { useChatActions } from "@/lib/chatbot/useChatActions";
+import {
+  createBootstrappedQuoteState,
+  createIdleQuoteState,
+  QUOTE_INTAKE_STEPS,
+  type QuoteIntakeControllerState,
+} from "@/lib/chatbot/quoteIntakeFlow";
 import { lockViewportScroll } from "@/app/(site)/components/layout/header/overlay";
 
 const TOOLTIP_KEY = "ssp_chatbot_tooltip_dismissed";
@@ -23,6 +30,9 @@ const MOBILE_MEDIA_QUERY = "(max-width: 767px)";
 const PANEL_ANIMATION_MS = 480;
 const LAUNCHER_ANIMATION_MS = 100;
 const LAUNCHER_SHOW_DELAY_MS = 0;
+/** Refresh: exit old messages, then hold overlay before reveal (total premium beat). */
+const REFRESH_EXIT_MS = 320;
+const REFRESH_TOTAL_MS = 1000;
 
 export default function GuidedChatbot() {
   const pageActions = useChatActions();
@@ -45,6 +55,12 @@ export default function GuidedChatbot() {
     width: number;
     height: number;
   } | null>(null);
+
+  const quoteStateRef = React.useRef<QuoteIntakeControllerState>(createIdleQuoteState());
+  const [quoteInputMode, setQuoteInputMode] = React.useState(false);
+  const [chatBootMode, setChatBootMode] = React.useState<"normal" | "quote">("normal");
+  const [chatResetKey, setChatResetKey] = React.useState(0);
+  const [chatRefreshing, setChatRefreshing] = React.useState(false);
 
   const panelRef = React.useRef<HTMLDivElement | null>(null);
   const bodyRef = React.useRef<HTMLDivElement | null>(null);
@@ -99,6 +115,17 @@ export default function GuidedChatbot() {
 
     window.addEventListener("ssp:open-live-chat", onOpenLiveChat);
     return () => window.removeEventListener("ssp:open-live-chat", onOpenLiveChat);
+  }, []);
+
+  const onQuoteModeChange = React.useCallback((active: boolean) => {
+    setQuoteInputMode(active);
+  }, []);
+
+  const enterQuoteIntakeMode = React.useCallback(() => {
+    quoteStateRef.current = createBootstrappedQuoteState();
+    setQuoteInputMode(true);
+    setChatBootMode("quote");
+    setChatResetKey((k) => k + 1);
   }, []);
 
   React.useEffect(() => {
@@ -172,6 +199,58 @@ export default function GuidedChatbot() {
     };
   }, []);
 
+  /** Keep focus on the composer after each send so users can keep typing without clicking. */
+  React.useEffect(() => {
+    if (!showPanel || !chatSessionActive || chatRefreshing) return;
+    const root = bodyRef.current;
+    if (!root) return;
+    const container = root;
+
+    function focusChatInput() {
+      container
+        .querySelector<HTMLInputElement>(".react-chatbot-kit-chat-input")
+        ?.focus({ preventScroll: true });
+    }
+
+    function onInputFormSubmit() {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(focusChatInput);
+      });
+    }
+
+    let bound: HTMLFormElement | null = null;
+
+    function tryBind(): boolean {
+      const form = container.querySelector<HTMLFormElement>(
+        "form.react-chatbot-kit-chat-input-form",
+      );
+      if (!form || bound) return !!bound;
+      bound = form;
+      form.addEventListener("submit", onInputFormSubmit);
+      return true;
+    }
+
+    if (tryBind()) {
+      return () => {
+        bound?.removeEventListener("submit", onInputFormSubmit);
+        bound = null;
+      };
+    }
+
+    const mo = new MutationObserver(() => {
+      if (tryBind()) {
+        mo.disconnect();
+      }
+    });
+    mo.observe(root, { childList: true, subtree: true });
+
+    return () => {
+      mo.disconnect();
+      bound?.removeEventListener("submit", onInputFormSubmit);
+      bound = null;
+    };
+  }, [showPanel, chatSessionActive, chatResetKey, open, chatRefreshing]);
+
   function hideLauncherImmediately() {
     if (launcherShowTimerRef.current) {
       window.clearTimeout(launcherShowTimerRef.current);
@@ -206,7 +285,7 @@ export default function GuidedChatbot() {
     }, LAUNCHER_SHOW_DELAY_MS);
   }
 
-  function openChat() {
+  function openChat(opts?: { quoteFirst?: boolean }) {
     if (closeTimerRef.current) {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
@@ -214,6 +293,12 @@ export default function GuidedChatbot() {
     if (openTimerRef.current) {
       window.clearTimeout(openTimerRef.current);
       openTimerRef.current = null;
+    }
+
+    if (opts?.quoteFirst) {
+      enterQuoteIntakeMode();
+    } else if (!chatSessionActive) {
+      setChatBootMode("normal");
     }
 
     setChatSessionActive(true);
@@ -281,10 +366,39 @@ export default function GuidedChatbot() {
     };
   }, [pageActions]);
 
+  const chatConfig = React.useMemo(() => {
+    if (chatBootMode === "quote") {
+      return {
+        ...botConfig,
+        initialMessages: [createChatBotMessage(QUOTE_INTAKE_STEPS[0].prompt, {})],
+      };
+    }
+    return botConfig;
+  }, [chatBootMode, chatResetKey]);
+
   const ActionProvider = React.useMemo(
-    () => makeActionProvider(pageActionsWithAutoClose),
-    [pageActionsWithAutoClose],
+    () =>
+      makeActionProvider(pageActionsWithAutoClose, {
+        quoteStateRef,
+        onQuoteModeChange,
+        onEnterQuoteIntakeMode: enterQuoteIntakeMode,
+      }),
+    [pageActionsWithAutoClose, onQuoteModeChange, enterQuoteIntakeMode],
   );
+
+  function resetChatSession() {
+    if (chatRefreshing) return;
+    setChatRefreshing(true);
+    window.setTimeout(() => {
+      quoteStateRef.current = createIdleQuoteState();
+      setQuoteInputMode(false);
+      setChatBootMode("normal");
+      setChatResetKey((k) => k + 1);
+    }, REFRESH_EXIT_MS);
+    window.setTimeout(() => {
+      setChatRefreshing(false);
+    }, REFRESH_TOTAL_MS);
+  }
 
   const panelEntering = open && !closing;
 
@@ -324,7 +438,7 @@ export default function GuidedChatbot() {
                       : "pointer-events-none visible translate-y-2 opacity-0",
                   ].join(" ")
                 : [
-                    "border-ssp-ink-900/10 absolute right-0 bottom-0 w-[360px] max-w-[92vw] overflow-hidden rounded-2xl border bg-white",
+                    "border-ssp-ink-900/10 absolute right-0 bottom-0 flex max-h-[min(560px,72vh)] w-[360px] max-w-[92vw] flex-col overflow-hidden rounded-2xl border bg-white",
                     "shadow-[0_25px_50px_-12px_rgba(11,62,94,0.28),0_0_0_1px_rgba(16,167,216,0.06)_inset]",
                     "origin-bottom-right transition-all",
                     panelEntering
@@ -373,31 +487,89 @@ export default function GuidedChatbot() {
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={closeChat}
-                className="text-ssp-ink-800/70 hover:bg-ocean-50 hover:text-ssp-ink-900 rounded-xl p-2 transition-colors hover:cursor-pointer"
-                aria-label="Close chat"
-              >
-                <X size={18} />
-              </button>
+              <div className="flex items-center gap-0.5">
+                <button
+                  type="button"
+                  onClick={resetChatSession}
+                  disabled={chatRefreshing}
+                  className={[
+                    "rounded-xl p-2 transition-colors",
+                    chatRefreshing
+                      ? "text-ssp-ink-800/40 cursor-wait"
+                      : "text-ssp-ink-800/70 hover:bg-ocean-50 hover:text-ssp-ink-900 hover:cursor-pointer",
+                  ].join(" ")}
+                  aria-label="Restart chat"
+                  title="Restart chat"
+                >
+                  <RotateCw
+                    size={18}
+                    className={chatRefreshing ? "animate-spin motion-reduce:animate-none" : ""}
+                  />
+                </button>
+                <button
+                  type="button"
+                  onClick={closeChat}
+                  className="text-ssp-ink-800/70 hover:bg-ocean-50 hover:text-ssp-ink-900 rounded-xl p-2 transition-colors hover:cursor-pointer"
+                  aria-label="Close chat"
+                >
+                  <X size={18} />
+                </button>
+              </div>
             </div>
           )}
 
           <div
             ref={bodyRef}
             className={[
-              "ssp-chatbot",
-              fullScreenMobile ? "ssp-chatbot--mobile-full min-h-0 flex-1" : "",
+              "relative min-h-0 flex-1",
+              fullScreenMobile ? "flex min-h-0 flex-1 flex-col" : "flex min-h-0 flex-1 flex-col",
             ].join(" ")}
           >
-            <Chatbot
-              config={botConfig as never}
-              messageParser={MessageParser as never}
-              actionProvider={ActionProvider as never}
-              placeholderText="Ask about quotes, tracking, solutions, FAQs, lanes, or support…"
-              validator={(message: string) => message.trim().length > 0}
-            />
+            <div
+              className={[
+                "ssp-chatbot transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                fullScreenMobile ? "ssp-chatbot--mobile-full min-h-0 flex-1" : "min-h-0 flex-1",
+                chatRefreshing
+                  ? "pointer-events-none scale-[0.97] opacity-0 blur-[2px]"
+                  : "blur-0 scale-100 opacity-100",
+              ].join(" ")}
+            >
+              <Chatbot
+                key={chatResetKey}
+                config={chatConfig as never}
+                messageParser={MessageParser as never}
+                actionProvider={ActionProvider as never}
+                placeholderText={
+                  quoteInputMode
+                    ? "Type your answer…"
+                    : "Ask about quotes, tracking, solutions, FAQs, lanes, or support…"
+                }
+                validator={(message: string) => message.trim().length > 0}
+              />
+            </div>
+
+            {chatRefreshing ? (
+              <div
+                className={[
+                  "absolute inset-0 z-[5] flex flex-col items-center justify-center bg-white/90 backdrop-blur-md",
+                  fullScreenMobile ? "rounded-none" : "rounded-b-2xl",
+                  "motion-safe:animate-in motion-safe:fade-in motion-safe:duration-200",
+                ].join(" ")}
+                aria-live="polite"
+                aria-busy="true"
+              >
+                <Loader2
+                  className="text-ssp-cyan-600 h-9 w-9 animate-spin motion-reduce:animate-none"
+                  aria-hidden
+                />
+                <p className="text-ssp-ink-900 mt-3 text-sm font-semibold tracking-tight">
+                  Refreshing chat…
+                </p>
+                <p className="text-ssp-ink-800/60 mt-1 max-w-[200px] text-center text-xs">
+                  Starting a clean conversation
+                </p>
+              </div>
+            ) : null}
           </div>
         </div>
       )}
@@ -444,23 +616,16 @@ export default function GuidedChatbot() {
                   <div className="text-sm">
                     <div className="text-ssp-ink-900 font-semibold">Hi 👋</div>
                     <div className="mt-0.5 text-[color:var(--color-muted-light)]">
-                      Need help with a quote, tracking, FAQs, or finding the right page?
+                      Need help with a free freight quote? Tap Yes to start in chat.
                     </div>
 
-                    <div className="mt-3 flex gap-2">
+                    <div className="mt-3">
                       <button
                         type="button"
-                        onClick={openChat}
-                        className="from-ssp-cyan-600 to-utility-bg text-utility-text rounded-full bg-gradient-to-r px-3 py-1.5 text-xs font-semibold shadow-md transition hover:brightness-105"
+                        onClick={() => openChat({ quoteFirst: true })}
+                        className="from-ssp-cyan-600 to-utility-bg text-utility-text w-full rounded-full bg-gradient-to-r px-3 py-2 text-xs font-semibold shadow-md transition hover:brightness-105"
                       >
-                        Open chat
-                      </button>
-                      <button
-                        type="button"
-                        onClick={dismissTooltip}
-                        className="border-ssp-ink-900/12 text-ssp-ink-900 hover:bg-ocean-50 rounded-full border bg-white px-3 py-1.5 text-xs font-semibold transition"
-                      >
-                        Not now
+                        Yes
                       </button>
                     </div>
                   </div>
@@ -486,7 +651,7 @@ export default function GuidedChatbot() {
 
           <button
             type="button"
-            onClick={openChat}
+            onClick={() => openChat()}
             aria-label="Open chat"
             className={[
               "group relative inline-flex h-12 w-12 cursor-pointer items-center justify-center rounded-full md:h-14 md:w-14",

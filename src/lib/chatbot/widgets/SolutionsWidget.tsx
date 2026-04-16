@@ -22,8 +22,8 @@ export default function SolutionsWidget({ actionProvider }: WidgetComponentProps
   const topLinks = coreFreight?.links ?? [];
 
   return (
-    <div className="space-y-3">
-      <div className="flex flex-wrap gap-2">
+    <div className="space-y-2.5">
+      <div className="flex flex-wrap gap-1.5">
         {topLinks.map((link) => (
           <LinkButton key={link.href} onClick={() => actionProvider.goTo(link.href)}>
             {link.label}

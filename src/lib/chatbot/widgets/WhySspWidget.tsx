@@ -9,7 +9,7 @@ const WHY_SSP_HOME_ANCHOR = `/#${WHY_NPT_SECTION.id}`;
 
 export default function WhySspWidget({ actionProvider }: BaseWidgetProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1.5">
       <LinkButton onClick={() => actionProvider.goTo(WHY_SSP_HOME_ANCHOR)}>
         Why choose SSP
       </LinkButton>

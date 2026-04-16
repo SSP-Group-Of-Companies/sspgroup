@@ -15,7 +15,7 @@ const DRIVERS = href("Driver Opportunities", "/careers#drive");
 
 export default function CareersWidget({ actionProvider }: WidgetComponentProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1.5">
       <LinkButton onClick={() => actionProvider.goTo(JOBS)}>View open roles</LinkButton>
 
       <LinkButton onClick={() => actionProvider.goTo(DRIVERS)}>Driver opportunities</LinkButton>

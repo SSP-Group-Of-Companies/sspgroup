@@ -8,7 +8,7 @@ import { LinkButton, ResponseButton } from "./_shared";
 /** Legacy widget; paths align with `navigation.ts`. */
 export default function ServicesWidget({ actionProvider }: WidgetComponentProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1.5">
       <ResponseButton onClick={() => actionProvider.startSolutions()}>
         Browse solutions
       </ResponseButton>

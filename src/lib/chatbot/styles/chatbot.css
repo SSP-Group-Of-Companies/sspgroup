@@ -86,8 +86,9 @@
 .ssp-chatbot .react-chatbot-kit-chat-bot-message a {
   color: var(--chat-accent) !important;
   text-decoration: underline !important;
+  text-decoration-color: color-mix(in srgb, var(--chat-accent) 38%, transparent) !important;
   text-underline-offset: 3px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   transition: color 0.15s ease !important;
 }
 
@@ -122,30 +123,29 @@
   color: var(--color-ssp-ink-800) !important;
 }
 
-/* --- Quick-reply / kit chat buttons (not send) --- */
+/* --- Quick-reply / kit chat buttons (not send) — minimal, secondary to in-widget CTAs --- */
 .ssp-chatbot .react-chatbot-kit-chat-btn {
-  background: var(--color-surface-1) !important;
-  border: 1px solid var(--chat-ink-border) !important;
-  color: var(--color-ssp-ink-900) !important;
-  border-radius: 12px !important;
-  font-weight: 600 !important;
-  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-ssp-ink-900) 6%, transparent) !important;
+  background: transparent !important;
+  border: 1px solid color-mix(in srgb, var(--color-ssp-ink-900) 10%, transparent) !important;
+  color: color-mix(in srgb, var(--color-ssp-ink-900) 78%, transparent) !important;
+  border-radius: 10px !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
   transition:
     background 0.15s ease,
     border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    transform 0.15s ease !important;
+    color 0.15s ease !important;
 }
 
 .ssp-chatbot .react-chatbot-kit-chat-btn:hover {
-  background: var(--color-ocean-50) !important;
-  border-color: color-mix(in srgb, var(--color-ssp-cyan-500) 38%, transparent) !important;
-  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-ssp-ink-900) 10%, transparent) !important;
-  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--color-ssp-ink-900) 3.5%, transparent) !important;
+  border-color: color-mix(in srgb, var(--color-ssp-ink-900) 16%, transparent) !important;
+  color: var(--color-ssp-ink-900) !important;
 }
 
 .ssp-chatbot .react-chatbot-kit-chat-btn:active {
-  transform: translateY(0);
+  transform: none;
 }
 
 /* --- Composer --- */
@@ -172,7 +172,17 @@
 }
 
 .ssp-chatbot .react-chatbot-kit-chat-input::placeholder {
-  color: var(--color-muted-strong) !important;
+  /* Lighter than body text so it reads as hint text, not a filled value */
+  color: var(--color-subtle) !important;
+  opacity: 1;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-input::-webkit-input-placeholder {
+  color: var(--color-subtle) !important;
+}
+
+.ssp-chatbot .react-chatbot-kit-chat-input::-moz-placeholder {
+  color: var(--color-subtle) !important;
   opacity: 1;
 }
 
