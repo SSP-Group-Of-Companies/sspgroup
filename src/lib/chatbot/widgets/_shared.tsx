@@ -8,20 +8,13 @@ type ChatButtonProps = PropsWithChildren<{
   type?: "button" | "submit" | "reset";
 }>;
 
-const baseClassName =
-  "inline-flex items-center rounded-xl px-3 py-2 text-sm font-semibold transition-all duration-150";
+/** Minimal ghost — keeps visual hierarchy under the primary quote CTA. */
+const secondaryClassName =
+  "inline-flex items-center rounded-lg border border-ssp-ink-900/10 bg-transparent px-2.5 py-1.5 text-xs font-medium text-ssp-ink-800/80 transition-colors duration-150 hover:border-ssp-ink-900/16 hover:bg-ssp-ink-900/[0.035] hover:text-ssp-ink-900 active:scale-[0.99]";
 
 export function ResponseButton({ onClick, children, type = "button" }: ChatButtonProps) {
   return (
-    <button
-      type={type}
-      onClick={onClick}
-      className={[
-        baseClassName,
-        "border-ssp-ink-900/15 text-ssp-ink-900 border bg-white shadow-sm",
-        "hover:border-ssp-cyan-500/35 hover:bg-ocean-50 hover:shadow-md active:scale-[0.99]",
-      ].join(" ")}
-    >
+    <button type={type} onClick={onClick} className={secondaryClassName}>
       {children}
     </button>
   );
@@ -29,13 +22,23 @@ export function ResponseButton({ onClick, children, type = "button" }: ChatButto
 
 export function LinkButton({ onClick, children, type = "button" }: ChatButtonProps) {
   return (
+    <button type={type} onClick={onClick} className={secondaryClassName}>
+      {children}
+    </button>
+  );
+}
+
+/** Primary CTA — only strong button in the chatbot (quick quote). */
+export function PrimaryQuoteButton({ onClick, children, type = "button" }: ChatButtonProps) {
+  return (
     <button
       type={type}
       onClick={onClick}
       className={[
-        baseClassName,
-        "border-ssp-cyan-600/20 bg-ocean-50/90 text-ssp-ink-900 border",
-        "hover:border-ssp-cyan-500/40 hover:bg-ocean-100 hover:shadow-sm active:scale-[0.99]",
+        "inline-flex w-full items-center justify-center rounded-xl px-3 py-3 text-sm font-semibold tracking-tight transition-all duration-150",
+        "from-ssp-cyan-600 to-utility-bg text-utility-text shadow-lg",
+        "bg-gradient-to-r hover:brightness-[1.04] active:scale-[0.99]",
+        "ring-1 ring-white/20",
       ].join(" ")}
     >
       {children}

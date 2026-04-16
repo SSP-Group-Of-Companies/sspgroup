@@ -4,13 +4,13 @@
 import { FAQ_PAGE_ROUTES } from "@/config/faqs";
 import { START_REPLIES } from "../knowledgeBase";
 import type { BotIntentId, WidgetComponentProps } from "../chatbot.types";
-import { LinkButton, ResponseButton } from "./_shared";
+import { LinkButton, PrimaryQuoteButton, ResponseButton } from "./_shared";
 
 export default function StartWidget({ actionProvider }: WidgetComponentProps) {
   const onPick = (intent: BotIntentId) => {
     switch (intent) {
       case "GET_QUOTE":
-        return actionProvider.startQuote();
+        return actionProvider.startQuoteIntakeFlow();
 
       case "TRACKING":
         return actionProvider.startTracking();
@@ -44,22 +44,33 @@ export default function StartWidget({ actionProvider }: WidgetComponentProps) {
     }
   };
 
+  const quoteReply = START_REPLIES.find((r) => r.intent === "GET_QUOTE");
+  const otherReplies = START_REPLIES.filter((r) => r.intent !== "GET_QUOTE");
+
   return (
-    <div className="flex flex-wrap gap-2">
-      {START_REPLIES.map((reply) => {
-        const isDirectLink =
-          reply.intent === "TRACKING" ||
-          reply.intent === "RESOURCES_FAQS" ||
-          reply.intent === "RESOURCES_GUIDES";
+    <div className="flex flex-col gap-3">
+      {quoteReply ? (
+        <PrimaryQuoteButton onClick={() => onPick(quoteReply.intent)}>
+          {quoteReply.label}
+        </PrimaryQuoteButton>
+      ) : null}
 
-        const Button = isDirectLink ? LinkButton : ResponseButton;
+      <div className="flex flex-wrap gap-1.5">
+        {otherReplies.map((reply) => {
+          const isDirectLink =
+            reply.intent === "TRACKING" ||
+            reply.intent === "RESOURCES_FAQS" ||
+            reply.intent === "RESOURCES_GUIDES";
 
-        return (
-          <Button key={reply.intent} onClick={() => onPick(reply.intent)}>
-            {reply.label}
-          </Button>
-        );
-      })}
+          const Button = isDirectLink ? LinkButton : ResponseButton;
+
+          return (
+            <Button key={reply.intent} onClick={() => onPick(reply.intent)}>
+              {reply.label}
+            </Button>
+          );
+        })}
+      </div>
     </div>
   );
 }

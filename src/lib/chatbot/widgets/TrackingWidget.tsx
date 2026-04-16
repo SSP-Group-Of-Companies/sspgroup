@@ -6,7 +6,7 @@ import { LinkButton, ResponseButton } from "./_shared";
 
 export default function TrackingWidget({ actionProvider }: WidgetComponentProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1.5">
       <LinkButton onClick={() => window.open("/tracking", "_blank", "noopener,noreferrer")}>
         Open tracking
       </LinkButton>

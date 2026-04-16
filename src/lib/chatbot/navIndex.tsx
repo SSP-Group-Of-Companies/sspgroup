@@ -256,7 +256,9 @@ export function getSolutionsTopLinks() {
   const solutions = NAV.solutions as unknown as {
     categories: Array<{ title: string; links: readonly NavLink[] }>;
   };
-  return (solutions.categories || []).flatMap((c) => c.links || []);
+  const cats = solutions.categories || [];
+  const core = cats.find((c) => c.title === "Core Freight Modes") ?? cats[0];
+  return [...(core?.links || [])];
 }
 
 /** Single source for chatbot / parser: label + description from navigation. */

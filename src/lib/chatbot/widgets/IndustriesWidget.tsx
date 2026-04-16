@@ -17,15 +17,15 @@ export default function IndustriesWidget({
   const viewAllHref = payload?.viewAllHref || props?.viewAllHref || NAV.industries.intro.ctaHref;
 
   return (
-    <div className="space-y-3">
-      <div className="flex flex-wrap gap-2">
+    <div className="space-y-2.5">
+      <div className="flex flex-wrap gap-1.5">
         {NAV.industries.links.map((link) => (
           <LinkButton key={link.href} onClick={() => actionProvider.goTo(link.href)}>
             {link.label}
           </LinkButton>
         ))}
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5">
         <LinkButton onClick={() => actionProvider.goTo(viewAllHref)}>
           View all industries
         </LinkButton>

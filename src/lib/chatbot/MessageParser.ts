@@ -44,6 +44,11 @@ export default class MessageParser {
   }
 
   parse(message: string) {
+    if (this.actionProvider.isQuoteIntakeActive()) {
+      this.actionProvider.handleQuoteIntakeUserMessage(message);
+      return;
+    }
+
     const tokens = tokensOf(message);
 
     if (

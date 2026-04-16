@@ -8,7 +8,7 @@ export default function SingleLinkWidget({ props, actionProvider }: any) {
   return (
     <button
       onClick={() => actionProvider.goTo(href)}
-      className="border-ssp-cyan-600/25 text-ssp-ink-900 hover:border-ssp-cyan-500/45 hover:bg-ocean-50 rounded-full border bg-white px-3.5 py-1.5 text-sm font-semibold shadow-sm transition-all hover:shadow-md active:scale-[0.99]"
+      className="border-ssp-ink-900/10 text-ssp-ink-800/80 hover:border-ssp-ink-900/16 hover:bg-ssp-ink-900/[0.035] hover:text-ssp-ink-900 rounded-lg border bg-transparent px-2.5 py-1.5 text-xs font-medium transition-colors active:scale-[0.99]"
       type="button"
     >
       {label}

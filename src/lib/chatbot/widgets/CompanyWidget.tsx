@@ -7,7 +7,7 @@ import { LinkButton } from "./_shared";
 
 export default function CompanyWidget({ actionProvider }: WidgetComponentProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1.5">
       {NAV.company.links.map((link) => (
         <LinkButton
           key={link.href}

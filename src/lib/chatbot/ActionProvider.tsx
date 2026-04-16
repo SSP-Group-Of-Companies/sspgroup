@@ -1,7 +1,15 @@
 // src/lib/chatbot/ActionProvider.tsx
+import type { MutableRefObject } from "react";
 import { FAQ, COMPANY_FACTS, FAQ_HELP_FALLBACK } from "./knowledgeBase";
 import { getSectionCtas, searchNavMatches, type NavMatch } from "./navIndex";
 import type { ActionProviderShape, PageSuggestionPayload } from "./chatbot.types";
+import {
+  buildQuoteIntakePayload,
+  createIdleQuoteState,
+  QUOTE_INTAKE_STEPS,
+  validateQuoteStep,
+  type QuoteIntakeControllerState,
+} from "./quoteIntakeFlow";
 
 type ChatbotMessageFactory = (message: string, options?: Record<string, unknown>) => unknown;
 
@@ -12,6 +20,13 @@ type StateUpdater = (
 type PageActions = {
   goTo: (href: string) => void;
   scrollTo: (anchorId: string) => void;
+};
+
+type QuoteIntakeDeps = {
+  quoteStateRef: MutableRefObject<QuoteIntakeControllerState>;
+  onQuoteModeChange: (active: boolean) => void;
+  /** Remounts chat with quote-only transcript (first question at top). */
+  onEnterQuoteIntakeMode: () => void;
 };
 
 const LOW_SIGNAL_TOKENS = new Set([
@@ -98,7 +113,7 @@ function overlapCount(a: readonly string[], b: readonly string[]) {
   return count;
 }
 
-export function makeActionProvider(pageActions?: PageActions) {
+export function makeActionProvider(pageActions?: PageActions, quoteIntakeDeps?: QuoteIntakeDeps) {
   return class ActionProvider implements ActionProviderShape {
     private createChatBotMessage: ChatbotMessageFactory;
     private setState: StateUpdater;
@@ -106,6 +121,82 @@ export function makeActionProvider(pageActions?: PageActions) {
     constructor(createChatBotMessage: ChatbotMessageFactory, setStateFunc: StateUpdater) {
       this.createChatBotMessage = createChatBotMessage;
       this.setState = setStateFunc;
+    }
+
+    private get quoteRef() {
+      return quoteIntakeDeps?.quoteStateRef;
+    }
+
+    isQuoteIntakeActive = () => {
+      return this.quoteRef?.current.active === true;
+    };
+
+    startQuoteIntakeFlow = () => {
+      quoteIntakeDeps?.onEnterQuoteIntakeMode();
+    };
+
+    handleQuoteIntakeUserMessage = (message: string) => {
+      void this.processQuoteIntakeTurn(message);
+    };
+
+    private async processQuoteIntakeTurn(message: string) {
+      const ref = this.quoteRef;
+      if (!ref?.current.active) return;
+
+      const flow = QUOTE_INTAKE_STEPS;
+      const idx = ref.current.stepIndex;
+      if (idx >= flow.length) return;
+
+      const step = flow[idx];
+      const validation = validateQuoteStep(step.key, message);
+      if (!validation.ok) {
+        this.sendText(validation.message);
+        return;
+      }
+
+      ref.current.answers[step.key] = message.trim();
+      ref.current.stepIndex = idx + 1;
+
+      if (ref.current.stepIndex < flow.length) {
+        this.sendText(flow[ref.current.stepIndex].prompt);
+        return;
+      }
+
+      const payload = buildQuoteIntakePayload(ref.current.answers);
+      if (!payload) {
+        this.sendText(
+          "Something went wrong saving your answers. Please tap refresh and try again.",
+        );
+        ref.current = createIdleQuoteState();
+        quoteIntakeDeps?.onQuoteModeChange(false);
+        return;
+      }
+
+      try {
+        const res = await fetch("/api/v1/chatbot/quote-intake", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...payload, source: "chatbot" }),
+        });
+        const json = (await res.json().catch(() => null)) as { success?: boolean } | null;
+
+        if (res.ok && json?.success !== false) {
+          this.sendText(
+            "Thank you — we've received your details. Our freight team will review your request carefully and get back to you as soon as possible. We appreciate you reaching out to SSP Group.",
+          );
+        } else {
+          this.sendText(
+            "We couldn't send that just now. You can try again in a moment, or use our full quote form for more detail.",
+          );
+          this.sendWidget(`Open the full quote form when you're ready.`, "quoteWidget");
+        }
+      } catch {
+        this.sendText("We couldn't send that just now. Please try again shortly.");
+        this.sendWidget(`You can also use our full quote form.`, "quoteWidget");
+      } finally {
+        ref.current = createIdleQuoteState();
+        quoteIntakeDeps?.onQuoteModeChange(false);
+      }
     }
 
     private addMessage = (msg: unknown) => {
@@ -219,7 +310,7 @@ export function makeActionProvider(pageActions?: PageActions) {
     };
 
     startQuote = () => {
-      this.sendWidget(`You can request a quote on our quote page.`, "quoteWidget");
+      this.startQuoteIntakeFlow();
     };
 
     startTracking = () => {

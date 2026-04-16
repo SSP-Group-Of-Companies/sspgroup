@@ -6,7 +6,7 @@ import { LinkButton, ResponseButton } from "./_shared";
 
 export default function QuoteWidget({ actionProvider }: WidgetComponentProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1.5">
       <LinkButton onClick={() => actionProvider.goTo("/quote")}>Open quote page</LinkButton>
 
       <ResponseButton onClick={() => actionProvider.showContact()}>
