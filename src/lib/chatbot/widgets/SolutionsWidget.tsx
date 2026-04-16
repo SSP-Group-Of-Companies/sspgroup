@@ -18,7 +18,8 @@ export default function SolutionsWidget({ actionProvider }: WidgetComponentProps
     }
   ).categories;
 
-  const topLinks = categories.flatMap((category) => category.links);
+  const coreFreight = categories.find((c) => c.title === "Core Freight Modes") ?? categories[0];
+  const topLinks = coreFreight?.links ?? [];
 
   return (
     <div className="space-y-3">
