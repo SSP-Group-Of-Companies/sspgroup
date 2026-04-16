@@ -374,8 +374,14 @@ export default function GuidedChatbot() {
           aria-hidden={!launcherVisible}
         >
           {showTooltip && !isMobile && (
-            <div className="absolute right-0 bottom-16 w-[260px]">
-              <div className="border-ssp-ink-900/10 to-ocean-50/50 relative rounded-2xl border bg-gradient-to-b from-white px-4 py-3 shadow-[0_20px_40px_-12px_rgba(11,62,94,0.25)]">
+            <div className="absolute right-0 bottom-[53px] w-[260px] md:bottom-[61px]">
+              <div
+                className="border-ssp-ink-900/10 relative overflow-visible rounded-2xl border px-4 py-3 shadow-[0_20px_40px_-12px_rgba(11,62,94,0.25)] backdrop-blur-md"
+                style={{
+                  background:
+                    "linear-gradient(180deg, color-mix(in srgb, var(--color-surface-1) 96%, #fff) 0%, color-mix(in srgb, var(--color-ocean-50) 24%, var(--color-surface-1)) 100%)",
+                }}
+              >
                 <button
                   type="button"
                   onClick={dismissTooltip}
@@ -415,7 +421,20 @@ export default function GuidedChatbot() {
                   </div>
                 </div>
 
-                <div className="border-ssp-ink-900/10 absolute right-6 -bottom-2 h-4 w-4 rotate-45 border-r border-b bg-white" />
+                <div
+                  className="pointer-events-none absolute top-full right-[calc(1.5rem-7px)] z-[1] mt-[-3px] h-[8px] w-[14px] md:right-[calc(1.75rem-7px)]"
+                  aria-hidden
+                >
+                  <div
+                    className="absolute inset-0 [clip-path:polygon(50%_100%,0_0,100%_0)]"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, color-mix(in srgb, var(--color-surface-1) 58%, transparent) 0%, color-mix(in srgb, var(--color-ocean-50) 18%, color-mix(in srgb, var(--color-surface-1) 82%, transparent)) 100%)",
+                      boxShadow:
+                        "0 0 0 1px color-mix(in srgb, var(--color-ssp-ink-900) 6%, transparent)",
+                    }}
+                  />
+                </div>
               </div>
             </div>
           )}
