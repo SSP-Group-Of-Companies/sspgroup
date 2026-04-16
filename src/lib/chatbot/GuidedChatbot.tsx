@@ -199,8 +199,9 @@ export default function GuidedChatbot() {
     };
   }, []);
 
-  /** Keep focus on the composer after each send so users can keep typing without clicking. */
+  /** After send, refocus the composer on desktop so users can keep typing. Skip on mobile to avoid keyboard/viewport jank. */
   React.useEffect(() => {
+    if (isMobile) return;
     if (!showPanel || !chatSessionActive || chatRefreshing) return;
     const root = bodyRef.current;
     if (!root) return;
@@ -249,7 +250,7 @@ export default function GuidedChatbot() {
       bound?.removeEventListener("submit", onInputFormSubmit);
       bound = null;
     };
-  }, [showPanel, chatSessionActive, chatResetKey, open, chatRefreshing]);
+  }, [isMobile, showPanel, chatSessionActive, chatResetKey, open, chatRefreshing]);
 
   function hideLauncherImmediately() {
     if (launcherShowTimerRef.current) {
