@@ -59,7 +59,12 @@
 }
 
 /* --- Bot messages --- */
+/* Kit sets margin-left:auto on bot bubbles, which pins them to the right — keep left, by avatar */
 .ssp-chatbot .react-chatbot-kit-chat-bot-message {
+  margin-left: 12px !important;
+  margin-right: auto !important;
+  width: auto !important;
+  max-width: calc(100% - 3.25rem) !important;
   background: linear-gradient(
     145deg,
     var(--color-ssp-ink-800) 0%,
@@ -244,6 +249,14 @@
 
 .ssp-chatbot .react-chatbot-kit-chat-bot-message-container {
   align-items: flex-start !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+}
+
+/* User rows stay on the right */
+.ssp-chatbot .react-chatbot-kit-user-chat-message-container {
+  justify-content: flex-end !important;
+  width: 100% !important;
 }
 
 /* --- Avatar --- */
@@ -276,7 +289,7 @@
   width: 32px;
   height: 32px;
   flex: 0 0 32px;
-  margin-top: 0;
+  margin-top: 5px;
   border-radius: 0;
   overflow: visible;
   background: transparent;

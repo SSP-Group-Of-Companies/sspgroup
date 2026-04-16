@@ -28,6 +28,7 @@ export default function GuidedChatbot() {
 
   const [open, setOpen] = React.useState(false);
   const [closing, setClosing] = React.useState(false);
+  const [opening, setOpening] = React.useState(false);
   /** Once true, the chat widget stays mounted (off-screen when closed) so messages survive close/reopen until a full page load. */
   const [chatSessionActive, setChatSessionActive] = React.useState(false);
   const [showTooltip, setShowTooltip] = React.useState(false);
@@ -40,6 +41,7 @@ export default function GuidedChatbot() {
   const panelRef = React.useRef<HTMLDivElement | null>(null);
   const bodyRef = React.useRef<HTMLDivElement | null>(null);
   const closeTimerRef = React.useRef<number | null>(null);
+  const openTimerRef = React.useRef<number | null>(null);
   const launcherShowTimerRef = React.useRef<number | null>(null);
   const launcherEnterTimerRef = React.useRef<number | null>(null);
 
@@ -116,7 +118,7 @@ export default function GuidedChatbot() {
     return () => window.removeEventListener("mousedown", onMouseDown);
   }, [open, closing]);
 
-  const showPanel = open || closing;
+  const showPanel = open || closing || opening;
   const fullScreenMobile = isMobile && showPanel;
 
   React.useEffect(() => {
@@ -131,6 +133,7 @@ export default function GuidedChatbot() {
   React.useEffect(() => {
     return () => {
       if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+      if (openTimerRef.current) window.clearTimeout(openTimerRef.current);
       if (launcherShowTimerRef.current) window.clearTimeout(launcherShowTimerRef.current);
       if (launcherEnterTimerRef.current) window.clearTimeout(launcherEnterTimerRef.current);
     };
@@ -175,11 +178,26 @@ export default function GuidedChatbot() {
       window.clearTimeout(closeTimerRef.current);
       closeTimerRef.current = null;
     }
+    if (openTimerRef.current) {
+      window.clearTimeout(openTimerRef.current);
+      openTimerRef.current = null;
+    }
 
     setChatSessionActive(true);
     hideLauncherImmediately();
     setClosing(false);
-    setOpen(true);
+    if (isMobile && !chatSessionActive && !open) {
+      setOpen(false);
+      setOpening(true);
+      openTimerRef.current = window.setTimeout(() => {
+        setOpen(true);
+        setOpening(false);
+        openTimerRef.current = null;
+      }, 16);
+    } else {
+      setOpening(false);
+      setOpen(true);
+    }
     setShowTooltip(false);
     setShowLauncherNotification(false);
 
@@ -192,7 +210,13 @@ export default function GuidedChatbot() {
   }
 
   function closeChat() {
-    if (!open || closing) return;
+    if ((!open && !opening) || closing) return;
+
+    if (openTimerRef.current) {
+      window.clearTimeout(openTimerRef.current);
+      openTimerRef.current = null;
+    }
+    setOpening(false);
 
     setClosing(true);
 
@@ -327,6 +351,7 @@ export default function GuidedChatbot() {
               messageParser={MessageParser as never}
               actionProvider={ActionProvider as never}
               placeholderText="Ask about quotes, tracking, solutions, FAQs, lanes, or support…"
+              validator={(message: string) => message.trim().length > 0}
             />
           </div>
         </div>
