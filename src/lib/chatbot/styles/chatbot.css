@@ -309,6 +309,9 @@
   flex-direction: column !important;
   flex: 1 1 0% !important;
   min-height: 0 !important;
+  min-width: 0 !important;
+  overflow-x: hidden !important;
+  overscroll-behavior-x: none;
 }
 
 .ssp-chatbot--mobile-full .react-chatbot-kit-chat-container {
@@ -316,6 +319,8 @@
   flex-direction: column !important;
   flex: 1 1 0% !important;
   min-height: 0 !important;
+  min-width: 0 !important;
+  overflow-x: hidden !important;
 }
 
 .ssp-chatbot--mobile-full .react-chatbot-kit-chat-inner-container {
@@ -323,17 +328,22 @@
   flex-direction: column !important;
   flex: 1 1 0% !important;
   min-height: 0 !important;
+  min-width: 0 !important;
   height: auto !important;
   max-height: none !important;
+  overflow-x: hidden !important;
 }
 
 .ssp-chatbot--mobile-full .react-chatbot-kit-chat-message-container {
   flex: 1 1 0% !important;
   min-height: 0 !important;
+  min-width: 0 !important;
   height: auto !important;
   max-height: none !important;
   overflow-y: auto !important;
+  overflow-x: hidden !important;
   overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Kit defaults to absolute bottom input — switch to flex column for full-screen mobile */
@@ -346,4 +356,13 @@
 
 .ssp-chatbot--mobile-full .react-chatbot-kit-chat-input-form {
   padding-bottom: max(12px, env(safe-area-inset-bottom, 0px)) !important;
+  flex-wrap: nowrap !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.ssp-chatbot--mobile-full .react-chatbot-kit-chat-input {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
 }

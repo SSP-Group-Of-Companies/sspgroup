@@ -10,7 +10,7 @@ import { SectionEyebrow } from "../components/ui/SectionEyebrow";
 import LogisticsQuoteForm from "../components/forms/LogisticsQuoteForm";
 import { cn } from "@/lib/cn";
 import { NEXT_PUBLIC_SSP_PHONE } from "@/config/env";
-import { NAV_OFFSET } from "@/constants/ui";
+import { getSiteHeaderOffset } from "@/lib/siteHeaderOffset";
 
 function QuoteHero() {
   const reduceMotion = useReducedMotion() ?? false;
@@ -53,7 +53,7 @@ function QuoteHero() {
       <Container className="site-page-container relative">
         <div className="max-w-[44rem]">
           <SectionEyebrow label="Quotes & Planning" accentColor="var(--color-brand-500)" light />
-          <h1 className="mt-4 max-w-[20ch] text-balance text-[2.05rem] font-bold leading-[1.04] tracking-tight text-white sm:text-[2.45rem] lg:text-[2.92rem]">
+          <h1 className="mt-4 max-w-[20ch] text-[2.05rem] leading-[1.04] font-bold tracking-tight text-balance text-white sm:text-[2.45rem] lg:text-[2.92rem]">
             Share your shipment. We’ll handle the precision.
           </h1>
           <p className="mt-4 max-w-[56ch] text-[14.25px] leading-[1.74] text-white/74 sm:text-[15px]">
@@ -67,7 +67,7 @@ function QuoteHero() {
           initial={reduceMotion ? { opacity: 0.86 } : { opacity: 0.08, x: -34, y: 20 }}
           animate={reduceMotion ? { opacity: 0.86 } : { opacity: 0.94, x: 0, y: 0 }}
           transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-none absolute right-[-45%] top-[-2%] h-[120%] w-[118%] sm:right-[-40%] sm:top-[-4%] sm:h-[126%] sm:w-[110%] md:right-[-31%] md:top-[-7%] md:h-[130%] md:w-[98%] lg:right-[-23%] lg:top-[-10%] lg:h-[134%] lg:w-[80%]"
+          className="pointer-events-none absolute top-[-2%] right-[-45%] h-[120%] w-[118%] sm:top-[-4%] sm:right-[-40%] sm:h-[126%] sm:w-[110%] md:top-[-7%] md:right-[-31%] md:h-[130%] md:w-[98%] lg:top-[-10%] lg:right-[-23%] lg:h-[134%] lg:w-[80%]"
           aria-hidden
           style={shardFadeStyle}
         >
@@ -86,8 +86,13 @@ function scrollToQuoteForm() {
   const el = document.getElementById("quote-form-card");
   if (!el) return;
 
-  const top = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET - 20;
-  window.scrollTo({ top, behavior: "smooth" });
+  const padding = 20;
+  const offset = getSiteHeaderOffset() + padding;
+  const top = el.getBoundingClientRect().top + window.scrollY - offset;
+  const behavior: ScrollBehavior = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+    ? "auto"
+    : "smooth";
+  window.scrollTo({ top: Math.max(0, top), behavior });
 }
 
 function QuoteCallout() {
@@ -175,7 +180,10 @@ const assuranceItems = [
 
 function QuoteAssurance() {
   return (
-    <section className="border-t border-[color:var(--color-border-light-soft)] py-10 sm:py-12" style={{ backgroundColor: "var(--color-quote-assurance-bg)" }}>
+    <section
+      className="border-t border-[color:var(--color-border-light-soft)] py-10 sm:py-12"
+      style={{ backgroundColor: "var(--color-quote-assurance-bg)" }}
+    >
       <Container className="site-page-container">
         <div className="mx-auto max-w-3xl text-center">
           <div className="flex justify-center">

@@ -11,6 +11,7 @@ import botConfig from "@/lib/chatbot/botConfig";
 import MessageParser from "@/lib/chatbot/MessageParser";
 import { makeActionProvider } from "@/lib/chatbot/ActionProvider";
 import { useChatActions } from "@/lib/chatbot/useChatActions";
+import { lockViewportScroll } from "@/app/(site)/components/layout/header/overlay";
 
 const TOOLTIP_KEY = "ssp_chatbot_tooltip_dismissed";
 /** When set, the launcher ping/dot is hidden — user has opened the chat at least once. */
@@ -37,6 +38,13 @@ export default function GuidedChatbot() {
   /** False until client reads storage; then true only if the user has never opened the chat. */
   const [showLauncherNotification, setShowLauncherNotification] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
+  /** iOS: align overlay with visual viewport (keyboard / URL bar) — same idea as MobileNav visualViewport listeners. */
+  const [mobileViewportBox, setMobileViewportBox] = React.useState<{
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  } | null>(null);
 
   const panelRef = React.useRef<HTMLDivElement | null>(null);
   const bodyRef = React.useRef<HTMLDivElement | null>(null);
@@ -123,10 +131,35 @@ export default function GuidedChatbot() {
 
   React.useEffect(() => {
     if (!isMobile || !showPanel) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    return lockViewportScroll();
+  }, [isMobile, showPanel]);
+
+  React.useLayoutEffect(() => {
+    if (!isMobile || !showPanel) {
+      setMobileViewportBox(null);
+      return;
+    }
+    const vv = window.visualViewport;
+    const sync = () => {
+      if (!vv) {
+        setMobileViewportBox(null);
+        return;
+      }
+      setMobileViewportBox({
+        top: vv.offsetTop,
+        left: vv.offsetLeft,
+        width: vv.width,
+        height: vv.height,
+      });
+    };
+    sync();
+    vv?.addEventListener("resize", sync);
+    vv?.addEventListener("scroll", sync);
+    window.addEventListener("resize", sync);
     return () => {
-      document.body.style.overflow = prev;
+      vv?.removeEventListener("resize", sync);
+      vv?.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
     };
   }, [isMobile, showPanel]);
 
@@ -259,10 +292,22 @@ export default function GuidedChatbot() {
     <div
       className={[
         fullScreenMobile
-          ? "fixed inset-0 flex flex-col"
-          : "fixed right-4 bottom-4 md:right-5 md:bottom-5",
-        "z-[10000]",
+          ? [
+              "fixed z-[10000] flex min-h-0 min-w-0 flex-col overflow-hidden",
+              mobileViewportBox ? "" : "inset-0",
+            ].join(" ")
+          : "fixed right-4 bottom-4 z-[10000] md:right-5 md:bottom-5",
       ].join(" ")}
+      style={
+        fullScreenMobile && mobileViewportBox
+          ? {
+              top: mobileViewportBox.top,
+              left: mobileViewportBox.left,
+              width: mobileViewportBox.width,
+              height: mobileViewportBox.height,
+            }
+          : undefined
+      }
     >
       {chatSessionActive && (
         <div
@@ -271,7 +316,7 @@ export default function GuidedChatbot() {
             showPanel
               ? fullScreenMobile
                 ? [
-                    "border-ssp-ink-900/10 absolute inset-0 flex h-full min-h-0 w-full flex-col overflow-hidden rounded-none border bg-white",
+                    "border-ssp-ink-900/10 absolute inset-0 flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-none border bg-white",
                     "shadow-none",
                     "origin-bottom transition-all",
                     panelEntering
