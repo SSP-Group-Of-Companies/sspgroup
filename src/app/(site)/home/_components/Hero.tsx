@@ -9,7 +9,7 @@ import { trackCtaClick } from "@/lib/analytics/cta";
 import { cn } from "@/lib/cn";
 
 const VIDEO_DESKTOP = "/_optimized/hero/hero-desktop.mp4";
-const POSTER = "/_optimized/hero/hero-poster.webp";
+const POSTER = "/_optimized/hero/hero-poster2.png";
 
 const HEADING_ID = "home-hero-heading";
 
