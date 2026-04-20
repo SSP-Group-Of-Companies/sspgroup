@@ -19,7 +19,7 @@ const FOCUS_RING =
 const EYEBROW = "North American Freight Logistics";
 
 const DESCRIPTION =
-  "SSP manages truckload, LTL, specialized, and cross-border freight across Canada, the United States, and Mexico with disciplined execution, accountable communication, and shipment visibility from pickup through delivery.";
+  "Truckload, LTL, specialized, and cross-border freight across Canada, the United States, and Mexico — handled by people who own the load from pickup to delivery.";
 
 export function Hero() {
   const reduceMotion = useReducedMotion() ?? false;
@@ -56,6 +56,24 @@ export function Hero() {
       aria-labelledby={HEADING_ID}
       className="relative flex min-h-[min(74svh,980px)] flex-col overflow-hidden border-b border-white/6 py-16 sm:py-20 lg:py-24"
     >
+      {/* Signature cyan hairline where hero meets the post-hero platform */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 3%, color-mix(in srgb, var(--color-ssp-cyan-500) 55%, transparent) 50%, transparent 97%)",
+        }}
+        aria-hidden
+      />
+      {/* Soft cyan haze that reinforces the hairline without looking like a border */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-10"
+        style={{
+          background:
+            "linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--color-ssp-cyan-500) 7%, transparent) 100%)",
+        }}
+        aria-hidden
+      />
       <div className="pointer-events-none absolute inset-0" aria-hidden>
         {desktopVideoState === "failed" ? (
           <div
@@ -113,18 +131,6 @@ export function Hero() {
           aria-hidden
         />
 
-        {/* Subtle brand atmosphere */}
-        <div
-          className="absolute left-[-120px] top-[18%] h-[260px] w-[260px] rounded-full blur-[120px]"
-          style={{ background: "rgba(220,38,38,0.055)" }}
-          aria-hidden
-        />
-        <div
-          className="absolute right-[8%] top-[12%] h-[220px] w-[220px] rounded-full blur-[130px]"
-          style={{ background: "rgba(220,38,38,0.03)" }}
-          aria-hidden
-        />
-
         {/* Soft edge vignette */}
         <div
           className="absolute inset-0"
@@ -156,7 +162,7 @@ export function Hero() {
               id={HEADING_ID}
               variants={reveal}
               transition={{ duration: reduceMotion ? 0 : 0.36, ease: "easeOut" }}
-              className="mt-5 max-w-4xl text-3xl leading-[1.15] font-semibold tracking-tight text-white sm:text-4xl md:text-[44px] md:leading-[1.14] lg:text-[52px] lg:leading-[1.12]"
+              className="mt-5 max-w-4xl text-[2.1rem] leading-[1.08] font-semibold tracking-[-0.02em] text-white sm:text-[2.6rem] sm:leading-[1.06] md:text-[3rem] md:leading-[1.05] lg:text-[3.55rem] lg:leading-[1.04]"
               style={{ textShadow: "var(--shadow-company-hero-heading)" }}
             >
               Built to keep&nbsp;

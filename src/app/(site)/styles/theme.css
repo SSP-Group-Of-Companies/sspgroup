@@ -25,6 +25,8 @@
   --color-surface-0: #f5f7fa;
   --color-surface-1: #ffffff;
   --color-surface-2: #eef2f6;
+  /* Home: post-hero “platform” under white cards — cooler than surface-0, still cloud-family */
+  --color-home-post-hero-platform: color-mix(in srgb, var(--color-ssp-ink-900) 6.5%, var(--color-surface-0));
 
   --color-border: rgba(15, 23, 42, 0.12);
   --color-ring: rgba(220, 38, 38, 0.3);
