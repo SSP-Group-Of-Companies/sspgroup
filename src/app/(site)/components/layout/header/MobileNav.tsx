@@ -349,7 +349,7 @@ export function MobileNav() {
 
   return (
     <Dialog.Root
-      modal={false}
+      modal
       open={open}
       onOpenChange={(v) => {
         setOpen(v);
@@ -377,6 +377,16 @@ export function MobileNav() {
       </Dialog.Trigger>
 
       <Dialog.Portal>
+        <Dialog.Overlay asChild>
+          <div
+            className={cn(
+              "fixed inset-x-0 bottom-0 z-[69] bg-black/42 lg:hidden",
+              open ? "pointer-events-auto" : "pointer-events-none",
+            )}
+            style={{ top: Math.max(0, sheetTop - 1) }}
+            aria-hidden
+          />
+        </Dialog.Overlay>
         <Dialog.Content
           forceMount
           onOpenAutoFocus={(event) => event.preventDefault()}
@@ -419,7 +429,7 @@ export function MobileNav() {
                         <motion.div
                           key={activePanel}
                           custom={direction}
-                          className="absolute inset-0 overflow-y-auto overscroll-contain px-5 pt-5 pb-6"
+                          className="absolute inset-0 overflow-y-auto overscroll-contain [overscroll-behavior-y:contain] px-5 pt-5 pb-6"
                           initial={{ opacity: 0, x: reduceMotion ? 0 : 32 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: reduceMotion ? 0 : -24 }}
@@ -447,7 +457,7 @@ export function MobileNav() {
                         <motion.div
                           key="main-menu"
                           custom={direction}
-                          className="absolute inset-0 overflow-y-auto overscroll-contain px-5 pt-5 pb-6"
+                          className="absolute inset-0 overflow-y-auto overscroll-contain [overscroll-behavior-y:contain] px-5 pt-5 pb-6"
                           initial={{ opacity: 0, x: reduceMotion ? 0 : -24 }}
                           animate={{ opacity: 1, x: 0 }}
                           exit={{ opacity: 0, x: reduceMotion ? 0 : 24 }}

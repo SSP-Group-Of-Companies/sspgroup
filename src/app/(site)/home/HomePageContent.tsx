@@ -1,25 +1,24 @@
-import { Hero } from "@/app/(site)/components/home/Hero";
-import { AudienceSection } from "@/app/(site)/components/home/AudienceSection";
-import { SolutionsOverview } from "@/app/(site)/components/home/SolutionsOverview";
-import { WhyNptSection } from "@/app/(site)/components/home/WhyNptSection";
-import { TrackingVisibilitySection } from "@/app/(site)/components/home/TrackingVisibilitySection";
+import { CredibilityStrip } from "./_components/CredibilityStrip";
+import { FlagshipSolutionsPreview } from "./_components/FlagshipSolutionsPreview";
+import { Hero } from "./_components/Hero";
+import { HomePostHeroBand } from "./_components/HomePostHeroBand";
+import { IndustriesEditorialSection } from "./_components/IndustriesEditorialSection";
+import { RoutingIntentSection } from "./_components/RoutingIntentSection";
+import { WhySspSection } from "./_components/WhySspSection";
 import { TrustProofSection } from "@/app/(site)/components/home/TrustProofSection";
-import { IndustriesCarouselSection } from "@/app/(site)/components/home/IndustriesCarouselSection";
-import { CareersCultureSection } from "@/app/(site)/components/home/CareersCultureSection";
-import { FinalCtaSection } from "@/app/(site)/components/home/FinalCtaSection";
 
 export function HomePageContent() {
   return (
     <>
       <Hero />
-      <AudienceSection />
-      <SolutionsOverview />
-      <WhyNptSection />
-      <IndustriesCarouselSection />
-      <TrackingVisibilitySection />
+      <HomePostHeroBand>
+        <CredibilityStrip />
+        <RoutingIntentSection />
+      </HomePostHeroBand>
+      <FlagshipSolutionsPreview />
+      <IndustriesEditorialSection />
+      <WhySspSection />
       <TrustProofSection />
-      <CareersCultureSection />
-      <FinalCtaSection />
     </>
   );
 }

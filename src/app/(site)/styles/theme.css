@@ -9,6 +9,11 @@
   --color-ssp-cloud-100: #f2f4f7;
   --color-ssp-cyan-500: #10a7d8;
   --color-ssp-cyan-600: #0b8fbb;
+  /* Managed Logistics display teal — brighter than the deep teal-500
+     so the family accent carries visual weight parity with the cyan
+     and red accents when applied to thin line-art illustrations and
+     ambient wave washes. */
+  --color-ssp-teal-400: #14b8a6;
   --color-ssp-teal-500: #0f766e;
   --color-ssp-teal-700: #0d5f58;
 
@@ -25,6 +30,8 @@
   --color-surface-0: #f5f7fa;
   --color-surface-1: #ffffff;
   --color-surface-2: #eef2f6;
+  /* Home: post-hero “platform” under white cards — cooler than surface-0, still cloud-family */
+  --color-home-post-hero-platform: color-mix(in srgb, var(--color-ssp-ink-900) 6.5%, var(--color-surface-0));
 
   --color-border: rgba(15, 23, 42, 0.12);
   --color-ring: rgba(220, 38, 38, 0.3);
@@ -273,6 +280,48 @@
   --color-insights-sidebar-cta-bg: #172230;
   --color-insights-sidebar-cta-glow: rgba(215, 25, 32, 0.15);
   --shadow-insights-sidebar-cta: 0 2px 0 rgba(0, 0, 0, 0.22), 0 20px 56px rgba(0, 0, 0, 0.2);
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     HOME PAGE — Hero video veil & CTA (flagship; tune without touching TSX)
+     Depends on: --color-ssp-ink-900, --color-company-ink, --color-ssp-cyan-500,
+                 --color-brand-500/600/700, --shadow-action-primary
+     ═══════════════════════════════════════════════════════════════════════ */
+  --color-home-hero-veil-film: color-mix(in srgb, var(--color-ssp-ink-900) 20%, transparent);
+  --color-home-hero-veil-start: color-mix(in srgb, var(--color-company-ink) 93%, var(--color-ssp-cyan-500) 7%);
+  --color-home-hero-veil-mid: color-mix(in srgb, var(--color-company-ink) 52%, transparent);
+  --color-home-hero-veil-open: rgba(6, 18, 30, 0.22);
+  --gradient-home-hero-readability: linear-gradient(
+    105deg,
+    var(--color-home-hero-veil-start) 0%,
+    var(--color-home-hero-veil-mid) 48%,
+    var(--color-home-hero-veil-open) 100%
+  );
+
+  --color-home-hero-veil-vertical-start: rgba(11, 62, 94, 0.07);
+  --color-home-hero-veil-vertical-mid: rgba(8, 26, 43, 0.26);
+  --color-home-hero-veil-vertical-end: rgba(4, 12, 22, 0.5);
+  --gradient-home-hero-vertical: linear-gradient(
+    180deg,
+    var(--color-home-hero-veil-vertical-start) 0%,
+    var(--color-home-hero-veil-vertical-mid) 52%,
+    var(--color-home-hero-veil-vertical-end) 100%
+  );
+
+  --color-home-hero-glow-cyan: color-mix(in srgb, var(--color-ssp-cyan-500) 10%, transparent);
+  --color-home-hero-glow-brand: color-mix(in srgb, var(--color-brand-600) 10%, transparent);
+
+  --gradient-home-hero-primary-cta: linear-gradient(
+    180deg,
+    var(--color-brand-500) 0%,
+    var(--color-brand-600) 52%,
+    var(--color-brand-700) 100%
+  );
+  --shadow-home-hero-primary-cta: var(--shadow-action-primary), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  /* Hover bloom — shadow expands and deepens so the CTA feels more confident under the cursor. */
+  --shadow-home-hero-primary-cta-hover:
+    0 22px 40px rgba(185, 28, 28, 0.42),
+    0 6px 14px rgba(185, 28, 28, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 
   /* ═══════════════════════════════════════════════════════════════════════
      9. AUDIENCE SECTION

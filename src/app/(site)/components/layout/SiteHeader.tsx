@@ -29,6 +29,18 @@ export function SiteHeader() {
   const mobileSearchTriggerRef = React.useRef<HTMLButtonElement | null>(null);
   const desktopSearchTriggerRef = React.useRef<HTMLButtonElement | null>(null);
 
+  const toggleDesktopSearch = React.useCallback((location: string) => {
+    const next = desktopSearchVisible ? !desktopSearchOpen : true;
+    setDesktopSearchVisible(true);
+    setDesktopSearchOpen(next);
+    trackCtaClick({
+      ctaId: next ? "header_utility_search_open" : "header_utility_search_close",
+      location,
+      destination: "site_search_mode",
+      label: next ? "Open site search" : "Close site search",
+    });
+  }, [desktopSearchOpen, desktopSearchVisible]);
+
   React.useLayoutEffect(() => {
     let rafId: number | null = null;
     const desktopMq = window.matchMedia(NAV_DESKTOP_MEDIA_QUERY);
@@ -103,12 +115,11 @@ export function SiteHeader() {
       <div
         className={cn(
           "grid overflow-hidden border-b border-white/12 bg-[color:var(--color-utility-bg)] text-[color:var(--color-utility-text)] motion-reduce:transition-none",
+          "grid-rows-[1fr] opacity-100",
           scrollStateReady
             ? "transition-[grid-template-rows,opacity,border-color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]"
             : "transition-none",
-          isCondensed
-            ? "grid-rows-[0fr] border-transparent opacity-0"
-            : "grid-rows-[1fr] opacity-100",
+          isCondensed && "lg:grid-rows-[0fr] lg:border-transparent lg:opacity-0",
         )}
       >
         <div className="min-h-0 overflow-hidden">
@@ -116,10 +127,11 @@ export function SiteHeader() {
             <div
               className={cn(
                 "flex min-h-11 items-center justify-between gap-4 py-2 motion-reduce:transition-none",
+                "translate-y-0",
                 scrollStateReady
                   ? "transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]"
                   : "transition-none",
-                isCondensed ? "-translate-y-2" : "translate-y-0",
+                isCondensed && "lg:-translate-y-2",
               )}
             >
               <div className="hidden min-w-0 items-center gap-5 text-xs tracking-wide text-[color:var(--color-utility-text)]/90 lg:flex">
@@ -189,19 +201,9 @@ export function SiteHeader() {
 
               <div className="ml-auto hidden items-center lg:flex">
                 <button
-                  ref={desktopSearchTriggerRef}
+                  ref={isCondensed ? undefined : desktopSearchTriggerRef}
                   type="button"
-                  onClick={() => {
-                    const next = desktopSearchVisible ? !desktopSearchOpen : true;
-                    setDesktopSearchVisible(true);
-                    setDesktopSearchOpen(next);
-                    trackCtaClick({
-                      ctaId: next ? "header_utility_search_open" : "header_utility_search_close",
-                      location: "site_header:utility_strip",
-                      destination: "site_search_mode",
-                      label: next ? "Open site search" : "Close site search",
-                    });
-                  }}
+                  onClick={() => toggleDesktopSearch("site_header:utility_strip")}
                   className={cn(
                     "hidden h-8 w-8 items-center justify-center rounded-full text-[color:var(--color-utility-text)] transition hover:bg-white/15 lg:inline-flex",
                     focusRing,
@@ -244,7 +246,13 @@ export function SiteHeader() {
 
           {/* Desktop nav / desktop search mode */}
           <div className={cn("min-w-0 flex-1", desktopSearchVisible && "hidden")}>
-            <DesktopNav />
+            <DesktopNav
+              condensedDesktopSearch={isCondensed && !desktopSearchVisible}
+              desktopSearchVisible={desktopSearchVisible}
+              desktopSearchOpen={desktopSearchOpen}
+              onDesktopSearchToggle={toggleDesktopSearch}
+              desktopSearchTriggerRef={desktopSearchTriggerRef}
+            />
           </div>
           {desktopSearchVisible ? (
             <HeaderSearchMode
