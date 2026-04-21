@@ -9,7 +9,7 @@ import { trackCtaClick } from "@/lib/analytics/cta";
 import { cn } from "@/lib/cn";
 
 const VIDEO_DESKTOP = "/_optimized/hero/hero-desktop.mp4";
-const POSTER = "/_optimized/hero/hero-poster2.png";
+const POSTER = "/_optimized/hero/hero-poster2.webp";
 
 const HEADING_ID = "home-hero-heading";
 
@@ -125,8 +125,7 @@ export function Hero() {
         <div
           className="absolute inset-x-0 top-0 h-28"
           style={{
-            background:
-              "linear-gradient(180deg, rgba(7,10,18,0.22) 0%, rgba(7,10,18,0.00) 100%)",
+            background: "linear-gradient(180deg, rgba(7,10,18,0.22) 0%, rgba(7,10,18,0.00) 100%)",
           }}
           aria-hidden
         />
@@ -201,7 +200,7 @@ export function Hero() {
                   "inline-flex h-12 w-full items-center justify-center px-7 text-sm font-semibold text-white sm:w-auto",
                   "shadow-[var(--shadow-home-hero-primary-cta)] hover:shadow-[var(--shadow-home-hero-primary-cta-hover)]",
                   "transition-[transform,box-shadow,filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                  "motion-safe:hover:-translate-y-[1px] hover:brightness-[1.04]",
+                  "hover:brightness-[1.04] motion-safe:hover:-translate-y-[1px]",
                   "site-cta-radius",
                   FOCUS_RING,
                 )}
@@ -228,7 +227,7 @@ export function Hero() {
                   "border border-white/[0.14] bg-white/[0.04] backdrop-blur-[3px]",
                   "shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_8px_22px_-10px_rgba(0,0,0,0.55)]",
                   "transition-[transform,border-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                  "motion-safe:hover:-translate-y-[1px] hover:border-white/[0.3] hover:text-white",
+                  "hover:border-white/[0.3] hover:text-white motion-safe:hover:-translate-y-[1px]",
                   "hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_30px_-10px_rgba(16,167,216,0.4)]",
                   "site-cta-radius",
                   FOCUS_RING,
