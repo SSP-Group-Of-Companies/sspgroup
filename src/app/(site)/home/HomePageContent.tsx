@@ -1,9 +1,11 @@
 import { CredibilityStrip } from "./_components/CredibilityStrip";
+import { FlagshipSolutionsPreview } from "./_components/FlagshipSolutionsPreview";
 import { Hero } from "./_components/Hero";
 import { HomePostHeroBand } from "./_components/HomePostHeroBand";
+import { IndustriesEditorialSection } from "./_components/IndustriesEditorialSection";
 import { RoutingIntentSection } from "./_components/RoutingIntentSection";
+import { WhySspSection } from "./_components/WhySspSection";
 import { TrustProofSection } from "@/app/(site)/components/home/TrustProofSection";
-import { IndustriesCarouselSection } from "@/app/(site)/components/home/IndustriesCarouselSection";
 
 export function HomePageContent() {
   return (
@@ -13,7 +15,9 @@ export function HomePageContent() {
         <CredibilityStrip />
         <RoutingIntentSection />
       </HomePostHeroBand>
-      <IndustriesCarouselSection />
+      <FlagshipSolutionsPreview />
+      <IndustriesEditorialSection />
+      <WhySspSection />
       <TrustProofSection />
     </>
   );

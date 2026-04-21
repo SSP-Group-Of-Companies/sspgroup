@@ -26,50 +26,23 @@ function StatFigure({ children, className }: { children: string; className?: str
   );
 }
 
-function TenPlusFigure() {
-  return (
-    <span
-      className={cn("relative inline-flex items-end justify-center leading-none", FIGURE_SHADOW)}
-      style={{ fontSize: "clamp(2.42rem, 5.25vw, 3.2rem)" }}
-      aria-label="10 plus"
-    >
-      <span
-        className={cn(FIGURE_GRADIENT, "leading-none tracking-[-0.05em]")}
-        style={{ WebkitBackgroundClip: "text" }}
-      >
-        10
-      </span>
-      <span
-        className={cn(
-          FIGURE_GRADIENT,
-          "absolute top-0 -translate-y-[0.22em] text-[0.42em] leading-none tracking-[-0.02em]",
-        )}
-        style={{
-          WebkitBackgroundClip: "text",
-          insetInlineEnd: "-0.55em",
-        }}
-        aria-hidden
-      >
-        +
-      </span>
-    </span>
-  );
-}
-
 /**
- * Shared baseline box for all three stat figures — bottom-aligned at the
- * same y-coordinate regardless of intrinsic glyph height or superscripts.
+ * Shared baseline box for all three stat figures — every value renders
+ * through the same `StatFigure` span at the same font size, so all
+ * three stats share one cap-height, one baseline, and one optical
+ * weight. The `+` in "10+" is treated as an inline qualifier (same
+ * role the `/` plays in "24/7"), not as a superscript — this
+ * guarantees the three stat blocks top-align AND bottom-align with no
+ * special-case layout math, and eliminates the glyph-crowding that
+ * happens when an absolutely-positioned superscript sits too close
+ * to the preceding digit.
  */
 function StatValue({ value }: { value: string }) {
   return (
     <span className="flex h-[clamp(2.42rem,5.25vw,3.2rem)] items-end justify-center overflow-visible">
-      {value === "10+" ? (
-        <TenPlusFigure />
-      ) : (
-        <StatFigure className="text-[clamp(2.42rem,5.25vw,3.2rem)] tabular-nums">
-          {value}
-        </StatFigure>
-      )}
+      <StatFigure className="text-[clamp(2.42rem,5.25vw,3.2rem)] tabular-nums">
+        {value}
+      </StatFigure>
     </span>
   );
 }

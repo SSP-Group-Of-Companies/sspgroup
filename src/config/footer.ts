@@ -37,34 +37,44 @@ function normalizeLinks(links: readonly { label: string; href: string }[]): Foot
     .map((l) => ({ label: l.label, href: l.href }));
 }
 
+/**
+ * Footer Solutions column — curated to the four flagship families.
+ *
+ * Rationale: the footer used to mix four category hubs with four
+ * sub-solutions (Truckload / LTL / Dedicated-Contract / Managed
+ * Capacity) at the same visual rank, which flattened the hierarchy
+ * and let no single link "own" its slot. Trimming to the four
+ * families keeps the footer strategic — it mirrors the home "What
+ * SSP Moves" section and lets the families act as the authoritative
+ * entry points. Visitors hunting a specific mode still have one
+ * click away via "View all solutions →" (rendered above this list)
+ * or by drilling into the family hub.
+ */
 function getSolutionsFooterLinks(): FooterLink[] {
+  const curatedOrder: FooterLink[] = [
+    { label: "Core Freight", href: "/solutions/core-freight-modes" },
+    { label: "Specialized & Critical Freight", href: "/solutions/specialized-critical-freight" },
+    { label: "Cross-Border", href: "/solutions/cross-border" },
+    { label: "Managed Logistics", href: "/solutions/managed-logistics" },
+  ];
+
+  // Prefer the nav's own label/href for each curated family when
+  // available — keeps the footer in sync with nav naming changes.
   const flattened: FooterLink[] = [];
   NAV.solutions.categories.forEach((cat) => {
     cat.links.forEach((l) => {
       if (l?.label && l?.href) flattened.push({ label: l.label, href: l.href });
     });
   });
-
-  const curatedOrder: FooterLink[] = [
-    { label: "Core Freight Modes", href: "/solutions/core-freight-modes" },
-    { label: "Truckload", href: "/solutions/truckload" },
-    { label: "Less-Than-Truckload", href: "/solutions/ltl" },
-    { label: "Specialized & Critical Freight", href: "/solutions/specialized-critical-freight" },
-    { label: "Cross-Border", href: "/solutions/cross-border" },
-    { label: "Managed Logistics", href: "/solutions/managed-logistics" },
-    { label: "Dedicated / Contract", href: "/solutions/dedicated-contract" },
-    { label: "Managed Capacity", href: "/solutions/managed-capacity" },
-  ];
-
   const flattenedByHref = new Map(flattened.map((l) => [l.href, l]));
-  const curated = curatedOrder
-    .map((c) => flattenedByHref.get(c.href) ?? c)
-    .filter((l) => l.label && l.href);
 
-  if (curated.length < 6) return flattened.slice(0, 8);
-
-  const seen = new Set<string>();
-  return curated.filter((l) => (seen.has(l.href) ? false : (seen.add(l.href), true)));
+  return curatedOrder.map((c) => {
+    const match = flattenedByHref.get(c.href);
+    // Keep our curated label (e.g. "Core Freight" vs nav's "Core
+    // Freight Modes") — we only fall back to nav label if ours is
+    // somehow empty, which shouldn't happen.
+    return { label: c.label || match?.label || "", href: c.href };
+  }).filter((l) => l.label && l.href);
 }
 
 export const FOOTER_SECTIONS: Record<"solutions" | "industries" | "company" | "careers", FooterSection> = {

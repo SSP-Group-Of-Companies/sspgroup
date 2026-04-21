@@ -9,6 +9,11 @@
   --color-ssp-cloud-100: #f2f4f7;
   --color-ssp-cyan-500: #10a7d8;
   --color-ssp-cyan-600: #0b8fbb;
+  /* Managed Logistics display teal — brighter than the deep teal-500
+     so the family accent carries visual weight parity with the cyan
+     and red accents when applied to thin line-art illustrations and
+     ambient wave washes. */
+  --color-ssp-teal-400: #14b8a6;
   --color-ssp-teal-500: #0f766e;
   --color-ssp-teal-700: #0d5f58;
 
@@ -312,6 +317,11 @@
     var(--color-brand-700) 100%
   );
   --shadow-home-hero-primary-cta: var(--shadow-action-primary), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  /* Hover bloom — shadow expands and deepens so the CTA feels more confident under the cursor. */
+  --shadow-home-hero-primary-cta-hover:
+    0 22px 40px rgba(185, 28, 28, 0.42),
+    0 6px 14px rgba(185, 28, 28, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 
   /* ═══════════════════════════════════════════════════════════════════════
      9. AUDIENCE SECTION

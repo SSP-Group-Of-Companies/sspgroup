@@ -54,7 +54,7 @@ export function Hero() {
     <section
       id="top"
       aria-labelledby={HEADING_ID}
-      className="relative flex min-h-[min(74svh,980px)] flex-col overflow-hidden border-b border-white/6 py-16 sm:py-20 lg:py-24"
+      className="relative flex min-h-[min(74dvh,980px)] flex-col overflow-hidden border-b border-white/6 py-16 sm:py-20 lg:py-24"
     >
       {/* Signature cyan hairline where hero meets the post-hero platform */}
       <div
@@ -198,13 +198,15 @@ export function Hero() {
                   })
                 }
                 className={cn(
-                  "inline-flex h-12 w-full items-center justify-center px-7 text-sm font-semibold text-white transition-all duration-200 motion-safe:hover:-translate-y-[1px] hover:brightness-[1.04] sm:w-auto",
+                  "inline-flex h-12 w-full items-center justify-center px-7 text-sm font-semibold text-white sm:w-auto",
+                  "shadow-[var(--shadow-home-hero-primary-cta)] hover:shadow-[var(--shadow-home-hero-primary-cta-hover)]",
+                  "transition-[transform,box-shadow,filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                  "motion-safe:hover:-translate-y-[1px] hover:brightness-[1.04]",
                   "site-cta-radius",
                   FOCUS_RING,
                 )}
                 style={{
                   backgroundImage: "var(--gradient-home-hero-primary-cta)",
-                  boxShadow: "var(--shadow-home-hero-primary-cta)",
                 }}
               >
                 Request a Quote
@@ -222,12 +224,26 @@ export function Hero() {
                   })
                 }
                 className={cn(
-                  "inline-flex h-12 w-full items-center justify-center border border-white/22 bg-black/20 px-7 text-sm font-semibold text-white/92 backdrop-blur-sm transition-all duration-200 hover:border-white/35 hover:bg-black/28 hover:text-white sm:w-auto",
+                  "group relative inline-flex h-12 w-full items-center justify-center overflow-hidden px-7 text-sm font-semibold text-white/88 sm:w-auto",
+                  "border border-white/[0.14] bg-white/[0.04] backdrop-blur-[3px]",
+                  "shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_8px_22px_-10px_rgba(0,0,0,0.55)]",
+                  "transition-[transform,border-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                  "motion-safe:hover:-translate-y-[1px] hover:border-white/[0.3] hover:text-white",
+                  "hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_14px_30px_-10px_rgba(16,167,216,0.4)]",
                   "site-cta-radius",
                   FOCUS_RING,
                 )}
               >
-                Explore Solutions
+                {/* Cyan glow pool at the base — a subtle jewel under glass on hover. */}
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:opacity-100"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse 85% 130% at 50% 110%, rgba(16,167,216,0.28), transparent 62%)",
+                  }}
+                />
+                <span className="relative">Explore Solutions</span>
               </Link>
             </motion.div>
           </motion.div>
