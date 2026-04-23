@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
   animate,
   motion,
-  useInView,
   useReducedMotion,
   type Variants,
 } from "framer-motion";
@@ -529,18 +528,93 @@ function AnimatedTruck({
   );
 }
 
+/**
+ * Drives the lane / truck intro (`p` from 0 → 1). Framer’s `useInView` +
+ * a single 0.12 threshold is brittle in production: IO can miss when the
+ * ref isn’t ready on the first effect pass, and a lone 0.12 threshold is easy
+ * to under-shoot on mobile or after real-world layout. Native IO with
+ * multiple thresholds and a rAF + rect sync covers Vercel / iOS / narrow viewports.
+ */
+function useWhySspStageInView(reduced: boolean) {
+  const [stage, setStage] = React.useState<HTMLDivElement | null>(null);
+  const [inView, setInView] = React.useState(false);
+  const triggeredRef = React.useRef(false);
+
+  const trigger = React.useCallback(() => {
+    if (triggeredRef.current) return;
+    triggeredRef.current = true;
+    setInView(true);
+  }, []);
+
+  React.useLayoutEffect(() => {
+    if (reduced) {
+      trigger();
+      return;
+    }
+    if (!stage) return;
+    if (typeof IntersectionObserver === "undefined") {
+      trigger();
+      return;
+    }
+    /* Second Strict-Mode pass: if we already tripped, skip a duplicate observer. */
+    if (triggeredRef.current) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            if (!triggeredRef.current) {
+              trigger();
+            }
+            io.disconnect();
+            return;
+          }
+        }
+      },
+      {
+        root: null,
+        rootMargin: "0px 0px 12% 0px",
+        threshold: [0, 0.02, 0.05, 0.1, 0.12, 0.2, 0.35, 0.5],
+      },
+    );
+
+    const syncFromRect = () => {
+      if (triggeredRef.current) return;
+      const r = stage.getBoundingClientRect();
+      if (r.width <= 0 || r.height <= 0) return;
+      const vh = window.innerHeight;
+      if (r.top < vh && r.bottom > 0) {
+        if (!triggeredRef.current) {
+          trigger();
+        }
+        io.disconnect();
+      }
+    };
+
+    io.observe(stage);
+
+    let rInner = 0;
+    const r0 = requestAnimationFrame(() => {
+      syncFromRect();
+      rInner = requestAnimationFrame(() => {
+        syncFromRect();
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(r0);
+      cancelAnimationFrame(rInner);
+      io.disconnect();
+    };
+  }, [reduced, stage, trigger]);
+
+  return { setStage, inView };
+}
+
 export function WhySspSection() {
   const reduced = useReducedMotion() ?? false;
   const headingId = "home-why-ssp-heading";
-  const stageRef = React.useRef<HTMLDivElement>(null);
-  /* `once` keeps the observer cheap; a little rootMargin helps the stage
-     register in-view on first paint across devices (incl. Vercel / prod
-     layout) so the lane intro `p` animation always runs. */
-  const inView = useInView(stageRef, {
-    once: true,
-    amount: 0.12,
-    margin: "0px 0px 12% 0px",
-  });
+  const { setStage, inView } = useWhySspStageInView(reduced);
   const [p, setP] = React.useState(0);
 
   React.useEffect(() => {
@@ -549,10 +623,6 @@ export function WhySspSection() {
       return;
     }
     if (!inView) return;
-    /* No “started once” guard: React 18 Strict Mode runs mount → cleanup
-       → mount in dev; a guard that survives cleanup can block the second
-       run and leave `p` stuck at 0 (lane/shimmer never animate). Restarting
-       the intro when `inView` becomes true is correct. */
     const c = animate(0, 1, {
       duration: INTRO_DURATION_S,
       ease: "linear",
@@ -566,7 +636,7 @@ export function WhySspSection() {
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
     : {
         hidden: {},
-        show: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
+        show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } },
       };
 
   const fadeUp: Variants = reduced
@@ -701,7 +771,6 @@ export function WhySspSection() {
           </div>
 
           <motion.div
-            ref={stageRef}
             variants={fadeUp}
             transition={{
               duration: reduced ? 0 : 0.38,
@@ -712,6 +781,7 @@ export function WhySspSection() {
             role="img"
             aria-label="SSP lead truck flanked by two follower trucks in escort formation with a cyan lane under the lead"
           >
+            <div ref={setStage} className="absolute inset-0">
             <WhySspLeadCyanLaneSimplified reduced={reduced} p={p} />
             <AnimatedTruck
               src="/_optimized/brand/leadTruckImg.png"
@@ -749,6 +819,7 @@ export function WhySspSection() {
               p={p}
               reduced={reduced}
             />
+            </div>
           </motion.div>
         </motion.div>
       </Container>

@@ -11,7 +11,7 @@ import { cn } from "@/lib/cn";
 /** Matches `CareersClient` — driver onboarding URL. */
 const DRIVEDOCK_URL = "https://drivedock.ssp4you.com/";
 
-const SECTION_EYEBROW = "Careers & culture at SSP";
+const SECTION_EYEBROW = "Careers & culture";
 const SECTION_TITLE = "Build with a team that runs to standard";
 /** One editorial beat: who we hire for, how we work, why the careers hub is the next step. */
 const SECTION_SUPPORT =
