@@ -199,8 +199,8 @@ export function Hero() {
                 }
                 className={cn(
                   "inline-flex h-12 w-full items-center justify-center px-7 text-sm font-semibold text-white sm:w-auto",
-                  "shadow-[var(--shadow-home-hero-primary-cta)] hover:shadow-[var(--shadow-home-hero-primary-cta-hover)]",
-                  "transition-[transform,box-shadow,filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                  "shadow-none",
+                  "transition-[transform,filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
                   "motion-safe:hover:-translate-y-[1px] hover:brightness-[1.04]",
                   "site-cta-radius",
                   FOCUS_RING,
@@ -224,12 +224,11 @@ export function Hero() {
                   })
                 }
                 className={cn(
-                  "relative inline-flex h-12 w-full items-center justify-center overflow-hidden px-7 text-sm font-semibold text-white/88 sm:w-auto",
+                  "relative inline-flex h-12 w-full items-center justify-center px-7 text-sm font-semibold text-white/88 sm:w-auto",
                   "border border-white/[0.14] bg-white/[0.04] backdrop-blur-[3px]",
-                  "shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_8px_22px_-10px_rgba(0,0,0,0.55)]",
-                  "transition-[transform,border-color,color,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                  "shadow-none",
+                  "transition-[transform,border-color,color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
                   "motion-safe:hover:-translate-y-[1px] hover:border-white/[0.3] hover:text-white",
-                  "hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_14px_32px_-10px_rgba(0,0,0,0.5)]",
                   "site-cta-radius",
                   FOCUS_RING,
                 )}

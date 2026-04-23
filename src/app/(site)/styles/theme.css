@@ -323,12 +323,9 @@
     var(--color-brand-600) 52%,
     var(--color-brand-700) 100%
   );
-  --shadow-home-hero-primary-cta: var(--shadow-action-primary), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-  /* Hover bloom — shadow expands and deepens so the CTA feels more confident under the cursor. */
-  --shadow-home-hero-primary-cta-hover:
-    0 22px 40px rgba(185, 28, 28, 0.42),
-    0 6px 14px rgba(185, 28, 28, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  /* Hero primary CTA uses `shadow-none` in `Hero.tsx` (no outer glow). Kept for optional reuse. */
+  --shadow-home-hero-primary-cta: 0 0 0 transparent;
+  --shadow-home-hero-primary-cta-hover: 0 0 0 transparent;
 
   /* ═══════════════════════════════════════════════════════════════════════
      9. AUDIENCE SECTION
