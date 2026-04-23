@@ -32,6 +32,13 @@
   --color-surface-2: #eef2f6;
   /* Home: post-hero “platform” under white cards — cooler than surface-0, still cloud-family */
   --color-home-post-hero-platform: color-mix(in srgb, var(--color-ssp-ink-900) 6.5%, var(--color-surface-0));
+  /* Home: cyan → SSP ink (Trust carousel chrome, careers teaser hairline + DriveDock CTA) */
+  --gradient-ssp-elevated: linear-gradient(
+    90deg,
+    var(--color-ssp-cyan-500) 0%,
+    var(--color-ssp-ink-800) 26%,
+    var(--color-ssp-ink-900) 100%
+  );
 
   --color-border: rgba(15, 23, 42, 0.12);
   --color-ring: rgba(220, 38, 38, 0.3);
@@ -316,12 +323,9 @@
     var(--color-brand-600) 52%,
     var(--color-brand-700) 100%
   );
-  --shadow-home-hero-primary-cta: var(--shadow-action-primary), inset 0 1px 0 rgba(255, 255, 255, 0.14);
-  /* Hover bloom — shadow expands and deepens so the CTA feels more confident under the cursor. */
-  --shadow-home-hero-primary-cta-hover:
-    0 22px 40px rgba(185, 28, 28, 0.42),
-    0 6px 14px rgba(185, 28, 28, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  /* Hero primary CTA uses `shadow-none` in `Hero.tsx` (no outer glow). Kept for optional reuse. */
+  --shadow-home-hero-primary-cta: 0 0 0 transparent;
+  --shadow-home-hero-primary-cta-hover: 0 0 0 transparent;
 
   /* ═══════════════════════════════════════════════════════════════════════
      9. AUDIENCE SECTION
@@ -455,4 +459,56 @@
 
 .site-input-light::placeholder {
   color: var(--color-subtle-light);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HOME PAGE — Industries Atlas auto-advance
+   A single keyframe drives the cyan progress bar that rides the
+   hairline above the industry index. `transform: scaleX` is used so
+   the animation is fully GPU-composited (no layout, no paint), and
+   `animation-play-state: paused` (toggled via React) lets the browser
+   hold position mid-fill without losing the frame.
+   ═══════════════════════════════════════════════════════════════════════ */
+@keyframes industries-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HOME PAGE — Trust / Partners marquee
+   Defined in global CSS (not styled-jsx) so the animation is present in
+   production builds on Vercel the same as locally. Parent pause uses a
+   modifier class; hover pause only applies when not force-paused.
+   ═══════════════════════════════════════════════════════════════════════ */
+@keyframes trust-marquee-home {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.home-trust-marquee-track {
+  width: max-content;
+  animation: trust-marquee-home 42s linear infinite;
+}
+
+.home-trust-marquee-track--paused {
+  animation-play-state: paused !important;
+}
+
+.home-trust-marquee-track:hover:not(.home-trust-marquee-track--paused),
+.home-trust-marquee-track:focus-within:not(.home-trust-marquee-track--paused) {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-trust-marquee-track {
+    animation: none !important;
+  }
 }

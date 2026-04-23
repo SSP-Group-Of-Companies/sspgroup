@@ -27,7 +27,7 @@ import { cn } from "@/lib/cn";
    comes next.
    ───────────────────────────────────────────────────────────────── */
 
-const SECTION_EYEBROW = "Who SSP Moves For";
+const SECTION_EYEBROW = "Industries We Serve";
 /* Headline rhymes intentionally with the "What SSP Moves" section
    above — "Four ways we move freight." ↔ "Seven sectors. One standard."
    The numeric pairing (four / seven) gives the homepage a subtle
@@ -43,6 +43,13 @@ const FOCUS_RING_DARK =
 /* Format numbers as "01", "07" — the catalog convention that gives
    the index its editorial weight without needing explicit UI chrome. */
 const formatIndex = (n: number) => String(n).padStart(2, "0");
+
+/* Auto-advance cadence. 6 seconds per industry is the editorial sweet
+   spot: long enough to register the image, read the copy, and decide;
+   short enough that a user scanning casually still sees every sector
+   within ~42s. Wired to the CSS @keyframes industries-progress via the
+   inline `animation` property on the progress bar. */
+const AUTO_ADVANCE_MS = 6000;
 
 /* ─────────────────────────────────────────────────────────────────
    Spotlight — the cinematic left column. All images are stacked and
@@ -380,6 +387,66 @@ function IndustryMobileList() {
 export function IndustriesEditorialSection() {
   const reduceMotion = useReducedMotion() ?? false;
   const [activeIndex, setActiveIndex] = React.useState(0);
+  const total = INDUSTRY_SLIDES.length;
+
+  /* ───── Auto-advance state ─────
+     The cyan progress bar that rides the hairline above the index is
+     driven by a CSS animation; advance-on-completion is wired to
+     `onAnimationEnd`. Two gates pause the animation:
+
+       • `isPaused` — the user is hovering or focus is inside the
+         atlas. Their attention is in control of the section.
+       • `isVisible` — the section is in the viewport. Off-screen, we
+         halt the animation so it isn't burning cycles the user can't
+         see (and so they arrive at the full cadence the moment they
+         scroll the section into view).
+
+     Reduced-motion users skip autoplay entirely: the progress bar
+     stays at scaleX(0), the static hairline still shows, and the
+     section behaves exactly as it did before autoplay existed. */
+  const [isPaused, setIsPaused] = React.useState(false);
+  const [isVisible, setIsVisible] = React.useState(false);
+  const atlasRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    const el = atlasRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry) setIsVisible(entry.isIntersecting);
+      },
+      /* 10% threshold — the cycle starts as soon as the atlas has any
+         meaningful presence on screen, not only when it's fully in
+         view. Feels responsive to scroll arrival. */
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const handleAtlasEnter = React.useCallback(() => setIsPaused(true), []);
+  const handleAtlasLeave = React.useCallback(() => setIsPaused(false), []);
+  /* onFocus/onBlur bubble in React, so attaching to the atlas container
+     pauses whenever focus lands on any descendant — and resumes only
+     when focus leaves the atlas entirely (checked via relatedTarget). */
+  const handleAtlasFocus = React.useCallback(() => setIsPaused(true), []);
+  const handleAtlasBlur = React.useCallback(
+    (event: React.FocusEvent<HTMLDivElement>) => {
+      if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+        setIsPaused(false);
+      }
+    },
+    [],
+  );
+
+  const handleProgressEnd = React.useCallback(() => {
+    setActiveIndex((i) => (i + 1) % total);
+  }, [total]);
+
+  const autoplayEnabled = !reduceMotion && isVisible;
+  const animationPlayState: React.CSSProperties["animationPlayState"] =
+    !autoplayEnabled || isPaused ? "paused" : "running";
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
@@ -493,13 +560,22 @@ export function IndustriesEditorialSection() {
             Aligned at the top so if the index extends a row or two
             beyond the spotlight, the composition still reads intentional
             (editorial spreads rarely have perfect column parity — that's
-            the point). */}
+            the point).
+
+            Hover/focus anywhere inside this container pauses the
+            auto-advance; leaving resumes it. This is the "user is in
+            control" guarantee the section depends on. */}
         <motion.div
+          ref={atlasRef}
           className="mt-12 hidden items-start gap-10 lg:mt-14 lg:grid lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_23rem]"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
           variants={stagger}
+          onMouseEnter={handleAtlasEnter}
+          onMouseLeave={handleAtlasLeave}
+          onFocus={handleAtlasFocus}
+          onBlur={handleAtlasBlur}
         >
           <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}>
             <IndustrySpotlight activeIndex={activeIndex} reduceMotion={reduceMotion} />
@@ -510,11 +586,40 @@ export function IndustriesEditorialSection() {
             transition={{ duration: reduceMotion ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
-            {/* A single hairline at the top of the index mirrors the
-                spotlight's frame rule and anchors the list visually. */}
+            {/* The static hairline — the track. Always visible, whether
+                autoplay is running or not. Mirrors the spotlight's
+                frame rule and anchors the list visually. */}
             <div
               aria-hidden
               className="absolute inset-x-0 top-0 h-px bg-white/[0.08]"
+            />
+            {/* The cyan progress bar — the indicator. Rides on top of
+                the track, fills from 0 → 100% over AUTO_ADVANCE_MS, then
+                fires onAnimationEnd to increment activeIndex.
+
+                `key={activeIndex}` forces React to remount the element
+                each time the active industry changes — either by
+                auto-advance or by the user hovering a different row —
+                which cleanly restarts the CSS animation from 0.
+
+                The trailing fade on the right edge of the gradient is
+                what makes the bar read as *flowing* rather than
+                marching: the tip gets a soft cyan wash instead of a
+                hard vertical terminus. */}
+            <div
+              key={activeIndex}
+              aria-hidden
+              className="pointer-events-none absolute top-0 left-0 h-px w-full origin-left will-change-transform"
+              style={{
+                transform: reduceMotion ? "scaleX(0)" : undefined,
+                background:
+                  "linear-gradient(90deg, var(--color-ssp-cyan-500) 0%, var(--color-ssp-cyan-500) 80%, color-mix(in srgb, var(--color-ssp-cyan-500) 40%, transparent) 100%)",
+                animation: reduceMotion
+                  ? undefined
+                  : `industries-progress ${AUTO_ADVANCE_MS}ms linear forwards`,
+                animationPlayState,
+              }}
+              onAnimationEnd={handleProgressEnd}
             />
             <IndustryIndexList activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
           </motion.div>

@@ -1,209 +1,516 @@
 "use client";
 
-import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import {
+  animate,
+  motion,
+  useInView,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
+import * as React from "react";
+import { Globe, Truck, Waypoints } from "lucide-react";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
-import { TruckFleetScene } from "./TruckFleetScene";
-
-/* ─────────────────────────────────────────────────────────────────
-   Why SSP — "We lead the lane."
-
-   Editorial split: proposition on the left, truck fleet scene on the
-   right. The structure mirrors the best editorial-voice pages in
-   logistics (Charger, Maersk, C.H. Robinson) but in an SSP cadence —
-   quiet, confident, operational.
-
-   Left column
-   ────────────
-     1. Eyebrow pill ("Why SSP")
-     2. Hero headline ("We lead the lane.")
-     3. Lede paragraph — one breath of positioning
-     4. Three stacked pillars: icon · title · one-line body, each
-        bordered by a hairline so they read as quiet, scannable proof
-     5. CTA ("See how we run")
-
-   Right column
-   ────────────
-     TruckFleetScene — three hand-constructed isometric semi-trucks
-     moving diagonally from lower-right to upper-left, led by the
-     cyan-lit hero. Everything is on one asphalt road so the
-     "formation" reads at a glance. See TruckFleetScene.tsx for the
-     geometry rationale.
-   ───────────────────────────────────────────────────────────────── */
+import { trackCtaClick } from "@/lib/analytics/cta";
+import { cn } from "@/lib/cn";
 
 const SECTION_EYEBROW = "Why SSP";
-const SECTION_TITLE = "We lead the lane.";
+const SECTION_TITLE = "We set the pace.";
 const SECTION_SUPPORT =
-  "A single accountable team, on lanes we actually run today, with the gear and paperwork already handled before the truck leaves the yard. That's not a pitch — it's how freight moves at SSP.";
-const SECTION_CTA_LABEL = "See how we run";
-const SECTION_CTA_HREF = "/solutions";
+  "We combine asset-backed capacity with disciplined execution to move freight with precision across North America. From first tender to final delivery, every shipment is managed with control, visibility, and accountability—so you stay ahead.";
+const SECTION_HEADER_CTA_LABEL = "About SSP Group";
+const SECTION_HEADER_CTA_HREF = "/about-us";
 
 const BRAND_CYAN = "#10a7d8";
 
-type Pillar = {
-  id: string;
-  title: string;
-  body: string;
-  Icon: (props: React.SVGProps<SVGSVGElement>) => React.ReactElement;
+/* Matches homepage flagship section text-link CTA; ring offset follows this section surface. */
+const HEADER_LINK_FOCUS =
+  "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-menu-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-0)]";
+
+const STAGE_ASPECT = "3 / 2";
+/**
+ * The isometric truck composition has built-in empty space at the top of its
+ * 3:2 bounding box (see LEAD/UPPER/LOWER anchors). On large screens the grid
+ * centers the two columns vertically; we apply a small upward translate so
+ * the _visible_ truck content sits at the optical center of the row (instead
+ * of the bounding-box center, which would read as slightly low).
+ *
+ * Using translate (not margin) keeps the card column untouched and does not
+ * re-flow anything; the stage simply renders shifted in place.
+ */
+const STAGE_POSITION_CLASS =
+  "lg:-translate-y-[4%] xl:-translate-y-[4%] xl:-mr-[calc(max(0px,(100vw-1440px)/2)+1.5rem)]";
+const STAGE_SIZE_CLASS = "xl:w-[132%]";
+
+const ROAD_A: readonly [number, number] = [0.12, 0.12];
+const ROAD_B: readonly [number, number] = [0.9, 0.86];
+const VA: readonly [number, number] = [ROAD_B[0] - ROAD_A[0], ROAD_B[1] - ROAD_A[1]];
+const VA_LEN = Math.hypot(VA[0], VA[1]);
+/* Screen-space “forward” along the road from A → B. Trucks face the opposite
+   (toward the top-left); intro motion is implemented with negative t along this
+   vector so they read as driving forward, not backing up. */
+const FWD = { x: VA[0] / VA_LEN, y: VA[1] / VA_LEN } as const;
+const LAT = { x: -FWD.y, y: FWD.x } as const;
+const LATERAL_PER_ROAD = 0.28;
+
+/* ── Lead cyan lane: tune to match the PNG trailer and “into the wall” fade.
+   - LANE_LINE_A + chord A→B set the *default* travel direction; use LANE_AXIS_ROTATE_DEG
+     to match the trailer’s isometric long axis without moving A and B.
+   - t=1 is one full chord from A. LANE_T1 can be > 1.0 to extend **past** the chord
+     toward the bottom-right (wall). */
+const LANE_LINE_A: readonly [number, number] = [0.12, 0.12];
+const LANE_LINE_B: readonly [number, number] = [0.9, 0.86];
+/** degrees CCW. Negative tilts the strip; small values (e.g. −6…8) align long edges to the trailer. */
+const LANE_AXIS_ROTATE_DEG = -6;
+/** t along the (possibly rotated) ray from A, |chord| per unit. >1 continues past the original B. */
+const LANE_T0 = 0.25;
+const LANE_T1 = 1.2;
+const LANE_HALF_WIDTH = 0.045;
+/** Where the end fade *begins* (0–1), measured along the mask from LANE_T0 → LANE_T1. */
+const LANE_TIP_FADE_START_FRAC = 0.55;
+/** Slight taper at the far (wall) end as a multiple of LANE_HALF_WIDTH. */
+const LANE_WIDTH_FAR_TAPER = 1.05;
+/** Shift the entire lane along ± lane lateral (perpendicular) for fine placement. */
+const LANE_LATERAL_SHIFT = 0.21;
+/** Stretches how long “one t” is: 1.2 makes the strip 20% longer for the same t. */
+const LANE_T_TO_WORLD = 1;
+
+const LANE_CHORD: readonly [number, number] = [LANE_LINE_B[0] - LANE_LINE_A[0], LANE_LINE_B[1] - LANE_LINE_A[1]];
+const LANE_CHORD_LEN = Math.hypot(LANE_CHORD[0], LANE_CHORD[1]) || 1e-6;
+const LANE_CHORD_FWD0 = { x: LANE_CHORD[0] / LANE_CHORD_LEN, y: LANE_CHORD[1] / LANE_CHORD_LEN } as const;
+const LANE_ROT_R = (LANE_AXIS_ROTATE_DEG * Math.PI) / 180;
+const LANE_FWD = {
+  x: LANE_CHORD_FWD0.x * Math.cos(LANE_ROT_R) - LANE_CHORD_FWD0.y * Math.sin(LANE_ROT_R),
+  y: LANE_CHORD_FWD0.x * Math.sin(LANE_ROT_R) + LANE_CHORD_FWD0.y * Math.cos(LANE_ROT_R),
+} as const;
+const LANE_LAT = { x: -LANE_FWD.y, y: LANE_FWD.x } as const;
+const LANE_STEP = LANE_CHORD_LEN * LANE_T_TO_WORLD;
+
+/* Intro motion (same ratios as the reference): followers stop earlier; lead surges
+   in the second half after a slow first half. */
+const WHITE_TRAVEL_FRAC = 0.42;
+const BLUE_TRAVEL_FRAC = 0.72;
+const BLUE_FIRST_HALF = 0.22;
+const INTRO_DURATION_S = 2;
+const INTRO_FWD_SCALE = 0.2;
+
+function smoothstep01(t: number) {
+  const x = Math.min(1, Math.max(0, t));
+  return x * x * (3 - 2 * x);
+}
+
+function followForwardU(p: number) {
+  return WHITE_TRAVEL_FRAC * INTRO_FWD_SCALE * p;
+}
+
+function leadForwardU(p: number) {
+  const b = BLUE_TRAVEL_FRAC * INTRO_FWD_SCALE;
+  if (p <= 0.5) {
+    return b * BLUE_FIRST_HALF * (p / 0.5);
+  }
+  const u = (p - 0.5) / 0.5;
+  return b * (BLUE_FIRST_HALF + (1 - BLUE_FIRST_HALF) * smoothstep01(u));
+}
+
+type TruckLayout = {
+  widthPct: number;
+  forward: number;
+  lateral: number;
+  anchorX: number;
+  anchorY: number;
+  zIndex?: number;
+  opacity?: number;
 };
 
-function IconShield(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden {...props}>
-      <path
-        d="M12 3.5l6 2.2v5.6c0 4-2.4 7-6 8.9-3.6-1.9-6-4.9-6-8.9V5.7l6-2.2Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="m9.4 12.2 1.8 1.8 3.7-4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+function roadOffset(forward: number, lateral: number) {
+  const s = LATERAL_PER_ROAD;
+  return {
+    x: forward * (ROAD_B[0] - ROAD_A[0]) + lateral * LAT.x * s,
+    y: forward * (ROAD_B[1] - ROAD_A[1]) + lateral * LAT.y * s,
+  };
 }
 
-function IconRoute(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden {...props}>
-      <circle
-        cx="6"
-        cy="6"
-        r="2.2"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-      <circle
-        cx="18"
-        cy="18"
-        r="2.2"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-      />
-      <path
-        d="M6 8.3v3.5a4 4 0 0 0 4 4h2a4 4 0 0 1 4 4v-3.7"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
+function sub2(
+  a: { x: number; y: number },
+  b: { x: number; y: number },
+): { x: number; y: number } {
+  return { x: a.x - b.x, y: a.y - b.y };
 }
 
-function IconBox(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden {...props}>
-      <path
-        d="M3.8 7.6 12 4l8.2 3.6v8.8L12 20l-8.2-3.6Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M3.8 7.6 12 11.2l8.2-3.6M12 11.2V20"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+function leadMotionO(p: number) {
+  const f = leadForwardU(p);
+  const end = BLUE_TRAVEL_FRAC * INTRO_FWD_SCALE;
+  return sub2(roadOffset(-f, 0), roadOffset(-end, 0));
 }
+
+function followerMotionO(p: number) {
+  const f = followForwardU(p);
+  const end = WHITE_TRAVEL_FRAC * INTRO_FWD_SCALE;
+  return sub2(roadOffset(-f, 0), roadOffset(-end, 0));
+}
+
+const LEAD_TRUCK_LAYOUT: TruckLayout = {
+  widthPct: 50,
+  forward: 0.2,
+  lateral: 0,
+  anchorX: -0.12,
+  anchorY: 0.08,
+  zIndex: 30,
+};
+
+const UPPER_FOLLOWER_LAYOUT: TruckLayout = {
+  widthPct: 100,
+  forward: -0.12,
+  lateral: 0.15,
+  anchorX: 0.614,
+  anchorY: 0.337,
+  zIndex: 10,
+  opacity: 1,
+};
+
+const LOWER_FOLLOWER_LAYOUT: TruckLayout = {
+  widthPct: 100,
+  forward: -0.12,
+  lateral: -0.15,
+  anchorX: 0.17,
+  anchorY: 0.7,
+  zIndex: 20,
+  opacity: 1,
+};
+
+const LEAD_TRUCK_SIZES = "(min-width: 1280px) 53vw, (min-width: 1024px) 42vw, 84vw";
+const FOLLOWER_TRUCK_SIZES = "(min-width: 1280px) 22vw, (min-width: 1024px) 18vw, 36vw";
+/** Dashed “shimmer” uses the same centerline, inset slightly from the ends. */
+const LANE_SHIM_T0 = LANE_T0 + 0.08;
+const LANE_SHIM_T1 = LANE_T1 - 0.04;
+
+function laneStripPoint(t: number): [number, number] {
+  return [
+    LANE_LINE_A[0] + t * LANE_STEP * LANE_FWD.x + LANE_LATERAL_SHIFT * LANE_LAT.x,
+    LANE_LINE_A[1] + t * LANE_STEP * LANE_FWD.y + LANE_LATERAL_SHIFT * LANE_LAT.y,
+  ];
+}
+function lanePointsActual(): [number, number, number, number, number, number, number, number] {
+  const w = LANE_HALF_WIDTH;
+  const wf = w * LANE_WIDTH_FAR_TAPER;
+  const p0 = laneStripPoint(LANE_T0);
+  const p1 = laneStripPoint(LANE_T1);
+  const aL: [number, number] = [p0[0] - w * LANE_LAT.x, p0[1] - w * LANE_LAT.y];
+  const aR: [number, number] = [p0[0] + w * LANE_LAT.x, p0[1] + w * LANE_LAT.y];
+  const bL: [number, number] = [p1[0] - wf * LANE_LAT.x, p1[1] - wf * LANE_LAT.y];
+  const bR: [number, number] = [p1[0] + wf * LANE_LAT.x, p1[1] + wf * LANE_LAT.y];
+  return [aL[0], aL[1], aR[0], aR[1], bR[0], bR[1], bL[0], bL[1]];
+}
+function leadLanePolygon() {
+  const p = lanePointsActual();
+  return `${p[0] * 100},${p[1] * 100} ${p[2] * 100},${p[3] * 100} ${p[4] * 100},${p[5] * 100} ${p[6] * 100},${p[7] * 100}`;
+}
+function leadLaneShimmerLine(): readonly [number, number, number, number] {
+  const p0 = laneStripPoint(LANE_SHIM_T0);
+  const p1 = laneStripPoint(LANE_SHIM_T1);
+  return [p0[0] * 100, p0[1] * 100, p1[0] * 100, p1[1] * 100];
+}
+
+type Pillar = {
+  id: string;
+  /** Maps to a Lucide mark aligned with the headline (execution path · fleet · North America). */
+  icon: "execution" | "capacity" | "crossBorder";
+  title: string;
+  body: string;
+};
 
 const PILLARS: readonly Pillar[] = [
   {
     id: "own-the-load",
-    title: "We own the load.",
-    body: "One program, one accountable team — from first pickup to final signature. You don't chase the freight. We do.",
-    Icon: IconShield,
+    icon: "execution",
+    title: "Built for controlled execution",
+    body: "Freight doesn’t fail in theory—it fails in execution. We run every shipment with disciplined planning, proactive coordination, and clear ownership from tender to delivery.",
   },
   {
     id: "ship-what-we-promise",
-    title: "We ship what we promise.",
-    body: "Every lane on our map is a lane we run today. Quotes reflect real operations, not sales optimism.",
-    Icon: IconRoute,
+    icon: "capacity",
+    title: "Capacity that holds when the market gets tight",
+    body: "When conditions change, your operation still needs to move. Our asset-backed model and trusted carrier network give you dependable capacity and service continuity when it matters most.",
   },
   {
     id: "show-up-ready",
-    title: "We show up ready.",
-    body: "Cross-border paperwork, bonded carriers, specialized gear — handled before the truck leaves the yard.",
-    Icon: IconBox,
+    icon: "crossBorder",
+    title: "Cross-border freight without added friction",
+    body: "Across Canada, the United States, and Mexico, we move freight with the compliance discipline, documentation control, and operational coordination complex lanes demand.",
   },
 ] as const;
 
+const PILLAR_ICON_CLASS = "h-[22px] w-[22px] shrink-0" as const;
+const PILLAR_ICON_STROKE = 1.6 as const;
+
+function PillarIcon({ icon }: { icon: Pillar["icon"] }) {
+  if (icon === "execution") {
+    return (
+      <Waypoints
+        className={PILLAR_ICON_CLASS}
+        strokeWidth={PILLAR_ICON_STROKE}
+        absoluteStrokeWidth
+        aria-hidden
+      />
+    );
+  }
+  if (icon === "capacity") {
+    return (
+      <Truck
+        className={PILLAR_ICON_CLASS}
+        strokeWidth={PILLAR_ICON_STROKE}
+        absoluteStrokeWidth
+        aria-hidden
+      />
+    );
+  }
+  return (
+    <Globe
+      className={PILLAR_ICON_CLASS}
+      strokeWidth={PILLAR_ICON_STROKE}
+      absoluteStrokeWidth
+      aria-hidden
+    />
+  );
+}
+
+/**
+ * Editorial pillar row — matches the rest of the homepage's chapter grammar:
+ *   • No boxed card; rows are separated by hairlines like the Industries index.
+ *   • Thin cyan marker appears on hover/focus (same pattern as Industries rows).
+ *   • Icon is a bare stroked Lucide mark — no chip, no drop shadow — and nudges
+ *     horizontally on hover, echoing the editorial arrow cues in other sections.
+ */
 function PillarRow({
   pillar,
-  index,
+  isLast,
   reduced,
 }: {
   pillar: Pillar;
-  index: number;
+  isLast: boolean;
   reduced: boolean;
 }) {
-  const { Icon } = pillar;
   const variants: Variants = reduced
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 14 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } };
 
   return (
     <motion.div
       variants={variants}
       transition={{
         duration: reduced ? 0 : 0.5,
-        delay: reduced ? 0 : 0.1 + index * 0.08,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="group/pillar relative flex items-start gap-4 py-6 first:pt-2 last:pb-1"
+      className={cn(
+        "group/row relative flex items-start gap-5 py-6 pr-2 pl-5 sm:gap-6 sm:py-7 sm:pl-6",
+        "transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        "hover:bg-[color-mix(in_srgb,var(--color-ssp-cyan-500)_4%,transparent)]",
+        !isLast && "border-b border-[color:var(--color-border-light-soft)]",
+      )}
     >
-      {/* Icon tile */}
-      <div
-        className="relative flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-[10px]"
-        style={{
-          background: `linear-gradient(135deg, color-mix(in srgb, ${BRAND_CYAN} 10%, #ffffff) 0%, #ffffff 100%)`,
-          border: `1px solid color-mix(in srgb, ${BRAND_CYAN} 22%, rgba(15,23,42,0.08))`,
-          boxShadow:
-            "0 1px 0 rgba(255,255,255,0.9) inset, 0 6px 14px -8px rgba(16,167,216,0.28)",
-        }}
-      >
-        <Icon
-          className="h-[22px] w-[22px]"
-          style={{ color: "#0a7ba1" }}
-        />
-        {/* Cyan signal dot connecting to the scene (desktop only) */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute -right-1.5 top-1/2 hidden h-[5px] w-[5px] -translate-y-1/2 rounded-full xl:block"
-          style={{ backgroundColor: BRAND_CYAN, opacity: 0.55 }}
-        />
+      {/* Cyan marker — thin vertical bar pinned to the left edge, appears on hover. */}
+      <span
+        aria-hidden
+        className="absolute top-1/2 left-0 h-10 w-[2px] -translate-y-1/2 opacity-0 transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/row:opacity-100"
+        style={{ backgroundColor: "var(--color-ssp-cyan-500)" }}
+      />
+
+      <div className="mt-[3px] flex-shrink-0 text-[color:var(--color-ssp-cyan-500)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:group-hover/row:translate-x-[2px]">
+        <PillarIcon icon={pillar.icon} />
       </div>
 
-      <div className="min-w-0 flex-1">
-        <h3 className="text-[1.05rem] font-semibold leading-[1.2] tracking-[-0.012em] text-[color:var(--color-text-strong)]">
+      <div className="min-w-0">
+        <h3 className="text-[1.06rem] font-semibold leading-[1.22] tracking-[-0.014em] text-[color:var(--color-text-strong)] sm:text-[1.14rem]">
           {pillar.title}
         </h3>
-        <p className="mt-1.5 max-w-[44ch] text-[13.5px] leading-[1.65] text-[color:var(--color-muted)]">
+        <p className="mt-2 max-w-[56ch] text-[13.5px] leading-[1.68] text-[color:var(--color-muted)] sm:text-[14px]">
           {pillar.body}
         </p>
       </div>
+    </motion.div>
+  );
+}
 
-      {/* Hairline divider — skipped on the last row */}
-      <span
+function WhySspLeadCyanLaneSimplified({
+  reduced,
+  p,
+}: {
+  reduced: boolean;
+  p: number;
+}) {
+  const id = React.useId().replace(/:/g, "");
+  const poly = leadLanePolygon();
+  const maskNear = laneStripPoint(LANE_T0);
+  const maskWall = laneStripPoint(LANE_T1);
+  const tipFadeStartPct = (LANE_TIP_FADE_START_FRAC * 100).toFixed(2);
+  const grad0 = laneStripPoint(LANE_T0);
+  const grad1 = laneStripPoint(LANE_T1);
+  return (
+    <div className="pointer-events-none absolute inset-0 z-[5] h-full w-full overflow-visible">
+      <svg
+        className="h-full w-full"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        style={{ display: "block", overflow: "visible" as const }}
+        overflow="visible"
         aria-hidden
-        className="absolute inset-x-0 bottom-0 h-px bg-[color:var(--color-border-light-soft)] group-last/pillar:hidden"
+        focusable="false"
+      >
+        <defs>
+          <linearGradient
+            id={`wss-lane-cyan-${id}`}
+            x1={grad0[0] * 100}
+            y1={grad0[1] * 100}
+            x2={grad1[0] * 100}
+            y2={grad1[1] * 100}
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stopColor="#10A7D8" stopOpacity="0" />
+            <stop offset="22%" stopColor="#10A7D8" stopOpacity="0.6" />
+            <stop offset="72%" stopColor="#0B8FBB" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="#0A7BA1" stopOpacity="1" />
+          </linearGradient>
+          <linearGradient
+            id={`wss-lane-m-${id}`}
+            x1={maskNear[0] * 100}
+            y1={maskNear[1] * 100}
+            x2={maskWall[0] * 100}
+            y2={maskWall[1] * 100}
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stopColor="white" stopOpacity="1" />
+            <stop offset={`${tipFadeStartPct}%`} stopColor="white" stopOpacity="1" />
+            <stop offset="88%" stopColor="white" stopOpacity="0.22" />
+            <stop offset="100%" stopColor="white" stopOpacity="0" />
+          </linearGradient>
+          {/*
+            Oversized so when LANE_T1>1 the lane isn’t clipping at the right/bottom; still in userSpaceOnUse. */}
+          <mask
+            id={`wss-lane-mask-${id}`}
+            style={{ maskType: "luminance" }}
+            maskUnits="userSpaceOnUse"
+            x="-20"
+            y="-20"
+            width="200"
+            height="200"
+          >
+            <rect x="-20" y="-20" width="200" height="200" fill="black" />
+            <rect x="-20" y="-20" width="200" height="200" fill={`url(#wss-lane-m-${id})`} />
+          </mask>
+        </defs>
+        <motion.g
+          style={{ willChange: "transform" }}
+          animate={reduced || p < 1 ? {} : { y: [0, -0.3, 0] }}
+          transition={reduced || p < 1 ? { duration: 0 } : { duration: 4.5, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
+        >
+          <g mask={`url(#wss-lane-mask-${id})`}>
+            <polygon
+              points={poly}
+              fill={`url(#wss-lane-cyan-${id})`}
+              style={{
+                filter: "drop-shadow(0 2px 4px color-mix(in srgb, #10A7D8 25%, transparent))",
+                opacity: Math.min(1, 0.25 + p * 0.75),
+              }}
+            />
+          </g>
+        </motion.g>
+        {!reduced && p >= 0.99 ? (
+          <motion.g>
+            {(() => {
+              const s = leadLaneShimmerLine();
+              return (
+                <motion.line
+                  x1={s[0]}
+                  y1={s[1]}
+                  x2={s[2]}
+                  y2={s[3]}
+                  stroke="rgba(255,255,255,0.35)"
+                  strokeWidth="0.35"
+                  strokeLinecap="round"
+                  fill="none"
+                  strokeDasharray="3 12"
+                  style={{ mixBlendMode: "overlay" }}
+                  initial={false}
+                  animate={{ strokeDashoffset: [0, -32] }}
+                  transition={{ duration: 2, ease: "linear", repeat: Infinity }}
+                />
+              );
+            })()}
+          </motion.g>
+        ) : null}
+      </svg>
+    </div>
+  );
+}
+
+function AnimatedTruck({
+  src,
+  alt,
+  layout,
+  intrinsicWidth,
+  intrinsicHeight,
+  sizes,
+  role,
+  enterDelay,
+  p,
+  reduced,
+}: {
+  src: string;
+  alt: string;
+  layout: TruckLayout;
+  intrinsicWidth: number;
+  intrinsicHeight: number;
+  sizes: string;
+  role: "lead" | "follower";
+  enterDelay: number;
+  p: number;
+  reduced: boolean;
+}) {
+  const o = roadOffset(layout.forward, layout.lateral);
+  const mot = reduced
+    ? { x: 0, y: 0 }
+    : role === "lead"
+      ? leadMotionO(p)
+      : followerMotionO(p);
+  const left = (layout.anchorX + o.x + mot.x) * 100;
+  const top = (layout.anchorY + o.y + mot.y) * 100;
+  const style = {
+    left: `${left}%`,
+    top: `${top}%`,
+    width: `${layout.widthPct}%`,
+    zIndex: layout.zIndex,
+    opacity: layout.opacity,
+  } as const;
+
+  const variants: Variants = reduced
+    ? { hidden: { opacity: layout.opacity ?? 1, y: 0 }, show: { opacity: layout.opacity ?? 1, y: 0 } }
+    : {
+        hidden: { opacity: 0, y: 18 },
+        show: { opacity: layout.opacity ?? 1, y: 0 },
+      };
+
+  return (
+    <motion.div
+      className="absolute will-change-transform"
+      style={style}
+      variants={variants}
+      transition={{
+        duration: reduced ? 0 : 0.75,
+        delay: reduced ? 0 : enterDelay,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        width={intrinsicWidth}
+        height={intrinsicHeight}
+        sizes={sizes}
+        className="block h-auto w-full select-none"
+        priority={false}
+        draggable={false}
       />
     </motion.div>
   );
@@ -212,6 +519,42 @@ function PillarRow({
 export function WhySspSection() {
   const reduced = useReducedMotion() ?? false;
   const headingId = "home-why-ssp-heading";
+  const stageRef = React.useRef<HTMLDivElement>(null);
+  /* `once` keeps the observer cheap; a little rootMargin helps the stage
+     register in-view on first paint across devices (incl. Vercel / prod
+     layout) so the lane intro `p` animation always runs. */
+  const inView = useInView(stageRef, {
+    once: true,
+    amount: 0.12,
+    margin: "0px 0px 12% 0px",
+  });
+  const [p, setP] = React.useState(0);
+
+  React.useEffect(() => {
+    if (reduced) {
+      setP(1);
+      return;
+    }
+    if (!inView) return;
+    /* No “started once” guard: React 18 Strict Mode runs mount → cleanup
+       → mount in dev; a guard that survives cleanup can block the second
+       run and leave `p` stuck at 0 (lane/shimmer never animate). Restarting
+       the intro when `inView` becomes true is correct. */
+    const c = animate(0, 1, {
+      duration: INTRO_DURATION_S,
+      ease: "linear",
+      onUpdate: (v) => setP(v),
+      onComplete: () => setP(1),
+    });
+    return () => c.stop();
+  }, [inView, reduced]);
+
+  const stagger: Variants = reduced
+    ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
+    : {
+        hidden: {},
+        show: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
+      };
 
   const fadeUp: Variants = reduced
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
@@ -221,159 +564,178 @@ export function WhySspSection() {
     <section
       id="home-why-ssp"
       aria-labelledby={headingId}
-      className="relative overflow-hidden border-y border-[color:var(--color-border-light-soft)]"
-      style={{
-        backgroundColor: "var(--color-surface-0)",
-        backgroundImage:
-          "radial-gradient(60% 45% at 78% 18%, rgba(16,167,216,0.045), transparent 70%), radial-gradient(45% 50% at 8% 92%, rgba(15,23,42,0.025), transparent 72%)",
-      }}
+      className="relative overflow-hidden scroll-mt-16 py-20 sm:py-24 lg:py-28"
+      style={{ backgroundColor: "var(--color-surface-0)" }}
     >
-      <Container className="site-page-container relative py-20 sm:py-24 xl:py-28">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 z-[3] h-px"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 3%, color-mix(in srgb, var(--color-ssp-cyan-500) 55%, transparent) 50%, transparent 97%)",
+        }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 z-[2] h-12"
+        style={{
+          background:
+            "linear-gradient(180deg, color-mix(in srgb, var(--color-ssp-cyan-500) 6%, transparent) 0%, transparent 100%)",
+        }}
+        aria-hidden
+      />
+
+      <div
+        className="pointer-events-none absolute -bottom-40 -right-[14%] h-[38rem] w-[40rem] rounded-full opacity-80 blur-[150px]"
+        style={{
+          background:
+            "radial-gradient(circle, color-mix(in srgb, var(--color-ssp-cyan-500) 18%, transparent) 0%, transparent 70%)",
+        }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -top-32 right-[-10%] h-[28rem] w-[30rem] rounded-full opacity-60 blur-[140px]"
+        style={{
+          background:
+            "radial-gradient(circle, color-mix(in srgb, var(--color-ssp-cyan-500) 10%, transparent) 0%, transparent 70%)",
+        }}
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -bottom-32 -left-[12%] h-[30rem] w-[32rem] rounded-full opacity-50 blur-[140px]"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(15,23,42,0.05) 0%, transparent 70%)",
+        }}
+        aria-hidden
+      />
+
+      <Container className="site-page-container relative z-[1]">
+        <motion.div
+          className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-10"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.35 }}
+          variants={fadeUp}
+          transition={{ duration: reduced ? 0 : 0.4, ease: "easeOut" }}
+        >
+          <div className="min-w-0 max-w-[40rem]">
+            <SectionSignalEyebrow
+              label={SECTION_EYEBROW}
+              accentColor={BRAND_CYAN}
+            />
+            <h2
+              id={headingId}
+              className="mt-4 text-balance text-[2rem] font-semibold leading-[1.06] tracking-[-0.028em] text-[color:var(--color-text-strong)] sm:text-[2.4rem] lg:text-[2.75rem] lg:leading-[1.04]"
+            >
+              {SECTION_TITLE}
+            </h2>
+            <p className="mt-4 max-w-[40rem] text-[14.5px] leading-[1.72] text-[color:var(--color-muted)] sm:text-[15px]">
+              {SECTION_SUPPORT}
+            </p>
+          </div>
+
+          <Link
+            href={SECTION_HEADER_CTA_HREF}
+            data-cta-id="home_why_ssp_about_ssp"
+            onClick={() =>
+              trackCtaClick({
+                ctaId: "home_why_ssp_about_ssp",
+                location: "home_why_ssp",
+                destination: SECTION_HEADER_CTA_HREF,
+                label: SECTION_HEADER_CTA_LABEL,
+              })
+            }
+            className={cn(
+              "group/all relative inline-flex w-fit shrink-0 items-center gap-2 self-start pb-0.5 text-[13px] font-semibold tracking-[0.05em] sm:self-end",
+              "text-[color:var(--color-text-strong)] transition-colors duration-200 hover:text-[color:var(--color-ssp-cyan-600)]",
+              "after:pointer-events-none after:absolute after:right-0 after:-bottom-0.5 after:left-0 after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[color:var(--color-ssp-cyan-500)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
+              "hover:after:scale-x-100",
+              HEADER_LINK_FOCUS,
+            )}
+          >
+            {SECTION_HEADER_CTA_LABEL}
+            <span
+              aria-hidden
+              className="inline-block translate-x-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe:group-hover/all:translate-x-[2px]"
+            >
+              &rarr;
+            </span>
+          </Link>
+        </motion.div>
+
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.15 }}
-          className="grid grid-cols-1 gap-12 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] xl:gap-20"
+          variants={stagger}
+          className="mt-12 grid grid-cols-1 gap-12 lg:mt-14 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)] lg:items-center lg:gap-12 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,1fr)] xl:gap-14"
         >
-          {/* ─── LEFT COLUMN — editorial voice ─── */}
-          <div className="relative flex flex-col justify-center">
+          <div className="relative flex flex-col lg:pr-6">
             <motion.div
               variants={fadeUp}
               transition={{ duration: reduced ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="border-t border-[color:var(--color-border-light-soft)]"
             >
-              <SectionSignalEyebrow
-                label={SECTION_EYEBROW}
-                accentColor={BRAND_CYAN}
-              />
-            </motion.div>
-
-            <motion.h2
-              id={headingId}
-              variants={fadeUp}
-              transition={{
-                duration: reduced ? 0 : 0.55,
-                delay: reduced ? 0 : 0.05,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mt-5 text-balance text-[2.35rem] font-semibold leading-[1.04] tracking-[-0.025em] text-[color:var(--color-text-strong)] sm:text-[2.85rem] xl:text-[3.3rem]"
-            >
-              {SECTION_TITLE}
-            </motion.h2>
-
-            <motion.p
-              variants={fadeUp}
-              transition={{
-                duration: reduced ? 0 : 0.55,
-                delay: reduced ? 0 : 0.1,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mt-5 max-w-[52ch] text-[15px] leading-[1.72] text-[color:var(--color-muted)] sm:text-[15.5px]"
-            >
-              {SECTION_SUPPORT}
-            </motion.p>
-
-            {/* Three pillars, stacked, each with hairline divider */}
-            <div className="mt-8 border-t border-[color:var(--color-border-light-soft)]">
-              {PILLARS.map((pillar, index) => (
+              {PILLARS.map((pillar, idx) => (
                 <PillarRow
                   key={pillar.id}
                   pillar={pillar}
-                  index={index}
+                  isLast={idx === PILLARS.length - 1}
                   reduced={reduced}
                 />
               ))}
-            </div>
-
-            {/* CTA */}
-            <motion.div
-              variants={fadeUp}
-              transition={{
-                duration: reduced ? 0 : 0.5,
-                delay: reduced ? 0 : 0.35,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mt-8 flex flex-wrap items-center gap-4"
-            >
-              <Link
-                href={SECTION_CTA_HREF}
-                className="group/cta inline-flex h-11 items-center gap-2.5 rounded-full px-6 text-[13.5px] font-semibold tracking-[0.01em] text-white transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #0b8fbb 0%, #10a7d8 50%, #18b8ea 100%)",
-                  boxShadow:
-                    "0 1px 0 rgba(255,255,255,0.3) inset, 0 10px 26px -10px rgba(16,167,216,0.6), 0 2px 6px -2px rgba(16,167,216,0.35)",
-                }}
-              >
-                <span>{SECTION_CTA_LABEL}</span>
-                <svg
-                  viewBox="0 0 20 20"
-                  aria-hidden
-                  className="h-[15px] w-[15px] transition-transform duration-300 group-hover/cta:translate-x-0.5"
-                >
-                  <path
-                    d="M4 10h11m0 0-4-4m4 4-4 4"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </Link>
-
-              <span className="text-[12.5px] font-medium uppercase tracking-[0.14em] text-[color:var(--color-muted)]/80">
-                or&nbsp;
-                <Link
-                  href="/quote"
-                  className="text-[color:var(--color-text-strong)] underline decoration-[color:var(--color-border-light)] decoration-from-font underline-offset-4 transition-colors duration-200 hover:decoration-[color:var(--color-text-strong)]"
-                >
-                  request a quote
-                </Link>
-              </span>
             </motion.div>
           </div>
 
-          {/* ─── RIGHT COLUMN — truck fleet scene ─── */}
           <motion.div
+            ref={stageRef}
             variants={fadeUp}
             transition={{
-              duration: reduced ? 0 : 0.7,
-              delay: reduced ? 0 : 0.15,
+              duration: reduced ? 0 : 0.55,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="relative flex items-center justify-center"
+            className={`relative ml-auto w-full overflow-visible ${STAGE_SIZE_CLASS} ${STAGE_POSITION_CLASS}`}
+            style={{ aspectRatio: STAGE_ASPECT }}
+            role="img"
+            aria-label="SSP lead truck flanked by two follower trucks in escort formation with a cyan lane under the lead"
           >
-            <div className="relative w-full">
-              {/* Subtle frame glow behind the scene */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -inset-6 rounded-[32px] opacity-70"
-                style={{
-                  background:
-                    "radial-gradient(55% 50% at 35% 40%, rgba(16,167,216,0.10), transparent 72%)",
-                }}
-              />
-              <TruckFleetScene className="relative w-full" />
-
-              {/* Bottom caption — quiet operational signal, echoes Hero's rail */}
-              <div
-                aria-hidden
-                className="mt-4 flex items-center gap-3 text-[10.5px] font-medium uppercase tracking-[0.22em] text-[color:var(--color-muted)]/70 xl:mt-6"
-              >
-                <span
-                  className="h-px flex-1"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, transparent, rgba(16,167,216,0.45) 50%, transparent)",
-                  }}
-                />
-                <span>Fleet in formation · On the lane we run</span>
-                <span
-                  className="h-[5px] w-[5px] rounded-full"
-                  style={{ backgroundColor: BRAND_CYAN, opacity: 0.6 }}
-                />
-              </div>
-            </div>
+            <WhySspLeadCyanLaneSimplified reduced={reduced} p={p} />
+            <AnimatedTruck
+              src="/_optimized/brand/leadTruckImg.png"
+              alt=""
+              layout={LEAD_TRUCK_LAYOUT}
+              intrinsicWidth={3026}
+              intrinsicHeight={1979}
+              sizes={LEAD_TRUCK_SIZES}
+              role="lead"
+              enterDelay={0.1}
+              p={p}
+              reduced={reduced}
+            />
+            <AnimatedTruck
+              src="/_optimized/brand/followerTruck.png"
+              alt=""
+              layout={UPPER_FOLLOWER_LAYOUT}
+              intrinsicWidth={2546}
+              intrinsicHeight={1580}
+              sizes={FOLLOWER_TRUCK_SIZES}
+              role="follower"
+              enterDelay={0.22}
+              p={p}
+              reduced={reduced}
+            />
+            <AnimatedTruck
+              src="/_optimized/brand/followerTruck.png"
+              alt=""
+              layout={LOWER_FOLLOWER_LAYOUT}
+              intrinsicWidth={2546}
+              intrinsicHeight={1580}
+              sizes={FOLLOWER_TRUCK_SIZES}
+              role="follower"
+              enterDelay={0.3}
+              p={p}
+              reduced={reduced}
+            />
           </motion.div>
         </motion.div>
       </Container>

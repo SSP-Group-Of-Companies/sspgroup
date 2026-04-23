@@ -414,7 +414,7 @@ export function FlagshipSolutionsPreview() {
     <section
       id="home-flagship-solutions"
       aria-labelledby="home-flagship-solutions-heading"
-      className="relative overflow-hidden bg-[color:var(--color-surface-1)] py-24 antialiased sm:py-28 lg:py-32"
+      className="relative overflow-hidden bg-[color:var(--color-surface-1)] py-20 antialiased sm:py-24 lg:py-28"
     >
       {/* Single atmospheric cyan breath — top-right, editorial only */}
       <div
