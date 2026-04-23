@@ -149,7 +149,7 @@ export function IndustryTrustProof({ model }: { model: IndustryPageModel }) {
               className="rounded-2xl border border-[color:var(--color-border-light)]/60 bg-white p-5 shadow-[0_4px_20px_rgba(2,6,23,0.05)] lg:col-span-5"
             >
               <h3 className="text-[1rem] font-semibold tracking-tight text-[color:var(--color-text-light)] sm:text-[1.08rem]">
-                {trustProof.comparisonHeading ?? "SSP vs. typical market practice"}
+                {trustProof.comparisonHeading ?? "Our approach vs. typical market practice"}
               </h3>
               <div className="mt-5">
                 <ComparisonChart pillars={trustProof.pillars} accentColor={accentColor} />
@@ -188,7 +188,7 @@ export function IndustryTrustProof({ model }: { model: IndustryPageModel }) {
                         {pillar.sspStandard}
                       </p>
                       <p className="mt-2 text-[11.5px] font-medium text-[color:var(--color-subtle-light)]">
-                        Typical market score: {clampScore(pillar.industryScore)}. SSP standard
+                        Typical market score: {clampScore(pillar.industryScore)}. We standard
                         score: {clampScore(pillar.sspScore)}.
                       </p>
                       <p className="mt-2.5 rounded-lg bg-[color:var(--color-surface-0-light)]/50 px-3 py-2 text-[12.5px] leading-[1.65] text-[color:var(--color-text-light)]">

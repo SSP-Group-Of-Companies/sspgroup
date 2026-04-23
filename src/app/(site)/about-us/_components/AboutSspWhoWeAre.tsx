@@ -187,7 +187,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[0.8rem]">
                   <Image
                     src="/_optimized/company/who-we-are-meeting-photo.jpg"
-                    alt="SSP leadership and operations team meeting at the Milton operations base"
+                    alt="We leadership and operations team meeting at the Milton operations base"
                     fill
                     className="object-cover object-center"
                     sizes="24vw"
@@ -203,7 +203,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[0.8rem]">
                   <Image
                     src="/_optimized/company/who-we-are-leadership-team.jpg"
-                    alt="SSP leadership and operations team in planning session"
+                    alt="We leadership and operations team in planning session"
                     fill
                     className="object-cover object-center"
                     sizes="28vw"
@@ -220,7 +220,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
                   <div className="relative aspect-[4/3] overflow-hidden rounded-[0.75rem]">
                     <Image
                       src="/_optimized/company/who-we-are-meeting-photo.jpg"
-                      alt="SSP leadership and operations team meeting at the Milton operations base"
+                      alt="We leadership and operations team meeting at the Milton operations base"
                       fill
                       className="object-cover object-center"
                       sizes="50vw"
@@ -231,7 +231,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
                   <div className="relative aspect-[4/3] overflow-hidden rounded-[0.75rem]">
                     <Image
                       src="/_optimized/company/who-we-are-leadership-team.jpg"
-                      alt="SSP leadership and operations team in planning session"
+                      alt="We leadership and operations team in planning session"
                       fill
                       className="object-cover object-center"
                       sizes="50vw"

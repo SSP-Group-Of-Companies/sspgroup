@@ -71,7 +71,7 @@ export const SOLUTIONS_HUB_PAGE = {
       hubSummary:
         "Full truckload capacity across dry van, flatbed, step deck, Conestoga, and heavy haul — plus LTL for palletized freight that fits shared-capacity networks. The mode and equipment path are matched to the shipment before dispatch.",
       description:
-        "This family covers freight defined by mode selection and equipment fit. SSP qualifies the load against trailer type, shipment size, and cargo handling requirements, then routes it to the truckload or LTL path that delivers controlled execution from pickup through final delivery.",
+        "This family covers freight defined by mode selection and equipment fit. We qualify the load against trailer type, shipment size, and cargo handling requirements, then routes it to the truckload or LTL path that delivers controlled execution from pickup through final delivery.",
       familyHref: "/solutions/core-freight-modes",
       familyCtaLabel: "Explore Core Freight Modes",
       accentColor: "var(--color-ssp-cyan-500)",
@@ -96,7 +96,7 @@ export const SOLUTIONS_HUB_PAGE = {
       hubSummary:
         "Expedited, temperature-controlled, hazmat, and sensitive vehicle transport — where urgency, product integrity, or regulatory compliance must shape the plan before the shipment is released.",
       description:
-        "This family applies when cargo condition, time sensitivity, regulatory classification, or handling constraints materially change how a shipment must be planned, documented, and executed. SSP structures tighter intake, active monitoring, and faster escalation around the constraint that carries the most risk.",
+        "This family applies when cargo condition, time sensitivity, regulatory classification, or handling constraints materially change how a shipment must be planned, documented, and executed. We structure tighter intake, active monitoring, and faster escalation around the constraint that carries the most risk.",
       familyHref: "/solutions/specialized-critical-freight",
       familyCtaLabel: "Explore Specialized & Critical Freight",
       accentColor: "var(--color-brand-500)",
@@ -115,7 +115,7 @@ export const SOLUTIONS_HUB_PAGE = {
       hubSummary:
         "Canada-USA, Mexico, air freight, and ocean freight lanes structured around documentation readiness, border-zone handoffs, and corridor-specific compliance before the shipment reaches the crossing.",
       description:
-        "This family covers freight whose outcome depends on customs preparation, corridor discipline, and international mode selection. SSP aligns documentation, broker coordination, and lane-specific controls so the corridor is structured before the shipment moves — not resolved under pressure at the border.",
+        "This family covers freight whose outcome depends on customs preparation, corridor discipline, and international mode selection. We align documentation, broker coordination, and lane-specific controls so the corridor is structured before the shipment moves — not resolved under pressure at the border.",
       familyHref: "/solutions/cross-border",
       familyCtaLabel: "Explore Cross-Border",
       accentColor: "var(--color-ssp-cyan-500)",
@@ -158,7 +158,7 @@ export const SOLUTIONS_HUB_PAGE = {
         key: "asset-based",
         icon: "truck",
         title: "Asset-based logistics with owned accountability",
-        body: "SSP operates as an asset-based carrier—owned trucks, disciplined dispatch, and execution ownership that stays with your freight. That foundation supports truckload, LTL, specialized, cross-border, and managed programs without defaulting to brokerage-only coverage.",
+        body: "We operate as an asset-based carrier—owned trucks, disciplined dispatch, and execution ownership that stays with your freight. That foundation supports truckload, LTL, specialized, cross-border, and managed programs without defaulting to brokerage-only coverage.",
       },
       {
         key: "north-america",
@@ -176,8 +176,8 @@ export const SOLUTIONS_HUB_PAGE = {
   },
   finalCta: {
     kicker: "Start the Conversation",
-    title: "Share the shipment. SSP will confirm the right path.",
-    body: "Provide the lane, commodity, equipment requirement, and service expectation. SSP will route the freight into the family and service path that fits the operating risk — then structure execution from there.",
+    title: "Share the shipment. We will confirm the right path.",
+    body: "Provide the lane, commodity, equipment requirement, and service expectation. We will route the freight into the family and service path that fits the operating risk — then structure execution from there.",
     trustSignals: [
       "Asset-based carrier with owned fleet",
       "Canada, USA, and Mexico coverage",

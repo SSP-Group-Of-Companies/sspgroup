@@ -4,7 +4,7 @@ import { SITE_URL, toAbsoluteUrl } from "@/lib/seo/site";
 
 const PAGE_TITLE = "Freight Logistics Across North America | SSP Group";
 const PAGE_DESCRIPTION =
-  "Asset-based freight across Canada, the United States, and Mexico. SSP runs truckload, LTL, specialized, and cross-border freight under direct operational ownership from dispatch through delivery.";
+  "Asset-based freight across Canada, the United States, and Mexico. We run truckload, LTL, specialized, and cross-border freight under direct operational ownership from dispatch through delivery.";
 const PAGE_OG_IMAGE = "/_optimized/hero/hero-poster2.png";
 
 export const metadata: Metadata = {

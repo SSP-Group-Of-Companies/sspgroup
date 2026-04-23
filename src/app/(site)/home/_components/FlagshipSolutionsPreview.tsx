@@ -33,7 +33,7 @@ import {
    click — not to reprint the hub.
    ───────────────────────────────────────────────────────────────── */
 
-const SECTION_EYEBROW = "What SSP Moves";
+const SECTION_EYEBROW = "What we move";
 const SECTION_TITLE = "Four ways we move freight.";
 const SECTION_SUPPORT =
   "Four operating families, each built around the lane, equipment, timing, and compliance demands of the freight.";

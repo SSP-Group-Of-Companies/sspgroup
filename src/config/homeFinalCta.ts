@@ -5,7 +5,7 @@
 export const HOME_FINAL_CTA = {
   kicker: "When the details matter",
   title: "Put your next shipment under tighter control",
-  body: "Request a structured quote. SSP will respond with clear pricing assumptions, realistic transit parameters, and a dispatch-led plan that matches the lanes—truckload, specialized equipment, or cross-border—without softening the constraints in the name of speed.",
+  body: "Request a structured quote. We will respond with clear pricing assumptions, realistic transit parameters, and a dispatch-led plan that matches the lanes—truckload, specialized equipment, or cross-border—without softening the constraints in the name of speed.",
   trustSignals: [
     "One operating model across truckload, specialized, and cross-border work",
     "Cross-border documentation treated as a dispatch input, not a paperwork afterthought",
@@ -17,7 +17,7 @@ export const HOME_FINAL_CTA = {
     { value: "CA · US · MX", label: "Corridor scope" },
   ] as const,
   microCopy:
-    "If you need to align on scope first, contact SSP and we will route the inquiry to the right operations lead before you submit formal requirements.",
+    "If you need to align on scope first, contact us and we will route the inquiry to the right operations lead before you submit formal requirements.",
   ctas: {
     primary: {
       label: "Request a Quote",

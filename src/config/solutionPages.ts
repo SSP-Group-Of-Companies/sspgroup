@@ -291,7 +291,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Full Truckload",
     title: "Full truckload built around freight fit and execution control.",
     description:
-      "SSP structures truckload around lane requirements, cargo profile, and the equipment path the shipment actually needs. Across Canada, the United States, and Mexico, the priority is controlled execution from pickup planning through final delivery.",
+      "We structure truckload around lane requirements, cargo profile, and the equipment path the shipment actually needs. Across Canada, the United States, and Mexico, the priority is controlled execution from pickup planning through final delivery.",
     supportingPoints: [],
     primaryCta: {
       label: "Request a Truckload Quote",
@@ -312,7 +312,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
         description:
           "Premium flagship truckload image for the parent truckload page. It should feel executive, modern, and operationally real rather than like a commodity stock transportation shot.",
         mustShow: [
-          "SSP equipment or clearly relevant freight equipment in a real operating environment",
+          "We equipment or clearly relevant freight equipment in a real operating environment",
           "Strong single subject with enough calm space for premium hero copy",
           "A setting that signals North American freight scale such as a highway corridor, terminal, distribution center, or shipper yard",
         ],
@@ -334,13 +334,13 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "mode-overview",
       label: "Mode Overview",
-      summary: "Short truckload framing with an embedded SSP overview video.",
+      summary: "Short truckload framing with an embedded overview video.",
       accent: "#0d4f78",
     },
     {
       key: "why-ssp",
       label: "Why SSP",
-      summary: "The execution principles that make SSP different in truckload.",
+      summary: "The execution principles that set us apart in truckload.",
       accent: "#10a7d8",
     },
     {
@@ -352,7 +352,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "how-it-works",
       label: "How It Works",
-      summary: "The operating sequence SSP uses to structure a truckload move.",
+      summary: "The operating sequence we use to structure a truckload move.",
       accent: "#d71920",
     },
     {
@@ -364,7 +364,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "related",
       label: "Related Services",
-      summary: "Where SSP routes the shipper when another service fits better than truckload.",
+      summary: "Where we route the shipper when another service fits better than truckload.",
       accent: "#0d4f78",
     },
     {
@@ -391,11 +391,11 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
     points: [
       {
         title: "Freight fit is resolved before capacity is assigned",
-        body: "SSP qualifies loading method, cargo dimensions, appointment conditions, and route requirements before the load is dispatched, so truckload starts with the right operating structure.",
+        body: "We qualify loading method, cargo dimensions, appointment conditions, and route requirements before the load is dispatched, so truckload starts with the right operating structure.",
       },
       {
         title: "Execution stays tied to operating decisions",
-        body: "Truckload performance improves when planning, capacity, and milestone ownership stay connected. SSP keeps those decisions aligned so the shipment is not handed off without accountability.",
+        body: "Truckload performance improves when planning, capacity, and milestone ownership stay connected. We keeps those decisions aligned so the shipment is not handed off without accountability.",
       },
       {
         title: "Communication follows the move, not generic updates",
@@ -407,7 +407,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "How It Works",
     title: "Execution quality is decided before the shipment moves.",
     description:
-      "SSP qualifies the shipment first, then aligns trailer selection, dispatch, and delivery control around that operating profile. Early decisions matter because the wrong structure is expensive to correct once the load is in motion.",
+      "We qualify the shipment first, then aligns trailer selection, dispatch, and delivery control around that operating profile. Early decisions matter because the wrong structure is expensive to correct once the load is in motion.",
     steps: [
       {
         step: "01",
@@ -422,7 +422,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         step: "03",
         title: "Dispatch against clear milestones",
-        body: "Once the move is aligned, SSP executes against pickup, in-transit, and delivery milestones with direct ownership over the handoffs that matter to the shipper.",
+        body: "Once the move is aligned, we executes against pickup, in-transit, and delivery milestones with direct ownership over the handoffs that matter to the shipper.",
       },
       {
         step: "04",
@@ -574,7 +574,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
       },
       {
         title: "Alternative Routing",
-        body: "If the freight is too small for dedicated economics, requires temperature control, or belongs in a cross-border structure, SSP routes the shipment to the better-fit service.",
+        body: "If the freight is too small for dedicated economics, requires temperature control, or belongs in a cross-border structure, we routes the shipment to the better-fit service.",
         iconKey: "branch-route",
       },
     ],
@@ -626,7 +626,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         question: "How do I know whether I need dry van, flatbed, step deck, Conestoga, or heavy haul?",
         answer:
-          "The answer depends on loading method, cargo dimensions, protection requirements, clearance risk, legal route constraints, and site conditions. SSP qualifies those variables first, then routes the shipment into the correct equipment path.",
+          "The answer depends on loading method, cargo dimensions, protection requirements, clearance risk, legal route constraints, and site conditions. We qualify those variables first, then routes the shipment into the correct equipment path.",
       },
       {
         question: "When should I not book truckload?",
@@ -638,11 +638,11 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
   finalCta: {
     kicker: "Start the conversation",
     title: "Confirm the right truckload path before the load is live.",
-    body: "Share the lane, commodity, loading method, and delivery requirements. SSP will determine whether truckload is the right family and, if it is, which equipment path should structure the move.",
+    body: "Share the lane, commodity, loading method, and delivery requirements. We will determine whether truckload is the right family and, if it is, which equipment path should structure the move.",
     trustSignals: [
       "Featured equipment profiles across core truckload configurations",
       "Truckload execution across Canada, the United States, and Mexico",
-      "Fit-first routing into adjacent SSP services when truckload is not the right answer",
+      "Fit-first routing into adjacent services when truckload is not the right answer",
     ],
     proof: [
       { label: "Structure", value: "Equipment-led" },
@@ -683,7 +683,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Less-Than-Truckload",
     title: "LTL freight planned for control before it enters the network.",
     description:
-      "SSP plans LTL around density, class, packaging, dock conditions, and service commitments before freight is tendered. Across Canada, the United States, and Mexico, the objective is to use shared capacity efficiently without losing accountability for execution.",
+      "We plan LTL around density, class, packaging, dock conditions, and service commitments before freight is tendered. Across Canada, the United States, and Mexico, the objective is to use shared capacity efficiently without losing accountability for execution.",
     supportingPoints: [],
     primaryCta: {
       label: "Request an LTL Quote",
@@ -726,7 +726,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "mode-overview",
       label: "Mode Overview",
-      summary: "Short LTL framing with an embedded SSP overview video.",
+      summary: "Short LTL framing with an embedded overview video.",
       accent: "#0d4f78",
     },
     {
@@ -744,7 +744,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "how-it-works",
       label: "How It Works",
-      summary: "The operating sequence SSP uses to structure an LTL move.",
+      summary: "The operating sequence we use to structure an LTL move.",
       accent: "#d71920",
     },
     {
@@ -756,7 +756,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "related",
       label: "Related Services",
-      summary: "Where SSP routes the shipper when LTL is not the right fit.",
+      summary: "Where we route the shipper when LTL is not the right fit.",
       accent: "#0d4f78",
     },
     {
@@ -783,7 +783,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
     points: [
       {
         title: "Shipment quality is checked before tender",
-        body: "SSP reviews weight, dimensions, density, commodity description, packaging, and class inputs before the shipment is booked. That discipline reduces reweigh, reclass, and downstream billing disputes.",
+        body: "We review weight, dimensions, density, commodity description, packaging, and class inputs before the shipment is booked. That discipline reduces reweigh, reclass, and downstream billing disputes.",
       },
       {
         title: "Facility and accessorial risk is surfaced early",
@@ -791,7 +791,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
       },
       {
         title: "Exception management stays active once freight is moving",
-        body: "LTL visibility matters when a terminal transfer, delay, or delivery issue changes the plan. SSP communicates against the exception and the recovery path, not just the scan history.",
+        body: "LTL visibility matters when a terminal transfer, delay, or delivery issue changes the plan. We communicate against the exception and the recovery path, not just the scan history.",
       },
     ],
   },
@@ -799,7 +799,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "How It Works",
     title: "Cleaner LTL execution starts with cleaner shipment data.",
     description:
-      "Shared-capacity freight performs best when the shipment profile, class, packaging, and site requirements are resolved before pickup. SSP uses that discipline to protect cost, transit expectations, and delivery follow-through.",
+      "Shared-capacity freight performs best when the shipment profile, class, packaging, and site requirements are resolved before pickup. We use that discipline to protect cost, transit expectations, and delivery follow-through.",
     steps: [
       {
         step: "01",
@@ -814,7 +814,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         step: "03",
         title: "Assign the right service path",
-        body: "SSP aligns the lane, service level, and network path to the freight profile so transit expectations match what the shipment can realistically support.",
+        body: "We align the lane, service level, and network path to the freight profile so transit expectations match what the shipment can realistically support.",
       },
       {
         step: "04",
@@ -827,11 +827,11 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Freight fit should be resolved before you book LTL.",
     description:
-      "Use this guide to confirm that the shipment belongs in shared capacity. If the freight needs tighter control, exclusive space, or specialized handling, SSP should move it into the correct service path before pickup.",
+      "Use this guide to confirm that the shipment belongs in shared capacity. If the freight needs tighter control, exclusive space, or specialized handling, we should move it into the correct service path before pickup.",
     guide: {
       title: "LTL Freight Fit Guide",
       intro:
-        "LTL is built for freight that does not require exclusive trailer space and can move through a terminal network cleanly. Use this guide to confirm fit and identify the better SSP path when it does not.",
+        "LTL is built for freight that does not require exclusive trailer space and can move through a terminal network cleanly. Use this guide to confirm fit and identify a better service path when it does not.",
       diagram: "/_optimized/solution/ltl/ltl-Img.png",
       diagramAlt: "LTL freight movement and shared-capacity service overview",
       specs: {
@@ -869,7 +869,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
         {
           condition: "Freight requiring open-deck loading or oversized handling",
           description:
-            "If the cargo needs top, side, or crane loading, or no longer fits standard dock-compatible assumptions, SSP should route it into the correct open-deck equipment path.",
+            "If the cargo needs top, side, or crane loading, or no longer fits standard dock-compatible assumptions, we should route it into the correct open-deck equipment path.",
           recommendation: "Flatbed",
           serviceSlug: "/solutions/flatbed",
         },
@@ -908,7 +908,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
       },
       {
         title: "Rerouting Threshold",
-        body: "If the freight grows beyond LTL economics or needs tighter handling, temperature protection, or faster recovery, SSP should move it to the better-fit service before pickup.",
+        body: "If the freight grows beyond LTL economics or needs tighter handling, temperature protection, or faster recovery, we should move it to the better-fit service before pickup.",
         iconKey: "branch-route",
       },
     ],
@@ -917,7 +917,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Related Services",
     title: "If LTL stops fitting the shipment, move it early.",
     description:
-      "These are the next SSP paths when shared-capacity execution no longer matches the freight.",
+      "These are the next service paths when shared-capacity execution no longer matches the freight.",
     items: [
       {
         label: "Truckload",
@@ -950,7 +950,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "LTL FAQs",
     title: "The questions that matter before booking LTL.",
     description:
-      "These are the qualification questions that usually determine whether LTL is the right operating model and what SSP needs to structure the move cleanly.",
+      "These are the qualification questions that usually determine whether LTL is the right operating model and what we need to structure the move cleanly.",
     items: [
       {
         question: "What counts as an LTL shipment?",
@@ -973,7 +973,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
           "Move to truckload when freight volume or handling exposure no longer fits shared capacity. Move to expedited when transit tolerance is too tight for standard network routing or the recovery window is too narrow.",
       },
       {
-        question: "Can SSP support cross-border LTL between Canada, the United States, and Mexico?",
+        question: "Can we support cross-border LTL between Canada, the United States, and Mexico?",
         answer:
           "Yes. Cross-border LTL can be structured when customs data, commercial documentation, commodity detail, and lane planning are prepared correctly before tender. Border moves require the paperwork and operating sequence to be resolved early.",
       },
@@ -982,7 +982,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
   finalCta: {
     kicker: "Start the conversation",
     title: "Validate the shipment before it enters the LTL network.",
-    body: "Send the lane, pallet count, dimensions, weight, commodity, packaging profile, and delivery requirements. SSP will confirm whether LTL is the right fit, identify class or handling risks, and structure the move for controlled execution.",
+    body: "Send the lane, pallet count, dimensions, weight, commodity, packaging profile, and delivery requirements. We will confirm whether LTL is the right fit, identify class or handling risks, and structure the move for controlled execution.",
     trustSignals: [
       "Asset-based operating model across Canada, the United States, and Mexico",
       "Freight-fit review tied to truckload, expedited, temperature-controlled, and cross-border paths",
@@ -1027,7 +1027,7 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Dry Van",
     title: "Enclosed dry van capacity for standard freight.",
     description:
-      "SSP moves dry van freight across Canada, the United States, and Mexico for shippers that need enclosed trailer protection, dock-compatible loading, and controlled appointment execution. This is the right equipment path for palletized, boxed, and floor-loaded freight that does not require temperature control or open-deck access.",
+      "We moves dry van freight across Canada, the United States, and Mexico for shippers that need enclosed trailer protection, dock-compatible loading, and controlled appointment execution. This is the right equipment path for palletized, boxed, and floor-loaded freight that does not require temperature control or open-deck access.",
     descriptionMaxWidth: "46rem",
     supportingPoints: [],
     primaryCta: {
@@ -1078,7 +1078,7 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit",
-      summary: "How to confirm dry van and when SSP should route the load elsewhere.",
+      summary: "How to confirm dry van and when We should route the load elsewhere.",
       accent: "#10a7d8",
     },
     {
@@ -1090,13 +1090,13 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
     {
       key: "execution",
       label: "How It Works",
-      summary: "How SSP qualifies, dispatches, and closes a dry van shipment.",
+      summary: "How we qualify, dispatch, and close a dry van shipment.",
       accent: "#3064a8",
     },
     {
       key: "related",
       label: "Related Equipment & Services",
-      summary: "The next SSP paths to review when dry van is not the right answer.",
+      summary: "The next service paths to review when dry van is not the right answer.",
       accent: "#b37a20",
     },
     {
@@ -1116,11 +1116,11 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Freight fit should confirm dry van early.",
     description:
-      "Use this guide to confirm that the shipment belongs in standard enclosed equipment. If the freight falls outside the dry van envelope, SSP should route it into the correct equipment or service path before the move is committed.",
+      "Use this guide to confirm that the shipment belongs in standard enclosed equipment. If the freight falls outside the dry van envelope, we should route it into the correct equipment or service path before the move is committed.",
     guide: {
       title: "Dry Van Freight Fit Guide",
       intro:
-        "Dry van is the standard enclosed trailer for general truckload freight across North America. Use this guide to confirm the load fits the equipment envelope and to identify the better SSP path when the shipment requires another operating model.",
+        "Dry van is the standard enclosed trailer for general truckload freight across North America. Use this guide to confirm the load fits the equipment envelope and to identify a better service path when the shipment requires another operating model.",
       diagram: "/_optimized/solution/dryvan/dry-van.svg",
       diagramAlt: "Dry van trailer equipment diagram with dimensions and payload guidance",
       specs: {
@@ -1173,7 +1173,7 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
     points: [
       {
         title: "Equipment fit is qualified before the load is covered",
-        body: "SSP reviews commodity, dimensions, pallet count, loading method, and site conditions before dry van capacity is assigned, so execution starts with the right trailer and a realistic operating plan.",
+        body: "We review commodity, dimensions, pallet count, loading method, and site conditions before dry van capacity is assigned, so execution starts with the right trailer and a realistic operating plan.",
       },
       {
         title: "Dock execution is structured before pickup day",
@@ -1189,7 +1189,7 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "How It Works",
     title: "A dry van move should be structured before dispatch.",
     description:
-      "Dry van execution improves when equipment fit, dock conditions, paperwork, and milestone ownership are aligned before the trailer is moving. This is the operating sequence SSP follows.",
+      "Dry van execution improves when equipment fit, dock conditions, paperwork, and milestone ownership are aligned before the trailer is moving. This is the operating sequence we follow.",
     steps: [
       {
         step: "01",
@@ -1204,7 +1204,7 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
       {
         step: "03",
         title: "Dispatch against milestone ownership",
-        body: "Once the move is qualified, SSP dispatches against pickup, in-transit, and delivery milestones with communication tied to real operating checkpoints.",
+        body: "Once the move is qualified, we dispatches against pickup, in-transit, and delivery milestones with communication tied to real operating checkpoints.",
       },
       {
         step: "04",
@@ -1217,7 +1217,7 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Related Equipment & Services",
     title: "If dry van is not the right fit, reroute early.",
     description:
-      "These are the first SSP paths to review when the freight no longer fits standard enclosed trailer assumptions or when another operating model should lead the move.",
+      "These are the first service paths to review when the freight no longer fits standard enclosed trailer assumptions or when another operating model should lead the move.",
     items: [
       {
         label: "Truckload",
@@ -1250,7 +1250,7 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Dry Van FAQs",
     title: "The operating questions that matter before booking dry van.",
     description:
-      "These are the questions that usually determine whether dry van is the correct equipment path and what SSP needs to structure the move cleanly.",
+      "These are the questions that usually determine whether dry van is the correct equipment path and what we need to structure the move cleanly.",
     items: [
       {
         question: "What freight is best suited to dry van?",
@@ -1282,10 +1282,10 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
   finalCta: {
     kicker: "Confirm the fit",
     title: "Confirm dry van fit before the trailer is assigned.",
-    body: "Share the lane, commodity, pallet count, dimensions, and timing requirements. SSP will confirm whether dry van is the right equipment path, flag any fit risks early, and structure the move for clean execution.",
+    body: "Share the lane, commodity, pallet count, dimensions, and timing requirements. We will confirm whether dry van is the right equipment path, flag any fit risks early, and structure the move for clean execution.",
     trustSignals: [
       "Dry van execution across Canada, the United States, and Mexico",
-      "Freight-fit guidance tied to adjacent SSP equipment and service paths",
+      "Freight-fit guidance tied to adjacent equipment and service paths",
       "Appointment, documentation, and handoff discipline built into the move",
     ],
     proof: [
@@ -1327,7 +1327,7 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Flatbed",
     title: "Open-deck flatbed capacity for freight that cannot move enclosed.",
     description:
-      "SSP moves flatbed freight across Canada, the United States, and Mexico for shippers that need top, side, or crane loading, open-deck access, and controlled securement execution. This is the right equipment path for industrial materials, machinery, construction freight, and oversized cargo that does not fit standard enclosed trailer assumptions.",
+      "We moves flatbed freight across Canada, the United States, and Mexico for shippers that need top, side, or crane loading, open-deck access, and controlled securement execution. This is the right equipment path for industrial materials, machinery, construction freight, and oversized cargo that does not fit standard enclosed trailer assumptions.",
     descriptionMaxWidth: "48rem",
     supportingPoints: [],
     primaryCta: {
@@ -1377,7 +1377,7 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit",
-      summary: "How to confirm flatbed and when SSP should route the load elsewhere.",
+      summary: "How to confirm flatbed and when We should route the load elsewhere.",
       accent: "#10a7d8",
     },
     {
@@ -1389,13 +1389,13 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
     {
       key: "execution",
       label: "How It Works",
-      summary: "How SSP qualifies, dispatches, and closes a flatbed shipment.",
+      summary: "How we qualify, dispatch, and close a flatbed shipment.",
       accent: "#3064a8",
     },
     {
       key: "related",
       label: "Related Equipment & Services",
-      summary: "The next SSP paths to review when flatbed is not the right answer.",
+      summary: "The next service paths to review when flatbed is not the right answer.",
       accent: "#b37a20",
     },
     {
@@ -1415,11 +1415,11 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Freight fit should confirm flatbed early.",
     description:
-      "Use this guide to confirm that the shipment belongs on standard open-deck equipment. If the freight needs more height control, permit-led planning, or enclosed protection, SSP should route it into the correct equipment or service path before the move is committed.",
+      "Use this guide to confirm that the shipment belongs on standard open-deck equipment. If the freight needs more height control, permit-led planning, or enclosed protection, we should route it into the correct equipment or service path before the move is committed.",
     guide: {
       title: "Flatbed Freight Fit Guide",
       intro:
-        "Flatbed is the standard open-deck trailer for freight that needs top, side, or crane access, or exceeds enclosed trailer constraints. Use this guide to confirm the load fits the equipment envelope and to identify the better SSP path when the shipment requires another operating model.",
+        "Flatbed is the standard open-deck trailer for freight that needs top, side, or crane access, or exceeds enclosed trailer constraints. Use this guide to confirm the load fits the equipment envelope and to identify a better service path when the shipment requires another operating model.",
       diagram: "/_optimized/solution/flatbed/flatbed.webp",
       diagramAlt: "Flatbed trailer equipment diagram with dimensions and payload guidance",
       specs: {
@@ -1468,7 +1468,7 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
     points: [
       {
         title: "Equipment fit and securement logic are resolved before dispatch",
-        body: "SSP reviews commodity, dimensions, loading method, weight distribution, and securement requirements before flatbed capacity is assigned, so execution starts with the right deck and a realistic operating plan.",
+        body: "We review commodity, dimensions, loading method, weight distribution, and securement requirements before flatbed capacity is assigned, so execution starts with the right deck and a realistic operating plan.",
       },
       {
         title: "Site coordination is structured before pickup day",
@@ -1484,7 +1484,7 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "How It Works",
     title: "A flatbed move should be structured before the freight is loaded.",
     description:
-      "Flatbed execution improves when equipment fit, securement approach, site conditions, and milestone ownership are aligned before the trailer is moving. This is the operating sequence SSP follows.",
+      "Flatbed execution improves when equipment fit, securement approach, site conditions, and milestone ownership are aligned before the trailer is moving. This is the operating sequence we follow.",
     steps: [
       {
         step: "01",
@@ -1499,7 +1499,7 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
       {
         step: "03",
         title: "Dispatch against milestone ownership",
-        body: "Once the move is qualified, SSP dispatches against pickup, in-transit, and delivery milestones with communication tied to real operating checkpoints and site readiness.",
+        body: "Once the move is qualified, we dispatches against pickup, in-transit, and delivery milestones with communication tied to real operating checkpoints and site readiness.",
       },
       {
         step: "04",
@@ -1512,7 +1512,7 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Related Equipment & Services",
     title: "If flatbed is not the right fit, reroute early.",
     description:
-      "These are the first SSP paths to review when the freight no longer fits standard open-deck assumptions or when another operating model should lead the move.",
+      "These are the first service paths to review when the freight no longer fits standard open-deck assumptions or when another operating model should lead the move.",
     items: [
       {
         label: "Truckload",
@@ -1545,7 +1545,7 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Flatbed FAQs",
     title: "The operating questions that matter before booking flatbed.",
     description:
-      "These are the questions that usually determine whether flatbed is the correct equipment path and what SSP needs to structure the move cleanly.",
+      "These are the questions that usually determine whether flatbed is the correct equipment path and what we need to structure the move cleanly.",
     items: [
       {
         question: "What freight is best suited to flatbed?",
@@ -1577,10 +1577,10 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
   finalCta: {
     kicker: "Confirm the fit",
     title: "Confirm flatbed fit before the deck is assigned.",
-    body: "Share the lane, commodity, dimensions, weight, loading method, and timing requirements. SSP will confirm whether flatbed is the right equipment path, flag any fit or securement risks early, and structure the move for controlled execution.",
+    body: "Share the lane, commodity, dimensions, weight, loading method, and timing requirements. We will confirm whether flatbed is the right equipment path, flag any fit or securement risks early, and structure the move for controlled execution.",
     trustSignals: [
       "Flatbed execution across Canada, the United States, and Mexico",
-      "Freight-fit guidance tied to adjacent SSP equipment and service paths",
+      "Freight-fit guidance tied to adjacent equipment and service paths",
       "Securement, site coordination, and handoff discipline built into the move",
     ],
     proof: [
@@ -1622,7 +1622,7 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Step Deck",
     title: "Lower-deck step deck capacity for taller open-deck freight.",
     description:
-      "SSP moves step deck freight across Canada, the United States, and Mexico for shippers that need open-deck access with lower deck height than a standard flatbed can provide. This is the right equipment path for taller machinery, fabricated units, industrial skids, and freight profiles that must stay legal without moving into a removable-gooseneck or permit-led heavy-haul structure.",
+      "We moves step deck freight across Canada, the United States, and Mexico for shippers that need open-deck access with lower deck height than a standard flatbed can provide. This is the right equipment path for taller machinery, fabricated units, industrial skids, and freight profiles that must stay legal without moving into a removable-gooseneck or permit-led heavy-haul structure.",
     descriptionMaxWidth: "50rem",
     supportingPoints: [],
     primaryCta: {
@@ -1672,7 +1672,7 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit",
-      summary: "How to confirm step deck and when SSP should route the load elsewhere.",
+      summary: "How to confirm step deck and when We should route the load elsewhere.",
       accent: "#10a7d8",
     },
     {
@@ -1684,13 +1684,13 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
     {
       key: "execution",
       label: "How It Works",
-      summary: "How SSP qualifies, dispatches, and closes a step deck shipment.",
+      summary: "How we qualify, dispatch, and close a step deck shipment.",
       accent: "#3064a8",
     },
     {
       key: "related",
       label: "Related Equipment & Services",
-      summary: "The next SSP paths to review when step deck is not the right answer.",
+      summary: "The next service paths to review when step deck is not the right answer.",
       accent: "#b37a20",
     },
     {
@@ -1710,11 +1710,11 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Freight fit should confirm step deck before pricing locks in.",
     description:
-      "Use this guide to confirm that the shipment needs lower deck height without moving into a more specialized equipment path. If the freight fits a standard flatbed, requires permit-led handling, or needs weather protection, SSP should route it early.",
+      "Use this guide to confirm that the shipment needs lower deck height without moving into a more specialized equipment path. If the freight fits a standard flatbed, requires permit-led handling, or needs weather protection, we should route it early.",
     guide: {
       title: "Step Deck Freight Fit Guide",
       intro:
-        "Step deck is the lower-deck open trailer used when cargo needs more legal height tolerance than a standard flatbed can usually provide. Use this guide to confirm the load fits the equipment envelope and to identify the better SSP path when the shipment requires another operating model.",
+        "Step deck is the lower-deck open trailer used when cargo needs more legal height tolerance than a standard flatbed can usually provide. Use this guide to confirm the load fits the equipment envelope and to identify a better service path when the shipment requires another operating model.",
       diagram: "/_optimized/solution/stepdeck/stepDeck.webp",
       diagramAlt: "Step deck trailer equipment diagram with lower-deck dimensions and payload guidance",
       specs: {
@@ -1763,7 +1763,7 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
     points: [
       {
         title: "Height-risk qualification happens before capacity is assigned",
-        body: "SSP reviews cargo dimensions, lower-deck fit, loading method, route constraints, and securement requirements before step deck capacity is committed, so the operating plan reflects actual height exposure rather than assumption.",
+        body: "We review cargo dimensions, lower-deck fit, loading method, route constraints, and securement requirements before step deck capacity is committed, so the operating plan reflects actual height exposure rather than assumption.",
       },
       {
         title: "Site handling and deck geometry are aligned early",
@@ -1779,7 +1779,7 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "How It Works",
     title: "A step deck move should be qualified before dispatch.",
     description:
-      "Step deck execution improves when cargo height, deck fit, loading method, and route reality are aligned before the trailer is moving. This is the operating sequence SSP follows.",
+      "Step deck execution improves when cargo height, deck fit, loading method, and route reality are aligned before the trailer is moving. This is the operating sequence we follow.",
     steps: [
       {
         step: "01",
@@ -1794,7 +1794,7 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
       {
         step: "03",
         title: "Dispatch against milestone ownership",
-        body: "Once the move is qualified, SSP dispatches against pickup, in-transit, and delivery milestones with communication tied to real operating checkpoints and site readiness.",
+        body: "Once the move is qualified, we dispatches against pickup, in-transit, and delivery milestones with communication tied to real operating checkpoints and site readiness.",
       },
       {
         step: "04",
@@ -1807,7 +1807,7 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Related Equipment & Services",
     title: "If step deck is not the right fit, reroute early.",
     description:
-      "These are the first SSP paths to review when the freight no longer fits the lower-deck open-trailer profile or when another operating model should lead the move.",
+      "These are the first service paths to review when the freight no longer fits the lower-deck open-trailer profile or when another operating model should lead the move.",
     items: [
       {
         label: "Truckload",
@@ -1840,7 +1840,7 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Step Deck FAQs",
     title: "The operating questions that matter before booking step deck.",
     description:
-      "These are the questions that usually determine whether step deck is the correct equipment path and what SSP needs to structure the move cleanly.",
+      "These are the questions that usually determine whether step deck is the correct equipment path and what we need to structure the move cleanly.",
     items: [
       {
         question: "What freight is best suited to step deck?",
@@ -1872,10 +1872,10 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
   finalCta: {
     kicker: "Confirm the fit",
     title: "Confirm step deck fit before the trailer is assigned.",
-    body: "Share the lane, commodity, dimensions, weight, loading method, and timing requirements. SSP will confirm whether step deck is the right equipment path, flag height or handling risks early, and structure the move for controlled execution.",
+    body: "Share the lane, commodity, dimensions, weight, loading method, and timing requirements. We will confirm whether step deck is the right equipment path, flag height or handling risks early, and structure the move for controlled execution.",
     trustSignals: [
       "Step deck execution across Canada, the United States, and Mexico",
-      "Freight-fit guidance tied to adjacent SSP equipment and service paths",
+      "Freight-fit guidance tied to adjacent equipment and service paths",
       "Height, route, securement, and site coordination discipline built into the move",
     ],
     proof: [
@@ -1917,7 +1917,7 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Conestoga / Roll-Tite",
     title: "Covered open-deck capacity for freight that cannot be exposed.",
     description:
-      "SSP moves Conestoga and Roll-Tite freight across Canada, the United States, and Mexico for shippers that need open-deck loading flexibility with added weather protection and cleaner cargo containment. This is the right equipment path for industrial freight, crated machinery, aluminum products, and engineered materials that should not move exposed on a standard flatbed or step deck.",
+      "We moves Conestoga and Roll-Tite freight across Canada, the United States, and Mexico for shippers that need open-deck loading flexibility with added weather protection and cleaner cargo containment. This is the right equipment path for industrial freight, crated machinery, aluminum products, and engineered materials that should not move exposed on a standard flatbed or step deck.",
     descriptionMaxWidth: "50rem",
     supportingPoints: [],
     primaryCta: {
@@ -1967,7 +1967,7 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit",
-      summary: "How to confirm Conestoga and when SSP should route the load elsewhere.",
+      summary: "How to confirm Conestoga and when We should route the load elsewhere.",
       accent: "#10a7d8",
     },
     {
@@ -1979,13 +1979,13 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
     {
       key: "execution",
       label: "How It Works",
-      summary: "How SSP qualifies, dispatches, and closes a Conestoga shipment.",
+      summary: "How we qualify, dispatch, and close a Conestoga shipment.",
       accent: "#3064a8",
     },
     {
       key: "related",
       label: "Related Equipment & Services",
-      summary: "The next SSP paths to review when Conestoga is not the right answer.",
+      summary: "The next service paths to review when Conestoga is not the right answer.",
       accent: "#b37a20",
     },
     {
@@ -2005,11 +2005,11 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Freight fit should confirm Conestoga before the trailer is assigned.",
     description:
-      "Use this guide to confirm that the shipment needs weather protection without giving up open-deck loading access. If the freight can move exposed, needs lower deck height, or requires enclosed equipment instead, SSP should route it early.",
+      "Use this guide to confirm that the shipment needs weather protection without giving up open-deck loading access. If the freight can move exposed, needs lower deck height, or requires enclosed equipment instead, we should route it early.",
     guide: {
       title: "Conestoga Freight Fit Guide",
       intro:
-        "Conestoga and Roll-Tite equipment are protected open-deck trailers used when freight still benefits from side, top, or crane loading but should not be exposed to weather in transit. Use this guide to confirm the load fits the equipment envelope and to identify the better SSP path when the shipment requires another operating model.",
+        "Conestoga and Roll-Tite equipment are protected open-deck trailers used when freight still benefits from side, top, or crane loading but should not be exposed to weather in transit. Use this guide to confirm the load fits the equipment envelope and to identify a better service path when the shipment requires another operating model.",
       diagram: "/_optimized/solution/conestoga/rollTite_conestoga.webp",
       diagramAlt: "Conestoga trailer equipment diagram with covered open-deck dimensions and payload guidance",
       specs: {
@@ -2058,7 +2058,7 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
     points: [
       {
         title: "Protection requirements are qualified before capacity is committed",
-        body: "SSP reviews commodity sensitivity, cargo profile, loading method, cover-system fit, and securement requirements before Conestoga capacity is assigned, so the shipment is matched to the right protected open-deck path from the start.",
+        body: "We review commodity sensitivity, cargo profile, loading method, cover-system fit, and securement requirements before Conestoga capacity is assigned, so the shipment is matched to the right protected open-deck path from the start.",
       },
       {
         title: "Loading flexibility and site execution are aligned early",
@@ -2074,7 +2074,7 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "How It Works",
     title: "A Conestoga move should be structured before dispatch.",
     description:
-      "Conestoga execution improves when cargo sensitivity, loading method, cover fit, and route reality are aligned before the trailer is moving. This is the operating sequence SSP follows.",
+      "Conestoga execution improves when cargo sensitivity, loading method, cover fit, and route reality are aligned before the trailer is moving. This is the operating sequence we follow.",
     steps: [
       {
         step: "01",
@@ -2089,7 +2089,7 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
       {
         step: "03",
         title: "Dispatch against milestone ownership",
-        body: "Once the move is qualified, SSP dispatches against pickup, in-transit, and delivery milestones with communication tied to real operating checkpoints and site readiness.",
+        body: "Once the move is qualified, we dispatches against pickup, in-transit, and delivery milestones with communication tied to real operating checkpoints and site readiness.",
       },
       {
         step: "04",
@@ -2102,7 +2102,7 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Related Equipment & Services",
     title: "If Conestoga is not the right fit, reroute early.",
     description:
-      "These are the first SSP paths to review when the freight no longer fits the protected open-deck profile or when another operating model should lead the move.",
+      "These are the first service paths to review when the freight no longer fits the protected open-deck profile or when another operating model should lead the move.",
     items: [
       {
         label: "Truckload",
@@ -2135,7 +2135,7 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Conestoga FAQs",
     title: "The operating questions that matter before booking Conestoga.",
     description:
-      "These are the questions that usually determine whether Conestoga is the correct equipment path and what SSP needs to structure the move cleanly.",
+      "These are the questions that usually determine whether Conestoga is the correct equipment path and what we need to structure the move cleanly.",
     items: [
       {
         question: "What freight is best suited to Conestoga or Roll-Tite equipment?",
@@ -2155,7 +2155,7 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
       {
         question: "Can Conestoga handle taller freight than a standard flatbed?",
         answer:
-          "Sometimes, but cargo fit depends on both legal route height and the usable cover-system clearance. If height becomes the main constraint, SSP should review step deck or another equipment path before committing the move.",
+          "Sometimes, but cargo fit depends on both legal route height and the usable cover-system clearance. If height becomes the main constraint, we should review step deck or another equipment path before committing the move.",
       },
       {
         question: "Can Conestoga be used for cross-border freight?",
@@ -2167,10 +2167,10 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
   finalCta: {
     kicker: "Confirm the fit",
     title: "Confirm Conestoga fit before the trailer is assigned.",
-    body: "Share the lane, commodity, dimensions, weight, loading method, and timing requirements. SSP will confirm whether Conestoga is the right equipment path, flag protection or fit risks early, and structure the move for controlled execution.",
+    body: "Share the lane, commodity, dimensions, weight, loading method, and timing requirements. We will confirm whether Conestoga is the right equipment path, flag protection or fit risks early, and structure the move for controlled execution.",
     trustSignals: [
       "Conestoga execution across Canada, the United States, and Mexico",
-      "Freight-fit guidance tied to adjacent SSP equipment and service paths",
+      "Freight-fit guidance tied to adjacent equipment and service paths",
       "Protection, securement, route, and site coordination discipline built into the move",
     ],
     proof: [
@@ -2212,7 +2212,7 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "RGN / Heavy Haul",
     title: "Specialized heavy haul capacity for freight beyond standard deck limits.",
     description:
-      "SSP moves RGN and heavy haul freight across Canada, the United States, and Mexico for shippers that need permit-led planning, lower loading geometry, specialized axle configurations, and controlled site execution. This is the right equipment path for construction equipment, transformers, mining units, oversized machinery, and project cargo that cannot move cleanly on standard flatbed, step deck, or protected open-deck equipment.",
+      "We moves RGN and heavy haul freight across Canada, the United States, and Mexico for shippers that need permit-led planning, lower loading geometry, specialized axle configurations, and controlled site execution. This is the right equipment path for construction equipment, transformers, mining units, oversized machinery, and project cargo that cannot move cleanly on standard flatbed, step deck, or protected open-deck equipment.",
     descriptionMaxWidth: "51rem",
     supportingPoints: [],
     primaryCta: {
@@ -2262,7 +2262,7 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit",
-      summary: "How to confirm RGN or heavy haul and when SSP should route the load elsewhere.",
+      summary: "How to confirm RGN or heavy haul and when We should route the load elsewhere.",
       accent: "#10a7d8",
     },
     {
@@ -2274,13 +2274,13 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
     {
       key: "execution",
       label: "How It Works",
-      summary: "How SSP qualifies, dispatches, and closes an RGN or heavy haul shipment.",
+      summary: "How we qualify, dispatch, and close an RGN or heavy haul shipment.",
       accent: "#3064a8",
     },
     {
       key: "related",
       label: "Related Equipment & Services",
-      summary: "The next SSP paths to review when heavy haul is not the right answer.",
+      summary: "The next service paths to review when heavy haul is not the right answer.",
       accent: "#b37a20",
     },
     {
@@ -2300,11 +2300,11 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Freight fit should confirm heavy haul before permit work begins.",
     description:
-      "Use this guide to confirm that the shipment moves beyond standard legal or equipment limits and needs a specialized heavy-haul operating path. If the freight still fits flatbed, step deck, or another standard trailer path, SSP should route it early before complexity is added unnecessarily.",
+      "Use this guide to confirm that the shipment moves beyond standard legal or equipment limits and needs a specialized heavy-haul operating path. If the freight still fits flatbed, step deck, or another standard trailer path, we should route it early before complexity is added unnecessarily.",
     guide: {
       title: "RGN / Heavy Haul Freight Fit Guide",
       intro:
-        "RGN and heavy haul equipment are used when freight needs lower loading geometry, specialized axle configurations, or permit-led planning beyond standard trailer assumptions. Use this guide to confirm the load fits the equipment envelope and to identify the better SSP path when the shipment requires another operating model.",
+        "RGN and heavy haul equipment are used when freight needs lower loading geometry, specialized axle configurations, or permit-led planning beyond standard trailer assumptions. Use this guide to confirm the load fits the equipment envelope and to identify a better service path when the shipment requires another operating model.",
       diagram: "/_optimized/solution/rgnheavyhaul/RGN_oversize.webp",
       diagramAlt: "RGN heavy haul equipment diagram with low-deck dimensions and oversized freight guidance",
       specs: {
@@ -2338,7 +2338,7 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
         {
           condition: "Freight requiring broader program governance beyond a single specialized move",
           description:
-            "If the shipment is part of a larger engineered move, phased site sequence, or multi-load project, SSP may need to structure it inside a wider project freight operating plan.",
+            "If the shipment is part of a larger engineered move, phased site sequence, or multi-load project, we may need to structure it inside a wider project freight operating plan.",
           recommendation: "Truckload",
           serviceSlug: "/solutions/truckload",
         },
@@ -2353,7 +2353,7 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
     points: [
       {
         title: "Route, permit, and equipment logic are qualified before dispatch",
-        body: "SSP reviews dimensions, piece weight, loading geometry, axle requirements, and route exposure before heavy haul capacity is committed, so the move starts with a realistic operating plan instead of assumptions discovered too late.",
+        body: "We review dimensions, piece weight, loading geometry, axle requirements, and route exposure before heavy haul capacity is committed, so the move starts with a realistic operating plan instead of assumptions discovered too late.",
       },
       {
         title: "Site execution is aligned before the equipment arrives",
@@ -2369,7 +2369,7 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "How It Works",
     title: "A heavy haul move should be engineered before dispatch.",
     description:
-      "RGN and heavy haul execution improve when cargo geometry, route reality, permit requirements, and site handling are aligned before dispatch. This is the operating sequence SSP follows.",
+      "RGN and heavy haul execution improve when cargo geometry, route reality, permit requirements, and site handling are aligned before dispatch. This is the operating sequence we follow.",
     steps: [
       {
         step: "01",
@@ -2384,7 +2384,7 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
       {
         step: "03",
         title: "Dispatch against controlled milestones",
-        body: "Once the move is qualified, SSP dispatches against pickup, in-transit, and delivery milestones with communication tied to permit windows, route checkpoints, and site readiness.",
+        body: "Once the move is qualified, we dispatches against pickup, in-transit, and delivery milestones with communication tied to permit windows, route checkpoints, and site readiness.",
       },
       {
         step: "04",
@@ -2397,7 +2397,7 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "Related Equipment & Services",
     title: "If heavy haul is not the right fit, reroute early.",
     description:
-      "These are the first SSP paths to review when the freight no longer needs a permit-led heavy-haul structure or when another operating model should lead the move.",
+      "These are the first service paths to review when the freight no longer needs a permit-led heavy-haul structure or when another operating model should lead the move.",
     items: [
       {
         label: "Truckload",
@@ -2430,7 +2430,7 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
     eyebrow: "RGN / Heavy Haul FAQs",
     title: "The operating questions that matter before booking heavy haul.",
     description:
-      "These are the questions that usually determine whether RGN or heavy haul is the correct equipment path and what SSP needs to structure the move cleanly.",
+      "These are the questions that usually determine whether RGN or heavy haul is the correct equipment path and what we need to structure the move cleanly.",
     items: [
       {
         question: "What freight is best suited to RGN or heavy haul equipment?",
@@ -2462,10 +2462,10 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
   finalCta: {
     kicker: "Confirm the fit",
     title: "Confirm heavy haul fit before permit work and dispatch begin.",
-    body: "Share the lane, commodity, dimensions, weight, loading method, and timing requirements. SSP will confirm whether RGN or heavy haul is the right equipment path, surface route and permit risks early, and structure the move for controlled execution.",
+    body: "Share the lane, commodity, dimensions, weight, loading method, and timing requirements. We will confirm whether RGN or heavy haul is the right equipment path, surface route and permit risks early, and structure the move for controlled execution.",
     trustSignals: [
       "RGN and heavy haul execution across Canada, the United States, and Mexico",
-      "Freight-fit guidance tied to adjacent SSP equipment and service paths",
+      "Freight-fit guidance tied to adjacent equipment and service paths",
       "Route, permit, axle, and site coordination discipline built into the move",
     ],
     proof: [
@@ -2507,7 +2507,7 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Temperature-Controlled",
     title: "Temperature-controlled freight planned around setpoint integrity.",
     description:
-      "SSP structures temperature-controlled freight around commodity sensitivity, required setpoint range, trailer readiness, monitoring expectations, and delivery conditions before the load moves. Across Canada, the United States, and Mexico, the priority is protecting product integrity without losing execution control.",
+      "We structure temperature-controlled freight around commodity sensitivity, required setpoint range, trailer readiness, monitoring expectations, and delivery conditions before the load moves. Across Canada, the United States, and Mexico, the priority is protecting product integrity without losing execution control.",
     descriptionMaxWidth: "48rem",
     supportingPoints: [],
     primaryCta: {
@@ -2563,13 +2563,13 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit Guide",
-      summary: "How to confirm temperature-controlled service and when another SSP path should lead the move.",
+      summary: "How to confirm temperature-controlled service and when another service path should lead the move.",
       accent: "#10a7d8",
     },
     {
       key: "how-it-works",
       label: "How It Works",
-      summary: "The operating sequence SSP uses to structure a temperature-controlled shipment.",
+      summary: "The operating sequence we use to structure a temperature-controlled shipment.",
       accent: "#d71920",
     },
     {
@@ -2581,7 +2581,7 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "related",
       label: "Related Services",
-      summary: "Where SSP routes the shipper when active temperature control is not the lead requirement.",
+      summary: "Where we route the shipper when active temperature control is not the lead requirement.",
       accent: "#0d4f78",
     },
     {
@@ -2608,7 +2608,7 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
     points: [
       {
         title: "Setpoint and commodity requirements are qualified before dispatch",
-        body: "SSP confirms temperature range, commodity profile, loading conditions, transit expectations, and delivery requirements before equipment is assigned. That keeps cold-chain execution anchored to product reality rather than assumption.",
+        body: "We confirm temperature range, commodity profile, loading conditions, transit expectations, and delivery requirements before equipment is assigned. That keeps cold-chain execution anchored to product reality rather than assumption.",
       },
       {
         title: "Trailer readiness and handling discipline are checked before loading",
@@ -2616,7 +2616,7 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
       },
       {
         title: "Monitoring and exception response stay active in transit",
-        body: "Temperature-controlled freight needs more than milestone updates. SSP manages the move against in-transit conditions, timing risk, and escalation requirements so recovery decisions happen inside the operating workflow.",
+        body: "Temperature-controlled freight needs more than milestone updates. We manage the move against in-transit conditions, timing risk, and escalation requirements so recovery decisions happen inside the operating workflow.",
       },
     ],
   },
@@ -2624,12 +2624,12 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "How It Works",
     title: "Cold-chain execution is decided before the trailer is loaded.",
     description:
-      "Temperature-controlled freight performs best when setpoint instructions, trailer readiness, loading method, and exception protocols are defined before pickup. This is the sequence SSP uses to protect product integrity and delivery execution.",
+      "Temperature-controlled freight performs best when setpoint instructions, trailer readiness, loading method, and exception protocols are defined before pickup. This is the sequence We use to protect product integrity and delivery execution.",
     steps: [
       {
         step: "01",
         title: "Define the thermal profile and lane requirements",
-        body: "SSP starts with commodity sensitivity, required setpoint range, origin and destination conditions, delivery timing, and any receiver protocol that could affect product integrity.",
+        body: "We starts with commodity sensitivity, required setpoint range, origin and destination conditions, delivery timing, and any receiver protocol that could affect product integrity.",
       },
       {
         step: "02",
@@ -2639,7 +2639,7 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         step: "03",
         title: "Run transit against setpoint and milestone control",
-        body: "Once the move is underway, SSP manages temperature-sensitive freight against monitoring expectations, route timing, and the operating checkpoints that matter to the shipper and receiver.",
+        body: "Once the move is underway, we manages temperature-sensitive freight against monitoring expectations, route timing, and the operating checkpoints that matter to the shipper and receiver.",
       },
       {
         step: "04",
@@ -2652,11 +2652,11 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Temperature-controlled fit should be resolved before pickup.",
     description:
-      "Use this guide to confirm that the shipment requires active temperature control. If the cargo only needs standard enclosure, smaller shared-capacity handling, or another operating model should lead the move, SSP should route it early.",
+      "Use this guide to confirm that the shipment requires active temperature control. If the cargo only needs standard enclosure, smaller shared-capacity handling, or another operating model should lead the move, we should route it early.",
     guide: {
       title: "Temperature-Controlled Freight Fit Guide",
       intro:
-        "Temperature-controlled service is for freight whose condition, quality, or compliance depends on maintaining a defined thermal range in transit. Use this guide to confirm fit and to identify the better SSP path when active temperature control should not lead the move.",
+        "Temperature-controlled service is for freight whose condition, quality, or compliance depends on maintaining a defined thermal range in transit. Use this guide to confirm fit and to identify a better service path when active temperature control should not lead the move.",
       diagram: "/_optimized/solution/tempCtrl/tempCtrl-Img.png",
       diagramAlt: "Temperature-controlled freight movement and reefer service overview",
       specs: {
@@ -2733,7 +2733,7 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
       },
       {
         title: "Rerouting Threshold",
-        body: "If active temperature control is no longer necessary, or another operating structure should lead the move, SSP should reroute before pickup instead of correcting it in transit.",
+        body: "If active temperature control is no longer necessary, or another operating structure should lead the move, we should reroute before pickup instead of correcting it in transit.",
         iconKey: "branch-route",
       },
     ],
@@ -2742,7 +2742,7 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Related Services",
     title: "If temperature control is not the lead requirement, move early to the right path.",
     description:
-      "These are the first SSP paths to review when the shipment no longer depends on reefer execution alone or when another operating model should lead the move.",
+      "These are the first service paths to review when the shipment no longer depends on reefer execution alone or when another operating model should lead the move.",
     items: [
       {
         label: "Dry Van",
@@ -2775,7 +2775,7 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Temperature-Controlled FAQs",
     title: "The questions that matter before booking temperature-controlled freight.",
     description:
-      "These are the qualification questions that usually determine whether reefer service is the right fit and what SSP needs to structure the shipment cleanly.",
+      "These are the qualification questions that usually determine whether reefer service is the right fit and what we need to structure the shipment cleanly.",
     items: [
       {
         question: "What freight should move on temperature-controlled service?",
@@ -2793,12 +2793,12 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
           "Yes. Equipment is only one part of the operating model. Shipment quality also depends on trailer readiness, pre-load temperature discipline, loading method, monitoring expectations, and how exceptions are handled if conditions change in transit.",
       },
       {
-        question: "When should temperature-controlled freight be routed to another SSP service?",
+        question: "When should temperature-controlled freight be routed to another service?",
         answer:
           "It should be rerouted when active temperature control is not necessary, when the shipment needs a faster urgency-led path, when customs and border execution should lead the design, or when hazmat requirements must be planned alongside the thermal profile.",
       },
       {
-        question: "Can SSP support cross-border temperature-controlled freight?",
+        question: "Can we support cross-border temperature-controlled freight?",
         answer:
           "Yes. Temperature-controlled freight can be structured across Canada, the United States, and Mexico when the lane, documentation flow, and border handoffs are planned around both customs execution and product-integrity requirements.",
       },
@@ -2807,7 +2807,7 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
   finalCta: {
     kicker: "Confirm the operating fit",
     title: "Validate the cold-chain plan before the load moves.",
-    body: "Share the commodity profile, required setpoint, lane, shipment dimensions, and delivery requirements. SSP will confirm whether temperature-controlled is the right operating model, surface integrity risks early, and structure the move for controlled execution.",
+    body: "Share the commodity profile, required setpoint, lane, shipment dimensions, and delivery requirements. We will confirm whether temperature-controlled is the right operating model, surface integrity risks early, and structure the move for controlled execution.",
     trustSignals: [
       "Temperature-controlled execution across Canada, the United States, and Mexico",
       "Setpoint, trailer-readiness, and monitoring discipline built into the planning path",
@@ -2852,7 +2852,7 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Hazmat",
     title: "Hazmat freight planned around compliance before movement.",
     description:
-      "SSP structures hazmat freight around classification accuracy, packaging and marking requirements, shipping-paper readiness, placarding obligations, and lane-specific operating constraints before the shipment moves. Across Canada, the United States, and Mexico, the priority is controlled execution for regulated freight with clear accountability at every handoff.",
+      "We structure hazmat freight around classification accuracy, packaging and marking requirements, shipping-paper readiness, placarding obligations, and lane-specific operating constraints before the shipment moves. Across Canada, the United States, and Mexico, the priority is controlled execution for regulated freight with clear accountability at every handoff.",
     descriptionMaxWidth: "49rem",
     supportingPoints: [],
     primaryCta: {
@@ -2908,13 +2908,13 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit Guide",
-      summary: "How to confirm hazmat and when another SSP path should lead the move.",
+      summary: "How to confirm hazmat and when another service path should lead the move.",
       accent: "#10a7d8",
     },
     {
       key: "how-it-works",
       label: "How It Works",
-      summary: "The operating sequence SSP uses to structure a hazmat shipment.",
+      summary: "The operating sequence we use to structure a hazmat shipment.",
       accent: "#d71920",
     },
     {
@@ -2926,7 +2926,7 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "related",
       label: "Related Services",
-      summary: "Where SSP routes the shipper when hazmat should not be the lead structure by itself.",
+      summary: "Where we route the shipper when hazmat should not be the lead structure by itself.",
       accent: "#0d4f78",
     },
     {
@@ -2953,7 +2953,7 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
     points: [
       {
         title: "Classification and documentation are checked before dispatch",
-        body: "SSP starts with the shipment data that actually controls the move: proper shipping name, UN or ID number, hazard class, packing group, packaging profile, and required shipping-paper inputs. That reduces avoidable compliance exposure before the load is tendered.",
+        body: "We starts with the shipment data that actually controls the move: proper shipping name, UN or ID number, hazard class, packing group, packaging profile, and required shipping-paper inputs. That reduces avoidable compliance exposure before the load is tendered.",
       },
       {
         title: "Lane, equipment, and handoff requirements are aligned early",
@@ -2961,7 +2961,7 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
       },
       {
         title: "Exceptions stay inside a controlled operating workflow",
-        body: "Hazmat execution breaks down when delays, documentation gaps, or handoff failures are handled informally. SSP manages milestone communication and escalation inside the move so regulated freight stays accountable from pickup through closeout.",
+        body: "Hazmat execution breaks down when delays, documentation gaps, or handoff failures are handled informally. We manage milestone communication and escalation inside the move so regulated freight stays accountable from pickup through closeout.",
       },
     ],
   },
@@ -2969,12 +2969,12 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "How It Works",
     title: "Hazmat execution is decided before the shipment is released to move.",
     description:
-      "Hazmat freight performs best when classification, packaging, shipping papers, and lane controls are resolved before dispatch. This is the sequence SSP uses to keep regulated freight compliant and operationally controlled.",
+      "Hazmat freight performs best when classification, packaging, shipping papers, and lane controls are resolved before dispatch. This is the sequence We use to keep regulated freight compliant and operationally controlled.",
     steps: [
       {
         step: "01",
         title: "Define the regulatory shipment profile",
-        body: "SSP starts with the proper shipping name, UN or ID number, hazard class, packing group, commodity details, and any route or site requirement that affects how the freight can legally move.",
+        body: "We starts with the proper shipping name, UN or ID number, hazard class, packing group, commodity details, and any route or site requirement that affects how the freight can legally move.",
       },
       {
         step: "02",
@@ -2984,7 +2984,7 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         step: "03",
         title: "Assign the right equipment and operating path",
-        body: "Once the load is qualified, SSP aligns equipment, lane structure, and milestone ownership to the compliance profile so the move is not left to assumptions at handoff points.",
+        body: "Once the load is qualified, we aligns equipment, lane structure, and milestone ownership to the compliance profile so the move is not left to assumptions at handoff points.",
       },
       {
         step: "04",
@@ -2997,11 +2997,11 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Hazmat fit should be confirmed before the load is offered for transport.",
     description:
-      "Use this guide to confirm that the shipment belongs in a hazmat operating path. If the freight is not regulated for transport, or another service requirement needs to lead the move, SSP should route it early.",
+      "Use this guide to confirm that the shipment belongs in a hazmat operating path. If the freight is not regulated for transport, or another service requirement needs to lead the move, we should route it early.",
     guide: {
       title: "Hazmat Freight Fit Guide",
       intro:
-        "Hazmat service is for freight regulated in transportation under the applicable hazardous materials rules. Use this guide to confirm fit and to identify the better SSP path when the move should be structured around another requirement.",
+        "Hazmat service is for freight regulated in transportation under the applicable hazardous materials rules. Use this guide to confirm fit and to identify a better service path when the move should be structured around another requirement.",
       diagram: "/_optimized/solution/hazmat/hazmat-Img.png",
       diagramAlt: "Hazmat freight movement and compliance-controlled service overview",
       specs: {
@@ -3074,7 +3074,7 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
       },
       {
         title: "Rerouting Threshold",
-        body: "If the freight is not regulated as hazardous in transport, or another operating model such as temperature control or cross-border execution should lead the move, SSP should reroute early.",
+        body: "If the freight is not regulated as hazardous in transport, or another operating model such as temperature control or cross-border execution should lead the move, we should reroute early.",
         iconKey: "branch-route",
       },
     ],
@@ -3083,7 +3083,7 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Related Services",
     title: "If hazmat is not the only requirement, structure the move around the right lead path.",
     description:
-      "These are the first SSP paths to review when the shipment needs more than standard hazmat execution or when another operating model should lead the move.",
+      "These are the first service paths to review when the shipment needs more than standard hazmat execution or when another operating model should lead the move.",
     items: [
       {
         label: "Dry Van",
@@ -3116,7 +3116,7 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Hazmat FAQs",
     title: "The questions that matter before booking hazmat freight.",
     description:
-      "These are the qualification questions that usually determine whether hazmat is the right operating path and what SSP needs to structure the shipment cleanly.",
+      "These are the qualification questions that usually determine whether hazmat is the right operating path and what we need to structure the shipment cleanly.",
     items: [
       {
         question: "What makes a shipment hazmat in transportation?",
@@ -3134,12 +3134,12 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
           "Yes. Paperwork is only one part of the move. Shipment success also depends on correct packaging, labels and markings, placarding decisions, lane planning, equipment fit, and disciplined handoffs at pickup and delivery.",
       },
       {
-        question: "When should hazmat freight be routed to another SSP service?",
+        question: "When should hazmat freight be routed to another service?",
         answer:
           "It should be rerouted when the freight is not regulated as hazardous in transport, when active temperature control should lead the move, when customs and border execution are the dominant operating challenge, or when the cargo requires a different equipment path such as flatbed.",
       },
       {
-        question: "Can SSP support cross-border hazmat freight?",
+        question: "Can we support cross-border hazmat freight?",
         answer:
           "Yes. Hazmat freight can be structured across Canada, the United States, and Mexico when the shipment is planned around the applicable documentation, corridor, and handoff requirements before pickup.",
       },
@@ -3148,7 +3148,7 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
   finalCta: {
     kicker: "Confirm the compliance fit",
     title: "Validate the hazmat plan before the shipment moves.",
-    body: "Share the proper shipping name, UN or ID number, hazard class, packaging profile, lane, and delivery requirements. SSP will confirm whether hazmat is the right operating path, surface compliance risks early, and structure the move for controlled execution.",
+    body: "Share the proper shipping name, UN or ID number, hazard class, packaging profile, lane, and delivery requirements. We will confirm whether hazmat is the right operating path, surface compliance risks early, and structure the move for controlled execution.",
     trustSignals: [
       "Hazmat execution across Canada, the United States, and Mexico",
       "Classification, documentation, and placarding discipline built into the planning path",
@@ -3193,7 +3193,7 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Expedited",
     title: "Expedited freight planned around urgency before pickup.",
     description:
-      "SSP structures expedited freight around ready time, hard delivery windows, route realism, equipment fit, and escalation requirements before the shipment moves. Across Canada, the United States, and Mexico, the objective is faster recovery and tighter execution when timing carries real business consequence.",
+      "We structure expedited freight around ready time, hard delivery windows, route realism, equipment fit, and escalation requirements before the shipment moves. Across Canada, the United States, and Mexico, the objective is faster recovery and tighter execution when timing carries real business consequence.",
     descriptionMaxWidth: "49rem",
     supportingPoints: [],
     primaryCta: {
@@ -3249,13 +3249,13 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit Guide",
-      summary: "How to confirm expedited and when another SSP path should lead the move.",
+      summary: "How to confirm expedited and when another service path should lead the move.",
       accent: "#10a7d8",
     },
     {
       key: "how-it-works",
       label: "How It Works",
-      summary: "The operating sequence SSP uses to structure an expedited shipment.",
+      summary: "The operating sequence we use to structure an expedited shipment.",
       accent: "#d71920",
     },
     {
@@ -3267,7 +3267,7 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "related",
       label: "Related Services",
-      summary: "Where SSP routes the shipper when urgency is not the only requirement or should not lead the move alone.",
+      summary: "Where we route the shipper when urgency is not the only requirement or should not lead the move alone.",
       accent: "#0d4f78",
     },
     {
@@ -3294,15 +3294,15 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
     points: [
       {
         title: "Urgency is qualified before capacity is assigned",
-        body: "SSP starts with the actual timing risk: ready time, hard delivery window, latest acceptable arrival, commodity profile, and lane reality. That keeps expedited from being booked on urgency language alone.",
+        body: "We starts with the actual timing risk: ready time, hard delivery window, latest acceptable arrival, commodity profile, and lane reality. That keeps expedited from being booked on urgency language alone.",
       },
       {
         title: "Execution is built around route realism and recovery speed",
-        body: "Priority freight performs best when route assumptions, handoff timing, and equipment fit are aligned early. SSP structures the move around what the shipment can realistically achieve, not what the quote promises in theory.",
+        body: "Priority freight performs best when route assumptions, handoff timing, and equipment fit are aligned early. We structure the move around what the shipment can realistically achieve, not what the quote promises in theory.",
       },
       {
         title: "Communication stays tied to decision points in the move",
-        body: "Expedited freight needs more than generic visibility. SSP communicates against milestones, delays, and recovery actions so the shipper can make decisions while the shipment is still in motion.",
+        body: "Expedited freight needs more than generic visibility. We communicate against milestones, delays, and recovery actions so the shipper can make decisions while the shipment is still in motion.",
       },
     ],
   },
@@ -3310,12 +3310,12 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "How It Works",
     title: "Expedited execution is decided before the shipment starts moving.",
     description:
-      "Expedited freight performs best when timing requirements, equipment fit, route viability, and recovery thresholds are defined before dispatch. This is the sequence SSP uses to protect urgency without losing control of execution.",
+      "Expedited freight performs best when timing requirements, equipment fit, route viability, and recovery thresholds are defined before dispatch. This is the sequence We use to protect urgency without losing control of execution.",
     steps: [
       {
         step: "01",
         title: "Define the timing requirement and shipment profile",
-        body: "SSP starts with ready time, hard delivery commitment, lane, dimensions, weight, commodity, and the business consequence of delay so the move is qualified against the real operating need.",
+        body: "We starts with ready time, hard delivery commitment, lane, dimensions, weight, commodity, and the business consequence of delay so the move is qualified against the real operating need.",
       },
       {
         step: "02",
@@ -3325,7 +3325,7 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         step: "03",
         title: "Run the move against milestone and recovery control",
-        body: "Once the load is in motion, SSP manages the shipment against timing-critical milestones with communication tied to route progress, delivery risk, and any needed recovery actions.",
+        body: "Once the load is in motion, we manages the shipment against timing-critical milestones with communication tied to route progress, delivery risk, and any needed recovery actions.",
       },
       {
         step: "04",
@@ -3338,11 +3338,11 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Expedited fit should be confirmed before the move is committed.",
     description:
-      "Use this guide to confirm that the shipment truly belongs in an expedited operating path. If urgency is not the lead requirement, or another service needs to define the move, SSP should route it early.",
+      "Use this guide to confirm that the shipment truly belongs in an expedited operating path. If urgency is not the lead requirement, or another service needs to define the move, we should route it early.",
     guide: {
       title: "Expedited Freight Fit Guide",
       intro:
-        "Expedited service is for shipments where timing directly affects production, service continuity, customer commitments, or recovery. Use this guide to confirm fit and to identify the better SSP path when urgency should not lead the move.",
+        "Expedited service is for shipments where timing directly affects production, service continuity, customer commitments, or recovery. Use this guide to confirm fit and to identify a better service path when urgency should not lead the move.",
       diagram: "/_optimized/solution/expedited/expedited-Img.png",
       diagramAlt: "Expedited freight movement and priority execution overview",
       specs: {
@@ -3415,7 +3415,7 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
       },
       {
         title: "Rerouting Threshold",
-        body: "If urgency is not the lead requirement, or another service such as cross-border or temperature-controlled should define the move, SSP should reroute before pickup.",
+        body: "If urgency is not the lead requirement, or another service such as cross-border or temperature-controlled should define the move, we should reroute before pickup.",
         iconKey: "branch-route",
       },
     ],
@@ -3424,7 +3424,7 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Related Services",
     title: "If urgency is not the only issue, lead with the right service path.",
     description:
-      "These are the first SSP paths to review when expedited should not be the only operating model shaping the shipment.",
+      "These are the first service paths to review when expedited should not be the only operating model shaping the shipment.",
     items: [
       {
         label: "Truckload",
@@ -3457,7 +3457,7 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Expedited FAQs",
     title: "The questions that matter before booking expedited freight.",
     description:
-      "These are the qualification questions that usually determine whether expedited is the right operating path and what SSP needs to structure the shipment cleanly.",
+      "These are the qualification questions that usually determine whether expedited is the right operating path and what we need to structure the shipment cleanly.",
     items: [
       {
         question: "What makes a shipment a fit for expedited service?",
@@ -3475,12 +3475,12 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
           "No. It means the shipment is structured around urgency and recovery speed, but the right operating answer still depends on lane, cargo profile, equipment fit, and delivery requirement. The correct expedited plan is the fastest viable path, not the most dramatic one.",
       },
       {
-        question: "When should expedited freight be routed to another SSP service?",
+        question: "When should expedited freight be routed to another service?",
         answer:
           "It should be rerouted when timing is not the lead requirement, when the shipment can move in standard truckload or LTL without meaningful business risk, when temperature control should lead the move, or when cross-border execution needs to define the operating structure.",
       },
       {
-        question: "Can SSP support cross-border expedited freight?",
+        question: "Can we support cross-border expedited freight?",
         answer:
           "Yes. Expedited freight can be structured across Canada, the United States, and Mexico when the lane, timing requirement, customs sequence, and border handoffs are planned together before pickup.",
       },
@@ -3489,7 +3489,7 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
   finalCta: {
     kicker: "Confirm the urgency fit",
     title: "Validate the expedited plan before the shipment moves.",
-    body: "Share the ready time, delivery commitment, lane, commodity, dimensions, and shipment weight. SSP will confirm whether expedited is the right operating path, test route realism early, and structure the move for controlled execution.",
+    body: "Share the ready time, delivery commitment, lane, commodity, dimensions, and shipment weight. We will confirm whether expedited is the right operating path, test route realism early, and structure the move for controlled execution.",
     trustSignals: [
       "Expedited execution across Canada, the United States, and Mexico",
       "Ready-time, route, and milestone discipline built into the planning path",
@@ -3534,7 +3534,7 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Specialized Vehicles Transport",
     title: "Specialized vehicle transport built around condition, fit, and route control.",
     description:
-      "SSP structures specialized vehicle transport around unit profile, enclosed equipment fit, route feasibility, handling requirements, and condition accountability before the move begins. Across Canada, the United States, and Mexico, this is the operating path for exotic vehicles, collector units, premium assets, and non-standard rolling cargo that cannot be left to generic transport assumptions.",
+      "We structure specialized vehicle transport around unit profile, enclosed equipment fit, route feasibility, handling requirements, and condition accountability before the move begins. Across Canada, the United States, and Mexico, this is the operating path for exotic vehicles, collector units, premium assets, and non-standard rolling cargo that cannot be left to generic transport assumptions.",
     descriptionMaxWidth: "51rem",
     supportingPoints: [],
     primaryCta: {
@@ -3590,19 +3590,19 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit Guide",
-      summary: "How to confirm specialized vehicle transport and when another SSP path should lead the move.",
+      summary: "How to confirm specialized vehicle transport and when another service path should lead the move.",
       accent: "#10a7d8",
     },
     {
       key: "how-it-works",
       label: "How It Works",
-      summary: "The operating sequence SSP uses to structure a specialized vehicle move.",
+      summary: "The operating sequence we use to structure a specialized vehicle move.",
       accent: "#d71920",
     },
     {
       key: "related",
       label: "Related Services",
-      summary: "Where SSP routes the shipper when specialized handling is not the only issue or should not lead the move alone.",
+      summary: "Where we route the shipper when specialized handling is not the only issue or should not lead the move alone.",
       accent: "#b37a20",
     },
     {
@@ -3629,7 +3629,7 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
     points: [
       {
         title: "Equipment fit and handling standards are resolved before dispatch",
-        body: "SSP reviews unit dimensions, ride height, securement approach, loading method, and condition sensitivity before capacity is assigned, so the move starts with the right enclosed or specialty path instead of generic assumptions.",
+        body: "We review unit dimensions, ride height, securement approach, loading method, and condition sensitivity before capacity is assigned, so the move starts with the right enclosed or specialty path instead of generic assumptions.",
       },
       {
         title: "Route and site feasibility are checked early",
@@ -3645,7 +3645,7 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "How It Works",
     title: "Specialized vehicle transport should be qualified before loading.",
     description:
-      "Specialized vehicle moves perform best when equipment fit, route reality, site conditions, and condition-accountability standards are aligned before dispatch. This is the sequence SSP uses to structure the move.",
+      "Specialized vehicle moves perform best when equipment fit, route reality, site conditions, and condition-accountability standards are aligned before dispatch. This is the sequence We use to structure the move.",
     steps: [
       {
         step: "01",
@@ -3660,7 +3660,7 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         step: "03",
         title: "Run the move against milestone and custody control",
-        body: "Once the shipment is in motion, SSP manages the move against pickup, transit, and delivery milestones with communication tied to the checkpoints that matter for premium-asset handling.",
+        body: "Once the shipment is in motion, we manages the move against pickup, transit, and delivery milestones with communication tied to the checkpoints that matter for premium-asset handling.",
       },
       {
         step: "04",
@@ -3673,11 +3673,11 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Specialized vehicle fit should be confirmed before capacity is committed.",
     description:
-      "Use this guide to confirm that the shipment truly needs condition-controlled vehicle handling, specialized equipment fit, or route-screened execution. If another service should define the move, SSP should route it early.",
+      "Use this guide to confirm that the shipment truly needs condition-controlled vehicle handling, specialized equipment fit, or route-screened execution. If another service should define the move, we should route it early.",
     guide: {
       title: "Specialized Vehicle Transport Freight Fit Guide",
       intro:
-        "Specialized vehicle transport is for exotic vehicles, collector units, premium rolling assets, and non-standard vehicle moves where condition integrity, enclosed handling, and route feasibility are non-negotiable. Use this guide to confirm fit and identify the better SSP path when another operating model should lead the move.",
+        "Specialized vehicle transport is for exotic vehicles, collector units, premium rolling assets, and non-standard vehicle moves where condition integrity, enclosed handling, and route feasibility are non-negotiable. Use this guide to confirm fit and identify a better service path when another operating model should lead the move.",
       diagram: "/_optimized/solution/specializedVehicleTransport/svtHero-Img.png",
       diagramAlt: "Specialized vehicle transport overview",
       specs: {
@@ -3724,7 +3724,7 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Related Services",
     title: "If specialized vehicle transport is not the only requirement, lead with the right path.",
     description:
-      "These are the first SSP paths to review when specialized vehicle handling should not be the only operating model shaping the move.",
+      "These are the first service paths to review when specialized vehicle handling should not be the only operating model shaping the move.",
     items: [
       {
         label: "Truckload",
@@ -3757,7 +3757,7 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Specialized Vehicle FAQs",
     title: "The questions that matter before booking specialized vehicle transport.",
     description:
-      "These are the qualification questions that usually determine whether specialized vehicle transport is the right operating path and what SSP needs to structure the move cleanly.",
+      "These are the qualification questions that usually determine whether specialized vehicle transport is the right operating path and what we need to structure the move cleanly.",
     items: [
       {
         question: "What qualifies as a specialized vehicle transport move?",
@@ -3775,12 +3775,12 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
           "Not always, but it often does when condition integrity is the priority. The right answer depends on the unit profile, exposure risk, handling method, and route conditions that need to be controlled before dispatch.",
       },
       {
-        question: "When should a specialized vehicle move be routed to another SSP service?",
+        question: "When should a specialized vehicle move be routed to another service?",
         answer:
           "It should be rerouted when the unit fits standard truckload equipment, when urgency rather than handling sensitivity defines the move, when the shipment becomes permit-led heavy haul, or when recurring volume calls for a more programmatic managed-capacity or dedicated model.",
       },
       {
-        question: "Can SSP support cross-border specialized vehicle transport?",
+        question: "Can we support cross-border specialized vehicle transport?",
         answer:
           "Yes. Specialized vehicle moves can be structured across Canada, the United States, and Mexico when route feasibility, border sequence, documentation, and handling controls are aligned before pickup.",
       },
@@ -3789,7 +3789,7 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
   finalCta: {
     kicker: "Confirm the handling fit",
     title: "Validate the specialized vehicle plan before the unit moves.",
-    body: "Share the unit profile, origin and destination, dimensions, weight, handling requirements, and timing expectations. SSP will confirm whether specialized vehicle transport is the right operating path, test equipment and route fit early, and structure the move for controlled execution.",
+    body: "Share the unit profile, origin and destination, dimensions, weight, handling requirements, and timing expectations. We will confirm whether specialized vehicle transport is the right operating path, test equipment and route fit early, and structure the move for controlled execution.",
     trustSignals: [
       "Specialized vehicle transport across Canada, the United States, and Mexico",
       "Equipment-fit, route, and custody discipline built into the planning path",
@@ -3834,7 +3834,7 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Project-Specific",
     title: "Project-specific freight built around sequence, control, and site reality.",
     description:
-      "SSP structures project-specific freight around load sequencing, equipment fit, route and site feasibility, permit exposure, and milestone ownership before the first piece moves. Across Canada, the United States, and Mexico, this is the operating model for engineered shipments, phased site deliveries, shutdown freight, and multi-party moves that cannot be managed as isolated loads.",
+      "We structure project-specific freight around load sequencing, equipment fit, route and site feasibility, permit exposure, and milestone ownership before the first piece moves. Across Canada, the United States, and Mexico, this is the operating model for engineered shipments, phased site deliveries, shutdown freight, and multi-party moves that cannot be managed as isolated loads.",
     descriptionMaxWidth: "52rem",
     supportingPoints: [],
     primaryCta: {
@@ -3890,19 +3890,19 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit Guide",
-      summary: "How to confirm project-specific fit and when another SSP path should lead the move.",
+      summary: "How to confirm project-specific fit and when another service path should lead the move.",
       accent: "#10a7d8",
     },
     {
       key: "how-it-works",
       label: "How It Works",
-      summary: "The operating sequence SSP uses to structure a project-specific move.",
+      summary: "The operating sequence we use to structure a project-specific move.",
       accent: "#d71920",
     },
     {
       key: "related",
       label: "Related Services",
-      summary: "Where SSP routes the shipment when project-specific control should not be the only operating model in scope.",
+      summary: "Where We route the shipment when project-specific control should not be the only operating model in scope.",
       accent: "#b37a20",
     },
     {
@@ -3929,7 +3929,7 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
     points: [
       {
         title: "The move design starts before capacity is booked",
-        body: "SSP reviews piece count, load order, handling requirements, delivery dependencies, and site constraints before trailers are assigned, so execution starts from an operating plan rather than from disconnected dispatch decisions.",
+        body: "We review piece count, load order, handling requirements, delivery dependencies, and site constraints before trailers are assigned, so execution starts from an operating plan rather than from disconnected dispatch decisions.",
       },
       {
         title: "Route, permit, and site reality are tested early",
@@ -3945,12 +3945,12 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "How It Works",
     title: "Project-specific freight should be sequenced before dispatch.",
     description:
-      "Complex freight performs best when schedule logic, equipment fit, site readiness, and route control are aligned before the first piece moves. This is the sequence SSP uses to structure the move.",
+      "Complex freight performs best when schedule logic, equipment fit, site readiness, and route control are aligned before the first piece moves. This is the sequence We use to structure the move.",
     steps: [
       {
         step: "01",
         title: "Define the move scope and dependency chain",
-        body: "SSP starts by reviewing piece list, dimensions, weights, origins, destinations, unload order, site windows, and stakeholder dependencies so the move is structured around the real project sequence.",
+        body: "We starts by reviewing piece list, dimensions, weights, origins, destinations, unload order, site windows, and stakeholder dependencies so the move is structured around the real project sequence.",
       },
       {
         step: "02",
@@ -3960,7 +3960,7 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         step: "03",
         title: "Execute against the milestone plan",
-        body: "Once freight is in motion, SSP manages pickups, transfers, border events when needed, and delivery milestones against the planned sequence rather than treating each load as an independent move.",
+        body: "Once freight is in motion, we manages pickups, transfers, border events when needed, and delivery milestones against the planned sequence rather than treating each load as an independent move.",
       },
       {
         step: "04",
@@ -3973,11 +3973,11 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Project-specific fit should be confirmed before the schedule is committed.",
     description:
-      "Use this guide to confirm that the shipment truly needs sequence-led planning, site-aware execution, or multi-load governance. If another service should lead the move, SSP should route it early.",
+      "Use this guide to confirm that the shipment truly needs sequence-led planning, site-aware execution, or multi-load governance. If another service should lead the move, we should route it early.",
     guide: {
       title: "Project-Specific Freight Fit Guide",
       intro:
-        "Project-specific freight is for engineered and phased moves where load order, site readiness, route feasibility, permits, and multi-party coordination shape the execution plan. Use this guide to confirm fit and identify the better SSP path when another service should define the move.",
+        "Project-specific freight is for engineered and phased moves where load order, site readiness, route feasibility, permits, and multi-party coordination shape the execution plan. Use this guide to confirm fit and identify a better service path when another service should define the move.",
       diagram: "/_optimized/solution/projectSpecific/projectSpecificHero-Img.png",
       diagramAlt: "Project-specific freight overview",
       specs: {
@@ -4031,7 +4031,7 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Related Services",
     title: "If project-specific freight is not the only requirement, lead with the right path.",
     description:
-      "These are the first SSP paths to review when equipment geometry, recurring volume, or border control should shape the move more than the project label itself.",
+      "These are the first service paths to review when equipment geometry, recurring volume, or border control should shape the move more than the project label itself.",
     items: [
       {
         label: "Flatbed",
@@ -4064,7 +4064,7 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Project-Specific FAQs",
     title: "The questions that matter before booking project-specific freight.",
     description:
-      "These are the qualification questions that usually determine whether project-specific freight is the right operating path and what SSP needs to structure the move cleanly.",
+      "These are the qualification questions that usually determine whether project-specific freight is the right operating path and what we need to structure the move cleanly.",
     items: [
       {
         question: "What qualifies as a project-specific freight move?",
@@ -4082,9 +4082,9 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
           "No. Some project-specific moves are fully legal-dimension and can travel on flatbed or step deck equipment. What makes the move project-specific is the coordination burden, sequence dependency, and site control around the freight, not only its size.",
       },
       {
-        question: "Can SSP manage phased site deliveries and multi-load sequences?",
+        question: "Can we manage phased site deliveries and multi-load sequences?",
         answer:
-          "Yes. SSP can structure multi-load execution around unload order, appointment windows, staging constraints, and project milestones so each load supports the next phase instead of arriving as disconnected freight events.",
+          "Yes. We can structure multi-load execution around unload order, appointment windows, staging constraints, and project milestones so each load supports the next phase instead of arriving as disconnected freight events.",
       },
       {
         question: "Can project-specific freight move across Canada, the United States, and Mexico?",
@@ -4092,7 +4092,7 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
           "Yes. Project-specific freight can be structured across Canada, the United States, and Mexico when border sequence, documentation, route feasibility, and stakeholder timing are aligned before dispatch.",
       },
       {
-        question: "When should a project-specific move be routed to another SSP service?",
+        question: "When should a project-specific move be routed to another service?",
         answer:
           "It should be rerouted when the shipment is really a standard flatbed move, a height-led step deck move, a permit-led heavy haul move, or an ongoing program that needs managed-capacity or dedicated governance more than a one-off project structure.",
       },
@@ -4101,7 +4101,7 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
   finalCta: {
     kicker: "Confirm the execution plan",
     title: "Qualify the project-specific move before the first piece moves.",
-    body: "Share the piece list, dimensions, weights, origins, destinations, site windows, unload order, and timing expectations. SSP will confirm whether project-specific freight is the right operating path, test the equipment and route fit early, and structure the move for controlled execution.",
+    body: "Share the piece list, dimensions, weights, origins, destinations, site windows, unload order, and timing expectations. We will confirm whether project-specific freight is the right operating path, test the equipment and route fit early, and structure the move for controlled execution.",
     trustSignals: [
       "Project-specific freight across Canada, the United States, and Mexico",
       "Sequence-led planning tied to site access, route control, and delivery order",
@@ -4146,7 +4146,7 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Managed Capacity",
     title: "Managed capacity built around procurement discipline and lane control.",
     description:
-      "SSP structures managed capacity around recurring freight demand, carrier governance, routing discipline, and continuous performance review before service failures become normal operating noise. Across Canada, the United States, and Mexico, this is the operating path for shippers that need more control than one-off load coverage but do not need a fully embedded dedicated fleet model.",
+      "We structure managed capacity around recurring freight demand, carrier governance, routing discipline, and continuous performance review before service failures become normal operating noise. Across Canada, the United States, and Mexico, this is the operating path for shippers that need more control than one-off load coverage but do not need a fully embedded dedicated fleet model.",
     descriptionMaxWidth: "52rem",
     supportingPoints: [],
     primaryCta: {
@@ -4202,19 +4202,19 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit Guide",
-      summary: "How to confirm managed-capacity fit and when another SSP path should lead the move.",
+      summary: "How to confirm managed-capacity fit and when another service path should lead the move.",
       accent: "#10a7d8",
     },
     {
       key: "how-it-works",
       label: "How It Works",
-      summary: "The operating sequence SSP uses to structure a managed-capacity program.",
+      summary: "The operating sequence we use to structure a managed-capacity program.",
       accent: "#d71920",
     },
     {
       key: "related",
       label: "Related Services",
-      summary: "Where SSP routes the shipper when managed capacity should not be the only operating model in scope.",
+      summary: "Where we route the shipper when managed capacity should not be the only operating model in scope.",
       accent: "#b37a20",
     },
     {
@@ -4240,7 +4240,7 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
     points: [
       {
         title: "Carrier strategy and lane governance are structured together",
-        body: "SSP aligns procurement, routing decisions, service expectations, and carrier accountability inside one operating framework so recurring freight is not left to a reactive mix of tenders, expedites, and unmanaged exceptions.",
+        body: "We align procurement, routing decisions, service expectations, and carrier accountability inside one operating framework so recurring freight is not left to a reactive mix of tenders, expedites, and unmanaged exceptions.",
       },
       {
         title: "Execution issues are reviewed as network signals, not isolated misses",
@@ -4256,12 +4256,12 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "How It Works",
     title: "Managed capacity should be governed before disruption becomes normal.",
     description:
-      "Managed-capacity programs perform best when the network, carrier mix, failure points, and KPI expectations are aligned before the freight rhythm drifts into reactive execution. This is the sequence SSP uses to structure the program.",
+      "Managed-capacity programs perform best when the network, carrier mix, failure points, and KPI expectations are aligned before the freight rhythm drifts into reactive execution. This is the sequence We use to structure the program.",
     steps: [
       {
         step: "01",
         title: "Baseline the network and recurring failure points",
-        body: "SSP reviews lane map, mode mix, carrier behavior, tender acceptance, service volatility, accessorial exposure, and expedite drivers so the real control problem is defined before changes are made.",
+        body: "We review lane map, mode mix, carrier behavior, tender acceptance, service volatility, accessorial exposure, and expedite drivers so the real control problem is defined before changes are made.",
       },
       {
         step: "02",
@@ -4271,7 +4271,7 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         step: "03",
         title: "Run daily execution against the program rules",
-        body: "Once the program is active, SSP manages tenders, exceptions, mode decisions, and carrier follow-through against the agreed governance model and not as disconnected shipment events.",
+        body: "Once the program is active, we manages tenders, exceptions, mode decisions, and carrier follow-through against the agreed governance model and not as disconnected shipment events.",
       },
       {
         step: "04",
@@ -4284,11 +4284,11 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Managed-capacity fit should be confirmed before the network is handed over.",
     description:
-      "Use this guide to confirm that the freight profile truly needs ongoing procurement and execution governance. If another service should define the operating model, SSP should route it early.",
+      "Use this guide to confirm that the freight profile truly needs ongoing procurement and execution governance. If another service should define the operating model, we should route it early.",
     guide: {
       title: "Managed Capacity Freight Fit Guide",
       intro:
-        "Managed capacity is for recurring freight programs where planning, carrier strategy, cost control, and service governance need to be centralized across ongoing volume. Use this guide to confirm fit and identify the better SSP path when another model should lead the move.",
+        "Managed capacity is for recurring freight programs where planning, carrier strategy, cost control, and service governance need to be centralized across ongoing volume. Use this guide to confirm fit and identify a better service path when another model should lead the move.",
       diagram: "/_optimized/solution/managedCapacity/managedCapacity.webp",
       diagramAlt: "Managed capacity freight overview",
       specs: {
@@ -4328,14 +4328,14 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
         },
       ],
       disclaimer:
-        "Planning guidance only. Final fit depends on lane density, mode mix, carrier strategy, KPI expectations, freight variability, and the operating ownership SSP is expected to assume.",
+        "Planning guidance only. Final fit depends on lane density, mode mix, carrier strategy, KPI expectations, freight variability, and the operating ownership you expect us to assume.",
     },
   },
   relatedSolutions: {
     eyebrow: "Related Services",
     title: "If managed capacity is not the only requirement, lead with the right path.",
     description:
-      "These are the first SSP paths to review when embedded assets, fulfillment execution, or corridor control should shape the operating model more than managed-capacity governance alone.",
+      "These are the first service paths to review when embedded assets, fulfillment execution, or corridor control should shape the operating model more than managed-capacity governance alone.",
     items: [
       {
         label: "Truckload",
@@ -4368,7 +4368,7 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Managed Capacity FAQs",
     title: "The questions that matter before building a managed-capacity program.",
     description:
-      "These are the qualification questions that usually determine whether managed capacity is the right operating path and what SSP needs to structure the program cleanly.",
+      "These are the qualification questions that usually determine whether managed capacity is the right operating path and what we need to structure the program cleanly.",
     items: [
       {
         question: "What qualifies as a managed-capacity program?",
@@ -4378,7 +4378,7 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         question: "What information matters most before I request an assessment?",
         answer:
-          "Lane map, shipment volume, mode mix, current carrier base, tender performance, service failures, accessorial exposure, expedite spend, and KPI expectations matter most. The stronger the baseline, the faster SSP can size the right governance model.",
+          "Lane map, shipment volume, mode mix, current carrier base, tender performance, service failures, accessorial exposure, expedite spend, and KPI expectations matter most. The stronger the baseline, the faster We can size the right governance model.",
       },
       {
         question: "How is managed capacity different from dedicated or contract logistics?",
@@ -4386,7 +4386,7 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
           "Managed capacity governs planning, procurement, execution oversight, and continuous improvement across flexible carrier capacity. Dedicated or contract programs commit assets and operating structure more directly to your network. One is primarily a governance model. The other is a committed operating model.",
       },
       {
-        question: "Can SSP work with an existing carrier base?",
+        question: "Can we work with an existing carrier base?",
         answer:
           "Yes. Managed-capacity programs can be structured around incumbent carriers, a blended carrier model, or a reworked sourcing strategy depending on service performance, coverage gaps, and the control objectives of the program.",
       },
@@ -4396,7 +4396,7 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
           "Yes, when the root cause is weak planning, poor routing-guide discipline, misaligned carrier strategy, or recurring exception patterns. Managed capacity improves results by correcting the operating model behind the spend, not by simply chasing cheaper loads.",
       },
       {
-        question: "Can SSP support managed capacity across Canada, the United States, and Mexico?",
+        question: "Can we support managed capacity across Canada, the United States, and Mexico?",
         answer:
           "Yes. Managed-capacity programs can be structured across Canada, the United States, and Mexico when the lane map, carrier strategy, border requirements, and KPI framework are aligned inside one operating model.",
       },
@@ -4405,7 +4405,7 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
   finalCta: {
     kicker: "Assess the network fit",
     title: "Qualify the managed-capacity program before the network drifts further.",
-    body: "Share the lane map, mode mix, service pain points, and performance expectations. SSP will confirm whether managed capacity is the right operating path, define the governance model early, and structure the program for stronger control over cost and service.",
+    body: "Share the lane map, mode mix, service pain points, and performance expectations. We will confirm whether managed capacity is the right operating path, define the governance model early, and structure the program for stronger control over cost and service.",
     trustSignals: [
       "Managed-capacity programs across Canada, the United States, and Mexico",
       "Carrier strategy, routing discipline, and KPI review tied to one governance model",
@@ -4450,7 +4450,7 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Dedicated / Contract",
     title: "Dedicated contract freight built around committed execution and SLA control.",
     description:
-      "SSP structures dedicated and contract freight around recurring demand, committed capacity, operating ownership, and service-level accountability before daily execution begins. Across Canada, the United States, and Mexico, this is the operating path for shippers that need more than governed procurement and want a more permanent service structure around critical lanes, facilities, and delivery commitments.",
+      "We structure dedicated and contract freight around recurring demand, committed capacity, operating ownership, and service-level accountability before daily execution begins. Across Canada, the United States, and Mexico, this is the operating path for shippers that need more than governed procurement and want a more permanent service structure around critical lanes, facilities, and delivery commitments.",
     descriptionMaxWidth: "52rem",
     supportingPoints: [],
     primaryCta: {
@@ -4506,19 +4506,19 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit Guide",
-      summary: "How to confirm dedicated-contract fit and when another SSP path should lead the move.",
+      summary: "How to confirm dedicated-contract fit and when another service path should lead the move.",
       accent: "#10a7d8",
     },
     {
       key: "how-it-works",
       label: "How It Works",
-      summary: "The operating sequence SSP uses to structure a dedicated-contract program.",
+      summary: "The operating sequence we use to structure a dedicated-contract program.",
       accent: "#d71920",
     },
     {
       key: "related",
       label: "Related Services",
-      summary: "Where SSP routes the shipper when dedicated-contract should not be the only operating model in scope.",
+      summary: "Where we route the shipper when dedicated-contract should not be the only operating model in scope.",
       accent: "#b37a20",
     },
     {
@@ -4544,7 +4544,7 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
     points: [
       {
         title: "Capacity and workflow are designed together",
-        body: "SSP aligns lane demand, service windows, staffing assumptions, equipment needs, escalation rules, and communication cadence before launch so the program starts as an operating model rather than a promise of future consistency.",
+        body: "We align lane demand, service windows, staffing assumptions, equipment needs, escalation rules, and communication cadence before launch so the program starts as an operating model rather than a promise of future consistency.",
       },
       {
         title: "Daily execution stays tied to service-level accountability",
@@ -4560,12 +4560,12 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "How It Works",
     title: "Dedicated contract freight should be structured before launch.",
     description:
-      "Dedicated and contract programs perform best when demand rhythm, operating ownership, service windows, and KPI expectations are aligned before the first live day. This is the sequence SSP uses to structure the program.",
+      "Dedicated and contract programs perform best when demand rhythm, operating ownership, service windows, and KPI expectations are aligned before the first live day. This is the sequence We use to structure the program.",
     steps: [
       {
         step: "01",
         title: "Define demand, lane scope, and service targets",
-        body: "SSP reviews recurring volume, lane profile, seasonality, facility needs, service windows, and escalation expectations so the program is sized around the real operating requirement.",
+        body: "We review recurring volume, lane profile, seasonality, facility needs, service windows, and escalation expectations so the program is sized around the real operating requirement.",
       },
       {
         step: "02",
@@ -4575,7 +4575,7 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         step: "03",
         title: "Launch execution against the agreed service standard",
-        body: "Once active, SSP runs the program against defined pickup, delivery, exception, and reporting expectations rather than managing recurring freight as a string of unrelated loads.",
+        body: "Once active, we runs the program against defined pickup, delivery, exception, and reporting expectations rather than managing recurring freight as a string of unrelated loads.",
       },
       {
         step: "04",
@@ -4588,11 +4588,11 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Dedicated-contract fit should be confirmed before capacity is committed.",
     description:
-      "Use this guide to confirm that the freight profile truly needs embedded execution continuity and a committed service model. If another SSP path should define the operating model, route it early.",
+      "Use this guide to confirm that the freight profile truly needs embedded execution continuity and a committed service model. If another service path should define the operating model, route it early.",
     guide: {
       title: "Dedicated / Contract Freight Fit Guide",
       intro:
-        "Dedicated and contract freight is for recurring programs where committed capacity, repeatable execution, and service-level accountability matter more than flexible sourcing alone. Use this guide to confirm fit and identify the better SSP path when another operating model should lead the move.",
+        "Dedicated and contract freight is for recurring programs where committed capacity, repeatable execution, and service-level accountability matter more than flexible sourcing alone. Use this guide to confirm fit and identify a better service path when another operating model should lead the move.",
       diagram: "/_optimized/solution/dedicatedContract/dedicatedContract.png",
       diagramAlt: "Dedicated contract freight overview",
       specs: {
@@ -4639,7 +4639,7 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Related Services",
     title: "If dedicated-contract is not the only requirement, lead with the right path.",
     description:
-      "These are the first SSP paths to review when the network needs flexible governance, fulfillment control, or project sequencing more than a committed recurring operating model.",
+      "These are the first service paths to review when the network needs flexible governance, fulfillment control, or project sequencing more than a committed recurring operating model.",
     items: [
       {
         label: "Managed Capacity",
@@ -4672,7 +4672,7 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Dedicated / Contract FAQs",
     title: "The questions that matter before building a dedicated-contract program.",
     description:
-      "These are the qualification questions that usually determine whether dedicated or contract freight is the right operating path and what SSP needs to structure the program cleanly.",
+      "These are the qualification questions that usually determine whether dedicated or contract freight is the right operating path and what we need to structure the program cleanly.",
     items: [
       {
         question: "What qualifies as a dedicated or contract freight program?",
@@ -4682,7 +4682,7 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         question: "What information matters most before I request a consultation?",
         answer:
-          "Lane volume, shipment frequency, seasonality, equipment needs, pickup and delivery windows, facility requirements, KPI expectations, and escalation standards matter most. Those inputs determine whether SSP should design the program around fleet, staffing, workflow governance, or a blended model.",
+          "Lane volume, shipment frequency, seasonality, equipment needs, pickup and delivery windows, facility requirements, KPI expectations, and escalation standards matter most. Those inputs determine whether We should design the program around fleet, staffing, workflow governance, or a blended model.",
       },
       {
         question: "How is dedicated-contract different from managed capacity?",
@@ -4695,12 +4695,12 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
           "No. Some dedicated programs are built around a single corridor or facility, while others span multiple lanes, plants, DCs, or delivery regions. The deciding factor is not geography alone but whether the recurring freight justifies committed continuity and a stable operating design.",
       },
       {
-        question: "Can SSP support dedicated programs across Canada, the United States, and Mexico?",
+        question: "Can we support dedicated programs across Canada, the United States, and Mexico?",
         answer:
           "Yes. Dedicated and contract programs can be structured across Canada, the United States, and Mexico when the lane map, operating ownership, border requirements, and service expectations are aligned into one workable model.",
       },
       {
-        question: "When should dedicated-contract be routed to another SSP service?",
+        question: "When should dedicated-contract be routed to another service?",
         answer:
           "It should be rerouted when the real need is managed procurement rather than committed continuity, when fulfillment and inventory flow are the main challenge, or when the move is project-led rather than steady-state recurring execution.",
       },
@@ -4709,7 +4709,7 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
   finalCta: {
     kicker: "Assess the continuity fit",
     title: "Qualify the dedicated-contract model before capacity is committed.",
-    body: "Share the lane profile, recurring demand, service expectations, and facility requirements. SSP will confirm whether dedicated-contract is the right operating path, define the resource model early, and structure the program for stable execution over time.",
+    body: "Share the lane profile, recurring demand, service expectations, and facility requirements. We will confirm whether dedicated-contract is the right operating path, define the resource model early, and structure the program for stable execution over time.",
     trustSignals: [
       "Dedicated and contract freight across Canada, the United States, and Mexico",
       "Committed capacity, SLA discipline, and recurring performance review inside one operating model",
@@ -4754,7 +4754,7 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Warehousing & Distribution",
     title: "Warehousing and distribution built around inventory control and outbound discipline.",
     description:
-      "SSP structures warehousing and distribution around receiving accuracy, storage logic, order flow, and outbound execution before service misses become part of the operating model. Across Canada, the United States, and Mexico, this is the path for shippers that need inventory positioned correctly, fulfillment run with control, and outbound performance aligned to customer commitments.",
+      "We structure warehousing and distribution around receiving accuracy, storage logic, order flow, and outbound execution before service misses become part of the operating model. Across Canada, the United States, and Mexico, this is the path for shippers that need inventory positioned correctly, fulfillment run with control, and outbound performance aligned to customer commitments.",
     descriptionMaxWidth: "52rem",
     supportingPoints: [],
     primaryCta: {
@@ -4810,19 +4810,19 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
     {
       key: "freight-fit",
       label: "Freight Fit Guide",
-      summary: "How to confirm warehousing-distribution fit and when another SSP path should lead the requirement.",
+      summary: "How to confirm warehousing-distribution fit and when another service path should lead the requirement.",
       accent: "#10a7d8",
     },
     {
       key: "how-it-works",
       label: "How It Works",
-      summary: "The operating sequence SSP uses to structure a warehousing-distribution program.",
+      summary: "The operating sequence we use to structure a warehousing-distribution program.",
       accent: "#d71920",
     },
     {
       key: "related",
       label: "Related Services",
-      summary: "Where SSP routes the shipper when warehousing-distribution should not be the only operating model in scope.",
+      summary: "Where we route the shipper when warehousing-distribution should not be the only operating model in scope.",
       accent: "#b37a20",
     },
     {
@@ -4849,7 +4849,7 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
     points: [
       {
         title: "Receiving, storage, and outbound rules are aligned early",
-        body: "SSP defines inbound handling, inventory logic, order rules, and shipping workflows before go-live so warehouse execution starts from a controlled operating design rather than from improvised floor habits.",
+        body: "We define inbound handling, inventory logic, order rules, and shipping workflows before go-live so warehouse execution starts from a controlled operating design rather than from improvised floor habits.",
       },
       {
         title: "Inventory accuracy and service performance are governed together",
@@ -4865,12 +4865,12 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "How It Works",
     title: "Warehousing and distribution should be structured before go-live.",
     description:
-      "Warehouse programs perform best when receiving logic, storage discipline, order rules, and outbound timing are aligned before inventory starts moving through the operation. This is the sequence SSP uses to structure the program.",
+      "Warehouse programs perform best when receiving logic, storage discipline, order rules, and outbound timing are aligned before inventory starts moving through the operation. This is the sequence We use to structure the program.",
     steps: [
       {
         step: "01",
         title: "Define inventory, order, and service requirements",
-        body: "SSP reviews SKU profile, velocity segmentation, inbound cadence, storage constraints, order logic, and service expectations so the warehouse model matches the real operating requirement.",
+        body: "We review SKU profile, velocity segmentation, inbound cadence, storage constraints, order logic, and service expectations so the warehouse model matches the real operating requirement.",
       },
       {
         step: "02",
@@ -4880,7 +4880,7 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
       {
         step: "03",
         title: "Run daily execution against the program rules",
-        body: "Once active, SSP manages inbound receipt, inventory movement, order fulfillment, and outbound staging against the agreed workflow rather than treating each task as an isolated warehouse event.",
+        body: "Once active, we manages inbound receipt, inventory movement, order fulfillment, and outbound staging against the agreed workflow rather than treating each task as an isolated warehouse event.",
       },
       {
         step: "04",
@@ -4893,11 +4893,11 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Freight Fit Guide",
     title: "Warehousing-distribution fit should be confirmed before inventory is committed.",
     description:
-      "Use this guide to confirm that the requirement truly needs storage, fulfillment, and outbound control in one operating model. If another SSP path should lead the requirement, route it early.",
+      "Use this guide to confirm that the requirement truly needs storage, fulfillment, and outbound control in one operating model. If another service path should lead the requirement, route it early.",
     guide: {
       title: "Warehousing & Distribution Freight Fit Guide",
       intro:
-        "Warehousing and distribution is for operations where inventory positioning, order flow, and outbound execution directly support customer service commitments. Use this guide to confirm fit and identify the better SSP path when another operating model should lead the requirement.",
+        "Warehousing and distribution is for operations where inventory positioning, order flow, and outbound execution directly support customer service commitments. Use this guide to confirm fit and identify a better service path when another operating model should lead the requirement.",
       diagram: "/_optimized/solution/warehouse/warehouseDistributionHero-Img.png",
       diagramAlt: "Warehousing and distribution overview",
       specs: {
@@ -4937,14 +4937,14 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
         },
       ],
       disclaimer:
-        "Planning guidance only. Final fit depends on SKU profile, order rhythm, throughput, storage needs, service targets, and the operating ownership SSP is expected to assume.",
+        "Planning guidance only. Final fit depends on SKU profile, order rhythm, throughput, storage needs, service targets, and the operating ownership you expect us to assume.",
     },
   },
   relatedSolutions: {
     eyebrow: "Related Services",
     title: "If warehousing-distribution is not the only requirement, lead with the right path.",
     description:
-      "These are the first SSP paths to review when carrier governance, committed lane continuity, or corridor control should shape the operating model more than storage and fulfillment alone.",
+      "These are the first service paths to review when carrier governance, committed lane continuity, or corridor control should shape the operating model more than storage and fulfillment alone.",
     items: [
       {
         label: "Managed Capacity",
@@ -4977,7 +4977,7 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
     eyebrow: "Warehousing & Distribution FAQs",
     title: "The questions that matter before building a warehousing-distribution program.",
     description:
-      "These are the qualification questions that usually determine whether warehousing and distribution is the right operating path and what SSP needs to structure the program cleanly.",
+      "These are the qualification questions that usually determine whether warehousing and distribution is the right operating path and what we need to structure the program cleanly.",
     items: [
       {
         question: "What qualifies as a warehousing and distribution program?",
@@ -4990,9 +4990,9 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
           "SKU profile, velocity segmentation, storage constraints, inbound cadence, order logic, shipping cutoffs, channel mix, and service expectations matter most. Those inputs determine space, labor rhythm, workflow design, and outbound control requirements.",
       },
       {
-        question: "Can SSP support cross-docking and same-day outbound response?",
+        question: "Can we support cross-docking and same-day outbound response?",
         answer:
-          "Yes, when the operating model is designed for it. SSP can structure cross-docking, staged inventory flow, and responsive outbound execution where order timing and throughput expectations justify that design.",
+          "Yes, when the operating model is designed for it. We can structure cross-docking, staged inventory flow, and responsive outbound execution where order timing and throughput expectations justify that design.",
       },
       {
         question: "How is warehousing-distribution different from managed capacity?",
@@ -5000,12 +5000,12 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
           "Warehousing and distribution governs inventory, fulfillment, and outbound execution inside the facility and through shipping handoff. Managed capacity governs transportation planning, procurement, and carrier performance across the network. One leads from inventory to ship. The other leads from lane to carrier execution.",
       },
       {
-        question: "Can SSP support warehousing and distribution across Canada, the United States, and Mexico?",
+        question: "Can we support warehousing and distribution across Canada, the United States, and Mexico?",
         answer:
           "Yes. Warehousing and distribution programs can be structured across Canada, the United States, and Mexico when facility needs, order profile, outbound lanes, and service expectations are aligned in one operating model.",
       },
       {
-        question: "When should warehousing-distribution be routed to another SSP service?",
+        question: "When should warehousing-distribution be routed to another service?",
         answer:
           "It should be rerouted when the requirement is really transportation governance, committed lane continuity, or border-led execution rather than ongoing inventory control and fulfillment performance.",
       },
@@ -5014,7 +5014,7 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
   finalCta: {
     kicker: "Assess the facility fit",
     title: "Qualify the warehousing-distribution model before inventory goes live.",
-    body: "Share the SKU profile, order flow, storage needs, inbound schedule, and service expectations. SSP will confirm whether warehousing and distribution is the right operating path, define the workflow early, and structure the program for controlled outbound execution.",
+    body: "Share the SKU profile, order flow, storage needs, inbound schedule, and service expectations. We will confirm whether warehousing and distribution is the right operating path, define the workflow early, and structure the program for controlled outbound execution.",
     trustSignals: [
       "Warehousing and distribution across Canada, the United States, and Mexico",
       "Receiving, inventory, fulfillment, and outbound control aligned in one operating model",

@@ -12,7 +12,7 @@ export const SSP_HISTORY_MILESTONES: readonly HistoryMilestone[] = [
     year: "2015",
     title: "Operating Foundation Established",
     description:
-      "SSP began operations with 2 trucks and 2 trailers, establishing baseline standards for dispatch discipline, shipment handling, and customer communication.",
+      "We began operations with 2 trucks and 2 trailers, establishing baseline standards for dispatch discipline, shipment handling, and customer communication.",
     snapshotPreview: "Started with two trucks, two trailers, and a dispatch model built around accountability.",
     stat: { value: "2", label: "Trucks" },
     highlight: true,
@@ -35,7 +35,7 @@ export const SSP_HISTORY_MILESTONES: readonly HistoryMilestone[] = [
     year: "2018",
     title: "Group Structure Formalized",
     description:
-      "SSP transitioned to a group operating structure with the launch of SSP Global Forwarding LTD to support air, ocean, and international forwarding requirements.",
+      "We transitioned to a group operating structure with the launch of SSP Global Forwarding LTD to support air, ocean, and international forwarding requirements.",
     snapshotPreview: "Expanded from a trucking company into SSP Group with broader freight and forwarding capability.",
     stat: { value: "2", label: "Companies" },
     highlight: true,
@@ -96,7 +96,7 @@ export const SSP_HISTORY_MILESTONES: readonly HistoryMilestone[] = [
     year: "2026",
     title: "Enterprise Operating Chapter",
     description:
-      "With nearly 500 employees supporting operations across Canada, the United States, and Mexico, SSP entered a more mature operating chapter defined by scale, governance, and repeatable execution.",
+      "With nearly 500 employees supporting operations across Canada, the United States, and Mexico, we entered a more mature operating chapter defined by scale, governance, and repeatable execution.",
     snapshotPreview:
       "Entered a more mature enterprise chapter with broader capacity, stronger governance, and clearer North American positioning.",
     stat: { value: "Nearly 500", label: "Employees" },
@@ -107,7 +107,7 @@ export const SSP_HISTORY_MILESTONES: readonly HistoryMilestone[] = [
 export const HISTORY_FINAL_CTA = {
   kicker: "Build With SSP",
   title: "Bring the next chapter of your freight program to life.",
-  body: "SSP pairs asset-based execution with cross-border operating discipline so enterprise teams can scale lanes without losing control.",
+  body: "We pairs asset-based execution with cross-border operating discipline so enterprise teams can scale lanes without losing control.",
   trustSignals: [
     "Asset-based execution",
     "Cross-border operating model",

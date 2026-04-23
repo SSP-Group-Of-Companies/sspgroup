@@ -246,7 +246,7 @@ export function SiteFooter() {
             <div className="absolute -right-10 -bottom-3 lg:-right-14">
               <CardImage
                 src="/_optimized/brand/favicon.png"
-                alt="SSP watermark"
+                alt="We watermark"
                 width={1400}
                 height={1400}
                 className="h-[240px] w-[240px] object-contain opacity-[0.029] lg:h-[300px] lg:w-[300px]"

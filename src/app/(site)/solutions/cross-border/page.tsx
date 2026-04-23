@@ -143,7 +143,7 @@ const performanceSnapshots = [
     challenge:
       "Border delay variance was disrupting plant-side production schedules for time-sensitive components across Canada–USA lanes.",
     approach:
-      "SSP implemented lane-readiness gates, broker coordination checkpoints, and corridor-level escalation ownership with weekly governance.",
+      "We implemented lane-readiness gates, broker coordination checkpoints, and corridor-level escalation ownership with weekly governance.",
     outcome:
       "Transit consistency improved. Preventable holds declined. Recovery timelines shortened through structured exception management.",
   },
@@ -152,7 +152,7 @@ const performanceSnapshots = [
     challenge:
       "Mixed-mode freight across Canada–USA and Mexico corridors lacked consistent handoff quality and centralized exception visibility.",
     approach:
-      "SSP deployed corridor playbooks, milestone governance standards, and unified exception escalation across both programs.",
+      "We deployed corridor playbooks, milestone governance standards, and unified exception escalation across both programs.",
     outcome:
       "Cross-border reliability improved in both corridors. Intervention speed on at-risk loads increased. Executive reporting was consolidated.",
   },
@@ -160,20 +160,20 @@ const performanceSnapshots = [
 
 const faqItems = [
   {
-    q: "Which cross-border corridors does SSP operate?",
-    a: "SSP manages dedicated freight programs for Canada–USA and Mexico cross-border corridors, each with lane-specific playbooks, customs-aligned documentation controls, and structured escalation protocols.",
+    q: "Which cross-border corridors do we operate?",
+    a: "We manage dedicated freight programs for Canada–USA and Mexico cross-border corridors, each with lane-specific playbooks, customs-aligned documentation controls, and structured escalation protocols.",
   },
   {
-    q: "Can SSP handle specialized or regulated freight across borders?",
+    q: "Can we handle specialized or regulated freight across borders?",
     a: "Yes. Cross-border programs can be configured for flatbed, step deck, hazmat, and temperature-controlled freight where requirements are properly documented and lane-qualified.",
   },
   {
-    q: "How does SSP reduce border delays?",
+    q: "How do we reduce border delays?",
     a: "Through pre-movement readiness. Documentation is validated, broker coordination is confirmed, and escalation ownership is assigned before freight reaches the border zone, not after.",
   },
   {
-    q: "Does SSP support spot shipments or only recurring programs?",
-    a: "Both. SSP handles tactical spot movements and structured recurring corridor programs with formal service governance and performance review cycles.",
+    q: "Do we support spot shipments or only recurring programs?",
+    a: "Both. We handle tactical spot movements and structured recurring corridor programs with formal service governance and performance review cycles.",
   },
 ] as const;
 

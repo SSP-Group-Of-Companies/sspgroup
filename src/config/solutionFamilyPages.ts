@@ -104,7 +104,7 @@ export const CORE_FREIGHT_MODES_FAMILY_PAGE: SolutionFamilyLandingPageData = {
     eyebrow: "Core Freight Modes",
     title: "Truckload and LTL freight matched to the right equipment path.",
     subtitle:
-      "SSP operates full truckload across dry van, flatbed, step deck, Conestoga, and heavy haul — plus LTL for palletized freight that fits shared-capacity networks. The mode and equipment path are confirmed before the shipment is dispatched.",
+      "We operate full truckload across dry van, flatbed, step deck, Conestoga, and heavy haul — plus LTL for palletized freight that fits shared-capacity networks. The mode and equipment path are confirmed before the shipment is dispatched.",
     backgroundColor: "var(--color-company-ink)",
   },
   signatureSection: {
@@ -197,7 +197,7 @@ export const CORE_FREIGHT_MODES_FAMILY_PAGE: SolutionFamilyLandingPageData = {
   finalCta: {
     kicker: "Start the Conversation",
     title: "Confirm the right mode and equipment path before the load is dispatched.",
-    body: "Share the lane, commodity, dimensions, and delivery requirements. SSP will qualify the shipment against the right truckload or LTL path and align equipment before execution begins.",
+    body: "Share the lane, commodity, dimensions, and delivery requirements. We will qualify the shipment against the right truckload or LTL path and align equipment before execution begins.",
     trustSignals: ["Truckload and LTL coverage", "Equipment-fit qualification", "CA-US-MX execution"],
     proof: [
       { value: "Mode-led", label: "Operating model" },
@@ -242,7 +242,7 @@ export const SPECIALIZED_CRITICAL_FREIGHT_FAMILY_PAGE: SolutionFamilyLandingPage
     eyebrow: "Specialized & Critical Freight",
     title: "When the consequence of failure changes how the shipment must be controlled.",
     subtitle:
-      "Deadline compression, thermal integrity, hazmat compliance, and sensitive cargo handling require tighter intake, active monitoring, and faster escalation than standard freight execution provides. SSP structures these moves around the constraint that carries the most risk.",
+      "Deadline compression, thermal integrity, hazmat compliance, and sensitive cargo handling require tighter intake, active monitoring, and faster escalation than standard freight execution provides. We structure these moves around the constraint that carries the most risk.",
     backgroundColor: "color-mix(in srgb, var(--color-brand-700) 34%, var(--color-company-ink))",
   },
   branchSection: {
@@ -362,8 +362,8 @@ export const SPECIALIZED_CRITICAL_FREIGHT_FAMILY_PAGE: SolutionFamilyLandingPage
   },
   finalCta: {
     kicker: "Start the Conversation",
-    title: "Define the constraint early. SSP will structure the controls around it.",
-    body: "Share the shipment profile, lane, timing requirement, and what happens if execution fails. SSP will align the move to the specialized path that protects timing, product integrity, or compliance from intake through delivery.",
+    title: "Define the constraint early. We will structure the controls around it.",
+    body: "Share the shipment profile, lane, timing requirement, and what happens if execution fails. We will align the move to the specialized path that protects timing, product integrity, or compliance from intake through delivery.",
     trustSignals: ["Expedited and time-critical capability", "Regulated freight compliance", "Temperature-monitored execution"],
     proof: [
       { value: "Constraint-led", label: "Operating model" },
@@ -408,7 +408,7 @@ export const MANAGED_LOGISTICS_FAMILY_PAGE: SolutionFamilyLandingPageData = {
     eyebrow: "Managed Logistics",
     title: "Recurring freight needs a program — not repeated one-off coverage.",
     subtitle:
-      "When freight repeats across lanes, facilities, and seasons, execution quality depends on structured capacity, warehouse coordination, defined SLAs, and named accountability that outlasts any single shipment. SSP builds and governs that program.",
+      "When freight repeats across lanes, facilities, and seasons, execution quality depends on structured capacity, warehouse coordination, defined SLAs, and named accountability that outlasts any single shipment. We build and governs that program.",
     backgroundColor: "color-mix(in srgb, var(--color-ssp-teal-500) 34%, var(--color-company-ink))",
   },
   branchSection: {
@@ -528,8 +528,8 @@ export const MANAGED_LOGISTICS_FAMILY_PAGE: SolutionFamilyLandingPageData = {
   },
   finalCta: {
     kicker: "Start the Conversation",
-    title: "Define the program scope. SSP will build the governance around it.",
-    body: "Share the network footprint, recurring freight profile, facility requirements, and service expectations. SSP will structure the managed model — capacity, warehousing, dedicated assets, or project coordination — with the review cadence and accountability the program needs.",
+    title: "Define the program scope. We will build the governance around it.",
+    body: "Share the network footprint, recurring freight profile, facility requirements, and service expectations. We will structure the managed model — capacity, warehousing, dedicated assets, or project coordination — with the review cadence and accountability the program needs.",
     trustSignals: ["Program-managed execution", "Recurring freight governance", "Warehouse-connected capability"],
     proof: [
       { value: "Governed", label: "Operating model" },

@@ -427,7 +427,7 @@ export default function InsightsIndexClient({
         className="relative overflow-hidden border-b border-white/10 py-20 sm:py-24 lg:py-[6.5rem]"
         style={{ scrollMarginTop: SECTION_SCROLL_MARGIN_TOP }}
       >
-        {/* Top-down yard (generated): SSP navy + cyan rim light—same composition language as premium logistics editorial refs. */}
+        {/* Top-down yard (generated): We navy + cyan rim light—same composition language as premium logistics editorial refs. */}
         <div className="absolute inset-0">
           <div
             className="absolute inset-0 bg-[color:var(--color-company-ink)]"
@@ -492,7 +492,7 @@ export default function InsightsIndexClient({
                 transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
                 className="mt-5 max-w-[52ch] text-[15px] leading-[1.75] font-normal text-white/78 sm:text-[15.5px]"
               >
-                Analysis, updates, and operating perspectives from the SSP team. Explore practical
+                Analysis, updates, and operating perspectives from our team. Explore practical
                 guidance on freight execution, cross-border strategy, network planning, and supply
                 chain resilience.
               </motion.p>

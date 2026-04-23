@@ -40,7 +40,7 @@ export function HomePostHeroBand({ children }: { children: ReactNode }) {
         aria-hidden
       />
       {/* Signature cyan hairline closing the platform — mirrors the hero's mark so the
-          handoff into "What SSP Moves" feels authored, not stacked. */}
+          handoff into "What we move" feels authored, not stacked. */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-px"
         style={{

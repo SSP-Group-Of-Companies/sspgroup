@@ -15,7 +15,7 @@ const SECTION_EYEBROW = "Careers & culture";
 const SECTION_TITLE = "Build with a team that runs to standard";
 /** One editorial beat: who we hire for, how we work, why the careers hub is the next step. */
 const SECTION_SUPPORT =
-  "SSP hires for roles where execution quality is the product: company drivers and owner-operators, dispatch and operations coordinators, cross-border and compliance specialists, and the teams that support the network. If you want a culture built on discipline and direct accountability, start on the careers hub.";
+  "We hires for roles where execution quality is the product: company drivers and owner-operators, dispatch and operations coordinators, cross-border and compliance specialists, and the teams that support the network. If you want a culture built on discipline and direct accountability, start on the careers hub.";
 
 const HEADER_CTA_LABEL = "Explore careers at SSP";
 const CAREERS_HUB_HREF = "/careers";

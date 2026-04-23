@@ -272,7 +272,7 @@ export function IndustriesHub() {
               transition={{ duration: 0.35, ease: "easeOut" }}
               className="mx-auto mt-6 max-w-2xl text-[15px] leading-[1.85] text-[color:var(--color-muted)] sm:text-base"
             >
-              Generic freight models break under industry-specific pressure. SSP builds operating
+              Generic freight models break under industry-specific pressure. We build operating
               programs purpose-fit to the timing, compliance, and handling standards your supply
               chain actually demands.
             </motion.p>
@@ -392,7 +392,7 @@ export function IndustriesHub() {
               transition={{ duration: 0.4, ease: "easeOut" }}
               className="mx-auto mt-4 max-w-xl text-[14px] leading-[1.8] text-white/40 sm:text-[15px]"
             >
-              Select an industry to see how SSP structures carriers, documentation, handling
+              Select an industry to see how We structure carriers, documentation, handling
               controls, and reporting around your operating environment.
             </motion.p>
           </motion.div>
@@ -490,7 +490,7 @@ export function IndustriesHub() {
       </section>
 
       {/* ────────────────────────────────────────────────────────────────
-          FINAL CTA — SSP dark glass-card pattern
+          FINAL CTA — we dark glass-card pattern
           ──────────────────────────────────────────────────────────────── */}
       <section
         aria-labelledby="industries-hub-cta-heading"
@@ -514,7 +514,7 @@ export function IndustriesHub() {
                   Tell us the industry. We&apos;ll show you the operating model.
                 </h2>
                 <p className="mt-3 max-w-3xl text-sm leading-7 text-white/74">
-                  Share your lanes, constraints, and standards. SSP will scope a program
+                  Share your lanes, constraints, and standards. We will scope a program
                   with the carriers, documentation, and handling controls your freight
                   actually requires.
                 </p>

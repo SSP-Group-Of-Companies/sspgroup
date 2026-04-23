@@ -89,7 +89,7 @@ export function CrossBorderIntroSections({
               className="mt-7 max-w-3xl"
             >
               <p className="max-w-[64ch] text-[15px] leading-[1.85] text-white/80 sm:text-base">
-                SSP supports manufacturers, distributors, and procurement teams across Canada, the
+                We support manufacturers, distributors, and procurement teams across Canada, the
                 U.S., and Mexico with structured documentation control, customs-aligned
                 coordination, and milestone-level visibility. The goal is fewer preventable delays,
                 stronger schedule protection, and greater confidence across cross-border programs.
@@ -164,7 +164,7 @@ export function CrossBorderIntroSections({
                 transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
                 className="mt-5 max-w-[36rem] text-[14.85px] leading-[1.82] text-[color:var(--color-muted-light)] sm:text-[15.2px]"
               >
-                This operating model shows how SSP aligns documentation, customs handoffs, and
+                This operating model shows how We align documentation, customs handoffs, and
                 lane-level visibility before freight reaches the border.
               </motion.p>
             </motion.div>

@@ -199,7 +199,7 @@ export function CrossBorderDetailSections({
                 Cross-border execution controls designed before results are measured.
               </h2>
               <p className="mt-4 max-w-3xl text-[15px] leading-8 text-[color:var(--color-menu-muted)]">
-                These controls summarize how SSP structures managed cross-border freight before
+                These controls summarize how We structure managed cross-border freight before
                 live performance is reviewed through corridor governance cycles.
               </p>
             </div>
@@ -467,7 +467,7 @@ export function CrossBorderDetailSections({
         data={{
           kicker: "Start Your Engagement",
           title: "Ready to build a cross-border freight program that holds?",
-          body: "Share your corridor profile, freight requirements, and service priorities. SSP will design an execution plan aligned to your compliance, reliability, and control standards.",
+          body: "Share your corridor profile, freight requirements, and service priorities. We will design an execution plan aligned to your compliance, reliability, and control standards.",
           trustSignals: [
             "Lane-level onboarding",
             "Customs-aligned workflows",

@@ -35,7 +35,7 @@ export const companyAbout = {
     subtitle: "An asset-based operator built for controlled freight execution.",
     body: [
       "SSP Group began as a trucking business and has matured into a North American freight organization serving shippers that need execution discipline, not reactive coordination.",
-      "Across Canada, the United States, and Mexico, SSP manages planning, dispatch, in-transit control, and closeout through one operating standard so customers get clearer communication, stronger compliance posture, and more predictable execution.",
+      "Across Canada, the United States, and Mexico, we manages planning, dispatch, in-transit control, and closeout through one operating standard so customers get clearer communication, stronger compliance posture, and more predictable execution.",
     ],
     stats: [
       { value: "2015", label: "Founded" },
@@ -53,7 +53,7 @@ export const companyAbout = {
     sectionLabel: "Mission, Vision & Core Values",
     sectionTitle: "The standard behind the network.",
     sectionSubtitle:
-      "SSP is built on operational discipline. These principles govern how freight is planned, executed, communicated, and closed across North America.",
+      "We is built on operational discipline. These principles govern how freight is planned, executed, communicated, and closed across North America.",
     missionLabel: "Mission",
     missionTitle: "Run freight with control.",
     mission:
@@ -63,7 +63,7 @@ export const companyAbout = {
     vision:
       "To be the freight partner enterprise shippers trust when service, compliance, and execution quality cannot be left to chance.",
     valuesTitle: "What we hold ourselves to.",
-    valuesSubtitle: "Four principles shape how SSP works across every lane and every team.",
+    valuesSubtitle: "Four principles shape how we work across every lane and every team.",
     principles: [
       {
         title: "Control before movement",
@@ -86,7 +86,7 @@ export const companyAbout = {
 
   operatingModel: {
     sectionLabel: "Operating Model",
-    title: "How SSP runs freight.",
+    title: "How we run freight.",
     subtitle:
       "Every shipment follows the same operating sequence: qualify before movement, release only when assignment and documentation align, govern execution while freight is live, and close with proof on cadence.",
     stages: [
@@ -126,14 +126,14 @@ export const companyAbout = {
       {
         name: "SSP Truckline Inc.",
         description:
-          "Canadian asset-based freight execution with specialized equipment alignment, disciplined dispatch, and audit-ready documentation under SSP operating standards.",
+          "Canadian asset-based freight execution with specialized equipment alignment, disciplined dispatch, and audit-ready documentation under our operating standards.",
         region: "CA",
         address: "8401 5 Side Rd, Halton Hills (Milton), ON L9T 2Y7",
         logoSrc: "/_optimized/brand/SSPlogo.png",
         website: "https://www.ssptruckline.ca/",
       },
       {
-        name: "SSP Trucklines Inc.",
+        name: "We Trucklines Inc.",
         description:
           "U.S. operating company extending SSP's cross-border reach with direct alignment to corridor execution, customer communication, and shipment governance.",
         region: "US",
@@ -153,7 +153,7 @@ export const companyAbout = {
       {
         name: "Web Freight Inc.",
         description:
-          "Supports coordinated dispatch, visibility, and multimodal execution across North American freight programs under SSP operating oversight.",
+          "Supports coordinated dispatch, visibility, and multimodal execution across North American freight programs under our operating oversight.",
         region: "CA",
         address: "16 Mediterranean Cres, Brampton, ON L6Y 0T4",
         logoSrc: "/_optimized/company/logos/WebLogog.png",
@@ -175,7 +175,7 @@ export const companyAbout = {
     sectionLabel: "Safety & Compliance",
     title: "Control is established before freight moves.",
     subtitle:
-      "SSP runs a compliance-led operating posture across Canada, the United States, and Mexico. Qualification, documentation, and escalation control are built into execution from the start.",
+      "We run a compliance-led operating posture across Canada, the United States, and Mexico. Qualification, documentation, and escalation control are built into execution from the start.",
     image: {
       src: "/_optimized/company/safety-complianceImg.png",
       alt: "Integrated editorial visual of a compliant freight operation in a refined logistics environment",
@@ -196,7 +196,7 @@ export const companyAbout = {
     sectionLabel: "Leadership",
     title: "Leadership & Accountability",
     intro:
-      "The leadership team is accountable for how SSP grows, how freight is governed, and how customer commitments are upheld across the network.",
+      "The leadership team is accountable for how We grow, how freight is governed, and how customer commitments are upheld across the network.",
     profiles: [
       {
         id: "president-chief-executive-officer",
@@ -238,7 +238,7 @@ export const companyAbout = {
     sectionLabel: "Locations & Network",
     title: "Coverage organized for control.",
     subtitle:
-      "SSP coordinates freight execution across Canada, the United States, and Mexico through one accountable operating model.",
+      "We coordinate freight execution across Canada, the United States, and Mexico through one accountable operating model.",
     officeCount: "07",
     officeLabel: "North American Offices",
     benefitsTitle: "What This Means for Customers",
@@ -252,7 +252,7 @@ export const companyAbout = {
     ],
     map: {
       src: "/_optimized/company/LocationNetwork_Img.png",
-      alt: "Premium North America network map highlighting SSP operating locations across Canada, the United States, and Mexico",
+      alt: "Premium North America network map highlighting our operating locations across Canada, the United States, and Mexico",
     },
   },
 
@@ -260,11 +260,11 @@ export const companyAbout = {
     sectionLabel: "Media & Insights",
     title: "See the operation. Read the thinking behind it.",
     subtitle:
-      "Media shows SSP in motion. Insights explain the operating logic behind cross-border execution, freight control, and shipper decision-making.",
+      "Media that show us in motion. Insights explain the operating logic behind cross-border execution, freight control, and shipper decision-making.",
     cards: [
       {
         title: "Media Library",
-        body: "Fleet, operations, and company footage that shows how SSP runs freight on the ground across North America.",
+        body: "Fleet, operations, and company footage that shows how we run freight on the ground across North America.",
         href: "/company/media",
         ctaLabel: "View Media Library",
         ctaId: "about_media_insights_view_media_library",
@@ -282,7 +282,7 @@ export const companyAbout = {
   finalCta: {
     kicker: "Start the Conversation",
     title: "Discuss the freight requirements behind your network.",
-    body: "Share your lane mix, service standards, and operating constraints. SSP will align capacity, governance cadence, and communication control to the requirements of your network.",
+    body: "Share your lane mix, service standards, and operating constraints. We will align capacity, governance cadence, and communication control to the requirements of your network.",
     trustSignals: [
       "Asset-based execution ownership",
       "Cross-border control across CA-US-MX",

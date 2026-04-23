@@ -164,7 +164,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       valueHeadline: "Production continuity.",
       title: "Automotive Logistics for Production-Critical Freight",
       description:
-        "From JIT inbound sequencing to enclosed vehicle transport and North American cross-border execution, SSP runs automotive freight with the control, documentation discipline, and exception ownership serious shippers expect.",
+        "From JIT inbound sequencing to enclosed vehicle transport and North American cross-border execution, we runs automotive freight with the control, documentation discipline, and exception ownership serious shippers expect.",
       cta: { label: "Review Your Automotive Network", href: "/contact", ctaId: "industry_automotive_hero_contact" },
       secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_automotive_hero_capabilities" },
       theme: "red",
@@ -201,7 +201,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       widgetSupportTitle: "Protection Standards by Cargo Profile",
 
       widgetSupportBody:
-        "Protection requirements shift materially between components, finished vehicles, and cross-border movements. SSP aligns equipment, handling controls, and documentation posture to the actual exposure on the lane.",
+        "Protection requirements shift materially between components, finished vehicles, and cross-border movements. We align equipment, handling controls, and documentation posture to the actual exposure on the lane.",
 
       widgetSupportBullets: [
         "Vehicle units: enclosed transport decisions are driven by exposure, custody points, and delivery-condition expectations.",
@@ -268,7 +268,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     },
     trustProof: {
       sectionTitle: "Control Standards Buyers Can Audit",
-      comparisonHeading: "SSP operating standards vs. common market practice",
+      comparisonHeading: "Our operating standards vs. common market practice",
       intro:
         "The difference between a standard carrier relationship and a production-critical automotive program shows up in operating discipline, not marketing language.",
       pillars: [
@@ -394,7 +394,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       valueHeadline: "Throughput stability, protected.",
       title: "Supply Continuity Starts at the Loading Dock",
       description:
-        "From raw materials and production-critical inputs to repeat industrial replenishment across North America, SSP manages manufacturing and materials freight with lane discipline, commodity-fit handling, and owner-led exception control that keeps flow stable when conditions tighten.",
+        "From raw materials and production-critical inputs to repeat industrial replenishment across North America, we manages manufacturing and materials freight with lane discipline, commodity-fit handling, and owner-led exception control that keeps flow stable when conditions tighten.",
       cta: { label: "Review Your Manufacturing Network", href: "/contact", ctaId: "industry_manufacturing_hero_contact" },
       secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_manufacturing_hero_capabilities" },
       theme: "slate",
@@ -475,7 +475,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       aside: {
         badge: "Manufacturing operating model",
         title: "Execution built for inbound rhythm, materials control, and production-facing visibility.",
-        body: "Manufacturing freight performs best when lane cadence, handling posture, and exception ownership are aligned before the load begins to move. SSP runs industrial programs with cleaner planning discipline and clearer operational control when schedule pressure starts to build.",
+        body: "Manufacturing freight performs best when lane cadence, handling posture, and exception ownership are aligned before the load begins to move. We run industrial programs with cleaner planning discipline and clearer operational control when schedule pressure starts to build.",
         bullets: [
           "Inbound planning aligned to production timing, receiving limits, and material criticality",
           "Commodity-fit handling that protects cargo condition and receiving readiness across industrial lanes",
@@ -491,7 +491,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     },
     trustProof: {
       sectionTitle: "The SSP Standard",
-      comparisonHeading: "SSP vs. typical market practice",
+      comparisonHeading: "Our approach vs. typical market practice",
       intro:
         "Manufacturing buyers benchmark partners on risk coverage, process compliance, and operational visibility under schedule pressure.",
       pillars: [
@@ -600,7 +600,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     meta: {
       title: "Retail & Consumer Goods Logistics | Cross-Border Replenishment | SSP Group",
       description:
-        "Retail and consumer goods logistics for store replenishment, distribution centers, and cross-border freight across Canada, the United States, and Mexico. SSP manages retail freight with window control, visibility, and surge-ready execution.",
+        "Retail and consumer goods logistics for store replenishment, distribution centers, and cross-border freight across Canada, the United States, and Mexico. We manage retail freight with window control, visibility, and surge-ready execution.",
       heroImage: "/_optimized/industries/retail-hero-premium-v3.png",
       ogImage: "/_optimized/industries/retail-hero-premium-v3.png",
     },
@@ -609,7 +609,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       valueHeadline: "Shelf availability, protected.",
       title: "Shelf Availability Starts with Lane Discipline",
       description:
-        "From store replenishment and DC freight to promotion-driven surges and cross-border retail flows across Canada, the United States, and Mexico, SSP runs consumer goods logistics with delivery-window control, escalation discipline, and decision-ready visibility.",
+        "From store replenishment and DC freight to promotion-driven surges and cross-border retail flows across Canada, the United States, and Mexico, we runs consumer goods logistics with delivery-window control, escalation discipline, and decision-ready visibility.",
       cta: { label: "Review Your Retail Network", href: "/contact", ctaId: "industry_retail_hero_contact" },
       secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_retail_hero_capabilities" },
       theme: "blue",
@@ -642,7 +642,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       interactiveWidget: "demand-surge",
       widgetSupportTitle: "Surge Exposure Across Retail Networks",
       widgetSupportBody:
-        "Demand volatility, node density, and border exposure shift pressure unevenly across retail networks. SSP uses the same planning logic to identify where queue risk, stockout exposure, and service deterioration are most likely to build first.",
+        "Demand volatility, node density, and border exposure shift pressure unevenly across retail networks. We use the same planning logic to identify where queue risk, stockout exposure, and service deterioration are most likely to build first.",
       widgetSupportBullets: [
         "Store-led replenishment often follows a steadier cadence, while omnichannel volume introduces sharper peaks and less forgiving node pressure.",
         "More nodes can reduce queue concentration, but only when routing logic, appointment control, and visibility remain aligned.",
@@ -691,7 +691,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       aside: {
         badge: "Retail operating model",
         title: "Execution built for shelf availability, window discipline, and network control.",
-        body: "Retail freight is judged at receiving, in inventory positions, and during peak periods when the margin for error narrows. SSP runs retail programs with planned cadence, clean handoffs, and escalation ownership that holds under pressure.",
+        body: "Retail freight is judged at receiving, in inventory positions, and during peak periods when the margin for error narrows. We run retail programs with planned cadence, clean handoffs, and escalation ownership that holds under pressure.",
         bullets: [
           "Campaign-aware planning across stores, DCs, and replenishment lanes",
           "Cross-border coordination that protects Canada-US-Mexico retail flow",
@@ -707,7 +707,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     },
     trustProof: {
       sectionTitle: "Operating Standards Buyers Can Verify",
-      comparisonHeading: "SSP operating standards vs. common retail freight practice",
+      comparisonHeading: "Our operating standards vs. common retail freight practice",
       intro:
         "Retail freight is not judged by how many modes a provider lists. It is judged by whether replenishment, receiving, and cross-border execution stay controlled when the network comes under pressure.",
       pillars: [
@@ -828,7 +828,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       valueHeadline: "Freshness integrity, protected.",
       title: "Cold-Chain Integrity from Origin to Receiving",
       description:
-        "From temperature-controlled replenishment and retail-ready food freight to freshness-sensitive cross-border lanes across North America, SSP manages food and beverage logistics with temperature discipline, transit-time control, and compliance-ready records that protect product quality in motion.",
+        "From temperature-controlled replenishment and retail-ready food freight to freshness-sensitive cross-border lanes across North America, we manages food and beverage logistics with temperature discipline, transit-time control, and compliance-ready records that protect product quality in motion.",
       cta: { label: "Review Your Cold-Chain Network", href: "/contact", ctaId: "industry_food_hero_contact" },
       secondaryCta: { label: "See the Operating Model", href: "#how-we-support", ctaId: "industry_food_hero_capabilities" },
       theme: "green",
@@ -909,7 +909,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       aside: {
         badge: "Cold-chain operating model",
         title: "Execution built for temperature discipline, freshness protection, and traceable control.",
-        body: "Food and beverage freight is judged by what happens between pickup, transit, and receiving when temperature drift or time-at-risk begins to expand. SSP runs cold-chain programs with tighter thermal governance, cleaner handoffs, and visibility teams can use before integrity risk compounds.",
+        body: "Food and beverage freight is judged by what happens between pickup, transit, and receiving when temperature drift or time-at-risk begins to expand. We run cold-chain programs with tighter thermal governance, cleaner handoffs, and visibility teams can use before integrity risk compounds.",
         bullets: [
           "Lane planning aligned to product sensitivity, temperature band, and receiving-window requirements",
           "Cold-chain execution designed to reduce dwell, protect freshness windows, and preserve product condition",
@@ -925,7 +925,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     },
     trustProof: {
       sectionTitle: "The SSP Standard",
-      comparisonHeading: "SSP vs. typical market practice",
+      comparisonHeading: "Our approach vs. typical market practice",
       intro:
         "Food and beverage teams compare partners on cold-chain exposure controls, compliance rigor, and visibility during freshness-sensitive windows.",
       pillars: [
@@ -1040,7 +1040,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       valueHeadline: "Project schedules, protected.",
       title: "Site-Critical Freight, Delivered on Schedule",
       description:
-        "From heavy equipment and structural steel to building materials and oversized loads across North America, SSP manages construction freight with permit-aware route engineering, safety-governed execution, and checkpoint visibility that keeps project timelines intact.",
+        "From heavy equipment and structural steel to building materials and oversized loads across North America, we manages construction freight with permit-aware route engineering, safety-governed execution, and checkpoint visibility that keeps project timelines intact.",
       cta: {
         label: "Review Your Project-Specific Freight",
         href: "/contact",
@@ -1125,7 +1125,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       aside: {
         badge: "Project freight operating model",
         title: "Execution built for permit control, safety governance, and schedule-protected delivery.",
-        body: "Construction freight is judged at the site gate, during permit windows, and when project schedules compress. SSP runs project freight with engineered route planning, safety-governed execution, and checkpoint ownership that holds when conditions shift across the corridor.",
+        body: "Construction freight is judged at the site gate, during permit windows, and when project schedules compress. We run project freight with engineered route planning, safety-governed execution, and checkpoint ownership that holds when conditions shift across the corridor.",
         bullets: [
           "Permit and route engineering completed before heavy-haul or oversized loads are released to move",
           "Safety-governed execution with clear operational command from dispatch through site delivery",
@@ -1141,9 +1141,9 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     },
     trustProof: {
       sectionTitle: "The SSP Standard",
-      comparisonHeading: "SSP vs. typical market practice",
+      comparisonHeading: "Our approach vs. typical market practice",
       intro:
-        "Construction freight is judged by permit readiness, delivery-window control, and checkpoint visibility under live project pressure. SSP is built to protect site schedules with engineered routing, compliance discipline, and clear operational ownership.",
+        "Construction freight is judged by permit readiness, delivery-window control, and checkpoint visibility under live project pressure. We is built to protect site schedules with engineered routing, compliance discipline, and clear operational ownership.",
       pillars: [
         {
           title: "Insurance Coverage",
@@ -1251,7 +1251,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     meta: {
       title: "Steel & Aluminum Logistics | Flatbed, Heavy Freight & Cross-Border Metals | SSP Group",
       description:
-        "Steel and aluminum logistics for coils, plate, extrusions, and high-density freight across Canada, the United States, and Mexico. SSP manages metal freight with engineered securement, route control, and accountable execution.",
+        "Steel and aluminum logistics for coils, plate, extrusions, and high-density freight across Canada, the United States, and Mexico. We manage metal freight with engineered securement, route control, and accountable execution.",
       heroImage: "/_optimized/industries/steel-hero-premium-v1.png",
       ogImage: "/_optimized/industries/steel-hero-premium-v1.png",
     },
@@ -1260,7 +1260,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       valueHeadline: "Load integrity protected.",
       title: "Heavy Freight Engineered for Safe Arrival",
       description:
-        "From coils, plate, and extrusions to high-density mill freight and cross-border metal flows across Canada, the United States, and Mexico, SSP manages steel and aluminum logistics with engineered load planning, route discipline, and clear operational ownership from pickup through delivery.",
+        "From coils, plate, and extrusions to high-density mill freight and cross-border metal flows across Canada, the United States, and Mexico, we manages steel and aluminum logistics with engineered load planning, route discipline, and clear operational ownership from pickup through delivery.",
       cta: {
         label: "Review Your Metal Freight Network",
         href: "/contact",
@@ -1301,7 +1301,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       interactiveWidget: "load-balance-axle",
       widgetSupportTitle: "Load Balance and Axle-Control Planning",
       widgetSupportBody:
-        "For high-density metal freight, load distribution and center-of-gravity control directly shape axle pressure, handling stability, and route feasibility. SSP uses this planning logic to identify imbalance risk before the load is released to move.",
+        "For high-density metal freight, load distribution and center-of-gravity control directly shape axle pressure, handling stability, and route feasibility. We use this planning logic to identify imbalance risk before the load is released to move.",
       widgetSupportBullets: [
         "Balanced distribution protects axle pressure, trailer behavior, and securement performance under heavy load.",
         "As total weight rises, tolerance narrows and placement discipline becomes more important than generic dispatch assumptions.",
@@ -1350,7 +1350,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       aside: {
         badge: "Metal freight operating model",
         title: "Execution built for load physics, route discipline, and controlled delivery.",
-        body: "Steel and aluminum freight is judged by what happens before dispatch, during handoff, and at receiving. SSP runs metal programs with engineered loading posture, route-ready planning, and owner-led control when heavy-freight conditions start to shift.",
+        body: "Steel and aluminum freight is judged by what happens before dispatch, during handoff, and at receiving. We run metal programs with engineered loading posture, route-ready planning, and owner-led control when heavy-freight conditions start to shift.",
         bullets: [
           "Load planning built around securement, axle balance, and destination handling constraints",
           "Route and site-readiness checked before dense freight is released to move",
@@ -1366,7 +1366,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     },
     trustProof: {
       sectionTitle: "Operating Standards Buyers Can Verify",
-      comparisonHeading: "SSP operating standards vs. common heavy-freight practice",
+      comparisonHeading: "Our operating standards vs. common heavy-freight practice",
       intro:
         "Steel and aluminum buyers do not judge partners by whether they can move heavy freight in theory. They judge them by whether load control, route discipline, and execution ownership hold when dense cargo and restrictive lanes leave less margin for error.",
       pillars: [
@@ -1482,7 +1482,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     meta: {
       title: "Chemical & Plastics Logistics | Hazmat, Compliant Freight & Cross-Border Control | SSP Group",
       description:
-        "Chemical and plastics logistics across Canada, the United States, and Mexico. SSP manages regulated freight with carrier qualification, documentation governance, classification-specific handling, and controlled cross-border execution.",
+        "Chemical and plastics logistics across Canada, the United States, and Mexico. We manage regulated freight with carrier qualification, documentation governance, classification-specific handling, and controlled cross-border execution.",
       heroImage: "/_optimized/industries/chemical-hero-premium-v1.png",
       ogImage: "/_optimized/industries/chemical-hero-premium-v1.png",
     },
@@ -1491,7 +1491,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       valueHeadline: "Compliance controlled.",
       title: "Regulated Freight Under Governed Control",
       description:
-        "From resins and specialty compounds to cross-border regulated freight across Canada, the United States, and Mexico, SSP manages chemical and plastics shipments with carrier qualification, document control, and disciplined execution.",
+        "From resins and specialty compounds to cross-border regulated freight across Canada, the United States, and Mexico, we manages chemical and plastics shipments with carrier qualification, document control, and disciplined execution.",
       cta: { label: "Review Your Chemical Network", href: "/contact", ctaId: "industry_chemical_hero_contact" },
       secondaryCta: {
         label: "See the Operating Model",
@@ -1568,7 +1568,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       aside: {
         badge: "Regulated freight operating model",
         title: "Execution built for qualification control, document discipline, and governed escalation.",
-        body: "Chemical and plastics buyers feel risk before the truck even moves. SSP runs regulated freight with carrier release controls, shipment-level documentation checks, and escalation ownership that stays clear when conditions tighten across the lane.",
+        body: "Chemical and plastics buyers feel risk before the truck even moves. We run regulated freight with carrier release controls, shipment-level documentation checks, and escalation ownership that stays clear when conditions tighten across the lane.",
         bullets: [
           "Carrier qualification and release controls reviewed against the actual shipment before dispatch",
           "Documentation checkpoints designed to catch classification, placarding, and border-facing gaps early",
@@ -1584,7 +1584,7 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
     },
     trustProof: {
       sectionTitle: "Operating Standards Buyers Can Verify",
-      comparisonHeading: "SSP operating standards vs. common regulated-freight practice",
+      comparisonHeading: "Our operating standards vs. common regulated-freight practice",
       intro:
         "Chemical and plastics buyers do not judge partners by whether they claim compliance. They judge them by whether qualification, documentation, and handling controls still hold when regulated freight is moving across jurisdictions and decision windows tighten.",
       pillars: [

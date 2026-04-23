@@ -28,7 +28,7 @@ import { cn } from "@/lib/cn";
    ───────────────────────────────────────────────────────────────── */
 
 const SECTION_EYEBROW = "Industries We Serve";
-/* Headline rhymes intentionally with the "What SSP Moves" section
+/* Headline rhymes intentionally with the "What we move" section
    above — "Four ways we move freight." ↔ "Seven sectors. One standard."
    The numeric pairing (four / seven) gives the homepage a subtle
    numerical rhythm as the reader scrolls, and the period-hard
@@ -503,7 +503,7 @@ export function IndustriesEditorialSection() {
       />
 
       <Container className="site-page-container relative z-[1]">
-        {/* Header — mirrors the editorial header on "What SSP Moves":
+        {/* Header — mirrors the editorial header on "What we move":
             eyebrow + headline + support copy on the left, directory
             link on the right. */}
         <motion.div

@@ -18,7 +18,7 @@ import { cn } from "@/lib/cn";
 const SECTION_EYEBROW = "Why SSP";
 const SECTION_TITLE = "Execution built for control.";
 const SECTION_SUPPORT =
-  "SSP links asset-based capacity to dispatch-led control across North America, from booking through final delivery. Ownership stays explicit, updates stay timely, and when conditions change, the next move is already defined so the load does not drift into ambiguity.";
+  "We link asset-based capacity to dispatch-led control across North America, from booking through final delivery. Ownership stays explicit, updates stay timely, and when conditions change, the next move is already defined so the load does not drift into ambiguity.";
 const SECTION_HEADER_CTA_LABEL = "About SSP Group";
 const SECTION_HEADER_CTA_HREF = "/about-us";
 
@@ -232,13 +232,13 @@ const PILLARS: readonly Pillar[] = [
     id: "own-the-load",
     icon: "execution",
     title: "Operational ownership is defined early",
-    body: "Freight performs better when planning, communication, and escalation ownership are clear before the shipment starts moving. That discipline is built into how SSP runs every load.",
+    body: "Freight performs better when planning, communication, and escalation ownership are clear before the shipment starts moving. That discipline is built into how we run every load.",
   },
   {
     id: "ship-what-we-promise",
     icon: "capacity",
     title: "Capacity is backed by execution discipline",
-    body: "Assets matter, but so do routing decisions, communication cadence, and follow-through. SSP pairs fleet strength with trusted carrier support so capacity stays usable when conditions tighten.",
+    body: "Assets matter, but so do routing decisions, communication cadence, and follow-through. We pairs fleet strength with trusted carrier support so capacity stays usable when conditions tighten.",
   },
   {
     id: "show-up-ready",
@@ -691,7 +691,7 @@ export function WhySspSection() {
             className={`relative ml-auto w-full overflow-visible ${STAGE_SIZE_CLASS} ${STAGE_POSITION_CLASS}`}
             style={{ aspectRatio: STAGE_ASPECT }}
             role="img"
-            aria-label="SSP lead truck flanked by two follower trucks in escort formation with a cyan lane under the lead"
+            aria-label="We lead truck flanked by two follower trucks in escort formation with a cyan lane under the lead"
           >
             <WhySspLeadCyanLaneSimplified p={p} />
             <AnimatedTruck

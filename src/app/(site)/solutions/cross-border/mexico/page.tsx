@@ -11,7 +11,7 @@ import {
 
 const PAGE_TITLE = "Mexico Cross-Border Freight | Security-Grade Corridor Execution";
 const PAGE_DESCRIPTION =
-  "SSP operates managed freight programs across the U.S.–Mexico border with pedimento-aligned documentation, controlled border-zone transfers, security governance calibrated to corridor conditions, and disciplined execution through Laredo, El Paso, Nogales, and high-volume crossings.";
+  "We operate managed freight programs across the U.S.–Mexico border with pedimento-aligned documentation, controlled border-zone transfers, security governance calibrated to corridor conditions, and disciplined execution through Laredo, El Paso, Nogales, and high-volume crossings.";
 const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/mexico-hero-v2.png";
 
 /* ── Data ─────────────────────────────────────────────────────────────── */
@@ -74,7 +74,7 @@ const processSteps = [
   {
     step: "01",
     title: "Corridor qualification",
-    body: "Route conditions, security profile, commodity requirements, and documentation standards evaluated before freight is committed. SSP qualifies the corridor, not just the lane.",
+    body: "Route conditions, security profile, commodity requirements, and documentation standards evaluated before freight is committed. We qualify the corridor, not just the lane.",
   },
   {
     step: "02",
@@ -95,27 +95,27 @@ const processSteps = [
 
 const faqItems = [
   {
-    q: "Which Mexico border crossings does SSP operate through?",
-    a: "SSP manages freight programs through Laredo (Nuevo Laredo), El Paso (Ciudad Juarez), Nogales, Otay Mesa (Tijuana), and additional crossings selected based on corridor requirements, commodity profile, and route-security conditions.",
+    q: "Which Mexico border crossings do we operate through?",
+    a: "We manage freight programs through Laredo (Nuevo Laredo), El Paso (Ciudad Juarez), Nogales, Otay Mesa (Tijuana), and additional crossings selected based on corridor requirements, commodity profile, and route-security conditions.",
   },
   {
-    q: "How does SSP handle pedimento requirements?",
+    q: "How do we handle pedimento requirements?",
     a: "Through pre-movement documentation preparation, customs-agent coordination, and pedimento filing discipline built into the corridor operating playbook. All documentation is validated before freight reaches the border zone.",
   },
   {
-    q: "What security controls does SSP apply to Mexico freight?",
+    q: "What security controls do we apply to Mexico freight?",
     a: "Route-risk assessment, cargo sensitivity classification, vetted carrier networks with established security records, real-time GPS monitoring, and structured escalation protocols. Security posture is calibrated to each corridor's specific conditions.",
   },
   {
-    q: "Can SSP manage cross-dock and relay transfers at the border?",
-    a: "Yes. SSP coordinates cross-dock operations, trailer-to-trailer transfers, and relay movements at major border crossings where direct crossing is restricted or operationally impractical.",
+    q: "Can we manage cross-dock and relay transfers at the border?",
+    a: "Yes. We coordinate cross-dock operations, trailer-to-trailer transfers, and relay movements at major border crossings where direct crossing is restricted or operationally impractical.",
   },
   {
-    q: "Does SSP handle northbound (Mexico to U.S.) freight?",
-    a: "Yes. SSP manages bilateral programs in both directions. Northbound freight includes U.S. CBP re-entry documentation, broker coordination, and entry-summary data preparation alongside Mexican export requirements.",
+    q: "Do we handle northbound (Mexico to U.S.) freight?",
+    a: "Yes. We manage bilateral programs in both directions. Northbound freight includes U.S. CBP re-entry documentation, broker coordination, and entry-summary data preparation alongside Mexican export requirements.",
   },
   {
-    q: "How does SSP govern freight security in high-risk corridors?",
+    q: "How do we govern freight security in high-risk corridors?",
     a: "Through route-specific risk assessments, carrier vetting calibrated to corridor sensitivity, real-time monitoring, defined escalation protocols, and governance reviews that track incident trends and response effectiveness over time.",
   },
 ] as const;
@@ -185,7 +185,7 @@ export default function MexicoCrossBorderPage() {
       <CorridorHero
         eyebrow="Mexico Cross-Border"
         title="U.S.–Mexico freight with security-grade control across every corridor."
-        description="SSP operates managed freight programs across the U.S.–Mexico border with pedimento-aligned documentation, controlled border-zone transfers, security governance calibrated to corridor conditions, and disciplined execution through Laredo, El Paso, Nogales, and high-volume crossings."
+        description="We operate managed freight programs across the U.S.–Mexico border with pedimento-aligned documentation, controlled border-zone transfers, security governance calibrated to corridor conditions, and disciplined execution through Laredo, El Paso, Nogales, and high-volume crossings."
         primaryCta={{ label: "Discuss Your Requirements", href: "/contact", ctaId: "cb_mexico_hero_contact" }}
         secondaryCta={{ label: "Explore Capabilities", href: "#capabilities", ctaId: "cb_mexico_hero_capabilities" }}
         flag="mexico"
@@ -212,7 +212,7 @@ export default function MexicoCrossBorderPage() {
 
       <CorridorStepsSection
         eyebrow="How It Works"
-        title="How SSP builds and governs a Mexico cross-border freight program."
+        title="How We build and governs a Mexico cross-border freight program."
         description="Every corridor follows a defined execution framework: qualify the corridor, control the documentation, execute the border transfer, govern with security discipline."
         steps={processSteps}
       />
@@ -227,7 +227,7 @@ export default function MexicoCrossBorderPage() {
       <CorridorCtaSection
         eyebrow="Start Your Program"
         title="Build a Mexico freight program with security-grade operational discipline."
-        description="Share your corridor requirements, commodity profile, and security priorities. SSP will scope a structured program designed for the U.S.–Mexico corridor."
+        description="Share your corridor requirements, commodity profile, and security priorities. We will scope a structured program designed for the U.S.–Mexico corridor."
         pills={["Pedimento-aligned workflows", "Border-zone coordination", "Security governance", "Bilateral compliance"]}
         primaryCta={{ label: "Request a Corridor Assessment", href: "/quote", ctaId: "cb_mexico_final_quote" }}
         secondaryCta={{ label: "Contact SSP Group", href: "/contact", ctaId: "cb_mexico_final_contact" }}

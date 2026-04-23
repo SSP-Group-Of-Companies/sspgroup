@@ -38,7 +38,7 @@ const Svg = ({ children }: { children: ReactNode }) => (
   </svg>
 );
 
-/** Freight — long-hood tractor silhouette, SSP chevron lean. */
+/** Freight — long-hood tractor silhouette, we chevron lean. */
 const FreightGlyph: FC = () => (
   <Svg>
     <path d="M3 20V11h14v9" />

@@ -152,7 +152,7 @@ function VideoCard({
             <div className="flex items-center gap-2">
               <LogoImage
                 src="/_optimized/brand/SSPlogo.png"
-                alt="SSP logo"
+                alt="We logo"
                 width={20}
                 height={20}
                 className="h-5 w-5 object-contain"

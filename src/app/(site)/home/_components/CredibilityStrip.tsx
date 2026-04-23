@@ -66,7 +66,7 @@ function StatFigure({ children, className }: { children: string; className?: str
  */
 function StatValue({ value }: { value: string }) {
   return (
-    <span className="flex h-[clamp(2.42rem,5.25vw,3.2rem)] items-end justify-center overflow-visible">
+    <span className="flex h-[clamp(2.42rem,5.25vw,3.2rem)] items-center justify-center overflow-visible">
       <StatFigure className="text-[clamp(2.42rem,5.25vw,3.2rem)] tabular-nums">
         {value}
       </StatFigure>
@@ -74,34 +74,38 @@ function StatValue({ value }: { value: string }) {
   );
 }
 
+/** All three orbs + inner flags share one size so the row matches the
+ * 10+ / 24/7 cap band and connector lines read through the true centers. */
+const FLAG_ORB = "h-[2.2rem] w-[2.2rem] sm:h-9 sm:w-9" as const;
+const FLAG_IMG = "h-[1.45rem] w-[1.45rem] sm:h-6 sm:w-6" as const;
+
 function NetworkValue({ countries }: { countries: NetworkStat["countries"] }) {
   return (
     <div
-      className="flex h-[clamp(2.42rem,5.25vw,3.2rem)] w-full max-w-full items-end justify-center"
+      className="flex h-[clamp(2.42rem,5.25vw,3.2rem)] w-full max-w-full items-center justify-center"
       aria-label={countries.map((country) => country.name).join(", ")}
     >
-      <div className="relative flex h-[3.05rem] w-[9.5rem] items-end justify-center sm:w-[10.1rem]">
+      {/* Row height comes from the three orbs; line uses top-1/2 of that row */}
+      <div className="relative flex w-full max-w-[10.5rem] items-center justify-center sm:max-w-[11rem]">
         <div
           aria-hidden
-          className="absolute inset-x-2.5 top-1/2 h-px -translate-y-1/2"
+          className="pointer-events-none absolute left-[12%] right-[12%] top-1/2 z-0 h-px -translate-y-1/2"
           style={{
             background:
-              "linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--color-ssp-cyan-500) 34%, white) 16%, color-mix(in srgb, var(--color-ssp-cyan-500) 72%, white) 50%, color-mix(in srgb, var(--color-ssp-cyan-500) 34%, white) 84%, transparent 100%)",
+              "linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--color-ssp-cyan-500) 34%, white) 12%, color-mix(in srgb, var(--color-ssp-cyan-500) 72%, white) 50%, color-mix(in srgb, var(--color-ssp-cyan-500) 34%, white) 88%, transparent 100%)",
           }}
         />
         <div
           aria-hidden
-          className="absolute inset-x-4 top-1/2 h-px -translate-y-1/2 opacity-70"
+          className="pointer-events-none absolute left-[14%] right-[14%] top-1/2 z-0 h-px -translate-y-1/2 opacity-70"
           style={{
             backgroundImage:
               "repeating-linear-gradient(90deg, transparent 0 5px, color-mix(in srgb, var(--color-ssp-cyan-500) 68%, white) 5px 9px)",
           }}
         />
 
-        <div className="relative z-[1] flex items-end justify-center gap-2 sm:gap-2.5">
-          {countries.map((country, index) => {
-            const isCenter = index === 1;
-            return (
+        <div className="relative z-[1] flex items-center justify-center gap-2 sm:gap-2.5">
+          {countries.map((country) => (
             <span
               key={country.name}
               className={cn(
@@ -109,7 +113,7 @@ function NetworkValue({ countries }: { countries: NetworkStat["countries"] }) {
                 "border border-white/85 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,249,253,0.96))]",
                 "shadow-[0_10px_24px_rgba(2,6,23,0.09),inset_0_1px_0_rgba(255,255,255,0.92),inset_0_-1px_0_rgba(148,163,184,0.12)]",
                 "ring-1 ring-[rgba(16,167,216,0.08)]",
-                isCenter ? "h-[2.32rem] w-[2.32rem]" : "h-[2.05rem] w-[2.05rem]",
+                FLAG_ORB,
               )}
             >
               <span
@@ -119,16 +123,12 @@ function NetworkValue({ countries }: { countries: NetworkStat["countries"] }) {
               <Image
                 src={country.src}
                 alt={country.alt}
-                width={isCenter ? 34 : 30}
-                height={isCenter ? 34 : 30}
-                className={cn(
-                  "relative z-[1] rounded-full object-cover",
-                  isCenter ? "h-[1.62rem] w-[1.62rem]" : "h-[1.4rem] w-[1.4rem]",
-                )}
+                width={32}
+                height={32}
+                className={cn("relative z-[1] rounded-full object-cover", FLAG_IMG)}
               />
             </span>
-            );
-          })}
+          ))}
         </div>
       </div>
     </div>
@@ -148,11 +148,11 @@ export function CredibilityStrip() {
       className="relative bg-transparent antialiased"
     >
       <h2 id="home-credibility-strip-heading" className="sr-only">
-        SSP at a glance
+        At a glance
       </h2>
       <Container className="site-page-container pb-8 pt-12 sm:pb-9 sm:pt-14 lg:pb-10 lg:pt-16">
         <motion.ul
-          className="mx-auto flex flex-col items-center gap-y-10 sm:flex-row sm:items-end sm:justify-center sm:gap-y-0 sm:gap-x-5 md:gap-x-7 lg:gap-x-9"
+          className="mx-auto flex flex-col items-center gap-y-10 sm:flex-row sm:items-stretch sm:justify-center sm:gap-y-0 sm:gap-x-5 md:gap-x-7 lg:gap-x-9"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}

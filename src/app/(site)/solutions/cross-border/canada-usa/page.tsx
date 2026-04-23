@@ -11,7 +11,7 @@ import {
 
 const PAGE_TITLE = "Canada–USA Cross-Border Freight | Managed Corridor Programs";
 const PAGE_DESCRIPTION =
-  "SSP operates managed freight programs across the Canada–USA border with CUSMA-aligned documentation, coordinated customs brokerage, strategic crossing selection, and structured governance from first mile to final delivery.";
+  "We operate managed freight programs across the Canada–USA border with CUSMA-aligned documentation, coordinated customs brokerage, strategic crossing selection, and structured governance from first mile to final delivery.";
 const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/canada-usa-hero-v2.png";
 
 /* ── Data ─────────────────────────────────────────────────────────────── */
@@ -99,15 +99,15 @@ const processSteps = [
 
 const faqItems = [
   {
-    q: "Which border crossings does SSP manage for Canada–USA freight?",
-    a: "SSP operates programs through Ambassador Bridge (Windsor–Detroit), Peace Bridge (Fort Erie–Buffalo), Pacific Highway (Surrey–Blaine), Blue Water Bridge (Point Edward–Port Huron), and additional crossings matched to lane requirements and commodity profiles.",
+    q: "Which border crossings do we manage for Canada–USA freight?",
+    a: "We operate programs through Ambassador Bridge (Windsor–Detroit), Peace Bridge (Fort Erie–Buffalo), Pacific Highway (Surrey–Blaine), Blue Water Bridge (Point Edward–Port Huron), and additional crossings matched to lane requirements and commodity profiles.",
   },
   {
-    q: "Does SSP handle both northbound and southbound freight?",
-    a: "Yes. SSP manages bilateral programs with dedicated playbooks for each direction, including country-specific documentation, broker coordination, and distinct clearance workflows for CBP (U.S.-bound) and CBSA (Canada-bound).",
+    q: "Do we handle both northbound and southbound freight?",
+    a: "Yes. We manage bilateral programs with dedicated playbooks for each direction, including country-specific documentation, broker coordination, and distinct clearance workflows for CBP (U.S.-bound) and CBSA (Canada-bound).",
   },
   {
-    q: "How does SSP manage CUSMA compliance?",
+    q: "How do we manage CUSMA compliance?",
     a: "Through pre-movement rules-of-origin verification, tariff classification review, and certificate-of-origin coordination between shipper, customs broker, and the SSP program team. Documentation is validated before dispatch to prevent clearance delays.",
   },
   {
@@ -115,8 +115,8 @@ const faqItems = [
     a: "Dry van, flatbed, step deck, temperature-controlled, hazmat, LTL, and expedited. Equipment is matched to commodity profile, lane requirements, and regulatory constraints on both sides of the border.",
   },
   {
-    q: "How does SSP handle unexpected delays at the border?",
-    a: "Every program includes pre-defined exception protocols. When delays occur, SSP initiates escalation within the agreed program response window, coordinates with the customs broker, and communicates revised ETAs to the shipper in real time.",
+    q: "How do we handle unexpected delays at the border?",
+    a: "Every program includes pre-defined exception protocols. When delays occur, we initiates escalation within the agreed program response window, coordinates with the customs broker, and communicates revised ETAs to the shipper in real time.",
   },
   {
     q: "What level of visibility do shippers receive?",
@@ -189,7 +189,7 @@ export default function CanadaUsaPage() {
       <CorridorHero
         eyebrow="Canada–USA Corridor"
         title="Cross-border freight for North America's highest-volume trade corridor."
-        description="SSP operates managed freight programs across the Canada–USA border with CUSMA-aligned documentation, coordinated customs brokerage, strategic crossing selection, and structured governance from first mile to final delivery."
+        description="We operate managed freight programs across the Canada–USA border with CUSMA-aligned documentation, coordinated customs brokerage, strategic crossing selection, and structured governance from first mile to final delivery."
         primaryCta={{ label: "Discuss Your Requirements", href: "/contact", ctaId: "cb_canada_usa_hero_contact" }}
         secondaryCta={{ label: "Explore Capabilities", href: "#capabilities", ctaId: "cb_canada_usa_hero_capabilities" }}
         flag="canada-usa"
@@ -209,14 +209,14 @@ export default function CanadaUsaPage() {
 
       <CorridorGlassSection
         eyebrow="The SSP Difference"
-        title="What separates SSP from standard cross-border providers."
-        description="Carrier coverage is table stakes. SSP builds the operating framework around your freight: documentation controls, crossing strategy, broker alignment, and lane-level governance designed to prevent failures before they occur."
+        title="What separates us from standard cross-border providers."
+        description="Carrier coverage is table stakes. We build the operating framework around your freight: documentation controls, crossing strategy, broker alignment, and lane-level governance designed to prevent failures before they occur."
         cards={differentiators}
       />
 
       <CorridorStepsSection
         eyebrow="How It Works"
-        title="How SSP builds and governs a Canada–USA freight program."
+        title="How We build and governs a Canada–USA freight program."
         description="Every corridor follows a defined execution framework: scope the program, align the network, execute to plan, govern with data."
         steps={processSteps}
       />
@@ -231,7 +231,7 @@ export default function CanadaUsaPage() {
       <CorridorCtaSection
         eyebrow="Start Your Program"
         title="Build a Canada–USA freight program with operational discipline."
-        description="Share your lane requirements and service priorities. SSP will scope a structured program designed for your corridor."
+        description="Share your lane requirements and service priorities. We will scope a structured program designed for your corridor."
         pills={["Lane-level onboarding", "CUSMA-aligned workflows", "Dedicated corridor team", "Bilateral broker coordination"]}
         primaryCta={{ label: "Request a Corridor Assessment", href: "/quote", ctaId: "cb_canada_usa_final_quote" }}
         secondaryCta={{ label: "Contact SSP Group", href: "/contact", ctaId: "cb_canada_usa_final_contact" }}

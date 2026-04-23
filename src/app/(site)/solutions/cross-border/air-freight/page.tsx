@@ -11,7 +11,7 @@ import {
 
 const PAGE_TITLE = "Cross-Border Air Freight | Time-Critical Logistics";
 const PAGE_DESCRIPTION =
-  "SSP manages cross-border air freight for time-critical shipments across Canada, the U.S., and Mexico with customs pre-clearance coordination, door-to-door execution, and recovery options when ground transit cannot meet the deadline.";
+  "We manage cross-border air freight for time-critical shipments across Canada, the U.S., and Mexico with customs pre-clearance coordination, door-to-door execution, and recovery options when ground transit cannot meet the deadline.";
 const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/air-hero-globe.png";
 
 /* ── Data ─────────────────────────────────────────────────────────────── */
@@ -46,11 +46,11 @@ const coreCapabilities = [
 const differentiators = [
   {
     title: "Production-Line Recovery",
-    body: "When a ground shipment fails and a manufacturing line depends on receiving freight within hours, SSP executes air recovery with the urgency the situation demands.",
+    body: "When a ground shipment fails and a manufacturing line depends on receiving freight within hours, we executes air recovery with the urgency the situation demands.",
   },
   {
     title: "Asset-Backed Ground Legs",
-    body: "SSP coordinates pickup and delivery through its asset network and approved operating partners, keeping one team accountable from your facility to the airport and through final handoff.",
+    body: "We coordinate pickup and delivery through its asset network and approved operating partners, keeping one team accountable from your facility to the airport and through final handoff.",
   },
   {
     title: "Cross-Border Specialization",
@@ -66,7 +66,7 @@ const processSteps = [
   {
     step: "01",
     title: "Requirement assessment",
-    body: "Shipment urgency, dimensions, commodity profile, and delivery deadline evaluated. SSP determines whether next-flight-out, consolidated, or charter is the optimal solution.",
+    body: "Shipment urgency, dimensions, commodity profile, and delivery deadline evaluated. We determines whether next-flight-out, consolidated, or charter is the optimal solution.",
   },
   {
     step: "02",
@@ -88,14 +88,14 @@ const processSteps = [
 const faqItems = [
   {
     q: "When should I use air freight instead of ground?",
-    a: "When the delivery deadline cannot be met by ground transit, the shipment is a production-critical recovery, or the cost of delay exceeds the cost of air freight. SSP helps evaluate the trade-off and identify the most efficient option.",
+    a: "When the delivery deadline cannot be met by ground transit, the shipment is a production-critical recovery, or the cost of delay exceeds the cost of air freight. We helps evaluate the trade-off and identify the most efficient option.",
   },
   {
-    q: "Does SSP handle customs clearance for air freight?",
-    a: "Yes. SSP coordinates export documentation, import clearance, and broker alignment for cross-border air shipments, including pre-clearance through CBSA and CBP where possible to reduce airport dwell time.",
+    q: "Do we handle customs clearance for air freight?",
+    a: "Yes. We coordinate export documentation, import clearance, and broker alignment for cross-border air shipments, including pre-clearance through CBSA and CBP where possible to reduce airport dwell time.",
   },
   {
-    q: "How quickly can SSP arrange a cross-border air shipment?",
+    q: "How quickly can we arrange a cross-border air shipment?",
     a: "Next-flight-out options can be arranged within hours for urgent recoveries. Consolidated and scheduled air freight typically requires 24–48 hours of lead time depending on origin, destination, and carrier availability.",
   },
   {
@@ -103,12 +103,12 @@ const faqItems = [
     a: "Limits depend on the aircraft type and route. Commercial flights handle standard palletized freight up to standard ULD dimensions. Charter options accommodate oversized, heavy, or multi-piece shipments with dedicated capacity.",
   },
   {
-    q: "Can SSP handle temperature-controlled or hazardous air cargo?",
-    a: "Yes. SSP manages air freight for temperature-sensitive pharmaceuticals, perishables, and classified hazardous materials with certified packaging, compliant labeling, and carrier coordination for regulated commodities.",
+    q: "Can we handle temperature-controlled or hazardous air cargo?",
+    a: "Yes. We manage air freight for temperature-sensitive pharmaceuticals, perishables, and classified hazardous materials with certified packaging, compliant labeling, and carrier coordination for regulated commodities.",
   },
   {
-    q: "Does SSP manage the ground legs on both sides?",
-    a: "Yes. SSP coordinates the ground legs on both sides through its asset network and approved operating partners, with one team accountable for pickup, airport transfer, and final delivery.",
+    q: "Do we manage the ground legs on both sides?",
+    a: "Yes. We coordinate the ground legs on both sides through its asset network and approved operating partners, with one team accountable for pickup, airport transfer, and final delivery.",
   },
 ] as const;
 
@@ -177,7 +177,7 @@ export default function CrossBorderAirFreightPage() {
       <AirHero
         eyebrow="Cross-Border Air Freight"
         title="Time-critical air freight across borders, managed from pickup to delivery."
-        description="When ground transit cannot meet the deadline, SSP executes cross-border air freight with customs pre-clearance, door-to-door coordination, and asset-backed ground legs on both ends. Canada, the U.S., and Mexico. Hours, not weeks."
+        description="When ground transit cannot meet the deadline, we executes cross-border air freight with customs pre-clearance, door-to-door coordination, and asset-backed ground legs on both ends. Canada, the U.S., and Mexico. Hours, not weeks."
         primaryCta={{ label: "Discuss Your Requirements", href: "/contact", ctaId: "cb_air_freight_hero_contact" }}
         secondaryCta={{ label: "Explore Capabilities", href: "#capabilities", ctaId: "cb_air_freight_hero_capabilities" }}
       />
@@ -185,7 +185,7 @@ export default function CrossBorderAirFreightPage() {
       <AirCardSection
         id="capabilities"
         eyebrow="Air Freight Capabilities"
-        title="The full scope of what SSP manages in the air."
+        title="The full scope of what we manage in the air."
         description="From next-flight-out recoveries to consolidated scheduled freight. Every option structured with customs coordination, ground-leg management, and door-to-door execution."
         cards={coreCapabilities}
         layout="sidebar"
@@ -193,8 +193,8 @@ export default function CrossBorderAirFreightPage() {
 
       <AirGlassSection
         eyebrow="The SSP Difference"
-        title="What separates SSP from a standard air freight broker."
-        description="Most brokers book flights. SSP manages the full chain: ground pickup, air transit, customs clearance, and final delivery, with its own fleet on the ground and a single team accountable end to end."
+        title="What separates us from a standard air freight broker."
+        description="Most brokers book flights. We manage the full chain: ground pickup, air transit, customs clearance, and final delivery, with its own fleet on the ground and a single team accountable end to end."
         cards={differentiators}
       />
 
@@ -215,7 +215,7 @@ export default function CrossBorderAirFreightPage() {
       <AirCtaSection
         eyebrow="Start a Shipment"
         title="Need it there fast? Let's move it."
-        description="Share your shipment details, delivery deadline, and origin/destination. SSP will identify the fastest available option and coordinate the full door-to-door execution."
+        description="Share your shipment details, delivery deadline, and origin/destination. We will identify the fastest available option and coordinate the full door-to-door execution."
         pills={["Next-flight-out available", "Customs pre-clearance", "Asset-backed ground legs", "Temperature & hazmat capable"]}
         primaryCta={{ label: "Request an Air Freight Quote", href: "/quote", ctaId: "cb_air_freight_final_quote" }}
         secondaryCta={{ label: "Contact SSP Group", href: "/contact", ctaId: "cb_air_freight_final_contact" }}

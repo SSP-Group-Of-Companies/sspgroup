@@ -32,7 +32,7 @@ const PROOF_ITEMS = [
 
 const HERO_CAPTION_EYEBROW = "North American Freight Operator";
 const HERO_CAPTION_BODY =
-  "SSP combines asset-based capacity, cross-border control, and accountable communication in one operating model.";
+  "We combines asset-based capacity, cross-border control, and accountable communication in one operating model.";
 
 export function AboutSspHero({ data }: { data: HeroData }) {
   const sectionRef = useRef<HTMLElement>(null);

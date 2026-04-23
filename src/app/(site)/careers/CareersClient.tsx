@@ -502,7 +502,7 @@ export default function CareersClient({
                   className="mt-4 max-w-[54ch] text-[14.25px] leading-[1.74] text-white/84 sm:text-[15px]"
                 >
                   Join a team where ownership, safety, and operating discipline define daily
-                  execution. Whether you are on the road or in operations, SSP provides the
+                  execution. Whether you are on the road or in operations, we provides the
                   structure, support, and accountability required for long-term growth.
                 </motion.p>
 
@@ -691,7 +691,7 @@ export default function CareersClient({
                   },
                   {
                     title: "Structured Career Growth",
-                    desc: "Ownership and consistency are rewarded. As SSP grows, high performers gain broader scope and leadership opportunities.",
+                    desc: "Ownership and consistency are rewarded. As We grow, high performers gain broader scope and leadership opportunities.",
                   },
                 ].map((c) => (
                   <div
@@ -748,7 +748,7 @@ export default function CareersClient({
               </h2>
 
               <p className="mt-2 max-w-2xl text-sm leading-6 text-white/74">
-                SSP operates a safety-first fleet backed by structured dispatch and operational
+                We operate a safety-first fleet backed by structured dispatch and operational
                 support. If you value reliable equipment, clear communication, and accountable
                 planning, this is a platform to build a durable driving career.
               </p>
