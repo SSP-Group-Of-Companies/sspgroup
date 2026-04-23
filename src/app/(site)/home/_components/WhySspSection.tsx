@@ -400,12 +400,7 @@ function WhySspLeadCyanLaneSimplified({ p }: { p: number }) {
             <rect x="-20" y="-20" width="200" height="200" fill={`url(#wss-lane-m-${id})`} />
           </mask>
         </defs>
-        {/* Outer <g> runs the subtle bob via CSS keyframes. Framer Motion v12
-            prefers the WAAPI path for prod builds, which has inconsistent
-            support for SVG attribute / transform animation — CSS guarantees
-            identical behavior in dev and prod (reduced-motion is handled by
-            a media query in globals.css). */}
-        <g className="animate-ssp-lane-bob">
+        <g>
           <g mask={`url(#wss-lane-mask-${id})`}>
             <polygon
               points={poly}

@@ -61,7 +61,7 @@ html {
   }
 }
 
-/* Home › Why SSP — lane dashes + subtle bob. CSS-driven so production builds
+/* Home › Why SSP — lane dashes only (cyan road stays static). CSS-driven so production builds
    retain motion regardless of Framer Motion's WAAPI path for SVG presentation
    attributes (stroke-dashoffset is not reliably animated via WAAPI across
    browsers, so we drive it through CSS keyframes instead). */
@@ -73,27 +73,11 @@ html {
     stroke-dashoffset: -32;
   }
 }
-@keyframes sspLaneBob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-2px);
-  }
-}
 .animate-ssp-lane-dash {
   animation: sspLaneDash 2s linear infinite;
 }
-.animate-ssp-lane-bob {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: sspLaneBob 4.5s ease-in-out infinite;
-  will-change: transform;
-}
 @media (prefers-reduced-motion: reduce) {
-  .animate-ssp-lane-dash,
-  .animate-ssp-lane-bob {
+  .animate-ssp-lane-dash {
     animation: none !important;
   }
 }
