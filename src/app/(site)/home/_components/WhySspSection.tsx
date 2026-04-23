@@ -339,13 +339,7 @@ function PillarRow({
   );
 }
 
-function WhySspLeadCyanLaneSimplified({
-  reduced,
-  p,
-}: {
-  reduced: boolean;
-  p: number;
-}) {
+function WhySspLeadCyanLaneSimplified({ p }: { p: number }) {
   const id = React.useId().replace(/:/g, "");
   const poly = leadLanePolygon();
   const maskNear = laneStripPoint(LANE_T0);
@@ -406,11 +400,12 @@ function WhySspLeadCyanLaneSimplified({
             <rect x="-20" y="-20" width="200" height="200" fill={`url(#wss-lane-m-${id})`} />
           </mask>
         </defs>
-        <motion.g
-          style={{ willChange: "transform" }}
-          animate={reduced || p < 1 ? {} : { y: [0, -0.3, 0] }}
-          transition={reduced || p < 1 ? { duration: 0 } : { duration: 4.5, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
-        >
+        {/* Outer <g> runs the subtle bob via CSS keyframes. Framer Motion v12
+            prefers the WAAPI path for prod builds, which has inconsistent
+            support for SVG attribute / transform animation — CSS guarantees
+            identical behavior in dev and prod (reduced-motion is handled by
+            a media query in globals.css). */}
+        <g className="animate-ssp-lane-bob">
           <g mask={`url(#wss-lane-mask-${id})`}>
             <polygon
               points={poly}
@@ -421,31 +416,32 @@ function WhySspLeadCyanLaneSimplified({
               }}
             />
           </g>
-        </motion.g>
-        {!reduced && p >= 0.99 ? (
-          <motion.g>
-            {(() => {
-              const s = leadLaneShimmerLine();
-              return (
-                <motion.line
-                  x1={s[0]}
-                  y1={s[1]}
-                  x2={s[2]}
-                  y2={s[3]}
-                  stroke="rgba(255,255,255,0.35)"
-                  strokeWidth="0.35"
-                  strokeLinecap="round"
-                  fill="none"
-                  strokeDasharray="3 12"
-                  style={{ mixBlendMode: "overlay" }}
-                  initial={false}
-                  animate={{ strokeDashoffset: [0, -32] }}
-                  transition={{ duration: 2, ease: "linear", repeat: Infinity }}
-                />
-              );
-            })()}
-          </motion.g>
-        ) : null}
+        </g>
+        {/* Dashed “shimmer” is the section’s primary motion cue. Always mounted
+            (no p-gate) and driven by CSS keyframes on stroke-dashoffset so
+            production builds never lose it. Opacity fades in with the intro
+            via inline style (plain CSS property, not a WAAPI-candidate). */}
+        {(() => {
+          const s = leadLaneShimmerLine();
+          return (
+            <line
+              x1={s[0]}
+              y1={s[1]}
+              x2={s[2]}
+              y2={s[3]}
+              stroke="rgba(255,255,255,0.35)"
+              strokeWidth="0.35"
+              strokeLinecap="round"
+              fill="none"
+              strokeDasharray="3 12"
+              className="animate-ssp-lane-dash"
+              style={{
+                mixBlendMode: "overlay",
+                opacity: Math.min(1, 0.2 + p * 0.8),
+              }}
+            />
+          );
+        })()}
       </svg>
     </div>
   );
@@ -528,101 +524,22 @@ function AnimatedTruck({
   );
 }
 
-/**
- * Drives the lane / truck intro (`p` from 0 → 1). Framer’s `useInView` +
- * a single 0.12 threshold is brittle in production: IO can miss when the
- * ref isn’t ready on the first effect pass, and a lone 0.12 threshold is easy
- * to under-shoot on mobile or after real-world layout. Native IO with
- * multiple thresholds and a rAF + rect sync covers Vercel / iOS / narrow viewports.
- */
-function useWhySspStageInView(reduced: boolean) {
-  const [stage, setStage] = React.useState<HTMLDivElement | null>(null);
-  const [inView, setInView] = React.useState(false);
-  const triggeredRef = React.useRef(false);
-
-  const trigger = React.useCallback(() => {
-    if (triggeredRef.current) return;
-    triggeredRef.current = true;
-    setInView(true);
-  }, []);
-
-  React.useLayoutEffect(() => {
-    if (reduced) {
-      trigger();
-      return;
-    }
-    if (!stage) return;
-    if (typeof IntersectionObserver === "undefined") {
-      trigger();
-      return;
-    }
-    /* Second Strict-Mode pass: if we already tripped, skip a duplicate observer. */
-    if (triggeredRef.current) return;
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            if (!triggeredRef.current) {
-              trigger();
-            }
-            io.disconnect();
-            return;
-          }
-        }
-      },
-      {
-        root: null,
-        rootMargin: "0px 0px 12% 0px",
-        threshold: [0, 0.02, 0.05, 0.1, 0.12, 0.2, 0.35, 0.5],
-      },
-    );
-
-    const syncFromRect = () => {
-      if (triggeredRef.current) return;
-      const r = stage.getBoundingClientRect();
-      if (r.width <= 0 || r.height <= 0) return;
-      const vh = window.innerHeight;
-      if (r.top < vh && r.bottom > 0) {
-        if (!triggeredRef.current) {
-          trigger();
-        }
-        io.disconnect();
-      }
-    };
-
-    io.observe(stage);
-
-    let rInner = 0;
-    const r0 = requestAnimationFrame(() => {
-      syncFromRect();
-      rInner = requestAnimationFrame(() => {
-        syncFromRect();
-      });
-    });
-
-    return () => {
-      cancelAnimationFrame(r0);
-      cancelAnimationFrame(rInner);
-      io.disconnect();
-    };
-  }, [reduced, stage, trigger]);
-
-  return { setStage, inView };
-}
-
 export function WhySspSection() {
   const reduced = useReducedMotion() ?? false;
   const headingId = "home-why-ssp-heading";
-  const { setStage, inView } = useWhySspStageInView(reduced);
   const [p, setP] = React.useState(0);
 
+  /* Lane dash + lead motion are gated on `p` → 1. Gating the intro on
+     IntersectionObserver was still unreliable on some prod builds / mobile
+     WebViews: `p` never completed, so the stage stayed at p≈0 (static).
+     We run the intro on mount (when motion is allowed) so the timeline and
+     looping lane always reach the animated state; the section is often below
+     the fold on first paint, so the intro mostly finishes off-screen. */
   React.useEffect(() => {
     if (reduced) {
       setP(1);
       return;
     }
-    if (!inView) return;
     const c = animate(0, 1, {
       duration: INTRO_DURATION_S,
       ease: "linear",
@@ -630,7 +547,7 @@ export function WhySspSection() {
       onComplete: () => setP(1),
     });
     return () => c.stop();
-  }, [inView, reduced]);
+  }, [reduced]);
 
   const stagger: Variants = reduced
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
@@ -781,8 +698,7 @@ export function WhySspSection() {
             role="img"
             aria-label="SSP lead truck flanked by two follower trucks in escort formation with a cyan lane under the lead"
           >
-            <div ref={setStage} className="absolute inset-0">
-            <WhySspLeadCyanLaneSimplified reduced={reduced} p={p} />
+            <WhySspLeadCyanLaneSimplified p={p} />
             <AnimatedTruck
               src="/_optimized/brand/leadTruckImg.png"
               alt=""
@@ -819,7 +735,6 @@ export function WhySspSection() {
               p={p}
               reduced={reduced}
             />
-            </div>
           </motion.div>
         </motion.div>
       </Container>
