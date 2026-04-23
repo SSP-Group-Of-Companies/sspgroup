@@ -6,6 +6,8 @@ import { IndustriesEditorialSection } from "./_components/IndustriesEditorialSec
 import { RoutingIntentSection } from "./_components/RoutingIntentSection";
 import { WhySspSection } from "./_components/WhySspSection";
 import { TrustProofSection } from "@/app/(site)/components/home/TrustProofSection";
+import { CareerTeaserSection } from "./_components/CareerTeaserSection";
+import { FinalCtaSection } from "@/app/(site)/components/home/FinalCtaSection";
 
 export function HomePageContent() {
   return (
@@ -19,6 +21,8 @@ export function HomePageContent() {
       <IndustriesEditorialSection />
       <WhySspSection />
       <TrustProofSection />
+      <CareerTeaserSection />
+      <FinalCtaSection />
     </>
   );
 }

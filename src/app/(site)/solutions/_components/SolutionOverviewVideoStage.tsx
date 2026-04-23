@@ -39,11 +39,17 @@ const PLAYER_OPTIONS: PlyrOptions = {
   },
 };
 
+function getStageVideo(root: HTMLElement | null): HTMLVideoElement | null {
+  const el = root?.querySelector("video");
+  return el instanceof HTMLVideoElement ? el : null;
+}
+
 export function SolutionOverviewVideoStage({
   video,
 }: SolutionOverviewVideoStageProps) {
   const stageRef = React.useRef<HTMLDivElement | null>(null);
   const playerRef = React.useRef<APITypes | null>(null);
+  const lastVideoSrcRef = React.useRef<string | null>(null);
   const [hasMounted, setHasMounted] = React.useState(false);
   const [playerReady, setPlayerReady] = React.useState(false);
   const [pendingPlay, setPendingPlay] = React.useState(false);
@@ -53,19 +59,37 @@ export function SolutionOverviewVideoStage({
     setHasMounted(true);
   }, []);
 
+  /**
+   * Plyr mounts the `<video>` asynchronously after dynamic import + first paint.
+   * A single rAF often runs before the element exists, so `playerReady` never
+   * flipped true and play was deferred to an effect — outside the user gesture,
+   * which browsers block. We poll until the video exists, then listen for readiness.
+   */
   React.useEffect(() => {
     if (!hasMounted) return;
 
+    if (lastVideoSrcRef.current !== video.src) {
+      lastVideoSrcRef.current = video.src;
+      setPlayerReady(false);
+      setPendingPlay(false);
+      setHasStartedPlayback(false);
+    }
+
     let cancelled = false;
-    let cleanup: (() => void) | undefined;
-    const frame = window.requestAnimationFrame(() => {
-      const media = stageRef.current?.querySelector("video");
-      if (!(media instanceof HTMLMediaElement) || cancelled) return;
+    let rafId = 0;
+    let mediaCleanup: (() => void) | undefined;
+
+    const attachWhenFound = () => {
+      if (cancelled) return;
+
+      const media = getStageVideo(stageRef.current);
+      if (!media) {
+        rafId = window.requestAnimationFrame(attachWhenFound);
+        return;
+      }
 
       const handleReady = () => {
-        if (!cancelled) {
-          setPlayerReady(true);
-        }
+        if (!cancelled) setPlayerReady(true);
       };
 
       if (media.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
@@ -75,18 +99,20 @@ export function SolutionOverviewVideoStage({
       media.addEventListener("loadeddata", handleReady);
       media.addEventListener("canplay", handleReady);
 
-      cleanup = () => {
+      mediaCleanup = () => {
         media.removeEventListener("loadeddata", handleReady);
         media.removeEventListener("canplay", handleReady);
       };
-    });
+    };
+
+    rafId = window.requestAnimationFrame(attachWhenFound);
 
     return () => {
       cancelled = true;
-      window.cancelAnimationFrame(frame);
-      cleanup?.();
+      window.cancelAnimationFrame(rafId);
+      mediaCleanup?.();
     };
-  }, [hasMounted]);
+  }, [hasMounted, video.src]);
 
   React.useEffect(() => {
     if (!pendingPlay || !playerReady) return;
@@ -115,6 +141,23 @@ export function SolutionOverviewVideoStage({
   );
 
   const showPosterShell = !hasStartedPlayback;
+
+  const handlePosterPlayClick = React.useCallback(() => {
+    const media = getStageVideo(stageRef.current);
+
+    if (media) {
+      setHasStartedPlayback(true);
+      void media.play().catch(() => {
+        setHasStartedPlayback(false);
+        setPendingPlay(true);
+      });
+      void playerRef.current?.plyr?.play();
+      return;
+    }
+
+    setPendingPlay(true);
+  }, []);
+
   return (
     <div ref={stageRef} className={styles.stage}>
       {hasMounted ? (
@@ -144,15 +187,7 @@ export function SolutionOverviewVideoStage({
         <div className={styles.posterDimmer} />
         <button
           type="button"
-          onClick={() => {
-            if (playerReady) {
-              setHasStartedPlayback(true);
-              void playerRef.current?.plyr?.play();
-              return;
-            }
-
-            setPendingPlay(true);
-          }}
+          onClick={handlePosterPlayClick}
           className={styles.posterPlayButton}
           aria-label={`Play ${video.title}`}
         >

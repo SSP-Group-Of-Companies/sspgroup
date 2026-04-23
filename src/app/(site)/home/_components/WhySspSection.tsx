@@ -520,9 +520,15 @@ export function WhySspSection() {
   const reduced = useReducedMotion() ?? false;
   const headingId = "home-why-ssp-heading";
   const stageRef = React.useRef<HTMLDivElement>(null);
-  const inView = useInView(stageRef, { once: true, amount: 0.2 });
+  /* `once` keeps the observer cheap; a little rootMargin helps the stage
+     register in-view on first paint across devices (incl. Vercel / prod
+     layout) so the lane intro `p` animation always runs. */
+  const inView = useInView(stageRef, {
+    once: true,
+    amount: 0.12,
+    margin: "0px 0px 12% 0px",
+  });
   const [p, setP] = React.useState(0);
-  const introStarted = React.useRef(false);
 
   React.useEffect(() => {
     if (reduced) {
@@ -530,8 +536,10 @@ export function WhySspSection() {
       return;
     }
     if (!inView) return;
-    if (introStarted.current) return;
-    introStarted.current = true;
+    /* No “started once” guard: React 18 Strict Mode runs mount → cleanup
+       → mount in dev; a guard that survives cleanup can block the second
+       run and leave `p` stuck at 0 (lane/shimmer never animate). Restarting
+       the intro when `inView` becomes true is correct. */
     const c = animate(0, 1, {
       duration: INTRO_DURATION_S,
       ease: "linear",
@@ -597,24 +605,6 @@ export function WhySspSection() {
         style={{
           background:
             "radial-gradient(circle, rgba(15,23,42,0.05) 0%, transparent 70%)",
-        }}
-        aria-hidden
-      />
-
-      {/* Closing chapter signature — mirrors the opening cyan hairline + soft wash. */}
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-12"
-        style={{
-          background:
-            "linear-gradient(0deg, color-mix(in srgb, var(--color-ssp-cyan-500) 6%, transparent) 0%, transparent 100%)",
-        }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-px"
-        style={{
-          background:
-            "linear-gradient(90deg, transparent 3%, color-mix(in srgb, var(--color-ssp-cyan-500) 55%, transparent) 50%, transparent 97%)",
         }}
         aria-hidden
       />
@@ -707,7 +697,7 @@ export function WhySspSection() {
             className={`relative ml-auto w-full overflow-visible ${STAGE_SIZE_CLASS} ${STAGE_POSITION_CLASS}`}
             style={{ aspectRatio: STAGE_ASPECT }}
             role="img"
-            aria-label="SSP lead truck flanked by two follower trucks in escort formation with a cyan lane driving into the section edge"
+            aria-label="SSP lead truck flanked by two follower trucks in escort formation with a cyan lane under the lead"
           >
             <WhySspLeadCyanLaneSimplified reduced={reduced} p={p} />
             <AnimatedTruck
