@@ -68,6 +68,9 @@ export default function GuidedChatbot() {
   const openTimerRef = React.useRef<number | null>(null);
   const launcherShowTimerRef = React.useRef<number | null>(null);
   const launcherEnterTimerRef = React.useRef<number | null>(null);
+  /** While true, auto-dismiss waited because the user was hovering the tooltip/launcher. */
+  const tooltipHoverRef = React.useRef(false);
+  const tooltipPendingDismissRef = React.useRef(false);
 
   React.useEffect(() => {
     const mq = window.matchMedia(MOBILE_MEDIA_QUERY);
@@ -91,12 +94,19 @@ export default function GuidedChatbot() {
     let dismissTimer: number | null = null;
     const showTimer = window.setTimeout(() => {
       setShowTooltip(true);
-      dismissTimer = window.setTimeout(() => setShowTooltip(false), 7000);
+      dismissTimer = window.setTimeout(() => {
+        if (tooltipHoverRef.current) {
+          tooltipPendingDismissRef.current = true;
+        } else {
+          setShowTooltip(false);
+        }
+      }, 7000);
     }, 1800);
 
     return () => {
       window.clearTimeout(showTimer);
       if (dismissTimer) window.clearTimeout(dismissTimer);
+      tooltipPendingDismissRef.current = false;
     };
   }, [isMobile]);
 
@@ -317,6 +327,7 @@ export default function GuidedChatbot() {
       setOpening(false);
       setOpen(true);
     }
+    tooltipPendingDismissRef.current = false;
     setShowTooltip(false);
     setShowLauncherNotification(false);
 
@@ -348,12 +359,21 @@ export default function GuidedChatbot() {
   }
 
   function dismissTooltip() {
+    tooltipPendingDismissRef.current = false;
     setShowTooltip(false);
 
     try {
       sessionStorage.setItem(TOOLTIP_KEY, "1");
     } catch {
       // Ignore
+    }
+  }
+
+  function onLauncherTooltipHoverChange(hovered: boolean) {
+    tooltipHoverRef.current = hovered;
+    if (!hovered && tooltipPendingDismissRef.current) {
+      tooltipPendingDismissRef.current = false;
+      setShowTooltip(false);
     }
   }
 
@@ -590,6 +610,8 @@ export default function GuidedChatbot() {
             pointerEvents: launcherVisible ? "auto" : "none",
           }}
           aria-hidden={!launcherVisible}
+          onMouseEnter={() => onLauncherTooltipHoverChange(true)}
+          onMouseLeave={() => onLauncherTooltipHoverChange(false)}
         >
           {showTooltip && !isMobile && (
             <div className="absolute right-0 bottom-[53px] w-[260px] md:bottom-[61px]">
