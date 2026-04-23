@@ -37,13 +37,13 @@ export const QUOTE_INTAKE_STEPS: readonly FlowStep[] = [
       "Could you provide the unit type (e.g., pallet, box, or container), the total quantity, weight (in lbs or kg), and the dimensions (length × width × height in cm or inches)?",
   },
   {
-    key: "email",
-    prompt: "Can you provide your email address so our team can send you the best quote?",
-  },
-  {
-    key: "phone",
-    prompt: "Great! Kindly share your contact number for a quick call from our freight expert.",
-  },
+  key: "phone",
+  prompt: "Kindly share your contact number in case we need to confirm a few details.",
+},
+{
+  key: "email",
+  prompt: "Lastly, please provide your email address so we can send you the best quote!",
+}
 ] as const;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

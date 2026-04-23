@@ -58,7 +58,8 @@ export const botConfig: BotConfig = {
   botName,
   initialMessages: [
     createChatBotMessage(
-      `Hi — I’m ${botName}. Start with a quick freight quote below, or tell me what you need — I can also help with tracking, SSP pages, FAQs, and support.`,
+      `Hello! I’m ${botName}. Need a freight quote, tracking, or info? I’m here to help—just let me know how I can assist!`,
+ 
       {
         widget: "startWidget",
       },

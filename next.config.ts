@@ -12,7 +12,6 @@ const nextConfig: NextConfig = {
         protocol: "https" as const,
         hostname,
       })),
-      { protocol: "https" as const, hostname: "img.youtube.com" },
     ],
     qualities: [70, 74, 75, 78, 84, 88, 90],
   },

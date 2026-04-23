@@ -12,9 +12,11 @@ import {
   ChevronRight,
   FileText,
   FolderTree,
+  Layers,
   MessageSquareText,
   PlusCircle,
   Settings,
+  SlidersHorizontal,
   Tags,
 } from "lucide-react";
 
@@ -79,6 +81,12 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             { href: "/admin/jobs/applications", label: "Applications", Icon: MessageSquareText },
           ],
         },
+        {
+          href: "/admin/site-controls",
+          label: "Site Controls",
+          Icon: SlidersHorizontal,
+          children: [{ href: "/admin/site-controls/modals", label: "Modals", Icon: Layers }],
+        },
       ],
     },
     {
@@ -90,19 +98,13 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   // Expand/collapse state for parents that have children
   const [expanded, setExpanded] = React.useState<Record<string, boolean>>({});
 
-  // Auto-expand the Blog section whenever you're inside /admin/blog/*
+  // Auto-expand parents when you're inside their subtree
   React.useEffect(() => {
-    const blogNode = groups
-      .flatMap((g) => g.items)
-      .find((i) => i.href === "/admin/blog" && i.children?.length);
-
-    if (!blogNode) return;
-
-    const shouldExpand = isPathActive(pathname, "/admin/blog");
     setExpanded((prev) => {
-      const cur = prev["/admin/blog"] ?? false;
-      if (shouldExpand && !cur) return { ...prev, ["/admin/blog"]: true };
-      return prev;
+      const next = { ...prev };
+      if (isPathActive(pathname, "/admin/blog")) next["/admin/blog"] = true;
+      if (isPathActive(pathname, "/admin/site-controls")) next["/admin/site-controls"] = true;
+      return next;
     });
   }, [pathname]);
 
@@ -182,7 +184,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                         <div className="mt-1 space-y-0.5">
                           {item.children!.map((child) => {
                             const childActive =
-                              child.href === "/admin/blog" || child.href === "/admin/jobs"
+                              child.href === "/admin/blog" ||
+                              child.href === "/admin/jobs" ||
+                              child.href === "/admin/site-controls/modals"
                                 ? isExactPath(pathname, child.href)
                                 : isPathActive(pathname, child.href);
 

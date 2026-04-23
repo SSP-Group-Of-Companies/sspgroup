@@ -9,7 +9,7 @@ import { trackCtaClick } from "@/lib/analytics/cta";
 import { cn } from "@/lib/cn";
 
 const VIDEO_DESKTOP = "/_optimized/hero/hero-desktop.mp4";
-const POSTER = "/_optimized/hero/hero-poster2.png";
+const POSTER = "/_optimized/hero/hero-poster2.webp";
 
 const HEADING_ID = "home-hero-heading";
 
@@ -125,8 +125,7 @@ export function Hero() {
         <div
           className="absolute inset-x-0 top-0 h-28"
           style={{
-            background:
-              "linear-gradient(180deg, rgba(7,10,18,0.22) 0%, rgba(7,10,18,0.00) 100%)",
+            background: "linear-gradient(180deg, rgba(7,10,18,0.22) 0%, rgba(7,10,18,0.00) 100%)",
           }}
           aria-hidden
         />
