@@ -456,3 +456,20 @@
 .site-input-light::placeholder {
   color: var(--color-subtle-light);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   HOME PAGE — Industries Atlas auto-advance
+   A single keyframe drives the cyan progress bar that rides the
+   hairline above the industry index. `transform: scaleX` is used so
+   the animation is fully GPU-composited (no layout, no paint), and
+   `animation-play-state: paused` (toggled via React) lets the browser
+   hold position mid-fill without losing the frame.
+   ═══════════════════════════════════════════════════════════════════════ */
+@keyframes industries-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
