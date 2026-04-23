@@ -32,6 +32,17 @@
   --color-surface-2: #eef2f6;
   /* Home: post-hero “platform” under white cards — cooler than surface-0, still cloud-family */
   --color-home-post-hero-platform: color-mix(in srgb, var(--color-ssp-ink-900) 6.5%, var(--color-surface-0));
+
+  /* Partner marquee chip — a cool-toned light surface designed to sit
+     on --color-company-ink, giving partner logos the neutral contrast
+     they need without bleaching the surrounding dark composition.
+     These four tokens are scoped specifically to the partner chip
+     grammar; any other "light chip on dark" use-case should reuse
+     them rather than reintroducing the hex. */
+  --color-partners-chip-surface: #eaf2fa;
+  --color-partners-chip-surface-hover: #eef5fc;
+  --color-partners-chip-border: #94abc2;
+  --color-partners-chip-border-hover: #a5bbcf;
   /* Home: cyan → SSP ink (Trust carousel chrome, careers teaser hairline + DriveDock CTA) */
   --gradient-ssp-elevated: linear-gradient(
     90deg,

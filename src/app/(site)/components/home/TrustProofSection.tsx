@@ -10,9 +10,9 @@ import { TRUST_PROOF_ITEMS, TRUST_PROOF_SECTION, type TestimonialItem } from "@/
 import { cn } from "@/lib/cn";
 
 const SECTION_EYEBROW = "Proof in Practice";
-const SECTION_TITLE = "Trust, proven in motion";
+const SECTION_TITLE = "Trust built in live operation";
 const SECTION_DESCRIPTION =
-  "Trust is earned on live freight. Hear it from the clients who ship with SSP, see the operation in motion, and review the standards that support secure, controlled execution.";
+  "Trust is established shipment by shipment. Start with client voices, watch the work in motion, and review the operating controls that make accountability real—not aspirational.";
 const FOCUS_RING_CYAN_ON_SURFACE =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-ssp-cyan-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-0)]";
 
@@ -113,7 +113,7 @@ function VideoCard({
   return (
     <article
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-[color:var(--color-border-light)] bg-[#0c1726]",
+        "relative overflow-hidden rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-company-ink)]",
         "shadow-[0_18px_36px_rgba(2,8,24,0.2)]",
       )}
     >
@@ -314,18 +314,20 @@ export function TrustProofSection() {
   return (
     <section
       id={TRUST_PROOF_SECTION.id}
+      aria-labelledby={`${TRUST_PROOF_SECTION.id}-heading`}
       className="relative overflow-hidden bg-[color:var(--color-home-post-hero-platform)]"
     >
       <Container className="site-page-container py-20 sm:py-24 lg:py-28">
         <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+          initial={reduceMotion ? false : { opacity: 1, y: 10 }}
           whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
           className="max-w-[44rem]"
         >
           <SectionSignalEyebrow label={SECTION_EYEBROW} />
           <h2
+            id={`${TRUST_PROOF_SECTION.id}-heading`}
             className="mt-4 text-[2.05rem] font-semibold leading-[1.08] tracking-[-0.028em] text-[color:var(--color-text-light)] sm:text-[2.45rem] lg:text-[2.8rem]"
           >
             {SECTION_TITLE}
@@ -337,10 +339,10 @@ export function TrustProofSection() {
 
         <motion.div
           className="mt-10 select-none"
-          initial={reduceMotion ? false : { opacity: 0, y: 12, scale: 0.985 }}
-          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: reduceMotion ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}
+          initial={reduceMotion ? false : { opacity: 1, y: 10 }}
+          whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="sr-only" aria-live="polite" aria-atomic="true">
             {activeAnnouncement}
@@ -511,7 +513,7 @@ function PartnersBand({
           <div>
             <SectionSignalEyebrow label="Certifications & Partners" light />
             <p className="mt-3 max-w-2xl text-[14px] leading-[1.65] text-white/72 sm:text-[14.5px]">
-              Certified programs and partner standards that reinforce compliant, secure execution.
+              Certifications and partner standards that reinforce compliant, secure freight execution.
             </p>
           </div>
 
@@ -552,8 +554,8 @@ function MarqueeLogos({ paused }: { paused: boolean }) {
           <div
             key={`${logo.src}-${idx}`}
             className={cn(
-              "flex h-14 w-[160px] items-center justify-center rounded-xl border border-[#94abc2] bg-[#eaf2fa] px-4",
-              "shadow-[0_7px_16px_rgba(2,8,24,0.13)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#a5bbcf] hover:bg-[#eef5fc]",
+              "flex h-14 w-[160px] items-center justify-center rounded-xl border border-[color:var(--color-partners-chip-border)] bg-[color:var(--color-partners-chip-surface)] px-4",
+              "shadow-[0_7px_16px_rgba(2,8,24,0.13)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[color:var(--color-partners-chip-border-hover)] hover:bg-[color:var(--color-partners-chip-surface-hover)]",
             )}
           >
             <LogoImage

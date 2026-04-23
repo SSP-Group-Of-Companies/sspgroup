@@ -35,7 +35,7 @@ const SECTION_EYEBROW = "Industries We Serve";
    cadence signals these two sections as paired chapter titles. */
 const SECTION_TITLE = "Seven sectors. One standard.";
 const SECTION_SUPPORT =
-  "Seven industries where timing, compliance, and handling precision define outcomes — each with a freight program built around how the work actually moves.";
+  "Timing, compliance, and load handling are not add-ons: they are constraints that change how the work is planned, staffed, and executed for each market.";
 
 const FOCUS_RING_DARK =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-ssp-cyan-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-company-ink)]";
@@ -510,9 +510,9 @@ export function IndustriesEditorialSection() {
           className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-10"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.2 }}
           variants={revealUp}
-          transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+          transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
         >
           <div className="max-w-[34rem]">
             <SectionSignalEyebrow label={SECTION_EYEBROW} light />
@@ -577,13 +577,13 @@ export function IndustriesEditorialSection() {
           onFocus={handleAtlasFocus}
           onBlur={handleAtlasBlur}
         >
-          <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}>
+          <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}>
             <IndustrySpotlight activeIndex={activeIndex} reduceMotion={reduceMotion} />
           </motion.div>
 
           <motion.div
             variants={revealUp}
-            transition={{ duration: reduceMotion ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
             {/* The static hairline — the track. Always visible, whether
@@ -633,7 +633,7 @@ export function IndustriesEditorialSection() {
           viewport={{ once: true, amount: 0.12 }}
           variants={stagger}
         >
-          <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.4, ease: [0.22, 1, 0.36, 1] }}>
+          <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}>
             <IndustryMobileList />
           </motion.div>
         </motion.div>

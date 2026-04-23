@@ -14,7 +14,7 @@ const FOCUS_RING =
 const SECTION_EYEBROW = "Choose Your Path";
 const SECTION_TITLE = "Get to the right team faster.";
 const SECTION_SUPPORT =
-  "Whether you are planning freight, managing an active shipment, or exploring opportunities with SSP, start in the right place.";
+  "Whether you are quoting freight, checking shipment status, or exploring a role with SSP, start with the team built for that conversation.";
 
 /* ─────────────────────────────────────────────────────────────────
    Custom SSP glyphs — hand-tuned 1.6px strokes, matching the
@@ -94,7 +94,7 @@ const ROUTING_CARDS: RoutingCard[] = [
     accentColor: "var(--color-ssp-cyan-500)",
     audienceLabel: "Move Freight",
     jobToBeDone:
-      "Match your lane, timing, and handling needs to the right mode — truckload, LTL, specialized, or cross-border.",
+      "Review the modes, equipment, and cross-border capabilities that fit your lane requirements.",
     ctaLabel: "Explore Solutions",
     href: "/solutions",
     ctaId: "routing_move_freight_explore_solutions",
@@ -106,7 +106,7 @@ const ROUTING_CARDS: RoutingCard[] = [
     accentColor: "var(--color-ssp-cyan-500)",
     audienceLabel: "Track a Shipment",
     jobToBeDone:
-      "Check live status or reach the person on the line that owns your load.",
+      "Check shipment status and connect with the operating team responsible for the load.",
     ctaLabel: "Track Shipment",
     href: "/tracking",
     ctaId: "routing_track_support_track_shipment",
@@ -119,7 +119,7 @@ const ROUTING_CARDS: RoutingCard[] = [
     accentColor: "var(--color-ssp-cyan-500)",
     audienceLabel: "Join SSP",
     jobToBeDone:
-      "Drivers, operations, and office roles — find where you fit on our team.",
+      "Explore driving, operations, and office roles across the business.",
     ctaLabel: "View Careers",
     href: "/careers",
     ctaId: "routing_join_ssp_view_careers",
@@ -231,7 +231,7 @@ export function RoutingIntentSection() {
       aria-labelledby="home-routing-intent-heading"
       className="relative bg-transparent pb-16 antialiased sm:pb-20 lg:pb-24"
     >
-      <Container className="site-page-container relative pt-2 sm:pt-3">
+      <Container className="site-page-container relative pt-5 sm:pt-6">
         <motion.div
           className="mx-auto max-w-[36rem] text-center lg:max-w-[42rem]"
           initial="hidden"

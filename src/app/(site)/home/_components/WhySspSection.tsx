@@ -17,13 +17,20 @@ import { trackCtaClick } from "@/lib/analytics/cta";
 import { cn } from "@/lib/cn";
 
 const SECTION_EYEBROW = "Why SSP";
-const SECTION_TITLE = "We set the pace.";
+const SECTION_TITLE = "Execution built for control.";
 const SECTION_SUPPORT =
-  "We combine asset-backed capacity with disciplined execution to move freight with precision across North America. From first tender to final delivery, every shipment is managed with control, visibility, and accountability—so you stay ahead.";
+  "SSP links asset-based capacity to dispatch-led control across North America, from booking through final delivery. Ownership stays explicit, updates stay timely, and when conditions change, the next move is already defined so the load does not drift into ambiguity.";
 const SECTION_HEADER_CTA_LABEL = "About SSP Group";
 const SECTION_HEADER_CTA_HREF = "/about-us";
 
-const BRAND_CYAN = "#10a7d8";
+/* Decorative brand cyan used for SVG gradient stops + drop-shadow on
+   the lane. Kept as an explicit hex to ensure the SVG attribute
+   `stopColor` resolves reliably across WebKit/Gecko — CSS custom
+   properties are not uniformly honored on SVG presentation
+   attributes. The `SectionSignalEyebrow` accent consumes the token
+   directly via `var(--color-ssp-cyan-500)`. */
+const BRAND_CYAN_DECORATIVE = "#10A7D8";
+const BRAND_CYAN_TOKEN = "var(--color-ssp-cyan-500)";
 
 /* Matches homepage flagship section text-link CTA; ring offset follows this section surface. */
 const HEADER_LINK_FOCUS =
@@ -225,20 +232,20 @@ const PILLARS: readonly Pillar[] = [
   {
     id: "own-the-load",
     icon: "execution",
-    title: "Built for controlled execution",
-    body: "Freight doesn’t fail in theory—it fails in execution. We run every shipment with disciplined planning, proactive coordination, and clear ownership from tender to delivery.",
+    title: "Operational ownership is defined early",
+    body: "Freight performs better when planning, communication, and escalation ownership are clear before the shipment starts moving. That discipline is built into how SSP runs every load.",
   },
   {
     id: "ship-what-we-promise",
     icon: "capacity",
-    title: "Capacity that holds when the market gets tight",
-    body: "When conditions change, your operation still needs to move. Our asset-backed model and trusted carrier network give you dependable capacity and service continuity when it matters most.",
+    title: "Capacity is backed by execution discipline",
+    body: "Assets matter, but so do routing decisions, communication cadence, and follow-through. SSP pairs fleet strength with trusted carrier support so capacity stays usable when conditions tighten.",
   },
   {
     id: "show-up-ready",
     icon: "crossBorder",
-    title: "Cross-border freight without added friction",
-    body: "Across Canada, the United States, and Mexico, we move freight with the compliance discipline, documentation control, and operational coordination complex lanes demand.",
+    title: "Cross-border programs run with tighter control",
+    body: "Canada-U.S.-Mexico freight requires more than linehaul coverage. It requires documentation control, compliance discipline, and operating coordination that protect execution at the border.",
   },
 ] as const;
 
@@ -294,13 +301,13 @@ function PillarRow({
 }) {
   const variants: Variants = reduced
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
   return (
     <motion.div
       variants={variants}
       transition={{
-        duration: reduced ? 0 : 0.5,
+        duration: reduced ? 0 : 0.38,
         ease: [0.22, 1, 0.36, 1],
       }}
       className={cn(
@@ -367,8 +374,8 @@ function WhySspLeadCyanLaneSimplified({
             y2={grad1[1] * 100}
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0%" stopColor="#10A7D8" stopOpacity="0" />
-            <stop offset="22%" stopColor="#10A7D8" stopOpacity="0.6" />
+            <stop offset="0%" stopColor={BRAND_CYAN_DECORATIVE} stopOpacity="0" />
+            <stop offset="22%" stopColor={BRAND_CYAN_DECORATIVE} stopOpacity="0.6" />
             <stop offset="72%" stopColor="#0B8FBB" stopOpacity="0.9" />
             <stop offset="100%" stopColor="#0A7BA1" stopOpacity="1" />
           </linearGradient>
@@ -410,7 +417,7 @@ function WhySspLeadCyanLaneSimplified({
               points={poly}
               fill={`url(#wss-lane-cyan-${id})`}
               style={{
-                filter: "drop-shadow(0 2px 4px color-mix(in srgb, #10A7D8 25%, transparent))",
+                filter: `drop-shadow(0 2px 4px color-mix(in srgb, ${BRAND_CYAN_DECORATIVE} 25%, transparent))`,
                 opacity: Math.min(1, 0.25 + p * 0.75),
               }}
             />
@@ -484,10 +491,16 @@ function AnimatedTruck({
     opacity: layout.opacity,
   } as const;
 
+  /* Visible-first variants — children inherit hidden/show from the
+     parent stagger (`fadeUp` on the stage), but we never render at
+     opacity: 0 so the trucks remain visible even if the viewport
+     observer misses this stage on a slow device. The lane animation
+     handled separately in `WhySspLeadCyanLaneSimplified` carries the
+     cinematic entrance. */
   const variants: Variants = reduced
     ? { hidden: { opacity: layout.opacity ?? 1, y: 0 }, show: { opacity: layout.opacity ?? 1, y: 0 } }
     : {
-        hidden: { opacity: 0, y: 18 },
+        hidden: { opacity: layout.opacity ?? 1, y: 10 },
         show: { opacity: layout.opacity ?? 1, y: 0 },
       };
 
@@ -497,7 +510,7 @@ function AnimatedTruck({
       style={style}
       variants={variants}
       transition={{
-        duration: reduced ? 0 : 0.75,
+        duration: reduced ? 0 : 0.38,
         delay: reduced ? 0 : enterDelay,
         ease: [0.22, 1, 0.36, 1],
       }}
@@ -558,7 +571,7 @@ export function WhySspSection() {
 
   const fadeUp: Variants = reduced
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 0, y: 14 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
   return (
     <section
@@ -614,14 +627,14 @@ export function WhySspSection() {
           className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-10"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.2 }}
           variants={fadeUp}
-          transition={{ duration: reduced ? 0 : 0.4, ease: "easeOut" }}
+          transition={{ duration: reduced ? 0 : 0.38, ease: "easeOut" }}
         >
           <div className="min-w-0 max-w-[40rem]">
             <SectionSignalEyebrow
               label={SECTION_EYEBROW}
-              accentColor={BRAND_CYAN}
+              accentColor={BRAND_CYAN_TOKEN}
             />
             <h2
               id={headingId}
@@ -673,7 +686,7 @@ export function WhySspSection() {
           <div className="relative flex flex-col lg:pr-6">
             <motion.div
               variants={fadeUp}
-              transition={{ duration: reduced ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: reduced ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
               className="border-t border-[color:var(--color-border-light-soft)]"
             >
               {PILLARS.map((pillar, idx) => (
@@ -691,7 +704,7 @@ export function WhySspSection() {
             ref={stageRef}
             variants={fadeUp}
             transition={{
-              duration: reduced ? 0 : 0.55,
+              duration: reduced ? 0 : 0.38,
               ease: [0.22, 1, 0.36, 1],
             }}
             className={`relative ml-auto w-full overflow-visible ${STAGE_SIZE_CLASS} ${STAGE_POSITION_CLASS}`}

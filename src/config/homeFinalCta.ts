@@ -3,13 +3,13 @@
  * Copy should read as the site’s primary commercial close: clear, confident, operational.
  */
 export const HOME_FINAL_CTA = {
-  kicker: "When execution matters",
-  title: "Put your next shipment in motion—with lane-level control",
-  body: "Request a structured quote and our operations team will respond with clear pricing assumptions, realistic transit windows, and the governance model that fits how you run freight—from truckload and specialized equipment to cross-border programs that cannot afford ambiguity at the border.",
+  kicker: "When the details matter",
+  title: "Put your next shipment under tighter control",
+  body: "Request a structured quote. SSP will respond with clear pricing assumptions, realistic transit parameters, and a dispatch-led plan that matches the lanes—truckload, specialized equipment, or cross-border—without softening the constraints in the name of speed.",
   trustSignals: [
-    "One operating standard across TL, specialized, and cross-border",
-    "Documentation and compliance treated as execution inputs, not paperwork",
-    "Named ownership from intake through delivery",
+    "One operating model across truckload, specialized, and cross-border work",
+    "Cross-border documentation treated as a dispatch input, not a paperwork afterthought",
+    "Named ownership from booking through final delivery",
   ] as const,
   proof: [
     { value: "≤ 15 min", label: "Initial response target" },
@@ -17,7 +17,7 @@ export const HOME_FINAL_CTA = {
     { value: "CA · US · MX", label: "Corridor scope" },
   ] as const,
   microCopy:
-    "Prefer to align on scope before you quote? Contact us and we’ll route you to the right operations owner—then you can submit requirements in whatever format fits procurement.",
+    "If you need to align on scope first, contact SSP and we will route the inquiry to the right operations lead before you submit formal requirements.",
   ctas: {
     primary: {
       label: "Request a Quote",

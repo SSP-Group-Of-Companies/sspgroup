@@ -12,10 +12,10 @@ import { cn } from "@/lib/cn";
 const DRIVEDOCK_URL = "https://drivedock.ssp4you.com/";
 
 const SECTION_EYEBROW = "Careers & culture at SSP";
-const SECTION_TITLE = "Build Your Career With a Team That Executes";
+const SECTION_TITLE = "Build with a team that runs to standard";
 /** One editorial beat: who we hire for, how we work, why the careers hub is the next step. */
 const SECTION_SUPPORT =
-  "We look for exceptional people who want roles where execution changes outcomes—company drivers and owner-operators, dispatch and operations coordinators, cross-border and compliance specialists, and the teams that support them. If you want an operations-first culture where quality of work is the standard, not the exception, our careers hub is where you’ll find current openings, how we hire, and what support looks like from day one.";
+  "SSP hires for roles where execution quality is the product: company drivers and owner-operators, dispatch and operations coordinators, cross-border and compliance specialists, and the teams that support the network. If you want a culture built on discipline and direct accountability, start on the careers hub.";
 
 const HEADER_CTA_LABEL = "Explore careers at SSP";
 const CAREERS_HUB_HREF = "/careers";
@@ -53,10 +53,10 @@ export function CareerTeaserSection() {
       <Container className="site-page-container relative z-[2]">
         <motion.div
           className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-10"
-          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+          initial={reduceMotion ? false : { opacity: 1, y: 10 }}
           whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: reduceMotion ? 0 : 0.42, ease: [0.22, 1, 0.36, 1] }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="max-w-[44rem]">
             <SectionSignalEyebrow label={SECTION_EYEBROW} />
@@ -102,10 +102,10 @@ export function CareerTeaserSection() {
 
         <motion.div
           className="mt-12 grid gap-5 sm:mt-14 lg:grid-cols-2 lg:gap-6"
-          initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+          initial={reduceMotion ? false : { opacity: 1, y: 10 }}
           whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: reduceMotion ? 0 : 0.45, ease: "easeOut", delay: reduceMotion ? 0 : 0.06 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut", delay: reduceMotion ? 0 : 0.05 }}
         >
           <article className={cn("flex flex-col", CAREER_CARD_SHELL)}>
             <div aria-hidden className={CARD_TOP_BAR} style={{ background: "var(--gradient-ssp-elevated)" }} />
@@ -118,8 +118,8 @@ export function CareerTeaserSection() {
               </h3>
             </div>
             <p className="mt-3 flex-1 text-[13.5px] leading-[1.65] text-[color:var(--color-muted-light)] sm:text-[14px]">
-              Active roles across departments and locations—filter, read requirements, and apply to
-              the position that matches your discipline.
+              Review active roles across departments and locations, along with the requirements,
+              responsibilities, and next steps for each opening.
             </p>
             <Link
               href={OPENINGS_HREF}
@@ -158,8 +158,8 @@ export function CareerTeaserSection() {
               </h3>
             </div>
             <p className="mt-3 flex-1 text-[13.5px] leading-[1.65] text-[color:var(--color-muted-light)] sm:text-[14px]">
-              Company driver and owner-operator applications run through DriveDock—SSP&apos;s
-              digital onboarding platform. Continue or start your qualification there.
+              Company driver and owner-operator applications move through DriveDock, SSP&apos;s
+              onboarding platform for qualification, document collection, and next-step review.
             </p>
             <a
               href={DRIVEDOCK_URL}
@@ -189,6 +189,7 @@ export function CareerTeaserSection() {
                   className="h-3.5 w-3.5 text-white/90 transition-transform motion-safe:group-hover/dd:translate-x-0.5 motion-safe:group-hover/dd:-translate-y-0.5"
                   aria-hidden
                 />
+                <span className="sr-only">(opens in a new tab)</span>
               </span>
             </a>
             <p className="mt-2 text-[11px] leading-snug text-[color:var(--color-menu-subtle)]">

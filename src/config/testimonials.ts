@@ -21,10 +21,10 @@ export type TestimonialItem =
 
 export const TRUST_PROOF_SECTION = {
   id: "trust-proof",
-  kicker: "Trust & Proof",
-  title: "Proof in Every Mile. Trusted on Every Load",
+  kicker: "Proof in Practice",
+  title: "Trust built in live operation",
   description:
-    "SSP ensures effective, dependable, and proactive communication and accountability from pick-up to final delivery. Additionally, provide sustainable supply chain solutions that link businesses with customers across the globe.",
+    "Trust is established shipment by shipment: clear communication, named ownership, and the operating controls that make accountability real from booking through final delivery.",
 } as const;
 
 export const TRUST_PROOF_ITEMS: TestimonialItem[] = [
@@ -32,8 +32,9 @@ export const TRUST_PROOF_ITEMS: TestimonialItem[] = [
     type: "video",
     id: "ssp-youtube",
     eyebrow: "Featured Testimonial",
-    title: "Watch SSP in Action",
-    description: "A quick look at how our team executes with speed, control, and consistency.",
+    title: "See SSP in operation",
+    description:
+      "A closer look at how loads are coordinated, tracked, and followed through to completion with named ownership and clear handoffs.",
     youtubeUrl: "https://www.youtube.com/watch?v=mQv-1GA-HYo&t=6s",
     channelUrl: "https://www.youtube.com/@SSPGroupofCompanies",
   },

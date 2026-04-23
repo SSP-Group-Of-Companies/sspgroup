@@ -19,7 +19,7 @@ const FOCUS_RING =
 const EYEBROW = "North American Freight Logistics";
 
 const DESCRIPTION =
-  "Truckload, LTL, specialized, and cross-border freight across Canada, the United States, and Mexico — handled by people who own the load from pickup to delivery.";
+  "Asset-based freight execution across Canada, the United States, and Mexico. SSP runs truckload, LTL, specialized, and cross-border freight under direct operational ownership from dispatch through final delivery.";
 
 export function Hero() {
   const reduceMotion = useReducedMotion() ?? false;

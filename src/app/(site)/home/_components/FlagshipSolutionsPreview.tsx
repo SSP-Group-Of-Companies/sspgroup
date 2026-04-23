@@ -36,7 +36,7 @@ import {
 const SECTION_EYEBROW = "What SSP Moves";
 const SECTION_TITLE = "Four ways we move freight.";
 const SECTION_SUPPORT =
-  "One operation, four families — each shaped around how the shipment actually needs to move.";
+  "Four operating families, each built around the lane, equipment, timing, and compliance demands of the freight.";
 
 const FOCUS_RING =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-menu-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-1)]";
@@ -155,7 +155,7 @@ const FAMILIES: readonly FlagshipFamily[] = [
     // is a family-level lead-in, not a full hub headline.
     label: "Core Freight",
     descriptor:
-      "Truckload and LTL — matched to the equipment each load actually needs.",
+      "Truckload and LTL capacity aligned to shipment profile, delivery schedule, and network requirements.",
     Illustration: CoreFreightScene,
     ctaId: "home_flagship_core_freight_modes",
     href: "/solutions/core-freight-modes",
@@ -167,7 +167,7 @@ const FAMILIES: readonly FlagshipFamily[] = [
     // parallel-label rhythm across the ensemble.
     label: "Specialized & Critical",
     descriptor:
-      "Expedited, temperature-controlled, hazmat, and specialty vehicle transport — freight that can't wait or vary.",
+      "Expedited, temperature-controlled, hazmat, and specialty transport for freight that carries tighter handling tolerances.",
     Illustration: SpecializedCriticalScene,
     ctaId: "home_flagship_specialized_critical",
     href: "/solutions/specialized-critical-freight",
@@ -177,7 +177,7 @@ const FAMILIES: readonly FlagshipFamily[] = [
     id: "cross-border",
     label: "Cross-Border",
     descriptor:
-      "Customs-cleared execution across Canada, the USA, and Mexico — plus air and ocean.",
+      "Canada-U.S.-Mexico freight managed with documentation discipline, customs coordination, and multimodal support.",
     Illustration: CrossBorderScene,
     ctaId: "home_flagship_cross_border",
     href: "/solutions/cross-border",
@@ -189,7 +189,7 @@ const FAMILIES: readonly FlagshipFamily[] = [
     id: "managed-logistics",
     label: "Managed Logistics",
     descriptor:
-      "Dedicated programs — recurring capacity, warehousing, and project execution.",
+      "Dedicated programs for recurring capacity, warehousing, project freight, and structured operating support.",
     Illustration: ManagedLogisticsScene,
     ctaId: "home_flagship_managed_logistics",
     href: "/solutions/managed-logistics",
@@ -432,9 +432,9 @@ export function FlagshipSolutionsPreview() {
           className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-10"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.2 }}
           variants={revealUp}
-          transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
+          transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
         >
           <div className="max-w-[34rem]">
             <SectionSignalEyebrow label={SECTION_EYEBROW} />
@@ -489,7 +489,7 @@ export function FlagshipSolutionsPreview() {
             <motion.li
               key={family.id}
               variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.42, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
               className="flex"
             >
               <div className="flex w-full">
