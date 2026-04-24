@@ -13,8 +13,8 @@ type AdminThemeContextValue = {
 
 const AdminThemeContext = createContext<AdminThemeContextValue | null>(null);
 
-const STORAGE_KEY = "npt.admin.theme.mode";
-const COOKIE_KEY = "npt.admin.theme.mode";
+const STORAGE_KEY = "ssp.admin.theme.mode";
+const COOKIE_KEY = "ssp.admin.theme.mode";
 
 function setThemeCookie(mode: AdminThemeMode) {
   try {
@@ -52,7 +52,7 @@ export function AdminThemeProvider({
     return "light";
   });
 
-  // Load persisted mode once
+  // Load persisted mode once on mount.
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);

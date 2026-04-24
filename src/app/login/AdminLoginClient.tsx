@@ -30,7 +30,7 @@ export default function AdminLoginClient({
         <div className="mb-6 flex flex-col items-center">
           <LogoImage
             src="/_optimized/brand/SSPlogo.png"
-            alt="NPT Logistics"
+            alt="SSP Group"
             width={220}
             height={80}
             className="h-auto w-[90px] object-contain sm:w-[90px] md:w-[90px]"
@@ -63,7 +63,7 @@ export default function AdminLoginClient({
         </div>
 
         <footer className="mt-8 text-center text-xs text-gray-500">
-          © NPT Group {new Date().getFullYear()}
+          © SSP Group {new Date().getFullYear()}
         </footer>
       </div>
     </main>

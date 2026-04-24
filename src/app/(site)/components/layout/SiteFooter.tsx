@@ -17,6 +17,16 @@ const footerLink = cn(
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)]",
 );
 
+/** Red CTA in Quick actions: same `::after` reveal as `footerLink`, but line color tracks brand red. */
+const footerLinkHighlight = cn(
+  "relative inline-flex w-fit items-center pb-0.5 text-[13px] leading-6 font-semibold text-[color:var(--color-brand-500)] transition-colors duration-200",
+  "after:absolute after:right-0 after:-bottom-0.5 after:left-0 after:h-[1.5px] after:origin-left after:scale-x-0",
+  "after:bg-[color:var(--color-brand-500)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
+  "hover:text-[color:var(--color-brand-600)] hover:after:scale-x-100 hover:after:bg-[color:var(--color-brand-600)]",
+  "focus-visible:text-[color:var(--color-brand-600)] focus-visible:after:scale-x-100 focus-visible:after:bg-[color:var(--color-brand-600)]",
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)]",
+);
+
 const footerHeading = "text-[11px] font-bold tracking-[0.08em] text-[color:var(--color-footer-heading)] uppercase sm:text-[12px]";
 
 const footerLegalLink = cn(
@@ -173,11 +183,7 @@ export function SiteFooter() {
                       label={action.label}
                       className={
                         action.highlight
-                          ? cn(
-                              "inline-flex items-center gap-1 text-[13px] leading-6 font-semibold text-[color:var(--color-brand-500)]",
-                              "hover:text-[color:var(--color-brand-500)]",
-                              "focus-visible:ring-2 focus-visible:ring-[color:var(--color-brand-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-footer-bg)] focus-visible:outline-none",
-                            )
+                          ? cn(footerLinkHighlight, action.externalCue && "gap-1")
                           : cn(footerLink, action.externalCue && "inline-flex items-center gap-1")
                       }
                     >

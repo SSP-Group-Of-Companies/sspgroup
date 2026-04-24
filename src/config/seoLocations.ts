@@ -34,9 +34,9 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     country: "Canada",
     title: "Freight and Trucking Company in Milton, Ontario",
     metaDescription:
-      "NPT Logistics provides truckload, LTL, and cross-border freight shipping in Milton, Ontario with lane-level execution across North America.",
+      "SSP Group provides truckload, LTL, and cross-border freight shipping in Milton, Ontario with lane-level execution across North America.",
     intro:
-      "NPT supports shippers in Milton with truckload, LTL, and cross-border freight execution from Ontario into major U.S. and Mexico corridors.",
+      "We support shippers in Milton with truckload, LTL, and cross-border freight execution from Ontario into major U.S. and Mexico corridors.",
     serviceHighlights: [
       "Truckload and LTL capacity for Ontario distribution and outbound lanes",
       "Cross-border lane planning from Ontario to U.S. Midwest and Texas",
@@ -57,7 +57,7 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     metaDescription:
       "Freight shipping from Toronto, Ontario across Canada, the U.S., and Mexico with truckload, LTL, intermodal, and cross-border logistics.",
     intro:
-      "For Toronto-area shippers, NPT delivers compliance-first freight movement with proactive execution and route-specific planning.",
+      "For Toronto-area shippers, we deliver compliance-first freight movement with proactive execution and route-specific planning.",
     serviceHighlights: [
       "Cross-border freight from Toronto into U.S. production and retail hubs",
       "FTL and LTL mode selection based on shipment profile and timing",
@@ -78,7 +78,7 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     metaDescription:
       "Montreal freight logistics with truckload, LTL, and cross-border shipping to major North America destinations.",
     intro:
-      "NPT helps Montreal shippers execute high-reliability freight movement into U.S. Northeast, Midwest, and Mexico-bound corridors.",
+      "We help Montreal shippers execute high-reliability freight movement into U.S. Northeast, Midwest, and Mexico-bound corridors.",
     serviceHighlights: [
       "FTL and LTL support for Quebec outbound freight",
       "Cross-border customs-ready lane coordination",
@@ -99,7 +99,7 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     metaDescription:
       "Cross-border trucking and freight logistics in Laredo, Texas for U.S.-Mexico and Canada-Mexico supply chain lanes.",
     intro:
-      "Laredo is a critical cross-border gateway. NPT supports freight programs requiring disciplined customs handoffs and milestone control.",
+      "Laredo is a critical cross-border gateway. We support freight programs requiring disciplined customs handoffs and milestone control.",
     serviceHighlights: [
       "U.S.-Mexico lane execution through border gateway workflows",
       "Hazmat and specialized equipment support where required",
@@ -120,7 +120,7 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     metaDescription:
       "Truckload, LTL, and cross-border freight shipping in Houston, Texas with North America lane coverage.",
     intro:
-      "NPT supports Houston freight operations with scalable capacity and controlled execution for domestic and cross-border lanes.",
+      "We support Houston freight operations with scalable capacity and controlled execution for domestic and cross-border lanes.",
     serviceHighlights: [
       "FTL, LTL, and truckload support for Texas distribution",
       "Cross-border freight planning to and from Mexico",
@@ -141,7 +141,7 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     metaDescription:
       "Freight transportation from Dallas, Texas with truckload, LTL, and cross-border logistics support.",
     intro:
-      "NPT helps Dallas-area shippers move freight with dependable lane execution to Canada, Mexico, and major U.S. markets.",
+      "We help Dallas-area shippers move freight with dependable lane execution to Canada, Mexico, and major U.S. markets.",
     serviceHighlights: [
       "Truckload and LTL solutions for long-haul and regional lanes",
       "Cross-border shipping from Texas into Mexico and Canada corridors",
@@ -162,7 +162,7 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     metaDescription:
       "Chicago freight shipping services for truckload, LTL, and cross-border transportation across North America.",
     intro:
-      "NPT supports Chicago freight lanes with mode-fit recommendations and execution discipline for manufacturing and retail networks.",
+      "We support Chicago freight lanes with mode-fit recommendations and execution discipline for manufacturing and retail networks.",
     serviceHighlights: [
       "LTL and FTL support for Midwest inbound and outbound flows",
       "Cross-border moves connecting Midwest with Ontario and Quebec",
@@ -183,7 +183,7 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     metaDescription:
       "Cross-border freight shipping in Detroit, Michigan for truckload and LTL freight lanes between the U.S. and Canada.",
     intro:
-      "Detroit is one of the most important U.S.-Canada truck gateways. NPT supports Detroit freight with customs-aware lane planning and dependable cross-border execution.",
+      "Detroit is one of the most important U.S.-Canada truck gateways. We support Detroit freight with customs-aware lane planning and dependable cross-border execution.",
     serviceHighlights: [
       "Truckload and LTL support for Michigan-Ontario freight programs",
       "Customs-ready execution for appointment-sensitive border freight",
@@ -204,7 +204,7 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     metaDescription:
       "Cross-border freight shipping in Buffalo, New York for truckload and LTL freight between the U.S. Northeast and Ontario.",
     intro:
-      "Buffalo is a high-frequency U.S.-Canada border market. NPT supports shippers with coordinated customs handoffs and reliable regional lane execution.",
+      "Buffalo is a high-frequency U.S.-Canada border market. We support shippers with coordinated customs handoffs and reliable regional lane execution.",
     serviceHighlights: [
       "Truckload and LTL support for New York-Ontario freight lanes",
       "Cross-border customs coordination for short-haul freight",
@@ -225,7 +225,7 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     metaDescription:
       "Cross-border freight shipping in Port Huron, Michigan for truckload and LTL gateway movements between Ontario and the U.S.",
     intro:
-      "Port Huron is a strategic Ontario-Michigan border gateway. NPT supports freight teams with customs-sensitive planning and controlled cross-border execution.",
+      "Port Huron is a strategic Ontario-Michigan border gateway. We support freight teams with customs-sensitive planning and controlled cross-border execution.",
     serviceHighlights: [
       "Gateway-focused truckload and LTL support for Ontario lanes",
       "Customs-ready workflows for border-critical shipments",
@@ -246,7 +246,7 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     metaDescription:
       "Freight logistics in Livermore, California for truckload, intermodal, and cross-border shipping lanes.",
     intro:
-      "NPT supports Livermore and California freight programs with lane-level coordination across U.S., Canadian, and Mexico markets.",
+      "We support Livermore and California freight programs with lane-level coordination across U.S., Canadian, and Mexico markets.",
     serviceHighlights: [
       "West-coast outbound truckload freight planning",
       "Cross-border lane support for Mexico and Canada-bound freight",
@@ -265,9 +265,9 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     country: "United States",
     title: "Miami Freight Shipping and Logistics Support",
     metaDescription:
-      "Miami freight and trucking services by NPT Logistics for domestic and cross-border North America shipping.",
+      "Miami truckload, LTL, and cross-border freight from SSP Group across North America.",
     intro:
-      "NPT helps Miami-area teams execute reliable freight movement with mode-fit planning and transparent operations communication.",
+      "We help Miami-area teams execute reliable freight movement with mode-fit planning and transparent operations communication.",
     serviceHighlights: [
       "Truckload and LTL support for Southeast freight lanes",
       "Time-sensitive shipment planning and escalation workflows",
@@ -288,7 +288,7 @@ export const SEO_LOCATIONS: SeoLocationPage[] = [
     metaDescription:
       "Cross-border freight shipping in Monterrey, Mexico with lane coverage to U.S. and Canada destinations.",
     intro:
-      "NPT supports Monterrey freight operations with customs-aware handoffs and controlled execution for North America trade lanes.",
+      "We support Monterrey freight operations with customs-aware handoffs and controlled execution for North America trade lanes.",
     serviceHighlights: [
       "U.S.-Mexico and Canada-Mexico lane support",
       "Cross-border compliance coordination from dispatch through delivery",

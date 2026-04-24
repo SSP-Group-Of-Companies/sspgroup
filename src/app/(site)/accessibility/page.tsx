@@ -1,53 +1,52 @@
-import { Container } from "@/app/(site)/components/layout/Container";
-import Link from "next/link";
+import type { Metadata } from "next";
 
-const LAST_UPDATED = "February 17, 2026";
+import { LegalPageShell } from "@/app/(site)/components/legal";
+import { LEGAL_LAST_UPDATED_ISO, getLegalPage } from "@/config/legal";
+import { SITE_DEFAULT_OG_IMAGE, SITE_NAME, toAbsoluteUrl } from "@/lib/seo/site";
 
-export default function AccessibilityPage() {
+const PAGE = getLegalPage("accessibility");
+
+export const metadata: Metadata = {
+  title: { absolute: PAGE.metadata.title },
+  description: PAGE.metadata.description,
+  alternates: { canonical: PAGE.route },
+  openGraph: {
+    title: PAGE.metadata.title,
+    description: PAGE.metadata.description,
+    type: "website",
+    url: toAbsoluteUrl(PAGE.route),
+    siteName: SITE_NAME,
+    images: [{ url: toAbsoluteUrl(SITE_DEFAULT_OG_IMAGE) }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: PAGE.metadata.title,
+    description: PAGE.metadata.description,
+    images: [SITE_DEFAULT_OG_IMAGE],
+  },
+  robots: { index: true, follow: true },
+};
+
+export default function Page() {
+  const webPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: PAGE.metadata.title,
+    description: PAGE.metadata.description,
+    url: toAbsoluteUrl(PAGE.route),
+    inLanguage: "en-CA",
+    dateModified: LEGAL_LAST_UPDATED_ISO,
+    isPartOf: { "@type": "WebSite", name: SITE_NAME, url: toAbsoluteUrl("/") },
+    about: "SSP Group accessibility commitment, standards, and feedback channels.",
+  };
+
   return (
-    <article className="bg-[color:var(--color-surface-0-light)] py-14 sm:py-16">
-      <Container className="site-doc-container">
-        <div className="rounded-2xl border border-[color:var(--color-border-light)] bg-white p-6 shadow-[0_12px_32px_rgba(2,6,23,0.08)] sm:p-8">
-          <h1 className="text-3xl font-semibold text-[color:var(--color-text-light)]">
-            Accessibility Statement
-          </h1>
-          <p className="mt-2 text-xs text-[color:var(--color-muted-light)]">
-            Last updated: {LAST_UPDATED}
-          </p>
-
-          <p className="mt-4 text-sm leading-relaxed text-[color:var(--color-muted-light)] sm:text-base">
-            NPT Logistics is committed to making our digital experiences accessible to all users,
-            including people using assistive technologies.
-          </p>
-
-          <h2 className="mt-8 text-xl font-semibold text-[color:var(--color-text-light)]">
-            Our accessibility approach
-          </h2>
-          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-[color:var(--color-muted-light)] sm:text-base">
-            <li>Clear heading structure and readable text contrast.</li>
-            <li>Keyboard-accessible navigation and interactive controls.</li>
-            <li>Focus indicators for actionable elements.</li>
-            <li>Responsive layouts across desktop and mobile devices.</li>
-            <li>Ongoing monitoring and incremental accessibility improvements.</li>
-          </ul>
-
-          <h2 className="mt-8 text-xl font-semibold text-[color:var(--color-text-light)]">
-            Feedback and support
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-[color:var(--color-muted-light)] sm:text-base">
-            If you experience accessibility barriers or need support accessing content, please
-            contact us and include the page URL and a short description of the issue so we can
-            address it promptly.
-          </p>
-          <p className="mt-4 text-sm leading-relaxed text-[color:var(--color-muted-light)] sm:text-base">
-            Contact us via the{" "}
-            <Link href="/contact" className="font-semibold text-[color:var(--color-brand-600)]">
-              contact page
-            </Link>
-            .
-          </p>
-        </div>
-      </Container>
-    </article>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }}
+      />
+      <LegalPageShell page={PAGE} />
+    </>
   );
 }

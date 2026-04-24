@@ -28,7 +28,7 @@ const PAIRS = [
   ["We uses", "We use"],
   ["We supports", "We support"],
   ["We coordinates", "We coordinate"],
-  ["We confirms", "We confirm"],
+  ["We confirms", "We confirm"],                               
   ["We aligns", "We align"],
   ["We provides", "We provide"],
   ["We structures", "We structure"],

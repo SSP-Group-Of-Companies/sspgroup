@@ -13,6 +13,7 @@ import { Globe, Truck, Waypoints } from "lucide-react";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 import { trackCtaClick } from "@/lib/analytics/cta";
+import { HOME_WHY_SSP_HEADING_ID, HOME_WHY_SSP_SECTION_ID } from "@/config/homeSections";
 import { cn } from "@/lib/cn";
 
 const SECTION_EYEBROW = "Why SSP";
@@ -521,7 +522,7 @@ function AnimatedTruck({
 
 export function WhySspSection() {
   const reduced = useReducedMotion() ?? false;
-  const headingId = "home-why-ssp-heading";
+  const headingId = HOME_WHY_SSP_HEADING_ID;
   const [p, setP] = React.useState(0);
 
   /* Lane dash + lead motion are gated on `p` → 1. Gating the intro on
@@ -557,7 +558,7 @@ export function WhySspSection() {
 
   return (
     <section
-      id="home-why-ssp"
+      id={HOME_WHY_SSP_SECTION_ID}
       aria-labelledby={headingId}
       className="relative overflow-hidden scroll-mt-16 py-20 sm:py-24 lg:py-28"
       style={{ backgroundColor: "var(--color-surface-0)" }}

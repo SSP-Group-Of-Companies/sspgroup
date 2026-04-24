@@ -270,7 +270,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             <Link href="/admin" className="flex cursor-pointer items-center gap-3">
               <AdminImage
                 src="/_optimized/brand/SSPlogo.png"
-                alt="NPT Logistics"
+                alt="SSP Group"
                 width={220}
                 height={80}
                 className="h-auto w-[50px] object-contain sm:w-[50px] md:w-[50px]"

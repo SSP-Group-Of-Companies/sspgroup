@@ -79,10 +79,15 @@ export const HEADER_SEARCH_QUICK_LINKS = [
   { label: "Request Quote", href: "/quote" },
 ] as const;
 
+import { COMPANY_ADDRESS, COMPANY_CONTACT } from "@/lib/seo/site";
+
+// Derived from the central `COMPANY_CONTACT` / `COMPANY_ADDRESS` so a change in
+// env (phone) or site.ts (address) propagates to every header utility surface
+// without needing to touch this file.
 export const HEADER_UTILITY = {
-  email: "cs@sspgroup.com",
-  phone: "+1 519 968 3632",
-  telHref: "tel:+15199683632",
-  mailtoHref: "mailto:cs@sspgroup.com",
-  address: "8401 5 Side Rd, Milton ON L9T 2Y7",
+  email: COMPANY_CONTACT.email,
+  phone: COMPANY_CONTACT.phoneDisplay,
+  telHref: `tel:${COMPANY_CONTACT.phoneE164}`,
+  mailtoHref: `mailto:${COMPANY_CONTACT.email}`,
+  address: COMPANY_ADDRESS.formatted,
 } as const;

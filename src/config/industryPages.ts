@@ -326,10 +326,10 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
         },
       ],
       links: [
-        { label: "Expedited & Specialized", href: "/services/expedited-specialized" },
-        { label: "Truckload", href: "/services/truckload" },
+        { label: "Expedited & Specialized", href: "/solutions/specialized-critical-freight" },
+        { label: "Truckload", href: "/solutions/truckload" },
         { label: "Cross-Border", href: "/solutions/cross-border" },
-        { label: "LTL & Consolidation", href: "/services/ltl" },
+        { label: "LTL & Consolidation", href: "/solutions/ltl" },
       ],
     },
     finalCta: {
@@ -547,9 +547,9 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
         },
       ],
       links: [
-        { label: "Truckload", href: "/services/truckload" },
-        { label: "LTL", href: "/services/ltl" },
-        { label: "Value-Added", href: "/services/value-added" },
+        { label: "Truckload", href: "/solutions/truckload" },
+        { label: "LTL", href: "/solutions/ltl" },
+        { label: "Managed Logistics", href: "/solutions/managed-logistics" },
       ],
     },
     finalCta: {
@@ -764,10 +764,10 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
         },
       ],
       links: [
-        { label: "Truckload", href: "/services/truckload" },
-        { label: "LTL", href: "/services/ltl" },
+        { label: "Truckload", href: "/solutions/truckload" },
+        { label: "LTL", href: "/solutions/ltl" },
         { label: "Cross-Border", href: "/solutions/cross-border" },
-        { label: "Temperature-Controlled", href: "/services/temperature-controlled" },
+        { label: "Temperature-Controlled", href: "/solutions/temperature-controlled" },
       ],
     },
     finalCta: {
@@ -981,9 +981,9 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
         },
       ],
       links: [
-        { label: "Temperature-Controlled", href: "/services/temperature-controlled" },
-        { label: "Truckload", href: "/services/truckload" },
-        { label: "Expedited & Specialized", href: "/services/expedited-specialized" },
+        { label: "Temperature-Controlled", href: "/solutions/temperature-controlled" },
+        { label: "Truckload", href: "/solutions/truckload" },
+        { label: "Expedited & Specialized", href: "/solutions/specialized-critical-freight" },
         { label: "Cross-Border", href: "/solutions/cross-border" },
       ],
     },
@@ -1197,10 +1197,10 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
         },
       ],
       links: [
-        { label: "Truckload", href: "/services/truckload" },
-        { label: "Expedited & Specialized", href: "/services/expedited-specialized" },
-        { label: "Flatbed, Step Deck & RGN (Oversize)", href: "/services/truckload#section-flatbed" },
-        { label: "Value-Added", href: "/services/value-added" },
+        { label: "Truckload", href: "/solutions/truckload" },
+        { label: "Expedited & Specialized", href: "/solutions/specialized-critical-freight" },
+        { label: "Flatbed, Step Deck & RGN (Oversize)", href: "/solutions/flatbed" },
+        { label: "Managed Logistics", href: "/solutions/managed-logistics" },
       ],
     },
     finalCta: {
@@ -1423,10 +1423,10 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
         },
       ],
       links: [
-        { label: "Truckload", href: "/services/truckload" },
-        { label: "Flatbed, Step Deck & RGN (Oversize)", href: "/services/truckload#section-flatbed" },
+        { label: "Truckload", href: "/solutions/truckload" },
+        { label: "Flatbed, Step Deck & RGN (Oversize)", href: "/solutions/flatbed" },
         { label: "Cross-Border", href: "/solutions/cross-border" },
-        { label: "Expedited & Specialized", href: "/services/expedited-specialized" },
+        { label: "Expedited & Specialized", href: "/solutions/specialized-critical-freight" },
       ],
     },
     finalCta: {
@@ -1641,9 +1641,9 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
         },
       ],
       links: [
-        { label: "Truckload", href: "/services/truckload" },
-        { label: "Hazmat", href: "/services/hazmat" },
-        { label: "LTL", href: "/services/ltl" },
+        { label: "Truckload", href: "/solutions/truckload" },
+        { label: "Hazmat", href: "/solutions/hazmat" },
+        { label: "LTL", href: "/solutions/ltl" },
         { label: "Cross-Border", href: "/solutions/cross-border" },
       ],
     },

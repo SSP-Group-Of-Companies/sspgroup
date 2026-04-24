@@ -1,3 +1,4 @@
+import { COMPANY_CONTACT } from "@/lib/seo/site";
 import { NAV } from "./navigation";
 
 export type FooterLink = { label: string; href: string };
@@ -199,7 +200,7 @@ export const FOOTER_SOCIALS: FooterSocial[] = [
   },
   {
     label: "Email SSP",
-    href: "mailto:cs@sspgroup.com",
+    href: `mailto:${COMPANY_CONTACT.email}`,
     icon: "mail",
     toneClass: "text-[#EA4335]",
     hoverClass: "hover:bg-[#fff1ef]",

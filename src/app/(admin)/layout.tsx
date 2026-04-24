@@ -10,20 +10,20 @@ import {
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
-  const rawMode = cookieStore.get("npt.admin.theme.mode")?.value;
+  const rawMode = cookieStore.get("ssp.admin.theme.mode")?.value;
 
   const initialMode: AdminThemeMode | undefined =
     rawMode === "light" || rawMode === "dark" || rawMode === "system" ? rawMode : undefined;
 
   return (
     <>
-      {/* Apply theme before paint (only for /admin paths) */}
+      {/* Resolve the admin theme before paint so /admin pages never flash the default surface. */}
       <Script
         id="admin-theme-init"
         strategy="beforeInteractive"
         dangerouslySetInnerHTML={{
           __html:
-            "(function(){try{if(!location.pathname.startsWith('/admin'))return;var html=document.documentElement;var existing=html.dataset.adminTheme;var k='npt.admin.theme.mode';var m=localStorage.getItem(k)||'system';var t=(m==='light'||m==='dark')?m:((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');if(existing!=='light'&&existing!=='dark'){html.dataset.adminTheme=t;}document.cookie='npt.admin.theme.mode='+encodeURIComponent(m)+';path=/;max-age=31536000;samesite=lax';}catch(e){}})();",
+            "(function(){try{if(!location.pathname.startsWith('/admin'))return;var html=document.documentElement;var existing=html.dataset.adminTheme;var k='ssp.admin.theme.mode';var m=localStorage.getItem(k);if(!(m==='light'||m==='dark'||m==='system'))m='system';var t=(m==='light'||m==='dark')?m:((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');if(existing!=='light'&&existing!=='dark'){html.dataset.adminTheme=t;}document.cookie=k+'='+encodeURIComponent(m)+';path=/;max-age=31536000;samesite=lax';}catch(e){}})();",
         }}
       />
 

@@ -37,7 +37,7 @@ function buildCandidate(prefix: string, suffixLength: number, date = new Date())
 export async function generateUniqueEntityId({
   model,
   fieldName = "quoteId",
-  prefix = "NPT",
+  prefix = "SSP",
   date = new Date(),
   shortSuffixLength = 5,
   longSuffixLength = 7,

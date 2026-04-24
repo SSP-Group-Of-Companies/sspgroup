@@ -1,11 +1,11 @@
 // src/lib/chatbot/widgets/WhySspWidget.tsx
 "use client";
 
-import { WHY_NPT_SECTION } from "@/config/whyNpt";
+import { HOME_WHY_SSP_SECTION_ID } from "@/config/homeSections";
 import type { BaseWidgetProps } from "../chatbot.types";
 import { LinkButton } from "./_shared";
 
-const WHY_SSP_HOME_ANCHOR = `/#${WHY_NPT_SECTION.id}`;
+const WHY_SSP_HOME_ANCHOR = `/#${HOME_WHY_SSP_SECTION_ID}`;
 
 export default function WhySspWidget({ actionProvider }: BaseWidgetProps) {
   return (

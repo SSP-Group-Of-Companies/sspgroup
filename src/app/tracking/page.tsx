@@ -38,7 +38,7 @@ export default function TrackingLoginPage() {
           <div className="mb-5 flex items-center justify-center">
             <LogoImage
               src="/_optimized/brand/SSPlogo.png"
-              alt="NPT Logistics"
+              alt="SSP Group"
               width={120}
               height={44}
               className="h-auto w-[96px] object-contain"
@@ -82,7 +82,7 @@ export default function TrackingLoginPage() {
 
       <footer className="absolute inset-x-0 bottom-0 z-20 border-t border-white/20 bg-[linear-gradient(90deg,rgba(5,18,45,0.92),rgba(11,35,80,0.86),rgba(5,18,45,0.92))] py-4 backdrop-blur-sm">
         <p className="text-center text-[13px] font-semibold text-white/90">
-          © {currentYear} NPT Logistics Inc. All Rights Reserved.
+          © {currentYear} SSP Group. All rights reserved.
         </p>
       </footer>
     </main>

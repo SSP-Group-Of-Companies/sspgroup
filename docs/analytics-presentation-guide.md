@@ -1,4 +1,4 @@
-# Analytics Presentation Guide (NPT Logistics)
+# Analytics Presentation Guide (SSP Group)
 
 Use this as your speaking script + slide outline for presenting why analytics matters, what was implemented, and how to use the data for business decisions.
 
@@ -20,7 +20,7 @@ And we can do this without noisy data or non-consented tracking.
 
 ### Slide 1 - Title
 
-**Title:** "How Analytics Improves Revenue and UX at NPT Logistics"
+**Title:** "How Analytics Improves Revenue and UX at SSP Group"
 
 Say:
 

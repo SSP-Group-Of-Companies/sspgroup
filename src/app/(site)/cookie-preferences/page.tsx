@@ -1,44 +1,55 @@
-"use client";
+import type { Metadata } from "next";
 
-import { Container } from "@/app/(site)/components/layout/Container";
+import { LegalPageShell } from "@/app/(site)/components/legal";
+import { LEGAL_LAST_UPDATED_ISO, getLegalPage } from "@/config/legal";
+import { SITE_DEFAULT_OG_IMAGE, SITE_NAME, toAbsoluteUrl } from "@/lib/seo/site";
 
-export default function CookiePreferencesPage() {
-  const openCookiePreferences = () => {
-    window.dispatchEvent(new CustomEvent("npt:open-cookie-preferences"));
+import { CookiePreferencesPanel } from "./_components/CookiePreferencesPanel";
+
+const PAGE = getLegalPage("cookie-preferences");
+
+export const metadata: Metadata = {
+  title: { absolute: PAGE.metadata.title },
+  description: PAGE.metadata.description,
+  alternates: { canonical: PAGE.route },
+  openGraph: {
+    title: PAGE.metadata.title,
+    description: PAGE.metadata.description,
+    type: "website",
+    url: toAbsoluteUrl(PAGE.route),
+    siteName: SITE_NAME,
+    images: [{ url: toAbsoluteUrl(SITE_DEFAULT_OG_IMAGE) }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: PAGE.metadata.title,
+    description: PAGE.metadata.description,
+    images: [SITE_DEFAULT_OG_IMAGE],
+  },
+  // Preferences page has no canonical SEO value beyond the /cookies policy.
+  robots: { index: false, follow: true },
+};
+
+export default function Page() {
+  const webPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: PAGE.metadata.title,
+    description: PAGE.metadata.description,
+    url: toAbsoluteUrl(PAGE.route),
+    inLanguage: "en-CA",
+    dateModified: LEGAL_LAST_UPDATED_ISO,
+    isPartOf: { "@type": "WebSite", name: SITE_NAME, url: toAbsoluteUrl("/") },
+    about: "Interactive cookie preferences for sspgroup.com.",
   };
 
   return (
-    <article className="bg-[color:var(--color-surface-0-light)] py-14 sm:py-16">
-      <Container className="site-doc-container">
-        <div className="rounded-2xl border border-[color:var(--color-border-light)] bg-white p-6 shadow-[0_12px_32px_rgba(2,6,23,0.08)] sm:p-8">
-          <h1 className="text-3xl font-semibold text-[color:var(--color-text-light)]">
-            Cookie Preferences
-          </h1>
-          <p className="mt-4 text-sm leading-relaxed text-[color:var(--color-muted-light)] sm:text-base">
-            You can manage optional analytics cookies at any time. Strictly necessary cookies remain
-            enabled to support secure and reliable operation of this website.
-          </p>
-
-          <div className="mt-6 rounded-xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0-light)]/50 p-4">
-            <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
-              Current preference controls
-            </div>
-            <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-relaxed text-[color:var(--color-muted-light)] sm:text-base">
-              <li>Accept all cookies</li>
-              <li>Reject non-essential cookies</li>
-              <li>Customize analytics preference</li>
-            </ul>
-          </div>
-
-          <button
-            type="button"
-            onClick={openCookiePreferences}
-            className="focus-ring-light mt-6 inline-flex h-11 items-center justify-center rounded-md bg-[color:var(--color-brand-600)] px-5 text-sm font-semibold text-white hover:bg-[color:var(--color-brand-700)]"
-          >
-            Open Cookie Preferences
-          </button>
-        </div>
-      </Container>
-    </article>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }}
+      />
+      <LegalPageShell page={PAGE} preSections={<CookiePreferencesPanel />} />
+    </>
   );
 }

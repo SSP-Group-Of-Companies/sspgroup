@@ -7,7 +7,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { trackCtaClick } from "@/lib/analytics/cta";
-import { getSiteSearchResults } from "@/lib/search/siteSearch";
+import { getSiteSearchResults, getDidYouMean } from "@/lib/search/siteSearch";
 import { HEADER_SEARCH_QUICK_LINKS } from "@/config/header";
 import { focusRingNav, focusRingMenu } from "./constants";
 import { lockViewportScroll, measureHeaderBottom } from "./overlay";
@@ -33,7 +33,15 @@ export function MobileSearchBubble({
   const [query, setQuery] = React.useState("");
   const [activeIndex, setActiveIndex] = React.useState(0);
 
-  const results = React.useMemo(() => getSiteSearchResults(query, 12), [query]);
+  const results = React.useMemo(
+    () => getSiteSearchResults(query, { limit: 12, currentPath: pathname }),
+    [query, pathname],
+  );
+  const didYouMean = React.useMemo(() => {
+    if (results.length > 0) return null;
+    if (!query.trim()) return null;
+    return getDidYouMean(query);
+  }, [results.length, query]);
 
   React.useLayoutEffect(() => {
     if (!open) return;
@@ -286,8 +294,35 @@ export function MobileSearchBubble({
                   </ul>
                 ) : (
                   <div className="px-2 py-3 text-sm text-[color:var(--color-menu-muted)]">
-                    No direct matches found. Try broader terms like truckload, cross-border, or
-                    quote.
+                    <p>
+                      No direct matches for{" "}
+                      <span className="font-medium text-[color:var(--color-menu-title)]">
+                        &ldquo;{query.trim()}&rdquo;
+                      </span>
+                      .
+                    </p>
+                    {didYouMean ? (
+                      <p className="mt-2">
+                        Did you mean{" "}
+                        <button
+                          type="button"
+                          onClick={() => setQuery(didYouMean)}
+                          className={cn(
+                            "font-medium text-[color:var(--color-menu-accent)] underline-offset-4 hover:underline",
+                            focusRingMenu,
+                          )}
+                        >
+                          {didYouMean}
+                        </button>
+                        ?
+                      </p>
+                    ) : (
+                      <p className="mt-2">
+                        Try broader terms like <span className="font-medium">truckload</span>,{" "}
+                        <span className="font-medium">cross-border</span>, or{" "}
+                        <span className="font-medium">quote</span>.
+                      </p>
+                    )}
                   </div>
                 )}
               </div>

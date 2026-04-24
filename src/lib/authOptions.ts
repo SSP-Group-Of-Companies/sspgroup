@@ -27,7 +27,7 @@ export const authOptions: AuthOptions = {
   cookies: {
     // The one cookie all apps will share
     sessionToken: {
-      name: AUTH_COOKIE_NAME, // e.g. "NPT_ONBOARDING_AUTH_TOKEN"
+      name: AUTH_COOKIE_NAME, // e.g. "SSP_ONBOARDING_AUTH_TOKEN"
       options: {
         path: "/",
         httpOnly: true,

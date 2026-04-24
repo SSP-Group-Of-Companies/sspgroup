@@ -7,7 +7,12 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { trackCtaClick } from "@/lib/analytics/cta";
-import { getSiteSearchResults, type SiteSearchResult } from "@/lib/search/siteSearch";
+import {
+  getSiteSearchResults,
+  getDidYouMean,
+  type SiteSearchResult,
+  type SearchGroupKey,
+} from "@/lib/search/siteSearch";
 import { HEADER_SEARCH_QUICK_LINKS } from "@/config/header";
 import { focusRingNav } from "./constants";
 import { measureMainbarBottom } from "./overlay";
@@ -15,42 +20,35 @@ import { measureMainbarBottom } from "./overlay";
 const ROLLOUT_DURATION_S = 0.32;
 const CONTENT_FADE_DURATION_S = 0.16;
 
-type SearchGroupKey =
-  | "Solutions"
-  | "Industries"
-  | "Company pages"
-  | "Insights"
-  | "Careers"
-  | "Shortcuts";
+const GROUP_ORDER: readonly SearchGroupKey[] = [
+  "Shortcuts",
+  "Solutions",
+  "Industries",
+  "Locations",
+  "Lanes",
+  "Company",
+  "Insights",
+  "Careers",
+  "Legal",
+];
 
 type GroupedResults = Record<SearchGroupKey, SiteSearchResult[]>;
 
-function classifySearchGroup(href: string): SearchGroupKey | null {
-  if (href === "/quote" || href === "/track-shipment" || href === "/tracking") return "Shortcuts";
-  if (href.startsWith("/solutions") || href.startsWith("/services")) return "Solutions";
-  if (href.startsWith("/industries")) return "Industries";
-  if (href.startsWith("/company") || href.startsWith("/about-us")) return "Company pages";
-  if (href.startsWith("/insights")) return "Insights";
-  if (href.startsWith("/careers")) return "Careers";
-  return null;
-}
-
 function groupResults(results: SiteSearchResult[]): GroupedResults {
   const grouped: GroupedResults = {
+    Shortcuts: [],
     Solutions: [],
     Industries: [],
-    "Company pages": [],
+    Locations: [],
+    Lanes: [],
+    Company: [],
     Insights: [],
     Careers: [],
-    Shortcuts: [],
+    Legal: [],
   };
-
   for (const result of results) {
-    const group = classifySearchGroup(result.href);
-    if (!group) continue;
-    grouped[group].push(result);
+    grouped[result.group].push(result);
   }
-
   return grouped;
 }
 
@@ -72,15 +70,23 @@ export function HeaderSearchMode({
   const [query, setQuery] = React.useState("");
   const [activeIndex, setActiveIndex] = React.useState(0);
 
-  const results = React.useMemo(() => getSiteSearchResults(query, 20), [query]);
+  const results = React.useMemo(
+    () => getSiteSearchResults(query, { limit: 20, currentPath: pathname }),
+    [query, pathname],
+  );
   const grouped = React.useMemo(() => groupResults(results), [results]);
   const flatResults = React.useMemo(
     () =>
-      (Object.keys(grouped) as SearchGroupKey[]).flatMap((key) =>
+      GROUP_ORDER.flatMap((key) =>
         grouped[key].map((result) => ({ group: key, result })),
       ),
     [grouped],
   );
+  const didYouMean = React.useMemo(() => {
+    if (results.length > 0) return null;
+    if (!query.trim()) return null;
+    return getDidYouMean(query);
+  }, [results.length, query]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -301,8 +307,7 @@ export function HeaderSearchMode({
                 </div>
               ) : flatResults.length ? (
                 <div className="max-h-[58vh] overflow-y-auto px-10 py-7">
-                  {(Object.keys(grouped) as SearchGroupKey[])
-                    .filter((key) => grouped[key].length > 0)
+                  {GROUP_ORDER.filter((key) => grouped[key].length > 0)
                     .map((groupKey) => (
                       <section key={groupKey} className="pb-6 last:pb-0">
                         <p className="mb-2 text-[10.5px] font-semibold tracking-[0.12em] text-[color:var(--color-menu-subtle)] uppercase">
@@ -348,7 +353,31 @@ export function HeaderSearchMode({
                 </div>
               ) : (
                 <div className="px-10 py-7 text-sm text-[color:var(--color-menu-muted)]">
-                  No direct matches found. Try broader terms like truckload, cross-border, or quote.
+                  <p>
+                    No direct matches for <span className="font-medium text-[color:var(--color-menu-title)]">&ldquo;{query.trim()}&rdquo;</span>.
+                  </p>
+                  {didYouMean ? (
+                    <p className="mt-2">
+                      Did you mean{" "}
+                      <button
+                        type="button"
+                        onClick={() => setQuery(didYouMean)}
+                        className={cn(
+                          "font-medium text-[color:var(--color-menu-accent)] underline-offset-4 hover:underline",
+                          focusRingNav,
+                        )}
+                      >
+                        {didYouMean}
+                      </button>
+                      ?
+                    </p>
+                  ) : (
+                    <p className="mt-2">
+                      Try broader terms like <span className="font-medium">truckload</span>,{" "}
+                      <span className="font-medium">cross-border</span>, or{" "}
+                      <span className="font-medium">quote</span>.
+                    </p>
+                  )}
                 </div>
               )}
             </motion.div>

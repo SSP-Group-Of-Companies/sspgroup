@@ -1,6 +1,6 @@
 // src/lib/chatbot/knowledgeBase.ts
 import { FAQ_CATEGORIES, FAQ_FINAL_CTA } from "@/config/faqs";
-import { NEXT_PUBLIC_SSP_CS_EMAIL, NEXT_PUBLIC_SSP_PHONE } from "@/config/env";
+import { COMPANY_CONTACT } from "@/lib/seo/site";
 import type { BotIntentId, FlatFaqItem, QuickReply } from "./chatbot.types";
 
 function normText(s: string) {
@@ -27,8 +27,8 @@ function uniqueWords(parts: readonly string[]) {
 }
 
 export const CONTACT_INFO = {
-  email: NEXT_PUBLIC_SSP_CS_EMAIL || "cs@sspgroup.com",
-  phone: NEXT_PUBLIC_SSP_PHONE || "+1 (281) 607-0001",
+  email: COMPANY_CONTACT.email,
+  phone: COMPANY_CONTACT.phoneDisplay,
 } as const;
 
 export const COMPANY_FACTS = {

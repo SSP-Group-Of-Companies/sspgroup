@@ -42,16 +42,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Truckload, LTL, and cross-border freight shipping from Toronto to Dallas with customs-ready execution and lane visibility.",
     intro:
-      "NPT supports Toronto to Dallas freight movement with mode-fit planning, cross-border handoff discipline, and proactive exception control.",
+      "We support Toronto to Dallas freight movement with mode-fit planning, cross-border handoff discipline, and proactive exception control.",
     bestFor: [
       "Ontario to Texas truckload freight",
       "Cross-border LTL shipments with appointment windows",
       "Temperature-sensitive freight with consistent transit handling",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
-      { label: "LTL service", href: "/services/ltl" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
+      { label: "LTL service", href: "/solutions/ltl" },
     ],
     relatedLocations: [
       { label: "Toronto freight services", href: "/locations/toronto-on" },
@@ -66,16 +66,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border trucking and freight logistics from Milton, Ontario to Dallas, Texas for FTL, LTL, and time-sensitive freight.",
     intro:
-      "This lane is a high-demand Ontario-to-Texas corridor. NPT coordinates customs workflows and execution controls from pickup through delivery.",
+      "This lane is a high-demand Ontario-to-Texas corridor. We coordinate customs workflows and execution controls from pickup through delivery.",
     bestFor: [
       "Milton to Dallas full truckload freight",
       "Cross-border LTL consolidation",
       "Expedited shipments for tight production timelines",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Expedited and specialized", href: "/services/expedited-specialized" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Expedited and specialized", href: "/solutions/specialized-critical-freight" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Milton freight services", href: "/locations/milton-on" },
@@ -90,16 +90,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Ontario to Houston freight shipping with truckload, LTL, and cross-border lane coordination.",
     intro:
-      "NPT manages Milton to Houston freight with customs-ready routing, controlled handoffs, and clear milestone communication.",
+      "We manage Milton to Houston freight with customs-ready routing, controlled handoffs, and clear milestone communication.",
     bestFor: [
       "Ontario outbound truckload freight into Texas",
       "LTL freight requiring disciplined appointment coordination",
       "Industrial and manufacturing shipments",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "LTL service", href: "/services/ltl" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "LTL service", href: "/solutions/ltl" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Milton freight services", href: "/locations/milton-on" },
@@ -114,15 +114,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Montreal to Houston for truckload, LTL, and specialized freight.",
     intro:
-      "For Montreal to Houston freight, NPT aligns border, transit, and delivery controls to reduce variability on long-haul lanes.",
+      "For Montreal to Houston freight, We align border, transit, and delivery controls to reduce variability on long-haul lanes.",
     bestFor: [
       "Quebec to Texas FTL freight lanes",
       "Cross-border LTL shipments",
       "Specialized freight requiring route-aware planning",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Montreal freight services", href: "/locations/montreal-qc" },
@@ -137,16 +137,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "U.S.-Mexico cross-border freight shipping from Laredo to Monterrey with customs and border execution support.",
     intro:
-      "Laredo to Monterrey is a core gateway lane. NPT manages border-critical workflows with compliance-first handoffs and timeline control.",
+      "Laredo to Monterrey is a core gateway lane. We manage border-critical workflows with compliance-first handoffs and timeline control.",
     bestFor: [
       "U.S.-Mexico truckload freight lanes",
       "Cross-border LTL and customs-sensitive shipments",
       "Manufacturing and automotive freight corridors",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
-      { label: "Hazmat service", href: "/services/hazmat" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
+      { label: "Hazmat service", href: "/solutions/hazmat" },
     ],
     relatedLocations: [
       { label: "Laredo freight services", href: "/locations/laredo-tx" },
@@ -161,15 +161,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight and trucking from Houston to Monterrey for industrial, manufacturing, and retail supply chains.",
     intro:
-      "NPT supports Houston to Monterrey freight with predictable handoffs and customs-aware execution from dispatch to delivery.",
+      "We support Houston to Monterrey freight with predictable handoffs and customs-aware execution from dispatch to delivery.",
     bestFor: [
       "Texas to Mexico truckload freight",
       "Border-sensitive manufacturing lanes",
       "Expedited cross-border freight programs",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Expedited and specialized", href: "/services/expedited-specialized" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Expedited and specialized", href: "/solutions/specialized-critical-freight" },
     ],
     relatedLocations: [
       { label: "Houston freight services", href: "/locations/houston-tx" },
@@ -184,16 +184,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Chicago to Toronto with truckload and LTL options for North America supply chains.",
     intro:
-      "NPT executes Chicago to Toronto lanes with preplanned customs workflows, lane-level visibility, and appointment reliability.",
+      "We execute Chicago to Toronto lanes with preplanned customs workflows, lane-level visibility, and appointment reliability.",
     bestFor: [
       "Midwest to Ontario truckload freight",
       "LTL freight requiring delivery appointment control",
       "Automotive and manufacturing shipments",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "LTL service", href: "/services/ltl" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "LTL service", href: "/solutions/ltl" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Chicago freight services", href: "/locations/chicago-il" },
@@ -208,15 +208,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Texas to Ontario freight shipping with cross-border truckload and LTL services from Dallas to Toronto.",
     intro:
-      "NPT supports Dallas to Toronto freight with customs-ready planning, compliance checkpoints, and route-level execution discipline.",
+      "We support Dallas to Toronto freight with customs-ready planning, compliance checkpoints, and route-level execution discipline.",
     bestFor: [
       "Texas-to-Canada truckload freight",
       "LTL freight with border coordination requirements",
       "Retail and consumer goods replenishment lanes",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Dallas freight services", href: "/locations/dallas-tx" },
@@ -231,15 +231,14 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "California to Texas freight shipping with truckload and specialized service support.",
     intro:
-      "NPT supports Livermore to Dallas freight lanes with mode-fit recommendations and execution controls for long-haul flows.",
+      "We support Livermore to Dallas freight lanes with mode-fit recommendations and execution controls for long-haul flows.",
     bestFor: [
       "West-coast to Texas truckload lanes",
       "Truckload options for cost-sensitive freight",
       "Specialized freight requiring route planning",
     ],
     relatedServices: [
-      // { label: "Intermodal service", href: "/services/intermodal" }, // COMMENTED OUT - uncomment to restore
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Livermore freight services", href: "/locations/livermore-ca" },
@@ -254,15 +253,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Florida to Ontario freight shipping with cross-border logistics support for FTL and LTL shipments.",
     intro:
-      "NPT supports Miami to Toronto freight with customs-aware route planning and clear milestone communication for every move.",
+      "We support Miami to Toronto freight with customs-aware route planning and clear milestone communication for every move.",
     bestFor: [
       "Southeast U.S. to Ontario truckload shipments",
       "Cross-border LTL freight programs",
       "Temperature-controlled and expedited freight",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Temperature-controlled service", href: "/services/temperature-controlled" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Temperature-controlled service", href: "/solutions/temperature-controlled" },
     ],
     relatedLocations: [
       { label: "Miami freight services", href: "/locations/miami-fl" },
@@ -277,15 +276,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Canada to Mexico cross-border freight shipping from Toronto to Monterrey with lane-level planning and customs support.",
     intro:
-      "NPT coordinates Toronto to Monterrey freight lanes with integrated cross-border workflows across Canada, the U.S., and Mexico.",
+      "We coordinate Toronto to Monterrey freight lanes with integrated cross-border workflows across Canada, the U.S., and Mexico.",
     bestFor: [
       "Canada-Mexico truckload lanes",
       "Automotive and industrial freight corridors",
       "Cross-border freight requiring controlled handoffs",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
       { label: "Automotive logistics", href: "/industries/automotive" },
     ],
     relatedLocations: [
@@ -301,16 +300,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Milton to Chicago for truckload and LTL freight lanes.",
     intro:
-      "NPT supports Milton to Chicago lanes with customs-ready handoffs and appointment-first execution controls.",
+      "We support Milton to Chicago lanes with customs-ready handoffs and appointment-first execution controls.",
     bestFor: [
       "Ontario to Midwest truckload shipments",
       "Cross-border LTL programs",
       "Manufacturing and retail replenishment freight",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "LTL service", href: "/services/ltl" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "LTL service", href: "/solutions/ltl" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Milton freight services", href: "/locations/milton-on" },
@@ -325,16 +324,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Toronto to Chicago freight shipping with cross-border truckload and LTL support.",
     intro:
-      "NPT provides Toronto to Chicago lane coverage with customs discipline and real-time operational visibility.",
+      "We provide Toronto to Chicago lane coverage with customs discipline and real-time operational visibility.",
     bestFor: [
       "Cross-border truckload and LTL freight",
       "Ontario-to-Midwest manufacturing lanes",
       "Retail and distribution shipment flows",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
-      { label: "LTL service", href: "/services/ltl" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
+      { label: "LTL service", href: "/solutions/ltl" },
     ],
     relatedLocations: [
       { label: "Toronto freight services", href: "/locations/toronto-on" },
@@ -349,15 +348,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight logistics from Montreal to Chicago for truckload and LTL freight.",
     intro:
-      "NPT supports Montreal to Chicago lanes with compliance-first border workflows and predictable transit execution.",
+      "We support Montreal to Chicago lanes with compliance-first border workflows and predictable transit execution.",
     bestFor: [
       "Quebec to Midwest truckload shipments",
       "Cross-border LTL lane optimization",
       "Industrial and automotive freight",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Montreal freight services", href: "/locations/montreal-qc" },
@@ -372,15 +371,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Montreal to Dallas freight shipping with cross-border truckload and LTL lane support.",
     intro:
-      "NPT executes Montreal to Dallas freight with route-level planning, customs coordination, and proactive status updates.",
+      "We execute Montreal to Dallas freight with route-level planning, customs coordination, and proactive status updates.",
     bestFor: [
       "Long-haul Canada to Texas truckload lanes",
       "Cross-border LTL shipments",
       "Expedited freight with strict delivery windows",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Expedited and specialized", href: "/services/expedited-specialized" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Expedited and specialized", href: "/solutions/specialized-critical-freight" },
     ],
     relatedLocations: [
       { label: "Montreal freight services", href: "/locations/montreal-qc" },
@@ -395,15 +394,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "U.S.-Mexico freight shipping from Laredo to Mexico City with customs and border execution support.",
     intro:
-      "NPT helps shippers move Laredo to Mexico City freight with secure cross-border handoffs and disciplined exception management.",
+      "We help shippers move Laredo to Mexico City freight with secure cross-border handoffs and disciplined exception management.",
     bestFor: [
       "U.S.-Mexico truckload freight corridors",
       "Cross-border LTL with customs-sensitive documentation",
       "Time-sensitive freight into central Mexico",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Laredo freight services", href: "/locations/laredo-tx" },
@@ -418,15 +417,14 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Laredo to Toronto for truckload and LTL North America lanes.",
     intro:
-      "NPT supports Laredo to Toronto freight with integrated corridor planning for Mexico-U.S.-Canada supply chains.",
+      "We support Laredo to Toronto freight with integrated corridor planning for Mexico-U.S.-Canada supply chains.",
     bestFor: [
       "Three-country supply chain lanes",
       "Cross-border truckload freight",
       "Compliance-sensitive long-haul freight",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      // { label: "Intermodal service", href: "/services/intermodal" }, // COMMENTED OUT - uncomment to restore
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
     ],
     relatedLocations: [
       { label: "Laredo freight services", href: "/locations/laredo-tx" },
@@ -441,15 +439,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Houston to Milton freight shipping with cross-border truckload and LTL logistics support.",
     intro:
-      "NPT executes Houston to Milton freight with border-ready planning and controlled lane operations.",
+      "We execute Houston to Milton freight with border-ready planning and controlled lane operations.",
     bestFor: [
       "Texas to Ontario truckload freight",
       "Cross-border LTL shipments with delivery appointments",
       "Industrial and manufacturing lane support",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "LTL service", href: "/services/ltl" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "LTL service", href: "/solutions/ltl" },
     ],
     relatedLocations: [
       { label: "Houston freight services", href: "/locations/houston-tx" },
@@ -464,16 +462,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Truckload and LTL freight shipping from Houston to Dallas on the I-45 corridor for Texas distribution and manufacturing lanes.",
     intro:
-      "NPT supports Houston to Dallas freight with reliable lane execution on one of North America's busiest intra-state corridors.",
+      "We support Houston to Dallas freight with reliable lane execution on one of North America's busiest intra-state corridors.",
     bestFor: [
       "Texas distribution and manufacturing freight",
       "Truckload and LTL on the I-45 corridor",
       "Temperature-controlled and expedited options",
     ],
     relatedServices: [
-      { label: "Truckload service", href: "/services/truckload" },
-      { label: "LTL service", href: "/services/ltl" },
-      { label: "Temperature-controlled service", href: "/services/temperature-controlled" },
+      { label: "Truckload service", href: "/solutions/truckload" },
+      { label: "LTL service", href: "/solutions/ltl" },
+      { label: "Temperature-controlled service", href: "/solutions/temperature-controlled" },
     ],
     relatedLocations: [
       { label: "Houston freight services", href: "/locations/houston-tx" },
@@ -488,15 +486,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Houston to Montreal for truckload and LTL lanes.",
     intro:
-      "NPT supports Houston to Montreal freight with customs-aligned execution and proactive milestone communication.",
+      "We support Houston to Montreal freight with customs-aligned execution and proactive milestone communication.",
     bestFor: [
       "Texas to Quebec truckload lanes",
       "Cross-border LTL and mixed shipment programs",
       "Temperature-controlled freight options",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Temperature-controlled service", href: "/services/temperature-controlled" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Temperature-controlled service", href: "/solutions/temperature-controlled" },
     ],
     relatedLocations: [
       { label: "Houston freight services", href: "/locations/houston-tx" },
@@ -511,15 +509,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Dallas to Milton freight shipping with cross-border truckload and LTL support across North America lanes.",
     intro:
-      "NPT coordinates Dallas to Milton freight with customs-ready planning and high-visibility execution.",
+      "We coordinate Dallas to Milton freight with customs-ready planning and high-visibility execution.",
     bestFor: [
       "Texas to Ontario truckload freight",
       "Cross-border LTL programs",
       "Expedited freight requiring route control",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Expedited and specialized", href: "/services/expedited-specialized" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Expedited and specialized", href: "/solutions/specialized-critical-freight" },
     ],
     relatedLocations: [
       { label: "Dallas freight services", href: "/locations/dallas-tx" },
@@ -534,16 +532,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Truckload and LTL freight shipping from Dallas to Houston on the I-45 corridor for Texas distribution and manufacturing lanes.",
     intro:
-      "NPT supports Dallas to Houston freight with dependable lane execution on one of North America's busiest intra-state corridors.",
+      "We support Dallas to Houston freight with dependable lane execution on one of North America's busiest intra-state corridors.",
     bestFor: [
       "Texas distribution and manufacturing freight",
       "Truckload and LTL on the I-45 corridor",
       "Temperature-controlled and expedited options",
     ],
     relatedServices: [
-      { label: "Truckload service", href: "/services/truckload" },
-      { label: "LTL service", href: "/services/ltl" },
-      { label: "Temperature-controlled service", href: "/services/temperature-controlled" },
+      { label: "Truckload service", href: "/solutions/truckload" },
+      { label: "LTL service", href: "/solutions/ltl" },
+      { label: "Temperature-controlled service", href: "/solutions/temperature-controlled" },
     ],
     relatedLocations: [
       { label: "Dallas freight services", href: "/locations/dallas-tx" },
@@ -558,15 +556,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Dallas to Monterrey for truckload, LTL, and industrial lanes.",
     intro:
-      "NPT supports Dallas to Monterrey lanes with border-sensitive coordination and disciplined transit management.",
+      "We support Dallas to Monterrey lanes with border-sensitive coordination and disciplined transit management.",
     bestFor: [
       "U.S.-Mexico truckload lanes",
       "Cross-border manufacturing freight",
       "LTL freight with customs requirements",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Dallas freight services", href: "/locations/dallas-tx" },
@@ -581,15 +579,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Chicago to Milton freight shipping with cross-border truckload and LTL lane support.",
     intro:
-      "NPT executes Chicago to Milton freight with customs-ready handoffs and appointment-compliant delivery planning.",
+      "We execute Chicago to Milton freight with customs-ready handoffs and appointment-compliant delivery planning.",
     bestFor: [
       "Midwest to Ontario truckload freight",
       "Cross-border LTL consolidation",
       "Retail and automotive lane programs",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "LTL service", href: "/services/ltl" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "LTL service", href: "/solutions/ltl" },
     ],
     relatedLocations: [
       { label: "Chicago freight services", href: "/locations/chicago-il" },
@@ -604,15 +602,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Chicago to Montreal with truckload and LTL support.",
     intro:
-      "NPT supports Chicago to Montreal freight lanes with border-compliant controls and transparent in-transit updates.",
+      "We support Chicago to Montreal freight lanes with border-compliant controls and transparent in-transit updates.",
     bestFor: [
       "Midwest to Quebec truckload freight",
       "Cross-border LTL programs",
       "Manufacturing and consumer goods lanes",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Chicago freight services", href: "/locations/chicago-il" },
@@ -627,15 +625,14 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "California to Texas freight shipping from Livermore to Houston with truckload options.",
     intro:
-      "NPT supports Livermore to Houston freight with mode-fit planning, long-haul execution discipline, and milestone visibility.",
+      "We support Livermore to Houston freight with mode-fit planning, long-haul execution discipline, and milestone visibility.",
     bestFor: [
       "West coast to Texas truckload lanes",
       "Truckload alternatives for cost-efficiency",
       "Industrial and project freight movement",
     ],
     relatedServices: [
-      // { label: "Intermodal service", href: "/services/intermodal" }, // COMMENTED OUT - uncomment to restore
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Livermore freight services", href: "/locations/livermore-ca" },
@@ -650,15 +647,14 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Livermore to Toronto with truckload support.",
     intro:
-      "NPT executes Livermore to Toronto freight through coordinated long-haul cross-border planning and proactive exception control.",
+      "We execute Livermore to Toronto freight through coordinated long-haul cross-border planning and proactive exception control.",
     bestFor: [
       "California to Ontario truckload freight",
       "Cross-border truckload and multimodal planning",
       "Specialized freight requiring route discipline",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      // { label: "Intermodal service", href: "/services/intermodal" }, // COMMENTED OUT - uncomment to restore
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
     ],
     relatedLocations: [
       { label: "Livermore freight services", href: "/locations/livermore-ca" },
@@ -673,16 +669,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Domestic freight shipping from Miami to Dallas with truckload, LTL, and expedited support.",
     intro:
-      "NPT supports Miami to Dallas freight with controlled lane execution, schedule reliability, and scalable capacity.",
+      "We support Miami to Dallas freight with controlled lane execution, schedule reliability, and scalable capacity.",
     bestFor: [
       "Southeast to Texas truckload freight",
       "LTL and partial shipments",
       "Time-sensitive freight requiring expedited handling",
     ],
     relatedServices: [
-      { label: "Truckload service", href: "/services/truckload" },
-      { label: "LTL service", href: "/services/ltl" },
-      { label: "Expedited and specialized", href: "/services/expedited-specialized" },
+      { label: "Truckload service", href: "/solutions/truckload" },
+      { label: "LTL service", href: "/solutions/ltl" },
+      { label: "Expedited and specialized", href: "/solutions/specialized-critical-freight" },
     ],
     relatedLocations: [
       { label: "Miami freight services", href: "/locations/miami-fl" },
@@ -697,15 +693,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Miami to Monterrey for truckload, LTL, and industrial cargo lanes.",
     intro:
-      "NPT supports Miami to Monterrey freight with customs-sensitive handoffs and corridor-specific execution workflows.",
+      "We support Miami to Monterrey freight with customs-sensitive handoffs and corridor-specific execution workflows.",
     bestFor: [
       "U.S.-Mexico long-haul truckload lanes",
       "Cross-border LTL and expedited freight",
       "Industrial, retail, and manufacturing cargo",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Expedited and specialized", href: "/services/expedited-specialized" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Expedited and specialized", href: "/solutions/specialized-critical-freight" },
     ],
     relatedLocations: [
       { label: "Miami freight services", href: "/locations/miami-fl" },
@@ -720,16 +716,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Toronto to Detroit with truckload and LTL execution across high-frequency Ontario-Michigan lanes.",
     intro:
-      "NPT supports Toronto to Detroit freight with customs-ready workflows and reliable handoffs across one of the busiest U.S.-Canada gateway corridors.",
+      "We support Toronto to Detroit freight with customs-ready workflows and reliable handoffs across one of the busiest U.S.-Canada gateway corridors.",
     bestFor: [
       "Ontario to Michigan truckload freight",
       "Cross-border LTL with appointment-sensitive delivery windows",
       "Automotive and manufacturing freight",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
-      { label: "LTL service", href: "/services/ltl" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
+      { label: "LTL service", href: "/solutions/ltl" },
     ],
     relatedLocations: [
       { label: "Toronto freight services", href: "/locations/toronto-on" },
@@ -744,16 +740,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Detroit to Toronto with truckload and LTL support for Ontario-bound freight programs.",
     intro:
-      "NPT manages Detroit to Toronto freight with border-aware planning and consistent milestone control from pickup through delivery.",
+      "We manage Detroit to Toronto freight with border-aware planning and consistent milestone control from pickup through delivery.",
     bestFor: [
       "Michigan to Ontario truckload freight",
       "Cross-border LTL shipments with timed receiving",
       "Automotive and industrial freight replenishment",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "LTL service", href: "/services/ltl" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "LTL service", href: "/solutions/ltl" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Detroit freight services", href: "/locations/detroit-mi" },
@@ -768,16 +764,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Toronto to Buffalo with truckload and LTL support for short-haul U.S.-Canada freight moves.",
     intro:
-      "NPT supports Toronto to Buffalo freight with customs coordination and dependable short-haul execution across a high-velocity border lane.",
+      "We support Toronto to Buffalo freight with customs coordination and dependable short-haul execution across a high-velocity border lane.",
     bestFor: [
       "Ontario to New York truckload freight",
       "Cross-border LTL and partial shipments",
       "Time-sensitive regional distribution freight",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "LTL service", href: "/services/ltl" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "LTL service", href: "/solutions/ltl" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Toronto freight services", href: "/locations/toronto-on" },
@@ -792,16 +788,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Buffalo to Toronto with customs-ready truckload and LTL support.",
     intro:
-      "NPT executes Buffalo to Toronto freight with fast customs processing support and lane-level visibility.",
+      "We execute Buffalo to Toronto freight with fast customs processing support and lane-level visibility.",
     bestFor: [
       "New York to Ontario truckload freight",
       "Cross-border LTL with delivery appointments",
       "Retail and manufacturing replenishment",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "LTL service", href: "/services/ltl" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "LTL service", href: "/solutions/ltl" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Buffalo freight services", href: "/locations/buffalo-ny" },
@@ -816,16 +812,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Milton to Port Huron with truckload and LTL execution for Ontario-Michigan gateway freight.",
     intro:
-      "NPT supports Milton to Port Huron freight with customs-aware planning and consistent cross-border handoffs.",
+      "We support Milton to Port Huron freight with customs-aware planning and consistent cross-border handoffs.",
     bestFor: [
       "Ontario to Michigan truckload freight",
       "Cross-border LTL with scheduled receiving",
       "Industrial and project freight",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
-      { label: "LTL service", href: "/services/ltl" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
+      { label: "LTL service", href: "/solutions/ltl" },
     ],
     relatedLocations: [
       { label: "Milton freight services", href: "/locations/milton-on" },
@@ -840,16 +836,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Port Huron to Milton with truckload and LTL support for Ontario inbound freight.",
     intro:
-      "NPT manages Port Huron to Milton freight with border-gateway discipline and proactive milestone communication.",
+      "We manage Port Huron to Milton freight with border-gateway discipline and proactive milestone communication.",
     bestFor: [
       "Michigan to Ontario truckload freight",
       "Cross-border LTL shipments",
       "Regional replenishment and scheduled dock freight",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "LTL service", href: "/services/ltl" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "LTL service", href: "/solutions/ltl" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Port Huron freight services", href: "/locations/port-huron-mi" },
@@ -864,15 +860,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Monterrey to Laredo for Northbound U.S. and Canada freight corridors.",
     intro:
-      "NPT manages Monterrey to Laredo freight with border-gateway precision and proactive customs coordination.",
+      "We manage Monterrey to Laredo freight with border-gateway precision and proactive customs coordination.",
     bestFor: [
       "Mexico to U.S. truckload freight",
       "Cross-border LTL with customs documentation",
       "Automotive and industrial supply chain moves",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
     ],
     relatedLocations: [
       { label: "Monterrey freight services", href: "/locations/monterrey-nl" },
@@ -887,15 +883,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Monterrey to Houston with customs-ready truckload and LTL support.",
     intro:
-      "NPT supports Monterrey to Houston freight with integrated border workflows and disciplined milestone tracking.",
+      "We support Monterrey to Houston freight with integrated border workflows and disciplined milestone tracking.",
     bestFor: [
       "Mexico to Texas truckload freight",
       "Cross-border LTL consolidation",
       "Time-sensitive manufacturing freight",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "LTL service", href: "/services/ltl" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "LTL service", href: "/solutions/ltl" },
     ],
     relatedLocations: [
       { label: "Monterrey freight services", href: "/locations/monterrey-nl" },
@@ -910,16 +906,16 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Monterrey to Dallas with customs-ready truckload and LTL support.",
     intro:
-      "NPT executes Monterrey to Dallas freight with border-aware planning and route-level execution controls.",
+      "We execute Monterrey to Dallas freight with border-aware planning and route-level execution controls.",
     bestFor: [
       "Mexico to Texas truckload freight",
       "Cross-border LTL consolidation",
       "Nearshoring-related manufacturing and retail freight",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
-      { label: "LTL service", href: "/services/ltl" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
+      { label: "LTL service", href: "/solutions/ltl" },
     ],
     relatedLocations: [
       { label: "Monterrey freight services", href: "/locations/monterrey-nl" },
@@ -934,15 +930,15 @@ export const SEO_LANES: SeoLanePage[] = [
     metaDescription:
       "Cross-border freight shipping from Monterrey to Toronto across Mexico, U.S., and Canada freight corridors.",
     intro:
-      "NPT executes Monterrey to Toronto freight with multi-border handoff discipline and full lane visibility.",
+      "We execute Monterrey to Toronto freight with multi-border handoff discipline and full lane visibility.",
     bestFor: [
       "Mexico to Canada truckload corridors",
       "Three-country cross-border lane programs",
       "Automotive and industrial supply chain freight",
     ],
     relatedServices: [
-      { label: "Cross-border shipping", href: "/services/cross-border" },
-      { label: "Truckload service", href: "/services/truckload" },
+      { label: "Cross-border shipping", href: "/solutions/cross-border" },
+      { label: "Truckload service", href: "/solutions/truckload" },
       { label: "Automotive logistics", href: "/industries/automotive" },
     ],
     relatedLocations: [

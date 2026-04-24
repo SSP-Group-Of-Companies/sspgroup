@@ -16,10 +16,11 @@ interface AppJWT {
   picture?: string;
 }
 
-// Dummy admin user used when auth is disabled
+// Dummy admin user used when auth is disabled (local development only).
+// This account is never issued in production because DISABLE_AUTH is false there.
 const DUMMY_ADMIN_USER: IUser = {
   id: "dev-admin",
-  email: "dev-admin@npt.local",
+  email: "dev-admin@sspgroup.local",
   name: "Dev Admin",
   picture: undefined,
 };

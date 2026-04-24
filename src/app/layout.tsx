@@ -7,11 +7,15 @@ import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { AnalyticsClient } from "@/app/(site)/components/analytics/AnalyticsClient";
 import {
+  COMPANY_ADDRESS,
   COMPANY_CONTACT,
+  COMPANY_FOUNDING_YEAR,
+  COMPANY_LEGAL_NAME,
   SITE_DEFAULT_DESCRIPTION,
   SITE_DEFAULT_OG_IMAGE,
   SITE_NAME,
   SITE_URL,
+  SOCIAL_PROFILES,
   toAbsoluteUrl,
 } from "@/lib/seo/site";
 
@@ -23,7 +27,13 @@ export const metadata: Metadata = {
   },
   description: SITE_DEFAULT_DESCRIPTION,
   verification: {
-    google: "D-dUnuwfGKaeF63Wazk_bFAucGVV2QX3HXLeBgzJb_s",
+    // Populated from environment. Leave blank until SSP has verified each tool.
+    ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION
+      ? { google: process.env.NEXT_PUBLIC_GSC_VERIFICATION }
+      : {}),
+    ...(process.env.NEXT_PUBLIC_BING_VERIFICATION
+      ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION } }
+      : {}),
   },
 
   applicationName: "SSP Group",
@@ -99,7 +109,7 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const cookieStore = await cookies();
-  const mode = cookieStore.get("npt.admin.theme.mode")?.value; // light | dark | system
+  const mode = cookieStore.get("ssp.admin.theme.mode")?.value; // light | dark | system
 
   // Only force a theme when user explicitly chose light/dark.
   const adminTheme = mode === "dark" ? "dark" : mode === "light" ? "light" : undefined;
@@ -128,21 +138,32 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   "@type": "Organization",
                   "@id": `${SITE_URL}#organization`,
                   name: SITE_NAME,
+                  legalName: COMPANY_LEGAL_NAME,
+                  foundingDate: COMPANY_FOUNDING_YEAR,
                   url: SITE_URL,
                   logo: toAbsoluteUrl("/_optimized/brand/SSPlogo.png"),
                   email: COMPANY_CONTACT.email,
                   telephone: COMPANY_CONTACT.phoneE164,
+                  address: {
+                    "@type": "PostalAddress",
+                    streetAddress: COMPANY_ADDRESS.streetAddress,
+                    addressLocality: COMPANY_ADDRESS.addressLocality,
+                    addressRegion: COMPANY_ADDRESS.addressRegion,
+                    postalCode: COMPANY_ADDRESS.postalCode,
+                    addressCountry: COMPANY_ADDRESS.addressCountry,
+                  },
                   contactPoint: [
                     {
                       "@type": "ContactPoint",
-                      contactType: "sales",
+                      contactType: "customer service",
                       email: COMPANY_CONTACT.email,
                       telephone: COMPANY_CONTACT.phoneE164,
-                      areaServed: ["Canada", "United States", "Mexico"],
+                      areaServed: ["CA", "US", "MX"],
                       availableLanguage: ["en"],
                     },
                   ],
                   areaServed: ["Canada", "United States", "Mexico"],
+                  sameAs: SOCIAL_PROFILES,
                 },
               ]),
             }}

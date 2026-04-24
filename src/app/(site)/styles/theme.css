@@ -176,6 +176,15 @@
   --color-faq-hero-glow-primary-soft: rgba(96, 165, 250, 0.05);
   --color-faq-hero-glow-secondary: rgba(125, 211, 252, 0.14);
   --color-faq-hero-glow-white: rgba(255, 255, 255, 0.12);
+  /* Network coverage (locations + lanes) — FAQ-style layout, mid-tone pulls brand cyan for shard harmony */
+  --color-network-hero-surface-start: color-mix(in srgb, var(--color-company-ink) 90%, var(--color-ssp-cyan-500) 10%);
+  --color-network-hero-surface-mid: color-mix(in srgb, var(--color-company-ink) 55%, #000 45%);
+  --color-network-hero-surface-end: color-mix(in srgb, #000 90%, var(--color-company-ink) 10%);
+  --color-network-hero-glow-cyan: color-mix(in srgb, var(--color-ssp-cyan-500) 22%, transparent);
+  --color-network-hero-glow-cyan-soft: color-mix(in srgb, var(--color-ssp-cyan-500) 6%, transparent);
+  --color-network-hero-glow-sky: color-mix(in srgb, #7dd3fc 16%, transparent);
+  --color-network-hero-glow-white: color-mix(in srgb, #ffffff 11%, transparent);
+  --color-network-hero-hairline-cyan: color-mix(in srgb, var(--color-ssp-cyan-500) 32%, #ffffff 68%);
   --shadow-company-hero-heading: 0 2px 16px rgba(0, 0, 0, 0.46), 0 8px 28px rgba(10, 15, 26, 0.3);
   --shadow-company-hero-body: 0 2px 8px rgba(0, 0, 0, 0.28);
   --color-company-companies-grid-line: rgba(0, 0, 0, 0.6);
