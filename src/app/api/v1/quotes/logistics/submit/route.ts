@@ -2,9 +2,10 @@
 import { NextRequest } from "next/server";
 import mongoose from "mongoose";
 import connectDB from "@/lib/utils/connectDB";
-import { successResponse, errorResponse } from "@/lib/utils/apiResponse";
+import { successResponse, errorResponse, rateLimitedResponse } from "@/lib/utils/apiResponse";
 import { parseJsonBody } from "@/lib/utils/reqParser";
 import { verifyTurnstileToken, getRequestIp } from "@/lib/utils/turnstile";
+import { enforceRateLimit } from "@/lib/utils/rateLimit";
 import type { ILogisticsQuote } from "@/types/logisticsQuote.types";
 import { sendQuoteInternalNotificationEmail } from "@/lib/mail/quotes/sendQuoteInternalNotificationEmail";
 import { validateLogisticsQuoteRequest } from "@/lib/utils/quotes/logisticsQuoteValidator";
@@ -40,6 +41,15 @@ function deriveCrossBorder(serviceDetails: any): boolean | undefined {
 
 export const POST = async (req: NextRequest) => {
   let rollback: (() => Promise<void>) | null = null;
+
+  // Quotes can carry attachments and spawn multiple emails per submission, so
+  // we throttle slightly tighter than the plain contact form.
+  const throttled = enforceRateLimit(
+    "quote-submit",
+    { limit: 4, windowMs: 60_000 },
+    req.headers,
+  );
+  if (throttled) return rateLimitedResponse(throttled.retryAfterSeconds);
 
   try {
     const body = await parseJsonBody<SubmitQuoteBody>(req);

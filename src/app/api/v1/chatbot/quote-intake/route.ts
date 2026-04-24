@@ -1,8 +1,9 @@
 // src/app/api/v1/chatbot/quote-intake/route.ts
 import { NextRequest } from "next/server";
-import { successResponse, errorResponse } from "@/lib/utils/apiResponse";
+import { successResponse, errorResponse, rateLimitedResponse } from "@/lib/utils/apiResponse";
 import { parseJsonBody } from "@/lib/utils/reqParser";
 import { getSiteUrlFromRequest } from "@/lib/utils/urlHelper";
+import { enforceRateLimit } from "@/lib/utils/rateLimit";
 import { NEXT_PUBLIC_SSP_DISPATCH_EMAIL, NEXT_PUBLIC_SSP_EMAIL } from "@/config/env";
 import {
   isValidEmailLoose,
@@ -28,6 +29,15 @@ function validatePayload(b: Body): QuoteIntakePayload | null {
 }
 
 export const POST = async (req: NextRequest) => {
+  // Chatbot intake is unauthenticated and unchallenged by Turnstile, so the
+  // rate limit is the primary abuse control. Keep it modest.
+  const throttled = enforceRateLimit(
+    "chatbot-intake",
+    { limit: 8, windowMs: 60_000 },
+    req.headers,
+  );
+  if (throttled) return rateLimitedResponse(throttled.retryAfterSeconds);
+
   try {
     const body = await parseJsonBody<Body>(req);
     const validated = validatePayload(body);

@@ -14,8 +14,14 @@ html {
   text-size-adjust: 100%;
 }
 
+/*
+ * Smooth scrolling is now opted in via the `data-scroll-behavior="smooth"`
+ * attribute on <html> (see src/app/layout.tsx). Next.js toggles it off during
+ * route transitions automatically, preventing the "scroll jump" issue that
+ * plain `scroll-behavior: smooth` causes on route changes.
+ */
 @media (prefers-reduced-motion: no-preference) {
-  html {
+  html[data-scroll-behavior="smooth"] {
     scroll-behavior: smooth;
   }
 }

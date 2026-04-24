@@ -30,8 +30,9 @@ export async function verifyTurnstileToken(opts: {
   const token = (opts.token || "").trim();
 
   /* ───────────────────────── Dev Bypass ───────────────────────── */
-
-  if (!isProd && token === TURNSTILE_DEV_BYPASS_TOKEN) {
+  // Never short-circuit in production, and never treat an empty token as a match
+  // (TURNSTILE_DEV_BYPASS_TOKEN is intentionally optional and can be undefined).
+  if (!isProd && TURNSTILE_DEV_BYPASS_TOKEN && token === TURNSTILE_DEV_BYPASS_TOKEN) {
     return { ok: true };
   }
 

@@ -18,7 +18,9 @@ export const APP_AWS_SECRET_ACCESS_KEY = process.env.APP_AWS_SECRET_ACCESS_KEY!;
 export const NEXT_IMAGE_DOMAINS = process.env.NEXT_IMAGE_DOMAINS!;
 
 // Authentication Configuration
-export const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME! || "";
+// Default cookie name chosen so an accidentally-unset env var still produces a
+// namespaced cookie rather than "" (which would collide with anonymous cookies).
+export const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME || "SSP_GROUP_AUTH_TOKEN";
 export const NEXTAUTH_URL = process.env.NEXTAUTH_URL!;
 export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET!;
 export const ADMIN_EMAILS = process.env.ADMIN_EMAILS!;
@@ -34,7 +36,9 @@ export const AZURE_AD_TENANT_ID = process.env.AZURE_AD_TENANT_ID!;
 // Cloudflare
 export const NEXT_PUBLIC_TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!;
 export const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY!;
-export const TURNSTILE_DEV_BYPASS_TOKEN = process.env.TURNSTILE_DEV_BYPASS_TOKEN!;
+// Optional: only defined in development to let local integration tests bypass
+// the live Turnstile challenge. Never set this in production.
+export const TURNSTILE_DEV_BYPASS_TOKEN: string | undefined = process.env.TURNSTILE_DEV_BYPASS_TOKEN;
 
 // Google Analytics
 export const NEXT_PUBLIC_GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!;

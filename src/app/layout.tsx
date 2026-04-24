@@ -118,6 +118,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html
       lang="en"
       suppressHydrationWarning
+      // Tells Next.js the site opts into smooth scrolling so it can safely
+      // disable it during route transitions (prevents the jarring scroll-jump
+      // warning while preserving in-page anchor smoothness).
+      data-scroll-behavior="smooth"
       {...(adminTheme ? { "data-admin-theme": adminTheme } : {})}
     >
       <body className="min-h-dvh bg-[color:var(--color-surface-0)] text-[color:var(--color-text)]">

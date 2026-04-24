@@ -2,7 +2,7 @@
 import { NextRequest } from "next/server";
 
 import connectDB from "@/lib/utils/connectDB";
-import { successResponse, errorResponse } from "@/lib/utils/apiResponse";
+import { successResponse, errorResponse, rateLimitedResponse } from "@/lib/utils/apiResponse";
 import { parseJsonBody } from "@/lib/utils/reqParser";
 import { trim } from "@/lib/utils/stringUtils";
 import { makeEntityFinalPrefix } from "@/lib/utils/s3Helper";
@@ -17,6 +17,7 @@ import { EJobApplicationStatus } from "@/types/jobApplication.types";
 import type { IFileAsset } from "@/types/shared.types";
 
 import { verifyTurnstileToken, getRequestIp } from "@/lib/utils/turnstile";
+import { enforceRateLimit } from "@/lib/utils/rateLimit";
 
 import { sendJobApplicantConfirmationEmail } from "@/lib/mail/jobApplications/sendJobApplicantConfirmationEmail";
 import { sendJobApplicantHrNotificationEmail } from "@/lib/mail/jobApplications/sendJobApplicantHrNotificationEmail";
@@ -73,6 +74,14 @@ function getSiteUrlFromRequest(req: NextRequest): string {
 }
 
 export const POST = async (req: NextRequest, ctx: { params: Promise<{ slug: string }> }) => {
+  // Applications involve resume upload + two emails — throttle aggressively.
+  const throttled = enforceRateLimit(
+    "job-apply",
+    { limit: 3, windowMs: 60_000 },
+    req.headers,
+  );
+  if (throttled) return rateLimitedResponse(throttled.retryAfterSeconds);
+
   try {
     await connectDB();
 

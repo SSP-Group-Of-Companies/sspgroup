@@ -65,37 +65,21 @@ export function AnalyticsClient() {
     return () => window.removeEventListener(CONSENT_EVENTS.openPreferences, openPreferences);
   }, []);
 
-  // Detect when gtag becomes available — pageview sending depends on it.
+  // When gtag is already on the window (e.g. client-side navigation after the
+  // scripts have loaded on a previous route), flag it ready immediately.
+  // Otherwise we rely on the <Script onReady> callback below — no polling.
   React.useEffect(() => {
     if (!initialized || !gaId || routeExcluded) return;
     if (typeof window.gtag === "function") {
       setGtagReady(true);
-      return;
     }
-
-    let cancelled = false;
-    let attempts = 0;
-    const maxAttempts = 24;
-
-    const check = () => {
-      if (cancelled) return;
-      if (typeof window.gtag === "function") {
-        setGtagReady(true);
-        return;
-      }
-      attempts += 1;
-      if (attempts < maxAttempts) {
-        window.setTimeout(check, 150);
-      }
-    };
-
-    setGtagReady(false);
-    check();
-
-    return () => {
-      cancelled = true;
-    };
   }, [gaId, initialized, routeExcluded]);
+
+  const handleInitScriptReady = React.useCallback(() => {
+    if (typeof window.gtag === "function") {
+      setGtagReady(true);
+    }
+  }, []);
 
   // Dispatch page_view for every route change — only when consent granted.
   React.useEffect(() => {
@@ -192,6 +176,7 @@ export function AnalyticsClient() {
       <Script
         id="ssp-ga-init"
         strategy="afterInteractive"
+        onReady={handleInitScriptReady}
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];

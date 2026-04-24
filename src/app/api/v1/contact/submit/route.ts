@@ -3,9 +3,10 @@ import { NextRequest } from "next/server";
 import mongoose from "mongoose";
 
 import connectDB from "@/lib/utils/connectDB";
-import { successResponse, errorResponse } from "@/lib/utils/apiResponse";
+import { successResponse, errorResponse, rateLimitedResponse } from "@/lib/utils/apiResponse";
 import { parseJsonBody } from "@/lib/utils/reqParser";
 import { verifyTurnstileToken, getRequestIp } from "@/lib/utils/turnstile";
+import { enforceRateLimit } from "@/lib/utils/rateLimit";
 import { makeEntityFinalPrefix } from "@/lib/utils/s3Helper";
 import { finalizeAssetVectorAllOrNothing } from "@/lib/utils/s3Helper/server";
 import { getSiteUrlFromRequest } from "@/lib/utils/urlHelper";
@@ -30,6 +31,15 @@ type SubmitContactInquiryBody = {
 
 export const POST = async (req: NextRequest) => {
   let rollback: (() => Promise<void>) | null = null;
+
+  // Edge defense: cap submissions per-IP before we spend cycles on Turnstile or
+  // Mongo. Turnstile still runs afterwards — these two layers are complementary.
+  const throttled = enforceRateLimit(
+    "contact-submit",
+    { limit: 5, windowMs: 60_000 },
+    req.headers,
+  );
+  if (throttled) return rateLimitedResponse(throttled.retryAfterSeconds);
 
   try {
     const body = await parseJsonBody<SubmitContactInquiryBody>(req);

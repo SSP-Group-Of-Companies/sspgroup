@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
@@ -75,15 +76,27 @@ export function Hero() {
         aria-hidden
       />
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        {desktopVideoState === "failed" ? (
-          <div
-            className="absolute inset-0 hidden bg-cover bg-center md:block"
-            style={{ backgroundImage: `url(${POSTER})` }}
-          />
-        ) : null}
-        <div
-          className="absolute inset-0 block bg-cover bg-center md:hidden"
-          style={{ backgroundImage: `url(${POSTER})` }}
+        {/* LCP poster. Rendered as next/image so the browser preloads it, emits a
+            responsive srcset, and counts it as the Largest Contentful Paint
+            candidate. On mobile we always show the poster (no video); on desktop
+            we keep it as a paint-first fallback underneath the autoplaying video
+            so there's no flash while the video buffers. */}
+        <Image
+          src={POSTER}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          quality={84}
+          className={cn(
+            "absolute inset-0 object-cover",
+            // Once the desktop video is playing, fade the poster out on md+
+            // screens to avoid stacking two paints. Still visible as the
+            // fallback when the video fails.
+            "md:transition-opacity md:duration-500",
+            desktopVideoState === "ready" ? "md:opacity-0" : "md:opacity-100",
+          )}
+          aria-hidden="true"
         />
 
         <video

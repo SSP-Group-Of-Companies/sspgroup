@@ -14,6 +14,11 @@ const SITEMAP_QUERY_MAX_TIME_MS = 8000;
 const SITEMAP_FETCH_RETRY_COUNT = 2;
 const SITEMAP_FETCH_RETRY_DELAY_MS = 500;
 
+// Regenerate the sitemap hourly so newly-published blog posts and job postings
+// appear to crawlers without waiting for the next deploy. Next.js still caches
+// between requests, so this is safe on high-traffic days.
+export const revalidate = 3600;
+
 function toAbsolute(path: string) {
   return new URL(path, siteUrl).toString();
 }

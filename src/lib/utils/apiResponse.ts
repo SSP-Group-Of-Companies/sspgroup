@@ -87,6 +87,7 @@ export function errorResponse(statusOrError: unknown, msgOrError?: unknown, extr
   if (meta && typeof meta === "object") {
     const clearCookieHeader = (meta as any).clearCookieHeader as string | undefined;
     const setCookies = (meta as any).setCookies as string[] | undefined;
+    const retryAfterSeconds = (meta as any).retryAfterSeconds as number | undefined;
 
     if (clearCookieHeader) {
       res.headers.append("set-cookie", clearCookieHeader);
@@ -94,7 +95,26 @@ export function errorResponse(statusOrError: unknown, msgOrError?: unknown, extr
     if (Array.isArray(setCookies)) {
       for (const c of setCookies) res.headers.append("set-cookie", c);
     }
+    if (typeof retryAfterSeconds === "number" && retryAfterSeconds > 0) {
+      res.headers.set("Retry-After", String(Math.ceil(retryAfterSeconds)));
+    }
   }
 
   return res;
+}
+
+/**
+ * Shortcut for the common 429 response that always carries a correct
+ * `Retry-After` header. Lets route handlers reject throttled requests with a
+ * single call instead of reassembling the meta plumbing each time.
+ */
+export function rateLimitedResponse(retryAfterSeconds: number, message?: string) {
+  return errorResponse(
+    new AppError(
+      429,
+      message || "Too many requests. Please wait a moment and try again.",
+      EEApiErrorType.RATE_LIMITED,
+      { retryAfterSeconds },
+    ),
+  );
 }
