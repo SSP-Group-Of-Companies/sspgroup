@@ -51,7 +51,7 @@ export function CrossBorderIntroSections({
       <section className="relative overflow-hidden border-b border-[color:var(--color-ssp-ink-800)]/45 bg-[linear-gradient(140deg,var(--color-ssp-ink-800),var(--color-cb-hero-ink)_48%,var(--color-utility-bg))] py-24 sm:py-32">
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <Image
-            src="/_optimized/solution/crossBorder/cross-BorderHeroImg.png"
+            src="/_optimized/solution/crossBorder/cross-BorderHeroImg.jpg"
             alt=""
             fill
             priority
@@ -181,7 +181,7 @@ export function CrossBorderIntroSections({
                 video={{
                   title: "Cross-Border Mode Overview",
                   src: "/_optimized/solution/crossBorder/commercialVideo.mp4",
-                  posterSrc: "/_optimized/solution/crossBorder/mode-overview-poster.jpg",
+                  posterSrc: "/_optimized/solution/crossBorder/mode-overview-poster.webp",
                 }}
               />
             </motion.div>

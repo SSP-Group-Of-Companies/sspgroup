@@ -165,7 +165,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
               >
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[1.1rem]">
                   <Image
-                    src="/_optimized/company/who-we-are-group-photo.jpg"
+                    src="/_optimized/company/who-we-are-group-photo.webp"
                     alt="SSP Group leadership and operations team"
                     fill
                     className="object-cover object-center"
@@ -186,7 +186,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
               <div className="absolute -right-8 top-[12%] z-20 hidden w-[33%] -rotate-[2deg] rounded-xl border border-[color:var(--color-border-light)] bg-white p-1.5 shadow-[var(--shadow-company-who-float-card)] xl:block">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[0.8rem]">
                   <Image
-                    src="/_optimized/company/who-we-are-meeting-photo.jpg"
+                    src="/_optimized/company/who-we-are-meeting-photo.webp"
                     alt="We leadership and operations team meeting at the Milton operations base"
                     fill
                     className="object-cover object-center"
@@ -202,7 +202,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
               <div className="absolute -right-7 -bottom-10 z-20 hidden w-[39%] rotate-[1.5deg] rounded-xl border border-[color:var(--color-border-light)] bg-white p-1.5 shadow-[var(--shadow-company-who-float-card)] lg:block">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[0.8rem]">
                   <Image
-                    src="/_optimized/company/who-we-are-leadership-team.jpg"
+                    src="/_optimized/company/who-we-are-leadership-team.webp"
                     alt="We leadership and operations team in planning session"
                     fill
                     className="object-cover object-center"
@@ -219,7 +219,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
                 <div className="rounded-xl border border-[color:var(--color-border-light)] bg-white p-1.5 shadow-[var(--shadow-company-card-soft)]">
                   <div className="relative aspect-[4/3] overflow-hidden rounded-[0.75rem]">
                     <Image
-                      src="/_optimized/company/who-we-are-meeting-photo.jpg"
+                      src="/_optimized/company/who-we-are-meeting-photo.webp"
                       alt="We leadership and operations team meeting at the Milton operations base"
                       fill
                       className="object-cover object-center"
@@ -230,7 +230,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
                 <div className="rounded-xl border border-[color:var(--color-border-light)] bg-white p-1.5 shadow-[var(--shadow-company-card-soft)]">
                   <div className="relative aspect-[4/3] overflow-hidden rounded-[0.75rem]">
                     <Image
-                      src="/_optimized/company/who-we-are-leadership-team.jpg"
+                      src="/_optimized/company/who-we-are-leadership-team.webp"
                       alt="We leadership and operations team in planning session"
                       fill
                       className="object-cover object-center"

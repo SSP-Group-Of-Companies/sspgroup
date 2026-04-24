@@ -20,7 +20,7 @@ export const SITE_DEFAULT_DESCRIPTION =
 export const SITE_DEFAULT_OG_IMAGE = "/_optimized/brand/SSPlogo.png";
 
 /** Default social preview for /insights when a post has no banner (aligned with listing hero art). */
-export const INSIGHTS_DEFAULT_OG_IMAGE = "/_optimized/insights/insights-hero-ssp-containers-topdown.png";
+export const INSIGHTS_DEFAULT_OG_IMAGE = "/_optimized/insights/insights-hero-ssp-containers-topdown.jpg";
 /** Careers sharing fallback (until a dedicated careers social banner is introduced). */
 export const CAREERS_DEFAULT_OG_IMAGE = SITE_DEFAULT_OG_IMAGE;
 

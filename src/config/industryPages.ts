@@ -156,8 +156,8 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Automotive Logistics | JIT, Enclosed & Cross-Border Freight | SSP Group",
       description:
         "Automotive logistics for OEMs, Tier-1 suppliers, and specialty vehicle programs across Canada, the United States, and Mexico. JIT inbound sequencing, enclosed transport, and cross-border freight managed with control.",
-      heroImage: "/_optimized/industries/automotive-hero-premium.png",
-      ogImage: "/_optimized/industries/automotive-hero-premium.png",
+      heroImage: "/_optimized/industries/automotive-hero-premium.jpg",
+      ogImage: "/_optimized/industries/automotive-hero-premium.jpg",
     },
     hero: {
       kicker: "Automotive Logistics",
@@ -386,8 +386,8 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Manufacturing & Materials Logistics | Industrial Supply Chain | SSP Group",
       description:
         "Raw materials and production-critical freight moved with consistency, visibility, and recovery when conditions shift. Industrial supply chain execution across North America.",
-      heroImage: "/_optimized/industries/manufacturing-hero-premium-v1.png",
-      ogImage: "/_optimized/industries/manufacturing-hero-premium-v1.png",
+      heroImage: "/_optimized/industries/manufacturing-hero-premium-v1.jpg",
+      ogImage: "/_optimized/industries/manufacturing-hero-premium-v1.jpg",
     },
     hero: {
       kicker: "Manufacturing & Materials Logistics",
@@ -601,8 +601,8 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Retail & Consumer Goods Logistics | Cross-Border Replenishment | SSP Group",
       description:
         "Retail and consumer goods logistics for store replenishment, distribution centers, and cross-border freight across Canada, the United States, and Mexico. We manage retail freight with window control, visibility, and surge-ready execution.",
-      heroImage: "/_optimized/industries/retail-hero-premium-v3.png",
-      ogImage: "/_optimized/industries/retail-hero-premium-v3.png",
+      heroImage: "/_optimized/industries/retail-hero-premium-v3.jpg",
+      ogImage: "/_optimized/industries/retail-hero-premium-v3.jpg",
     },
     hero: {
       kicker: "Retail & Consumer Goods Logistics",
@@ -820,8 +820,8 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Food & Beverage Logistics | Cold Chain & Temperature-Controlled | SSP Group",
       description:
         "Temperature-aware handling, clean documentation, and on-time execution to protect shelf life and brand trust. Food and beverage freight with precision.",
-      heroImage: "/_optimized/industries/food-hero-premium-v6.png",
-      ogImage: "/_optimized/industries/food-hero-premium-v6.png",
+      heroImage: "/_optimized/industries/food-hero-premium-v6.jpg",
+      ogImage: "/_optimized/industries/food-hero-premium-v6.jpg",
     },
     hero: {
       kicker: "Food & Beverage Logistics",
@@ -1032,8 +1032,8 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Construction & Building Materials Logistics | Project-Specific Freight | SSP Group",
       description:
         "Heavy equipment, building materials, and site-critical freight delivered with permit-aware planning, safety governance, and checkpoint visibility across North America.",
-      heroImage: "/_optimized/industries/construction-hero-premium-v1.png",
-      ogImage: "/_optimized/industries/construction-hero-premium-v1.png",
+      heroImage: "/_optimized/industries/construction-hero-premium-v1.jpg",
+      ogImage: "/_optimized/industries/construction-hero-premium-v1.jpg",
     },
     hero: {
       kicker: "Construction & Building Materials Logistics",
@@ -1252,8 +1252,8 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Steel & Aluminum Logistics | Flatbed, Heavy Freight & Cross-Border Metals | SSP Group",
       description:
         "Steel and aluminum logistics for coils, plate, extrusions, and high-density freight across Canada, the United States, and Mexico. We manage metal freight with engineered securement, route control, and accountable execution.",
-      heroImage: "/_optimized/industries/steel-hero-premium-v1.png",
-      ogImage: "/_optimized/industries/steel-hero-premium-v1.png",
+      heroImage: "/_optimized/industries/steel-hero-premium-v1.jpg",
+      ogImage: "/_optimized/industries/steel-hero-premium-v1.jpg",
     },
     hero: {
       kicker: "Steel & Aluminum Logistics",
@@ -1483,8 +1483,8 @@ const INDUSTRY_PAGE_DATA: Record<IndustryKey, IndustryPageModel> = {
       title: "Chemical & Plastics Logistics | Hazmat, Compliant Freight & Cross-Border Control | SSP Group",
       description:
         "Chemical and plastics logistics across Canada, the United States, and Mexico. We manage regulated freight with carrier qualification, documentation governance, classification-specific handling, and controlled cross-border execution.",
-      heroImage: "/_optimized/industries/chemical-hero-premium-v1.png",
-      ogImage: "/_optimized/industries/chemical-hero-premium-v1.png",
+      heroImage: "/_optimized/industries/chemical-hero-premium-v1.jpg",
+      ogImage: "/_optimized/industries/chemical-hero-premium-v1.jpg",
     },
     hero: {
       kicker: "Chemical & Plastics Logistics",

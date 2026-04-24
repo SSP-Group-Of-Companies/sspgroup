@@ -147,7 +147,7 @@ export const companyAbout = {
           "Adds regional capacity and operating redundancy within Ontario for programs that require continuity, flexibility, and aligned service standards.",
         region: "CA",
         address: "2-8175 Lawson Road, Milton, ON L9T 5E5",
-        logoSrc: "/_optimized/company/logos/FellowLogo.png",
+        logoSrc: "/_optimized/company/logos/FellowLogo.webp",
         website: null,
       },
       {
@@ -156,7 +156,7 @@ export const companyAbout = {
           "Supports coordinated dispatch, visibility, and multimodal execution across North American freight programs under our operating oversight.",
         region: "CA",
         address: "16 Mediterranean Cres, Brampton, ON L6Y 0T4",
-        logoSrc: "/_optimized/company/logos/WebLogog.png",
+        logoSrc: "/_optimized/company/logos/WebLogog.webp",
         website: "https://webfreight.ca/",
       },
       {
@@ -165,7 +165,7 @@ export const companyAbout = {
           "Extends group capability in steel and heavy commodity transport where securement discipline, route planning, and documentation precision matter.",
         region: "CA",
         address: "876 Challinor Terr., Milton, ON L9T 7V6",
-        logoSrc: "/_optimized/company/logos/NewEnglandLogo.png",
+        logoSrc: "/_optimized/company/logos/NewEnglandLogo.webp",
         website: null,
       },
     ] satisfies OurCompanyEntry[],
@@ -177,7 +177,7 @@ export const companyAbout = {
     subtitle:
       "We run a compliance-led operating posture across Canada, the United States, and Mexico. Qualification, documentation, and escalation control are built into execution from the start.",
     image: {
-      src: "/_optimized/company/safety-complianceImg.png",
+      src: "/_optimized/company/safety-complianceImg.webp",
       alt: "Integrated editorial visual of a compliant freight operation in a refined logistics environment",
     },
     credentials: [
@@ -203,7 +203,7 @@ export const companyAbout = {
         name: "Sam Vashist",
         title: "President & Chief Executive Officer",
         bio: "Leads SSP Group's enterprise strategy, growth direction, and governance model across North America. His focus is disciplined expansion, stronger operating control, and service quality that stands up in enterprise review environments.",
-        image: "/_optimized/company/SamVashist.png",
+        image: "/_optimized/company/SamVashist.webp",
         imageAlt: "Portrait of Sam Vashist, President and Chief Executive Officer at SSP Group",
         linkedin: "https://www.linkedin.com/in/sam-vashist-76b146147/",
         imageCard: { objectPosition: "center 78%", scale: 1 },
@@ -214,7 +214,7 @@ export const companyAbout = {
         name: "Sukhvir Kooner",
         title: "Chief of Operations",
         bio: "Leads operating execution across planning, dispatch, live shipment governance, and closeout. His role is to keep standards consistent as volume, network complexity, and customer expectations increase.",
-        image: "/_optimized/company/SukhvirKoonerImg.png",
+        image: "/_optimized/company/SukhvirKoonerImg.webp",
         imageAlt: "Portrait of Sukhvir Kooner, Chief of Operations at SSP Group",
         linkedin: "https://www.linkedin.com/in/sukhvir-kooner-b35150147/",
         imageCard: { objectPosition: "center 78%", scale: 1 },
@@ -225,7 +225,7 @@ export const companyAbout = {
         name: "Curtis Davlut",
         title: "Chief of Sales, Vice President",
         bio: "Leads commercial development with a focus on account quality, network fit, and alignment between customer requirements and operating execution. His work connects growth to disciplined delivery.",
-        image: "/_optimized/company/curtisDavlut.png",
+        image: "/_optimized/company/curtisDavlut.webp",
         imageAlt: "Portrait of Curtis Davlut, Chief of Sales, Vice President at SSP Group",
         linkedin: "https://www.linkedin.com/in/curtis-davlut-945345276/",
         imageCard: { objectPosition: "center 78%", scale: 1 },
@@ -251,7 +251,7 @@ export const companyAbout = {
       "One accountable commercial and operating partner",
     ],
     map: {
-      src: "/_optimized/company/LocationNetwork_Img.png",
+      src: "/_optimized/company/LocationNetwork_Img.webp",
       alt: "Premium North America network map highlighting our operating locations across Canada, the United States, and Mexico",
     },
   },

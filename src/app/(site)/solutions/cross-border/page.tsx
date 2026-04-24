@@ -8,7 +8,7 @@ const PAGE_DESCRIPTION =
   "SSP Group manages cross-border freight programs across Canada, the United States, and Mexico with structured customs coordination, corridor-specific playbooks, and milestone-level visibility from origin to final delivery.";
 // Editorially owned so it does not drift on every deploy.
 const LAST_REVIEWED_DATE = "April 7, 2026";
-const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/cross-BorderHeroImg.png";
+const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/cross-BorderHeroImg.jpg";
 
 const capabilityPillars = [
   {

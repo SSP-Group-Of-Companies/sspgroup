@@ -696,7 +696,7 @@ export function WhySspSection() {
           >
             <WhySspLeadCyanLaneSimplified p={p} />
             <AnimatedTruck
-              src="/_optimized/brand/leadTruckImg.png"
+              src="/_optimized/brand/leadTruckImg.webp"
               alt=""
               layout={LEAD_TRUCK_LAYOUT}
               intrinsicWidth={3026}
@@ -708,7 +708,7 @@ export function WhySspSection() {
               reduced={reduced}
             />
             <AnimatedTruck
-              src="/_optimized/brand/followerTruck.png"
+              src="/_optimized/brand/followerTruck.webp"
               alt=""
               layout={UPPER_FOLLOWER_LAYOUT}
               intrinsicWidth={2546}
@@ -720,7 +720,7 @@ export function WhySspSection() {
               reduced={reduced}
             />
             <AnimatedTruck
-              src="/_optimized/brand/followerTruck.png"
+              src="/_optimized/brand/followerTruck.webp"
               alt=""
               layout={LOWER_FOLLOWER_LAYOUT}
               intrinsicWidth={2546}

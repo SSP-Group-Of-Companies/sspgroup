@@ -19,7 +19,7 @@ export const safetyCompliancePage = {
       "In freight logistics, safety and compliance only hold weight when they show up in dispatch readiness, driver and hours discipline, equipment checks, regulated commodity handling, border documentation, and how exceptions are owned while cargo is in motion. We align each shipment to lane-appropriate US, Canadian, and Mexican expectations—with traceable controls from intake through delivery.",
     video: {
       src: "/_optimized/company/safety&ComplianceVideo.mp4",
-      posterSrc: "/_optimized/company/safety&compliancePoster.jpg",
+      posterSrc: "/_optimized/company/safety&compliancePoster.webp",
       title: "We safety and compliance in practice",
     },
   },

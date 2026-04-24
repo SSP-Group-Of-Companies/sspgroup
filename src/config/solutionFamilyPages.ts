@@ -98,7 +98,7 @@ export const CORE_FREIGHT_MODES_FAMILY_PAGE: SolutionFamilyLandingPageData = {
     title: "Truckload & LTL Freight Services | SSP Group",
     description:
       "Full truckload and LTL freight services across dry van, flatbed, step deck, Conestoga, and heavy haul in Canada, the United States, and Mexico.",
-    ogImage: "/_optimized/solution/truckload/truckload-Image.png",
+    ogImage: "/_optimized/solution/truckload/truckload-Image.jpg",
   },
   hero: {
     eyebrow: "Core Freight Modes",
@@ -236,7 +236,7 @@ export const SPECIALIZED_CRITICAL_FREIGHT_FAMILY_PAGE: SolutionFamilyLandingPage
     title: "Specialized & Critical Freight | SSP Group",
     description:
       "Expedited, temperature-controlled, hazmat, and specialized vehicle transport across Canada, the United States, and Mexico with tighter controls from intake to delivery.",
-    ogImage: "/_optimized/solution/expedited/expedited-Img.png",
+    ogImage: "/_optimized/solution/expedited/expedited-Img.jpg",
   },
   hero: {
     eyebrow: "Specialized & Critical Freight",
@@ -261,7 +261,7 @@ export const SPECIALIZED_CRITICAL_FREIGHT_FAMILY_PAGE: SolutionFamilyLandingPage
         href: "/solutions/expedited",
         ctaLabel: "View Expedited",
         accentColor: "#ef4444",
-        imageSrc: "/_optimized/solution/expedited/Exp-mode-Img.png",
+        imageSrc: "/_optimized/solution/expedited/Exp-mode-Img.webp",
         imageAlt: "Expedited freight equipment and time-critical trucking execution",
       },
       {
@@ -273,7 +273,7 @@ export const SPECIALIZED_CRITICAL_FREIGHT_FAMILY_PAGE: SolutionFamilyLandingPage
         href: "/solutions/temperature-controlled",
         ctaLabel: "View Temperature-Controlled",
         accentColor: "#38bdf8",
-        imageSrc: "/_optimized/solution/tempCtrl/TC-mode-Img.png",
+        imageSrc: "/_optimized/solution/tempCtrl/TC-mode-Img.webp",
         imageAlt: "Temperature-controlled reefer freight and thermal integrity execution",
       },
       {
@@ -285,7 +285,7 @@ export const SPECIALIZED_CRITICAL_FREIGHT_FAMILY_PAGE: SolutionFamilyLandingPage
         href: "/solutions/hazmat",
         ctaLabel: "View Hazmat",
         accentColor: "#f59e0b",
-        imageSrc: "/_optimized/solution/hazmat/Hazmat-mode-Img.png",
+        imageSrc: "/_optimized/solution/hazmat/Hazmat-mode-Img.webp",
         imageAlt: "Hazmat-regulated freight transport and compliance-ready equipment",
       },
       {
@@ -297,7 +297,7 @@ export const SPECIALIZED_CRITICAL_FREIGHT_FAMILY_PAGE: SolutionFamilyLandingPage
         href: "/solutions/specialized-vehicles",
         ctaLabel: "View Specialized Vehicles",
         accentColor: "#7c3aed",
-        imageSrc: "/_optimized/solution/specializedVehicleTransport/SVTt-mode-Img.png",
+        imageSrc: "/_optimized/solution/specializedVehicleTransport/SVTt-mode-Img.webp",
         imageAlt: "Specialized vehicle transport and high-value unit handling",
       },
     ],
@@ -402,7 +402,7 @@ export const MANAGED_LOGISTICS_FAMILY_PAGE: SolutionFamilyLandingPageData = {
     title: "Managed Logistics & Freight Programs | SSP Group",
     description:
       "Managed capacity, dedicated logistics, warehousing and distribution, and project freight programs with ongoing governance across Canada, the United States, and Mexico.",
-    ogImage: "/_optimized/solution/managedCapacity/managedCapacityHero-Img.png",
+    ogImage: "/_optimized/solution/managedCapacity/managedCapacityHero-Img.jpg",
   },
   hero: {
     eyebrow: "Managed Logistics",
@@ -427,7 +427,7 @@ export const MANAGED_LOGISTICS_FAMILY_PAGE: SolutionFamilyLandingPageData = {
         href: "/solutions/managed-capacity",
         ctaLabel: "View Managed Capacity",
         accentColor: "#0f766e",
-        imageSrc: "/_optimized/solution/managedCapacity/managedCapacity-mode-Img.png",
+        imageSrc: "/_optimized/solution/managedCapacity/managedCapacity-mode-Img.webp",
         imageAlt: "Managed capacity programs and multi-lane freight procurement governance",
       },
       {
@@ -439,7 +439,7 @@ export const MANAGED_LOGISTICS_FAMILY_PAGE: SolutionFamilyLandingPageData = {
         href: "/solutions/dedicated-contract",
         ctaLabel: "View Dedicated / Contract",
         accentColor: "#1d4ed8",
-        imageSrc: "/_optimized/solution/dedicatedContract/dedicated-mode-Img.png",
+        imageSrc: "/_optimized/solution/dedicatedContract/dedicated-mode-Img.webp",
         imageAlt: "Dedicated contract logistics and committed fleet capacity at scale",
       },
       {
@@ -451,7 +451,7 @@ export const MANAGED_LOGISTICS_FAMILY_PAGE: SolutionFamilyLandingPageData = {
         href: "/solutions/warehousing-distribution",
         ctaLabel: "View Warehousing & Distribution",
         accentColor: "#0ea5a4",
-        imageSrc: "/_optimized/solution/warehouse/warehouse-mode-Img.png",
+        imageSrc: "/_optimized/solution/warehouse/warehouse-mode-Img.webp",
         imageAlt: "Warehousing and distribution operations connected to outbound freight",
       },
       {
@@ -463,7 +463,7 @@ export const MANAGED_LOGISTICS_FAMILY_PAGE: SolutionFamilyLandingPageData = {
         href: "/solutions/project-freight",
         ctaLabel: "View Project Freight",
         accentColor: "#14b8a6",
-        imageSrc: "/_optimized/solution/projectSpecific/projectSpecific-mode-Img.png",
+        imageSrc: "/_optimized/solution/projectSpecific/projectSpecific-mode-Img.webp",
         imageAlt: "Project freight and phased heavy or engineered cargo coordination",
       },
     ],

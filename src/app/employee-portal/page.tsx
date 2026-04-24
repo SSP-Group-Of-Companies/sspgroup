@@ -24,7 +24,7 @@ export default function EmployeePortalLoginPage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#061127]">
       <HeroImage
-        src="/_optimized/brand/loginPgBg.png"
+        src="/_optimized/brand/loginPgBg.webp"
         alt="Employee portal background"
         fill
         priority

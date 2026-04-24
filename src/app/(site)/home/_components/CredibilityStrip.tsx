@@ -29,9 +29,9 @@ const STATS: readonly Stat[] = [
     type: "network",
     label: "Canada, U.S.A. & Mexico",
     countries: [
-      { name: "Canada", src: "/_optimized/brand/Canada.png", alt: "Canada flag" },
-      { name: "USA", src: "/_optimized/brand/USA.png", alt: "United States flag" },
-      { name: "Mexico", src: "/_optimized/brand/Mexico.png", alt: "Mexico flag" },
+      { name: "Canada", src: "/_optimized/brand/Canada.webp", alt: "Canada flag" },
+      { name: "USA", src: "/_optimized/brand/USA.webp", alt: "United States flag" },
+      { name: "Mexico", src: "/_optimized/brand/Mexico.webp", alt: "Mexico flag" },
     ],
   },
   { type: "text", value: "24/7", label: "Tracking & Support" },

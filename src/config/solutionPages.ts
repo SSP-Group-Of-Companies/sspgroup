@@ -302,7 +302,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
       href: "/contact?topic=truckload",
     },
     media: {
-      src: "/_optimized/solution/truckload/truckload-Image.png",
+      src: "/_optimized/solution/truckload/truckload-Image.jpg",
       alt: "Truckload tractor trailer moving on an open North American highway",
     },
     mediaBrief: [
@@ -381,7 +381,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
       "Truckload is built for freight that should move in dedicated trailer space with clearer handling control, fewer shared-capacity compromises, and tighter appointment discipline. The objective is a cleaner operating path from pickup through delivery.",
     video: {
       src: "/_optimized/solution/truckload/commercialVideo.mp4",
-      posterSrc: "/_optimized/solution/truckload/mode-overview-poster.jpg",
+      posterSrc: "/_optimized/solution/truckload/mode-overview-poster.webp",
       title: "Truckload service in motion",
     },
   },
@@ -447,7 +447,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
         href: "/solutions/dry-van",
         accent: "#0d4f78",
         media: {
-          src: "/_optimized/solution/dryvan/dryvan-Img.png",
+          src: "/_optimized/solution/dryvan/dryvan-Img.webp",
           alt: "Dry van trailer profile",
           objectPosition: "58% 48%",
         },
@@ -468,7 +468,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
         href: "/solutions/flatbed",
         accent: "#10a7d8",
         media: {
-          src: "/_optimized/solution/flatbed/flatbed-Img.png",
+          src: "/_optimized/solution/flatbed/flatbed-Img.webp",
           alt: "Flatbed truckload profile",
           objectPosition: "54% 54%",
         },
@@ -489,7 +489,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
         href: "/solutions/step-deck",
         accent: "#3064a8",
         media: {
-          src: "/_optimized/solution/stepdeck/stepdeck-Img.png",
+          src: "/_optimized/solution/stepdeck/stepdeck-Img.webp",
           alt: "Step deck truckload profile",
           objectPosition: "56% 42%",
         },
@@ -510,7 +510,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
         href: "/solutions/rgn-heavy-haul",
         accent: "#d71920",
         media: {
-          src: "/_optimized/solution/rgnheavyhaul/rgn-Img.png",
+          src: "/_optimized/solution/rgnheavyhaul/rgn-Img.webp",
           alt: "RGN heavy haul profile",
           objectPosition: "50% 58%",
         },
@@ -531,7 +531,7 @@ export const TRUCKLOAD_SOLUTION_PAGE: SolutionFamilyPageData = {
         href: "/solutions/conestoga-roll-tite",
         accent: "#b37a20",
         media: {
-          src: "/_optimized/solution/conestoga/conestoga-Img.png",
+          src: "/_optimized/solution/conestoga/conestoga-Img.webp",
           alt: "Conestoga roll-tite profile",
           objectPosition: "50% 52%",
         },
@@ -694,7 +694,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
       href: "/contact?topic=ltl",
     },
     media: {
-      src: "/_optimized/solution/ltl/ltl-Img.png",
+      src: "/_optimized/solution/ltl/ltl-Img.webp",
       alt: "LTL freight moving through a controlled North American distribution lane",
     },
     mediaBrief: [
@@ -773,7 +773,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
       "LTL works when freight is palletized, accurately classified, dock-compatible, and able to move through terminal handling without creating avoidable claim or delay exposure. The cost advantage comes from shared capacity, but the operating discipline has to be established before the freight enters the network.",
     video: {
       src: "/_optimized/solution/ltl/commercialVideo.mp4",
-      posterSrc: "/_optimized/solution/ltl/mode-overview-poster.jpg",
+      posterSrc: "/_optimized/solution/ltl/mode-overview-poster.webp",
       title: "LTL service in motion",
     },
   },
@@ -832,7 +832,7 @@ export const LTL_SOLUTION_PAGE: SolutionFamilyPageData = {
       title: "LTL Freight Fit Guide",
       intro:
         "LTL is built for freight that does not require exclusive trailer space and can move through a terminal network cleanly. Use this guide to confirm fit and identify a better service path when it does not.",
-      diagram: "/_optimized/solution/ltl/ltl-Img.png",
+      diagram: "/_optimized/solution/ltl/ltl-Img.webp",
       diagramAlt: "LTL freight movement and shared-capacity service overview",
       specs: {
         length: "Shared trailer space across multiple shipments",
@@ -1039,7 +1039,7 @@ export const DRY_VAN_SOLUTION_PAGE: SolutionDetailPageData = {
       href: "/contact?topic=truckload&mode=dry-van",
     },
     media: {
-      src: "/_optimized/solution/dryvan/dryvan-Img.png",
+      src: "/_optimized/solution/dryvan/dryvan-Img.webp",
       alt: "Dry van trailer in motion across a North American freight corridor",
       objectPosition: "82% 38%",
     },
@@ -1339,7 +1339,7 @@ export const FLATBED_SOLUTION_PAGE: SolutionDetailPageData = {
       href: "/contact?topic=truckload&mode=flatbed",
     },
     media: {
-      src: "/_optimized/solution/flatbed/flatbedHero-Img.png",
+      src: "/_optimized/solution/flatbed/flatbedHero-Img.webp",
       alt: "Flatbed trailer hauling industrial freight on a North American route",
     },
     mediaBrief: [
@@ -1634,7 +1634,7 @@ export const STEP_DECK_SOLUTION_PAGE: SolutionDetailPageData = {
       href: "/contact?topic=truckload&mode=step-deck",
     },
     media: {
-      src: "/_optimized/solution/stepdeck/stepdeckHero-Img.png",
+      src: "/_optimized/solution/stepdeck/stepdeckHero-Img.webp",
       alt: "Step deck trailer hauling tall industrial freight on a North American route",
     },
     mediaBrief: [
@@ -1929,7 +1929,7 @@ export const CONESTOGA_ROLL_TITE_SOLUTION_PAGE: SolutionDetailPageData = {
       href: "/contact?topic=truckload&mode=conestoga-roll-tite",
     },
     media: {
-      src: "/_optimized/solution/conestoga/conestogaHero-Img.png",
+      src: "/_optimized/solution/conestoga/conestogaHero-Img.webp",
       alt: "Conestoga trailer hauling weather-sensitive industrial freight on a North American route",
     },
     mediaBrief: [
@@ -2224,7 +2224,7 @@ export const RGN_HEAVY_HAUL_SOLUTION_PAGE: SolutionDetailPageData = {
       href: "/contact?topic=truckload&mode=rgn-heavy-haul",
     },
     media: {
-      src: "/_optimized/solution/rgnheavyhaul/rgnHero-Img.png",
+      src: "/_optimized/solution/rgnheavyhaul/rgnHero-Img.webp",
       alt: "RGN heavy haul trailer transporting oversized industrial freight on a North American route",
     },
     mediaBrief: [
@@ -2519,7 +2519,7 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
       href: "/contact?topic=temperature-controlled",
     },
     media: {
-      src: "/_optimized/solution/tempCtrl/tempCtrl-Img.png",
+      src: "/_optimized/solution/tempCtrl/tempCtrl-Img.webp",
       alt: "Temperature-controlled trailer moving refrigerated freight through a North American corridor",
     },
     mediaBrief: [
@@ -2598,7 +2598,7 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
       "This mode is used when cargo quality, shelf life, or compliance depends on maintaining a defined temperature range during transit. The reefer trailer matters, but so do setpoint instructions, pre-load readiness, airflow, monitoring, and disciplined response if conditions change.",
     video: {
       src: "/_optimized/solution/tempCtrl/comomercialVideo.mp4",
-      posterSrc: "/_optimized/solution/tempCtrl/mode-overview-poster.jpg",
+      posterSrc: "/_optimized/solution/tempCtrl/mode-overview-poster.webp",
       title: "Temperature-controlled service in motion",
     },
   },
@@ -2657,7 +2657,7 @@ export const TEMPERATURE_CONTROLLED_SOLUTION_PAGE: SolutionFamilyPageData = {
       title: "Temperature-Controlled Freight Fit Guide",
       intro:
         "Temperature-controlled service is for freight whose condition, quality, or compliance depends on maintaining a defined thermal range in transit. Use this guide to confirm fit and to identify a better service path when active temperature control should not lead the move.",
-      diagram: "/_optimized/solution/tempCtrl/tempCtrl-Img.png",
+      diagram: "/_optimized/solution/tempCtrl/tempCtrl-Img.webp",
       diagramAlt: "Temperature-controlled freight movement and reefer service overview",
       specs: {
         length: "48 ft and 53 ft reefer equipment are common planning paths",
@@ -2864,7 +2864,7 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
       href: "/contact?topic=hazmat",
     },
     media: {
-      src: "/_optimized/solution/hazmat/hazmat-Img.png",
+      src: "/_optimized/solution/hazmat/hazmat-Img.webp",
       alt: "Hazmat freight movement with regulated materials transport context",
     },
     mediaBrief: [
@@ -2943,7 +2943,7 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
       "This mode is used when the material is regulated for transportation and the shipment has to move with the correct classification, packaging, hazard communication, documentation, and operating controls. Equipment matters, but the real operating discipline sits in getting the shipment legally and operationally ready before pickup.",
     video: {
       src: "/_optimized/solution/hazmat/commericalVideo.mp4",
-      posterSrc: "/_optimized/solution/hazmat/mode-overview-poster.jpg",
+      posterSrc: "/_optimized/solution/hazmat/mode-overview-poster.webp",
       title: "Hazmat service in motion",
     },
   },
@@ -3002,7 +3002,7 @@ export const HAZMAT_SOLUTION_PAGE: SolutionFamilyPageData = {
       title: "Hazmat Freight Fit Guide",
       intro:
         "Hazmat service is for freight regulated in transportation under the applicable hazardous materials rules. Use this guide to confirm fit and to identify a better service path when the move should be structured around another requirement.",
-      diagram: "/_optimized/solution/hazmat/hazmat-Img.png",
+      diagram: "/_optimized/solution/hazmat/hazmat-Img.webp",
       diagramAlt: "Hazmat freight movement and compliance-controlled service overview",
       specs: {
         length: "Equipment path depends on the regulated material and operating requirement",
@@ -3205,7 +3205,7 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
       href: "/contact?topic=expedited-specialized&mode=expedited",
     },
     media: {
-      src: "/_optimized/solution/expedited/expedited-Img.png",
+      src: "/_optimized/solution/expedited/expedited-Img.jpg",
       alt: "Expedited freight moving on a time-critical North American lane",
     },
     mediaBrief: [
@@ -3284,7 +3284,7 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
       "This mode is used when delivery timing affects production continuity, customer commitments, or shipment recovery and the move has to be built around faster response, directness, and disciplined communication. Speed matters, but execution quality still depends on clean intake, realistic routing, and active exception control.",
     video: {
       src: "/_optimized/solution/expedited/commericalVideo.mp4",
-      posterSrc: "/_optimized/solution/expedited/mode-overview-poster.jpg",
+      posterSrc: "/_optimized/solution/expedited/mode-overview-poster.webp",
       title: "Expedited service in motion",
     },
   },
@@ -3343,7 +3343,7 @@ export const EXPEDITED_SOLUTION_PAGE: SolutionFamilyPageData = {
       title: "Expedited Freight Fit Guide",
       intro:
         "Expedited service is for shipments where timing directly affects production, service continuity, customer commitments, or recovery. Use this guide to confirm fit and to identify a better service path when urgency should not lead the move.",
-      diagram: "/_optimized/solution/expedited/expedited-Img.png",
+      diagram: "/_optimized/solution/expedited/expedited-Img.jpg",
       diagramAlt: "Expedited freight movement and priority execution overview",
       specs: {
         length: "Equipment path depends on load profile and timing requirement",
@@ -3546,7 +3546,7 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
       href: "/contact?topic=expedited-specialized&mode=specialized-vehicles",
     },
     media: {
-      src: "/_optimized/solution/specializedVehicleTransport/svtHero-Img.png",
+      src: "/_optimized/solution/specializedVehicleTransport/svtHero-Img.webp",
       alt: "Specialized enclosed vehicle transport on a North American route",
     },
     mediaBrief: [
@@ -3619,7 +3619,7 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
       "This mode is used when vehicle condition, handling sequence, route feasibility, or premium-asset exposure need to be resolved before dispatch. Enclosed equipment matters, but so do clearance checks, ramp angle, custody points, and delivery-site realism before the unit ever moves.",
     video: {
       src: "/_optimized/solution/specializedVehicleTransport/commericalVideo.mp4",
-      posterSrc: "/_optimized/solution/specializedVehicleTransport/mode-overview-poster.jpg",
+      posterSrc: "/_optimized/solution/specializedVehicleTransport/mode-overview-poster.webp",
       title: "Specialized vehicle transport in motion",
     },
   },
@@ -3678,7 +3678,7 @@ export const SPECIALIZED_VEHICLES_SOLUTION_PAGE: SolutionFamilyPageData = {
       title: "Specialized Vehicle Transport Freight Fit Guide",
       intro:
         "Specialized vehicle transport is for exotic vehicles, collector units, premium rolling assets, and non-standard vehicle moves where condition integrity, enclosed handling, and route feasibility are non-negotiable. Use this guide to confirm fit and identify a better service path when another operating model should lead the move.",
-      diagram: "/_optimized/solution/specializedVehicleTransport/svtHero-Img.png",
+      diagram: "/_optimized/solution/specializedVehicleTransport/svtHero-Img.webp",
       diagramAlt: "Specialized vehicle transport overview",
       specs: {
         length: "Equipment path depends on unit profile, ride height, and loading method",
@@ -3846,7 +3846,7 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
       href: "/contact?topic=truckload&mode=project-freight",
     },
     media: {
-      src: "/_optimized/solution/projectSpecific/projectSpecificHero-Img.png",
+      src: "/_optimized/solution/projectSpecific/projectSpecificHero-Img.webp",
       alt: "Project-specific industrial freight staged for coordinated execution",
     },
     mediaBrief: [
@@ -3919,7 +3919,7 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
       "This mode is used when delivery order, equipment mix, route feasibility, permit exposure, site access, crane timing, or multi-party dependencies need to be resolved before capacity is assigned. The move is qualified as a program, not priced like a single isolated shipment.",
     video: {
       src: "/_optimized/solution/projectSpecific/commercialVideo.mp4",
-      posterSrc: "/_optimized/solution/projectSpecific/mode-overview-poster.jpg",
+      posterSrc: "/_optimized/solution/projectSpecific/mode-overview-poster.webp",
       title: "Project-specific freight in motion",
     },
   },
@@ -3978,7 +3978,7 @@ export const PROJECT_FREIGHT_SOLUTION_PAGE: SolutionFamilyPageData = {
       title: "Project-Specific Freight Fit Guide",
       intro:
         "Project-specific freight is for engineered and phased moves where load order, site readiness, route feasibility, permits, and multi-party coordination shape the execution plan. Use this guide to confirm fit and identify a better service path when another service should define the move.",
-      diagram: "/_optimized/solution/projectSpecific/projectSpecificHero-Img.png",
+      diagram: "/_optimized/solution/projectSpecific/projectSpecificHero-Img.webp",
       diagramAlt: "Project-specific freight overview",
       specs: {
         length: "Equipment path depends on each piece profile and the required delivery sequence",
@@ -4158,7 +4158,7 @@ export const MANAGED_CAPACITY_SOLUTION_PAGE: SolutionFamilyPageData = {
       href: "/contact?topic=value-added-services&mode=managed-capacity",
     },
     media: {
-      src: "/_optimized/solution/managedCapacity/managedCapacityHero-Img.png",
+      src: "/_optimized/solution/managedCapacity/managedCapacityHero-Img.jpg",
       alt: "Managed capacity program with coordinated freight planning and lane oversight",
     },
     mediaBrief: [
@@ -4462,7 +4462,7 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
       href: "/contact?topic=value-added-services&mode=dedicated-contract",
     },
     media: {
-      src: "/_optimized/solution/dedicatedContract/dedicatedContractHero-Img.png",
+      src: "/_optimized/solution/dedicatedContract/dedicatedContractHero-Img.webp",
       alt: "Dedicated contract freight operation with committed capacity and repeatable execution",
     },
     mediaBrief: [
@@ -4534,7 +4534,7 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
     description:
       "This model is used when recurring freight justifies committed resources, daily operating ownership, and explicit service standards across lanes or facilities. The objective is not only to improve carrier governance. It is to create a repeatable operating structure that protects service continuity over time.",
     imageCard: {
-      src: "/_optimized/solution/dedicatedContract/dedicatedContract.png",
+      src: "/_optimized/solution/dedicatedContract/dedicatedContract.webp",
       alt: "Dedicated contract freight overview showing committed-capacity operations",
     },
   },
@@ -4593,7 +4593,7 @@ export const DEDICATED_CONTRACT_SOLUTION_PAGE: SolutionFamilyPageData = {
       title: "Dedicated / Contract Freight Fit Guide",
       intro:
         "Dedicated and contract freight is for recurring programs where committed capacity, repeatable execution, and service-level accountability matter more than flexible sourcing alone. Use this guide to confirm fit and identify a better service path when another operating model should lead the move.",
-      diagram: "/_optimized/solution/dedicatedContract/dedicatedContract.png",
+      diagram: "/_optimized/solution/dedicatedContract/dedicatedContract.webp",
       diagramAlt: "Dedicated contract freight overview",
       specs: {
         length: "Lane commitment and service windows shape the operating model",
@@ -4766,7 +4766,7 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
       href: "/contact?topic=value-added-services&mode=warehousing-distribution",
     },
     media: {
-      src: "/_optimized/solution/warehouse/warehouseDistributionHero-Img.png",
+      src: "/_optimized/solution/warehouse/warehouseDistributionHero-Img.webp",
       alt: "Warehouse distribution operation with inventory handling and outbound staging",
     },
     mediaBrief: [
@@ -4839,7 +4839,7 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
       "This mode is used when inventory position, receiving discipline, order flow, and shipping performance have to operate as one controlled system. The objective is not simply to store product. It is to convert inventory into dependable outbound execution with fewer misses, less rework, and better service consistency.",
     video: {
       src: "/_optimized/solution/warehouse/commercialVideo.mp4",
-      posterSrc: "/_optimized/solution/warehouse/mode-overview-poster.jpg",
+      posterSrc: "/_optimized/solution/warehouse/mode-overview-poster.webp",
       title: "Warehousing and distribution in motion",
     },
   },
@@ -4898,7 +4898,7 @@ export const WAREHOUSING_DISTRIBUTION_SOLUTION_PAGE: SolutionFamilyPageData = {
       title: "Warehousing & Distribution Freight Fit Guide",
       intro:
         "Warehousing and distribution is for operations where inventory positioning, order flow, and outbound execution directly support customer service commitments. Use this guide to confirm fit and identify a better service path when another operating model should lead the requirement.",
-      diagram: "/_optimized/solution/warehouse/warehouseDistributionHero-Img.png",
+      diagram: "/_optimized/solution/warehouse/warehouseDistributionHero-Img.webp",
       diagramAlt: "Warehousing and distribution overview",
       specs: {
         length: "Order cycle and lead time shape the warehouse operating rhythm",

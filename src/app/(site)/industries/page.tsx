@@ -5,7 +5,7 @@ import { IndustriesHub } from "./_components/IndustriesHub";
 const PAGE_TITLE = "Industries We Serve";
 const PAGE_DESCRIPTION =
   "Industry-specific logistics programs purpose-built for automotive, manufacturing, retail, food & beverage, steel, construction, and chemical freight across North America.";
-const PAGE_OG_IMAGE = "/_optimized/industries/automotive-hero-premium.png";
+const PAGE_OG_IMAGE = "/_optimized/industries/automotive-hero-premium.jpg";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,

@@ -12,8 +12,8 @@ import { trackCtaClick } from "@/lib/analytics/cta";
 import type { SolutionFamilyLandingCard, SolutionFamilyLandingPageData } from "@/config/solutionFamilyPages";
 import { cn } from "@/lib/cn";
 
-const TL_MODE_IMAGE = "/_optimized/solution/truckload/TL-mode-Img.png";
-const LTL_MODE_IMAGE = "/_optimized/solution/ltl/LTL-mode-Img.png";
+const TL_MODE_IMAGE = "/_optimized/solution/truckload/TL-mode-Img.webp";
+const LTL_MODE_IMAGE = "/_optimized/solution/ltl/LTL-mode-Img.webp";
 
 function modePathImageSrc(key: string): string {
   return key === "ltl" ? LTL_MODE_IMAGE : TL_MODE_IMAGE;

@@ -12,7 +12,7 @@ import {
 const PAGE_TITLE = "Canada–USA Cross-Border Freight | Managed Corridor Programs";
 const PAGE_DESCRIPTION =
   "We operate managed freight programs across the Canada–USA border with CUSMA-aligned documentation, coordinated customs brokerage, strategic crossing selection, and structured governance from first mile to final delivery.";
-const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/canada-usa-hero-v2.png";
+const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/canada-usa-hero-v2.jpg";
 
 /* ── Data ─────────────────────────────────────────────────────────────── */
 

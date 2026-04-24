@@ -52,7 +52,7 @@ export const SOLUTIONS_HUB_PAGE = {
       "SSP Group is an asset-based logistics company: owned trucks, tri-country lane experience, and structured controls across truckload, LTL, specialized, cross-border, and managed logistics. This hub is where shippers align operating risk to the right service family—before the shipment is tendered and while it moves.",
     video: {
       src: "/_optimized/solution/solutionHub/whySSP.mp4",
-      posterSrc: "/_optimized/solution/solutionHub/whySSP_poster.jpg",
+      posterSrc: "/_optimized/solution/solutionHub/whySSP_poster.webp",
       title: "Why SSP Group shipping services",
     },
   },
