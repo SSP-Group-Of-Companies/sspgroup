@@ -67,20 +67,25 @@ html {
   }
 }
 
-/* Home › Why SSP — lane dashes only (cyan road stays static). CSS-driven so production builds
-   retain motion regardless of Framer Motion's WAAPI path for SVG presentation
-   attributes (stroke-dashoffset is not reliably animated via WAAPI across
-   browsers, so we drive it through CSS keyframes instead). */
+/* Home › Why SSP — lane dashes only (cyan road stays static). CSS-driven so
+   production builds retain motion regardless of Framer Motion's WAAPI path for
+   SVG presentation attributes (stroke-dashoffset is not reliably animated via
+   WAAPI across browsers, so we drive it through CSS keyframes instead).
+
+   The dash pattern in the component is `3 12` (total length 15). The keyframe
+   end value MUST be a negative multiple of 15 or the pattern visibly snaps at
+   the wrap point — that was the "loop restart" seam. -30 gives two complete
+   pattern cycles per animation period, making the loop perfectly seamless. */
 @keyframes sspLaneDash {
   from {
     stroke-dashoffset: 0;
   }
   to {
-    stroke-dashoffset: -32;
+    stroke-dashoffset: -30;
   }
 }
 .animate-ssp-lane-dash {
-  animation: sspLaneDash 2s linear infinite;
+  animation: sspLaneDash 2.4s linear infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   .animate-ssp-lane-dash {

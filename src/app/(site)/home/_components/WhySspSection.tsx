@@ -5,6 +5,7 @@ import Link from "next/link";
 import {
   animate,
   motion,
+  useInView,
   useReducedMotion,
   type Variants,
 } from "framer-motion";
@@ -95,12 +96,21 @@ const LANE_FWD = {
 const LANE_LAT = { x: -LANE_FWD.y, y: LANE_FWD.x } as const;
 const LANE_STEP = LANE_CHORD_LEN * LANE_T_TO_WORLD;
 
-/* Intro motion (same ratios as the reference): followers stop earlier; lead surges
-   in the second half after a slow first half. */
+/* Intro motion. Travel fractions preserve the reference composition (followers
+   cover less distance than the lead), but the timing curves are now single,
+   C²-continuous functions so there are no velocity kinks that read as a
+   "stagger" in the middle of the run.
+
+   - Followers: cubic smoothstep — symmetric ease-in-out, slow start, gentle stop.
+   - Lead:     smootherstep composed with a mild time-bias (p²) so the blue
+               lingers briefly at the start and then glides into final position,
+               preserving the "lead surges in later" intent from the original
+               piecewise curve, but with zero first- *and* second-derivative
+               discontinuities — the mathematical gold standard for
+               glassy, Apple-grade transitions. */
 const WHITE_TRAVEL_FRAC = 0.42;
 const BLUE_TRAVEL_FRAC = 0.72;
-const BLUE_FIRST_HALF = 0.22;
-const INTRO_DURATION_S = 2;
+const INTRO_DURATION_S = 2.4;
 const INTRO_FWD_SCALE = 0.2;
 
 function smoothstep01(t: number) {
@@ -108,17 +118,23 @@ function smoothstep01(t: number) {
   return x * x * (3 - 2 * x);
 }
 
+/** Ken Perlin's quintic smootherstep — zero first AND second derivatives at
+ *  both endpoints. Removes any perceptible "jerk" at the start/end of a tween. */
+function smootherstep01(t: number) {
+  const x = Math.min(1, Math.max(0, t));
+  return x * x * x * (x * (x * 6 - 15) + 10);
+}
+
 function followForwardU(p: number) {
-  return WHITE_TRAVEL_FRAC * INTRO_FWD_SCALE * p;
+  return WHITE_TRAVEL_FRAC * INTRO_FWD_SCALE * smoothstep01(p);
 }
 
 function leadForwardU(p: number) {
-  const b = BLUE_TRAVEL_FRAC * INTRO_FWD_SCALE;
-  if (p <= 0.5) {
-    return b * BLUE_FIRST_HALF * (p / 0.5);
-  }
-  const u = (p - 0.5) / 0.5;
-  return b * (BLUE_FIRST_HALF + (1 - BLUE_FIRST_HALF) * smoothstep01(u));
+  // p² biases time toward the second half; smootherstep keeps the curve C²
+  // smooth end-to-end. Result: the blue waits a beat, accelerates into the
+  // midpoint, then glides into final position with no visible velocity kink.
+  const biased = p * p;
+  return BLUE_TRAVEL_FRAC * INTRO_FWD_SCALE * smootherstep01(biased);
 }
 
 type TruckLayout = {
@@ -348,6 +364,8 @@ function WhySspLeadCyanLaneSimplified({ p }: { p: number }) {
   const tipFadeStartPct = (LANE_TIP_FADE_START_FRAC * 100).toFixed(2);
   const grad0 = laneStripPoint(LANE_T0);
   const grad1 = laneStripPoint(LANE_T1);
+  const shimStart = laneStripPoint(LANE_SHIM_T0);
+  const shimEnd = laneStripPoint(LANE_SHIM_T1);
   return (
     <div className="pointer-events-none absolute inset-0 z-[5] h-full w-full overflow-visible">
       <svg
@@ -400,6 +418,45 @@ function WhySspLeadCyanLaneSimplified({ p }: { p: number }) {
             <rect x="-20" y="-20" width="200" height="200" fill="black" />
             <rect x="-20" y="-20" width="200" height="200" fill={`url(#wss-lane-m-${id})`} />
           </mask>
+          {/* Dedicated shimmer mask: unlike the polygon mask (which only needs
+              to fade at the far horizon end), the dashed shimmer needs a soft
+              fade at BOTH ends of the line. Otherwise each dash visibly pops
+              on at the near end and pops off at the far end, which reads as
+              the animation "breaking" or "restarting" on every loop. These
+              soft entry/exit zones let each dash fade in, glide across, and
+              dissolve — the same trick Apple uses on their product-glide
+              shimmers. */}
+          <linearGradient
+            id={`wss-lane-shim-m-${id}`}
+            x1={shimStart[0] * 100}
+            y1={shimStart[1] * 100}
+            x2={shimEnd[0] * 100}
+            y2={shimEnd[1] * 100}
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stopColor="white" stopOpacity="0" />
+            <stop offset="14%" stopColor="white" stopOpacity="1" />
+            <stop offset="72%" stopColor="white" stopOpacity="1" />
+            <stop offset="100%" stopColor="white" stopOpacity="0" />
+          </linearGradient>
+          <mask
+            id={`wss-lane-shim-mask-${id}`}
+            style={{ maskType: "luminance" }}
+            maskUnits="userSpaceOnUse"
+            x="-20"
+            y="-20"
+            width="200"
+            height="200"
+          >
+            <rect x="-20" y="-20" width="200" height="200" fill="black" />
+            <rect
+              x="-20"
+              y="-20"
+              width="200"
+              height="200"
+              fill={`url(#wss-lane-shim-m-${id})`}
+            />
+          </mask>
         </defs>
         <g>
           <g mask={`url(#wss-lane-mask-${id})`}>
@@ -408,7 +465,10 @@ function WhySspLeadCyanLaneSimplified({ p }: { p: number }) {
               fill={`url(#wss-lane-cyan-${id})`}
               style={{
                 filter: `drop-shadow(0 2px 4px color-mix(in srgb, ${BRAND_CYAN_DECORATIVE} 25%, transparent))`,
-                opacity: Math.min(1, 0.25 + p * 0.75),
+                // Smoothstep keeps the lane fade-in visually matched to the
+                // truck curve, so the whole stage reads as one continuous
+                // reveal rather than three independent linear ramps.
+                opacity: 0.25 + smoothstep01(p) * 0.75,
               }}
             />
           </g>
@@ -416,28 +476,34 @@ function WhySspLeadCyanLaneSimplified({ p }: { p: number }) {
         {/* Dashed “shimmer” is the section’s primary motion cue. Always mounted
             (no p-gate) and driven by CSS keyframes on stroke-dashoffset so
             production builds never lose it. Opacity fades in with the intro
-            via inline style (plain CSS property, not a WAAPI-candidate). */}
-        {(() => {
-          const s = leadLaneShimmerLine();
-          return (
-            <line
-              x1={s[0]}
-              y1={s[1]}
-              x2={s[2]}
-              y2={s[3]}
-              stroke="rgba(255,255,255,0.35)"
-              strokeWidth="0.35"
-              strokeLinecap="round"
-              fill="none"
-              strokeDasharray="3 12"
-              className="animate-ssp-lane-dash"
-              style={{
-                mixBlendMode: "overlay",
-                opacity: Math.min(1, 0.2 + p * 0.8),
-              }}
-            />
-          );
-        })()}
+            via inline style (plain CSS property, not a WAAPI-candidate).
+            Wrapped in a dedicated two-ended fade mask so individual dashes
+            materialise and dissolve instead of popping on/off at the line
+            endpoints — without this, the endpoint pops read as the loop
+            "breaking" even though the dash pattern math is seamless. */}
+        <g mask={`url(#wss-lane-shim-mask-${id})`}>
+          {(() => {
+            const s = leadLaneShimmerLine();
+            return (
+              <line
+                x1={s[0]}
+                y1={s[1]}
+                x2={s[2]}
+                y2={s[3]}
+                stroke="rgba(255,255,255,0.35)"
+                strokeWidth="0.35"
+                strokeLinecap="round"
+                fill="none"
+                strokeDasharray="3 12"
+                className="animate-ssp-lane-dash"
+                style={{
+                  mixBlendMode: "overlay",
+                  opacity: 0.2 + smoothstep01(p) * 0.8,
+                }}
+              />
+            );
+          })()}
+        </g>
       </svg>
     </div>
   );
@@ -525,17 +591,28 @@ export function WhySspSection() {
   const headingId = HOME_WHY_SSP_HEADING_ID;
   const [p, setP] = React.useState(0);
 
-  /* Lane dash + lead motion are gated on `p` → 1. Gating the intro on
-     IntersectionObserver was still unreliable on some prod builds / mobile
-     WebViews: `p` never completed, so the stage stayed at p≈0 (static).
-     We run the intro on mount (when motion is allowed) so the timeline and
-     looping lane always reach the animated state; the section is often below
-     the fold on first paint, so the intro mostly finishes off-screen. */
+  /* The intro timeline (p: 0 → 1) drives the cyan lane fill-in, the dashed
+     shimmer, and the lead truck's forward surge. We wait until the truck
+     stage actually enters the viewport before starting it — same reveal
+     grammar as every other animated section on the site. `once: true` means
+     it only plays on first reveal, matching user expectation for reveal
+     animations (scrolling away and back shouldn't replay it).
+
+     Historically this ran on mount to guarantee completion on flaky mobile
+     WebViews, but that meant the animation often finished below the fold and
+     users never saw it. `useInView` is framer-motion's production-tested
+     observer (the same one powering `whileInView`), so the reliability
+     concern that motivated the old on-mount approach no longer applies. */
+  const stageRef = React.useRef<HTMLDivElement>(null);
+  const stageInView = useInView(stageRef, { once: true, amount: 0.2 });
+
   React.useEffect(() => {
     if (reduced) {
       setP(1);
       return;
     }
+    if (!stageInView) return;
+
     const c = animate(0, 1, {
       duration: INTRO_DURATION_S,
       ease: "linear",
@@ -543,7 +620,7 @@ export function WhySspSection() {
       onComplete: () => setP(1),
     });
     return () => c.stop();
-  }, [reduced]);
+  }, [reduced, stageInView]);
 
   const stagger: Variants = reduced
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
@@ -684,6 +761,7 @@ export function WhySspSection() {
           </div>
 
           <motion.div
+            ref={stageRef}
             variants={fadeUp}
             transition={{
               duration: reduced ? 0 : 0.38,
