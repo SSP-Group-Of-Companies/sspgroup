@@ -14,6 +14,67 @@ html {
   text-size-adjust: 100%;
 }
 
+/* ============================================================
+ * iOS Safari auto-zoom prevention for form controls.
+ *
+ * iOS Safari (and every WebKit-based browser on iOS — Chrome,
+ * Edge, Firefox on iPhone all fall back to WebKit) zooms the
+ * viewport whenever a user focuses a form control whose
+ * computed font-size is < 16px. That zoom is what creates the
+ * horizontal-scroll artefact the header search shows on iPhone,
+ * pushes the clear button off-screen, and makes the page feel
+ * "broken" until you manually pinch out. Android Chrome does
+ * not behave this way, which is why the bug only appears on iOS.
+ *
+ * Fix: floor every text-entry control at 16px on iOS, while
+ * letting any larger design-system size win via `max()`. We
+ * scope this to iOS/iPadOS Safari using `-webkit-touch-callout:
+ * none` — it's the one CSS property that exists only on iOS.
+ *
+ * We deliberately do NOT use `maximum-scale=1` or
+ * `user-scalable=no` on the viewport meta tag. That was the
+ * 2014-era workaround; it breaks accessibility zoom (WCAG
+ * 1.4.4) and is explicitly rejected by every modern design
+ * system. Stripe, Apple, Airbnb, Linear, GitHub and Vercel all
+ * solve this with the 16px-floor you see below.
+ * ============================================================ */
+@supports (-webkit-touch-callout: none) {
+  input[type="text"],
+  input[type="search"],
+  input[type="email"],
+  input[type="url"],
+  input[type="tel"],
+  input[type="password"],
+  input[type="number"],
+  input[type="date"],
+  input[type="datetime-local"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  input:not([type]),
+  textarea,
+  select {
+    font-size: max(16px, 1em);
+  }
+}
+
+/* Kill the legacy 300ms tap delay and prevent double-tap-zoom
+ * from hijacking form controls / buttons. `manipulation` still
+ * permits panning and single-tap gestures, so scrolling and
+ * accessibility zoom remain intact. Stripe / Material both
+ * apply this to their interactive primitives. */
+button,
+[role="button"],
+[type="submit"],
+[type="button"],
+[type="reset"],
+input,
+textarea,
+select,
+label {
+  touch-action: manipulation;
+}
+
 /*
  * Smooth scrolling is now opted in via the `data-scroll-behavior="smooth"`
  * attribute on <html> (see src/app/layout.tsx). Next.js toggles it off during
