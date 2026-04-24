@@ -632,9 +632,7 @@ export default function GuidedChatbot() {
                 </button>
 
                 <div className="flex items-start gap-3">
-                  <span className="from-ssp-cyan-600 to-utility-bg text-utility-text mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br shadow-md ring-1 ring-white/20">
-                    <Sparkles size={16} />
-                  </span>
+                  <Sparkles size={16} className="text-ssp-cyan-600 mt-0.5 shrink-0" aria-hidden />
 
                   <div className="text-sm">
                     <div className="text-ssp-ink-900 font-semibold">Hi 👋</div>
