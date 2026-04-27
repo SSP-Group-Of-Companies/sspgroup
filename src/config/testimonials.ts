@@ -31,10 +31,10 @@ export const TRUST_PROOF_ITEMS: TestimonialItem[] = [
   {
     type: "video",
     id: "ssp-youtube",
-    eyebrow: "Featured Testimonial",
-    title: "See SSP in operation",
+    eyebrow: "Live operation preview",
+    title: "A Decade of Growth, Reliability, and Trust",
     description:
-      "A closer look at how loads are coordinated, tracked, and followed through to completion with named ownership and clear handoffs.",
+      "Our story of scaling freight execution with accountable teams, dependable service, and partnerships built to last.",
     youtubeUrl: "https://www.youtube.com/watch?v=mQv-1GA-HYo&t=6s",
     channelUrl: "https://www.youtube.com/@SSPGroupofCompanies",
   },
