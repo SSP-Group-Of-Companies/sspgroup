@@ -2,6 +2,7 @@
 "use client";
 
 import * as React from "react";
+import { NEXT_PUBLIC_TURNSTILE_SITE_KEY } from "@/config/env";
 
 declare global {
   interface Window {
@@ -90,7 +91,7 @@ const TurnstileWidget = React.forwardRef<TurnstileWidgetHandle, Props>(function 
   },
   ref,
 ) {
-  const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+  const siteKey = NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   const containerRef = React.useRef<HTMLDivElement | null>(null);
   const widgetIdRef = React.useRef<string | null>(null);

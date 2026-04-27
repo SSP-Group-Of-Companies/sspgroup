@@ -27,7 +27,7 @@ import { ES3Namespace, ES3Folder } from "@/types/aws.types";
 
 import TurnstileWidget from "@/components/TurnstileWidget";
 import { uploadToS3PresignedPublic } from "@/lib/utils/s3Helper/client";
-import { NEXT_PUBLIC_SSP_HR_EMAIL } from "@/config/env";
+import { NEXT_PUBLIC_SSP_HR_EMAIL, NEXT_PUBLIC_TURNSTILE_SITE_KEY } from "@/config/env";
 import { publicCountJobView } from "@/lib/utils/jobs/publicJobsApi";
 import { trackCtaClick } from "@/lib/analytics/cta";
 import { CheckBox } from "../../components/ui/CheckBox";
@@ -171,7 +171,8 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
       const rect = noticeRef.current.getBoundingClientRect();
       const absoluteTop = rect.top + window.scrollY;
       const offset = getSiteHeaderOffset() + 12;
-      const behavior: ScrollBehavior = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+      const behavior: ScrollBehavior = window.matchMedia?.("(prefers-reduced-motion: reduce)")
+        .matches
         ? "auto"
         : "smooth";
 
@@ -314,7 +315,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
     setErr(null);
     setOk(false);
 
-    if (!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
+    if (!NEXT_PUBLIC_TURNSTILE_SITE_KEY) {
       setErr("Turnstile is not configured (missing NEXT_PUBLIC_TURNSTILE_SITE_KEY).");
       scrollToNotice();
 
@@ -537,7 +538,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                     {job.tags.map((t, idx) => (
                       <span
                         key={idx}
-                      className="rounded-full bg-[color:var(--color-surface-0)] px-2 py-1 text-[color:var(--color-text-light)]"
+                        className="rounded-full bg-[color:var(--color-surface-0)] px-2 py-1 text-[color:var(--color-text-light)]"
                       >
                         {t}
                       </span>
@@ -553,13 +554,17 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                 ) : null}
 
                 {job.summary ? (
-                  <div className="mt-5 text-sm leading-6 text-[color:var(--color-muted-light)]">{job.summary}</div>
+                  <div className="mt-5 text-sm leading-6 text-[color:var(--color-muted-light)]">
+                    {job.summary}
+                  </div>
                 ) : null}
               </div>
             </div>
 
             <div className="site-card-surface mt-5 rounded-[28px] p-4 sm:mt-6 sm:p-6">
-              <div className="text-sm font-semibold text-[color:var(--color-text-light)]">Role description</div>{" "}
+              <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
+                Role description
+              </div>{" "}
               <div className="mt-4">
                 <BlockNote initialContent={job.description as any} editable={false} />{" "}
               </div>{" "}
@@ -567,7 +572,9 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
 
             {Array.isArray(job.benefitsPreview) && job.benefitsPreview.length ? (
               <div className="site-card-surface mt-5 rounded-[28px] p-4 sm:mt-6 sm:p-6">
-                <div className="text-sm font-semibold text-[color:var(--color-text-light)]">Benefits</div>
+                <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
+                  Benefits
+                </div>
                 <ul className="mt-3 grid gap-2 sm:grid-cols-2">
                   {job.benefitsPreview.map((b, idx) => (
                     <li
@@ -585,7 +592,9 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
           {/* Right: Apply */}
           <aside className="w-full max-w-full min-w-0 lg:sticky lg:top-6">
             <div className="site-card-surface max-w-full min-w-0 overflow-hidden rounded-[28px] p-4 sm:p-6">
-              <div className="text-lg font-semibold tracking-tight text-[color:var(--color-text-light)]">Apply</div>
+              <div className="text-lg font-semibold tracking-tight text-[color:var(--color-text-light)]">
+                Apply
+              </div>
               <div className="mt-1 text-sm text-[color:var(--color-muted-light)]">
                 Submit your details and resume for review by the SSP recruiting team.
               </div>
@@ -694,7 +703,9 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
 
                 {/* Light screening */}
                 <div className="min-w-0 rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-0)] p-3 sm:p-4">
-                  <div className="text-sm font-semibold text-[color:var(--color-text-light)]">Candidate details</div>
+                  <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
+                    Candidate details
+                  </div>
                   <div className="mt-3 grid min-w-0 gap-2.5 sm:gap-3">
                     <div className="grid min-w-0 gap-2">
                       <div className="text-xs font-semibold text-[color:var(--color-text-light)]">
@@ -771,7 +782,9 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                     </div>
 
                     <div className="min-w-0">
-                      <div className="text-xs font-semibold text-[color:var(--color-text-light)]">Photo (optional)</div>
+                      <div className="text-xs font-semibold text-[color:var(--color-text-light)]">
+                        Photo (optional)
+                      </div>
                       <input
                         ref={photoInputRef}
                         type="file"
@@ -804,7 +817,9 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
 
                 {/* Verification */}
                 <div className="site-card-surface min-w-0 rounded-2xl p-3 sm:p-4">
-                  <div className="min-w-0 text-sm font-semibold text-[color:var(--color-text-light)]">Verification</div>
+                  <div className="min-w-0 text-sm font-semibold text-[color:var(--color-text-light)]">
+                    Verification
+                  </div>
 
                   {/* This wrapper is the key: if Turnstile injects an iframe with a hard width, we prevent it from widening the grid item */}
                   <div className="mt-2 max-w-full min-w-0 overflow-hidden">
@@ -868,7 +883,9 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
               </div>
               <div className="mt-3 flex min-w-0 items-center gap-2 text-xs text-[color:var(--color-muted-light)]">
                 <Phone className="h-3.5 w-3.5 shrink-0" />
-                <span className="min-w-0 break-words">Please include the job title in your message.</span>
+                <span className="min-w-0 break-words">
+                  Please include the job title in your message.
+                </span>
               </div>
             </div>
           </aside>

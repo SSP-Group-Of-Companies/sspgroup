@@ -6,6 +6,7 @@ import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { AnalyticsClient } from "@/app/(site)/components/analytics/AnalyticsClient";
+import { NEXT_PUBLIC_BING_VERIFICATION, NEXT_PUBLIC_GSC_VERIFICATION } from "@/config/env";
 import {
   COMPANY_ADDRESS,
   COMPANY_CONTACT,
@@ -28,11 +29,9 @@ export const metadata: Metadata = {
   description: SITE_DEFAULT_DESCRIPTION,
   verification: {
     // Populated from environment. Leave blank until SSP has verified each tool.
-    ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION
-      ? { google: process.env.NEXT_PUBLIC_GSC_VERIFICATION }
-      : {}),
-    ...(process.env.NEXT_PUBLIC_BING_VERIFICATION
-      ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION } }
+    ...(NEXT_PUBLIC_GSC_VERIFICATION ? { google: NEXT_PUBLIC_GSC_VERIFICATION } : {}),
+    ...(NEXT_PUBLIC_BING_VERIFICATION
+      ? { other: { "msvalidate.01": NEXT_PUBLIC_BING_VERIFICATION } }
       : {}),
   },
 
