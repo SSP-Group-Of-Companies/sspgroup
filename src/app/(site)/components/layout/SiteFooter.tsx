@@ -263,8 +263,18 @@ export function SiteFooter() {
 
       </Container>
 
-      <div className="border-t border-[color:var(--color-footer-border)] bg-[color:var(--color-footer-bg)] md:hidden">
-        <Container className="px-4 pt-5 pb-4">
+      <div className="relative overflow-hidden border-t border-[color:var(--color-footer-border)] bg-[color:var(--color-footer-bg)] md:hidden">
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-0 flex w-[48%] items-center justify-end pr-1" aria-hidden="true">
+          <CardImage
+            src="/_optimized/brand/favicon.png"
+            alt="We watermark"
+            width={640}
+            height={640}
+            className="h-[clamp(8rem,36vw,11.5rem)] w-[clamp(8rem,36vw,11.5rem)] object-contain opacity-[0.035]"
+          />
+        </div>
+
+        <Container className="relative z-10 px-4 pt-5 pb-4">
           <div>
             <Link
               href="/"
@@ -327,7 +337,7 @@ export function SiteFooter() {
 
             <nav
               aria-label="Legal"
-              className="flex max-w-[22rem] flex-wrap justify-center gap-x-5 gap-y-2.5 pr-12 text-center sm:max-w-none sm:justify-start sm:gap-x-6 sm:gap-y-2 sm:pr-0"
+              className="flex max-w-[22rem] flex-wrap justify-center gap-x-5 gap-y-2.5 text-center sm:max-w-none sm:justify-start sm:gap-x-6 sm:gap-y-2"
             >
               {FOOTER_LEGAL_LINKS.map((link) => (
                 <Link key={link.href} href={link.href} className={footerLegalLink}>
@@ -336,7 +346,7 @@ export function SiteFooter() {
               ))}
             </nav>
 
-            <p className="pr-14 text-[13px] text-[color:var(--color-footer-legal-muted)] sm:pr-0 sm:text-sm">
+            <p className="text-[13px] text-[color:var(--color-footer-legal-muted)] sm:text-sm">
               © {year} SSP Group. All rights reserved.
             </p>
           </div>
