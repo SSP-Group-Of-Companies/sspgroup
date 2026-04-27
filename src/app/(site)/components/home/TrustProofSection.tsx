@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { animate, AnimatePresence, motion, useMotionValue, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useMotionValue, useReducedMotion, useTransform } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 import { LogoImage } from "@/components/media/LogoImage";
@@ -587,11 +587,7 @@ function PartnersBand({
               "transition-colors hover:border-white/40 hover:bg-white/10 hover:text-white",
             )}
             aria-pressed={paused}
-            aria-label={
-              paused
-                ? "Resume partner logo motion"
-                : "Pause partner logo motion. You can still drag the logo strip horizontally."
-            }
+            aria-label={paused ? "Resume partner logo motion" : "Pause partner logo motion"}
           >
             {paused ? "Play motion" : "Pause motion"}
           </button>
@@ -610,7 +606,8 @@ function MarqueeLogos({ paused }: { paused: boolean }) {
   const items = [...TRUST_PARTNER_LOGOS, ...TRUST_PARTNER_LOGOS];
 
   const trackRef = React.useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
+  const autoX = useMotionValue(0);
+  const pullX = useMotionValue(0);
   const [loopW, setLoopW] = React.useState(0);
   const loopWRef = React.useRef(0);
   React.useEffect(() => {
@@ -623,22 +620,43 @@ function MarqueeLogos({ paused }: { paused: boolean }) {
   const reduceMotionRef = React.useRef(reduceMotion);
   reduceMotionRef.current = reduceMotion;
 
-  const isDraggingRef = React.useRef(false);
-  const isGlidingRef = React.useRef(false);
-  const hoverPauseRef = React.useRef(false);
-  const momentumCtrlRef = React.useRef<{ stop: () => void } | null>(null);
+  const x = useTransform([autoX, pullX], ([a, b]) => {
+    const L = loopWRef.current;
+    if (!L || L <= 0) return 0;
+    return normalizeMarqueeOffset(Number(a) + Number(b), L);
+  });
 
   type DragSession = {
     pointerId: number;
     startClientX: number;
     startClientY: number;
-    originTranslate: number;
     locked: boolean;
-    lastClientX: number;
-    lastT: number;
-    velocityX: number;
+    lockClientX: number;
   };
   const dragRef = React.useRef<DragSession | null>(null);
+
+  const releasePointerSafe = (target: HTMLElement, pointerId: number) => {
+    try {
+      if (target.hasPointerCapture(pointerId)) target.releasePointerCapture(pointerId);
+    } catch {
+      /* noop */
+    }
+  };
+
+  const endPointerSession = (target: HTMLElement, pointerId: number) => {
+    const session = dragRef.current;
+    if (!session || session.pointerId !== pointerId) return;
+    const wasLocked = session.locked;
+    const L = loopWRef.current;
+    dragRef.current = null;
+    releasePointerSafe(target, pointerId);
+    if (wasLocked && L > 0) {
+      autoX.set(normalizeMarqueeOffset(autoX.get() + pullX.get(), L));
+      pullX.set(0);
+    } else {
+      pullX.set(0);
+    }
+  };
 
   React.useLayoutEffect(() => {
     const el = trackRef.current;
@@ -655,14 +673,16 @@ function MarqueeLogos({ paused }: { paused: boolean }) {
 
   React.useLayoutEffect(() => {
     if (loopW <= 0) return;
-    x.set(normalizeMarqueeOffset(x.get(), loopW));
-  }, [loopW, x]);
+    autoX.set(normalizeMarqueeOffset(autoX.get() + pullX.get(), loopW));
+    pullX.set(0);
+  }, [loopW, autoX, pullX]);
 
+  /** Fold manual pull into autoplay offset whenever loop length or pause state changes (not on every frame). */
   React.useEffect(() => {
-    momentumCtrlRef.current?.stop();
-    momentumCtrlRef.current = null;
-    isGlidingRef.current = false;
-  }, [paused]);
+    if (loopW <= 0) return;
+    autoX.set(normalizeMarqueeOffset(autoX.get() + pullX.get(), loopW));
+    pullX.set(0);
+  }, [paused, loopW, autoX, pullX]);
 
   React.useEffect(() => {
     let raf = 0;
@@ -671,78 +691,27 @@ function MarqueeLogos({ paused }: { paused: boolean }) {
       const dt = Math.min(48, now - last);
       last = now;
       const L = loopWRef.current;
-      if (
-        L > 0 &&
-        !reduceMotionRef.current &&
-        !pausedRef.current &&
-        !isDraggingRef.current &&
-        !isGlidingRef.current &&
-        !hoverPauseRef.current
-      ) {
+      if (L > 0 && !reduceMotionRef.current && !pausedRef.current) {
         const speed = L / MARQUEE_LOOP_DURATION_MS;
-        x.set(normalizeMarqueeOffset(x.get() - speed * dt, L));
+        autoX.set(normalizeMarqueeOffset(autoX.get() - speed * dt, L));
       }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [x]);
-
-  const endDrag = React.useCallback(
-    (target: HTMLElement, pointerId: number) => {
-      const session = dragRef.current;
-      if (!session || session.pointerId !== pointerId) return;
-      const wasLocked = session.locked;
-      const vx = session.velocityX;
-      dragRef.current = null;
-      isDraggingRef.current = false;
-      try {
-        if (target.hasPointerCapture(pointerId)) target.releasePointerCapture(pointerId);
-      } catch {
-        /* capture may already be released */
-      }
-
-      const L = loopWRef.current;
-      if (!wasLocked || L <= 0) return;
-
-      const pxPerMs = Math.abs(vx);
-      if (pxPerMs > 0.35 && !reduceMotionRef.current) {
-        const clamped = Math.sign(vx) * Math.min(pxPerMs, 2.8);
-        const coast = clamped * 420;
-        const from = x.get();
-        const to = normalizeMarqueeOffset(from + coast, L);
-        momentumCtrlRef.current?.stop();
-        isGlidingRef.current = true;
-        const ctrl = animate(x, to, {
-          type: "tween",
-          duration: Math.min(0.85, 0.22 + pxPerMs * 0.18),
-          ease: [0.22, 1, 0.36, 1],
-          onComplete: () => {
-            isGlidingRef.current = false;
-            momentumCtrlRef.current = null;
-          },
-        });
-        momentumCtrlRef.current = ctrl;
-      }
-    },
-    [x],
-  );
+  }, [autoX]);
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.button !== 0) return;
-    momentumCtrlRef.current?.stop();
-    momentumCtrlRef.current = null;
-    isGlidingRef.current = false;
+    pullX.set(0);
     dragRef.current = {
       pointerId: e.pointerId,
       startClientX: e.clientX,
       startClientY: e.clientY,
-      originTranslate: x.get(),
       locked: false,
-      lastClientX: e.clientX,
-      lastT: performance.now(),
-      velocityX: 0,
+      lockClientX: e.clientX,
     };
+    // Defer setPointerCapture until horizontal intent is clear so vertical page scroll still works from the strip.
   };
 
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -751,61 +720,53 @@ function MarqueeLogos({ paused }: { paused: boolean }) {
 
     const dx = e.clientX - session.startClientX;
     const dy = e.clientY - session.startClientY;
+    const adx = Math.abs(dx);
+    const ady = Math.abs(dy);
 
     if (!session.locked) {
-      if (Math.abs(dx) < 10) return;
-      if (Math.abs(dy) > Math.abs(dx) * 1.05) {
+      if (Math.hypot(dx, dy) < 5) return;
+
+      // Clear vertical scroll intent before capture so the page can scroll.
+      if (ady >= adx * 1.18 && ady >= 10) {
         dragRef.current = null;
+        pullX.set(0);
         return;
       }
-      session.locked = true;
-      isDraggingRef.current = true;
-      session.originTranslate = x.get();
-      session.startClientX = e.clientX;
-      session.startClientY = e.clientY;
-      e.currentTarget.setPointerCapture(e.pointerId);
+
+      if (adx >= ady * 1.06 || adx >= 6) {
+        session.locked = true;
+        session.lockClientX = e.clientX;
+        pullX.set(0);
+        try {
+          e.currentTarget.setPointerCapture(e.pointerId);
+        } catch {
+          /* noop */
+        }
+      } else {
+        return;
+      }
     }
 
-    const L = loopWRef.current;
-    if (L <= 0) return;
-
-    const now = performance.now();
-    const dt = Math.max(1, now - session.lastT);
-    const instVx = (e.clientX - session.lastClientX) / dt;
-    session.velocityX = session.velocityX * 0.65 + instVx * 0.35;
-    session.lastClientX = e.clientX;
-    session.lastT = now;
-
-    const next = normalizeMarqueeOffset(session.originTranslate + (e.clientX - session.startClientX), L);
-    x.set(next);
+    pullX.set(e.clientX - session.lockClientX);
   };
 
   const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
     const session = dragRef.current;
     if (!session || session.pointerId !== e.pointerId) return;
-    endDrag(e.currentTarget, e.pointerId);
+    endPointerSession(e.currentTarget, e.pointerId);
   };
 
   const onPointerCancel = (e: React.PointerEvent<HTMLDivElement>) => {
     const session = dragRef.current;
     if (!session || session.pointerId !== e.pointerId) return;
-    session.velocityX = 0;
-    endDrag(e.currentTarget, e.pointerId);
+    endPointerSession(e.currentTarget, e.pointerId);
   };
 
   return (
-    <div
-      className="relative overflow-hidden border-y border-white/12 py-5"
-      onMouseEnter={() => {
-        hoverPauseRef.current = true;
-      }}
-      onMouseLeave={() => {
-        hoverPauseRef.current = false;
-      }}
-    >
+    <div className="relative overflow-hidden border-y border-white/12 py-5">
       <p className="sr-only">
-        Partner and certification logos in a horizontal band. Swipe or drag sideways to scroll; motion
-        can be paused with the control above.
+        Partner and certification logos. The strip scrolls automatically; swipe horizontally on the logos
+        to nudge it while it keeps moving. Use the pause control above to stop motion entirely.
       </p>
       <motion.div
         ref={trackRef}
@@ -813,7 +774,7 @@ function MarqueeLogos({ paused }: { paused: boolean }) {
         aria-label="Partner and certification logos"
         style={{ x }}
         className={cn(
-          "home-trust-marquee-track touch-pan-y flex cursor-grab items-center gap-10 px-6 select-none active:cursor-grabbing sm:gap-12 sm:px-8",
+          "home-trust-marquee-track flex cursor-grab touch-pan-y items-center gap-10 px-6 select-none active:cursor-grabbing sm:gap-12 sm:px-8",
           "[&_img]:pointer-events-none",
         )}
         onPointerDown={onPointerDown}
@@ -822,7 +783,7 @@ function MarqueeLogos({ paused }: { paused: boolean }) {
         onPointerCancel={onPointerCancel}
         onLostPointerCapture={(e) => {
           if (dragRef.current?.pointerId === e.pointerId) {
-            endDrag(e.currentTarget, e.pointerId);
+            endPointerSession(e.currentTarget, e.pointerId);
           }
         }}
       >
@@ -840,6 +801,7 @@ function MarqueeLogos({ paused }: { paused: boolean }) {
               alt={logo.alt}
               width={220}
               height={90}
+              draggable={false}
               className="h-8 w-full object-contain opacity-90"
             />
           </div>
