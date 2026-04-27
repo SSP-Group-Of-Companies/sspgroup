@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { animate, AnimatePresence, motion, useMotionValue, useReducedMotion } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 import { LogoImage } from "@/components/media/LogoImage";
@@ -15,6 +15,17 @@ const SECTION_DESCRIPTION =
   "Trust is established shipment by shipment. Start with client voices, watch the work in motion, and review the operating controls that make accountability real—not aspirational.";
 const FOCUS_RING_CYAN_ON_SURFACE =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-ssp-cyan-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-0)]";
+
+/** One full loop = width of a single duplicated half of the logo strip (see `MarqueeLogos`). */
+const MARQUEE_LOOP_DURATION_MS = 42_000;
+
+function normalizeMarqueeOffset(v: number, loopWidth: number): number {
+  if (loopWidth <= 0) return v;
+  let t = v;
+  while (t <= -loopWidth) t += loopWidth;
+  while (t > 0) t -= loopWidth;
+  return t;
+}
 
 function getYouTubeId(url: string) {
   try {
@@ -576,7 +587,11 @@ function PartnersBand({
               "transition-colors hover:border-white/40 hover:bg-white/10 hover:text-white",
             )}
             aria-pressed={paused}
-            aria-label={paused ? "Resume partner logo motion" : "Pause partner logo motion"}
+            aria-label={
+              paused
+                ? "Resume partner logo motion"
+                : "Pause partner logo motion. You can still drag the logo strip horizontally."
+            }
           >
             {paused ? "Play motion" : "Pause motion"}
           </button>
@@ -591,21 +606,232 @@ function PartnersBand({
 }
 
 function MarqueeLogos({ paused }: { paused: boolean }) {
+  const reduceMotion = useReducedMotion() ?? false;
   const items = [...TRUST_PARTNER_LOGOS, ...TRUST_PARTNER_LOGOS];
 
+  const trackRef = React.useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const [loopW, setLoopW] = React.useState(0);
+  const loopWRef = React.useRef(0);
+  React.useEffect(() => {
+    loopWRef.current = loopW;
+  }, [loopW]);
+
+  const pausedRef = React.useRef(paused);
+  pausedRef.current = paused;
+
+  const reduceMotionRef = React.useRef(reduceMotion);
+  reduceMotionRef.current = reduceMotion;
+
+  const isDraggingRef = React.useRef(false);
+  const isGlidingRef = React.useRef(false);
+  const hoverPauseRef = React.useRef(false);
+  const momentumCtrlRef = React.useRef<{ stop: () => void } | null>(null);
+
+  type DragSession = {
+    pointerId: number;
+    startClientX: number;
+    startClientY: number;
+    originTranslate: number;
+    locked: boolean;
+    lastClientX: number;
+    lastT: number;
+    velocityX: number;
+  };
+  const dragRef = React.useRef<DragSession | null>(null);
+
+  React.useLayoutEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const measure = () => {
+      const half = el.scrollWidth / 2;
+      setLoopW(half);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  React.useLayoutEffect(() => {
+    if (loopW <= 0) return;
+    x.set(normalizeMarqueeOffset(x.get(), loopW));
+  }, [loopW, x]);
+
+  React.useEffect(() => {
+    momentumCtrlRef.current?.stop();
+    momentumCtrlRef.current = null;
+    isGlidingRef.current = false;
+  }, [paused]);
+
+  React.useEffect(() => {
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = Math.min(48, now - last);
+      last = now;
+      const L = loopWRef.current;
+      if (
+        L > 0 &&
+        !reduceMotionRef.current &&
+        !pausedRef.current &&
+        !isDraggingRef.current &&
+        !isGlidingRef.current &&
+        !hoverPauseRef.current
+      ) {
+        const speed = L / MARQUEE_LOOP_DURATION_MS;
+        x.set(normalizeMarqueeOffset(x.get() - speed * dt, L));
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [x]);
+
+  const endDrag = React.useCallback(
+    (target: HTMLElement, pointerId: number) => {
+      const session = dragRef.current;
+      if (!session || session.pointerId !== pointerId) return;
+      const wasLocked = session.locked;
+      const vx = session.velocityX;
+      dragRef.current = null;
+      isDraggingRef.current = false;
+      try {
+        if (target.hasPointerCapture(pointerId)) target.releasePointerCapture(pointerId);
+      } catch {
+        /* capture may already be released */
+      }
+
+      const L = loopWRef.current;
+      if (!wasLocked || L <= 0) return;
+
+      const pxPerMs = Math.abs(vx);
+      if (pxPerMs > 0.35 && !reduceMotionRef.current) {
+        const clamped = Math.sign(vx) * Math.min(pxPerMs, 2.8);
+        const coast = clamped * 420;
+        const from = x.get();
+        const to = normalizeMarqueeOffset(from + coast, L);
+        momentumCtrlRef.current?.stop();
+        isGlidingRef.current = true;
+        const ctrl = animate(x, to, {
+          type: "tween",
+          duration: Math.min(0.85, 0.22 + pxPerMs * 0.18),
+          ease: [0.22, 1, 0.36, 1],
+          onComplete: () => {
+            isGlidingRef.current = false;
+            momentumCtrlRef.current = null;
+          },
+        });
+        momentumCtrlRef.current = ctrl;
+      }
+    },
+    [x],
+  );
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return;
+    momentumCtrlRef.current?.stop();
+    momentumCtrlRef.current = null;
+    isGlidingRef.current = false;
+    dragRef.current = {
+      pointerId: e.pointerId,
+      startClientX: e.clientX,
+      startClientY: e.clientY,
+      originTranslate: x.get(),
+      locked: false,
+      lastClientX: e.clientX,
+      lastT: performance.now(),
+      velocityX: 0,
+    };
+  };
+
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const session = dragRef.current;
+    if (!session || session.pointerId !== e.pointerId) return;
+
+    const dx = e.clientX - session.startClientX;
+    const dy = e.clientY - session.startClientY;
+
+    if (!session.locked) {
+      if (Math.abs(dx) < 10) return;
+      if (Math.abs(dy) > Math.abs(dx) * 1.05) {
+        dragRef.current = null;
+        return;
+      }
+      session.locked = true;
+      isDraggingRef.current = true;
+      session.originTranslate = x.get();
+      session.startClientX = e.clientX;
+      session.startClientY = e.clientY;
+      e.currentTarget.setPointerCapture(e.pointerId);
+    }
+
+    const L = loopWRef.current;
+    if (L <= 0) return;
+
+    const now = performance.now();
+    const dt = Math.max(1, now - session.lastT);
+    const instVx = (e.clientX - session.lastClientX) / dt;
+    session.velocityX = session.velocityX * 0.65 + instVx * 0.35;
+    session.lastClientX = e.clientX;
+    session.lastT = now;
+
+    const next = normalizeMarqueeOffset(session.originTranslate + (e.clientX - session.startClientX), L);
+    x.set(next);
+  };
+
+  const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    const session = dragRef.current;
+    if (!session || session.pointerId !== e.pointerId) return;
+    endDrag(e.currentTarget, e.pointerId);
+  };
+
+  const onPointerCancel = (e: React.PointerEvent<HTMLDivElement>) => {
+    const session = dragRef.current;
+    if (!session || session.pointerId !== e.pointerId) return;
+    session.velocityX = 0;
+    endDrag(e.currentTarget, e.pointerId);
+  };
+
   return (
-    <div className="relative overflow-hidden border-y border-white/12 py-5">
-      <div
+    <div
+      className="relative overflow-hidden border-y border-white/12 py-5"
+      onMouseEnter={() => {
+        hoverPauseRef.current = true;
+      }}
+      onMouseLeave={() => {
+        hoverPauseRef.current = false;
+      }}
+    >
+      <p className="sr-only">
+        Partner and certification logos in a horizontal band. Swipe or drag sideways to scroll; motion
+        can be paused with the control above.
+      </p>
+      <motion.div
+        ref={trackRef}
+        role="list"
+        aria-label="Partner and certification logos"
+        style={{ x }}
         className={cn(
-          "home-trust-marquee-track flex items-center gap-10 px-6 sm:gap-12 sm:px-8",
-          paused && "home-trust-marquee-track--paused",
+          "home-trust-marquee-track touch-pan-y flex cursor-grab items-center gap-10 px-6 select-none active:cursor-grabbing sm:gap-12 sm:px-8",
+          "[&_img]:pointer-events-none",
         )}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerCancel}
+        onLostPointerCapture={(e) => {
+          if (dragRef.current?.pointerId === e.pointerId) {
+            endDrag(e.currentTarget, e.pointerId);
+          }
+        }}
       >
         {items.map((logo, idx) => (
           <div
             key={`${logo.src}-${idx}`}
+            role="listitem"
             className={cn(
-              "flex h-14 w-[160px] items-center justify-center rounded-xl border border-[color:var(--color-partners-chip-border)] bg-[color:var(--color-partners-chip-surface)] px-4",
+              "flex h-14 w-[160px] shrink-0 items-center justify-center rounded-xl border border-[color:var(--color-partners-chip-border)] bg-[color:var(--color-partners-chip-surface)] px-4",
               "shadow-[0_7px_16px_rgba(2,8,24,0.13)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[color:var(--color-partners-chip-border-hover)] hover:bg-[color:var(--color-partners-chip-surface-hover)]",
             )}
           >
@@ -618,7 +844,7 @@ function MarqueeLogos({ paused }: { paused: boolean }) {
             />
           </div>
         ))}
-      </div>
+      </motion.div>
       <div className="pointer-events-none absolute inset-y-0 left-0 w-14 bg-gradient-to-r from-[color:var(--color-company-ink)] to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-14 bg-gradient-to-l from-[color:var(--color-company-ink)] to-transparent" />
     </div>
