@@ -93,8 +93,40 @@ function VideoCard({
   isActive: boolean;
 }) {
   const ytId = React.useMemo(() => getYouTubeId(item.youtubeUrl), [item.youtubeUrl]);
+
+  /* Mounting a YouTube `<iframe>` synchronously the moment a slide
+   * becomes active is the single most expensive thing this carousel
+   * does — on mobile WebKit it can stall the swipe animation by 100ms+.
+   * We defer the iframe by one idle frame so the slide-in transition
+   * plays cleanly first, then the embed appears underneath it. The
+   * thumbnail stays as a placeholder during that brief window so there
+   * is never a blank frame. */
+  const [iframeReady, setIframeReady] = React.useState(false);
+  React.useEffect(() => {
+    if (!isActive) {
+      setIframeReady(false);
+      return;
+    }
+    const win = typeof window !== "undefined" ? window : undefined;
+    if (!win) return;
+    const idle = (
+      win as Window & { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number }
+    ).requestIdleCallback;
+    if (typeof idle === "function") {
+      const id = idle(() => setIframeReady(true), { timeout: 600 });
+      return () => {
+        const cancel = (
+          win as Window & { cancelIdleCallback?: (id: number) => void }
+        ).cancelIdleCallback;
+        if (typeof cancel === "function") cancel(id);
+      };
+    }
+    const t = win.setTimeout(() => setIframeReady(true), 220);
+    return () => win.clearTimeout(t);
+  }, [isActive]);
+
   const embedSrc = React.useMemo(() => {
-    if (!ytId || !isActive) return "";
+    if (!ytId || !isActive || !iframeReady) return "";
     const params = new URLSearchParams({
       autoplay: "0",
       mute: "1",
@@ -105,7 +137,7 @@ function VideoCard({
       playsinline: "1",
     });
     return `https://www.youtube.com/embed/${ytId}?${params.toString()}`;
-  }, [isActive, ytId]);
+  }, [iframeReady, isActive, ytId]);
   const thumbnailSrc = ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : "";
 
   const showCaptionOverlay = !isActive;
@@ -315,14 +347,14 @@ export function TrustProofSection() {
     <section
       id={TRUST_PROOF_SECTION.id}
       aria-labelledby={`${TRUST_PROOF_SECTION.id}-heading`}
-      className="relative overflow-hidden bg-[color:var(--color-home-post-hero-platform)]"
+      className="cv-auto-section relative overflow-hidden bg-[color:var(--color-home-post-hero-platform)]"
     >
       <Container className="site-page-container py-20 sm:py-24 lg:py-28">
         <motion.div
           initial={reduceMotion ? false : { opacity: 1, y: 10 }}
           whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
+          transition={{ duration: reduceMotion ? 0 : 0.3, ease: "easeOut" }}
           className="max-w-[44rem]"
         >
           <SectionSignalEyebrow label={SECTION_EYEBROW} />
@@ -341,8 +373,8 @@ export function TrustProofSection() {
           className="mt-10 select-none"
           initial={reduceMotion ? false : { opacity: 1, y: 10 }}
           whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
+          transition={{ duration: reduceMotion ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="sr-only" aria-live="polite" aria-atomic="true">
             {activeAnnouncement}
@@ -410,61 +442,80 @@ export function TrustProofSection() {
               </div>
             </div>
 
+            {/*
+              Carousel slot containers are `position: relative` so that
+              `mode="popLayout"` can absolutely-position the exiting slide
+              into its correct slot rect — without it, exiting nodes would
+              float against the next positioned ancestor and visibly drift.
+
+              We use `popLayout` (not `wait`) so a swipe never has to wait
+              for the outgoing slide's exit animation to finish before the
+              incoming slide starts entering — both animate simultaneously.
+              On 0.20s easings, total perceived swipe time drops from
+              ~520ms to ~200ms, which is the threshold below which a
+              touch interaction reads as "native" instead of "animated".
+            */}
             <div className="mt-6 hidden items-center justify-center gap-5 md:flex">
               {orderedItems[leftIndex] ? (
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={`left-${orderedItems[leftIndex].id}`}
-                    className="w-[250px] shrink-0"
-                    initial={reduceMotion ? { opacity: 0.62, x: 0, scale: 0.93 } : { opacity: 0.62, x: -16, scale: 0.9 }}
-                    animate={reduceMotion ? { opacity: 0.62 } : { opacity: 0.62, x: 0, scale: 0.93 }}
-                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 14, scale: 0.9 }}
-                    transition={{ duration: 0.26, ease: "easeOut" }}
-                  >
-                    <TrustSlide item={orderedItems[leftIndex]} isActive={false} />
-                  </motion.div>
-                </AnimatePresence>
+                <div className="relative w-[250px] shrink-0">
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    <motion.div
+                      key={`left-${orderedItems[leftIndex].id}`}
+                      className="w-[250px] shrink-0"
+                      initial={reduceMotion ? { opacity: 0.62, x: 0, scale: 0.93 } : { opacity: 0.62, x: -16, scale: 0.9 }}
+                      animate={reduceMotion ? { opacity: 0.62 } : { opacity: 0.62, x: 0, scale: 0.93 }}
+                      exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 14, scale: 0.9 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                    >
+                      <TrustSlide item={orderedItems[leftIndex]} isActive={false} />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
               ) : null}
 
-              <AnimatePresence mode="wait" initial={false} custom={direction}>
-                <motion.div
-                  key={activeItem?.id ?? "active-empty"}
-                  custom={direction}
-                  className="w-[460px] shrink-0 md:-mx-2"
-                  initial={reduceMotion ? { x: 0 } : { x: direction > 0 ? 22 : -22 }}
-                  animate={{ x: 0 }}
-                  exit={reduceMotion ? { x: 0 } : { x: direction > 0 ? -22 : 22 }}
-                  transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  {activeItem ? <TrustSlide item={activeItem} isActive /> : null}
-                </motion.div>
-              </AnimatePresence>
-
-              {orderedItems[rightIndex] ? (
-                <AnimatePresence mode="wait" initial={false}>
+              <div className="relative w-[460px] shrink-0 md:-mx-2">
+                <AnimatePresence mode="popLayout" initial={false} custom={direction}>
                   <motion.div
-                    key={`right-${orderedItems[rightIndex].id}`}
-                    className="w-[250px] shrink-0"
-                    initial={reduceMotion ? { opacity: 0.62, x: 0, scale: 0.93 } : { opacity: 0.62, x: 16, scale: 0.9 }}
-                    animate={reduceMotion ? { opacity: 0.62 } : { opacity: 0.62, x: 0, scale: 0.93 }}
-                    exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -14, scale: 0.9 }}
-                    transition={{ duration: 0.26, ease: "easeOut" }}
+                    key={activeItem?.id ?? "active-empty"}
+                    custom={direction}
+                    className="w-[460px] shrink-0"
+                    initial={reduceMotion ? { x: 0 } : { x: direction > 0 ? 22 : -22, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={reduceMotion ? { x: 0 } : { x: direction > 0 ? -22 : 22, opacity: 0 }}
+                    transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    <TrustSlide item={orderedItems[rightIndex]} isActive={false} />
+                    {activeItem ? <TrustSlide item={activeItem} isActive /> : null}
                   </motion.div>
                 </AnimatePresence>
+              </div>
+
+              {orderedItems[rightIndex] ? (
+                <div className="relative w-[250px] shrink-0">
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    <motion.div
+                      key={`right-${orderedItems[rightIndex].id}`}
+                      className="w-[250px] shrink-0"
+                      initial={reduceMotion ? { opacity: 0.62, x: 0, scale: 0.93 } : { opacity: 0.62, x: 16, scale: 0.9 }}
+                      animate={reduceMotion ? { opacity: 0.62 } : { opacity: 0.62, x: 0, scale: 0.93 }}
+                      exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -14, scale: 0.9 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                    >
+                      <TrustSlide item={orderedItems[rightIndex]} isActive={false} />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
               ) : null}
             </div>
 
-            <div className="mx-auto mt-6 w-full max-w-[460px] md:hidden">
-              <AnimatePresence mode="wait" initial={false} custom={direction}>
+            <div className="relative mx-auto mt-6 w-full max-w-[460px] md:hidden">
+              <AnimatePresence mode="popLayout" initial={false} custom={direction}>
                 <motion.div
                   key={`mobile-${activeItem?.id ?? "active-empty"}`}
                   custom={direction}
-                  initial={reduceMotion ? { x: 0 } : { x: direction > 0 ? 18 : -18 }}
-                  animate={{ x: 0 }}
-                  exit={reduceMotion ? { x: 0 } : { x: direction > 0 ? -18 : 18 }}
-                  transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
+                  initial={reduceMotion ? { x: 0 } : { x: direction > 0 ? 18 : -18, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={reduceMotion ? { x: 0 } : { x: direction > 0 ? -18 : 18, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {activeItem ? <TrustSlide item={activeItem} isActive /> : null}
                 </motion.div>

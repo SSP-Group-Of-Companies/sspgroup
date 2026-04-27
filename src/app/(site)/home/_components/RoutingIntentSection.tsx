@@ -219,11 +219,11 @@ export function RoutingIntentSection() {
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.04 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.04, delayChildren: 0 } } };
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 1, y: 12 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 10 }, show: { opacity: 1, y: 0 } };
 
   return (
     <section
@@ -236,9 +236,9 @@ export function RoutingIntentSection() {
           className="mx-auto max-w-[36rem] text-center lg:max-w-[42rem]"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
           variants={revealUp}
-          transition={{ duration: reduceMotion ? 0 : 0.36, ease: "easeOut" }}
+          transition={{ duration: reduceMotion ? 0 : 0.3, ease: "easeOut" }}
         >
           <div className="flex justify-center">
             <SectionSignalEyebrow label={SECTION_EYEBROW} />
@@ -258,7 +258,7 @@ export function RoutingIntentSection() {
           className="mt-11 grid gap-5 sm:mt-12 sm:grid-cols-3 sm:gap-6 lg:mt-14 lg:gap-7"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.12 }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
           variants={stagger}
         >
           {ROUTING_CARDS.map((card) => {
@@ -269,7 +269,7 @@ export function RoutingIntentSection() {
               <motion.li
                 key={card.id}
                 variants={revealUp}
-                transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: reduceMotion ? 0 : 0.32, ease: [0.22, 1, 0.36, 1] }}
               >
                 <article
                   style={accentStyle}

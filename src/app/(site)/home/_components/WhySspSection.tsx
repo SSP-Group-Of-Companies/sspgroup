@@ -110,7 +110,7 @@ const LANE_STEP = LANE_CHORD_LEN * LANE_T_TO_WORLD;
                glassy, Apple-grade transitions. */
 const WHITE_TRAVEL_FRAC = 0.42;
 const BLUE_TRAVEL_FRAC = 0.72;
-const INTRO_DURATION_S = 2.4;
+const INTRO_DURATION_S = 1.4;
 const INTRO_FWD_SCALE = 0.2;
 
 function smoothstep01(t: number) {
@@ -604,7 +604,7 @@ export function WhySspSection() {
      observer (the same one powering `whileInView`), so the reliability
      concern that motivated the old on-mount approach no longer applies. */
   const stageRef = React.useRef<HTMLDivElement>(null);
-  const stageInView = useInView(stageRef, { once: true, amount: 0.2 });
+  const stageInView = useInView(stageRef, { once: true, margin: "0px 0px 80px 0px" });
 
   React.useEffect(() => {
     if (reduced) {
@@ -626,7 +626,7 @@ export function WhySspSection() {
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
     : {
         hidden: {},
-        show: { transition: { staggerChildren: 0.05, delayChildren: 0.03 } },
+        show: { transition: { staggerChildren: 0.04, delayChildren: 0 } },
       };
 
   const fadeUp: Variants = reduced
@@ -637,7 +637,7 @@ export function WhySspSection() {
     <section
       id={HOME_WHY_SSP_SECTION_ID}
       aria-labelledby={headingId}
-      className="relative overflow-hidden scroll-mt-16 py-20 sm:py-24 lg:py-28"
+      className="cv-auto-section relative overflow-hidden scroll-mt-16 py-20 sm:py-24 lg:py-28"
       style={{ backgroundColor: "var(--color-surface-0)" }}
     >
       <div
@@ -687,9 +687,9 @@ export function WhySspSection() {
           className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-10"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
           variants={fadeUp}
-          transition={{ duration: reduced ? 0 : 0.38, ease: "easeOut" }}
+          transition={{ duration: reduced ? 0 : 0.3, ease: "easeOut" }}
         >
           <div className="min-w-0 max-w-[40rem]">
             <SectionSignalEyebrow
@@ -739,7 +739,7 @@ export function WhySspSection() {
         <motion.div
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
           variants={stagger}
           className="mt-12 grid grid-cols-1 gap-12 lg:mt-14 lg:grid-cols-[minmax(0,1.12fr)_minmax(0,1fr)] lg:items-center lg:gap-12 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,1fr)] xl:gap-14"
         >
