@@ -27,6 +27,19 @@ function normalizeMarqueeOffset(v: number, loopWidth: number): number {
   return t;
 }
 
+/** Last sample in a coalesced pointer chain (mobile often bundles many moves into one event). */
+function marqueePointerClient(e: React.PointerEvent<Element>): { clientX: number; clientY: number } {
+  const ne = e.nativeEvent as PointerEvent;
+  if (typeof ne.getCoalescedEvents === "function") {
+    const c = ne.getCoalescedEvents();
+    if (c.length > 0) {
+      const last = c[c.length - 1]!;
+      return { clientX: last.clientX, clientY: last.clientY };
+    }
+  }
+  return { clientX: ne.clientX, clientY: ne.clientY };
+}
+
 function getYouTubeId(url: string) {
   try {
     const u = new URL(url);
@@ -628,6 +641,7 @@ function MarqueeLogos({ paused }: { paused: boolean }) {
 
   type DragSession = {
     pointerId: number;
+    pointerType: string;
     startClientX: number;
     startClientY: number;
     locked: boolean;
@@ -706,48 +720,56 @@ function MarqueeLogos({ paused }: { paused: boolean }) {
     pullX.set(0);
     dragRef.current = {
       pointerId: e.pointerId,
+      pointerType: e.pointerType,
       startClientX: e.clientX,
       startClientY: e.clientY,
       locked: false,
       lockClientX: e.clientX,
     };
-    // Defer setPointerCapture until horizontal intent is clear so vertical page scroll still works from the strip.
+    // Capture immediately: autoplay moves the strip; without capture, the finger can leave this
+    // element before we "lock" and pointer moves are delivered to whatever is underneath (felt as random misses on mobile).
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      /* noop */
+    }
   };
 
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const session = dragRef.current;
     if (!session || session.pointerId !== e.pointerId) return;
 
-    const dx = e.clientX - session.startClientX;
-    const dy = e.clientY - session.startClientY;
+    const { clientX, clientY } = marqueePointerClient(e);
+    const dx = clientX - session.startClientX;
+    const dy = clientY - session.startClientY;
     const adx = Math.abs(dx);
     const ady = Math.abs(dy);
+    const isTouch = session.pointerType === "touch";
 
     if (!session.locked) {
-      if (Math.hypot(dx, dy) < 5) return;
+      const dead = isTouch ? 3.5 : 5;
+      if (Math.hypot(dx, dy) < dead) return;
 
-      // Clear vertical scroll intent before capture so the page can scroll.
-      if (ady >= adx * 1.18 && ady >= 10) {
+      // Release capture so the page can scroll when the gesture is clearly vertical.
+      if (ady >= adx * (isTouch ? 1.22 : 1.18) && ady >= (isTouch ? 9 : 10)) {
+        releasePointerSafe(e.currentTarget, e.pointerId);
         dragRef.current = null;
         pullX.set(0);
         return;
       }
 
-      if (adx >= ady * 1.06 || adx >= 6) {
+      const horizontal =
+        adx >= ady * (isTouch ? 1.02 : 1.06) || adx >= (isTouch ? 4 : 6);
+      if (horizontal) {
         session.locked = true;
-        session.lockClientX = e.clientX;
+        session.lockClientX = clientX;
         pullX.set(0);
-        try {
-          e.currentTarget.setPointerCapture(e.pointerId);
-        } catch {
-          /* noop */
-        }
       } else {
         return;
       }
     }
 
-    pullX.set(e.clientX - session.lockClientX);
+    pullX.set(clientX - session.lockClientX);
   };
 
   const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
