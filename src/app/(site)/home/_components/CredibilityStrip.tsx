@@ -155,11 +155,11 @@ export function CredibilityStrip() {
           className="mx-auto flex flex-col items-center gap-y-10 sm:flex-row sm:items-stretch sm:justify-center sm:gap-y-0 sm:gap-x-5 md:gap-x-7 lg:gap-x-9"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
           variants={{
             hidden: {},
             show: {
-              transition: { staggerChildren: reduceMotion ? 0 : 0.05, delayChildren: 0.03 },
+              transition: { staggerChildren: reduceMotion ? 0 : 0.03, delayChildren: 0 },
             },
           }}
         >
@@ -167,7 +167,7 @@ export function CredibilityStrip() {
             <motion.li
               key={stat.label}
               variants={reveal}
-              transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: reduceMotion ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
                 "flex min-w-0 flex-col items-center text-center",
                 index > 0 &&

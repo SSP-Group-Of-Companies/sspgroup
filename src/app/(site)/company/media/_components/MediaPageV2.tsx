@@ -18,6 +18,11 @@ import { SectionEyebrow } from "@/app/(site)/components/ui/SectionEyebrow";
 import { MEDIA_HERO_VIDEO, SSP_VIDEOS, SSP_YOUTUBE_CHANNEL, type VideoItem } from "@/config/media";
 import { trackCtaClick } from "@/lib/analytics/cta";
 import { cn } from "@/lib/cn";
+import {
+  COMPANY_HERO_SHARD_BOX,
+  COMPANY_HERO_SHARD_FRAME,
+  COMPANY_HERO_SHARD_FRAME_INNER,
+} from "@/app/(site)/components/network/coverageHeroStyles";
 
 const FOCUS_RING =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-0-light)]";
@@ -79,7 +84,21 @@ function Hero({
         <div className="absolute inset-0 bg-[radial-gradient(44%_50%_at_68%_54%,var(--color-media-hero-glow-tertiary),transparent_74%)]" />
       </div>
 
-      <Container className="site-page-container relative">
+      <div className={COMPANY_HERO_SHARD_FRAME} aria-hidden>
+        <div className={COMPANY_HERO_SHARD_FRAME_INNER}>
+          <motion.div
+            initial={reduceMotion ? { opacity: 0.74 } : { opacity: 0.04, x: -34, y: 20 }}
+            animate={reduceMotion ? { opacity: 0.66 } : { opacity: 0.68, x: 0, y: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
+            className={COMPANY_HERO_SHARD_BOX}
+            style={shardFadeStyle}
+          >
+            <div className="h-full w-full" style={shardMaskStyle} />
+          </motion.div>
+        </div>
+      </div>
+
+      <Container className="site-page-container relative z-10">
         <motion.div initial="hidden" animate="show" variants={stagger} className="relative max-w-[44rem]">
           <div className="relative z-20">
             <motion.div variants={reveal} transition={{ duration: reduceMotion ? 0 : 0.32, ease: "easeOut" }}>
@@ -155,16 +174,6 @@ function Hero({
               </a>
             </motion.div>
           </div>
-        </motion.div>
-        <motion.div
-          initial={reduceMotion ? { opacity: 0.74 } : { opacity: 0.04, x: -34, y: 20 }}
-          animate={reduceMotion ? { opacity: 0.66 } : { opacity: 0.68, x: 0, y: 0 }}
-          transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-none absolute right-[-45%] top-[-2%] h-[120%] w-[118%] sm:right-[-40%] sm:top-[-4%] sm:h-[126%] sm:w-[110%] md:right-[-31%] md:top-[-7%] md:h-[130%] md:w-[98%] lg:right-[-23%] lg:top-[-10%] lg:h-[134%] lg:w-[80%]"
-          aria-hidden
-          style={shardFadeStyle}
-        >
-          <div className="h-full w-full" style={shardMaskStyle} />
         </motion.div>
       </Container>
     </section>

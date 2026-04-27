@@ -134,7 +134,7 @@ export function StandardFinalCta({
 
   return (
     <section
-      className={cn("relative overflow-hidden py-20 sm:py-24", effectiveSectionClassName)}
+      className={cn("cv-auto-section relative overflow-hidden py-20 sm:py-24", effectiveSectionClassName)}
       aria-labelledby={headingId}
       style={
         effectiveSectionBackground
@@ -175,10 +175,10 @@ export function StandardFinalCta({
       <Container className="site-page-container relative">
         <motion.div
           className="rounded-2xl border border-[color:var(--color-glass-border)] bg-[color:var(--color-glass-bg)] px-5 py-8 backdrop-blur-sm sm:px-8 sm:py-10 md:px-10"
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+          initial={reduceMotion ? false : { opacity: 1, y: 12 }}
           whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
+          transition={{ duration: reduceMotion ? 0 : 0.3, ease: "easeOut" }}
         >
           <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-8">

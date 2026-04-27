@@ -27,6 +27,11 @@ import { Section } from "@/app/(site)/components/layout/Section";
 import { Select } from "@/app/(site)/components/ui/Select";
 import { cn } from "@/lib/cn";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
+import {
+  COMPANY_HERO_SHARD_BOX,
+  COMPANY_HERO_SHARD_FRAME,
+  COMPANY_HERO_SHARD_FRAME_INNER,
+} from "@/app/(site)/components/network/coverageHeroStyles";
 
 type SortBy = "publishedAt" | "title" | "createdAt";
 type SortDir = "asc" | "desc";
@@ -469,6 +474,20 @@ export default function CareersClient({
           />
         </div>
 
+        <div className={COMPANY_HERO_SHARD_FRAME} aria-hidden>
+          <div className={COMPANY_HERO_SHARD_FRAME_INNER}>
+            <motion.div
+              initial={reduceMotion ? { opacity: 0.1 } : { opacity: 0.04, x: -34, y: 20 }}
+              animate={reduceMotion ? { opacity: 0.1 } : { opacity: 0.14, x: 0, y: 0 }}
+              transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
+              className={COMPANY_HERO_SHARD_BOX}
+              style={heroShardFadeStyle}
+            >
+              <div className="h-full w-full" style={heroShardMaskStyle} />
+            </motion.div>
+          </div>
+        </div>
+
         <div className="relative z-10">
           <Container className="site-page-container">
             <motion.div
@@ -609,17 +628,6 @@ export default function CareersClient({
                   )}
                 </div>
               </motion.aside>
-            </motion.div>
-
-            <motion.div
-              initial={reduceMotion ? { opacity: 0.1 } : { opacity: 0.04, x: -34, y: 20 }}
-              animate={reduceMotion ? { opacity: 0.1 } : { opacity: 0.14, x: 0, y: 0 }}
-              transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
-              className="pointer-events-none absolute top-[-2%] right-[-45%] h-[120%] w-[118%] sm:top-[-4%] sm:right-[-40%] sm:h-[126%] sm:w-[110%] md:top-[-7%] md:right-[-31%] md:h-[130%] md:w-[98%] lg:top-[-10%] lg:right-[-23%] lg:h-[134%] lg:w-[80%]"
-              aria-hidden
-              style={heroShardFadeStyle}
-            >
-              <div className="h-full w-full" style={heroShardMaskStyle} />
             </motion.div>
           </Container>
         </div>

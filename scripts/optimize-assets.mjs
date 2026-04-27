@@ -1,22 +1,33 @@
-// SSP Group — asset optimization pipeline.
+// SSP Group — source-to-optimized asset pipeline.
 //
-// One command to run:
-//   node scripts/optimize-assets.mjs            (execute + rewrite source refs)
-//   node scripts/optimize-assets.mjs --dry-run  (report only, touch nothing)
+// Junior-dev workflow:
+//   1. Drop a new source image/video somewhere under public/ (NOT public/_optimized/).
+//      Example: public/company/new-photo.png
+//   2. Reference the source path in code while developing.
+//      Example: /company/new-photo.png
+//   3. Run:
+//        node scripts/optimize-assets.mjs
+//   4. The script creates the production asset under public/_optimized/.
+//      Example: public/_optimized/company/new-photo.webp
+//   5. The script rewrites code references from /company/new-photo.png to
+//      /_optimized/company/new-photo.webp.
+//
+// Important safety rule:
+//   This script NEVER walks, rewrites, re-encodes, or deletes existing files inside
+//   public/_optimized/. Those files are curated production outputs.
+//   If the optimized output already exists, the script skips encoding unless
+//   --force is passed.
 //
 // What it does:
-//   1. Walks public/_optimized/** and for every raster image:
-//        - If the path is in OG_PROTECTED_PATHS -> re-encode in place as PNG
-//          at max 1920px wide, sharp max compression (social crawlers need PNG/JPG).
-//        - Otherwise -> encode as .webp (q82), delete the original raster.
-//   2. Walks every .mp4 in public/_optimized/**:
-//        - Re-encodes with H.264 (libx264), CRF 26, yuv420p, scale to max 1920w,
-//          +faststart for progressive streaming, AAC 96k stereo audio.
-//        - Replaces the original atomically on success.
-//   3. If any raster was converted .png|.jpg|.jpeg -> .webp, walks the project
-//      source (src/, public/, scripts/, docs/, *.ts/tsx/md/mdx/json/css/mjs)
-//      and rewrites every literal occurrence of the old path to the new one.
-//   4. Leaves SVGs, .ico, .webm, and already-webp files untouched.
+//   1. Walks public/**, excluding public/_optimized/**.
+//   2. Images:
+//        - Logo/favicon source paths listed in PNG_OUTPUT_PATHS output PNG.
+//        - Photographic social-preview paths listed in JPG_OUTPUT_PATHS output JPG.
+//        - Everything else outputs WebP.
+//   3. Videos:
+//        - MP4 source files output optimized MP4 with H.264 +faststart.
+//   4. Rewrites source references only from the original /public path to the
+//      generated /_optimized path. It never rewrites the optimizer script itself.
 //
 // Requires:  `npm i -D sharp` (already installed), ffmpeg on PATH.
 
@@ -27,45 +38,44 @@ import sharp from "sharp";
 
 const ROOT = process.cwd();
 const PUBLIC_DIR = path.join(ROOT, "public");
-const ASSETS_DIR = path.join(PUBLIC_DIR, "_optimized");
+const OUT_DIR = path.join(PUBLIC_DIR, "_optimized");
 
 const DRY_RUN = process.argv.includes("--dry-run");
 const NO_REWRITE = process.argv.includes("--no-rewrite");
 const SKIP_VIDEOS = process.argv.includes("--skip-videos");
 const SKIP_IMAGES = process.argv.includes("--skip-images");
+const FORCE = process.argv.includes("--force");
 
-// Images referenced by Open Graph / Twitter / JSON-LD / favicon metadata.
+// Output paths referenced by Open Graph / Twitter / JSON-LD / favicon metadata.
 // Social crawlers (Facebook, LinkedIn, X, Slack, Discord) don't reliably render
 // WebP, so these paths must stay in a lossy/lossless raster crawlers support.
 //
-// OG_KEEP_PNG: transparency-critical or browser-icon assets — stay PNG.
-// OG_TO_JPG:   photographic OG heroes — converted to JPG for dramatic size wins
-//              while preserving full crawler compatibility.
-const OG_KEEP_PNG = new Set([
+// PNG_OUTPUT_PATHS: transparency-critical or browser-icon assets — stay PNG.
+// JPG_OUTPUT_PATHS: photographic OG heroes — output JPG for compatibility and size.
+const PNG_OUTPUT_PATHS = new Set([
   "/_optimized/brand/SSPlogo.png", // transparent logo used in JSON-LD + OG
   "/_optimized/brand/favicon.png", // PWA/browser icon
 ]);
 
-// Paths listed as their SOURCE extension. On first run these were PNG;
-// the script produced JPGs alongside and deleted the PNGs. If a new photographic
-// OG hero is added later, drop its PNG path in here to get the same treatment.
-const OG_TO_JPG = new Set([
-  "/_optimized/insights/insights-hero-ssp-containers-topdown.png",
-  "/_optimized/solution/crossBorder/cross-BorderHeroImg.png",
-  "/_optimized/solution/crossBorder/mexico-hero-v2.png",
-  "/_optimized/solution/crossBorder/ocean-hero-globe.png",
-  "/_optimized/solution/crossBorder/air-hero-globe.png",
-  "/_optimized/solution/crossBorder/canada-usa-hero-v2.png",
-  "/_optimized/industries/automotive-hero-premium.png",
-  "/_optimized/industries/manufacturing-hero-premium-v1.png",
-  "/_optimized/industries/retail-hero-premium-v3.png",
-  "/_optimized/industries/food-hero-premium-v6.png",
-  "/_optimized/industries/construction-hero-premium-v1.png",
-  "/_optimized/industries/steel-hero-premium-v1.png",
-  "/_optimized/industries/chemical-hero-premium-v1.png",
-  "/_optimized/solution/truckload/truckload-Image.png",
-  "/_optimized/solution/expedited/expedited-Img.png",
-  "/_optimized/solution/managedCapacity/managedCapacityHero-Img.png",
+// If a new source image is intended for og:image/twitter:image and is a photo,
+// add the future /_optimized/*.jpg output path here before running the script.
+const JPG_OUTPUT_PATHS = new Set([
+  "/_optimized/insights/insights-hero-ssp-containers-topdown.jpg",
+  "/_optimized/solution/crossBorder/cross-BorderHeroImg.jpg",
+  "/_optimized/solution/crossBorder/mexico-hero-v2.jpg",
+  "/_optimized/solution/crossBorder/ocean-hero-globe.jpg",
+  "/_optimized/solution/crossBorder/air-hero-globe.jpg",
+  "/_optimized/solution/crossBorder/canada-usa-hero-v2.jpg",
+  "/_optimized/industries/automotive-hero-premium.jpg",
+  "/_optimized/industries/manufacturing-hero-premium-v1.jpg",
+  "/_optimized/industries/retail-hero-premium-v3.jpg",
+  "/_optimized/industries/food-hero-premium-v6.jpg",
+  "/_optimized/industries/construction-hero-premium-v1.jpg",
+  "/_optimized/industries/steel-hero-premium-v1.jpg",
+  "/_optimized/industries/chemical-hero-premium-v1.jpg",
+  "/_optimized/solution/truckload/truckload-Image.jpg",
+  "/_optimized/solution/expedited/expedited-Img.jpg",
+  "/_optimized/solution/managedCapacity/managedCapacityHero-Img.jpg",
 ]);
 
 const JPG_QUALITY = 86;
@@ -90,7 +100,7 @@ function fmtBytes(n) {
   return `${v.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;
 }
 
-function relPublic(absPath) {
+function relFromPublic(absPath) {
   return "/" + absPath.slice(PUBLIC_DIR.length + 1).replaceAll("\\", "/");
 }
 
@@ -99,10 +109,36 @@ async function* walk(dir) {
   for (const entry of entries) {
     const abs = path.join(dir, entry.name);
     if (entry.isDirectory()) {
+      if (abs === OUT_DIR || abs.startsWith(`${OUT_DIR}${path.sep}`)) continue;
       yield* walk(abs);
     } else if (!SKIP_NAMES.has(entry.name)) {
       yield abs;
     }
+  }
+}
+
+function optimizedRelForSource(absInput, targetExt) {
+  const sourceRel = relFromPublic(absInput);
+  const noExt = sourceRel.slice(0, -path.extname(sourceRel).length);
+  return `/_optimized${noExt}${targetExt}`;
+}
+
+function optimizedAbsForSource(absInput, targetExt) {
+  const sourceRel = relFromPublic(absInput).slice(1);
+  const noExt = sourceRel.slice(0, -path.extname(sourceRel).length);
+  return path.join(OUT_DIR, `${noExt}${targetExt}`);
+}
+
+async function ensureParentDir(absOutput) {
+  await fs.mkdir(path.dirname(absOutput), { recursive: true });
+}
+
+async function statIfExists(absPath) {
+  try {
+    return await fs.stat(absPath);
+  } catch (err) {
+    if (err && err.code === "ENOENT") return null;
+    throw err;
   }
 }
 
@@ -112,11 +148,10 @@ async function optimizeImage(abs) {
   const ext = path.extname(abs).toLowerCase();
   if (!RASTER_EXTS.has(ext)) return null;
 
-  const rel = relPublic(abs);
+  const rel = relFromPublic(abs);
   const stat = await fs.stat(abs);
 
-  const src = sharp(abs, { failOnError: false });
-  const meta = await src.metadata();
+  const meta = await sharp(abs, { failOnError: false }).metadata();
 
   const pipeline = sharp(abs, { failOnError: false }).rotate();
   if (meta.width && meta.width > IMAGE_MAX_WIDTH) {
@@ -127,25 +162,34 @@ async function optimizeImage(abs) {
   // Logos & favicons: stay PNG (transparency / browser icon semantics).
   // OG photographic heroes: convert to JPG (crawler-safe, 3-5× smaller than PNG).
   // Everything else: convert to WebP.
-  const keepPng = OG_KEEP_PNG.has(rel);
-  const toJpg = OG_TO_JPG.has(rel);
+  const pngRel = optimizedRelForSource(abs, ".png");
+  const jpgRel = optimizedRelForSource(abs, ".jpg");
+  const keepPng = PNG_OUTPUT_PATHS.has(pngRel);
+  const toJpg = JPG_OUTPUT_PATHS.has(jpgRel);
 
   if (keepPng) {
+    const outAbs = optimizedAbsForSource(abs, ".png");
+    const outRel = optimizedRelForSource(abs, ".png");
     if (DRY_RUN) {
-      return { rel, newRel: rel, inBytes: stat.size, outBytes: null, kind: "png-reencode" };
+      return { rel, newRel: outRel, inBytes: stat.size, outBytes: null, kind: "png-reencode" };
     }
-    const tmp = `${abs}.tmp`;
+    const existing = FORCE ? null : await statIfExists(outAbs);
+    if (existing) {
+      return { rel, newRel: outRel, inBytes: stat.size, outBytes: existing.size, kind: "skipped-existing" };
+    }
+    await ensureParentDir(outAbs);
+    const tmp = `${outAbs}.tmp`;
     await pipeline
       .png({ compressionLevel: 9, palette: true, quality: 90, effort: 10 })
       .toFile(tmp);
     const newStat = await fs.stat(tmp);
-    await fs.rename(tmp, abs);
-    return { rel, newRel: rel, inBytes: stat.size, outBytes: newStat.size, kind: "png-reencode" };
+    await fs.rename(tmp, outAbs);
+    return { rel, newRel: outRel, inBytes: stat.size, outBytes: newStat.size, kind: "png-reencode" };
   }
 
   const targetExt = toJpg ? ".jpg" : ".webp";
-  const outAbs = abs.slice(0, -ext.length) + targetExt;
-  const outRel = rel.slice(0, -ext.length) + targetExt;
+  const outAbs = optimizedAbsForSource(abs, targetExt);
+  const outRel = optimizedRelForSource(abs, targetExt);
 
   if (DRY_RUN) {
     return {
@@ -157,6 +201,18 @@ async function optimizeImage(abs) {
     };
   }
 
+  const existing = FORCE ? null : await statIfExists(outAbs);
+  if (existing) {
+    return {
+      rel,
+      newRel: outRel,
+      inBytes: stat.size,
+      outBytes: existing.size,
+      kind: "skipped-existing",
+    };
+  }
+
+  await ensureParentDir(outAbs);
   if (toJpg) {
     // Flatten any PNG alpha onto white before encoding JPG (safe default).
     await pipeline
@@ -168,9 +224,6 @@ async function optimizeImage(abs) {
   }
 
   const outStat = await fs.stat(outAbs);
-  if (outAbs !== abs) {
-    await fs.unlink(abs);
-  }
   return {
     rel,
     newRel: outRel,
@@ -201,14 +254,28 @@ async function optimizeVideo(abs) {
   const ext = path.extname(abs).toLowerCase();
   if (ext !== ".mp4") return null;
 
-  const rel = relPublic(abs);
+  const rel = relFromPublic(abs);
   const stat = await fs.stat(abs);
+  const outAbs = optimizedAbsForSource(abs, ".mp4");
+  const outRel = optimizedRelForSource(abs, ".mp4");
 
   if (DRY_RUN) {
-    return { rel, newRel: rel, inBytes: stat.size, outBytes: null, kind: "mp4-reencode" };
+    return { rel, newRel: outRel, inBytes: stat.size, outBytes: null, kind: "mp4-reencode" };
   }
 
-  const tmp = `${abs}.opt.mp4`;
+  const existing = FORCE ? null : await statIfExists(outAbs);
+  if (existing) {
+    return {
+      rel,
+      newRel: outRel,
+      inBytes: stat.size,
+      outBytes: existing.size,
+      kind: "skipped-existing",
+    };
+  }
+
+  await ensureParentDir(outAbs);
+  const tmp = `${outAbs}.tmp`;
   // Scale: shrink only if wider than VIDEO_MAX_WIDTH, keep aspect (even dims for H.264).
   const vf = `scale='min(${VIDEO_MAX_WIDTH},iw)':-2:flags=lanczos,format=yuv420p`;
   const args = [
@@ -231,21 +298,10 @@ async function optimizeVideo(abs) {
   await runFfmpeg(args);
   const newStat = await fs.stat(tmp);
 
-  // Only replace when the new file is actually smaller; otherwise keep original.
-  if (newStat.size >= stat.size) {
-    await fs.unlink(tmp);
-    return {
-      rel,
-      newRel: rel,
-      inBytes: stat.size,
-      outBytes: stat.size,
-      kind: "mp4-skipped-already-small",
-    };
-  }
-  await fs.rename(tmp, abs);
+  await fs.rename(tmp, outAbs);
   return {
     rel,
-    newRel: rel,
+    newRel: outRel,
     inBytes: stat.size,
     outBytes: newStat.size,
     kind: "mp4-reencode",
@@ -263,8 +319,8 @@ async function* walkSource(dir) {
         entry.name === "node_modules" ||
         entry.name === ".next" ||
         entry.name === ".git" ||
-        // Never rewrite the optimizer itself — the OG_TO_JPG set stores
-        // canonical source paths and must not be mutated by its own run.
+        (abs === OUT_DIR || abs.startsWith(`${OUT_DIR}${path.sep}`)) ||
+        // Never rewrite the optimizer itself. It stores canonical policy paths.
         (dir === ROOT && entry.name === "scripts")
       ) {
         continue;
@@ -329,17 +385,19 @@ async function main() {
   const startTs = Date.now();
   console.log(`SSP asset optimizer`);
   console.log(`  root:        ${ROOT}`);
-  console.log(`  assets dir:  ${ASSETS_DIR}`);
+  console.log(`  source dir:  ${PUBLIC_DIR} (excluding /_optimized)`);
+  console.log(`  output dir:  ${OUT_DIR}`);
   console.log(`  mode:        ${DRY_RUN ? "DRY-RUN" : "WRITE"}`);
+  console.log(`  overwrite:   ${FORCE ? "on (--force)" : "off (existing outputs are skipped)"}`);
   console.log(`  img target:  max ${IMAGE_MAX_WIDTH}px | WebP q=${WEBP_QUALITY} | OG JPG q=${JPG_QUALITY} mozjpeg | PNG palette+q90`);
   console.log(`  video tgt:   H.264 crf=${VIDEO_CRF} max ${VIDEO_MAX_WIDTH}px +faststart, AAC 96k`);
-  console.log(`  og-policy:   ${OG_KEEP_PNG.size} PNG (transparency/favicon) + ${OG_TO_JPG.size} JPG (crawler-safe)`);
+  console.log(`  og-policy:   ${PNG_OUTPUT_PATHS.size} PNG (transparency/favicon) + ${JPG_OUTPUT_PATHS.size} JPG (crawler-safe)`);
   console.log("");
 
   const imgResults = [];
   const vidResults = [];
 
-  for await (const abs of walk(ASSETS_DIR)) {
+  for await (const abs of walk(PUBLIC_DIR)) {
     const ext = path.extname(abs).toLowerCase();
     try {
       if (RASTER_EXTS.has(ext)) {
@@ -348,7 +406,13 @@ async function main() {
         if (r) {
           imgResults.push(r);
           const tag =
-            r.kind === "png-reencode" ? "PNG↻" : r.kind === "to-jpg" ? "→JPG " : "→WebP";
+            r.kind === "png-reencode"
+              ? "PNG↻"
+              : r.kind === "to-jpg"
+                ? "→JPG "
+                : r.kind === "skipped-existing"
+                  ? "SKIP "
+                  : "→WebP";
           const savings =
             r.outBytes != null ? ` (${fmtBytes(r.inBytes)}→${fmtBytes(r.outBytes)})` : "";
           console.log(`  ${tag}  ${r.rel}${savings}`);
@@ -365,7 +429,7 @@ async function main() {
         }
       }
     } catch (err) {
-      console.error(`  ✗ FAILED ${relPublic(abs)}: ${err.message}`);
+      console.error(`  ✗ FAILED ${relFromPublic(abs)}: ${err.message}`);
     }
   }
 

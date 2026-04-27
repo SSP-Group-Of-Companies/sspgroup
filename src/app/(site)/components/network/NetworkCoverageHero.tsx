@@ -9,6 +9,9 @@ import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEy
 import { TrackedLink } from "@/app/(site)/components/analytics/TrackedLink";
 import { FOCUS_RING_DARK, NOISE_BG } from "@/app/(site)/company/faqs/_components/faqStyles";
 import {
+  COMPANY_HERO_SHARD_BOX,
+  COMPANY_HERO_SHARD_FRAME,
+  COMPANY_HERO_SHARD_FRAME_INNER,
   NETWORK_HERO_SHARD_FADE_STYLE,
   NETWORK_HERO_SHARD_MASK_STYLE,
   NETWORK_HERO_SURFACE,
@@ -77,12 +80,26 @@ export function NetworkCoverageHero({
         aria-hidden
       />
 
-      <Container className="site-page-container relative">
+      <div className={COMPANY_HERO_SHARD_FRAME} aria-hidden>
+        <div className={COMPANY_HERO_SHARD_FRAME_INNER}>
+          <motion.div
+            initial={reduceMotion ? { opacity: 0.76 } : { opacity: 0.04, x: -34, y: 20 }}
+            animate={reduceMotion ? { opacity: 0.76 } : { opacity: 0.86, x: 0, y: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
+            className={COMPANY_HERO_SHARD_BOX}
+            style={NETWORK_HERO_SHARD_FADE_STYLE}
+          >
+            <div className="h-full w-full" style={NETWORK_HERO_SHARD_MASK_STYLE} />
+          </motion.div>
+        </div>
+      </div>
+
+      <Container className="site-page-container relative z-10">
         <motion.div
           initial="hidden"
           animate="show"
           variants={stagger}
-          className="relative z-10 max-w-[44rem]"
+          className="relative max-w-[44rem]"
         >
           <motion.div
             variants={reveal}
@@ -147,17 +164,6 @@ export function NetworkCoverageHero({
               </TrackedLink>
             </motion.div>
           ) : null}
-        </motion.div>
-
-        <motion.div
-          initial={reduceMotion ? { opacity: 0.76 } : { opacity: 0.04, x: -34, y: 20 }}
-          animate={reduceMotion ? { opacity: 0.76 } : { opacity: 0.86, x: 0, y: 0 }}
-          transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-none absolute right-[-45%] top-[-2%] h-[120%] w-[118%] sm:right-[-40%] sm:top-[-4%] sm:h-[126%] sm:w-[110%] md:right-[-31%] md:top-[-7%] md:h-[130%] md:w-[98%] lg:right-[-23%] lg:top-[-10%] lg:h-[134%] lg:w-[80%]"
-          aria-hidden
-          style={NETWORK_HERO_SHARD_FADE_STYLE}
-        >
-          <div className="h-full w-full" style={NETWORK_HERO_SHARD_MASK_STYLE} />
         </motion.div>
       </Container>
     </section>

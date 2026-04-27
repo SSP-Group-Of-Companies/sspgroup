@@ -18,6 +18,11 @@ import { SolutionRelatedServicesSection } from "@/app/(site)/solutions/_componen
 import { SolutionWhenToChooseSection } from "@/app/(site)/solutions/_components/SolutionWhenToChooseSection";
 import type { SolutionFamilyLandingPageData } from "@/config/solutionFamilyPages";
 import { cn } from "@/lib/cn";
+import {
+  COMPANY_HERO_SHARD_BOX,
+  COMPANY_HERO_SHARD_FRAME,
+  COMPANY_HERO_SHARD_FRAME_INNER,
+} from "@/app/(site)/components/network/coverageHeroStyles";
 
 /** Requires ancestor with `--family-accent` (set on `SolutionFamilyLandingPage` root). */
 const FAMILY_FOCUS_RING_LIGHT =
@@ -25,10 +30,6 @@ const FAMILY_FOCUS_RING_LIGHT =
 
 const FOCUS_RING_DARK =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-company-ink)]";
-
-/** Hero shard: fixed widths per breakpoint + SVG viewBox aspect — not % of column height (avoids inconsistent scale across family pages). */
-const FAMILY_HERO_SHARD_BOX =
-  "relative aspect-[1024/1035] w-44 translate-x-[12%] sm:w-52 sm:translate-x-[14%] lg:w-60 lg:translate-x-[16%] xl:w-72 xl:translate-x-[18%]";
 
 function familyAccentVarStyle(accent: string): CSSProperties {
   return { ["--family-accent" as string]: accent } as CSSProperties;
@@ -130,16 +131,13 @@ function FamilyHero({
         </motion.div>
       </Container>
 
-      <div
-        className="pointer-events-none absolute inset-y-0 left-1/2 z-0 w-full max-w-[1440px] -translate-x-1/2 px-4 sm:px-6 lg:px-8"
-        aria-hidden
-      >
-        <div className="flex h-full items-center justify-end">
+      <div className={COMPANY_HERO_SHARD_FRAME} aria-hidden>
+        <div className={COMPANY_HERO_SHARD_FRAME_INNER}>
           <motion.div
             initial={reduceMotion ? { opacity: 0.74 } : { opacity: 0.08, x: -34, y: 20 }}
             animate={reduceMotion ? { opacity: 0.78 } : { opacity: 0.88, x: 0, y: 0 }}
             transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
-            className={FAMILY_HERO_SHARD_BOX}
+            className={COMPANY_HERO_SHARD_BOX}
             style={shardFadeStyle}
           >
             <div className="h-full w-full" style={shardMaskStyle} />

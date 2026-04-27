@@ -9,6 +9,11 @@ import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEy
 import { StandardFinalCta } from "@/app/(site)/components/cta/StandardFinalCta";
 import { cn } from "@/lib/cn";
 import {
+  COMPANY_HERO_SHARD_BOX,
+  COMPANY_HERO_SHARD_FRAME,
+  COMPANY_HERO_SHARD_FRAME_INNER,
+} from "@/app/(site)/components/network/coverageHeroStyles";
+import {
   HISTORY_FINAL_CTA,
   SSP_HISTORY_MILESTONES,
   type HistoryMilestone,
@@ -59,7 +64,21 @@ function HeroSection({ skip }: { skip: boolean }) {
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-border-light)] to-transparent" />
       </div>
 
-      <Container className="site-page-container relative">
+      <div className={COMPANY_HERO_SHARD_FRAME} aria-hidden>
+        <div className={COMPANY_HERO_SHARD_FRAME_INNER}>
+          <motion.div
+            initial={skip ? { opacity: 0.74 } : { opacity: 0.04, x: -34, y: 20 }}
+            animate={skip ? { opacity: 0.74 } : { opacity: 0.84, x: 0, y: 0 }}
+            transition={{ duration: skip ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
+            className={COMPANY_HERO_SHARD_BOX}
+            style={shardFadeStyle}
+          >
+            <div className="h-full w-full" style={shardMaskStyle} />
+          </motion.div>
+        </div>
+      </div>
+
+      <Container className="site-page-container relative z-10">
         <motion.div
           initial={skip ? false : { opacity: 1, y: 14, scale: 0.995 }}
           animate={{ opacity: 1, y: 0 }}
@@ -90,17 +109,6 @@ function HeroSection({ skip }: { skip: boolean }) {
             multi-entity freight organization with controlled growth across
             Canada, the United States, and Mexico.
           </p>
-        </motion.div>
-
-        <motion.div
-          initial={skip ? { opacity: 0.74 } : { opacity: 0.04, x: -34, y: 20 }}
-          animate={skip ? { opacity: 0.74 } : { opacity: 0.84, x: 0, y: 0 }}
-          transition={{ duration: skip ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-none absolute right-[-45%] top-[-2%] h-[120%] w-[118%] sm:right-[-40%] sm:top-[-4%] sm:h-[126%] sm:w-[110%] md:right-[-31%] md:top-[-7%] md:h-[130%] md:w-[98%] lg:right-[-23%] lg:top-[-10%] lg:h-[134%] lg:w-[80%]"
-          aria-hidden
-          style={shardFadeStyle}
-        >
-          <div className="h-full w-full" style={shardMaskStyle} />
         </motion.div>
       </Container>
     </section>

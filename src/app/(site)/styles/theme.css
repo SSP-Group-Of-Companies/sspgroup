@@ -499,36 +499,13 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   HOME PAGE — Trust / Partners marquee
-   Defined in global CSS (not styled-jsx) so the animation is present in
-   production builds on Vercel the same as locally. Parent pause uses a
-   modifier class; hover pause only applies when not force-paused.
+   HOME PAGE — Trust / Partners marquee (layout shell only)
+   Autoplay, pause, drag, and reduced-motion are implemented in
+   `TrustProofSection.tsx` via a Motion value + rAF so horizontal pan
+   gestures do not fight CSS keyframes. This class only pins `width:
+   max-content` for the duplicated logo row.
    ═══════════════════════════════════════════════════════════════════════ */
-@keyframes trust-marquee-home {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
 
 .home-trust-marquee-track {
   width: max-content;
-  animation: trust-marquee-home 42s linear infinite;
-}
-
-.home-trust-marquee-track--paused {
-  animation-play-state: paused !important;
-}
-
-.home-trust-marquee-track:hover:not(.home-trust-marquee-track--paused),
-.home-trust-marquee-track:focus-within:not(.home-trust-marquee-track--paused) {
-  animation-play-state: paused;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home-trust-marquee-track {
-    animation: none !important;
-  }
 }

@@ -8,6 +8,35 @@
   border-radius: var(--radius-action);
 }
 
+/* ============================================================
+ * Content-visibility utility
+ *
+ * Tells the browser it can skip rendering this subtree's contents
+ * (paint + layout) while it's far from the viewport, then paint it
+ * just-in-time as the user approaches. This is the single biggest
+ * mobile scroll-smoothness win for sections that contain heavy
+ * SVG / mask-image / gradient layers — exactly what the homepage
+ * has. We provide an estimated intrinsic size so the scrollbar
+ * geometry and anchor links don't jump as sections are skipped.
+ *
+ * `auto` (not `hidden`) means the section still participates in
+ * layout, in find-in-page, in tab order, and in the accessibility
+ * tree — it's purely a paint-time hint. Safari shipped support in
+ * 18.0; older Safari simply ignores both properties.
+ * ============================================================ */
+.cv-auto-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+
+/* Print: never hide content from print engines. */
+@media print {
+  .cv-auto-section {
+    content-visibility: visible;
+    contain-intrinsic-size: auto;
+  }
+}
+
 html {
   overflow-x: clip;
   -webkit-text-size-adjust: 100%;

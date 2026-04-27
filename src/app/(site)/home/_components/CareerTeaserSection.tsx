@@ -42,7 +42,7 @@ export function CareerTeaserSection() {
     <section
       id="home-career-teaser"
       aria-labelledby="home-career-teaser-heading"
-      className="relative scroll-mt-16 overflow-hidden bg-[color:var(--color-surface-1)] py-20 sm:py-24 lg:py-28"
+      className="cv-auto-section relative scroll-mt-16 overflow-hidden bg-[color:var(--color-surface-1)] py-20 sm:py-24 lg:py-28"
     >
       <div
         className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[2px] opacity-80"
@@ -55,8 +55,8 @@ export function CareerTeaserSection() {
           className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-10"
           initial={reduceMotion ? false : { opacity: 1, y: 10 }}
           whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
+          transition={{ duration: reduceMotion ? 0 : 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="max-w-[44rem]">
             <SectionSignalEyebrow label={SECTION_EYEBROW} />
@@ -104,8 +104,8 @@ export function CareerTeaserSection() {
           className="mt-12 grid gap-5 sm:mt-14 lg:grid-cols-2 lg:gap-6"
           initial={reduceMotion ? false : { opacity: 1, y: 10 }}
           whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut", delay: reduceMotion ? 0 : 0.05 }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
+          transition={{ duration: reduceMotion ? 0 : 0.32, ease: "easeOut", delay: 0 }}
         >
           <article className={cn("flex flex-col", CAREER_CARD_SHELL)}>
             <div aria-hidden className={CARD_TOP_BAR} style={{ background: "var(--gradient-ssp-elevated)" }} />

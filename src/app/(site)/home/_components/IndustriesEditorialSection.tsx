@@ -450,17 +450,17 @@ export function IndustriesEditorialSection() {
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.04, delayChildren: 0 } } };
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 1, y: 14 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 12 }, show: { opacity: 1, y: 0 } };
 
   return (
     <section
       id={INDUSTRIES_SECTION.id}
       aria-labelledby="home-industries-heading"
-      className="relative overflow-hidden scroll-mt-16 py-20 sm:py-24 lg:py-28"
+      className="cv-auto-section relative overflow-hidden scroll-mt-16 py-20 sm:py-24 lg:py-28"
       style={{ backgroundColor: "var(--color-company-ink)" }}
     >
       {/* ─── Opening signature: cyan hairline + soft cyan haze — the
@@ -510,9 +510,9 @@ export function IndustriesEditorialSection() {
           className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-10"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
           variants={revealUp}
-          transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
+          transition={{ duration: reduceMotion ? 0 : 0.3, ease: "easeOut" }}
         >
           <div className="max-w-[34rem]">
             <SectionSignalEyebrow label={SECTION_EYEBROW} light />
@@ -570,20 +570,20 @@ export function IndustriesEditorialSection() {
           className="mt-12 hidden items-start gap-10 lg:mt-14 lg:grid lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_23rem]"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
           variants={stagger}
           onMouseEnter={handleAtlasEnter}
           onMouseLeave={handleAtlasLeave}
           onFocus={handleAtlasFocus}
           onBlur={handleAtlasBlur}
         >
-          <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}>
+          <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.32, ease: [0.22, 1, 0.36, 1] }}>
             <IndustrySpotlight activeIndex={activeIndex} reduceMotion={reduceMotion} />
           </motion.div>
 
           <motion.div
             variants={revealUp}
-            transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reduceMotion ? 0 : 0.32, ease: [0.22, 1, 0.36, 1] }}
             className="relative"
           >
             {/* The static hairline — the track. Always visible, whether
@@ -630,7 +630,7 @@ export function IndustriesEditorialSection() {
           className="mt-12 lg:hidden"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.12 }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
           variants={stagger}
         >
           <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}>

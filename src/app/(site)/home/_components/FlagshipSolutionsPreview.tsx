@@ -84,6 +84,27 @@ const ATMOSPHERIC_ACCENT_PATH =
 const WAVE_VERTICAL_MASK =
   "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.4) 46%, rgba(0,0,0,0.82) 60%, rgba(0,0,0,1) 74%)";
 
+/* Below lg (where cards aren't yet in a 4-up row), the atmospheric
+ * waves can't show their cross-tile continuity — they'd just paint a
+ * masked SVG slice per card with two ~30k-character path strings. On
+ * mobile this is one of the heaviest items the homepage paints during
+ * scroll. We replace it with a cheap CSS gradient that visually
+ * matches the bottom-half wash the waves would produce. The full SVG
+ * composition is restored from `lg:` up, where its cross-tile flow is
+ * actually legible. Pure paint-cost reduction with no design loss on
+ * narrow viewports.
+ */
+const AtmosphericWavesMobileFallback: FC = () => (
+  <div
+    aria-hidden
+    className="absolute inset-y-0 left-0 right-0 lg:hidden"
+    style={{
+      background:
+        "linear-gradient(180deg, transparent 30%, color-mix(in srgb, var(--card-accent) 5%, transparent) 60%, color-mix(in srgb, var(--card-accent) 12%, transparent) 100%)",
+    }}
+  />
+);
+
 const AtmosphericWaves: FC<{ cardIndex: number; totalCards: number }> = ({
   cardIndex,
   totalCards,
@@ -94,37 +115,40 @@ const AtmosphericWaves: FC<{ cardIndex: number; totalCards: number }> = ({
   const translatePercent = -(cardIndex * 100) / totalCards;
 
   return (
-    <svg
-      className="absolute inset-y-0 left-0 h-full"
-      viewBox="0 0 1408 768"
-      preserveAspectRatio="none"
-      aria-hidden
-      style={{
-        width: `${totalCards * 100}%`,
-        transform: `translateX(${translatePercent}%)`,
-        WebkitMaskImage: WAVE_VERTICAL_MASK,
-        maskImage: WAVE_VERTICAL_MASK,
-      }}
-    >
-      {/* Pale atmospheric bands — the large flowing currents, tinted
-          by the tile's accent. Kept low (0.09) so they read as
-          breath/light, not paint, even when the accent is warm red. */}
-      <path
-        d={ATMOSPHERIC_BAND_PATH}
-        fill="var(--card-accent)"
-        fillOpacity="0.09"
-        fillRule="evenodd"
-      />
-      {/* Contour details + drifting particles — the punctuation layer,
-          also tinted by the tile's accent. Held to 0.22 so the
-          composition reads as subtle texture, not noise. */}
-      <path
-        d={ATMOSPHERIC_ACCENT_PATH}
-        fill="var(--card-accent)"
-        fillOpacity="0.22"
-        fillRule="evenodd"
-      />
-    </svg>
+    <>
+      <AtmosphericWavesMobileFallback />
+      <svg
+        className="absolute inset-y-0 left-0 hidden h-full lg:block"
+        viewBox="0 0 1408 768"
+        preserveAspectRatio="none"
+        aria-hidden
+        style={{
+          width: `${totalCards * 100}%`,
+          transform: `translateX(${translatePercent}%)`,
+          WebkitMaskImage: WAVE_VERTICAL_MASK,
+          maskImage: WAVE_VERTICAL_MASK,
+        }}
+      >
+        {/* Pale atmospheric bands — the large flowing currents, tinted
+            by the tile's accent. Kept low (0.09) so they read as
+            breath/light, not paint, even when the accent is warm red. */}
+        <path
+          d={ATMOSPHERIC_BAND_PATH}
+          fill="var(--card-accent)"
+          fillOpacity="0.09"
+          fillRule="evenodd"
+        />
+        {/* Contour details + drifting particles — the punctuation layer,
+            also tinted by the tile's accent. Held to 0.22 so the
+            composition reads as subtle texture, not noise. */}
+        <path
+          d={ATMOSPHERIC_ACCENT_PATH}
+          fill="var(--card-accent)"
+          fillOpacity="0.22"
+          fillRule="evenodd"
+        />
+      </svg>
+    </>
   );
 };
 
@@ -274,7 +298,14 @@ function FamilyTile({ family, index, total }: { family: FlagshipFamily; index: n
     <article
       style={accentStyle}
       className={cn(
-        "group relative isolate flex h-full min-h-[26rem] flex-col site-cta-radius sm:min-h-[27rem] lg:min-h-[28rem]",
+        // The min-height is intentionally lg-only: at `lg:` the cards form
+        // a 4-up row over a continuous wave composition that earns its
+        // vertical real estate. Below `lg:` the waves are gated off (paint
+        // cost, no cross-tile flow with stacked cards), and forcing the
+        // same height would leave the illustration floating in negative
+        // space — exactly the visual symptom we saw on mobile. Letting the
+        // card collapse around its content here is the Apple-card pattern.
+        "group relative isolate flex h-full flex-col site-cta-radius lg:min-h-[28rem]",
         "drop-shadow-[0_8px_20px_rgba(2,6,23,0.03)]",
         "transition-[transform,filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
         "motion-safe:hover:-translate-y-[2px] hover:drop-shadow-[0_18px_38px_rgba(2,6,23,0.07)]",
@@ -361,15 +392,20 @@ function FamilyTile({ family, index, total }: { family: FlagshipFamily; index: n
       </div>
 
       {/*
-        Scene illustration floating on the atmospheric flow. Not anchored
-        to the bottom: centered in the lower region so the waves read
-        around it, not just below it. The art itself is tinted by
-        `--card-accent` via `currentColor`.
+        Scene illustration. Two layouts in one element:
+        • At `lg:` (where the wave composition is restored), `mt-auto`
+          pushes the illustration to the bottom of the 28rem card so it
+          floats over the lower-half wave passage — the original
+          editorial intent.
+        • Below `lg:`, the card has no min-height; an explicit top margin
+          gives the illustration an intentional, Apple-card rhythm
+          relative to the descriptor (title → text → illustration →
+          edge), instead of being pushed to the bottom of empty space.
       */}
       <div
         className={cn(
-          "relative z-[1] mt-auto flex w-full items-center justify-center",
-          "pb-[1.6rem] sm:pb-[1.8rem] lg:pb-[2rem]",
+          "relative z-[1] mt-7 flex w-full items-center justify-center sm:mt-8 lg:mt-auto",
+          "pb-7 sm:pb-8 lg:pb-[2rem]",
           "text-[color:var(--card-accent)]",
           "transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
           "opacity-[0.96] group-hover:opacity-100",
@@ -404,17 +440,17 @@ export function FlagshipSolutionsPreview() {
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: {}, show: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } } };
+    : { hidden: {}, show: { transition: { staggerChildren: 0.04, delayChildren: 0 } } };
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
-    : { hidden: { opacity: 1, y: 14 }, show: { opacity: 1, y: 0 } };
+    : { hidden: { opacity: 1, y: 12 }, show: { opacity: 1, y: 0 } };
 
   return (
     <section
       id="home-flagship-solutions"
       aria-labelledby="home-flagship-solutions-heading"
-      className="relative overflow-hidden bg-[color:var(--color-surface-1)] py-20 antialiased sm:py-24 lg:py-28"
+      className="cv-auto-section relative overflow-hidden bg-[color:var(--color-surface-1)] py-20 antialiased sm:py-24 lg:py-28"
     >
       {/* Single atmospheric cyan breath — top-right, editorial only */}
       <div
@@ -432,9 +468,9 @@ export function FlagshipSolutionsPreview() {
           className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between sm:gap-10"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, margin: "0px 0px 80px 0px" }}
           variants={revealUp}
-          transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
+          transition={{ duration: reduceMotion ? 0 : 0.3, ease: "easeOut" }}
         >
           <div className="max-w-[34rem]">
             <SectionSignalEyebrow label={SECTION_EYEBROW} />
@@ -482,14 +518,14 @@ export function FlagshipSolutionsPreview() {
           className="mt-12 grid gap-5 sm:mt-14 sm:grid-cols-2 sm:gap-6 lg:mt-16 lg:grid-cols-4 lg:gap-6"
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, margin: "0px 0px 100px 0px" }}
           variants={stagger}
         >
           {FAMILIES.map((family, index) => (
             <motion.li
               key={family.id}
               variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: reduceMotion ? 0 : 0.32, ease: [0.22, 1, 0.36, 1] }}
               className="flex"
             >
               <div className="flex w-full">

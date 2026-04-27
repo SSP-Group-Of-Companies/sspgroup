@@ -10,6 +10,11 @@ import { Section } from "../components/layout/Section";
 import { SectionSignalEyebrow } from "../components/ui/SectionSignalEyebrow";
 import ContactForm from "../components/forms/ContactForm";
 import { cn } from "@/lib/cn";
+import {
+  COMPANY_HERO_SHARD_BOX,
+  COMPANY_HERO_SHARD_FRAME,
+  COMPANY_HERO_SHARD_FRAME_INNER,
+} from "@/app/(site)/components/network/coverageHeroStyles";
 import { NEXT_PUBLIC_SSP_PHONE } from "@/config/env";
 import { getSiteHeaderOffset } from "@/lib/siteHeaderOffset";
 
@@ -68,7 +73,21 @@ function ContactHero() {
         <div className="absolute inset-0 bg-[radial-gradient(40%_44%_at_66%_35%,var(--color-contact-hero-glow-steel),transparent_72%)]" />
       </div>
 
-      <Container className="site-page-container relative">
+      <div className={COMPANY_HERO_SHARD_FRAME} aria-hidden>
+        <div className={COMPANY_HERO_SHARD_FRAME_INNER}>
+          <motion.div
+            initial={reduceMotion ? { opacity: 0.86 } : { opacity: 0.08, x: -34, y: 20 }}
+            animate={reduceMotion ? { opacity: 0.86 } : { opacity: 0.94, x: 0, y: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
+            className={COMPANY_HERO_SHARD_BOX}
+            style={shardFadeStyle}
+          >
+            <div className="h-full w-full" style={shardMaskStyle} />
+          </motion.div>
+        </div>
+      </div>
+
+      <Container className="site-page-container relative z-10">
         <div className="max-w-[44rem]">
           <SectionSignalEyebrow label="Contact & Support" light />
 
@@ -82,17 +101,6 @@ function ContactHero() {
             requests.
           </p>
         </div>
-
-        <motion.div
-          initial={reduceMotion ? { opacity: 0.86 } : { opacity: 0.08, x: -34, y: 20 }}
-          animate={reduceMotion ? { opacity: 0.86 } : { opacity: 0.94, x: 0, y: 0 }}
-          transition={{ duration: reduceMotion ? 0 : 0.66, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-none absolute top-[-2%] right-[-45%] h-[120%] w-[118%] sm:top-[-4%] sm:right-[-40%] sm:h-[126%] sm:w-[110%] md:top-[-7%] md:right-[-31%] md:h-[130%] md:w-[98%] lg:top-[-10%] lg:right-[-23%] lg:h-[134%] lg:w-[80%]"
-          aria-hidden
-          style={shardFadeStyle}
-        >
-          <div className="h-full w-full" style={shardMaskStyle} />
-        </motion.div>
       </Container>
     </Section>
   );
