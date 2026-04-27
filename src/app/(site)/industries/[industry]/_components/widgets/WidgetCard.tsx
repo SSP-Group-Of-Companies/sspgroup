@@ -163,3 +163,120 @@ export function PillToggle<T extends string>({
     </div>
   );
 }
+
+type WidgetRangeProps = {
+  value: number;
+  onChange: (value: number) => void;
+  min: number;
+  max: number;
+  step?: number;
+  accentColor?: string;
+  "aria-label": string;
+  fillOpacityClassName?: string;
+  children?: React.ReactNode;
+};
+
+const rangeThumbClass = cn(
+  "[&::-webkit-slider-thumb]:relative [&::-webkit-slider-thumb]:z-10",
+  "[&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5",
+  "[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full",
+  "[&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-slate-300",
+  "[&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-md",
+  "[&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5",
+  "[&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2",
+  "[&::-moz-range-thumb]:border-slate-300 [&::-moz-range-thumb]:bg-white",
+  "[&::-moz-range-thumb]:shadow-md",
+);
+
+export function WidgetRange({
+  value,
+  onChange,
+  min,
+  max,
+  step,
+  accentColor,
+  "aria-label": ariaLabel,
+  fillOpacityClassName,
+  children,
+}: WidgetRangeProps) {
+  const accent = accentColor ?? "var(--color-brand-500)";
+  const [displayValue, setDisplayValue] = React.useState(value);
+  const frameRef = React.useRef<number | null>(null);
+  const pendingValueRef = React.useRef(value);
+  const draggingRef = React.useRef(false);
+
+  React.useEffect(() => {
+    if (!draggingRef.current) setDisplayValue(value);
+    pendingValueRef.current = value;
+  }, [value]);
+
+  React.useEffect(() => {
+    return () => {
+      if (frameRef.current != null) cancelAnimationFrame(frameRef.current);
+    };
+  }, []);
+
+  const commit = React.useCallback(
+    (next: number) => {
+      pendingValueRef.current = next;
+      if (frameRef.current != null) return;
+      frameRef.current = requestAnimationFrame(() => {
+        frameRef.current = null;
+        onChange(pendingValueRef.current);
+      });
+    },
+    [onChange],
+  );
+
+  const flush = React.useCallback(() => {
+    draggingRef.current = false;
+    if (frameRef.current != null) {
+      cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+    }
+    onChange(pendingValueRef.current);
+  }, [onChange]);
+
+  const denominator = max - min;
+  const percent = denominator === 0 ? 0 : ((displayValue - min) / denominator) * 100;
+  const clampedPercent = Math.max(0, Math.min(100, percent));
+
+  return (
+    <div className="relative">
+      <div className="h-2 w-full rounded-full bg-slate-200/90" aria-hidden />
+      <div
+        className={cn("absolute left-0 top-0 h-2 rounded-full", fillOpacityClassName)}
+        style={{ width: `${clampedPercent}%`, backgroundColor: accent }}
+        aria-hidden
+      />
+      {children}
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={displayValue}
+        onPointerDown={() => {
+          draggingRef.current = true;
+        }}
+        onPointerUp={flush}
+        onPointerCancel={flush}
+        onBlur={flush}
+        onChange={(event) => {
+          const next = Number(event.target.value);
+          setDisplayValue(next);
+          commit(next);
+        }}
+        aria-valuemin={min}
+        aria-valuemax={max}
+        aria-valuenow={displayValue}
+        aria-label={ariaLabel}
+        className={cn(
+          "absolute inset-0 h-2 w-full cursor-pointer touch-pan-y appearance-none rounded-full bg-transparent",
+          rangeThumbClass,
+        )}
+        style={{ accentColor: accent } as React.CSSProperties}
+      />
+    </div>
+  );
+}

@@ -24,8 +24,8 @@ export function FaqFinalCta() {
           },
           secondary: {
             label: FAQ_FINAL_CTA.ctas.secondary.label,
+            href: FAQ_FINAL_CTA.ctas.secondary.href,
             ctaId: FAQ_FINAL_CTA.ctas.secondary.ctaId,
-            action: "live-chat",
           },
         },
       }}

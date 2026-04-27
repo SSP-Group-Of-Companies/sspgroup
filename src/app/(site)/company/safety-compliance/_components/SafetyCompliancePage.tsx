@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type CSSProperties } from "react";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { ChevronLeft, Pause, Play, Radio, Route, ShieldCheck } from "lucide-react";
+import * as React from "react";
+import { type CSSProperties } from "react";
+import { motion, useMotionValue, useReducedMotion, useTransform, type Variants } from "framer-motion";
+import { ChevronLeft, Radio, Route, ShieldCheck } from "lucide-react";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { HEADER_HEIGHT_PX } from "@/app/(site)/components/layout/header/constants";
 import { ModeSolutionOverviewSection } from "@/app/(site)/solutions/_components/ModeSolutionOverviewSection";
@@ -24,6 +25,7 @@ const FOCUS_RING_LIGHT =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-0-light)]";
 
 const SAFETY_SECTION_SCROLL_MARGIN = HEADER_HEIGHT_PX + 56 + 16;
+const MARQUEE_LOOP_DURATION_MS = 42_000;
 
 const VISIBILITY_CONTROL_ICONS = {
   radio: Radio,
@@ -31,70 +33,249 @@ const VISIBILITY_CONTROL_ICONS = {
   shield: ShieldCheck,
 } as const;
 
+function normalizeMarqueeOffset(v: number, loopWidth: number): number {
+  if (loopWidth <= 0) return v;
+  let t = v;
+  while (t <= -loopWidth) t += loopWidth;
+  while (t > 0) t -= loopWidth;
+  return t;
+}
+
+function marqueePointerClient(e: React.PointerEvent<Element>): { clientX: number; clientY: number } {
+  const ne = e.nativeEvent as PointerEvent;
+  if (
+    ne.pointerType !== "touch" &&
+    typeof ne.getCoalescedEvents === "function"
+  ) {
+    const c = ne.getCoalescedEvents();
+    if (c.length > 0) {
+      const last = c[c.length - 1];
+      if (last) return { clientX: last.clientX, clientY: last.clientY };
+    }
+  }
+  return { clientX: ne.clientX, clientY: ne.clientY };
+}
+
 function CertificationMarquee({ paused }: { paused: boolean }) {
-  const logos = [...TRUST_PARTNER_LOGOS, ...TRUST_PARTNER_LOGOS];
+  const reduceMotion = useReducedMotion() ?? false;
+  const items = [...TRUST_PARTNER_LOGOS, ...TRUST_PARTNER_LOGOS];
+
+  const trackRef = React.useRef<HTMLDivElement>(null);
+  const autoX = useMotionValue(0);
+  const pullX = useMotionValue(0);
+  const [loopW, setLoopW] = React.useState(0);
+  const loopWRef = React.useRef(0);
+  React.useEffect(() => {
+    loopWRef.current = loopW;
+  }, [loopW]);
+
+  const pausedRef = React.useRef(paused);
+  pausedRef.current = paused;
+
+  const reduceMotionRef = React.useRef(reduceMotion);
+  reduceMotionRef.current = reduceMotion;
+
+  const x = useTransform([autoX, pullX], ([a, b]) => {
+    const L = loopWRef.current;
+    if (!L || L <= 0) return 0;
+    return normalizeMarqueeOffset(Number(a) + Number(b), L);
+  });
+
+  type DragSession = {
+    pointerId: number;
+    pointerType: string;
+    startClientX: number;
+    startClientY: number;
+    locked: boolean;
+    lockClientX: number;
+  };
+  const dragRef = React.useRef<DragSession | null>(null);
+
+  const releasePointerSafe = (target: HTMLElement, pointerId: number) => {
+    try {
+      if (target.hasPointerCapture(pointerId)) target.releasePointerCapture(pointerId);
+    } catch {
+      /* noop */
+    }
+  };
+
+  const endPointerSession = (target: HTMLElement, pointerId: number) => {
+    const session = dragRef.current;
+    if (!session || session.pointerId !== pointerId) return;
+    const wasLocked = session.locked;
+    const L = loopWRef.current;
+    dragRef.current = null;
+    releasePointerSafe(target, pointerId);
+    if (wasLocked && L > 0) {
+      autoX.set(normalizeMarqueeOffset(autoX.get() + pullX.get(), L));
+      pullX.set(0);
+    } else {
+      pullX.set(0);
+    }
+  };
+
+  React.useLayoutEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const measure = () => {
+      const half = el.scrollWidth / 2;
+      setLoopW(half);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  React.useLayoutEffect(() => {
+    if (loopW <= 0) return;
+    autoX.set(normalizeMarqueeOffset(autoX.get() + pullX.get(), loopW));
+    pullX.set(0);
+  }, [loopW, autoX, pullX]);
+
+  React.useEffect(() => {
+    if (loopW <= 0) return;
+    autoX.set(normalizeMarqueeOffset(autoX.get() + pullX.get(), loopW));
+    pullX.set(0);
+  }, [paused, loopW, autoX, pullX]);
+
+  React.useEffect(() => {
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = Math.min(48, now - last);
+      last = now;
+      const L = loopWRef.current;
+      if (L > 0 && !reduceMotionRef.current && !pausedRef.current) {
+        const speed = L / MARQUEE_LOOP_DURATION_MS;
+        autoX.set(normalizeMarqueeOffset(autoX.get() - speed * dt, L));
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [autoX]);
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return;
+    pullX.set(0);
+    dragRef.current = {
+      pointerId: e.pointerId,
+      pointerType: e.pointerType,
+      startClientX: e.clientX,
+      startClientY: e.clientY,
+      locked: false,
+      lockClientX: e.clientX,
+    };
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      /* noop */
+    }
+  };
+
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const session = dragRef.current;
+    if (!session || session.pointerId !== e.pointerId) return;
+
+    const { clientX, clientY } = marqueePointerClient(e);
+    const dx = clientX - session.startClientX;
+    const dy = clientY - session.startClientY;
+    const adx = Math.abs(dx);
+    const ady = Math.abs(dy);
+    const isTouch = session.pointerType === "touch";
+
+    if (!session.locked) {
+      const dead = isTouch ? 3.5 : 5;
+      if (Math.hypot(dx, dy) < dead) return;
+
+      if (ady >= adx * (isTouch ? 1.22 : 1.18) && ady >= (isTouch ? 9 : 10)) {
+        releasePointerSafe(e.currentTarget, e.pointerId);
+        dragRef.current = null;
+        pullX.set(0);
+        return;
+      }
+
+      const horizontal =
+        adx >= ady * (isTouch ? 1.02 : 1.06) || adx >= (isTouch ? 4 : 6);
+      if (horizontal) {
+        session.locked = true;
+        session.lockClientX = clientX;
+        pullX.set(0);
+      } else {
+        return;
+      }
+    }
+
+    pullX.set(clientX - session.lockClientX);
+  };
+
+  const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    const session = dragRef.current;
+    if (!session || session.pointerId !== e.pointerId) return;
+    endPointerSession(e.currentTarget, e.pointerId);
+  };
+
+  const onPointerCancel = (e: React.PointerEvent<HTMLDivElement>) => {
+    const session = dragRef.current;
+    if (!session || session.pointerId !== e.pointerId) return;
+    endPointerSession(e.currentTarget, e.pointerId);
+  };
+
   return (
-    <div
-      className={cn(
-        "relative overflow-hidden rounded-[1.05rem] border border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(248,251,255,0.88))]",
-        "shadow-[0_18px_42px_rgba(2,6,23,0.08),inset_0_1px_0_rgba(255,255,255,0.95)] backdrop-blur-xl",
-      )}
-    >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(760px_240px_at_100%_100%,rgba(16,167,216,0.08),transparent_58%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(640px_180px_at_0%_0%,rgba(59,130,246,0.07),transparent_62%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/85 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-slate-300/45 to-transparent" />
-      <div
-        className="marquee-track relative flex w-max items-center gap-11 px-8 py-6 sm:gap-14 sm:px-10 sm:py-7"
-        style={{ animationPlayState: paused ? "paused" : "running" }}
+    <div className="relative overflow-hidden border-y border-[color:var(--color-border-light-soft)] py-5">
+      <p className="sr-only">
+        Partner and certification logos. The strip scrolls automatically; swipe horizontally on the logos
+        to nudge it while it keeps moving. Use the pause control above to stop motion entirely.
+      </p>
+      <motion.div
+        ref={trackRef}
+        role="list"
+        aria-label="Partner and certification logos"
+        style={{ x }}
+        className={cn(
+          "home-trust-marquee-track flex cursor-grab touch-pan-y items-center gap-10 px-6 select-none active:cursor-grabbing sm:gap-12 sm:px-8",
+          "[&_img]:pointer-events-none",
+        )}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerCancel}
+        onLostPointerCapture={(e) => {
+          if (dragRef.current?.pointerId === e.pointerId) {
+            endPointerSession(e.currentTarget, e.pointerId);
+          }
+        }}
       >
-        {logos.map((logo, idx) => (
+        {items.map((logo, idx) => (
           <div
             key={`${logo.src}-${idx}`}
-            className="group/logo flex h-10 w-[126px] items-center justify-center rounded-md px-1.5 transition-all duration-300 motion-safe:hover:-translate-y-[1px] sm:h-12 sm:w-[160px]"
+            role="listitem"
+            className={cn(
+              "flex h-14 w-[160px] shrink-0 items-center justify-center rounded-xl border border-[color:var(--color-partners-chip-border)] bg-[color:var(--color-partners-chip-surface)] px-4",
+              "shadow-[0_7px_16px_rgba(2,8,24,0.13)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[color:var(--color-partners-chip-border-hover)] hover:bg-[color:var(--color-partners-chip-surface-hover)]",
+            )}
           >
             <LogoImage
               src={logo.src}
               alt={logo.alt}
               width={220}
               height={90}
-              className="h-full w-full object-contain opacity-[0.9] transition-all duration-300 motion-safe:group-hover/logo:scale-[1.025] group-hover/logo:opacity-100"
+              draggable={false}
+              className="h-8 w-full object-contain opacity-90"
             />
           </div>
         ))}
-      </div>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[color:var(--color-surface-0-light)] via-white/92 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[color:var(--color-surface-0-light)] via-white/92 to-transparent" />
-
-      <style jsx>{`
-        .marquee-track {
-          animation: marquee 32s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-        }
-        .marquee-track:hover,
-        .marquee-track:focus-within {
-          animation-play-state: paused;
-        }
-        @keyframes marquee {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .marquee-track {
-            animation: none;
-          }
-        }
-      `}</style>
+      </motion.div>
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-14 bg-gradient-to-r from-[color:var(--color-surface-0-light)] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-14 bg-gradient-to-l from-[color:var(--color-surface-0-light)] to-transparent" />
     </div>
   );
 }
 
 export function SafetyCompliancePage() {
   const reduceMotion = useReducedMotion() ?? false;
-  const [isMarqueePaused, setIsMarqueePaused] = useState(false);
+  const [isMarqueePaused, setIsMarqueePaused] = React.useState(false);
 
   const revealUp: Variants = reduceMotion
     ? { hidden: { opacity: 1, y: 0 }, show: { opacity: 1, y: 0 } }
@@ -367,59 +548,64 @@ export function SafetyCompliancePage() {
         </Container>
       </section>
 
-      <section className="border-b border-[color:var(--color-border-light-soft)] py-18 sm:py-20 lg:py-24" aria-labelledby="certification-partners-heading">
+      <section
+        className="border-b border-[color:var(--color-border-light-soft)] bg-[color:var(--color-surface-0-light)] py-12 sm:py-14"
+        aria-labelledby="certification-partners-heading"
+      >
         <Container className="site-page-container">
           <motion.div
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.15 }}
             variants={stagger}
-            className="mx-auto max-w-4xl text-center"
+            className="mb-7 flex flex-wrap items-end justify-between gap-4"
           >
+            <div>
+              <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}>
+                <SectionSignalEyebrow label="Certifications & Partners" />
+              </motion.div>
+              <motion.h2
+                id="certification-partners-heading"
+                variants={revealUp}
+                transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
+                className="mt-4 max-w-3xl text-[2rem] font-bold leading-[1.05] tracking-tight text-[color:var(--color-text-strong)] sm:text-[2.35rem]"
+              >
+                {safetyCompliancePage.certificationPartners.title}
+              </motion.h2>
+              <motion.p
+                variants={revealUp}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+                className="mt-3 max-w-2xl text-[14px] leading-[1.65] text-[color:var(--color-muted)] sm:text-[14.5px]"
+              >
+                {safetyCompliancePage.certificationPartners.body}
+              </motion.p>
+            </div>
+
             <motion.div variants={revealUp} transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}>
-              <SectionSignalEyebrow label="Certification partners" />
-            </motion.div>
-            <motion.h2
-              id="certification-partners-heading"
-              variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
-              className="mt-4 text-[2rem] font-bold leading-[1.05] tracking-tight text-[color:var(--color-text-strong)] sm:text-[2.35rem]"
-            >
-              {safetyCompliancePage.certificationPartners.title}
-            </motion.h2>
-            <motion.p
-              variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-              className="mx-auto mt-4 max-w-[74ch] text-[15px] leading-[1.84] text-[color:var(--color-muted)] sm:text-[16px]"
-            >
-              {safetyCompliancePage.certificationPartners.body}
-            </motion.p>
-            <motion.div
-              variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-              className="mt-6 flex justify-center"
-            >
               <button
                 type="button"
                 onClick={() => setIsMarqueePaused((prev) => !prev)}
                 aria-pressed={isMarqueePaused}
+                aria-label={isMarqueePaused ? "Resume partner logo motion" : "Pause partner logo motion"}
                 className={cn(
-                  "inline-flex h-9 items-center gap-2 rounded-full border border-[color:var(--color-border-light)] bg-white px-4 text-xs font-semibold text-[color:var(--color-text-strong)] transition-colors hover:bg-[color:var(--color-surface-1-light)]",
+                  "inline-flex h-7 items-center rounded-full border border-[color:var(--color-border-light)] bg-white px-2.5 text-[10px] font-semibold tracking-[0.03em] text-[color:var(--color-muted)]",
+                  "transition-colors hover:border-[color:var(--color-border-light)] hover:bg-[color:var(--color-surface-1-light)] hover:text-[color:var(--color-text-strong)]",
                   FOCUS_RING_LIGHT,
                 )}
               >
-                {isMarqueePaused ? <Play className="h-3.5 w-3.5" /> : <Pause className="h-3.5 w-3.5" />}
-                {isMarqueePaused ? "Resume logo motion" : "Pause logo motion"}
+                {isMarqueePaused ? "Play motion" : "Pause motion"}
               </button>
             </motion.div>
           </motion.div>
+        </Container>
+
+        <Container className="site-page-container">
           <motion.div
             variants={revealUp}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-            className="mt-8"
           >
             <CertificationMarquee paused={isMarqueePaused} />
           </motion.div>

@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useReducedMotion } from "framer-motion";
 import { IconThermometer } from "./WidgetIcons";
-import { PillToggle, WidgetCard } from "./WidgetCard";
+import { PillToggle, WidgetCard, WidgetRange } from "./WidgetCard";
 
 type Product = "dairy" | "frozen" | "produce" | "beverages";
 
@@ -88,10 +88,17 @@ export function FreshnessPreservationWidget({ accentColor }: { accentColor?: str
               <label className="mb-1.5 block text-[10px] font-semibold uppercase tracking-wider text-[color:var(--color-muted-light)]">
                 Storage temperature
               </label>
-              <div className="relative">
-                <div className="h-2 w-full rounded-full bg-slate-200/90" aria-hidden />
+              <WidgetRange
+                min={TEMP_MIN}
+                max={TEMP_MAX}
+                value={temp}
+                onChange={setTemp}
+                accentColor={accent}
+                aria-label="Temperature in degrees Celsius"
+                fillOpacityClassName="hidden"
+              >
                 <div
-                  className="absolute left-0 top-0 h-2 rounded-full opacity-25 transition-all duration-200 pointer-events-none"
+                  className="pointer-events-none absolute top-0 h-2 rounded-full opacity-25"
                   style={{
                     left: `${safeLeft * 100}%`,
                     width: `${safeWidth * 100}%`,
@@ -99,20 +106,7 @@ export function FreshnessPreservationWidget({ accentColor }: { accentColor?: str
                   }}
                   aria-hidden
                 />
-                <input
-                  type="range"
-                  min={TEMP_MIN}
-                  max={TEMP_MAX}
-                  value={temp}
-                  onChange={(e) => setTemp(Number(e.target.value))}
-                  aria-valuemin={TEMP_MIN}
-                  aria-valuemax={TEMP_MAX}
-                  aria-valuenow={temp}
-                  aria-label="Temperature in degrees Celsius"
-                  className="absolute inset-0 h-2 w-full cursor-pointer appearance-none rounded-full bg-transparent [&::-webkit-slider-thumb]:relative [&::-webkit-slider-thumb]:z-10 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-slate-300 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-md [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-slate-300 [&::-moz-range-thumb]:bg-white"
-                  style={{ accentColor: accent } as React.CSSProperties}
-                />
-              </div>
+              </WidgetRange>
               <div className="mt-1 flex justify-between text-[9px] text-[color:var(--color-muted-light)]">
                 <span>-25°C</span>
                 <span className="tabular-nums">{temp}°C</span>
@@ -123,27 +117,15 @@ export function FreshnessPreservationWidget({ accentColor }: { accentColor?: str
               <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-[color:var(--color-muted-light)]">
                 Transit duration
               </label>
-              <div className="relative">
-                <div className="h-2 w-full rounded-full bg-slate-200/90" aria-hidden />
-                <div
-                  className="absolute left-0 top-0 h-2 rounded-full transition-all duration-200 opacity-80"
-                  style={{
-                    width: `${((days - DAYS_MIN) / (DAYS_MAX - DAYS_MIN)) * 100}%`,
-                    backgroundColor: accent,
-                  }}
-                  aria-hidden
-                />
-                <input
-                  type="range"
-                  min={DAYS_MIN}
-                  max={DAYS_MAX}
-                  value={days}
-                  onChange={(e) => setDays(Number(e.target.value))}
-                  aria-label="Transit duration in days"
-                  className="absolute inset-0 h-2 w-full cursor-pointer appearance-none rounded-full bg-transparent [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-slate-300 [&::-webkit-slider-thumb]:shadow [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-slate-300"
-                  style={{ accentColor: accent } as React.CSSProperties}
-                />
-              </div>
+              <WidgetRange
+                min={DAYS_MIN}
+                max={DAYS_MAX}
+                value={days}
+                onChange={setDays}
+                accentColor={accent}
+                aria-label="Transit duration in days"
+                fillOpacityClassName="opacity-80"
+              />
               <p className="mt-0.5 text-[9px] text-[color:var(--color-muted-light)]">
                 {days} day{days !== 1 ? "s" : ""}
               </p>

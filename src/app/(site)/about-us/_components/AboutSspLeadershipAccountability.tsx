@@ -173,6 +173,11 @@ export function AboutSspLeadershipAccountability({
                     />
                   </div>
 
+                  <div
+                    className="pointer-events-none absolute inset-x-2.5 bottom-2.5 h-24 rounded-b-[0.95rem] bg-gradient-to-t from-white via-white/95 to-transparent"
+                    aria-hidden="true"
+                  />
+
                   <div className="absolute inset-x-4 bottom-4">
                     <div className="flex items-center justify-between gap-3 rounded-xl border border-[color:var(--color-border-light)]/65 bg-white/96 px-3.5 py-2.5 shadow-[0_8px_26px_-18px_rgba(2,6,23,0.44)] backdrop-blur">
                       <div className="min-w-0">

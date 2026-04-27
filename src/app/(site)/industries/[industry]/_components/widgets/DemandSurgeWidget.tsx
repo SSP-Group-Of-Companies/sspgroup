@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useReducedMotion } from "framer-motion";
 import { IconPulse } from "./WidgetIcons";
-import { PillToggle, WidgetCard } from "./WidgetCard";
+import { PillToggle, WidgetCard, WidgetRange } from "./WidgetCard";
 
 type Channel = "store" | "ecom" | "hybrid";
 
@@ -76,27 +76,14 @@ export function DemandSurgeWidget({ accentColor }: { accentColor?: string }) {
               <label className="mb-1.5 block text-[10px] font-semibold uppercase tracking-wider text-[color:var(--color-muted-light)]">
                 Demand intensity
               </label>
-              <div className="relative">
-                <div className="h-2 w-full rounded-full bg-slate-200/90" aria-hidden />
-                <div
-                  className="absolute left-0 top-0 h-2 rounded-full transition-all duration-200"
-                  style={{ width: `${demand}%`, backgroundColor: accent }}
-                  aria-hidden
-                />
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  value={demand}
-                  onChange={(e) => setDemand(Number(e.target.value))}
-                  aria-valuemin={0}
-                  aria-valuemax={100}
-                  aria-valuenow={demand}
-                  aria-label="Demand from normal to Black Friday"
-                  className="absolute inset-0 h-2 w-full cursor-pointer appearance-none rounded-full bg-transparent [&::-webkit-slider-thumb]:relative [&::-webkit-slider-thumb]:z-10 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-slate-300 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-md [&::-webkit-slider-thumb]:transition-transform hover:[&::-webkit-slider-thumb]:scale-110 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-slate-300 [&::-moz-range-thumb]:bg-white [&::-moz-range-thumb]:shadow-md"
-                  style={{ accentColor: accent } as React.CSSProperties}
-                />
-              </div>
+              <WidgetRange
+                min={0}
+                max={100}
+                value={demand}
+                onChange={setDemand}
+                accentColor={accent}
+                aria-label="Demand from normal to Black Friday"
+              />
               <div className="mt-1 flex justify-between gap-2 text-[9px] text-[color:var(--color-muted-light)]">
                 <span>Normal</span>
                 <span className="flex-1 text-center">Seasonal</span>
@@ -123,30 +110,15 @@ export function DemandSurgeWidget({ accentColor }: { accentColor?: string }) {
               <label className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-[color:var(--color-muted-light)]">
                 Distribution nodes
               </label>
-              <div className="relative">
-                <div className="h-2 w-full rounded-full bg-slate-200/90" aria-hidden />
-                <div
-                  className="absolute left-0 top-0 h-2 rounded-full transition-all duration-200 opacity-70"
-                  style={{
-                    width: `${((nodes - NODES_MIN) / (NODES_MAX - NODES_MIN)) * 100}%`,
-                    backgroundColor: accent,
-                  }}
-                  aria-hidden
-                />
-                <input
-                  type="range"
-                  min={NODES_MIN}
-                  max={NODES_MAX}
-                  value={nodes}
-                  onChange={(e) => setNodes(Number(e.target.value))}
-                  aria-valuemin={NODES_MIN}
-                  aria-valuemax={NODES_MAX}
-                  aria-valuenow={nodes}
-                  aria-label="Number of warehouses"
-                  className="absolute inset-0 h-2 w-full cursor-pointer appearance-none rounded-full bg-transparent [&::-webkit-slider-thumb]:relative [&::-webkit-slider-thumb]:z-10 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-slate-300 [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-slate-300 [&::-moz-range-thumb]:bg-white"
-                  style={{ accentColor: accent } as React.CSSProperties}
-                />
-              </div>
+              <WidgetRange
+                min={NODES_MIN}
+                max={NODES_MAX}
+                value={nodes}
+                onChange={setNodes}
+                accentColor={accent}
+                aria-label="Number of warehouses"
+                fillOpacityClassName="opacity-70"
+              />
               <p className="mt-0.5 text-[9px] text-[color:var(--color-muted-light)]">
                 {nodes} warehouse{nodes !== 1 ? "s" : ""}
               </p>
