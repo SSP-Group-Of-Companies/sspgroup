@@ -298,7 +298,14 @@ function FamilyTile({ family, index, total }: { family: FlagshipFamily; index: n
     <article
       style={accentStyle}
       className={cn(
-        "group relative isolate flex h-full min-h-[26rem] flex-col site-cta-radius sm:min-h-[27rem] lg:min-h-[28rem]",
+        // The min-height is intentionally lg-only: at `lg:` the cards form
+        // a 4-up row over a continuous wave composition that earns its
+        // vertical real estate. Below `lg:` the waves are gated off (paint
+        // cost, no cross-tile flow with stacked cards), and forcing the
+        // same height would leave the illustration floating in negative
+        // space — exactly the visual symptom we saw on mobile. Letting the
+        // card collapse around its content here is the Apple-card pattern.
+        "group relative isolate flex h-full flex-col site-cta-radius lg:min-h-[28rem]",
         "drop-shadow-[0_8px_20px_rgba(2,6,23,0.03)]",
         "transition-[transform,filter] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
         "motion-safe:hover:-translate-y-[2px] hover:drop-shadow-[0_18px_38px_rgba(2,6,23,0.07)]",
@@ -385,15 +392,20 @@ function FamilyTile({ family, index, total }: { family: FlagshipFamily; index: n
       </div>
 
       {/*
-        Scene illustration floating on the atmospheric flow. Not anchored
-        to the bottom: centered in the lower region so the waves read
-        around it, not just below it. The art itself is tinted by
-        `--card-accent` via `currentColor`.
+        Scene illustration. Two layouts in one element:
+        • At `lg:` (where the wave composition is restored), `mt-auto`
+          pushes the illustration to the bottom of the 28rem card so it
+          floats over the lower-half wave passage — the original
+          editorial intent.
+        • Below `lg:`, the card has no min-height; an explicit top margin
+          gives the illustration an intentional, Apple-card rhythm
+          relative to the descriptor (title → text → illustration →
+          edge), instead of being pushed to the bottom of empty space.
       */}
       <div
         className={cn(
-          "relative z-[1] mt-auto flex w-full items-center justify-center",
-          "pb-[1.6rem] sm:pb-[1.8rem] lg:pb-[2rem]",
+          "relative z-[1] mt-7 flex w-full items-center justify-center sm:mt-8 lg:mt-auto",
+          "pb-7 sm:pb-8 lg:pb-[2rem]",
           "text-[color:var(--card-accent)]",
           "transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
           "opacity-[0.96] group-hover:opacity-100",
