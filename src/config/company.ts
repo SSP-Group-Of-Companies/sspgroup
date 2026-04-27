@@ -177,7 +177,7 @@ export const companyAbout = {
     subtitle:
       "We run a compliance-led operating posture across Canada, the United States, and Mexico. Qualification, documentation, and escalation control are built into execution from the start.",
     image: {
-      src: "/_optimized/company/safety-complianceImg.png",
+      src: "/_optimized/company/safety-complianceImg.webp",
       alt: "Integrated editorial visual of a compliant freight operation in a refined logistics environment",
     },
     credentials: [
