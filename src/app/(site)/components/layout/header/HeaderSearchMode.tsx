@@ -15,7 +15,7 @@ import {
 } from "@/lib/search/siteSearch";
 import { HEADER_SEARCH_QUICK_LINKS } from "@/config/header";
 import { focusRingNav } from "./constants";
-import { measureMainbarBottom } from "./overlay";
+import { lockViewportScroll, measureMainbarBottom } from "./overlay";
 
 const ROLLOUT_DURATION_S = 0.32;
 const CONTENT_FADE_DURATION_S = 0.16;
@@ -88,9 +88,14 @@ export function HeaderSearchMode({
     return getDidYouMean(query);
   }, [results.length, query]);
 
+  React.useLayoutEffect(() => {
+    if (!open) return;
+    return lockViewportScroll();
+  }, [open]);
+
   React.useEffect(() => {
     if (!open) return;
-    const id = window.setTimeout(() => inputRef.current?.focus(), 40);
+    const id = window.setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 40);
     return () => window.clearTimeout(id);
   }, [open]);
 
@@ -116,13 +121,6 @@ export function HeaderSearchMode({
     };
     document.addEventListener("mousedown", onPointerDown);
     return () => document.removeEventListener("mousedown", onPointerDown);
-  }, [open, onOpenChange]);
-
-  React.useEffect(() => {
-    if (!open) return;
-    const onScroll = () => onOpenChange(false);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
   }, [open, onOpenChange]);
 
   React.useEffect(() => {

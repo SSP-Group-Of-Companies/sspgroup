@@ -7,6 +7,7 @@ import { Container } from "@/app/(site)/components/layout/Container";
 import { TrackedLink } from "@/app/(site)/components/analytics/TrackedLink";
 import { FOOTER_LEGAL_LINKS, FOOTER_QUICK_ACTIONS, FOOTER_SECTIONS, FOOTER_SOCIALS, type FooterSocial } from "@/config/footer";
 import { cn } from "@/lib/cn";
+import { getPortalLinkRel, getPortalLinkTarget } from "@/lib/portalLinks";
 import { FooterLegalLane } from "./footer/FooterLegalLane";
 
 const footerLink = cn(
@@ -178,6 +179,8 @@ export function SiteFooter() {
                   <li key={action.href}>
                     <TrackedLink
                       href={action.href}
+                      target={getPortalLinkTarget(action.href)}
+                      rel={getPortalLinkRel(action.href)}
                       ctaId={action.ctaIdDesktop}
                       location="footer:quick_actions"
                       label={action.label}

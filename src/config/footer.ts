@@ -132,7 +132,7 @@ export const FOOTER_QUICK_ACTIONS: FooterQuickAction[] = [
   },
   {
     label: "Track Shipment",
-    href: "/track-shipment",
+    href: "/tracking",
     ctaIdDesktop: "footer_track_shipment",
     ctaIdMobile: "footer_m_track_shipment",
     externalCue: true,
@@ -140,7 +140,7 @@ export const FOOTER_QUICK_ACTIONS: FooterQuickAction[] = [
   },
   {
     label: "Carrier Portal",
-    href: "/carrier-portal",
+    href: "/employee-portal",
     ctaIdDesktop: "footer_carrier_portal",
     ctaIdMobile: "footer_m_carrier_portal",
     externalCue: true,

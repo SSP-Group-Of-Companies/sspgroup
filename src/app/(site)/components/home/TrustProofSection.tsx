@@ -149,6 +149,11 @@ function VideoCard({
   const ytId = React.useMemo(() => getYouTubeId(item.youtubeUrl), [item.youtubeUrl]);
   const cardRef = React.useRef<HTMLElement | null>(null);
   const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
+  const [hasHydrated, setHasHydrated] = React.useState(false);
+
+  React.useEffect(() => {
+    setHasHydrated(true);
+  }, []);
 
   /* Has the card been visible in (or near) the viewport at least once? We
    * pre-mount the YouTube iframe only after this so users who never scroll
@@ -194,7 +199,7 @@ function VideoCard({
    * then call `playVideo` via postMessage SYNCHRONOUSLY inside the click
    * handler. The user-activation chain is intact across the cross-origin
    * boundary, which is the only reliable single-tap play path on iOS. */
-  const shouldMountIframe = Boolean(ytId && (inView || isActive));
+  const shouldMountIframe = Boolean(hasHydrated && ytId && (inView || isActive));
   const embedSrc = React.useMemo(() => {
     if (!shouldMountIframe || !ytId) return "";
     const params = new URLSearchParams({
