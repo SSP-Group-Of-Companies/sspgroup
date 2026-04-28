@@ -107,7 +107,7 @@ function CopyButton({ url, variant }: { url: string; variant: Variant }) {
       className={cn(
         "inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-xl border px-3 text-xs font-semibold transition",
         variant === "admin"
-          ? "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]"
+          ? "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)] shadow-[var(--dash-shadow)]/15 hover:bg-[var(--dash-surface-2)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]"
           : "border-[color:var(--color-border-light)] bg-white text-[color:var(--color-text-light)] hover:bg-[color:var(--color-surface-0-light)]",
       )}
       aria-label="Copy share link"
@@ -159,7 +159,7 @@ export default function SocialShareControls({
           className={cn(
             "inline-flex h-9 w-9 items-center justify-center rounded-xl border transition",
             variant === "admin"
-              ? "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]"
+              ? "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)] shadow-[var(--dash-shadow)]/15 hover:bg-[var(--dash-surface-2)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]"
               : "border-[color:var(--color-border-light)] bg-white text-[color:var(--color-text-light)] hover:bg-[color:var(--color-surface-0-light)]",
           )}
           aria-label="Share"
@@ -236,7 +236,7 @@ export default function SocialShareControls({
             className={cn(
               "inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border px-3 text-xs font-semibold transition",
               variant === "admin"
-                ? "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]"
+                ? "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)] shadow-[var(--dash-shadow)]/15 hover:bg-[var(--dash-surface-2)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]"
                 : "border-[color:var(--color-border-light)] bg-white text-[color:var(--color-text-light)] hover:bg-[color:var(--color-surface-0-light)]",
             )}
           >
