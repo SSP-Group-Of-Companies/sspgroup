@@ -124,7 +124,7 @@ function IndustryCardItem({ card, index, isLarge }: { card: IndustryCard; index:
           label: `Explore ${card.label}`,
         })
       }
-      className="block"
+      className={cn("block h-full min-h-0 rounded-2xl focus:outline-none", focusRingDark)}
     >
       <motion.article
         initial={{ opacity: 1, y: 12 }}
@@ -132,7 +132,7 @@ function IndustryCardItem({ card, index, isLarge }: { card: IndustryCard; index:
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: reduceMotion ? 0 : 0.35, delay: reduceMotion ? 0 : index * 0.04, ease: "easeOut" }}
         className={cn(
-          "group relative overflow-hidden rounded-2xl",
+          "group relative flex h-full min-h-0 flex-col overflow-hidden rounded-2xl",
           "border border-white/[0.08] transition-all duration-500",
           "hover:shadow-[0_28px_72px_rgba(0,0,0,0.55)]",
           isLarge ? "min-h-[380px] sm:min-h-[420px]" : "min-h-[340px] sm:min-h-[380px]",
@@ -169,9 +169,9 @@ function IndustryCardItem({ card, index, isLarge }: { card: IndustryCard; index:
           />
         </div>
 
-        {/* Content — pinned to bottom with soft feathered backdrop */}
+        {/* Content — mt-auto pins block to card bottom so row CTAs align */}
         <div
-          className="relative z-10 flex h-full flex-col justify-end rounded-b-2xl p-6 sm:p-7"
+          className="relative z-10 mt-auto w-full rounded-b-2xl p-6 sm:p-7"
           style={{
             background: `linear-gradient(to top, transparent 0%, ${card.theme}cc 12%, ${card.theme}f2 35%, ${card.theme}cc 70%, transparent 100%)`,
           }}
@@ -193,12 +193,14 @@ function IndustryCardItem({ card, index, isLarge }: { card: IndustryCard; index:
             ))}
           </div>
 
-          <h3
-            className="text-[1.3rem] font-semibold leading-tight tracking-tight text-white sm:text-[1.45rem]"
-            style={{ textShadow: "0 2px 8px rgba(0,0,0,0.4)" }}
-          >
-            {card.label}
-          </h3>
+          <div className="flex min-h-[3.25rem] flex-col justify-end sm:min-h-[3.625rem]">
+            <h3
+              className="text-balance text-[1.3rem] font-semibold leading-tight tracking-tight text-white sm:text-[1.45rem]"
+              style={{ textShadow: "0 2px 8px rgba(0,0,0,0.4)" }}
+            >
+              {card.label}
+            </h3>
+          </div>
 
           <p
             className="mt-1.5 max-w-sm text-[13px] leading-relaxed text-white/65 sm:text-sm"
@@ -398,12 +400,12 @@ export function IndustriesHub() {
           </motion.div>
 
           {/* Bento grid: 3 large + 4 smaller */}
-          <div className="grid gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid auto-rows-fr gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
             {INDUSTRIES.slice(0, 3).map((card, i) => (
               <IndustryCardItem key={card.key} card={card} index={i} isLarge />
             ))}
           </div>
-          <div className="mt-3 grid gap-3 sm:mt-4 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-3 grid auto-rows-fr gap-3 sm:mt-4 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
             {INDUSTRIES.slice(3).map((card, i) => (
               <IndustryCardItem key={card.key} card={card} index={i + 3} isLarge={false} />
             ))}

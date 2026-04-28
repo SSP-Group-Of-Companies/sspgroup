@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { trackCtaClick } from "@/lib/analytics/cta";
 import { cn } from "@/lib/cn";
+import { getPortalLinkRel, getPortalLinkTarget } from "@/lib/portalLinks";
 import { NAV } from "@/config/navigation";
 import {
   HEADER_ACTIONS,
@@ -159,6 +160,8 @@ function MobileActionTextLink({
   return (
     <Link
       href={action.href}
+      target={getPortalLinkTarget(action.href)}
+      rel={getPortalLinkRel(action.href)}
       onClick={() => {
         onNavigate();
         trackCtaClick({

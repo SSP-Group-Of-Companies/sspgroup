@@ -42,20 +42,20 @@ export function FaqAccordionItem({
           type="button"
           onClick={onToggle}
           className={cn(
-            "flex w-full items-start justify-between gap-3 px-5 py-3.5 text-left transition-colors sm:gap-4 sm:px-6 sm:py-4",
+            "flex w-full items-center justify-between gap-3 px-5 py-3.5 text-left transition-colors sm:gap-4 sm:px-6 sm:py-4",
             isOpen ? "bg-[color:var(--color-nav-hover)]/72" : "hover:bg-[color:var(--color-nav-hover)]",
             FOCUS_RING_LIGHT,
           )}
           aria-expanded={isOpen}
           aria-controls={panelId}
         >
-          <span className="text-[14px] leading-[1.4] font-medium tracking-[-0.008em] text-[color:var(--color-text-strong)] sm:text-[14.75px]">
+          <span className="min-w-0 flex-1 text-pretty text-[14px] font-medium leading-[1.4] tracking-[-0.008em] text-[color:var(--color-text-strong)] sm:text-[14.75px]">
             {question}
           </span>
           <span
             aria-hidden
             className={cn(
-              "relative mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors",
+              "relative inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors",
               isOpen
                 ? "border-[color:var(--color-menu-accent)]/34 bg-[color:var(--color-nav-hover)]"
                 : "border-[color:var(--color-menu-border)]",

@@ -13,9 +13,6 @@ import { trackCtaClick } from "@/lib/analytics/cta";
 const focusRing =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)] focus-visible:ring-offset-1";
 
-const focusRingDark =
-  "focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-ssp-ink-800)]";
-
 type CorridorService = {
   key: string;
   label: string;
@@ -136,18 +133,8 @@ export function CrossBorderDetailSections({
                 id={item.key}
                 variants={revealUp}
                 transition={{ duration: reduceMotion ? 0 : 0.4, ease: "easeOut" }}
-                className="group relative overflow-hidden rounded-2xl border border-white/16 bg-[linear-gradient(180deg,rgba(255,255,255,0.10),rgba(255,255,255,0.05))] px-5 py-6 shadow-[0_10px_24px_rgba(2,6,23,0.16)] backdrop-blur-sm transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:border-white/28 hover:bg-white/[0.14] sm:px-7 sm:py-7"
+                className="group relative overflow-hidden rounded-2xl border border-white/16 bg-[linear-gradient(180deg,rgba(255,255,255,0.10),rgba(255,255,255,0.05))] shadow-[0_10px_24px_rgba(2,6,23,0.16)] backdrop-blur-sm transition-all duration-300 motion-safe:hover:-translate-y-0.5 hover:border-white/28 hover:bg-white/[0.14]"
               >
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-[linear-gradient(90deg,var(--color-ssp-cyan-500),rgba(255,255,255,0.2))]"
-                />
-                <p className="text-[10.5px] font-semibold tracking-[0.14em] text-white/65 uppercase">
-                  Best for
-                </p>
-                <p className="mt-1 text-sm leading-7 text-white/75">{item.bestFor}</p>
-                <h3 className="mt-3 text-[19px] leading-tight font-semibold text-white sm:text-[22px]">{item.label}</h3>
-                <p className="mt-3 text-sm leading-7 text-white/74">{item.summary}</p>
                 <Link
                   href={item.href}
                   aria-label={`Explore ${item.label} service`}
@@ -159,10 +146,26 @@ export function CrossBorderDetailSections({
                       label: item.label,
                     })
                   }
-                  className={cn("mt-5 inline-flex items-center gap-2 rounded text-sm font-semibold text-[color:var(--color-cb-link-light)] transition-colors hover:text-white", focusRingDark)}
-                >
-                  Explore service <span aria-hidden>{"->"}</span>
-                </Link>
+                  className={cn(
+                    "absolute inset-0 z-10 rounded-2xl focus:outline-none",
+                    "ring-inset focus-visible:ring-2 focus-visible:ring-white/45 focus-visible:ring-offset-0",
+                  )}
+                />
+                <div className="pointer-events-none px-5 py-6 sm:px-7 sm:py-7">
+                  <div
+                    aria-hidden
+                    className="absolute inset-x-0 top-0 h-[2px] bg-[linear-gradient(90deg,var(--color-ssp-cyan-500),rgba(255,255,255,0.2))]"
+                  />
+                  <p className="text-[10.5px] font-semibold tracking-[0.14em] text-white/65 uppercase">
+                    Best for
+                  </p>
+                  <p className="mt-1 text-sm leading-7 text-white/75">{item.bestFor}</p>
+                  <h3 className="mt-3 text-[19px] leading-tight font-semibold text-white sm:text-[22px]">{item.label}</h3>
+                  <p className="mt-3 text-sm leading-7 text-white/74">{item.summary}</p>
+                  <p className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--color-cb-link-light)] transition-colors group-hover:text-white">
+                    Explore service <span aria-hidden>{"->"}</span>
+                  </p>
+                </div>
               </motion.article>
             ))}
           </motion.div>

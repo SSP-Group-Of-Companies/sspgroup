@@ -139,7 +139,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
           </motion.div>
 
           <motion.div
-            className="relative overflow-hidden lg:col-span-6 lg:overflow-visible"
+            className="relative overflow-visible lg:col-span-6"
             initial={reduceMotion ? false : { opacity: 1, scale: 0.98 }}
             whileInView={reduceMotion ? undefined : { opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.15 }}
@@ -215,7 +215,7 @@ export function AboutSspWhoWeAre({ data }: { data: WhoWeAreData }) {
               </div>
 
               {/* Mobile composition: clean two-card storyline */}
-              <div className="mt-4 grid grid-cols-2 gap-3 lg:hidden">
+              <div className="relative z-10 mt-3 grid grid-cols-2 gap-3 bg-transparent lg:hidden">
                 <div className="rounded-xl border border-[color:var(--color-border-light)] bg-white p-1.5 shadow-[var(--shadow-company-card-soft)]">
                   <div className="relative aspect-[4/3] overflow-hidden rounded-[0.75rem]">
                     <Image

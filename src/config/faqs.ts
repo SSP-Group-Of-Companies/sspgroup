@@ -158,12 +158,12 @@ export const FAQ_PAGE_ROUTES = {
   aboutSsp: "/about-us",
   insights: "/insights",
   contact: "/contact",
+  quote: "/quote",
   /** Same destination as Company → FAQs in site navigation. */
   faqs: "/company/faqs",
-  liveChat: "#live-chat",
 } as const;
 
-/** FAQ page final CTA: help-oriented copy and live-agent CTA. */
+/** FAQ page final CTA: help-oriented copy with direct contact routing. */
 export const FAQ_FINAL_CTA = {
   kicker: "Need more help?",
   title: "Couldn't find what you need above?",
@@ -187,9 +187,9 @@ export const FAQ_FINAL_CTA = {
       ctaId: "faq_final_contact_us",
     },
     secondary: {
-      label: "Speak with a live agent",
-      href: FAQ_PAGE_ROUTES.liveChat,
-      ctaId: "faq_final_speak_live_agent",
+      label: "Request a Quote",
+      href: FAQ_PAGE_ROUTES.quote,
+      ctaId: "faq_final_request_quote",
     },
   },
 } as const;

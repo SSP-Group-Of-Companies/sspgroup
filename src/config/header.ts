@@ -26,14 +26,14 @@ export type HeaderAction = {
 export const HEADER_ACTIONS: HeaderAction[] = [
   {
     label: "Track Shipment",
-    href: "/track-shipment",
+    href: "/tracking",
     ctaIdDesktop: "header_track_shipment",
     ctaIdMobile: "nav_mobile_track_shipment",
     externalCue: true,
   },
   {
     label: "Carrier Portal",
-    href: "/carrier-portal",
+    href: "/employee-portal",
     ctaIdDesktop: "header_carrier_portal",
     ctaIdMobile: "nav_mobile_carrier_portal",
     externalCue: true,

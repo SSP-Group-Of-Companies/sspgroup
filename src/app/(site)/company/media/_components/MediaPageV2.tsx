@@ -35,6 +35,15 @@ const HERO_PRIMARY_CTA_ID = "media_hero_play_hero_primary_video";
 const ytThumb = (id: string) => `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
 const videoAnchor = (id: string) => `/company/media#${id}`;
 
+/** Matches homepage testimonial “Watch on YouTube” strip (compact red tile, not full glossy bar). */
+function YoutubeExternalIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
+    </svg>
+  );
+}
+
 type VideoLaunchSource = "media_hero" | "media_gallery";
 
 function Hero({
@@ -262,12 +271,13 @@ function IntentionalCollage({
           ))}
         </motion.div>
 
-        <div className="mt-8 flex justify-center">
+        <div className="mt-8 flex justify-center px-1">
           <a
             href={SSP_YOUTUBE_CHANNEL}
             target="_blank"
             rel="noopener noreferrer"
             data-cta-id="media_gallery_youtube_channel"
+            aria-label="Visit our YouTube channel to see full company media (opens in a new tab)"
             onClick={() =>
               trackCtaClick({
                 ctaId: "media_gallery_youtube_channel",
@@ -277,15 +287,20 @@ function IntentionalCollage({
               })
             }
             className={cn(
-              "group inline-flex items-center gap-2 rounded-xl border border-[color:var(--color-media-cta-600)]/85 bg-[linear-gradient(180deg,var(--color-media-cta-500)_0%,var(--color-media-cta-600)_55%,var(--color-media-cta-700)_100%)] px-5 py-3 text-sm font-semibold text-white shadow-[var(--shadow-media-cta)] transition-all motion-safe:hover:-translate-y-0.5 hover:brightness-[1.03]",
+              "group inline-flex max-w-full items-center gap-2.5 rounded-full border border-[color:var(--color-border-light)]/85 bg-white/95 px-4 py-2.5 text-left text-sm font-semibold text-[color:var(--color-text-strong)] shadow-[0_4px_16px_rgba(2,6,23,0.06)] transition-colors sm:gap-3 sm:px-5 sm:py-3",
+              "hover:border-[color:var(--color-ssp-cyan-500)]/24 hover:bg-white hover:text-[color:var(--color-ssp-ink-800)]",
               FOCUS_RING,
             )}
           >
-            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20 ring-1 ring-inset ring-white/28">
-              <Play className="ml-[1px] h-3.5 w-3.5 fill-current text-white" />
+            <span className="min-w-0 flex-1 text-balance">
+              Visit our YouTube channel to see full company media
             </span>
-            Visit our YouTube channel to see full company media
-            <ExternalLink className="h-4 w-4 transition-transform motion-safe:group-hover:translate-x-[1px] motion-safe:group-hover:-translate-y-[1px]" />
+            <span
+              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#ff0000] text-white transition-colors group-hover:bg-[#cc0000] sm:h-9 sm:w-9"
+              aria-hidden
+            >
+              <YoutubeExternalIcon className="h-4 w-4 sm:h-[17px] sm:w-[17px]" />
+            </span>
           </a>
         </div>
       </Container>

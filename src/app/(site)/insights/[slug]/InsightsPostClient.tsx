@@ -192,7 +192,7 @@ export default function InsightsPostClient({
   }, [slug]); // intentionally only on slug change
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,var(--color-surface-0)_0%,var(--color-surface-1)_52%,var(--color-surface-1)_100%)]">
+    <div className="min-h-svh bg-[linear-gradient(180deg,var(--color-surface-0)_0%,var(--color-surface-1)_52%,var(--color-surface-1)_100%)]">
       {/* HERO */}
       <div className="relative overflow-hidden border-b border-white/10">
         <div className="absolute inset-0">

@@ -38,19 +38,22 @@ export const NETWORK_HERO_SHARD_FADE_STYLE: CSSProperties = {
    Pattern: a centered frame matching `.site-page-container` (max 1440px +
    horizontal padding), `overflow-x-hidden`, fixed aspect box sized from
    the mask SVG’s native ratio (1024×1035). Place the frame as `z-0` before
-   the content column at `z-10`. */
+   the content column at `z-10`.
 
-/** Matches `.site-page-container` width + padding; clips horizontal bleed. */
+   Extra end padding + modest translate keeps the shard tip inside the clip
+   rect (heroes also use `overflow-hidden` on the section). */
+
+/** Matches `.site-page-container` width + padding; clips stray horizontal bleed. */
 export const COMPANY_HERO_SHARD_FRAME =
-  "pointer-events-none absolute inset-y-0 left-1/2 z-0 w-full max-w-[1440px] -translate-x-1/2 overflow-x-hidden px-4 sm:px-6";
+  "pointer-events-none absolute inset-y-0 left-1/2 z-0 w-full max-w-[1440px] -translate-x-1/2 overflow-x-hidden ps-4 pe-12 sm:ps-6 sm:pe-14 md:pe-16 lg:pe-[4.5rem] xl:pe-[5.25rem]";
 
 /** Right-aligns the shard within the frame; vertically centers in the hero band. */
-export const COMPANY_HERO_SHARD_FRAME_INNER = "flex h-full items-center justify-end";
+export const COMPANY_HERO_SHARD_FRAME_INNER = "flex h-full min-w-0 items-center justify-end";
 
 /**
  * Masked shard graphic — `ssp-shard-mask.svg` viewBox 1024×1035.
  * Width-only scaling keeps every breakpoint predictable; light `translate-x`
- * gives editorial bleed without viewport overflow.
+ * nudges the graphic without pushing the tip past `overflow-x-hidden`.
  */
 export const COMPANY_HERO_SHARD_BOX =
-  "relative aspect-[1024/1035] w-40 shrink-0 translate-x-[6%] sm:w-44 sm:translate-x-[8%] md:w-52 md:translate-x-[11%] lg:w-60 lg:translate-x-[14%] xl:w-72 xl:translate-x-[16%]";
+  "relative aspect-[1024/1035] w-40 shrink-0 translate-x-[3%] sm:w-44 sm:translate-x-[4%] md:w-52 md:translate-x-[5%] lg:w-60 lg:translate-x-[6%] xl:w-72 xl:translate-x-[7%]";

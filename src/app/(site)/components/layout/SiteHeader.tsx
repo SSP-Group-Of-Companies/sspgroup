@@ -12,6 +12,7 @@ import { MobileNav } from "./header/MobileNav";
 import { MobileSearchBubble } from "./header/MobileSearchBubble";
 import { HeaderSearchMode } from "./header/HeaderSearchMode";
 import { HEADER_ACTIONS, HEADER_UTILITY } from "@/config/header";
+import { getPortalLinkRel, getPortalLinkTarget } from "@/lib/portalLinks";
 import { NAV_DESKTOP_MEDIA_QUERY } from "./header/constants";
 
 const focusRing =
@@ -19,8 +20,11 @@ const focusRing =
 
 export function SiteHeader() {
   const SEARCH_SHEET_CLOSE_MS = 320;
-  const UTILITY_COLLAPSE_AT = 64;
-  const UTILITY_EXPAND_AT = 20;
+  // Keep the hysteresis gap comfortably larger than the utility strip height.
+  // Otherwise, the header-height change at collapse can move `scrollY` back
+  // across the expand threshold and create a visible up/down loop.
+  const UTILITY_COLLAPSE_AT = 96;
+  const UTILITY_EXPAND_AT = 8;
   const [isCondensed, setIsCondensed] = React.useState(false);
   const [scrollStateReady, setScrollStateReady] = React.useState(false);
   const [desktopSearchOpen, setDesktopSearchOpen] = React.useState(false);
@@ -94,7 +98,7 @@ export function SiteHeader() {
     <header
       data-site-header
       className={cn(
-        "sticky top-0 isolate z-[65]",
+        "sticky top-0 isolate z-[65] [overflow-anchor:none]",
         "border-b border-[color:var(--color-nav-border)]",
         "bg-[color:var(--color-nav-bg)]",
         "shadow-[0_10px_26px_rgba(2,6,23,0.08)]",
@@ -277,6 +281,8 @@ export function SiteHeader() {
                 <Link
                   key={action.href}
                   href={action.href}
+                  target={getPortalLinkTarget(action.href)}
+                  rel={getPortalLinkRel(action.href)}
                   onClick={() =>
                     trackCtaClick({
                       ctaId: action.ctaIdDesktop,
@@ -300,6 +306,8 @@ export function SiteHeader() {
                 <Link
                   key={action.href}
                   href={action.href}
+                  target={getPortalLinkTarget(action.href)}
+                  rel={getPortalLinkRel(action.href)}
                   onClick={() =>
                     trackCtaClick({
                       ctaId: action.ctaIdDesktop,

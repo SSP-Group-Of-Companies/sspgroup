@@ -178,6 +178,7 @@ export function AboutSspSafetyComplianceTeaser({ data }: { data: SafetyComplianc
                   alt={data.image.alt}
                   width={1438}
                   height={1024}
+                  priority
                   className="relative z-[1] block h-auto max-w-none"
                   sizes="(max-width: 767px) 90vw, 943px"
                   style={{

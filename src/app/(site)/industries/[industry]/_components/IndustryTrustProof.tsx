@@ -22,8 +22,8 @@ function ComparisonChart({
 
   return (
     <div className="rounded-xl border border-[color:var(--color-border-light)]/60 bg-white p-4 shadow-[0_2px_12px_rgba(2,6,23,0.04)]">
-      <div className="relative grid min-h-[170px] grid-cols-3 items-end gap-4">
-        <div className="pointer-events-none absolute inset-x-0 top-3 bottom-8">
+      <div className="relative grid min-h-[170px] grid-cols-3 gap-4">
+        <div className="pointer-events-none absolute inset-x-0 top-3 bottom-[calc(0.5rem+11px*1.35*2)]">
           {[25, 50, 75].map((mark) => (
             <div
               key={mark}
@@ -35,8 +35,8 @@ function ComparisonChart({
         </div>
 
         {chartPillars.map((pillar) => (
-          <div key={pillar.title} className="relative z-10 flex flex-col items-center">
-            <div className="flex h-36 items-end gap-2.5 sm:h-32">
+          <div key={pillar.title} className="relative z-10 flex min-w-0 flex-col items-center">
+            <div className="flex h-36 w-full items-end justify-center gap-2.5 sm:h-32">
               <div
                 className="w-6 rounded-t-md sm:w-5"
                 style={{
@@ -54,9 +54,12 @@ function ComparisonChart({
                 aria-hidden
               />
             </div>
-            <p className="mt-2 line-clamp-2 text-center text-[11px] leading-[1.35] text-[color:var(--color-muted-light)]">
-              {pillar.title}
-            </p>
+            {/* Fixed label band so 1- vs 2-line titles do not shift bar alignment */}
+            <div className="mt-2 flex min-h-[calc(11px*1.35*2)] w-full items-end justify-center px-0.5">
+              <p className="line-clamp-2 w-full text-center text-[11px] leading-[1.35] text-[color:var(--color-muted-light)]">
+                {pillar.title}
+              </p>
+            </div>
           </div>
         ))}
       </div>

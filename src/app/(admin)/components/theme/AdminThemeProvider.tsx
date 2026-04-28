@@ -123,7 +123,7 @@ export function AdminThemeProvider({
 
   return (
     <AdminThemeContext.Provider value={value}>
-      <div className="admin-root min-h-screen">{children}</div>
+      <div className="admin-root min-h-svh">{children}</div>
     </AdminThemeContext.Provider>
   );
 }

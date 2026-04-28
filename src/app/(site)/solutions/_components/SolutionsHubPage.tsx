@@ -303,55 +303,38 @@ function FamilyNavigationCard({
         <h3 className="mt-3 min-h-[5rem] shrink-0 text-[1.18rem] leading-snug font-semibold tracking-[-0.02em] text-[color:var(--color-menu-title)] lg:min-h-[6rem] lg:text-[1.24rem]">
           {family.title}
         </h3>
-        <p className="mt-3 min-h-0 flex-1 text-[12.5px] leading-[1.62] text-[color:var(--color-menu-muted)]">
+        <p className="mt-3 min-h-0 flex-1 pb-5 text-[12.5px] leading-[1.62] text-[color:var(--color-menu-muted)]">
           {family.hubSummary}
         </p>
-        {/* Fixed height keeps the rule + CTA baseline aligned across cards (Core paths run longer). */}
-        <div className="mt-5 flex h-[12rem] shrink-0 flex-col border-t border-[color:var(--color-border-light-soft)] pt-3.5 lg:h-[12.75rem]">
-          <p className="shrink-0 text-[10px] font-semibold tracking-[0.14em] text-[color:var(--color-menu-subtle)] uppercase">
+        {/* Plain text paths (no nested links / scroll) so mobile vertical scroll is not captured. */}
+        <div className="mt-auto shrink-0 border-t border-[color:var(--color-border-light-soft)] pt-3.5">
+          <p className="text-[10px] font-semibold tracking-[0.14em] text-[color:var(--color-menu-subtle)] uppercase">
             Included paths
           </p>
-          <div className="mt-1.5 flex min-h-0 flex-1 flex-col gap-2">
-            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-0.5 [-webkit-overflow-scrolling:touch]">
-              <div className="space-y-1.5 text-[11.5px] leading-[1.5] text-[color:var(--color-menu-muted)]">
-                {family.childReferences.map((reference, index) => (
-                  <TrackedLink
-                    key={`${family.key}-${reference.href}-${index}`}
-                    href={reference.href}
-                    ctaId={`solutions_hub_family_${family.key}_path_${index}`}
-                    location="solutions_hub_family_paths"
-                    label={reference.label}
-                    onClick={(event) => event.stopPropagation()}
-                    className={cn(
-                      "block text-left text-[11.5px] leading-[1.5] text-[color:var(--color-menu-muted)] transition-colors hover:text-[color:var(--card-accent)]",
-                      FOCUS_RING_LIGHT,
-                    )}
-                  >
-                    {reference.label}
-                  </TrackedLink>
-                ))}
-              </div>
-            </div>
-            <TrackedLink
-              href={family.familyHref}
-              ctaId={`solutions_hub_family_${family.key}`}
-              location="solutions_hub_family_navigation"
-              label={family.familyCtaLabel}
-              onClick={(event) => event.stopPropagation()}
-              className={cn(
-                "relative mt-auto inline-flex w-fit shrink-0 items-center gap-2 pb-0.5 text-[13px] font-semibold tracking-[0.05em]",
-                "text-[color:var(--color-menu-title)] transition-colors duration-200",
-                "after:pointer-events-none after:absolute after:right-0 after:-bottom-0.5 after:left-0 after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[color:var(--card-accent)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
-                "group-hover:text-[color:var(--card-accent)] group-hover:after:scale-x-100",
-                "group-focus-within:text-[color:var(--card-accent)] group-focus-within:after:scale-x-100",
-                "focus-visible:text-[color:var(--card-accent)] focus-visible:after:scale-x-100",
-                FOCUS_RING_LIGHT,
-              )}
-              ariaLabel={family.familyCtaLabel}
-            >
-              {family.familyCtaLabel} <span aria-hidden>{"->"}</span>
-            </TrackedLink>
-          </div>
+          <ul className="mt-1.5 list-none space-y-1.5 p-0 text-left text-[11.5px] leading-[1.5] text-[color:var(--color-menu-muted)]">
+            {family.childReferences.map((reference, index) => (
+              <li key={`${family.key}-path-${index}`}>{reference.label}</li>
+            ))}
+          </ul>
+          <TrackedLink
+            href={family.familyHref}
+            ctaId={`solutions_hub_family_${family.key}`}
+            location="solutions_hub_family_navigation"
+            label={family.familyCtaLabel}
+            onClick={(event) => event.stopPropagation()}
+            className={cn(
+              "relative mt-3 inline-flex w-fit items-center gap-2 pb-0.5 text-[13px] font-semibold tracking-[0.05em]",
+              "text-[color:var(--color-menu-title)] transition-colors duration-200",
+              "after:pointer-events-none after:absolute after:right-0 after:-bottom-0.5 after:left-0 after:h-[1.5px] after:origin-left after:scale-x-0 after:bg-[color:var(--card-accent)] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)]",
+              "group-hover:text-[color:var(--card-accent)] group-hover:after:scale-x-100",
+              "group-focus-within:text-[color:var(--card-accent)] group-focus-within:after:scale-x-100",
+              "focus-visible:text-[color:var(--card-accent)] focus-visible:after:scale-x-100",
+              FOCUS_RING_LIGHT,
+            )}
+            ariaLabel={family.familyCtaLabel}
+          >
+            {family.familyCtaLabel} <span aria-hidden>{"->"}</span>
+          </TrackedLink>
         </div>
       </div>
     </motion.article>

@@ -208,9 +208,9 @@ function ContactSupportSection() {
                 key={item.title}
                 className={cn(
                   "group relative overflow-hidden rounded-[24px] border p-5 sm:p-6",
-                  "border-[color:var(--color-border-light)] bg-white/88 backdrop-blur-sm",
+                  "border-[color:var(--color-border-light)] bg-white",
                   "shadow-[0_10px_30px_rgba(15,23,42,0.05)] transition duration-300",
-                  "hover:-translate-y-[1px] hover:shadow-[0_14px_36px_rgba(15,23,42,0.08)]",
+                  "motion-safe:hover:-translate-y-[1px] hover:shadow-[0_14px_36px_rgba(15,23,42,0.08)]",
                 )}
               >
                 <div

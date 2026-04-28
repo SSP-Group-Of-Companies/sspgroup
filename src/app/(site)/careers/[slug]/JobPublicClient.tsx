@@ -425,7 +425,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
   }
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[linear-gradient(180deg,var(--color-surface-0)_0%,var(--color-surface-1)_52%,var(--color-surface-1)_100%)]">
+    <div className="min-h-svh overflow-x-hidden bg-[linear-gradient(180deg,var(--color-surface-0)_0%,var(--color-surface-1)_52%,var(--color-surface-1)_100%)]">
       <Container className="site-page-container py-6 sm:py-8">
         <button
           type="button"
