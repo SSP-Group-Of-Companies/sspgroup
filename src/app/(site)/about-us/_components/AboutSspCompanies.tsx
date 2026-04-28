@@ -126,7 +126,7 @@ export function AboutSspCompanies({ data }: { data: OurCompaniesContent }) {
         </motion.div>
 
         <motion.ul
-          className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:mt-14 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-11 xl:grid-cols-5 xl:gap-x-0 xl:gap-y-12"
+          className="mt-12 grid grid-cols-1 gap-10 max-sm:gap-0 max-sm:divide-y max-sm:divide-[color:var(--color-menu-border)]/60 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-10 lg:mt-14 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-11 xl:grid-cols-5 xl:gap-x-0 xl:gap-y-12"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.08 }}
@@ -140,7 +140,8 @@ export function AboutSspCompanies({ data }: { data: OurCompaniesContent }) {
                 variants={revealUp}
                 transition={{ duration: reduceMotion ? 0 : 0.38, ease: [0.22, 1, 0.36, 1] }}
                 className={cn(
-                  "group relative flex min-h-full min-w-0 flex-col items-start py-7 text-left first:pt-0 last:pb-0 sm:py-0",
+                  "group relative flex min-h-full min-w-0 flex-col items-start text-left",
+                  "py-7 first:pt-0 last:pb-0 max-sm:py-8 max-sm:first:pt-0 max-sm:last:pb-8 sm:py-0",
                   "xl:border-l xl:border-[color:var(--color-menu-border)]/65 xl:px-5",
                   "first:xl:border-l-0 first:xl:pl-0 last:xl:pr-0",
                 )}

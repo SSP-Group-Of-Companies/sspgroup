@@ -9,38 +9,121 @@
 }
 
 /* ============================================================
- * Content-visibility utility
+ * Content-visibility utility (intentionally a no-op)
  *
- * Tells the browser it can skip rendering this subtree's contents
- * (paint + layout) while it's far from the viewport, then paint it
- * just-in-time as the user approaches. This is the single biggest
- * mobile scroll-smoothness win for sections that contain heavy
- * SVG / mask-image / gradient layers — exactly what the homepage
- * has. We provide an estimated intrinsic size so the scrollbar
- * geometry and anchor links don't jump as sections are skipped.
+ * `content-visibility: auto` lets the browser skip painting
+ * offscreen subtrees and lazily paint them just-in-time as they
+ * enter the viewport. On modern devices that *usually* improves
+ * scroll cost — but it has one user-visible failure mode: when
+ * the user flicks the page very fast, the scroll outruns the
+ * browser's just-in-time paint and the user sees the intrinsic-
+ * size placeholder (a blank ~720px box) for a frame or two before
+ * the real content paints in. On the homepage, where six sections
+ * stack in a row, the cumulative effect feels like the page is
+ * "lagging" behind the finger — exactly the opposite of premium.
  *
- * `auto` (not `hidden`) means the section still participates in
- * layout, in find-in-page, in tab order, and in the accessibility
- * tree — it's purely a paint-time hint. Safari shipped support in
- * 18.0; older Safari simply ignores both properties.
+ * Real-world testing on iPhone Safari 18 confirmed the regression,
+ * so we deliberately neutralise the optimisation here and let the
+ * browser fall back to its normal paint scheduling, which is far
+ * better at keeping content present during high-velocity scroll.
+ * Modern engines already cull offscreen paint efficiently when
+ * sections use `position: relative` and `overflow: hidden` — both
+ * already in place on every section that opts into this class.
+ *
+ * Keep the class in the markup as a semantic marker so we can
+ * re-enable a tuned version in the future without churn.
  * ============================================================ */
 .cv-auto-section {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 720px;
-}
-
-/* Print: never hide content from print engines. */
-@media print {
-  .cv-auto-section {
-    content-visibility: visible;
-    contain-intrinsic-size: auto;
-  }
+  /* intentionally empty — see comment above */
 }
 
 html {
   overflow-x: clip;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* Native anchor scrolls (back/forward restore, URL with #fragment, browser
+   * "find on page") need to land *under* the sticky header. The JS path
+   * (`getSiteHeaderOffset()`) already handles in-app smooth scrolls; this
+   * covers the cases JS can't intercept. ~96px ≈ contact strip + main bar
+   * on desktop; mobile is shorter so the small extra gap is harmless. */
+  scroll-padding-top: 96px;
+}
+
+/* ============================================================
+ * Cross-browser baseline (Apple / Stripe / Linear-grade)
+ *
+ * These rules are the small set of global CSS hygiene fixes that
+ * separate a "well-built site" from one that *feels* premium on
+ * every device. Each rule targets a specific user-visible default
+ * behaviour that the browser ships with for backwards compatibility
+ * but that no modern design system actually wants.
+ *
+ * Applied inside @layer base so utility classes (Tailwind) still
+ * win the cascade and every rule remains overridable per-component.
+ * ============================================================ */
+@layer base {
+  /* Crisper text on hi-DPI WebKit (iOS, macOS Safari, Edge, Chrome on
+   * macOS) and Firefox on macOS. The single largest "feels premium"
+   * difference between a default site and a brand-grade one on Apple
+   * displays — Stripe / Linear / GitHub all set this. No effect on
+   * Windows, where the OS-level renderer wins. */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* iOS Safari & Android Chrome paint a translucent grey rectangle on
+   * every tap of a link / button by default. Premium sites suppress
+   * this globally and rely on focus-visible rings + active-state styles
+   * for tactile feedback. Set on every element so it covers anything
+   * with role="button", custom interactive divs, etc. */
+  *,
+  *::before,
+  *::after {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Brand-coloured text selection — the kind of micro-detail that makes
+   * a site feel authored. Two declarations because Firefox still uses
+   * the prefixed pseudo-element. color-mix is supported in every
+   * evergreen browser since 2023 (Chrome 111 / Safari 16.2 / Firefox 113). */
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-ssp-cyan-500) 28%, transparent);
+    color: var(--color-text-strong);
+  }
+  ::-moz-selection {
+    background-color: color-mix(in srgb, var(--color-ssp-cyan-500) 28%, transparent);
+    color: var(--color-text-strong);
+  }
+
+  /* Brand the few native form controls we render directly. Almost every
+   * checkbox / radio in the app is a custom component, but if any slip
+   * through (e.g. third-party widgets) they'll match the cyan accent
+   * instead of OS-default blue. */
+  input[type="checkbox"],
+  input[type="radio"] {
+    accent-color: var(--color-ssp-cyan-500);
+  }
+
+  /* Belt-and-braces reduced-motion. Our own keyframes already gate on
+   * `@media (prefers-reduced-motion: reduce)`, but third-party libraries
+   * (carousels, embeds, ads) routinely don't. This caps every animation
+   * + transition so users with the OS preference set get an instantly
+   * snappy site, regardless of what code shipped them. We use
+   * `0.01ms` instead of `0` because some libraries assume a non-zero
+   * duration when wiring `transitionend` listeners. Same approach
+   * Bootstrap, Tailwind UI, and Material use. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 /* ============================================================

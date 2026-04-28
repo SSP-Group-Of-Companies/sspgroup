@@ -153,31 +153,14 @@ function VideoCard({
     if (!isActive) setUserPlaying(false);
   }, [isActive]);
 
-  /* Defer mounting the iframe until after the slide transition so the
-   * swipe animation stays smooth. The iframe is only loaded after the user
-   * taps Play so the embed never steals carousel drags on the thumbnail. */
+  /* Mount the iframe synchronously from the Play click. Delaying this with
+   * requestIdleCallback/setTimeout can lose the browser's user-activation
+   * window, which makes YouTube autoplay wait for a second tap. */
   const [iframeReady, setIframeReady] = React.useState(false);
   React.useEffect(() => {
     if (!isActive || !userPlaying) {
       setIframeReady(false);
-      return;
     }
-    const win = typeof window !== "undefined" ? window : undefined;
-    if (!win) return;
-    const idle = (
-      win as Window & { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number }
-    ).requestIdleCallback;
-    if (typeof idle === "function") {
-      const id = idle(() => setIframeReady(true), { timeout: 320 });
-      return () => {
-        const cancel = (
-          win as Window & { cancelIdleCallback?: (id: number) => void }
-        ).cancelIdleCallback;
-        if (typeof cancel === "function") cancel(id);
-      };
-    }
-    const t = win.setTimeout(() => setIframeReady(true), 120);
-    return () => win.clearTimeout(t);
   }, [isActive, userPlaying]);
 
   /** After src is set, keep poster visible until iframe `load` so there is no black flash. */
@@ -221,6 +204,12 @@ function VideoCard({
   const watchLabel = "Watch on YouTube (opens in a new tab)";
 
   const videoEyebrow = item.eyebrow ?? "Live operation preview";
+
+  const handlePlayClick = React.useCallback(() => {
+    setIframePainted(false);
+    setIframeReady(true);
+    setUserPlaying(true);
+  }, []);
 
   return (
     <article
@@ -350,7 +339,7 @@ function VideoCard({
           {isActive ? (
             <button
               type="button"
-              onClick={() => setUserPlaying(true)}
+              onClick={handlePlayClick}
               disabled={showPreparing}
               className={cn(
                 FOCUS_RING_YT_ON_VIDEO,

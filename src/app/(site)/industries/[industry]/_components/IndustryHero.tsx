@@ -589,30 +589,20 @@ export function IndustryHero({ model }: { model: IndustryPageModel }) {
       className="relative overflow-hidden border-b border-white/6 py-16 sm:py-20 lg:py-24"
       style={{ backgroundColor: bgColor }}
     >
-      {/* Background layers — grid, vignette, gradient glow */}
+      {/* Background layers — subtle Automotive-style grid, vignette, gradient glow */}
       <div className="pointer-events-none absolute inset-0" aria-hidden>
-        {isSplitHero ? (
-          <div
-            className="absolute top-0 left-0 h-[min(21rem,54vh)] w-full max-w-4xl opacity-[0.036]"
-            style={{
-              backgroundImage:
-                "linear-gradient(to right, rgba(255,255,255,0.62) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.62) 1px, transparent 1px)",
-              backgroundSize: "62px 62px",
-              maskImage:
-                "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
-              WebkitMaskImage:
-                "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
-            }}
-          />
-        ) : (
-          /* Grid lines — 120px cells, edge-to-edge */
-          <div
-            className={cn(
-              "absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.8)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.8)_1px,transparent_1px)] [background-size:120px_120px]",
-              isImmersiveCenteredHero ? "opacity-[0.034]" : "opacity-[0.05]",
-            )}
-          />
-        )}
+        <div
+          className="absolute top-0 left-0 h-[min(21rem,54vh)] w-full max-w-4xl opacity-[0.036]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255,255,255,0.62) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.62) 1px, transparent 1px)",
+            backgroundSize: "62px 62px",
+            maskImage:
+              "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+            WebkitMaskImage:
+              "radial-gradient(118% 98% at 0% 0%, black 0%, rgba(0,0,0,0.92) 60%, transparent 100%)",
+          }}
+        />
         {isImmersiveCenteredHero ? (
           <div className="absolute inset-x-[14%] inset-y-[10%] bg-[radial-gradient(ellipse_at_center,rgba(11,20,34,0.16)_0%,rgba(11,20,34,0.08)_48%,transparent_78%)]" />
         ) : null}

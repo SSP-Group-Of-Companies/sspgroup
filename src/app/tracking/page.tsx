@@ -22,7 +22,7 @@ export default function TrackingLoginPage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#061127]">
+    <main className="relative min-h-svh overflow-hidden bg-[#061127]">
       <HeroImage
         src="/_optimized/brand/loginPgBg.webp"
         alt="Tracking portal background"
@@ -33,7 +33,7 @@ export default function TrackingLoginPage() {
       />
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,23,0.58),rgba(2,8,23,0.82))]" />
 
-      <section className="relative z-10 flex min-h-screen items-center justify-center px-4 pb-20">
+      <section className="relative z-10 flex min-h-svh items-center justify-center px-4 pb-20">
         <div className="w-full max-w-[390px] rounded-2xl border border-white/15 bg-[rgba(7,20,46,0.65)] p-6 shadow-[0_18px_48px_rgba(2,8,23,0.45)] backdrop-blur-md sm:p-7">
           <div className="mb-5 flex items-center justify-center">
             <LogoImage

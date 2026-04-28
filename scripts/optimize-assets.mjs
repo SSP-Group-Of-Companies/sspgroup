@@ -22,8 +22,8 @@
 //   1. Walks public/**, excluding public/_optimized/**.
 //   2. Images:
 //        - Logo/favicon source paths listed in PNG_OUTPUT_PATHS output PNG.
-//        - Photographic social-preview paths listed in JPG_OUTPUT_PATHS output JPG.
-//        - Everything else outputs WebP.
+//        - **Opaque** photographic social-preview paths listed in JPG_OUTPUT_PATHS output JPG.
+//        - Everything else outputs WebP (including transparent illustrations — do not list those as JPG).
 //   3. Videos:
 //        - MP4 source files output optimized MP4 with H.264 +faststart.
 //   4. Rewrites source references only from the original /public path to the
@@ -51,7 +51,9 @@ const FORCE = process.argv.includes("--force");
 // WebP, so these paths must stay in a lossy/lossless raster crawlers support.
 //
 // PNG_OUTPUT_PATHS: transparency-critical or browser-icon assets — stay PNG.
-// JPG_OUTPUT_PATHS: photographic OG heroes — output JPG for compatibility and size.
+// JPG_OUTPUT_PATHS: **opaque** photographic heroes for OG/crawler use — output JPG.
+//     Do NOT list illustrations, maps, or logos with transparency here; JPEG has no
+//     alpha and will flatten to white. Those belong in default WebP (or PNG_OUTPUT_PATHS).
 const PNG_OUTPUT_PATHS = new Set([
   "/_optimized/brand/SSPlogo.png", // transparent logo used in JSON-LD + OG
   "/_optimized/brand/favicon.png", // PWA/browser icon
@@ -62,10 +64,7 @@ const PNG_OUTPUT_PATHS = new Set([
 const JPG_OUTPUT_PATHS = new Set([
   "/_optimized/insights/insights-hero-ssp-containers-topdown.jpg",
   "/_optimized/solution/crossBorder/cross-BorderHeroImg.jpg",
-  "/_optimized/solution/crossBorder/mexico-hero-v2.jpg",
-  "/_optimized/solution/crossBorder/ocean-hero-globe.jpg",
-  "/_optimized/solution/crossBorder/air-hero-globe.jpg",
-  "/_optimized/solution/crossBorder/canada-usa-hero-v2.jpg",
+  // Corridor / mode globe illustrations (transparent PNG sources) → WebP, not JPG.
   "/_optimized/industries/automotive-hero-premium.jpg",
   "/_optimized/industries/manufacturing-hero-premium-v1.jpg",
   "/_optimized/industries/retail-hero-premium-v3.jpg",
@@ -160,8 +159,8 @@ async function optimizeImage(abs) {
 
   // Decide target format for this file.
   // Logos & favicons: stay PNG (transparency / browser icon semantics).
-  // OG photographic heroes: convert to JPG (crawler-safe, 3-5× smaller than PNG).
-  // Everything else: convert to WebP.
+  // OG photographic heroes: convert to JPG (crawler-safe) — only for assets without alpha.
+  // Everything else: convert to WebP (preserves transparency when present).
   const pngRel = optimizedRelForSource(abs, ".png");
   const jpgRel = optimizedRelForSource(abs, ".jpg");
   const keepPng = PNG_OUTPUT_PATHS.has(pngRel);

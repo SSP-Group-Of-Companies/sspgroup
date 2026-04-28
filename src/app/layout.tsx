@@ -105,6 +105,13 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: dark)", color: "#0b3e5e" },
   ],
   colorScheme: "light",
+  // iOS 17+ / Android Chrome: when the soft keyboard opens on a form input,
+  // resize the layout viewport instead of the default `resizes-visual`. The
+  // default behaviour leaves the page sitting under the keyboard, hides the
+  // submit button, and breaks `position: sticky` headers — exactly what
+  // Contact / Quote forms depend on. `resizes-content` is the same value
+  // Google Forms, Stripe Checkout, and Linear set.
+  interactiveWidget: "resizes-content",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
@@ -124,7 +131,20 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       data-scroll-behavior="smooth"
       {...(adminTheme ? { "data-admin-theme": adminTheme } : {})}
     >
-      <body className="min-h-dvh bg-[color:var(--color-surface-0)] text-[color:var(--color-text)]">
+      {/*
+        `min-h-svh` (small viewport height) is intentional over `min-h-dvh`.
+        On Android Chrome the URL bar shows/hides as the user scrolls, and
+        `dvh` actively re-measures with it — that resizes the body, shifts
+        the scroll boundary, and produces the visible "snap" / settle as
+        the browser clamps scroll position to the new document height. iOS
+        Safari has the same toolbar behaviour but transitions it more
+        smoothly, so the bug surfaces almost exclusively on Android.
+        `svh` locks the body to the URL-bar-visible viewport, which means
+        the document height never changes during URL-bar transitions and
+        scroll position never has to be clamped. Footers always stay
+        reachable without an extra empty band to scroll past.
+      */}
+      <body className="min-h-svh bg-[color:var(--color-surface-0)] text-[color:var(--color-text)]">
         <SessionWrapper>
           <script
             type="application/ld+json"

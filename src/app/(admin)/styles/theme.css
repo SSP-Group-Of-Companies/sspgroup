@@ -137,7 +137,11 @@ html[data-admin-theme="light"] {
    ═══════════════════════════════════════════════════════════════════════ */
 
 .admin-ambient {
-  min-height: 100vh;
+  /* `100svh` (small viewport height) avoids the Android Chrome URL-bar
+   * resize "snap" that `100vh` and `100dvh` both expose — the body and
+   * every full-height surface stay locked to the URL-bar-visible viewport
+   * so document height never re-clamps mid-scroll. */
+  min-height: 100svh;
   background: var(--dash-bg);
 }
 

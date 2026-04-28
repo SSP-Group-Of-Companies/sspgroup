@@ -12,7 +12,7 @@ import {
 const PAGE_TITLE = "Mexico Cross-Border Freight | Security-Grade Corridor Execution";
 const PAGE_DESCRIPTION =
   "We operate managed freight programs across the U.S.–Mexico border with pedimento-aligned documentation, controlled border-zone transfers, security governance calibrated to corridor conditions, and disciplined execution through Laredo, El Paso, Nogales, and high-volume crossings.";
-const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/mexico-hero-v2.jpg";
+const PAGE_OG_IMAGE = "/_optimized/solution/crossBorder/mexico-hero-v2.webp";
 
 /* ── Data ─────────────────────────────────────────────────────────────── */
 

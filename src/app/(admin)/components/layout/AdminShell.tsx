@@ -240,7 +240,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div className="min-h-screen bg-[var(--dash-bg)] text-[var(--dash-text)]">
+    <div className="min-h-svh bg-[var(--dash-bg)] text-[var(--dash-text)]">
       {/* Topbar */}
       <header className="sticky top-0 z-50 border-b border-[var(--dash-border)] bg-[var(--dash-surface)]/85 backdrop-blur-md supports-[backdrop-filter]:bg-[var(--dash-surface)]/75 xl:pl-72">
         <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">

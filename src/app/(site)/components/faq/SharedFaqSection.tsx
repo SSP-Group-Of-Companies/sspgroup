@@ -135,20 +135,25 @@ export function SharedFaqSection({
                       type="button"
                       onClick={() => setOpenIdx((p) => (p === idx ? -1 : idx))}
                       className={cn(
-                        "flex w-full items-start justify-between gap-3 px-4 py-4 text-left transition-colors sm:gap-4 sm:px-6 sm:py-5",
+                        "flex w-full items-center justify-between gap-3 px-4 py-4 text-left transition-colors sm:gap-4 sm:px-6 sm:py-5",
                         hoverBg,
                         focusRing,
                       )}
                       aria-expanded={isOpen}
                       aria-controls={panelId}
                     >
-                      <h3 className={cn("text-[15px] leading-snug font-semibold sm:text-[17px]", questionColor)}>
+                      <h3
+                        className={cn(
+                          "min-w-0 flex-1 text-pretty text-[15px] font-semibold leading-snug sm:text-[17px]",
+                          questionColor,
+                        )}
+                      >
                         {item.q}
                       </h3>
                       <span
                         aria-hidden
                         className={cn(
-                          "relative mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors",
+                          "relative inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-colors",
                           isOpen ? iconOpenBorder : iconClosedBorder,
                         )}
                         style={

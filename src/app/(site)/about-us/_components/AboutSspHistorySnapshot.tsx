@@ -159,7 +159,7 @@ export function AboutSspHistorySnapshot() {
                 key={milestone.year}
                 variants={revealUp}
                 transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-                className="relative flex gap-4 sm:gap-5"
+                className={cn("relative flex gap-4 sm:gap-5", idx > 0 && "pt-7 sm:pt-9")}
               >
                 <div className="relative flex w-10 shrink-0 flex-col items-center sm:w-12">
                   <div className="relative z-10 h-[11px] w-[11px] rounded-full bg-[color:var(--color-surface-0-light)] ring-2 ring-[color:var(--color-ssp-cyan-500)]" />

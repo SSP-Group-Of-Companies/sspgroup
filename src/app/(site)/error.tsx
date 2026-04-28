@@ -30,7 +30,7 @@ export default function GlobalErrorPage({
   const message = React.useMemo(() => pickMessage(error), [error]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-white">
+    <div className="min-h-svh bg-gradient-to-b from-slate-50 via-white to-white">
       <div className="mx-auto max-w-3xl px-6 py-16">
         <div className="rounded-[28px] border border-slate-200/70 bg-white p-7 shadow-sm">
           <h1 className="text-xl font-semibold text-slate-900">Something went wrong</h1>
