@@ -156,6 +156,7 @@ export default function SocialShareControls({
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
+          title="Share"
           className={cn(
             "inline-flex h-9 w-9 items-center justify-center rounded-xl border transition",
             variant === "admin"
@@ -187,6 +188,7 @@ export default function SocialShareControls({
                   <a
                     key={opt.id}
                     href={opt.href}
+                    title={`Share on ${opt.label}`}
                     target={opt.id === "email" ? undefined : "_blank"}
                     rel={opt.id === "email" ? undefined : "noopener noreferrer"}
                     className={cn(
@@ -231,6 +233,7 @@ export default function SocialShareControls({
           <a
             key={opt.id}
             href={opt.href}
+            title={`Share on ${opt.label}`}
             target={opt.id === "email" ? undefined : "_blank"}
             rel={opt.id === "email" ? undefined : "noopener noreferrer"}
             className={cn(
