@@ -96,8 +96,10 @@ async function uploadJobsMediaToTemp(file: File): Promise<IFileAsset> {
 }
 
 async function uploadCoverToTemp(file: File): Promise<IFileAsset> {
-  if (!file.type.toLowerCase().startsWith("image/"))
-    throw new Error("Cover image must be an image.");
+  const mt = (file.type || "").toLowerCase();
+  if (!IMAGE_MIME_TYPES.includes(mt as any)) {
+    throw new Error(`Invalid cover image type. Allowed: ${IMAGE_MIME_TYPES.join(", ")}`);
+  }
 
   const up = await uploadToS3PresignedPublic({
     file,
@@ -352,8 +354,12 @@ export default function JobEditor(props: Props) {
   async function onPickCover(file: File) {
     setError(null);
     setSuccess(null);
-    const asset = await uploadCoverToTemp(file);
-    setCoverImage(asset);
+    try {
+      const asset = await uploadCoverToTemp(file);
+      setCoverImage(asset);
+    } catch (e: any) {
+      setError({ message: e?.message || "Failed to upload cover image.", nonce: Date.now() });
+    }
   }
 
   function onRemoveCover() {

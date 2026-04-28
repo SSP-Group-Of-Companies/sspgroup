@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { INSIGHTS_DEFAULT_OG_IMAGE, toAbsoluteUrl } from "@/lib/seo/site";
+import { INSIGHTS_DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/seo/site";
 import { getPublicBlogPostBySlug } from "@/lib/utils/blog/ssrBlogFetchers";
 import { ssrApiFetch } from "@/lib/utils/ssrFetch";
 import { InsightsPostJsonLd } from "./InsightsPostJsonLd";
@@ -8,11 +9,20 @@ import InsightsPostClient from "./InsightsPostClient";
 import { IBlogComment } from "@/types/blogComment.types";
 import { IBlogPost } from "@/types/blogPost.types";
 
-function resolveInsightsOgImage(url: string | undefined | null): string {
+async function resolveMetadataOrigin(): Promise<string> {
+  const hdrs = await headers();
+  const proto = (hdrs.get("x-forwarded-proto") || "").split(",")[0].trim();
+  const host = (hdrs.get("x-forwarded-host") || hdrs.get("host") || "").split(",")[0].trim();
+  if (proto && host) return `${proto}://${host}`;
+  if (host) return `${host.includes("localhost") ? "http" : "https"}://${host}`;
+  return SITE_URL;
+}
+
+function resolveInsightsOgImage(url: string | undefined | null, origin: string): string {
   const raw = url?.trim() ? String(url).trim() : INSIGHTS_DEFAULT_OG_IMAGE;
   if (/^https?:\/\//i.test(raw)) return raw;
   const path = raw.startsWith("/") ? raw : `/${raw}`;
-  return toAbsoluteUrl(path);
+  return new URL(path, origin).toString();
 }
 
 function toMetadataDate(value: Date | string | undefined): string | undefined {
@@ -47,6 +57,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const origin = await resolveMetadataOrigin();
 
   try {
     const post = await getPublicBlogPostBySlug(slug);
@@ -56,7 +67,7 @@ export async function generateMetadata({
     const title = post?.title ? `${post.title} | Insights | SSP Group` : "Insights | SSP Group";
     const description = post?.excerpt?.trim() || fallbackDescription;
     const canonicalPath = `/insights/${encodeURIComponent(slug)}`;
-    const ogImageAbsolute = resolveInsightsOgImage(post?.bannerImage?.url ?? null);
+    const ogImageAbsolute = resolveInsightsOgImage(post?.bannerImage?.url ?? null, origin);
     return {
       title: { absolute: title },
       description,
@@ -65,8 +76,13 @@ export async function generateMetadata({
         title,
         description,
         type: "article",
-        url: toAbsoluteUrl(canonicalPath),
-        images: [ogImageAbsolute],
+        url: new URL(canonicalPath, origin).toString(),
+        images: [
+          {
+            url: ogImageAbsolute,
+            alt: post?.title ? `${post.title} article banner` : "Insights article preview image",
+          },
+        ],
         publishedTime: toMetadataDate(post?.publishedAt ?? post?.createdAt ?? undefined),
         modifiedTime: toMetadataDate(
           post?.updatedAt ?? post?.publishedAt ?? post?.createdAt ?? undefined,

@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 
 import type { IFileAsset } from "@/types/shared.types";
+import { IMAGE_MIME_TYPES } from "@/types/shared.types";
 import { EWorkplaceType, EEmploymentType, EJobPostingStatus } from "@/types/jobPosting.types";
 
 type Props = {
@@ -112,6 +113,8 @@ const softCard = cn(
   "rounded-3xl border shadow-[var(--dash-shadow)]/14",
   "border-[var(--dash-border)] bg-[var(--dash-surface)]",
 );
+
+const IMAGE_UPLOAD_ACCEPT = IMAGE_MIME_TYPES.join(",");
 
 function Divider() {
   return <div className="my-3 h-px w-full bg-[var(--dash-border)]/80" />;
@@ -411,7 +414,7 @@ export default function JobPostingSidebar(props: Props) {
 
                 <input
                   type="file"
-                  accept="image/*"
+                  accept={IMAGE_UPLOAD_ACCEPT}
                   className="hidden"
                   onChange={async (e) => {
                     const f = e.target.files?.[0];

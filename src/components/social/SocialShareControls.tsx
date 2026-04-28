@@ -12,7 +12,6 @@ import {
   Twitter,
 } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { toAbsoluteUrl as toSeoAbsoluteUrl } from "@/lib/seo/site";
 
 type Variant = "site" | "admin";
 
@@ -32,9 +31,18 @@ type ShareOption = {
 };
 
 function normalizeShareUrl(input: string) {
-  if (!input) return "";
-  if (/^https?:\/\//i.test(input)) return input;
-  return toSeoAbsoluteUrl(input);
+  const value = String(input || "").trim();
+  if (!value) {
+    if (typeof window !== "undefined") return window.location.href;
+    return "";
+  }
+  if (/^https?:\/\//i.test(value)) return value;
+  if (typeof window !== "undefined") {
+    return new URL(value, window.location.origin).toString();
+  }
+  // SSR fallback: keep relative path as-is until hydrated on client.
+  if (value.startsWith("/")) return value;
+  return `/${value}`;
 }
 
 function buildShareOptions(url: string, title: string): ShareOption[] {
@@ -97,7 +105,7 @@ function CopyButton({ url, variant }: { url: string; variant: Variant }) {
         }
       }}
       className={cn(
-        "inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border px-3 text-xs font-semibold transition",
+        "inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-xl border px-3 text-xs font-semibold transition",
         variant === "admin"
           ? "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]"
           : "border-[color:var(--color-border-light)] bg-white text-[color:var(--color-text-light)] hover:bg-[color:var(--color-surface-0-light)]",

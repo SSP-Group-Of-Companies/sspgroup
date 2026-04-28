@@ -1,22 +1,28 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { CAREERS_DEFAULT_OG_IMAGE, toAbsoluteUrl } from "@/lib/seo/site";
+import { CAREERS_DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/seo/site";
 import { getPublicJobBySlugSSR } from "@/lib/utils/jobs/ssrJobsFetchers";
 import JobPublicClient from "./JobPublicClient";
 import type { IJobPosting } from "@/types/jobPosting.types";
 
-function resolveCareersOgImage(job: Partial<IJobPosting> | null): string {
+async function resolveMetadataOrigin(): Promise<string> {
+  const hdrs = await headers();
+  const proto = (hdrs.get("x-forwarded-proto") || "").split(",")[0].trim();
+  const host = (hdrs.get("x-forwarded-host") || hdrs.get("host") || "").split(",")[0].trim();
+  if (proto && host) return `${proto}://${host}`;
+  if (host) return `${host.includes("localhost") ? "http" : "https"}://${host}`;
+  return SITE_URL;
+}
+
+function resolveCareersOgImage(job: Partial<IJobPosting> | null, origin: string): string {
   const asset = job?.coverImage as
     | { url?: string; publicUrl?: string; cdnUrl?: string }
     | undefined;
-  const raw =
-    asset?.url ||
-    asset?.publicUrl ||
-    asset?.cdnUrl ||
-    CAREERS_DEFAULT_OG_IMAGE;
+  const raw = asset?.publicUrl || asset?.cdnUrl || asset?.url || CAREERS_DEFAULT_OG_IMAGE;
   if (typeof raw === "string" && /^https?:\/\//i.test(raw)) return raw;
   const path = String(raw || CAREERS_DEFAULT_OG_IMAGE);
-  return toAbsoluteUrl(path.startsWith("/") ? path : `/${path}`);
+  return new URL(path.startsWith("/") ? path : `/${path}`, origin).toString();
 }
 
 export async function generateMetadata({
@@ -25,13 +31,15 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const origin = await resolveMetadataOrigin();
 
   try {
     const job = await getPublicJobBySlugSSR(slug);
     const title = job?.title ? `${job.title} | Careers | SSP Group` : "Role | Careers | SSP Group";
-    const description = job?.summary ?? "Review this career opportunity and submit your application.";
-    const canonicalPath = `/careers/${slug}`;
-    const ogImageAbsolute = resolveCareersOgImage(job);
+    const description =
+      job?.summary ?? "Review this career opportunity and submit your application.";
+    const canonicalPath = `/careers/${encodeURIComponent(slug)}`;
+    const ogImageAbsolute = resolveCareersOgImage(job, origin);
     return {
       title: { absolute: title },
       description,
@@ -40,8 +48,15 @@ export async function generateMetadata({
         title,
         description,
         type: "website",
-        url: toAbsoluteUrl(canonicalPath),
-        images: [ogImageAbsolute],
+        url: new URL(canonicalPath, origin).toString(),
+        images: [
+          {
+            url: ogImageAbsolute,
+            alt: job?.title
+              ? `${job.title} role cover image`
+              : "Careers preview image for SSP Group",
+          },
+        ],
       },
       twitter: {
         card: "summary_large_image",
@@ -54,7 +69,7 @@ export async function generateMetadata({
     return {
       title: { absolute: "Role | Careers | SSP Group" },
       description: "Review this career opportunity and submit your application.",
-      alternates: { canonical: `/careers/${slug}` },
+      alternates: { canonical: `/careers/${encodeURIComponent(slug)}` },
       robots: {
         index: false,
         follow: false,

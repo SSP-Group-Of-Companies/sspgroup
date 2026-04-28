@@ -110,7 +110,10 @@ async function uploadBlogMediaToTemp(file: File): Promise<IFileAsset> {
 }
 
 async function uploadBannerToTemp(file: File): Promise<IFileAsset> {
-  if (!file.type.toLowerCase().startsWith("image/")) throw new Error("Banner must be an image.");
+  const mt = (file.type || "").toLowerCase();
+  if (!IMAGE_MIME_TYPES.includes(mt as any)) {
+    throw new Error(`Invalid banner image type. Allowed: ${IMAGE_MIME_TYPES.join(", ")}`);
+  }
 
   const up = await uploadToS3PresignedPublic({
     file,
@@ -311,8 +314,12 @@ export default function BlogEditor(props: Props) {
   async function onPickBanner(file: File) {
     setError(null);
     setSuccess(null);
-    const asset = await uploadBannerToTemp(file);
-    setBannerImage(asset);
+    try {
+      const asset = await uploadBannerToTemp(file);
+      setBannerImage(asset);
+    } catch (e: any) {
+      setError({ message: e?.message || "Failed to upload banner image.", nonce: Date.now() });
+    }
   }
 
   function onRemoveBanner() {
