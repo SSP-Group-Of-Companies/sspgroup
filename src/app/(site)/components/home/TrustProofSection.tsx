@@ -147,32 +147,58 @@ function VideoCard({
   isActive: boolean;
 }) {
   const ytId = React.useMemo(() => getYouTubeId(item.youtubeUrl), [item.youtubeUrl]);
-  const [userPlaying, setUserPlaying] = React.useState(false);
+  const cardRef = React.useRef<HTMLElement | null>(null);
+  const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
 
+  /* Has the card been visible in (or near) the viewport at least once? We
+   * pre-mount the YouTube iframe only after this so users who never scroll
+   * to the testimonial section don't pay the player's load cost. */
+  const [inView, setInView] = React.useState(false);
   React.useEffect(() => {
-    if (!isActive) setUserPlaying(false);
-  }, [isActive]);
-
-  /* Mount the iframe synchronously from the Play click. Delaying this with
-   * requestIdleCallback/setTimeout can lose the browser's user-activation
-   * window, which makes YouTube autoplay wait for a second tap. */
-  const [iframeReady, setIframeReady] = React.useState(false);
-  React.useEffect(() => {
-    if (!isActive || !userPlaying) {
-      setIframeReady(false);
+    if (inView) return;
+    const el = cardRef.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") {
+      setInView(true);
+      return;
     }
-  }, [isActive, userPlaying]);
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setInView(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "200px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [inView]);
 
-  /** After src is set, keep poster visible until iframe `load` so there is no black flash. */
-  const [iframePainted, setIframePainted] = React.useState(false);
+  /* Has the user explicitly clicked Play? We use this to fade the poster
+   * out and reveal the iframe; we never auto-play behind the poster. */
+  const [userPlaying, setUserPlaying] = React.useState(false);
+  /* Has the iframe finished its first network load? Once true, postMessage
+   * commands sent to its contentWindow will be honored by the YouTube
+   * player. */
+  const [iframeLoaded, setIframeLoaded] = React.useState(false);
+
+  /* iOS Safari is the reason for this whole approach. The `?autoplay=1`
+   * URL param is unreliable in cross-origin iframes when the iframe loads
+   * AFTER the user gesture: by the time YouTube's internal `videoEl.play()`
+   * fires (post-iframe-load), Safari no longer treats it as user-initiated
+   * and silently blocks playback — the user then sees YouTube's own play
+   * button and has to tap a second time.
+   *
+   * Fix: pre-mount the iframe in the background while the card is in view,
+   * then call `playVideo` via postMessage SYNCHRONOUSLY inside the click
+   * handler. The user-activation chain is intact across the cross-origin
+   * boundary, which is the only reliable single-tap play path on iOS. */
+  const shouldMountIframe = Boolean(ytId && (inView || isActive));
   const embedSrc = React.useMemo(() => {
-    if (!ytId || !isActive || !userPlaying || !iframeReady) return "";
+    if (!shouldMountIframe || !ytId) return "";
     const params = new URLSearchParams({
-      autoplay: "1",
-      /* User explicitly taps Play — unmuted so audio is audible; some mobile
-       * browsers may still enforce mute until the user unmutes in the player. */
-      mute: "0",
-      loop: "0",
+      enablejsapi: "1",
       controls: "1",
       modestbranding: "1",
       rel: "0",
@@ -182,11 +208,35 @@ function VideoCard({
       params.set("origin", window.location.origin);
     }
     return `https://www.youtube-nocookie.com/embed/${ytId}?${params.toString()}`;
-  }, [iframeReady, isActive, userPlaying, ytId]);
+  }, [shouldMountIframe, ytId]);
 
+  /* Reset the load flag whenever the iframe URL identity changes (e.g. the
+   * card unmounts and re-mounts when the slide leaves and re-enters). */
   React.useEffect(() => {
-    setIframePainted(false);
+    setIframeLoaded(false);
   }, [embedSrc]);
+
+  /* If the user clicks Play before the iframe finishes loading, defer the
+   * play command and re-issue it from `onLoad`. iOS still treats this as a
+   * delegated gesture as long as the original tap was within ~5s. */
+  const playPendingRef = React.useRef(false);
+
+  const dispatchPlayerCommand = React.useCallback((func: "playVideo" | "pauseVideo") => {
+    const win = iframeRef.current?.contentWindow;
+    if (!win) return;
+    win.postMessage(JSON.stringify({ event: "command", func, args: [] }), "*");
+  }, []);
+
+  /* When the slide leaves (becomes inactive), pause and reset playback so
+   * audio doesn't continue off-screen. The iframe stays mounted to avoid
+   * re-paying the player load on return. */
+  React.useEffect(() => {
+    if (!isActive) {
+      setUserPlaying(false);
+      playPendingRef.current = false;
+      dispatchPlayerCommand("pauseVideo");
+    }
+  }, [isActive, dispatchPlayerCommand]);
 
   /* Prefer maxres poster when available; fall back once to hqdefault on load error. */
   const [thumbKind, setThumbKind] = React.useState<"max" | "hq">("max");
@@ -198,21 +248,44 @@ function VideoCard({
     : "";
 
   const showCaptionOverlay = !isActive;
-  const showEmbed = Boolean(embedSrc);
-  const showPreparing = Boolean(isActive && userPlaying && ytId && !showEmbed);
+  /* Iframe is visible to the user only after they tap Play AND the player
+   * has finished loading. Until then the poster covers it (even though the
+   * iframe is mounted in the DOM, hidden behind opacity 0). */
+  const showEmbed = userPlaying && iframeLoaded;
+  /* Show a small "preparing" indicator if the user tapped before the iframe
+   * had finished loading. In practice this is rare because the iframe
+   * pre-mounts ~200–800ms before the user reaches the Play button. */
+  const showPreparing = userPlaying && !iframeLoaded;
 
   const watchLabel = "Watch on YouTube (opens in a new tab)";
 
   const videoEyebrow = item.eyebrow ?? "Live operation preview";
 
   const handlePlayClick = React.useCallback(() => {
-    setIframePainted(false);
-    setIframeReady(true);
     setUserPlaying(true);
-  }, []);
+    if (iframeLoaded) {
+      /* Fast path: iframe is loaded, send playVideo synchronously while the
+       * user-activation token is still fresh — iOS Safari accepts it and
+       * begins unmuted playback on the first tap. */
+      dispatchPlayerCommand("playVideo");
+    } else {
+      /* Slow path: iframe is still loading. Queue the command so we can
+       * fire it from `onLoad`. */
+      playPendingRef.current = true;
+    }
+  }, [dispatchPlayerCommand, iframeLoaded]);
+
+  const handleIframeLoad = React.useCallback(() => {
+    setIframeLoaded(true);
+    if (playPendingRef.current) {
+      playPendingRef.current = false;
+      dispatchPlayerCommand("playVideo");
+    }
+  }, [dispatchPlayerCommand]);
 
   return (
     <article
+      ref={cardRef}
       className={cn(
         "relative overflow-hidden rounded-2xl border border-[color:var(--color-border-light)] bg-[color:var(--color-company-ink)]",
         "shadow-[0_14px_28px_rgba(2,8,24,0.16)]",
@@ -232,18 +305,23 @@ function VideoCard({
               onError={() => setThumbKind((k) => (k === "max" ? "hq" : k))}
               className={cn(
                 "pointer-events-none absolute inset-0 z-0 h-full w-full object-cover transition-opacity duration-500 ease-out",
-                showEmbed && iframePainted ? "opacity-0" : "opacity-100",
+                showEmbed ? "opacity-0" : "opacity-100",
               )}
             />
             {!showEmbed ? (
               <div className="pointer-events-none absolute inset-0 z-[1] bg-black/22" aria-hidden />
             ) : null}
-            {showEmbed ? (
+            {/* Iframe is mounted as soon as the card is in view (pre-load),
+                but kept fully transparent and non-interactive until the user
+                clicks Play. This is what makes single-tap playback reliable
+                on iOS Safari. */}
+            {embedSrc ? (
               <iframe
+                ref={iframeRef}
                 key={embedSrc}
                 className={cn(
                   "absolute inset-0 z-10 h-full w-full border-0 transition-opacity duration-500 ease-out",
-                  iframePainted ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
+                  showEmbed ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
                 )}
                 src={embedSrc}
                 title={item.title}
@@ -251,7 +329,7 @@ function VideoCard({
                 referrerPolicy="strict-origin-when-cross-origin"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
-                onLoad={() => setIframePainted(true)}
+                onLoad={handleIframeLoad}
               />
             ) : null}
           </div>
