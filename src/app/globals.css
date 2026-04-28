@@ -8,34 +8,9 @@
   border-radius: var(--radius-action);
 }
 
-/* ============================================================
- * Content-visibility utility (intentionally a no-op)
- *
- * `content-visibility: auto` lets the browser skip painting
- * offscreen subtrees and lazily paint them just-in-time as they
- * enter the viewport. On modern devices that *usually* improves
- * scroll cost — but it has one user-visible failure mode: when
- * the user flicks the page very fast, the scroll outruns the
- * browser's just-in-time paint and the user sees the intrinsic-
- * size placeholder (a blank ~720px box) for a frame or two before
- * the real content paints in. On the homepage, where six sections
- * stack in a row, the cumulative effect feels like the page is
- * "lagging" behind the finger — exactly the opposite of premium.
- *
- * Real-world testing on iPhone Safari 18 confirmed the regression,
- * so we deliberately neutralise the optimisation here and let the
- * browser fall back to its normal paint scheduling, which is far
- * better at keeping content present during high-velocity scroll.
- * Modern engines already cull offscreen paint efficiently when
- * sections use `position: relative` and `overflow: hidden` — both
- * already in place on every section that opts into this class.
- *
- * Keep the class in the markup as a semantic marker so we can
- * re-enable a tuned version in the future without churn.
- * ============================================================ */
-.cv-auto-section {
-  /* intentionally empty — see comment above */
-}
+/* `cv-auto-section` remains in markup as a semantic marker only.
+ * We intentionally do not define a CSS rule for it: `content-visibility: auto`
+ * created visible blank placeholders during high-velocity mobile scroll. */
 
 html {
   overflow-x: clip;
