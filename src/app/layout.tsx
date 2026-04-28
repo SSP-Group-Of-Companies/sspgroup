@@ -143,7 +143,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         scroll position never has to be clamped. Footers always stay
         reachable without an extra empty band to scroll past.
       */}
-      <body className="min-h-svh bg-[color:var(--color-surface-0)] text-[color:var(--color-text)]">
+      <body
+        suppressHydrationWarning
+        className="min-h-svh bg-[color:var(--color-surface-0)] text-[color:var(--color-text)]"
+      >
         <SessionWrapper>
           <script
             type="application/ld+json"
