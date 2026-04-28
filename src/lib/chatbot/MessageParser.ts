@@ -60,7 +60,8 @@ export default class MessageParser {
     if (this.actionProvider.tryAnswerFaq(message)) return;
 
     if (
-      hasAnyToken(tokens, ["track", "tracking", "status"]) ||
+      (hasAnyToken(tokens, ["track", "tracking", "status"]) &&
+        !hasAnyToken(tokens, ["cookie", "cookies", "consent", "pixel", "analytics"])) ||
       (hasAnyToken(tokens, ["where", "wheres"]) &&
         hasAnyToken(tokens, [
           "shipment",
@@ -172,6 +173,18 @@ export default class MessageParser {
     }
 
     if (
+      hasAnyToken(tokens, ["location", "locations", "city", "cities", "terminal", "terminals"]) &&
+      (hasAnyToken(tokens, ["freight", "service", "services", "coverage", "network"]) ||
+        normIncludes(message, "freight by location"))
+    ) {
+      return this.actionProvider.suggestNavPage(
+        "Freight by location",
+        "/locations",
+        "Browse SSP locations and regional freight coverage.",
+      );
+    }
+
+    if (
       hasAnyToken(tokens, [
         "location",
         "locations",
@@ -254,6 +267,84 @@ export default class MessageParser {
       normIncludes(message, "live agent")
     ) {
       return this.actionProvider.showContact();
+    }
+
+    if (
+      hasAnyToken(tokens, ["portal", "carrier", "carriers"]) ||
+      normIncludes(message, "carrier portal")
+    ) {
+      return this.actionProvider.suggestNavPage(
+        "Carrier Portal",
+        "/carrier-portal",
+        "Access the SSP carrier portal.",
+      );
+    }
+
+    if (
+      hasAnyToken(tokens, ["employee", "employees", "staff", "internal"]) &&
+      hasAnyToken(tokens, ["portal", "login", "access"])
+    ) {
+      return this.actionProvider.suggestNavPage(
+        "Employee Portal",
+        "/employee-portal",
+        "Employee portal access for SSP team members.",
+      );
+    }
+
+    if (
+      hasAnyToken(tokens, ["privacy", "gdpr", "ccpa"]) ||
+      normIncludes(message, "privacy policy")
+    ) {
+      return this.actionProvider.suggestNavPage(
+        "Privacy Policy",
+        "/privacy",
+        "Review SSP privacy practices and data handling terms.",
+      );
+    }
+
+    if (
+      hasAnyToken(tokens, ["terms", "tos", "conditions", "legal"]) ||
+      normIncludes(message, "terms of service")
+    ) {
+      return this.actionProvider.suggestNavPage(
+        "Terms of Service",
+        "/terms",
+        "Review SSP website terms and service conditions.",
+      );
+    }
+
+    if (
+      hasAnyToken(tokens, ["cookie", "cookies", "consent", "tracking"]) &&
+      !hasAnyToken(tokens, ["shipment", "shipments", "load", "loads", "freight"])
+    ) {
+      return this.actionProvider.suggestNavPage(
+        "Cookie Policy",
+        "/cookies",
+        "Cookie policy, usage details, and consent information.",
+      );
+    }
+
+    if (
+      normIncludes(message, "cookie preferences") ||
+      (hasAnyToken(tokens, ["cookie", "cookies"]) &&
+        hasAnyToken(tokens, ["preference", "preferences"]))
+    ) {
+      return this.actionProvider.suggestNavPage(
+        "Cookie Preferences",
+        "/cookie-preferences",
+        "Manage cookie preference settings.",
+      );
+    }
+
+    if (
+      hasAnyToken(tokens, ["accessibility", "accessible", "a11y"]) ||
+      normIncludes(message, "accessibility statement")
+    ) {
+      return this.actionProvider.suggestNavPage(
+        "Accessibility",
+        "/accessibility",
+        "Accessibility standards, support, and conformance details.",
+      );
     }
 
     if (

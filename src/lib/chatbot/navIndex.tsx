@@ -1,4 +1,6 @@
 // src/lib/chatbot/navIndex.ts
+import { FOOTER_LEGAL_LINKS, FOOTER_QUICK_ACTIONS } from "@/config/footer";
+import { HEADER_ACTIONS, HEADER_DIRECT_LINKS } from "@/config/header";
 import { NAV, type NavLink, type NavSection } from "@/config/navigation";
 
 export type NavIndexItem = {
@@ -113,6 +115,14 @@ function pushLink(
 
 export function buildNavIndex() {
   const items: NavIndexItem[] = [];
+  const seen = new Set<string>();
+
+  const pushItem = (item: NavIndexItem) => {
+    const key = `${item.sectionKey}:${item.href}:${item.label}`;
+    if (seen.has(key)) return;
+    seen.add(key);
+    items.push(item);
+  };
 
   (Object.keys(NAV) as Array<keyof typeof NAV>).forEach((sectionKey) => {
     const section = NAV[sectionKey] as unknown as NavSection & {
@@ -120,7 +130,7 @@ export function buildNavIndex() {
     };
 
     // Intro CTA as an indexable item
-    items.push({
+    pushItem({
       sectionKey,
       sectionLabel: section.label,
       label: section.intro?.ctaLabel || `View ${section.label}`,
@@ -137,7 +147,7 @@ export function buildNavIndex() {
     if (sectionKey === "solutions" && section.categories) {
       section.categories.forEach((cat) => {
         const c = cat as { title: string; href: string; links: readonly NavLink[] };
-        items.push({
+        pushItem({
           sectionKey,
           sectionLabel: section.label,
           label: c.title,
@@ -160,7 +170,7 @@ export function buildNavIndex() {
   });
 
   // Not in main NAV — used for chatbot / site search alignment with /insights
-  items.push({
+  pushItem({
     sectionKey: "company",
     sectionLabel: NAV.company.label,
     label: "Insights",
@@ -172,6 +182,84 @@ export function buildNavIndex() {
       label: "Insights blog articles",
       description: "Blog posts, news, and freight perspectives",
       href: "/insights",
+    }),
+  });
+
+  HEADER_DIRECT_LINKS.forEach((link) => {
+    pushItem({
+      sectionKey: "company",
+      sectionLabel: NAV.company.label,
+      label: link.label,
+      href: link.href,
+      description: `Direct site link: ${link.label}.`,
+      icon: "briefcase",
+      keywords: keywordsFor({
+        label: link.label,
+        description: `Direct site link: ${link.label}.`,
+        href: link.href,
+      }),
+    });
+  });
+
+  HEADER_ACTIONS.forEach((action) => {
+    pushItem({
+      sectionKey: "company",
+      sectionLabel: NAV.company.label,
+      label: action.label,
+      href: action.href,
+      description: `Quick action: ${action.label}.`,
+      icon: "phone",
+      keywords: keywordsFor({
+        label: action.label,
+        description: `Quick action ${action.label} portal and access route.`,
+        href: action.href,
+      }),
+    });
+  });
+
+  FOOTER_QUICK_ACTIONS.forEach((action) => {
+    pushItem({
+      sectionKey: "company",
+      sectionLabel: NAV.company.label,
+      label: action.label,
+      href: action.href,
+      description: `Footer quick action: ${action.label}.`,
+      icon: "map",
+      keywords: keywordsFor({
+        label: action.label,
+        description: `Footer quick action ${action.label}.`,
+        href: action.href,
+      }),
+    });
+  });
+
+  FOOTER_LEGAL_LINKS.forEach((link) => {
+    pushItem({
+      sectionKey: "company",
+      sectionLabel: NAV.company.label,
+      label: link.label,
+      href: link.href,
+      description: `Legal and policy page: ${link.label}.`,
+      icon: "shield",
+      keywords: keywordsFor({
+        label: link.label,
+        description: `Legal policy terms cookies privacy accessibility.`,
+        href: link.href,
+      }),
+    });
+  });
+
+  pushItem({
+    sectionKey: "company",
+    sectionLabel: NAV.company.label,
+    label: "Employee Portal",
+    href: "/employee-portal",
+    description: "Employee portal access for SSP team members.",
+    icon: "briefcase",
+    keywords: keywordsFor({
+      label: "Employee Portal staff login",
+      description: "Employee portal team member login access.",
+      href: "/employee-portal",
     }),
   });
 

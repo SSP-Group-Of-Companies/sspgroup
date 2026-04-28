@@ -2,7 +2,13 @@
 // All UI, metadata, JSON-LD, and structured-data consumers should read from here so
 // that a change to the env (or this file) propagates everywhere the values are used.
 
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://sspgroup.com";
+import {
+  NEXT_PUBLIC_SITE_URL,
+  NEXT_PUBLIC_SSP_CS_EMAIL,
+  NEXT_PUBLIC_SSP_PHONE,
+} from "@/config/env";
+
+export const SITE_URL = NEXT_PUBLIC_SITE_URL || "https://sspgroup.com";
 
 export const SITE_NAME = "SSP Group";
 
@@ -20,7 +26,8 @@ export const SITE_DEFAULT_DESCRIPTION =
 export const SITE_DEFAULT_OG_IMAGE = "/_optimized/brand/SSPlogo.png";
 
 /** Default social preview for /insights when a post has no banner (aligned with listing hero art). */
-export const INSIGHTS_DEFAULT_OG_IMAGE = "/_optimized/insights/insights-hero-ssp-containers-topdown.jpg";
+export const INSIGHTS_DEFAULT_OG_IMAGE =
+  "/_optimized/insights/insights-hero-ssp-containers-topdown.jpg";
 /** Careers sharing fallback (until a dedicated careers social banner is introduced). */
 export const CAREERS_DEFAULT_OG_IMAGE = SITE_DEFAULT_OG_IMAGE;
 
@@ -29,7 +36,7 @@ export const CAREERS_DEFAULT_OG_IMAGE = SITE_DEFAULT_OG_IMAGE;
 const PHONE_DISPLAY_FALLBACK = "+1 (519) 968-3632";
 const CS_EMAIL_FALLBACK = "cs@sspgroup.com";
 
-const rawPhone = (process.env.NEXT_PUBLIC_SSP_PHONE || PHONE_DISPLAY_FALLBACK).trim();
+const rawPhone = (NEXT_PUBLIC_SSP_PHONE || PHONE_DISPLAY_FALLBACK).trim();
 
 function toE164(input: string): string {
   // Keep a leading +, strip everything except digits after that.
@@ -39,7 +46,7 @@ function toE164(input: string): string {
 }
 
 export const COMPANY_CONTACT = {
-  email: process.env.NEXT_PUBLIC_SSP_CS_EMAIL || CS_EMAIL_FALLBACK,
+  email: NEXT_PUBLIC_SSP_CS_EMAIL || CS_EMAIL_FALLBACK,
   phoneDisplay: rawPhone,
   phoneE164: toE164(rawPhone),
 } as const;

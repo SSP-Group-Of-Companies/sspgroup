@@ -38,10 +38,16 @@ export const NEXT_PUBLIC_TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_
 export const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY!;
 // Optional: only defined in development to let local integration tests bypass
 // the live Turnstile challenge. Never set this in production.
-export const TURNSTILE_DEV_BYPASS_TOKEN: string | undefined = process.env.TURNSTILE_DEV_BYPASS_TOKEN;
+export const TURNSTILE_DEV_BYPASS_TOKEN: string | undefined =
+  process.env.TURNSTILE_DEV_BYPASS_TOKEN;
 
 // Google Analytics
 export const NEXT_PUBLIC_GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID!;
+export const NEXT_PUBLIC_GSC_VERIFICATION = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
+export const NEXT_PUBLIC_BING_VERIFICATION = process.env.NEXT_PUBLIC_BING_VERIFICATION;
+
+// Public site config
+export const NEXT_PUBLIC_SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
 // SSP Emails (Public so they can be used in UI if needed)
 export const NEXT_PUBLIC_SSP_EMAIL = process.env.NEXT_PUBLIC_SSP_EMAIL!;

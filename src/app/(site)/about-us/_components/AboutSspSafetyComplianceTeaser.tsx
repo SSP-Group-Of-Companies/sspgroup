@@ -12,11 +12,13 @@ import { cn } from "@/lib/cn";
 const FOCUS_RING =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-surface-1-light)]";
 
-export function AboutSspSafetyComplianceTeaser({
-  data,
-}: {
-  data: SafetyComplianceTeaserContent;
-}) {
+/** Fraction of the artwork hidden past the right edge; same on all breakpoints (width-based mask). */
+const SAFETY_IMAGE_RIGHT_CLIP = 0.12;
+
+/** Hard cap on the visible frame width so the illustration does not scale up without bound when zoomed out. */
+const SAFETY_IMAGE_FRAME_MAX_PX = 800;
+
+export function AboutSspSafetyComplianceTeaser({ data }: { data: SafetyComplianceTeaserContent }) {
   const reduceMotion = useReducedMotion() ?? false;
 
   const revealUp: Variants = reduceMotion
@@ -31,7 +33,7 @@ export function AboutSspSafetyComplianceTeaser({
     <section
       id="safety-compliance"
       aria-labelledby="about-safety-heading"
-      className="relative overflow-hidden border-b border-[color:var(--color-border-light-soft)] py-18 sm:py-20 lg:py-22"
+      className="relative overflow-visible border-b border-[color:var(--color-border-light-soft)] py-18 sm:py-20 lg:py-22"
       style={{
         background:
           "linear-gradient(180deg, var(--color-surface-0-light) 0%, color-mix(in srgb, var(--color-surface-0-light) 62%, white) 52%, var(--color-surface-1-light) 100%)",
@@ -50,14 +52,14 @@ export function AboutSspSafetyComplianceTeaser({
           }}
         />
         <div
-          className="absolute right-[4%] top-[18%] h-[34%] w-[34%] blur-[54px]"
+          className="absolute top-[18%] right-[4%] h-[34%] w-[34%] blur-[54px]"
           style={{
             background:
               "radial-gradient(closest-side, rgba(255,255,255,0.92), rgba(255,255,255,0.14), transparent 78%)",
           }}
         />
         <div
-          className="absolute right-[-2%] top-[22%] h-[42%] w-[26%] blur-[58px]"
+          className="absolute top-[22%] right-[-2%] h-[42%] w-[26%] blur-[58px]"
           style={{
             background: "radial-gradient(closest-side, rgba(16,167,216,0.12), transparent 72%)",
           }}
@@ -71,111 +73,122 @@ export function AboutSspSafetyComplianceTeaser({
         variants={stagger}
         className="relative"
       >
-        {/* ── Text column ── stays within Container */}
         <Container className="site-page-container relative md:min-h-[34rem] lg:min-h-0">
-          <div className="md:max-w-[56%] lg:max-w-[42%] xl:max-w-[40%]">
-            <motion.div
-              variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-            >
-              <SectionSignalEyebrow label={data.sectionLabel} />
-            </motion.div>
-            <motion.h2
-              id="about-safety-heading"
-              variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
-              className="mt-4 max-w-[15ch] text-balance text-[2.18rem] font-bold leading-[1.04] tracking-tight text-[color:var(--color-text-strong)] sm:max-w-[16ch] sm:text-[2.85rem]"
-            >
-              {data.title}
-            </motion.h2>
-            <motion.p
-              variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-              className="mt-4 max-w-[34rem] text-[15.5px] leading-[1.82] text-[color:var(--color-text-strong)]/68 sm:text-[16px]"
-            >
-              {data.subtitle}
-            </motion.p>
-
-            <motion.ul
-              variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-              className="mt-7 max-w-[30rem] divide-y divide-[color:var(--color-border-light-soft)] border-y border-[color:var(--color-border-light-soft)]"
-            >
-              {data.credentials.map((credential) => (
-                <li
-                  key={credential}
-                  className="py-3.5 text-[13.5px] leading-[1.68] text-[color:var(--color-text-strong)]/74"
-                >
-                  {credential}
-                </li>
-              ))}
-            </motion.ul>
-
-            <motion.div
-              variants={revealUp}
-              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-              className="mt-7"
-            >
-              <Link
-                href={data.cta.href}
-                data-cta-id={data.cta.ctaId}
-                onClick={() =>
-                  trackCtaClick({
-                    ctaId: data.cta.ctaId,
-                    location: "about_safety_compliance_teaser",
-                    destination: data.cta.href,
-                    label: data.cta.label,
-                  })
-                }
-                className={cn(
-                  "group inline-flex items-center gap-2 rounded-lg text-sm font-semibold text-[color:var(--color-menu-accent)] transition-colors hover:text-[color:var(--color-ssp-ink-800)]",
-                  FOCUS_RING,
-                )}
+          <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-12 md:items-center md:gap-10">
+            <div className="md:col-span-5 md:min-w-0 lg:col-span-5 lg:pr-2">
+              <motion.div
+                variants={revealUp}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
               >
-                {data.cta.label}
-                <span
-                  aria-hidden
-                  className="transition-transform motion-safe:group-hover:translate-x-0.5"
+                <SectionSignalEyebrow label={data.sectionLabel} />
+              </motion.div>
+              <motion.h2
+                id="about-safety-heading"
+                variants={revealUp}
+                transition={{ duration: reduceMotion ? 0 : 0.38, ease: "easeOut" }}
+                className="mt-4 max-w-[15ch] text-[2.18rem] leading-[1.04] font-bold tracking-tight text-balance text-[color:var(--color-text-strong)] sm:max-w-[16ch] sm:text-[2.85rem]"
+              >
+                {data.title}
+              </motion.h2>
+              <motion.p
+                variants={revealUp}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+                className="mt-4 max-w-[34rem] text-[15.5px] leading-[1.82] text-[color:var(--color-text-strong)]/68 sm:text-[16px]"
+              >
+                {data.subtitle}
+              </motion.p>
+
+              <motion.ul
+                variants={revealUp}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+                className="mt-7 max-w-[30rem] divide-y divide-[color:var(--color-border-light-soft)] border-y border-[color:var(--color-border-light-soft)]"
+              >
+                {data.credentials.map((credential) => (
+                  <li
+                    key={credential}
+                    className="py-3.5 text-[13.5px] leading-[1.68] text-[color:var(--color-text-strong)]/74"
+                  >
+                    {credential}
+                  </li>
+                ))}
+              </motion.ul>
+
+              <motion.div
+                variants={revealUp}
+                transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+                className="mt-7"
+              >
+                <Link
+                  href={data.cta.href}
+                  data-cta-id={data.cta.ctaId}
+                  onClick={() =>
+                    trackCtaClick({
+                      ctaId: data.cta.ctaId,
+                      location: "about_safety_compliance_teaser",
+                      destination: data.cta.href,
+                      label: data.cta.label,
+                    })
+                  }
+                  className={cn(
+                    "group inline-flex items-center gap-2 rounded-lg text-sm font-semibold text-[color:var(--color-menu-accent)] transition-colors hover:text-[color:var(--color-ssp-ink-800)]",
+                    FOCUS_RING,
+                  )}
                 >
-                  &rarr;
-                </span>
-              </Link>
+                  {data.cta.label}
+                  <span
+                    aria-hidden
+                    className="transition-transform motion-safe:group-hover:translate-x-0.5"
+                  >
+                    &rarr;
+                  </span>
+                </Link>
+              </motion.div>
+            </div>
+
+            <motion.div
+              variants={revealUp}
+              transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
+              className={cn(
+                "pointer-events-none relative w-full min-w-0 select-none md:col-span-7",
+                /* Mobile: cancel Container right padding only so the art meets the screen edge (left gutter unchanged). */
+                "max-md:-mr-4 max-md:w-[calc(100%+1rem)] sm:max-md:-mr-6 sm:max-md:w-[calc(100%+1.5rem)]",
+                /* Desktop: bleed to viewport right (1440px site max + horizontal padding); mirrors homepage Why SSP stage. */
+                "md:!-mr-[calc(max(0px,(100vw-1440px)/2)+1.5rem)] md:!w-[calc(100%+max(0px,(100vw-1440px)/2)+1.5rem)]",
+                "lg:!-mr-[calc(max(0px,(100vw-1440px)/2)+2rem)] lg:!w-[calc(100%+max(0px,(100vw-1440px)/2)+2rem)]",
+              )}
+            >
+              <div
+                className="relative w-full overflow-hidden md:ml-auto"
+                style={{ maxWidth: `${SAFETY_IMAGE_FRAME_MAX_PX}px` }}
+              >
+                <div
+                  className="absolute inset-x-[3%] inset-y-[6%] bg-[radial-gradient(56%_58%_at_66%_46%,rgba(255,255,255,0.9),rgba(255,255,255,0.1)_58%,transparent_100%)] blur-[32px] sm:blur-[40px] md:blur-[48px]"
+                  aria-hidden
+                />
+                <div
+                  className="absolute right-0 bottom-[2%] h-9 w-1/2 bg-[radial-gradient(closest-side,rgba(15,23,42,0.16),transparent_70%)] blur-md md:bottom-[4%] md:blur-lg"
+                  aria-hidden
+                />
+                <div
+                  className="absolute top-[14%] right-0 h-[40%] w-[38%] bg-[radial-gradient(closest-side,rgba(16,167,216,0.08),transparent_75%)] blur-[40px] md:top-[12%] md:blur-[48px]"
+                  aria-hidden
+                />
+                <Image
+                  src={data.image.src}
+                  alt={data.image.alt}
+                  width={1438}
+                  height={1024}
+                  className="relative z-[1] block h-auto max-w-none"
+                  sizes="(max-width: 767px) 90vw, 943px"
+                  style={{
+                    width: `calc(100% / ${1 - SAFETY_IMAGE_RIGHT_CLIP})`,
+                    height: "auto",
+                  }}
+                />
+              </div>
             </motion.div>
           </div>
         </Container>
-
-        {/* ── Image ── right edge flush with viewport on all breakpoints */}
-        <motion.div
-          variants={revealUp}
-          transition={{ duration: reduceMotion ? 0 : 0.35, ease: "easeOut" }}
-          className={cn(
-            "pointer-events-none",
-            "relative mt-3 ml-auto w-[108%] -mr-[8%] sm:mt-5 sm:w-[96%] sm:-mr-[5%]",
-            "md:absolute md:bottom-[-2.25rem] md:right-0 md:mt-0 md:mr-0 md:w-[62%] lg:absolute lg:-top-14 lg:-bottom-14 lg:right-0 lg:mt-0 lg:mr-0 lg:w-[64%] xl:-top-16 xl:-bottom-16 xl:w-[62%]",
-          )}
-        >
-          <div className="relative h-[14.5rem] sm:h-[18.5rem] md:h-[21.5rem] lg:h-full">
-            <div
-              className="absolute inset-x-[4%] inset-y-[10%] bg-[radial-gradient(56%_58%_at_66%_46%,rgba(255,255,255,0.95),rgba(255,255,255,0.12)_58%,transparent_100%)] blur-[36px] sm:blur-[42px] lg:blur-[54px]"
-              aria-hidden
-            />
-            <div
-              className="absolute bottom-[3%] right-[1%] h-10 w-[56%] bg-[radial-gradient(closest-side,rgba(15,23,42,0.2),rgba(15,23,42,0.04),transparent_72%)] blur-lg sm:h-12 sm:w-[54%] sm:blur-xl md:bottom-[5%] md:right-[2%] md:w-[52%] lg:bottom-[9%] lg:h-14 lg:w-[46%] lg:blur-2xl"
-              aria-hidden
-            />
-            <div
-              className="absolute right-[-3%] top-[16%] h-[44%] w-[42%] bg-[radial-gradient(closest-side,rgba(16,167,216,0.1),rgba(16,167,216,0.02),transparent_74%)] blur-[44px] sm:right-[-2%] md:right-0 lg:top-[18%] lg:w-[38%] lg:blur-[56px]"
-              aria-hidden
-            />
-            <Image
-              src={data.image.src}
-              alt={data.image.alt}
-              fill
-              sizes="(max-width: 640px) 108vw, (max-width: 768px) 96vw, (max-width: 1024px) 62vw, 64vw"
-              className="origin-right scale-[1.2] object-contain object-[100%_44%] sm:scale-[1.24] sm:object-[100%_45%] md:scale-[1.32] md:object-[100%_46%] lg:scale-[1.24] lg:object-[100%_50%] xl:scale-[1.27]"
-            />
-          </div>
-        </motion.div>
       </motion.div>
     </section>
   );

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { MONGO_URI } from "@/config/env";
 import { getIndustrySlugs } from "@/config/industryPages";
 import { getSeoLocationPriority, getSeoLocationSlugs } from "@/config/seoLocations";
 import { getSeoLanePriority, getSeoLaneSlugs } from "@/config/seoLanes";
@@ -54,7 +55,7 @@ function wait(ms: number) {
 }
 
 async function getDynamicSitemapRoutesWithRetry() {
-  if (!process.env.MONGO_URI) {
+  if (!MONGO_URI) {
     return { blogRoutes: [] as string[], careersRoutes: [] as string[] };
   }
 
@@ -160,7 +161,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ].map((path) => ({
     url: toAbsolute(path),
     changeFrequency:
-      path === "/" ? "daily" : path === "/insights" || path.startsWith("/insights/") ? "weekly" : "monthly",
+      path === "/"
+        ? "daily"
+        : path === "/insights" || path.startsWith("/insights/")
+          ? "weekly"
+          : "monthly",
     priority: getPriority(path),
   }));
 }

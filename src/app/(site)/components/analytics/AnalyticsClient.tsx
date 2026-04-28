@@ -12,6 +12,7 @@ import {
   type ConsentPreferences,
 } from "@/lib/analytics/consent";
 import { CONSENT_EVENTS } from "@/config/cookies";
+import { NEXT_PUBLIC_GA_MEASUREMENT_ID } from "@/config/env";
 
 import { ConsentBanner } from "@/app/(site)/components/consent/ConsentBanner";
 import { CookiePreferencesModal } from "@/app/(site)/components/consent/CookiePreferencesModal";
@@ -27,7 +28,7 @@ declare global {
 const ANALYTICS_EXCLUDED_PREFIXES = ["/admin"];
 
 export function AnalyticsClient() {
-  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+  const gaId = NEXT_PUBLIC_GA_MEASUREMENT_ID;
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const routeExcluded = ANALYTICS_EXCLUDED_PREFIXES.some((prefix) => pathname.startsWith(prefix));

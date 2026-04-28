@@ -87,6 +87,26 @@ const WEBP_QUALITY = 82;
 const VIDEO_MAX_WIDTH = 1920;
 const VIDEO_CRF = 26;
 
+function escapeRegExp(s) {
+  return s.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
+}
+
+/**
+ * Replace literal `from` (a /public/... path) with `to` without matching
+ * `from` when it is only a suffix of a longer path.
+ * E.g. "/company/x.png" must not match the middle of "/_optimized/company/x.png"
+ * (naive string replace would turn that into "/_optimized/_optimized/...").
+ * Rule: a match of `from` is allowed only if the previous character is not
+ * a letter, digit, or underscore (so we still catch "/path" in quotes, after =, etc.).
+ */
+function replacePathRefsInText(text, from, to) {
+  if (from === to) return { text, count: 0 };
+  const re = new RegExp(`(?<![A-Za-z0-9_])${escapeRegExp(from)}`, "g");
+  const matchCount = (text.match(re) ?? []).length;
+  if (matchCount === 0) return { text, count: 0 };
+  return { text: text.replace(re, to), count: matchCount };
+}
+
 function fmtBytes(n) {
   if (n == null) return "—";
   const units = ["B", "KB", "MB", "GB"];
@@ -174,16 +194,26 @@ async function optimizeImage(abs) {
     }
     const existing = FORCE ? null : await statIfExists(outAbs);
     if (existing) {
-      return { rel, newRel: outRel, inBytes: stat.size, outBytes: existing.size, kind: "skipped-existing" };
+      return {
+        rel,
+        newRel: outRel,
+        inBytes: stat.size,
+        outBytes: existing.size,
+        kind: "skipped-existing",
+      };
     }
     await ensureParentDir(outAbs);
     const tmp = `${outAbs}.tmp`;
-    await pipeline
-      .png({ compressionLevel: 9, palette: true, quality: 90, effort: 10 })
-      .toFile(tmp);
+    await pipeline.png({ compressionLevel: 9, palette: true, quality: 90, effort: 10 }).toFile(tmp);
     const newStat = await fs.stat(tmp);
     await fs.rename(tmp, outAbs);
-    return { rel, newRel: outRel, inBytes: stat.size, outBytes: newStat.size, kind: "png-reencode" };
+    return {
+      rel,
+      newRel: outRel,
+      inBytes: stat.size,
+      outBytes: newStat.size,
+      kind: "png-reencode",
+    };
   }
 
   const targetExt = toJpg ? ".jpg" : ".webp";
@@ -279,19 +309,32 @@ async function optimizeVideo(abs) {
   const vf = `scale='min(${VIDEO_MAX_WIDTH},iw)':-2:flags=lanczos,format=yuv420p`;
   const args = [
     "-y",
-    "-loglevel", "error",
-    "-i", abs,
-    "-vf", vf,
-    "-c:v", "libx264",
-    "-preset", "slow",
-    "-crf", String(VIDEO_CRF),
-    "-profile:v", "high",
-    "-level", "4.1",
-    "-pix_fmt", "yuv420p",
-    "-movflags", "+faststart",
-    "-c:a", "aac",
-    "-b:a", "96k",
-    "-ac", "2",
+    "-loglevel",
+    "error",
+    "-i",
+    abs,
+    "-vf",
+    vf,
+    "-c:v",
+    "libx264",
+    "-preset",
+    "slow",
+    "-crf",
+    String(VIDEO_CRF),
+    "-profile:v",
+    "high",
+    "-level",
+    "4.1",
+    "-pix_fmt",
+    "yuv420p",
+    "-movflags",
+    "+faststart",
+    "-c:a",
+    "aac",
+    "-b:a",
+    "96k",
+    "-ac",
+    "2",
     tmp,
   ];
   await runFfmpeg(args);
@@ -318,7 +361,8 @@ async function* walkSource(dir) {
         entry.name === "node_modules" ||
         entry.name === ".next" ||
         entry.name === ".git" ||
-        (abs === OUT_DIR || abs.startsWith(`${OUT_DIR}${path.sep}`)) ||
+        abs === OUT_DIR ||
+        abs.startsWith(`${OUT_DIR}${path.sep}`) ||
         // Never rewrite the optimizer itself. It stores canonical policy paths.
         (dir === ROOT && entry.name === "scripts")
       ) {
@@ -342,8 +386,17 @@ async function rewriteSourceReferences(renames) {
   pairs.sort((a, b) => b.rel.length - a.rel.length);
 
   const REWRITE_EXT = new Set([
-    ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs",
-    ".css", ".md", ".mdx", ".json", ".webmanifest",
+    ".ts",
+    ".tsx",
+    ".js",
+    ".jsx",
+    ".mjs",
+    ".cjs",
+    ".css",
+    ".md",
+    ".mdx",
+    ".json",
+    ".webmanifest",
   ]);
 
   let filesTouched = 0;
@@ -361,11 +414,10 @@ async function rewriteSourceReferences(renames) {
     let updated = text;
     let fileHits = 0;
     for (const { rel, newRel } of pairs) {
-      if (!updated.includes(rel)) continue;
-      // Count + replace. Use split/join for exact literal replacement.
-      const parts = updated.split(rel);
-      fileHits += parts.length - 1;
-      updated = parts.join(newRel);
+      const { text: after, count } = replacePathRefsInText(updated, rel, newRel);
+      if (count === 0) continue;
+      fileHits += count;
+      updated = after;
     }
     if (fileHits > 0 && updated !== text) {
       if (!DRY_RUN) await fs.writeFile(abs, updated, "utf8");
@@ -388,9 +440,13 @@ async function main() {
   console.log(`  output dir:  ${OUT_DIR}`);
   console.log(`  mode:        ${DRY_RUN ? "DRY-RUN" : "WRITE"}`);
   console.log(`  overwrite:   ${FORCE ? "on (--force)" : "off (existing outputs are skipped)"}`);
-  console.log(`  img target:  max ${IMAGE_MAX_WIDTH}px | WebP q=${WEBP_QUALITY} | OG JPG q=${JPG_QUALITY} mozjpeg | PNG palette+q90`);
+  console.log(
+    `  img target:  max ${IMAGE_MAX_WIDTH}px | WebP q=${WEBP_QUALITY} | OG JPG q=${JPG_QUALITY} mozjpeg | PNG palette+q90`,
+  );
   console.log(`  video tgt:   H.264 crf=${VIDEO_CRF} max ${VIDEO_MAX_WIDTH}px +faststart, AAC 96k`);
-  console.log(`  og-policy:   ${PNG_OUTPUT_PATHS.size} PNG (transparency/favicon) + ${JPG_OUTPUT_PATHS.size} JPG (crawler-safe)`);
+  console.log(
+    `  og-policy:   ${PNG_OUTPUT_PATHS.size} PNG (transparency/favicon) + ${JPG_OUTPUT_PATHS.size} JPG (crawler-safe)`,
+  );
   console.log("");
 
   const imgResults = [];
@@ -418,13 +474,15 @@ async function main() {
         }
       } else if (ext === ".mp4") {
         if (SKIP_VIDEOS) continue;
-        console.log(`  MP4…  ${relPublic(abs)}  (transcoding…)`);
+        console.log(`  MP4…  ${relFromPublic(abs)}  (transcoding…)`);
         const r = await optimizeVideo(abs);
         if (r) {
           vidResults.push(r);
           const savings =
             r.outBytes != null ? ` (${fmtBytes(r.inBytes)}→${fmtBytes(r.outBytes)})` : "";
-          console.log(`  MP4✓  ${r.rel}${savings} ${r.kind === "mp4-skipped-already-small" ? "[kept original]" : ""}`);
+          console.log(
+            `  MP4✓  ${r.rel}${savings} ${r.kind === "mp4-skipped-already-small" ? "[kept original]" : ""}`,
+          );
         }
       }
     } catch (err) {
@@ -440,8 +498,12 @@ async function main() {
 
   console.log("");
   console.log("Summary:");
-  console.log(`  Images:  ${imgResults.length} files, ${fmtBytes(totalInImg)} → ${fmtBytes(totalOutImg)}  (saved ${fmtBytes(totalInImg - totalOutImg)})`);
-  console.log(`  Videos:  ${vidResults.length} files, ${fmtBytes(totalInVid)} → ${fmtBytes(totalOutVid)}  (saved ${fmtBytes(totalInVid - totalOutVid)})`);
+  console.log(
+    `  Images:  ${imgResults.length} files, ${fmtBytes(totalInImg)} → ${fmtBytes(totalOutImg)}  (saved ${fmtBytes(totalInImg - totalOutImg)})`,
+  );
+  console.log(
+    `  Videos:  ${vidResults.length} files, ${fmtBytes(totalInVid)} → ${fmtBytes(totalOutVid)}  (saved ${fmtBytes(totalInVid - totalOutVid)})`,
+  );
   console.log(`  Total saved: ${fmtBytes(totalInImg + totalInVid - totalOutImg - totalOutVid)}`);
 
   // Rewrite code references for renamed files (png/jpg -> webp).
