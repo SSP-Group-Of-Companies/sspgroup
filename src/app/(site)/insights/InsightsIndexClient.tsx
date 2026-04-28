@@ -893,12 +893,30 @@ export default function InsightsIndexClient({
                           href={insightPath(p.slug)}
                           className="block cursor-pointer rounded-2xl border border-[color:var(--color-border-light)]/80 bg-white p-3 transition hover:bg-[color:var(--color-surface-0-light)]"
                         >
-                          <div className="line-clamp-2 text-xs font-semibold text-[color:var(--color-text-light)]">
-                            {p.title}
-                          </div>
-                          <div className="mt-2 flex items-center justify-between text-[11px] text-[color:var(--color-subtle-light)]">
-                            <span>{fmtDate(p.publishedAt)}</span>
-                            <span>{p.readTimeMins ?? 5} min</span>
+                          <div className="flex items-start gap-3">
+                            <div className="relative aspect-[4/3] w-20 shrink-0 overflow-hidden rounded-xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-1-light)]">
+                              {p.coverImage?.url ? (
+                                <CardImage
+                                  src={p.coverImage.url}
+                                  alt={p.coverImage.alt || p.title}
+                                  fill
+                                  className="object-cover"
+                                  sizes="80px"
+                                />
+                              ) : (
+                                <div className="absolute inset-0 bg-[linear-gradient(to_bottom_right,var(--color-brand-50),var(--color-surface-0-light),var(--color-surface-1-light))]" />
+                              )}
+                            </div>
+
+                            <div className="min-w-0">
+                              <div className="line-clamp-2 text-sm font-semibold text-[color:var(--color-text-light)]">
+                                {p.title}
+                              </div>
+                              <div className="mt-1 flex items-center justify-between gap-2 text-[11px] text-[color:var(--color-subtle-light)]">
+                                <span>{fmtDate(p.publishedAt)}</span>
+                                <span>{p.readTimeMins ?? 5} min</span>
+                              </div>
+                            </div>
                           </div>
                         </Link>
                       ))}

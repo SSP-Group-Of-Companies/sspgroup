@@ -22,6 +22,7 @@ import JobPostingSidebar from "./JobPostingSidebar";
 import { AlertTriangle, Briefcase, CheckCircle2, ExternalLink } from "lucide-react";
 import { getAllowedJobActions } from "@/lib/utils/jobs/jobStatusTransitions";
 import BlockNoteSkeleton from "@/components/blocknote/BlockNoteSkeleton";
+import SocialShareControls from "@/components/social/SocialShareControls";
 
 const BlockNote = dynamic(() => import("@/components/blocknote/BlockNote"), {
   ssr: false,
@@ -572,6 +573,15 @@ export default function JobEditor(props: Props) {
                 <div className="hidden lg:block">
                   <ChangePill saving={saving} isDirty={isDirty} />
                 </div>
+
+                {props.previewUrl ? (
+                  <SocialShareControls
+                    compact
+                    variant="admin"
+                    url={props.previewUrl}
+                    title={title || props.headerTitle}
+                  />
+                ) : null}
 
                 {props.previewUrl ? (
                   <SoftButton

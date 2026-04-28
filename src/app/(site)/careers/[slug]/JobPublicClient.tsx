@@ -35,6 +35,7 @@ import dynamic from "next/dynamic";
 import BlockNoteSkeleton from "@/components/blocknote/BlockNoteSkeleton";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { CardImage } from "@/components/media/CardImage";
+import SocialShareControls from "@/components/social/SocialShareControls";
 
 const BlockNote = dynamic(() => import("@/components/blocknote/BlockNote"), {
   ssr: false,
@@ -558,6 +559,12 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                     {job.summary}
                   </div>
                 ) : null}
+
+                <SocialShareControls
+                  url={`/careers/${encodeURIComponent(slug)}`}
+                  title={job.title || "Job opening at SSP Group"}
+                  className="mt-5"
+                />
               </div>
             </div>
 

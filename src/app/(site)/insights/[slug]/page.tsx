@@ -34,6 +34,13 @@ type RelatedPostListItem = Pick<
   bannerImage?: IBlogPost["bannerImage"];
 };
 
+type BlogCategoryListItem = {
+  id: string;
+  name: string;
+  slug: string;
+  postCount?: number;
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -61,7 +68,9 @@ export async function generateMetadata({
         url: toAbsoluteUrl(canonicalPath),
         images: [ogImageAbsolute],
         publishedTime: toMetadataDate(post?.publishedAt ?? post?.createdAt ?? undefined),
-        modifiedTime: toMetadataDate(post?.updatedAt ?? post?.publishedAt ?? post?.createdAt ?? undefined),
+        modifiedTime: toMetadataDate(
+          post?.updatedAt ?? post?.publishedAt ?? post?.createdAt ?? undefined,
+        ),
       },
       twitter: {
         card: "summary_large_image",
@@ -102,31 +111,66 @@ export default async function InsightsPostPage({ params }: { params: Promise<{ s
     `/api/v1/blog/${encodeURIComponent(slug)}/comments?page=1&pageSize=${COMMENTS_PAGE_SIZE}&sortBy=createdAt&sortDir=desc`,
   );
 
-  const firstCategoryId =
-    Array.isArray(post?.categoryIds) && post.categoryIds.length
-      ? String(post.categoryIds[0])
-      : null;
+  const categoryIds = Array.isArray(post?.categoryIds)
+    ? Array.from(new Set(post.categoryIds.map((id) => String(id)).filter(Boolean)))
+    : [];
 
   const relatedPromise = (async () => {
-    if (!firstCategoryId) return { data: { items: [] as RelatedPostListItem[] } };
+    if (!categoryIds.length) return { data: { items: [] as RelatedPostListItem[] } };
 
-    const qs = new URLSearchParams();
-    qs.set("page", "1");
-    qs.set("limit", "6");
-    qs.set("sortBy", "newest");
-    qs.set("categoryId", firstCategoryId);
-
-    const res = await ssrApiFetch<{ data: { items: RelatedPostListItem[]; meta: BlogCommentMeta } }>(
-      `/api/v1/blog?${qs.toString()}`,
+    const responses = await Promise.all(
+      categoryIds.map(async (categoryId) => {
+        const qs = new URLSearchParams();
+        qs.set("page", "1");
+        qs.set("limit", "6");
+        qs.set("sortBy", "newest");
+        qs.set("categoryId", categoryId);
+        return ssrApiFetch<{
+          data: { items: RelatedPostListItem[]; meta: BlogCommentMeta };
+        }>(`/api/v1/blog?${qs.toString()}`);
+      }),
     );
 
-    const items = (res?.data?.items ?? [])
-      .filter((p) => p?.slug && p.slug !== slug)
+    const byId = new Map<
+      string,
+      { item: RelatedPostListItem; overlapCount: number; publishedAtTs: number }
+    >();
+
+    for (const res of responses) {
+      for (const p of res?.data?.items ?? []) {
+        if (!p?.slug || p.slug === slug) continue;
+        const key = String(p.id ?? p.slug);
+        const publishedAtTs = p?.publishedAt ? new Date(p.publishedAt).getTime() || 0 : 0;
+        const prev = byId.get(key);
+        if (prev) {
+          prev.overlapCount += 1;
+          if (publishedAtTs > prev.publishedAtTs) prev.publishedAtTs = publishedAtTs;
+          continue;
+        }
+        byId.set(key, { item: p, overlapCount: 1, publishedAtTs });
+      }
+    }
+
+    const items = Array.from(byId.values())
+      .sort((a, b) => {
+        if (b.overlapCount !== a.overlapCount) return b.overlapCount - a.overlapCount;
+        return b.publishedAtTs - a.publishedAtTs;
+      })
+      .map((x) => x.item)
       .slice(0, 3);
+
     return { data: { items } };
   })();
 
-  const [commentsRes, relatedRes] = await Promise.all([commentsPromise, relatedPromise]);
+  const categoriesPromise = ssrApiFetch<{ data: BlogCategoryListItem[] }>(
+    "/api/v1/blog/categories",
+  );
+
+  const [commentsRes, relatedRes, categoriesRes] = await Promise.all([
+    commentsPromise,
+    relatedPromise,
+    categoriesPromise,
+  ]);
 
   return (
     <>
@@ -137,6 +181,7 @@ export default async function InsightsPostPage({ params }: { params: Promise<{ s
         initialComments={commentsRes.data.items}
         initialCommentsMeta={commentsRes.data.meta}
         initialRelated={relatedRes.data.items}
+        initialCategories={categoriesRes.data}
       />
     </>
   );

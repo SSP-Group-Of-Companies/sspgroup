@@ -16,6 +16,7 @@ import { useAdminTheme } from "@/app/(admin)/components/theme/AdminThemeProvider
 
 import { Checkbox } from "@/app/(admin)/components/ui/Checkbox";
 import { SoftButton, IconButton } from "@/app/(admin)/components/ui/Buttons";
+import SocialShareControls from "@/components/social/SocialShareControls";
 
 import {
   AdminListBulkBar,
@@ -72,10 +73,14 @@ function statusPill(status: string, isDark: boolean) {
 
 function RowMenu({
   busy,
+  isPublished,
+  onTogglePublish,
   onArchive,
   onDelete,
 }: {
   busy: boolean;
+  isPublished: boolean;
+  onTogglePublish: () => void;
   onArchive: () => void;
   onDelete: () => void;
 }) {
@@ -113,6 +118,29 @@ function RowMenu({
           )}
           role="menu"
         >
+          <button
+            type="button"
+            disabled={busy}
+            onClick={() => {
+              setOpen(false);
+              onTogglePublish();
+            }}
+            className={cn(
+              "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
+              "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
+            )}
+            role="menuitem"
+          >
+            {isPublished ? (
+              <Download className="h-4 w-4 text-amber-500" />
+            ) : (
+              <Upload className="h-4 w-4 text-emerald-500" />
+            )}
+            {isPublished ? "Unpublish" : "Publish"}
+          </button>
+
+          <div className="h-px bg-[var(--dash-border)]" />
+
           <button
             type="button"
             disabled={busy}
@@ -361,36 +389,6 @@ export default function AdminBlogListClient({
 
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-2">
-                        <SoftButton
-                          disabled={busy || filters.isPending || actionPending}
-                          onClick={() => {
-                            if (isPublished) {
-                              requestConfirm({
-                                tone: "danger",
-                                title: "Unpublish this post?",
-                                description:
-                                  "This will remove it from the public blog until published again.",
-                                confirmLabel: "Unpublish",
-                                action: async () => {
-                                  await adminUnpublishPost(id);
-                                },
-                              });
-                            } else {
-                              run(async () => {
-                                await adminPublishPost(id, null);
-                              });
-                            }
-                          }}
-                          icon={
-                            isPublished ? (
-                              <Download className="h-4 w-4" />
-                            ) : (
-                              <Upload className="h-4 w-4" />
-                            )
-                          }
-                          label={isPublished ? "Unpublish" : "Publish"}
-                        />
-
                         <IconButton
                           title="Edit"
                           disabled={busy || filters.isPending || actionPending}
@@ -409,8 +407,44 @@ export default function AdminBlogListClient({
                           <Eye className="h-4 w-4" />
                         </IconButton>
 
+                        <SocialShareControls
+                          compact
+                          variant="admin"
+                          url={
+                            isPublished
+                              ? `/insights/${encodeURIComponent(String(p.slug))}`
+                              : `/admin/blog/${encodeURIComponent(id)}`
+                          }
+                          title={p.title || "Blog post"}
+                        />
+
                         <RowMenu
                           busy={busy || filters.isPending}
+                          isPublished={isPublished}
+                          onTogglePublish={() => {
+                            if (isPublished) {
+                              requestConfirm({
+                                tone: "danger",
+                                title: "Unpublish this post?",
+                                description:
+                                  "This will remove it from the public blog until published again.",
+                                confirmLabel: "Unpublish",
+                                action: async () => {
+                                  await adminUnpublishPost(id);
+                                },
+                              });
+                            } else {
+                              requestConfirm({
+                                title: "Publish this post?",
+                                description:
+                                  "This will make the post publicly visible on the blog.",
+                                confirmLabel: "Publish",
+                                action: async () => {
+                                  await adminPublishPost(id, null);
+                                },
+                              });
+                            }
+                          }}
                           onArchive={() =>
                             requestConfirm({
                               tone: "danger",

@@ -7,6 +7,7 @@ import { cn } from "@/lib/cn";
 import { useAdminTheme } from "@/app/(admin)/components/theme/AdminThemeProvider";
 import { Checkbox } from "@/app/(admin)/components/ui/Checkbox";
 import { SoftButton, IconButton } from "@/app/(admin)/components/ui/Buttons";
+import SocialShareControls from "@/components/social/SocialShareControls";
 
 import {
   AdminListBulkBar,
@@ -90,15 +91,23 @@ function formatEnumLabel(v?: string) {
 
 function RowMenu({
   busy,
+  canPublish,
+  canClose,
   canArchive,
   canUnarchive,
+  onPublish,
+  onClose,
   onArchive,
   onUnarchive,
   onDelete,
 }: {
   busy: boolean;
+  canPublish: boolean;
+  canClose: boolean;
   canArchive: boolean;
   canUnarchive: boolean;
+  onPublish: () => void;
+  onClose: () => void;
   onArchive: () => void;
   onUnarchive: () => void;
   onDelete: () => void;
@@ -137,6 +146,50 @@ function RowMenu({
           )}
           role="menu"
         >
+          {canPublish ? (
+            <>
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => {
+                  setOpen(false);
+                  onPublish();
+                }}
+                className={cn(
+                  "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
+                  "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
+                )}
+                role="menuitem"
+              >
+                <Upload className="h-4 w-4 text-emerald-500" />
+                Publish
+              </button>
+              <div className="h-px bg-[var(--dash-border)]" />
+            </>
+          ) : null}
+
+          {canClose ? (
+            <>
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => {
+                  setOpen(false);
+                  onClose();
+                }}
+                className={cn(
+                  "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
+                  "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
+                )}
+                role="menuitem"
+              >
+                <Ban className="h-4 w-4 text-rose-500" />
+                Close
+              </button>
+              <div className="h-px bg-[var(--dash-border)]" />
+            </>
+          ) : null}
+
           {canArchive ? (
             <>
               <button
@@ -448,33 +501,6 @@ export default function AdminJobsListClient({
 
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-2">
-                        {showPublish ? (
-                          <SoftButton
-                            disabled={pending}
-                            onClick={() => run(async () => adminPublishJob(id, null))}
-                            icon={<Upload className="h-4 w-4" />}
-                            label="Publish"
-                          />
-                        ) : null}
-
-                        {showClose ? (
-                          <SoftButton
-                            disabled={pending}
-                            onClick={() =>
-                              requestConfirm({
-                                tone: "danger",
-                                title: "Close this job posting?",
-                                description:
-                                  "This will mark the posting as closed to new applicants.",
-                                confirmLabel: "Close",
-                                action: async () => adminCloseJob(id),
-                              })
-                            }
-                            icon={<Ban className="h-4 w-4" />}
-                            label="Close"
-                          />
-                        ) : null}
-
                         <SoftButton
                           disabled={pending}
                           onClick={() => router.push(`/admin/jobs/${id}/applications`)}
@@ -506,10 +532,42 @@ export default function AdminJobsListClient({
                           )}
                         </IconButton>
 
+                        <SocialShareControls
+                          compact
+                          variant="admin"
+                          url={
+                            canPublicPreview
+                              ? `/careers/${encodeURIComponent(String(j.slug))}`
+                              : `/admin/jobs/${encodeURIComponent(id)}`
+                          }
+                          title={j.title || "Job posting"}
+                        />
+
                         <RowMenu
                           busy={pending}
+                          canPublish={showPublish}
+                          canClose={showClose}
                           canArchive={canArchive}
                           canUnarchive={canUnarchive}
+                          onPublish={() =>
+                            requestConfirm({
+                              title: "Publish this job posting?",
+                              description:
+                                "This will make the posting visible on the public careers page.",
+                              confirmLabel: "Publish",
+                              action: async () => adminPublishJob(id, null),
+                            })
+                          }
+                          onClose={() =>
+                            requestConfirm({
+                              tone: "danger",
+                              title: "Close this job posting?",
+                              description:
+                                "This will mark the posting as closed to new applicants.",
+                              confirmLabel: "Close",
+                              action: async () => adminCloseJob(id),
+                            })
+                          }
                           onArchive={() =>
                             requestConfirm({
                               tone: "danger",

@@ -10,6 +10,8 @@ import { Calendar, Clock, User2, ChevronLeft, ChevronRight } from "lucide-react"
 import { FOCUS_RING_DARK } from "@/app/(site)/company/faqs/_components/faqStyles";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
+import { CardImage } from "@/components/media/CardImage";
+import SocialShareControls from "@/components/social/SocialShareControls";
 import { cn } from "@/lib/cn";
 import {
   publicCountView,
@@ -42,12 +44,14 @@ export default function InsightsPostClient({
   initialPost,
   initialComments,
   initialRelated = [],
+  initialCategories = [],
   initialCommentsMeta,
 }: {
   slug: string;
   initialPost: any;
   initialComments: any[];
   initialRelated?: any[];
+  initialCategories?: Array<{ id: string; name: string; slug: string; postCount?: number }>;
   // If your SSR page isn’t passing this yet, we still work (we’ll fetch meta on mount).
   initialCommentsMeta?: any;
 }) {
@@ -70,6 +74,9 @@ export default function InsightsPostClient({
 
   // ----- RELATED -----
   const [related, setRelated] = React.useState<any[]>(initialRelated ?? []);
+  const [categories, setCategories] = React.useState<
+    Array<{ id: string; name: string; slug: string; postCount?: number }>
+  >(initialCategories ?? []);
 
   // ----- COMMENT FORM -----
   const [name, setName] = React.useState("");
@@ -146,28 +153,70 @@ export default function InsightsPostClient({
     }
   }
 
-  // Fallback: if SSR didn’t pass related, fetch by category (first category)
+  // Fallback: if SSR didn’t pass related, fetch by all categories and keep posts
+  // that match at least one category (rank by overlap count, then recency).
   React.useEffect(() => {
     async function run() {
       if (related?.length) return;
-      const catId = (initialPost?.categoryIds ?? [])?.[0];
-      if (!catId) return;
+      const categoryIds: string[] = Array.from(
+        new Set((initialPost?.categoryIds ?? []).map((id: any) => String(id)).filter(Boolean)),
+      );
+      if (!categoryIds.length) return;
 
-      const qs = new URLSearchParams({
-        page: "1",
-        limit: "6",
-        sortBy: "newest",
-        categoryId: String(catId),
-      });
+      const responses = await Promise.all(
+        categoryIds.map(async (categoryId) => {
+          const qs = new URLSearchParams({
+            page: "1",
+            limit: "6",
+            sortBy: "newest",
+            categoryId,
+          });
+          const res = await fetch(`/api/v1/blog?${qs.toString()}`);
+          if (!res.ok) return null;
+          return res.json().catch(() => null);
+        }),
+      );
 
-      const res = await fetch(`/api/v1/blog?${qs.toString()}`);
-      if (!res.ok) return;
-      const json = await res.json();
-      const items = (json?.data?.items ?? []).filter((p: any) => p?.slug && p.slug !== slug);
-      setRelated(items.slice(0, 3));
+      const byId = new Map<string, { item: any; overlapCount: number; publishedAtTs: number }>();
+
+      for (const json of responses) {
+        for (const p of json?.data?.items ?? []) {
+          if (!p?.slug || p.slug === slug) continue;
+          const key = String(p.id ?? p.slug);
+          const publishedAtTs = p?.publishedAt ? new Date(p.publishedAt).getTime() || 0 : 0;
+          const prev = byId.get(key);
+          if (prev) {
+            prev.overlapCount += 1;
+            if (publishedAtTs > prev.publishedAtTs) prev.publishedAtTs = publishedAtTs;
+            continue;
+          }
+          byId.set(key, { item: p, overlapCount: 1, publishedAtTs });
+        }
+      }
+
+      const items = Array.from(byId.values())
+        .sort((a, b) => {
+          if (b.overlapCount !== a.overlapCount) return b.overlapCount - a.overlapCount;
+          return b.publishedAtTs - a.publishedAtTs;
+        })
+        .map((x) => x.item)
+        .slice(0, 3);
+
+      setRelated(items);
     }
     run();
-  }, [slug]); // keep as you had
+  }, [initialPost?.categoryIds, related?.length, slug]);
+
+  React.useEffect(() => {
+    async function loadCategories() {
+      if (categories?.length) return;
+      const res = await fetch("/api/v1/blog/categories", { cache: "no-store" });
+      if (!res.ok) return;
+      const json = await res.json();
+      setCategories(json?.data ?? []);
+    }
+    loadCategories().catch(() => {});
+  }, [categories]);
 
   // Count views once per tab session
   React.useEffect(() => {
@@ -248,6 +297,12 @@ export default function InsightsPostClient({
               </span>
             ) : null}
           </div>
+
+          <SocialShareControls
+            url={`/insights/${encodeURIComponent(slug)}`}
+            title={initialPost?.title || "Insight from SSP Group"}
+            className="mt-5 [&_a]:border-white/35 [&_a]:bg-white/10 [&_a]:text-white [&_a:hover]:bg-white/20 [&_button]:border-white/35 [&_button]:bg-white/10 [&_button]:text-white [&_button:hover]:bg-white/20 [&>span]:text-white/85"
+          />
         </Container>
       </div>
 
@@ -458,31 +513,105 @@ export default function InsightsPostClient({
               </div>
 
               {/* Related */}
-              <div className="site-card-surface rounded-[28px] p-5">
-                <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
+              <div className="rounded-3xl border border-[color:var(--color-border-light)]/80 bg-white/90 p-4 shadow-[0_10px_28px_rgba(12,23,38,0.07)]">
+                <h3 className="text-sm font-semibold text-[color:var(--color-text-light)]">
                   Related Insights
-                </div>
+                </h3>
 
-                <div className="mt-3 divide-y divide-[color:var(--color-border-light)]">
+                <div className="mt-3 space-y-3">
                   {related.slice(0, 3).map((p: any) => (
                     <Link
                       key={String(p.id)}
                       href={`/insights/${encodeURIComponent(p.slug)}`}
-                      className="block py-3 transition hover:opacity-80"
+                      className="block cursor-pointer rounded-2xl border border-[color:var(--color-border-light)]/80 bg-white p-3 transition hover:bg-[color:var(--color-surface-0-light)]"
                     >
-                      <div className="line-clamp-2 text-sm font-semibold text-[color:var(--color-text-light)]">
-                        {p.title}
-                      </div>
-                      <div className="mt-1 text-xs text-[color:var(--color-muted-light)]">
-                        {fmtDate(p.publishedAt)}
+                      <div className="flex items-start gap-3">
+                        <div className="relative aspect-[4/3] w-20 shrink-0 overflow-hidden rounded-xl border border-[color:var(--color-border-light)] bg-[color:var(--color-surface-1-light)]">
+                          {p?.coverImage?.url || p?.bannerImage?.url ? (
+                            <CardImage
+                              src={p?.coverImage?.url ?? p?.bannerImage?.url}
+                              alt={
+                                p?.coverImage?.alt ||
+                                p?.bannerImage?.alt ||
+                                p.title ||
+                                "Related insight"
+                              }
+                              fill
+                              className="object-cover"
+                              sizes="80px"
+                            />
+                          ) : (
+                            <div className="absolute inset-0 bg-[linear-gradient(to_bottom_right,var(--color-brand-50),var(--color-surface-0-light),var(--color-surface-1-light))]" />
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="line-clamp-2 text-sm font-semibold text-[color:var(--color-text-light)]">
+                            {p.title}
+                          </div>
+                          <div className="mt-1 flex items-center justify-between gap-2 text-[11px] text-[color:var(--color-subtle-light)]">
+                            <span>{fmtDate(p.publishedAt)}</span>
+                            <span>{p?.readTimeMins ?? p?.readingTimeMinutes ?? 5} min</span>
+                          </div>
+                        </div>
                       </div>
                     </Link>
                   ))}
                   {!related.length ? (
-                    <div className="py-3 text-sm text-[color:var(--color-muted-light)]">
+                    <div className="text-sm text-[color:var(--color-muted-light)]">
                       No related insights.
                     </div>
                   ) : null}
+                </div>
+              </div>
+
+              {/* Categories */}
+              <div className="site-card-surface rounded-[28px] p-5">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm font-semibold text-[color:var(--color-text-light)]">
+                    Categories
+                  </div>
+                  <span className="text-[11px] text-[color:var(--color-subtle-light)]">
+                    {categories.length}
+                  </span>
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {categories.length ? (
+                    categories.map((c) => {
+                      const active = (initialPost?.categoryIds ?? []).some(
+                        (id: string) => String(id) === String(c.id),
+                      );
+
+                      return (
+                        <Link
+                          key={c.id}
+                          href={`/insights?categorySlug=${encodeURIComponent(c.slug)}#insights`}
+                          className={cn(
+                            "rounded-full border px-3 py-1 text-xs transition-all duration-200",
+                            active
+                              ? "border-[color:var(--color-brand-600)] bg-[color:var(--color-brand-600)] text-white ring-2 ring-[color:var(--color-brand-600)]/15"
+                              : "border-[color:var(--color-border-light)] bg-white text-[color:var(--color-text-light)] hover:border-[color:var(--color-brand-200)] hover:bg-[color:var(--color-brand-50)] hover:text-[color:var(--color-brand-700)]",
+                          )}
+                        >
+                          {c.name}
+                          {typeof c.postCount === "number" ? (
+                            <span
+                              className={cn(
+                                "ml-2 text-[10px]",
+                                active ? "text-white/80" : "text-[color:var(--color-muted-light)]",
+                              )}
+                            >
+                              {c.postCount}
+                            </span>
+                          ) : null}
+                        </Link>
+                      );
+                    })
+                  ) : (
+                    <div className="text-sm text-[color:var(--color-muted-light)]">
+                      No categories available.
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

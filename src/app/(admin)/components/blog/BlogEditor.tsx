@@ -21,6 +21,7 @@ import { ConfirmModal, type ConfirmTone } from "@/app/(admin)/components/ui/Conf
 import { SoftButton } from "@/app/(admin)/components/ui/Buttons";
 import { ExternalLink, FileText, AlertTriangle, CheckCircle2 } from "lucide-react";
 import BlockNoteSkeleton from "@/components/blocknote/BlockNoteSkeleton";
+import SocialShareControls from "@/components/social/SocialShareControls";
 
 const BlockNote = dynamic(() => import("@/components/blocknote/BlockNote"), {
   ssr: false,
@@ -476,6 +477,15 @@ export default function BlogEditor(props: Props) {
                 <div className="hidden lg:block">
                   <ChangePill saving={saving} isDirty={isDirty} />
                 </div>
+
+                {props.previewUrl ? (
+                  <SocialShareControls
+                    compact
+                    variant="admin"
+                    url={props.previewUrl}
+                    title={title || props.headerTitle}
+                  />
+                ) : null}
 
                 {props.previewUrl ? (
                   <SoftButton
