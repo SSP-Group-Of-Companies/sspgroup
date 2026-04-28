@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { SectionSignalEyebrow } from "@/app/(site)/components/ui/SectionSignalEyebrow";
 import { trackCtaClick } from "@/lib/analytics/cta";
@@ -35,14 +34,7 @@ const HERO_CAPTION_BODY =
   "We combines asset-based capacity, cross-border control, and accountable communication in one operating model.";
 
 export function AboutSspHero({ data }: { data: HeroData }) {
-  const sectionRef = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion() ?? false;
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-  const visualTranslateY = useTransform(scrollYProgress, [0, 0.5, 1], [14, 0, -18]);
-  const visualScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.02, 1, 1.03]);
 
   const stagger: Variants = reduceMotion
     ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
@@ -54,7 +46,6 @@ export function AboutSspHero({ data }: { data: HeroData }) {
 
   return (
     <section
-      ref={sectionRef}
       id="about-hero"
       aria-labelledby="about-hero-heading"
       className="relative overflow-hidden border-b border-white/6 py-16 sm:py-20 lg:py-24"
@@ -211,7 +202,7 @@ export function AboutSspHero({ data }: { data: HeroData }) {
                     fill
                     priority
                     className="object-cover object-[58%_42%]"
-                    sizes="100vw"
+                    sizes="(max-width: 640px) calc(100vw - 3rem), (max-width: 1023px) 640px, 0px"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/8" />
                 </div>
@@ -225,17 +216,7 @@ export function AboutSspHero({ data }: { data: HeroData }) {
             className="hidden lg:col-span-6 lg:block"
           >
             <div className="relative overflow-hidden rounded-[1.35rem] border border-[color:var(--color-glass-border)] bg-[color:var(--color-glass-bg)] p-2 backdrop-blur-sm">
-              <motion.div
-                className="relative aspect-[4/3] overflow-hidden rounded-[1.1rem]"
-                style={
-                  reduceMotion
-                    ? undefined
-                    : {
-                        y: visualTranslateY,
-                        scale: visualScale,
-                      }
-                }
-              >
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[1.1rem]">
                 <Image
                   src="/_optimized/company/about-hero-ssp.webp"
                   alt="SSP Group logistics terminal and fleet operations"
@@ -245,7 +226,7 @@ export function AboutSspHero({ data }: { data: HeroData }) {
                   sizes="(min-width: 1024px) 46vw, 100vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/5" />
-              </motion.div>
+              </div>
 
               <div className="absolute right-5 bottom-5 left-5 rounded-xl border border-[color:var(--color-glass-border)] bg-black/38 px-[18px] py-3.5 backdrop-blur-sm">
                 <p className="text-[10px] font-semibold tracking-[0.14em] text-white/55 uppercase">
