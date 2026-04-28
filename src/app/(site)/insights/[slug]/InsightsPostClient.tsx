@@ -442,7 +442,7 @@ export default function InsightsPostClient({
                 </div>
 
                 <div className="mt-4 flex items-start gap-3">
-                  <div className="flex h-8 w-20 items-center justify-center rounded-full bg-[color:var(--color-ssp-ink-800)] text-white">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[color:var(--color-ssp-ink-800)] text-white">
                     <User2 className="h-5 w-5" />
                   </div>
                   <div className="min-w-0">
