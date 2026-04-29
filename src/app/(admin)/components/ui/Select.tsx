@@ -326,7 +326,7 @@ export function Select({
                         btnRef.current?.focus();
                       }}
                       className={cn(
-                        "flex w-full cursor-pointer items-center justify-between gap-2 rounded-2xl px-3 py-2 text-left text-sm transition",
+                        "flex w-full cursor-pointer items-center justify-between gap-2 rounded-xl px-3 py-2 text-left text-sm transition",
                         isActive
                           ? "bg-[var(--dash-surface-2)] text-[var(--dash-text)]"
                           : "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]",
@@ -380,7 +380,7 @@ export function Select({
           setOpen((v) => !v);
         }}
         className={cn(
-          "inline-flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded-2xl border px-3 text-sm font-semibold transition",
+          "inline-flex h-10 w-full cursor-pointer items-center justify-between gap-2 rounded-xl border px-3 text-sm font-semibold transition",
           "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
           "hover:bg-[var(--dash-surface-2)]",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",

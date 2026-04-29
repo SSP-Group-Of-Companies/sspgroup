@@ -21,6 +21,7 @@ import {
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 
 import { EEmploymentType, EWorkplaceType, type IJobPosting } from "@/types/jobPosting.types";
+import { formatJobLocationsDisplay } from "@/lib/utils/jobs/jobLocationLabels";
 import { trackCtaClick } from "@/lib/analytics/cta";
 import { Container } from "@/app/(site)/components/layout/Container";
 import { Section } from "@/app/(site)/components/layout/Section";
@@ -1136,9 +1137,7 @@ export default function CareersClient({
                     </div>
                   ) : error && !items.length ? null : items.length ? (
                     items.map((j: any) => {
-                      const loc = Array.isArray(j.locations) ? j.locations : [];
-                      const locLabel =
-                        loc[0]?.label || loc[0]?.city || loc[0]?.region || loc[0]?.country || "—";
+                      const locLabel = formatJobLocationsDisplay(j.locations);
 
                       const empLabel = j.employmentType ? pillLabel(String(j.employmentType)) : "—";
                       const workLabel = j.workplaceType ? pillLabel(String(j.workplaceType)) : "—";

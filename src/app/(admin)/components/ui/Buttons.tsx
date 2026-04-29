@@ -25,7 +25,7 @@ export function SoftButton({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "inline-flex h-10 cursor-pointer items-center gap-2 rounded-2xl border px-3 text-sm font-semibold transition",
+        "inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl border px-3 text-sm font-semibold transition",
         "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
         "shadow-[var(--dash-shadow)]/18",
         "hover:bg-[var(--dash-surface-2)]",
@@ -63,7 +63,7 @@ export function IconButton({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-2xl border transition",
+        "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border transition",
         "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
         "shadow-[var(--dash-shadow)]/15",
         "hover:bg-[var(--dash-surface-2)]",

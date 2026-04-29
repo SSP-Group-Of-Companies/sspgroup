@@ -30,17 +30,16 @@ type ShareOption = {
   icon: React.ComponentType<{ className?: string }>;
 };
 
-function normalizeShareUrl(input: string) {
+function normalizeShareUrl(input: string, browserLocation?: { href: string; origin: string }) {
   const value = String(input || "").trim();
   if (!value) {
-    if (typeof window !== "undefined") return window.location.href;
+    if (browserLocation) return browserLocation.href;
     return "";
   }
   if (/^https?:\/\//i.test(value)) return value;
-  if (typeof window !== "undefined") {
-    return new URL(value, window.location.origin).toString();
+  if (browserLocation) {
+    return new URL(value, browserLocation.origin).toString();
   }
-  // SSR fallback: keep relative path as-is until hydrated on client.
   if (value.startsWith("/")) return value;
   return `/${value}`;
 }
@@ -91,6 +90,7 @@ function buildShareOptions(url: string, title: string): ShareOption[] {
 
 function CopyButton({ url, variant }: { url: string; variant: Variant }) {
   const [copied, setCopied] = React.useState(false);
+  const isSite = variant === "site";
 
   return (
     <button
@@ -105,15 +105,16 @@ function CopyButton({ url, variant }: { url: string; variant: Variant }) {
         }
       }}
       className={cn(
-        "inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-xl border px-3 text-xs font-semibold transition",
+        "inline-flex cursor-pointer items-center justify-center border transition",
         variant === "admin"
-          ? "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)] shadow-[var(--dash-shadow)]/15 hover:bg-[var(--dash-surface-2)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]"
-          : "border-[color:var(--color-border-light)] bg-white text-[color:var(--color-text-light)] hover:bg-[color:var(--color-surface-0-light)]",
+          ? "h-9 gap-1.5 rounded-xl border-[var(--dash-border)] bg-[var(--dash-surface)] px-3 text-xs font-semibold text-[var(--dash-text)] shadow-[var(--dash-shadow)]/15 hover:bg-[var(--dash-surface-2)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]"
+          : "h-8 w-8 rounded-full border-[color:var(--color-footer-social-border)] text-[color:var(--color-footer-link)] hover:text-[color:var(--color-menu-accent)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-menu-accent)] focus-visible:ring-offset-2 active:text-[color:var(--color-menu-accent)]",
       )}
       aria-label="Copy share link"
+      title={copied ? "Copied" : "Copy share link"}
     >
-      <Link2 className="h-3.5 w-3.5" />
-      {copied ? "Copied" : "Copy"}
+      <Link2 className={cn("h-4 w-4", copied && "text-[color:var(--color-brand-600)]")} />
+      {!isSite ? (copied ? "Copied" : "Copy") : null}
     </button>
   );
 }
@@ -125,13 +126,24 @@ export default function SocialShareControls({
   variant = "site",
   className,
 }: Props) {
-  const absoluteUrl = React.useMemo(() => normalizeShareUrl(url), [url]);
+  const initialShareUrl = React.useMemo(() => normalizeShareUrl(url), [url]);
+  const [shareUrl, setShareUrl] = React.useState(initialShareUrl);
   const options = React.useMemo(
-    () => buildShareOptions(absoluteUrl, title || "Check this out"),
-    [absoluteUrl, title],
+    () => buildShareOptions(shareUrl, title || "Check this out"),
+    [shareUrl, title],
   );
   const [open, setOpen] = React.useState(false);
   const menuRef = React.useRef<HTMLDivElement | null>(null);
+  const [copied, setCopied] = React.useState(false);
+
+  React.useEffect(() => {
+    setShareUrl(
+      normalizeShareUrl(url, {
+        href: window.location.href,
+        origin: window.location.origin,
+      }),
+    );
+  }, [url]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -171,43 +183,62 @@ export default function SocialShareControls({
         {open ? (
           <div
             className={cn(
-              "absolute right-0 z-[100] mt-2 w-52 overflow-hidden rounded-2xl border p-2 shadow-xl",
+              "absolute top-1/2 right-full z-[100] mr-2 -translate-y-1/2",
+              "flex max-w-[min(70vw,34rem)] items-center overflow-x-auto border p-1 shadow-xl",
               variant === "admin"
-                ? "border-[var(--dash-border)] bg-[var(--dash-surface)]"
-                : "border-[color:var(--color-border-light)] bg-white",
+                ? "rounded-xl border-[var(--dash-border)] bg-[var(--dash-surface)]"
+                : "rounded-full border-[color:var(--color-border-light)] bg-white",
             )}
           >
-            <div className="mb-2 px-2 text-[11px] font-semibold tracking-wide text-[color:var(--color-subtle-light)] uppercase">
-              Share
-            </div>
-
-            <div className="space-y-1">
-              {options.map((opt) => {
-                const Icon = opt.icon;
-                return (
+            {options.map((opt, idx) => {
+              const Icon = opt.icon;
+              return (
+                <React.Fragment key={opt.id}>
+                  {idx > 0 ? <div className="mx-0.5 h-4 w-px bg-[var(--dash-border)]" /> : null}
                   <a
-                    key={opt.id}
                     href={opt.href}
                     title={`Share on ${opt.label}`}
                     target={opt.id === "email" ? undefined : "_blank"}
                     rel={opt.id === "email" ? undefined : "noopener noreferrer"}
                     className={cn(
-                      "flex items-center gap-2 rounded-lg px-2 py-1.5 text-xs font-medium transition",
+                      "inline-flex h-7 w-7 items-center justify-center transition",
                       variant === "admin"
-                        ? "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]"
-                        : "text-[color:var(--color-text-light)] hover:bg-[color:var(--color-surface-0-light)]",
+                        ? "rounded-lg text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]"
+                        : "rounded-full text-[color:var(--color-text-light)] hover:bg-[color:var(--color-surface-0-light)]",
                     )}
+                    aria-label={`Share on ${opt.label}`}
                   >
                     <Icon className="h-3.5 w-3.5" />
-                    {opt.label}
                   </a>
-                );
-              })}
-            </div>
+                </React.Fragment>
+              );
+            })}
 
-            <div className="mt-2">
-              <CopyButton url={absoluteUrl} variant={variant} />
-            </div>
+            <div className="mx-0.5 h-4 w-px bg-[var(--dash-border)]" />
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  await navigator.clipboard.writeText(shareUrl);
+                  setCopied(true);
+                  window.setTimeout(() => setCopied(false), 1200);
+                } catch {
+                  setCopied(false);
+                }
+              }}
+              className={cn(
+                "inline-flex h-7 w-7 cursor-pointer items-center justify-center transition",
+                variant === "admin"
+                  ? "rounded-lg text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]"
+                  : "rounded-full text-[color:var(--color-text-light)] hover:bg-[color:var(--color-surface-0-light)]",
+              )}
+              title="Copy share link"
+              aria-label={copied ? "Copied" : "Copy share link"}
+            >
+              <Link2
+                className={cn("h-3.5 w-3.5", copied && "text-[color:var(--color-brand-600)]")}
+              />
+            </button>
           </div>
         ) : null}
       </div>
@@ -216,16 +247,9 @@ export default function SocialShareControls({
 
   return (
     <div className={cn("flex flex-wrap items-center gap-2", className)}>
-      <span
-        className={cn(
-          "text-xs font-medium",
-          variant === "admin"
-            ? "text-[var(--dash-muted)]"
-            : "text-[color:var(--color-muted-light)]",
-        )}
-      >
-        Share:
-      </span>
+      {variant === "admin" ? (
+        <span className="text-xs font-medium text-[var(--dash-muted)]">Share:</span>
+      ) : null}
 
       {options.map((opt) => {
         const Icon = opt.icon;
@@ -237,19 +261,20 @@ export default function SocialShareControls({
             target={opt.id === "email" ? undefined : "_blank"}
             rel={opt.id === "email" ? undefined : "noopener noreferrer"}
             className={cn(
-              "inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border px-3 text-xs font-semibold transition",
+              "inline-flex items-center justify-center border transition",
               variant === "admin"
-                ? "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)] shadow-[var(--dash-shadow)]/15 hover:bg-[var(--dash-surface-2)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]"
-                : "border-[color:var(--color-border-light)] bg-white text-[color:var(--color-text-light)] hover:bg-[color:var(--color-surface-0-light)]",
+                ? "h-9 gap-1.5 rounded-xl border-[var(--dash-border)] bg-[var(--dash-surface)] px-3 text-xs font-semibold text-[var(--dash-text)] shadow-[var(--dash-shadow)]/15 hover:bg-[var(--dash-surface-2)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]"
+                : "h-8 w-8 rounded-full border-[color:var(--color-footer-social-border)] text-[color:var(--color-footer-link)] hover:text-[color:var(--color-menu-accent)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-menu-accent)] focus-visible:ring-offset-2 active:text-[color:var(--color-menu-accent)]",
             )}
+            aria-label={`Share on ${opt.label}`}
           >
-            <Icon className="h-3.5 w-3.5" />
-            {opt.label}
+            <Icon className={cn(variant === "admin" ? "h-3.5 w-3.5" : "h-4 w-4")} />
+            {variant === "admin" ? opt.label : null}
           </a>
         );
       })}
 
-      <CopyButton url={absoluteUrl} variant={variant} />
+      <CopyButton url={shareUrl} variant={variant} />
     </div>
   );
 }

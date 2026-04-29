@@ -50,7 +50,7 @@ export default function AdminLoginClient({
         <div className="rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
           <button
             onClick={() => signIn("azure-ad", { callbackUrl: nextUrl })}
-            className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-gray-900 px-4 py-3 font-semibold text-white transition hover:bg-gray-800 active:scale-[0.99]"
+            className="group flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-gray-900 px-4 py-3 font-semibold text-white transition hover:bg-gray-800 active:scale-[0.99]"
           >
             <ShieldCheck className="h-5 w-5" />
             <span>Sign in with Microsoft</span>

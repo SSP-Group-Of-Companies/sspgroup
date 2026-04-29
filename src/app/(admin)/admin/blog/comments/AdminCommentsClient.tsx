@@ -66,7 +66,7 @@ export default function AdminCommentsClient({
               <div className="flex items-center gap-3 text-2xl font-semibold tracking-tight text-[var(--dash-text)]">
                 <span
                   className={cn(
-                    "inline-flex h-11 w-11 items-center justify-center rounded-2xl border",
+                    "inline-flex h-11 w-11 items-center justify-center rounded-xl border",
                     "border-[var(--dash-border)] bg-[var(--dash-accent-muted)] text-[var(--dash-accent)]",
                   )}
                 >
@@ -83,7 +83,7 @@ export default function AdminCommentsClient({
           {err ? (
             <div
               className={cn(
-                "mt-4 rounded-2xl border px-4 py-3 text-sm",
+                "mt-4 rounded-xl border px-4 py-3 text-sm",
                 isDark
                   ? "border-red-500/25 bg-red-600/15 text-red-50"
                   : "border-red-200 bg-red-50 text-red-900",
@@ -164,7 +164,7 @@ export default function AdminCommentsClient({
                     disabled={!!busyId}
                     onClick={() => del(String(c.id))}
                     className={cn(
-                      "inline-flex cursor-pointer items-center justify-center gap-2 rounded-2xl border px-3.5 py-2 text-sm font-semibold transition",
+                      "inline-flex cursor-pointer items-center justify-center gap-2 rounded-xl border px-3.5 py-2 text-sm font-semibold transition",
                       isDark
                         ? "border-red-500/25 bg-red-600/15 text-red-50 hover:bg-red-600/20"
                         : "border-red-200 bg-red-50 text-red-900 hover:bg-red-100",
@@ -233,7 +233,7 @@ export default function AdminCommentsClient({
                 router.push(`/admin/blog/comments?page=${Math.max(1, (initialMeta.page ?? 1) - 1)}`)
               }
               className={cn(
-                "cursor-pointer rounded-2xl border px-3.5 py-2 text-sm font-semibold transition",
+                "cursor-pointer rounded-xl border px-3.5 py-2 text-sm font-semibold transition",
                 "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
                 "hover:bg-[var(--dash-surface-2)] disabled:cursor-not-allowed disabled:opacity-50",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
@@ -248,7 +248,7 @@ export default function AdminCommentsClient({
                 router.push(`/admin/blog/comments?page=${(initialMeta.page ?? 1) + 1}`)
               }
               className={cn(
-                "cursor-pointer rounded-2xl border px-3.5 py-2 text-sm font-semibold transition",
+                "cursor-pointer rounded-xl border px-3.5 py-2 text-sm font-semibold transition",
                 "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
                 "hover:bg-[var(--dash-surface-2)] disabled:cursor-not-allowed disabled:opacity-50",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",

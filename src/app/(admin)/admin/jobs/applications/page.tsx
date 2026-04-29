@@ -36,7 +36,7 @@ export default async function AdminJobApplicationsPage({
 
     return (
       <div className="min-h-[60vh] w-full px-6 py-10">
-        <div className="mx-auto max-w-2xl rounded-2xl border border-white/10 bg-white/5 p-6 shadow-sm">
+        <div className="mx-auto max-w-2xl rounded-xl border border-white/10 bg-white/5 p-6 shadow-sm">
           <h1 className="text-lg font-semibold text-white">Couldn’t load job applications</h1>
           <p className="mt-2 text-sm text-white/70">{message}</p>
         </div>

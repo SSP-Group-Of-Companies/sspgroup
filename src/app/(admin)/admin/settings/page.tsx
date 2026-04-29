@@ -27,7 +27,7 @@ export default function AdminSettingsPage() {
       <header className="flex items-start gap-4">
         <div
           className={cn(
-            "flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--dash-border)]",
+            "flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--dash-border)]",
             "bg-[var(--dash-accent-muted)] text-[var(--dash-accent)]",
           )}
         >
@@ -60,7 +60,7 @@ export default function AdminSettingsPage() {
                 type="button"
                 onClick={() => setMode(m)}
                 className={cn(
-                  "group flex cursor-pointer items-center gap-4 rounded-2xl border p-4 text-left transition",
+                  "group flex cursor-pointer items-center gap-4 rounded-xl border p-4 text-left transition",
                   "border-[var(--dash-border)] bg-[var(--dash-surface-2)]/40",
                   "hover:bg-[var(--dash-surface-2)]",
                   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
@@ -70,7 +70,7 @@ export default function AdminSettingsPage() {
               >
                 <div
                   className={cn(
-                    "flex h-12 w-12 items-center justify-center rounded-2xl border",
+                    "flex h-12 w-12 items-center justify-center rounded-xl border",
                     "border-[var(--dash-border)] bg-[var(--dash-surface)]",
                   )}
                 >

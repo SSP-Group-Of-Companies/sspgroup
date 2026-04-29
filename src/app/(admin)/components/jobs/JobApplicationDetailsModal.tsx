@@ -185,7 +185,7 @@ export function JobApplicationDetailsModal({
               <div className="flex min-w-0 items-start gap-3">
                 <div
                   className={cn(
-                    "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border",
+                    "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border",
                     "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
                   )}
                 >
@@ -237,7 +237,7 @@ export function JobApplicationDetailsModal({
                 type="button"
                 onClick={onClose}
                 className={cn(
-                  "cursor-pointer rounded-2xl p-2 transition",
+                  "cursor-pointer rounded-xl p-2 transition",
                   "text-[var(--dash-muted)] hover:bg-[var(--dash-surface-2)] hover:text-[var(--dash-text)]",
                 )}
                 aria-label="Close"
@@ -312,7 +312,7 @@ export function JobApplicationDetailsModal({
 
                 <Section title="Cover letter" icon={<FileText className="h-4 w-4" />}>
                   {application.coverLetter ? (
-                    <div className="rounded-2xl border border-[var(--dash-border)] bg-[var(--dash-surface)] px-3 py-2 text-sm break-words whitespace-pre-wrap">
+                    <div className="rounded-xl border border-[var(--dash-border)] bg-[var(--dash-surface)] px-3 py-2 text-sm break-words whitespace-pre-wrap">
                       {application.coverLetter}
                     </div>
                   ) : (
@@ -383,7 +383,7 @@ export function JobApplicationDetailsModal({
                       }}
                       disabled={!application?.resume?.s3Key}
                       className={cn(
-                        "inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-2xl border px-3 text-sm font-semibold transition",
+                        "inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-xl border px-3 text-sm font-semibold transition",
                         "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
                         "hover:bg-[var(--dash-surface-2)]",
                         "disabled:cursor-not-allowed disabled:opacity-50",
@@ -402,7 +402,7 @@ export function JobApplicationDetailsModal({
                       }}
                       disabled={!application?.photo?.s3Key}
                       className={cn(
-                        "inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-2xl border px-3 text-sm font-semibold transition",
+                        "inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-xl border px-3 text-sm font-semibold transition",
                         "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
                         "hover:bg-[var(--dash-surface-2)]",
                         "disabled:cursor-not-allowed disabled:opacity-50",
@@ -427,7 +427,7 @@ export function JobApplicationDetailsModal({
               type="button"
               onClick={onClose}
               className={cn(
-                "inline-flex h-9 cursor-pointer items-center justify-center rounded-2xl border px-3 text-sm font-semibold transition",
+                "inline-flex h-9 cursor-pointer items-center justify-center rounded-xl border px-3 text-sm font-semibold transition",
                 "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
                 "hover:bg-[var(--dash-surface-2)]",
               )}

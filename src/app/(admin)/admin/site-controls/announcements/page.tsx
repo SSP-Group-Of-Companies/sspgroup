@@ -1,17 +1,17 @@
-import { Layers } from "lucide-react";
+import { Megaphone } from "lucide-react";
 
 import { getAdminSiteSettings } from "@/lib/siteSettings/getAdminSiteSettings";
 import { sspPageMetadata } from "@/lib/utils/blog/metadata";
 import { cn } from "@/lib/cn";
 
-import SiteModalsSettingsClient from "./SiteModalsSettingsClient";
+import SiteAnnouncementSettingsClient from "./SiteAnnouncementSettingsClient";
 
 export const metadata = sspPageMetadata({
-  title: "Admin - Site modals",
-  description: "Control marketing modals on the public website.",
+  title: "Admin - Site announcements",
+  description: "Control the public site announcement banner.",
 });
 
-export default async function AdminSiteModalsPage() {
+export default async function AdminSiteAnnouncementsPage() {
   const settings = await getAdminSiteSettings();
 
   return (
@@ -23,18 +23,18 @@ export default async function AdminSiteModalsPage() {
             "bg-[var(--dash-accent-muted)] text-[var(--dash-accent)]",
           )}
         >
-          <Layers className="h-5 w-5" aria-hidden />
+          <Megaphone className="h-5 w-5" aria-hidden />
         </div>
 
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Modals</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Announcements</h1>
           <p className="mt-1 text-sm text-[var(--dash-muted)]">
-            Decide which promotional overlays appear on the marketing site.
+            Configure a dismissible message banner below the public navbar.
           </p>
         </div>
       </header>
 
-      <SiteModalsSettingsClient initialSettings={settings} />
+      <SiteAnnouncementSettingsClient initialSettings={settings} />
     </div>
   );
 }

@@ -557,7 +557,7 @@ export default function JobEditor(props: Props) {
               <div className="flex min-w-0 items-center gap-3">
                 <div
                   className={cn(
-                    "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border",
+                    "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border",
                     "border-[var(--dash-border)] bg-[var(--dash-accent-muted)] text-[var(--dash-accent)]",
                   )}
                 >
@@ -608,7 +608,7 @@ export default function JobEditor(props: Props) {
               <div
                 ref={successRef}
                 className={cn(
-                  "mt-4 flex items-start gap-2 rounded-2xl border px-4 py-3 text-sm",
+                  "mt-4 flex items-start gap-2 rounded-xl border px-4 py-3 text-sm",
                   isDark
                     ? "border-emerald-400/25 bg-emerald-500/15 text-emerald-50"
                     : "border-emerald-200 bg-emerald-50 text-emerald-900",
@@ -624,7 +624,7 @@ export default function JobEditor(props: Props) {
                 ref={errorRef}
                 tabIndex={-1}
                 className={cn(
-                  "mt-4 flex items-start gap-2 rounded-2xl border px-4 py-3 text-sm",
+                  "mt-4 flex items-start gap-2 rounded-xl border px-4 py-3 text-sm",
                   isDark
                     ? "border-red-500/25 bg-red-600/15 text-red-50"
                     : "border-red-200 bg-red-50 text-red-900",

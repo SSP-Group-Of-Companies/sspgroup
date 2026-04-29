@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 
 import type { IJobPosting } from "@/types/jobPosting.types";
+import { formatJobLocationsDisplay } from "@/lib/utils/jobs/jobLocationLabels";
 import type { IFileAsset } from "@/types/shared.types";
 import { EFileMimeType, IMAGE_MIME_TYPES } from "@/types/shared.types";
 import { ES3Namespace, ES3Folder } from "@/types/aws.types";
@@ -118,8 +119,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
 
   const slug = String(job?.slug || "unknown");
 
-  const loc = Array.isArray(job.locations) ? job.locations : [];
-  const locLabel = loc[0]?.label || loc[0]?.city || loc[0]?.region || loc[0]?.country || "—";
+  const locLabel = formatJobLocationsDisplay(job.locations);
   const typeLabel = [job.workplaceType, job.employmentType].filter(Boolean).join(" • ") || "—";
   const compLabel = fmtComp(job.compensation);
 

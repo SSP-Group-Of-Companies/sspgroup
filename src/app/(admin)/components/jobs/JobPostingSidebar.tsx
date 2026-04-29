@@ -104,7 +104,7 @@ type Props = {
 };
 
 const inputBase = cn(
-  "w-full rounded-2xl border px-3 py-2 text-sm outline-none transition",
+  "w-full rounded-xl border px-3 py-2 text-sm outline-none transition",
   "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)] placeholder:text-[var(--dash-muted)]",
   "focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
 );
@@ -194,7 +194,7 @@ export default function JobPostingSidebar(props: Props) {
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              "inline-flex h-10 w-10 items-center justify-center rounded-2xl border",
+              "inline-flex h-10 w-10 items-center justify-center rounded-xl border",
               "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
             )}
           >
@@ -376,7 +376,7 @@ export default function JobPostingSidebar(props: Props) {
                   disabled={props.saving}
                   onClick={props.onRemoveCover}
                   className={cn(
-                    "inline-flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border px-3 text-sm font-semibold transition",
+                    "inline-flex h-10 w-full cursor-pointer items-center justify-center gap-2 rounded-xl border px-3 text-sm font-semibold transition",
                     "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]",
                     "disabled:cursor-not-allowed disabled:opacity-50",
                     "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
@@ -404,7 +404,7 @@ export default function JobPostingSidebar(props: Props) {
                   </div>
                   <div
                     className={cn(
-                      "shrink-0 rounded-2xl border px-3 py-1.5 text-xs shadow-[var(--dash-shadow)]/12 transition",
+                      "shrink-0 rounded-xl border px-3 py-1.5 text-xs shadow-[var(--dash-shadow)]/12 transition",
                       "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)] group-hover:bg-[var(--dash-surface-2)]",
                     )}
                   >
@@ -520,7 +520,7 @@ export default function JobPostingSidebar(props: Props) {
               disabled={props.saving}
               onClick={props.onPrimary}
               className={cn(
-                "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border px-3 py-2 text-sm font-semibold transition",
+                "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold transition",
                 "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
                 "disabled:cursor-not-allowed disabled:opacity-50",
@@ -537,7 +537,7 @@ export default function JobPostingSidebar(props: Props) {
                 disabled={props.saving}
                 onClick={props.onSecondary}
                 className={cn(
-                  "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold transition",
+                  "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition",
                   "bg-[var(--dash-red)] text-white hover:brightness-110",
                   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
                   "disabled:cursor-not-allowed disabled:opacity-50",
@@ -549,7 +549,7 @@ export default function JobPostingSidebar(props: Props) {
             ) : (
               <div
                 className={cn(
-                  "rounded-2xl border px-3 py-2 text-xs",
+                  "rounded-xl border px-3 py-2 text-xs",
                   "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-muted)]",
                 )}
               >
@@ -571,7 +571,7 @@ export default function JobPostingSidebar(props: Props) {
                   disabled={props.saving || props.dangerDisabled}
                   onClick={() => props.onDanger?.()}
                   className={cn(
-                    "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold transition",
+                    "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition",
                     isDark
                       ? "border border-red-500/25 bg-red-600/15 text-red-50 hover:bg-red-600/20"
                       : "border border-red-200 bg-red-50 text-red-900 hover:bg-red-100",
@@ -589,7 +589,7 @@ export default function JobPostingSidebar(props: Props) {
             ) : null}
 
             {props.status ? (
-              <div className="mt-3 rounded-2xl border border-[var(--dash-border)] bg-[var(--dash-bg)] px-3 py-2 text-[12px] text-[var(--dash-muted)]">
+              <div className="mt-3 rounded-xl border border-[var(--dash-border)] bg-[var(--dash-bg)] px-3 py-2 text-[12px] text-[var(--dash-muted)]">
                 Current status:{" "}
                 <span className="font-semibold text-[var(--dash-text)]">{props.status}</span>
               </div>

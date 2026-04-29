@@ -18,9 +18,11 @@ import {
   AdminListResultsHint,
   AdminListSearchInput,
   AdminListTableShell,
+  AdminRowMenu,
+  type AdminRowMenuAction,
   useAdminConfirmRun,
 } from "@/app/(admin)/components/admin-list";
-import { Plus, Pencil, Save, X, Trash2, MoreHorizontal, Hash } from "lucide-react";
+import { Plus, Save, X, Hash } from "lucide-react";
 
 function DashIconButton({
   title,
@@ -36,7 +38,7 @@ function DashIconButton({
   variant?: "neutral" | "danger";
 }) {
   const base = cn(
-    "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-2xl border transition",
+    "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl border transition",
     "shadow-[var(--dash-shadow)]/10",
     "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
     "hover:bg-[var(--dash-surface-2)]",
@@ -88,7 +90,7 @@ function PrimaryActionButton({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "inline-flex h-10 cursor-pointer items-center gap-2 rounded-2xl px-4 text-sm font-semibold transition",
+        "inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl px-4 text-sm font-semibold transition",
         "bg-[var(--dash-red)] text-white hover:brightness-110",
         "shadow-[var(--dash-shadow)]/14",
         "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
@@ -100,88 +102,12 @@ function PrimaryActionButton({
   );
 }
 
-function RowMenu({
-  busy,
-  onRename,
-  onDelete,
-}: {
-  busy: boolean;
-  onRename: () => void;
-  onDelete: () => void;
-}) {
-  const [open, setOpen] = React.useState(false);
-  const ref = React.useRef<HTMLDivElement | null>(null);
-
-  React.useEffect(() => {
-    function onDoc(e: MouseEvent) {
-      if (!ref.current) return;
-      if (!ref.current.contains(e.target as Node)) setOpen(false);
-    }
-    document.addEventListener("mousedown", onDoc);
-    return () => document.removeEventListener("mousedown", onDoc);
-  }, []);
-
-  return (
-    <div ref={ref} className="relative">
-      <DashIconButton title="More actions" disabled={busy} onClick={() => setOpen((v) => !v)}>
-        <MoreHorizontal className="h-4 w-4" />
-      </DashIconButton>
-
-      {open ? (
-        <div
-          className={cn(
-            "absolute right-0 z-[60] mt-2 w-44 overflow-hidden rounded-3xl border",
-            "border-[var(--dash-border)] bg-[var(--dash-surface)] shadow-[var(--dash-shadow)]",
-          )}
-          role="menu"
-        >
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => {
-              setOpen(false);
-              onRename();
-            }}
-            className={cn(
-              "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition",
-              "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:cursor-not-allowed disabled:opacity-50",
-            )}
-            role="menuitem"
-          >
-            <Pencil className="h-4 w-4 text-[var(--dash-muted)]" />
-            Rename
-          </button>
-
-          <div className="h-px bg-[var(--dash-border)]/80" />
-
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => {
-              setOpen(false);
-              onDelete();
-            }}
-            className={cn(
-              "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition",
-              "text-red-500 hover:bg-red-500/10 disabled:cursor-not-allowed disabled:opacity-50",
-            )}
-            role="menuitem"
-          >
-            <Trash2 className="h-4 w-4" />
-            Delete
-          </button>
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
 function TextInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
       className={cn(
-        "w-full rounded-2xl border px-3 py-2 text-sm transition outline-none",
+        "w-full rounded-xl border px-3 py-2 text-sm transition outline-none",
         "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)] placeholder:text-[var(--dash-muted)]",
         "focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
         props.className,
@@ -371,7 +297,7 @@ function Row({
             value={name}
             onChange={(e) => setName(e.target.value)}
             className={cn(
-              "w-full rounded-2xl border px-3 py-2 text-sm transition outline-none",
+              "w-full rounded-xl border px-3 py-2 text-sm transition outline-none",
               "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
               "focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
             )}
@@ -400,7 +326,7 @@ function Row({
                 setEditing(false);
               }}
               className={cn(
-                "inline-flex h-9 cursor-pointer items-center gap-2 rounded-2xl px-3 text-sm font-semibold transition",
+                "inline-flex h-9 cursor-pointer items-center gap-2 rounded-xl px-3 text-sm font-semibold transition",
                 "bg-[var(--dash-red)] text-white hover:brightness-110",
                 "shadow-[var(--dash-shadow)]/12",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
@@ -451,11 +377,20 @@ function Row({
 
       <td className="px-4 py-3">
         <div className="flex items-center justify-end gap-2">
-          <DashIconButton title="Rename" disabled={busy} onClick={() => setEditing(true)}>
-            <Pencil className="h-4 w-4" />
-          </DashIconButton>
-
-          <RowMenu busy={busy} onRename={() => setEditing(true)} onDelete={() => onDelete(id)} />
+          <AdminRowMenu
+            busy={busy}
+            actions={
+              [
+                { key: "rename", label: "Rename", onClick: () => setEditing(true) },
+                {
+                  key: "delete",
+                  label: "Delete",
+                  danger: true,
+                  onClick: () => onDelete(id),
+                },
+              ] satisfies AdminRowMenuAction[]
+            }
+          />
         </div>
       </td>
     </tr>

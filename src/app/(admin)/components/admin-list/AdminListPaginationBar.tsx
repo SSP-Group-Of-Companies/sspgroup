@@ -32,7 +32,7 @@ export function AdminListPaginationBar({
           disabled={!hasPrev || disabled}
           onClick={onPrev}
           className={cn(
-            "cursor-pointer rounded-2xl border px-3 py-2 text-sm font-semibold transition disabled:cursor-not-allowed",
+            "cursor-pointer rounded-xl border px-3 py-2 text-sm font-semibold transition disabled:cursor-not-allowed",
             "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
             "hover:bg-[var(--dash-surface-2)]",
             "disabled:cursor-not-allowed disabled:opacity-50",
@@ -46,7 +46,7 @@ export function AdminListPaginationBar({
           disabled={!hasNext || disabled}
           onClick={onNext}
           className={cn(
-            "cursor-pointer rounded-2xl border px-3 py-2 text-sm font-semibold transition disabled:cursor-not-allowed",
+            "cursor-pointer rounded-xl border px-3 py-2 text-sm font-semibold transition disabled:cursor-not-allowed",
             "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)]",
             "hover:bg-[var(--dash-surface-2)]",
             "disabled:cursor-not-allowed disabled:opacity-50",

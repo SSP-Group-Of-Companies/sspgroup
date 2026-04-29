@@ -4,37 +4,18 @@ import * as React from "react";
 import { Layers } from "lucide-react";
 
 import { cn } from "@/lib/cn";
-import {
-  adminFetchSiteSettings,
-  adminPatchSiteSettings,
-} from "@/lib/utils/siteSettings/adminSiteSettingsApi";
+import { adminPatchSiteSettings } from "@/lib/utils/siteSettings/adminSiteSettingsApi";
+import type { AdminSiteSettingsSnapshot } from "@/lib/siteSettings/getAdminSiteSettings";
 
-export default function SiteModalsSettingsClient() {
-  const [enabled, setEnabled] = React.useState(false);
-  const [updatedAt, setUpdatedAt] = React.useState<string | null>(null);
-  const [loading, setLoading] = React.useState(true);
+export default function SiteModalsSettingsClient({
+  initialSettings,
+}: {
+  initialSettings: AdminSiteSettingsSnapshot;
+}) {
+  const [enabled, setEnabled] = React.useState(initialSettings.driverHiringModalEnabled);
+  const [updatedAt, setUpdatedAt] = React.useState<string | null>(initialSettings.updatedAt);
   const [saving, setSaving] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-
-  React.useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const s = await adminFetchSiteSettings();
-        if (!cancelled) {
-          setEnabled(s.driverHiringModalEnabled);
-          setUpdatedAt(s.updatedAt);
-        }
-      } catch (e) {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load settings");
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   async function onToggle(next: boolean) {
     setError(null);
@@ -61,7 +42,7 @@ export default function SiteModalsSettingsClient() {
         <div className="flex gap-4">
           <div
             className={cn(
-              "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[var(--dash-border)]",
+              "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[var(--dash-border)]",
               "bg-[var(--dash-accent-muted)] text-[var(--dash-accent)]",
             )}
           >
@@ -83,13 +64,13 @@ export default function SiteModalsSettingsClient() {
 
         <div className="flex shrink-0 items-center gap-3 sm:pt-1">
           <span className="text-sm font-medium text-[var(--dash-muted)]">
-            {loading ? "Loading…" : enabled ? "On" : "Off"}
+            {enabled ? "On" : "Off"}
           </span>
           <button
             type="button"
             role="switch"
             aria-checked={enabled}
-            disabled={loading || saving}
+            disabled={saving}
             onClick={() => onToggle(!enabled)}
             className={cn(
               "relative inline-flex h-8 w-11 shrink-0 cursor-pointer rounded-full border border-[var(--dash-border)] transition-colors duration-300 ease-out",
@@ -97,7 +78,7 @@ export default function SiteModalsSettingsClient() {
               enabled
                 ? "bg-[var(--dash-accent)] shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_-1px_1px_rgba(0,0,0,0.12)]"
                 : "bg-[var(--dash-surface-2)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.08)] dark:shadow-[inset_0_2px_4px_rgba(0,0,0,0.25)]",
-              (loading || saving) && "cursor-not-allowed opacity-60",
+              saving && "cursor-not-allowed opacity-60",
             )}
           >
             <span className="sr-only">Toggle driver hiring modal</span>

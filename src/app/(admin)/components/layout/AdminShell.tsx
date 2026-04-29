@@ -13,6 +13,7 @@ import {
   FileText,
   FolderTree,
   Layers,
+  Megaphone,
   MessageSquareText,
   PlusCircle,
   Settings,
@@ -85,7 +86,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           href: "/admin/site-controls",
           label: "Site Controls",
           Icon: SlidersHorizontal,
-          children: [{ href: "/admin/site-controls/modals", label: "Modals", Icon: Layers }],
+          children: [
+            { href: "/admin/site-controls/announcements", label: "Announcements", Icon: Megaphone },
+            { href: "/admin/site-controls/modals", label: "Modals", Icon: Layers },
+          ],
         },
       ],
     },
@@ -129,7 +133,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               const Parent = (
                 <div
                   className={cn(
-                    "flex items-center gap-3 rounded-2xl px-3 py-2 text-sm font-medium transition",
+                    "flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition",
                     active
                       ? "bg-[var(--dash-accent-soft)] text-[var(--dash-text)]"
                       : "text-[var(--dash-muted)] hover:bg-[var(--dash-surface-2)] hover:text-[var(--dash-text)]",
@@ -154,7 +158,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                     <button
                       type="button"
                       onClick={() => toggleExpand(item.href)}
-                      className="w-full cursor-pointer rounded-2xl text-left outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]"
+                      className="w-full cursor-pointer rounded-xl text-left outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]"
                       aria-expanded={open}
                       title={item.label}
                     >
@@ -186,7 +190,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                             const childActive =
                               child.href === "/admin/blog" ||
                               child.href === "/admin/jobs" ||
-                              child.href === "/admin/site-controls/modals"
+                              child.href === "/admin/site-controls/modals" ||
+                              child.href === "/admin/site-controls/announcements"
                                 ? isExactPath(pathname, child.href)
                                 : isPathActive(pathname, child.href);
 
@@ -250,7 +255,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
               type="button"
               onClick={() => setSidebarOpen((v) => !v)}
               className={cn(
-                "inline-flex cursor-pointer items-center justify-center rounded-full border shadow-sm xl:hidden",
+                "inline-flex cursor-pointer items-center justify-center rounded-xl border shadow-sm xl:hidden",
                 "h-9 w-9",
                 "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-muted)]",
                 "hover:bg-[var(--dash-surface-2)]",
@@ -335,7 +340,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 </div>
                 <button
                   type="button"
-                  className="cursor-pointer rounded-full p-2 text-[var(--dash-muted)] hover:bg-[var(--dash-surface-2)]"
+                  className="cursor-pointer rounded-xl p-2 text-[var(--dash-muted)] hover:bg-[var(--dash-surface-2)]"
                   onClick={() => setSidebarOpen(false)}
                   aria-label="Close sidebar"
                 >

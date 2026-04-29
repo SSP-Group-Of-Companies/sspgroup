@@ -19,7 +19,7 @@ import {
 } from "@/config/header";
 import { focusRingNav, focusRingMenu, NAV_DESKTOP_MEDIA_QUERY } from "./constants";
 import { X, Menu, ChevronRight, ArrowUpRight, ArrowLeft } from "lucide-react";
-import { lockViewportScroll, measureHeaderBottom } from "./overlay";
+import { lockViewportScroll, measureMainbarBottom } from "./overlay";
 
 const ROLLOUT_DURATION_S = 0.32;
 
@@ -75,7 +75,7 @@ function MobileRowLink({
         tone === "familySection"
           ? "text-[11px] font-semibold tracking-[0.1em] text-[color:var(--color-menu-accent)] uppercase"
           : tone === "solutionLeaf"
-            ? "text-[13px] font-normal leading-6 text-[color:var(--color-footer-link)] hover:text-[color:var(--color-footer-link-hover)]"
+            ? "text-[13px] leading-6 font-normal text-[color:var(--color-footer-link)] hover:text-[color:var(--color-footer-link-hover)]"
             : "text-[14px] font-medium text-[color:var(--color-menu-title)]",
         "[-webkit-tap-highlight-color:transparent] hover:bg-[color:var(--color-menu-hover)]",
         focusRingMenu,
@@ -198,15 +198,27 @@ export function MobileNav() {
   const [open, setOpen] = React.useState(false);
   const [activePanel, setActivePanel] = React.useState<HeaderDropdownKey | null>(null);
   const [direction, setDirection] = React.useState<1 | -1>(1);
-  const [sheetTop, setSheetTop] = React.useState(0);
+  /**
+   * Top inset for the fixed sheet: bottom of `[data-header-mainbar]` (logo row only).
+   * If we used full `[data-site-header]` bottom, the sheet would start *below* the announcement
+   * bar and that strip would stay visible on top of the menu — use mainbar so overlay covers it.
+   */
+  const [sheetTop, setSheetTop] = React.useState<number | null>(null);
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
   const reduceMotion = useReducedMotion();
 
+  const measureSheetTop = React.useCallback(() => {
+    return measureMainbarBottom(triggerRef.current);
+  }, []);
+
   React.useLayoutEffect(() => {
-    if (!open) return;
+    if (!open) {
+      setSheetTop(null);
+      return;
+    }
     const measure = () => {
-      const nextTop = measureHeaderBottom(triggerRef.current);
-      setSheetTop((prev) => (Math.abs(prev - nextTop) < 0.5 ? prev : nextTop));
+      const nextTop = measureSheetTop();
+      setSheetTop((prev) => (prev != null && Math.abs(prev - nextTop) < 0.5 ? prev : nextTop));
     };
     const viewport = window.visualViewport;
 
@@ -219,7 +231,7 @@ export function MobileNav() {
       viewport?.removeEventListener("resize", measure);
       viewport?.removeEventListener("scroll", measure);
     };
-  }, [open]);
+  }, [open, measureSheetTop]);
 
   React.useEffect(() => {
     if (!open) return;
@@ -383,10 +395,13 @@ export function MobileNav() {
         <Dialog.Overlay asChild>
           <div
             className={cn(
-              "fixed inset-x-0 bottom-0 z-[69] bg-black/42 lg:hidden",
+              // Above site chrome (`z-[65]`) so dimmer + sheet fully cover scroll region below header
+              "fixed inset-x-0 bottom-0 z-[100] bg-black/42 lg:hidden",
               open ? "pointer-events-auto" : "pointer-events-none",
             )}
-            style={{ top: Math.max(0, sheetTop - 1) }}
+            style={{
+              top: sheetTop != null ? Math.max(0, sheetTop - 1) : 0,
+            }}
             aria-hidden
           />
         </Dialog.Overlay>
@@ -398,10 +413,12 @@ export function MobileNav() {
         >
           <div
             className={cn(
-              "fixed inset-x-0 bottom-0 z-[70] w-full outline-none",
+              "fixed inset-x-0 bottom-0 z-[101] w-full outline-none",
               open ? "pointer-events-auto" : "pointer-events-none",
             )}
-            style={{ top: Math.max(0, sheetTop - 1) }}
+            style={{
+              top: sheetTop != null ? Math.max(0, sheetTop - 1) : 0,
+            }}
             aria-hidden={!open}
           >
             <VisuallyHidden>
@@ -417,14 +434,15 @@ export function MobileNav() {
                     "bg-[color:var(--color-nav-bg)]",
                     "shadow-[0_18px_40px_rgba(2,6,23,0.12)]",
                   )}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
+                  // Do not fade sheet opacity: semi-transparent white lets the announcement bar show through.
+                  initial={{ y: reduceMotion ? 0 : 10 }}
+                  animate={{ y: 0 }}
+                  exit={{ y: reduceMotion ? 0 : 10 }}
                   transition={{
                     duration: reduceMotion ? 0 : ROLLOUT_DURATION_S,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  style={{ willChange: "opacity" }}
+                  style={{ willChange: "transform" }}
                 >
                   <div className="relative flex-1 overflow-hidden">
                     <AnimatePresence initial={false} custom={direction} mode="wait">

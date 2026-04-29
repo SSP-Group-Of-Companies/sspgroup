@@ -27,21 +27,13 @@ import {
   AdminListPageShell,
   AdminListPaginationBar,
   AdminListTableShell,
+  AdminRowMenu,
+  type AdminRowMenuAction,
   useAdminConfirmRun,
   useAdminUrlSyncedFilters,
 } from "@/app/(admin)/components/admin-list";
 
-import {
-  FileText,
-  MoreHorizontal,
-  Pencil,
-  Eye,
-  Upload,
-  Download,
-  Archive,
-  Trash2,
-  X,
-} from "lucide-react";
+import { FileText, Pencil, Eye, Trash2, X } from "lucide-react";
 
 function statusPill(status: string, isDark: boolean) {
   const base =
@@ -68,118 +60,6 @@ function statusPill(status: string, isDark: boolean) {
     isDark
       ? "border-white/10 bg-white/5 text-[var(--dash-muted)]"
       : "border-gray-200 bg-gray-50 text-gray-700",
-  );
-}
-
-function RowMenu({
-  busy,
-  isPublished,
-  onTogglePublish,
-  onArchive,
-  onDelete,
-}: {
-  busy: boolean;
-  isPublished: boolean;
-  onTogglePublish: () => void;
-  onArchive: () => void;
-  onDelete: () => void;
-}) {
-  const [open, setOpen] = React.useState(false);
-  const ref = React.useRef<HTMLDivElement | null>(null);
-
-  React.useEffect(() => {
-    function onDoc(e: MouseEvent) {
-      if (!ref.current) return;
-      if (!ref.current.contains(e.target as Node)) setOpen(false);
-    }
-    document.addEventListener("mousedown", onDoc);
-    return () => document.removeEventListener("mousedown", onDoc);
-  }, []);
-
-  React.useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
-    }
-    if (open) document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open]);
-
-  return (
-    <div ref={ref} className="relative">
-      <IconButton title="More actions" disabled={busy} onClick={() => setOpen((v) => !v)}>
-        <MoreHorizontal className="h-4 w-4" />
-      </IconButton>
-
-      {open ? (
-        <div
-          className={cn(
-            "absolute right-0 z-[95] mt-2 w-52 overflow-hidden rounded-3xl border",
-            "border-[var(--dash-border)] bg-[var(--dash-surface)] shadow-[var(--dash-shadow)]",
-          )}
-          role="menu"
-        >
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => {
-              setOpen(false);
-              onTogglePublish();
-            }}
-            className={cn(
-              "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
-              "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
-            )}
-            role="menuitem"
-          >
-            {isPublished ? (
-              <Download className="h-4 w-4 text-amber-500" />
-            ) : (
-              <Upload className="h-4 w-4 text-emerald-500" />
-            )}
-            {isPublished ? "Unpublish" : "Publish"}
-          </button>
-
-          <div className="h-px bg-[var(--dash-border)]" />
-
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => {
-              setOpen(false);
-              onArchive();
-            }}
-            className={cn(
-              "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
-              "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
-            )}
-            role="menuitem"
-          >
-            <Archive className="h-4 w-4 text-amber-500" />
-            Archive
-          </button>
-
-          <div className="h-px bg-[var(--dash-border)]" />
-
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => {
-              setOpen(false);
-              onDelete();
-            }}
-            className={cn(
-              "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
-              "text-red-600 hover:bg-red-500/10 disabled:opacity-50",
-              "dark:text-red-300",
-            )}
-            role="menuitem"
-          >
-            <Trash2 className="h-4 w-4" />
-            Delete
-          </button>
-        </div>
-      ) : null}
-    </div>
   );
 }
 
@@ -290,7 +170,7 @@ export default function AdminBlogListClient({
                   })
                 }
                 className={cn(
-                  "inline-flex h-10 cursor-pointer items-center gap-2 rounded-2xl border px-3 text-sm font-semibold transition disabled:cursor-not-allowed",
+                  "inline-flex h-10 cursor-pointer items-center gap-2 rounded-xl border px-3 text-sm font-semibold transition disabled:cursor-not-allowed",
                   "focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500/30",
                   "disabled:cursor-not-allowed disabled:opacity-50",
                   isDark
@@ -344,6 +224,66 @@ export default function AdminBlogListClient({
               {items.map((p) => {
                 const id = String(p.id);
                 const isPublished = p.status === EBlogStatus.PUBLISHED;
+
+                const rowMenuActions: AdminRowMenuAction[] = [
+                  {
+                    key: "toggle-publish",
+                    label: isPublished ? "Unpublish" : "Publish",
+                    onClick: () => {
+                      if (isPublished) {
+                        requestConfirm({
+                          tone: "danger",
+                          title: "Unpublish this post?",
+                          description:
+                            "This will remove it from the public blog until published again.",
+                          confirmLabel: "Unpublish",
+                          action: async () => {
+                            await adminUnpublishPost(id);
+                          },
+                        });
+                      } else {
+                        requestConfirm({
+                          title: "Publish this post?",
+                          description: "This will make the post publicly visible on the blog.",
+                          confirmLabel: "Publish",
+                          action: async () => {
+                            await adminPublishPost(id, null);
+                          },
+                        });
+                      }
+                    },
+                  },
+                  {
+                    key: "archive",
+                    label: "Archive",
+                    onClick: () =>
+                      requestConfirm({
+                        tone: "danger",
+                        title: "Archive this post?",
+                        description:
+                          "Archived posts are hidden from the public blog. You can keep it for records.",
+                        confirmLabel: "Archive",
+                        action: async () => {
+                          await adminArchivePost(id);
+                        },
+                      }),
+                  },
+                  {
+                    key: "delete",
+                    label: "Delete",
+                    danger: true,
+                    onClick: () =>
+                      requestConfirm({
+                        tone: "danger",
+                        title: "Delete this post?",
+                        description: "This cannot be undone.",
+                        confirmLabel: "Delete",
+                        action: async () => {
+                          await adminDeletePost(id);
+                        },
+                      }),
+                  },
+                ];
 
                 const authorName = p?.author?.name || p?.author?.email || "—";
                 const reading = p?.readingTimeMinutes != null ? `${p.readingTimeMinutes}m` : "—";
@@ -418,56 +358,9 @@ export default function AdminBlogListClient({
                           title={p.title || "Blog post"}
                         />
 
-                        <RowMenu
-                          busy={busy || filters.isPending}
-                          isPublished={isPublished}
-                          onTogglePublish={() => {
-                            if (isPublished) {
-                              requestConfirm({
-                                tone: "danger",
-                                title: "Unpublish this post?",
-                                description:
-                                  "This will remove it from the public blog until published again.",
-                                confirmLabel: "Unpublish",
-                                action: async () => {
-                                  await adminUnpublishPost(id);
-                                },
-                              });
-                            } else {
-                              requestConfirm({
-                                title: "Publish this post?",
-                                description:
-                                  "This will make the post publicly visible on the blog.",
-                                confirmLabel: "Publish",
-                                action: async () => {
-                                  await adminPublishPost(id, null);
-                                },
-                              });
-                            }
-                          }}
-                          onArchive={() =>
-                            requestConfirm({
-                              tone: "danger",
-                              title: "Archive this post?",
-                              description:
-                                "Archived posts are hidden from the public blog. You can keep it for records.",
-                              confirmLabel: "Archive",
-                              action: async () => {
-                                await adminArchivePost(id);
-                              },
-                            })
-                          }
-                          onDelete={() =>
-                            requestConfirm({
-                              tone: "danger",
-                              title: "Delete this post?",
-                              description: "This cannot be undone.",
-                              confirmLabel: "Delete",
-                              action: async () => {
-                                await adminDeletePost(id);
-                              },
-                            })
-                          }
+                        <AdminRowMenu
+                          busy={busy || filters.isPending || actionPending}
+                          actions={rowMenuActions}
                         />
                       </div>
                     </td>

@@ -24,7 +24,7 @@ export function AdminListPageHeader({
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              "inline-flex h-10 w-10 items-center justify-center rounded-2xl border",
+              "inline-flex h-10 w-10 items-center justify-center rounded-xl border",
               "border-[var(--dash-border)] bg-[var(--dash-accent-muted)] text-[var(--dash-accent)]",
               iconClassName,
             )}

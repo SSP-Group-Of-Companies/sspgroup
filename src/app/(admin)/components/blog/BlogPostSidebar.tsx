@@ -68,7 +68,7 @@ type Props = {
 };
 
 const inputBase = cn(
-  "w-full rounded-2xl border px-3 py-2 text-sm outline-none transition",
+  "w-full rounded-xl border px-3 py-2 text-sm outline-none transition",
   "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)] placeholder:text-[var(--dash-muted)]",
   "focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
 );
@@ -137,7 +137,7 @@ export default function BlogPostSidebar(props: Props) {
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              "inline-flex h-10 w-10 items-center justify-center rounded-2xl border",
+              "inline-flex h-10 w-10 items-center justify-center rounded-xl border",
               "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
             )}
           >
@@ -215,7 +215,7 @@ export default function BlogPostSidebar(props: Props) {
             />
             <div
               className={cn(
-                "mt-2 rounded-2xl border px-3 py-2 text-[12px]",
+                "mt-2 rounded-xl border px-3 py-2 text-[12px]",
                 "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-muted)]",
               )}
             >
@@ -281,7 +281,7 @@ export default function BlogPostSidebar(props: Props) {
                   </div>
                   <div
                     className={cn(
-                      "shrink-0 rounded-2xl border px-3 py-1.5 text-xs shadow-[var(--dash-shadow)]/12 transition",
+                      "shrink-0 rounded-xl border px-3 py-1.5 text-xs shadow-[var(--dash-shadow)]/12 transition",
                       "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)] group-hover:bg-[var(--dash-surface-2)]",
                     )}
                   >
@@ -335,7 +335,7 @@ export default function BlogPostSidebar(props: Props) {
                     <div
                       key={id}
                       className={cn(
-                        "flex items-center gap-2 rounded-2xl px-2.5 py-2 transition",
+                        "flex items-center gap-2 rounded-xl px-2.5 py-2 transition",
                         checked ? "bg-[var(--dash-surface)]" : "hover:bg-[var(--dash-surface-2)]",
                       )}
                     >
@@ -378,7 +378,7 @@ export default function BlogPostSidebar(props: Props) {
               type="button"
               onClick={createCategory}
               className={cn(
-                "inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold transition",
+                "inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition",
                 "bg-[var(--dash-red)] text-white hover:brightness-110",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
               )}
@@ -399,7 +399,7 @@ export default function BlogPostSidebar(props: Props) {
               disabled={props.saving}
               onClick={props.onPrimary}
               className={cn(
-                "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl border px-3 py-2 text-sm font-semibold transition",
+                "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border px-3 py-2 text-sm font-semibold transition",
                 "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
                 "disabled:cursor-not-allowed disabled:opacity-50",
@@ -414,7 +414,7 @@ export default function BlogPostSidebar(props: Props) {
               disabled={props.saving || props.secondaryDisabled}
               onClick={props.onSecondary}
               className={cn(
-                "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold transition",
+                "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition",
                 "bg-[var(--dash-red)] text-white hover:brightness-110",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
                 "disabled:cursor-not-allowed disabled:opacity-50",
@@ -432,7 +432,7 @@ export default function BlogPostSidebar(props: Props) {
                   disabled={props.saving || props.dangerDisabled}
                   onClick={() => props.onDanger?.()}
                   className={cn(
-                    "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl px-3 py-2 text-sm font-semibold transition",
+                    "inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold transition",
                     isDark
                       ? "border border-red-500/25 bg-red-600/15 text-red-50 hover:bg-red-600/20"
                       : "border border-red-200 bg-red-50 text-red-900 hover:bg-red-100",

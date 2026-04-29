@@ -44,7 +44,7 @@ export function ThemeModeSwitcher() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-2xl border transition",
+          "inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border transition",
           "border-[var(--dash-border)] bg-[var(--dash-surface)] text-[var(--dash-text)] shadow-[var(--dash-shadow)]",
           "hover:bg-[var(--dash-surface-2)]",
           "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",

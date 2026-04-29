@@ -13,18 +13,17 @@ import { MobileSearchBubble } from "./header/MobileSearchBubble";
 import { HeaderSearchMode } from "./header/HeaderSearchMode";
 import { HEADER_ACTIONS, HEADER_UTILITY } from "@/config/header";
 import { getPortalLinkRel, getPortalLinkTarget } from "@/lib/portalLinks";
-import { NAV_DESKTOP_MEDIA_QUERY } from "./header/constants";
+import {
+  HEADER_UTILITY_COLLAPSE_SCROLL_Y,
+  HEADER_UTILITY_EXPAND_SCROLL_Y,
+  NAV_DESKTOP_MEDIA_QUERY,
+} from "./header/constants";
 
 const focusRing =
   "focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-nav-ring)] focus-visible:ring-offset-0";
 
 export function SiteHeader() {
   const SEARCH_SHEET_CLOSE_MS = 320;
-  // Keep the hysteresis gap comfortably larger than the utility strip height.
-  // Otherwise, the header-height change at collapse can move `scrollY` back
-  // across the expand threshold and create a visible up/down loop.
-  const UTILITY_COLLAPSE_AT = 96;
-  const UTILITY_EXPAND_AT = 8;
   const [isCondensed, setIsCondensed] = React.useState(false);
   const [scrollStateReady, setScrollStateReady] = React.useState(false);
   const [desktopSearchOpen, setDesktopSearchOpen] = React.useState(false);
@@ -33,17 +32,20 @@ export function SiteHeader() {
   const mobileSearchTriggerRef = React.useRef<HTMLButtonElement | null>(null);
   const desktopSearchTriggerRef = React.useRef<HTMLButtonElement | null>(null);
 
-  const toggleDesktopSearch = React.useCallback((location: string) => {
-    const next = desktopSearchVisible ? !desktopSearchOpen : true;
-    setDesktopSearchVisible(true);
-    setDesktopSearchOpen(next);
-    trackCtaClick({
-      ctaId: next ? "header_utility_search_open" : "header_utility_search_close",
-      location,
-      destination: "site_search_mode",
-      label: next ? "Open site search" : "Close site search",
-    });
-  }, [desktopSearchOpen, desktopSearchVisible]);
+  const toggleDesktopSearch = React.useCallback(
+    (location: string) => {
+      const next = desktopSearchVisible ? !desktopSearchOpen : true;
+      setDesktopSearchVisible(true);
+      setDesktopSearchOpen(next);
+      trackCtaClick({
+        ctaId: next ? "header_utility_search_open" : "header_utility_search_close",
+        location,
+        destination: "site_search_mode",
+        label: next ? "Open site search" : "Close site search",
+      });
+    },
+    [desktopSearchOpen, desktopSearchVisible],
+  );
 
   React.useLayoutEffect(() => {
     let rafId: number | null = null;
@@ -58,8 +60,8 @@ export function SiteHeader() {
 
       const y = window.scrollY;
       setIsCondensed((prev) => {
-        if (!prev && y >= UTILITY_COLLAPSE_AT) return true;
-        if (prev && y <= UTILITY_EXPAND_AT) return false;
+        if (!prev && y >= HEADER_UTILITY_COLLAPSE_SCROLL_Y) return true;
+        if (prev && y <= HEADER_UTILITY_EXPAND_SCROLL_Y) return false;
         return prev;
       });
       setScrollStateReady(true);
@@ -96,9 +98,8 @@ export function SiteHeader() {
 
   return (
     <header
-      data-site-header
       className={cn(
-        "sticky top-0 isolate z-[65] [overflow-anchor:none]",
+        "relative z-20 w-full",
         "border-b border-[color:var(--color-nav-border)]",
         "bg-[color:var(--color-nav-bg)]",
         "shadow-[0_10px_26px_rgba(2,6,23,0.08)]",

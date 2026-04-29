@@ -5,7 +5,7 @@ import * as React from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/cn";
 import { useAdminTheme } from "@/app/(admin)/components/theme/AdminThemeProvider";
-import { SoftButton, IconButton } from "@/app/(admin)/components/ui/Buttons";
+import { IconButton } from "@/app/(admin)/components/ui/Buttons";
 import { JobApplicationDetailsModal } from "@/app/(admin)/components/jobs/JobApplicationDetailsModal";
 import {
   AdminListErrorAlert,
@@ -18,7 +18,7 @@ import {
   useAdminConfirmRun,
   useAdminUrlSyncedFilters,
 } from "@/app/(admin)/components/admin-list";
-import { Users, Eye, Archive, ArchiveRestore } from "lucide-react";
+import { Archive, ArchiveRestore, Eye, Users } from "lucide-react";
 import { EJobApplicationStatus } from "@/types/jobApplication.types";
 import { adminSetApplicationStatus } from "@/lib/utils/jobs/adminJobsApi";
 
@@ -170,12 +170,13 @@ export default function AdminJobApplicationsForJobClient({
 
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-2">
-                        <SoftButton
+                        <IconButton
+                          title="View application"
                           disabled={pending}
                           onClick={() => setSelectedApplication(a)}
-                          icon={<Eye className="h-4 w-4" />}
-                          label="View"
-                        />
+                        >
+                          <Eye className="h-4 w-4" />
+                        </IconButton>
 
                         {isArchived ? (
                           <IconButton

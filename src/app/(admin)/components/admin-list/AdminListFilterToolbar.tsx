@@ -18,6 +18,7 @@ export function AdminListFilterToolbar({
   statusPlaceholder = "All statuses",
   onClearFilters,
   disabled,
+  disableSearchInput = false,
   gridClassName,
 }: {
   q: string;
@@ -29,6 +30,7 @@ export function AdminListFilterToolbar({
   statusPlaceholder?: string;
   onClearFilters: () => void;
   disabled?: boolean;
+  disableSearchInput?: boolean;
   gridClassName?: string;
 }) {
   return (
@@ -39,7 +41,7 @@ export function AdminListFilterToolbar({
         value={q}
         onChange={onQChange}
         placeholder={searchPlaceholder}
-        disabled={disabled}
+        disabled={disableSearchInput}
       />
       <Select
         value={status}

@@ -18,24 +18,13 @@ import {
   AdminListPageShell,
   AdminListPaginationBar,
   AdminListTableShell,
+  AdminRowMenu,
+  type AdminRowMenuAction,
   useAdminConfirmRun,
   useAdminUrlSyncedFilters,
 } from "@/app/(admin)/components/admin-list";
 
-import {
-  Archive,
-  ArchiveRestore,
-  Briefcase,
-  ExternalLink,
-  Eye,
-  MoreHorizontal,
-  Pencil,
-  Trash2,
-  Upload,
-  X,
-  Ban,
-  Users,
-} from "lucide-react";
+import { Briefcase, ExternalLink, Eye, Pencil, Trash2, X, Users } from "lucide-react";
 
 import { EJobPostingStatus } from "@/types/jobPosting.types";
 import {
@@ -87,173 +76,6 @@ function formatEnumLabel(v?: string) {
     .replace(/_/g, " ")
     .toLowerCase()
     .replace(/\b\w/g, (m) => m.toUpperCase());
-}
-
-function RowMenu({
-  busy,
-  canPublish,
-  canClose,
-  canArchive,
-  canUnarchive,
-  onPublish,
-  onClose,
-  onArchive,
-  onUnarchive,
-  onDelete,
-}: {
-  busy: boolean;
-  canPublish: boolean;
-  canClose: boolean;
-  canArchive: boolean;
-  canUnarchive: boolean;
-  onPublish: () => void;
-  onClose: () => void;
-  onArchive: () => void;
-  onUnarchive: () => void;
-  onDelete: () => void;
-}) {
-  const [open, setOpen] = React.useState(false);
-  const ref = React.useRef<HTMLDivElement | null>(null);
-
-  React.useEffect(() => {
-    function onDoc(e: MouseEvent) {
-      if (!ref.current) return;
-      if (!ref.current.contains(e.target as Node)) setOpen(false);
-    }
-    document.addEventListener("mousedown", onDoc);
-    return () => document.removeEventListener("mousedown", onDoc);
-  }, []);
-
-  React.useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
-    }
-    if (open) document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open]);
-
-  return (
-    <div ref={ref} className="relative">
-      <IconButton title="More actions" disabled={busy} onClick={() => setOpen((v) => !v)}>
-        <MoreHorizontal className="h-4 w-4" />
-      </IconButton>
-
-      {open ? (
-        <div
-          className={cn(
-            "absolute right-0 z-[95] mt-2 w-52 overflow-hidden rounded-3xl border",
-            "border-[var(--dash-border)] bg-[var(--dash-surface)] shadow-[var(--dash-shadow)]",
-          )}
-          role="menu"
-        >
-          {canPublish ? (
-            <>
-              <button
-                type="button"
-                disabled={busy}
-                onClick={() => {
-                  setOpen(false);
-                  onPublish();
-                }}
-                className={cn(
-                  "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
-                  "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
-                )}
-                role="menuitem"
-              >
-                <Upload className="h-4 w-4 text-emerald-500" />
-                Publish
-              </button>
-              <div className="h-px bg-[var(--dash-border)]" />
-            </>
-          ) : null}
-
-          {canClose ? (
-            <>
-              <button
-                type="button"
-                disabled={busy}
-                onClick={() => {
-                  setOpen(false);
-                  onClose();
-                }}
-                className={cn(
-                  "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
-                  "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
-                )}
-                role="menuitem"
-              >
-                <Ban className="h-4 w-4 text-rose-500" />
-                Close
-              </button>
-              <div className="h-px bg-[var(--dash-border)]" />
-            </>
-          ) : null}
-
-          {canArchive ? (
-            <>
-              <button
-                type="button"
-                disabled={busy}
-                onClick={() => {
-                  setOpen(false);
-                  onArchive();
-                }}
-                className={cn(
-                  "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
-                  "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
-                )}
-                role="menuitem"
-              >
-                <Archive className="h-4 w-4 text-amber-500" />
-                Archive
-              </button>
-              <div className="h-px bg-[var(--dash-border)]" />
-            </>
-          ) : null}
-
-          {canUnarchive ? (
-            <>
-              <button
-                type="button"
-                disabled={busy}
-                onClick={() => {
-                  setOpen(false);
-                  onUnarchive();
-                }}
-                className={cn(
-                  "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
-                  "text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)] disabled:opacity-50",
-                )}
-                role="menuitem"
-              >
-                <ArchiveRestore className="h-4 w-4 text-emerald-500" />
-                Unarchive
-              </button>
-              <div className="h-px bg-[var(--dash-border)]" />
-            </>
-          ) : null}
-
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => {
-              setOpen(false);
-              onDelete();
-            }}
-            className={cn(
-              "flex w-full cursor-pointer items-center gap-2 px-3 py-2.5 text-left text-sm transition disabled:cursor-not-allowed",
-              "text-red-600 hover:bg-red-500/10 disabled:opacity-50 dark:text-red-300",
-            )}
-            role="menuitem"
-          >
-            <Trash2 className="h-4 w-4" />
-            Delete
-          </button>
-        </div>
-      ) : null}
-    </div>
-  );
 }
 
 export default function AdminJobsListClient({
@@ -454,6 +276,78 @@ export default function AdminJobsListClient({
                 const showPublish = canPublish;
                 const showClose = canClose;
 
+                const rowMenuActions: AdminRowMenuAction[] = [];
+                if (showPublish) {
+                  rowMenuActions.push({
+                    key: "publish",
+                    label: "Publish",
+                    onClick: () =>
+                      requestConfirm({
+                        title: "Publish this job posting?",
+                        description:
+                          "This will make the posting visible on the public careers page.",
+                        confirmLabel: "Publish",
+                        action: async () => adminPublishJob(id, null),
+                      }),
+                  });
+                }
+                if (showClose) {
+                  rowMenuActions.push({
+                    key: "close",
+                    label: "Close",
+                    onClick: () =>
+                      requestConfirm({
+                        tone: "danger",
+                        title: "Close this job posting?",
+                        description: "This will mark the posting as closed to new applicants.",
+                        confirmLabel: "Close",
+                        action: async () => adminCloseJob(id),
+                      }),
+                  });
+                }
+                if (canArchive) {
+                  rowMenuActions.push({
+                    key: "archive",
+                    label: "Archive",
+                    onClick: () =>
+                      requestConfirm({
+                        tone: "danger",
+                        title: "Archive this job?",
+                        description: "Archived postings are hidden from public listings.",
+                        confirmLabel: "Archive",
+                        action: async () => adminArchiveJob(id),
+                      }),
+                  });
+                }
+                if (canUnarchive) {
+                  rowMenuActions.push({
+                    key: "unarchive",
+                    label: "Unarchive",
+                    onClick: () =>
+                      requestConfirm({
+                        tone: "neutral",
+                        title: "Unarchive this job?",
+                        description:
+                          "This restores the posting so you can publish or edit it again. It will not be public until published.",
+                        confirmLabel: "Unarchive",
+                        action: async () => adminUnarchiveJob(id),
+                      }),
+                  });
+                }
+                rowMenuActions.push({
+                  key: "delete",
+                  label: "Delete",
+                  danger: true,
+                  onClick: () =>
+                    requestConfirm({
+                      tone: "danger",
+                      title: "Delete this job?",
+                      description: "This cannot be undone.",
+                      confirmLabel: "Delete",
+                      action: async () => adminDeleteJob(id),
+                    }),
+                });
+
                 return (
                   <tr
                     key={id}
@@ -477,7 +371,6 @@ export default function AdminJobsListClient({
 
                     <td className="px-4 py-3">
                       <div className="font-semibold text-[var(--dash-text)]">{j.title}</div>
-                      <div className="mt-0.5 text-xs text-[var(--dash-muted)]">{j.slug}</div>
                     </td>
 
                     <td className="px-4 py-3 text-[var(--dash-text)]/90">{j.department || "—"}</td>
@@ -491,23 +384,38 @@ export default function AdminJobsListClient({
                       {viewCount}
                     </td>
 
-                    <td className="px-4 py-3 text-right font-medium text-[var(--dash-text)]/85">
-                      {applicationsCount}
+                    <td className="px-4 py-3 text-right">
+                      <button
+                        type="button"
+                        disabled={pending}
+                        onClick={() => router.push(`/admin/jobs/${id}/applications`)}
+                        className={cn(
+                          "inline-flex items-center gap-1.5 rounded-xl border px-2.5 py-1 text-xs font-semibold transition",
+                          "border-[var(--dash-border)] text-[var(--dash-text)] hover:bg-[var(--dash-surface-2)]",
+                          "disabled:cursor-not-allowed disabled:opacity-50",
+                          applicationsCount === 0 ? "opacity-70" : "",
+                        )}
+                        title={`View applications (${applicationsCount})`}
+                      >
+                        <Users className="h-3.5 w-3.5" />
+                        <span>{applicationsCount}</span>
+                      </button>
                     </td>
 
                     <td className="px-4 py-3 text-[var(--dash-muted)]">
-                      {j.updatedAt ? new Date(j.updatedAt).toLocaleString() : "-"}
+                      {j.updatedAt
+                        ? new Date(j.updatedAt).toLocaleString([], {
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                            hour: "numeric",
+                            minute: "2-digit",
+                          })
+                        : "-"}
                     </td>
 
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-2">
-                        <SoftButton
-                          disabled={pending}
-                          onClick={() => router.push(`/admin/jobs/${id}/applications`)}
-                          icon={<Users className="h-4 w-4" />}
-                          label="Applications"
-                        />
-
                         <IconButton
                           title="Edit"
                           disabled={pending}
@@ -543,60 +451,7 @@ export default function AdminJobsListClient({
                           title={j.title || "Job posting"}
                         />
 
-                        <RowMenu
-                          busy={pending}
-                          canPublish={showPublish}
-                          canClose={showClose}
-                          canArchive={canArchive}
-                          canUnarchive={canUnarchive}
-                          onPublish={() =>
-                            requestConfirm({
-                              title: "Publish this job posting?",
-                              description:
-                                "This will make the posting visible on the public careers page.",
-                              confirmLabel: "Publish",
-                              action: async () => adminPublishJob(id, null),
-                            })
-                          }
-                          onClose={() =>
-                            requestConfirm({
-                              tone: "danger",
-                              title: "Close this job posting?",
-                              description:
-                                "This will mark the posting as closed to new applicants.",
-                              confirmLabel: "Close",
-                              action: async () => adminCloseJob(id),
-                            })
-                          }
-                          onArchive={() =>
-                            requestConfirm({
-                              tone: "danger",
-                              title: "Archive this job?",
-                              description: "Archived postings are hidden from public listings.",
-                              confirmLabel: "Archive",
-                              action: async () => adminArchiveJob(id),
-                            })
-                          }
-                          onUnarchive={() =>
-                            requestConfirm({
-                              tone: "neutral",
-                              title: "Unarchive this job?",
-                              description:
-                                "This restores the posting so you can publish or edit it again. It will not be public until published.",
-                              confirmLabel: "Unarchive",
-                              action: async () => adminUnarchiveJob(id),
-                            })
-                          }
-                          onDelete={() =>
-                            requestConfirm({
-                              tone: "danger",
-                              title: "Delete this job?",
-                              description: "This cannot be undone.",
-                              confirmLabel: "Delete",
-                              action: async () => adminDeleteJob(id),
-                            })
-                          }
-                        />
+                        <AdminRowMenu busy={pending} actions={rowMenuActions} />
                       </div>
 
                       {isClosed ? (

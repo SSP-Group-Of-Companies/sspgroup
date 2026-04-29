@@ -61,7 +61,7 @@ export default function AdminDashboardPage() {
             <div className="flex items-start justify-between gap-3">
               <div
                 className={cn(
-                  "flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--dash-border)]",
+                  "flex h-12 w-12 items-center justify-center rounded-xl border border-[var(--dash-border)]",
                   "bg-[var(--dash-accent-muted)] text-[var(--dash-accent)]",
                 )}
               >

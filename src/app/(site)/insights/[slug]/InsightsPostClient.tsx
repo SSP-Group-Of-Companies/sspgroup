@@ -254,55 +254,57 @@ export default function InsightsPostClient({
                   ? `Banner image for ${String(initialPost.title)}`
                   : "Insights article banner"
               }
-              className="h-full w-full object-cover opacity-40"
+              className="absolute inset-0 h-full w-full object-cover object-center opacity-45"
             />
           ) : null}
           <div className="absolute inset-0 bg-gradient-to-r from-[color:var(--color-company-hero-midnight-start)]/88 via-[color:var(--color-company-hero-midnight-mid)]/72 to-[color:var(--color-company-hero-midnight-end)]/42" />
         </div>
 
-        <Container className="site-page-container relative py-12 sm:py-14">
-          <div className="mb-5">
-            <Link
-              href="/insights"
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded text-xs font-medium text-white/50 transition-colors hover:text-white/75",
-                FOCUS_RING_DARK,
-              )}
-            >
-              <ChevronLeft className="h-3.5 w-3.5" aria-hidden />
-              Back to Insights
-            </Link>
+        <Container className="site-page-container relative py-18 sm:py-22 lg:py-24">
+          <div className="relative max-w-[44rem]">
+            <div className="mb-5">
+              <Link
+                href="/insights"
+                className={cn(
+                  "inline-flex items-center gap-1.5 rounded text-xs font-medium text-white/50 transition-colors hover:text-white/75",
+                  FOCUS_RING_DARK,
+                )}
+              >
+                <ChevronLeft className="h-3.5 w-3.5" aria-hidden />
+                Back to Insights
+              </Link>
+            </div>
+
+            <div>
+              <SectionSignalEyebrow label="Insights" light />
+            </div>
+
+            <h1 className="mt-4 max-w-[18ch] text-[2.05rem] leading-[1.04] font-bold tracking-tight text-balance text-white sm:text-[2.45rem] lg:text-[2.92rem]">
+              {initialPost?.title}
+            </h1>
+
+            <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-white/80">
+              {initialPost?.author?.name ? <span>By {initialPost.author.name}</span> : null}
+              {initialPost?.publishedAt ? (
+                <span className="inline-flex items-center gap-1.5">
+                  <Calendar className="h-4 w-4" />
+                  {fmtDate(initialPost.publishedAt)}
+                </span>
+              ) : null}
+              {initialPost?.readingTimeMinutes ? (
+                <span className="inline-flex items-center gap-1.5">
+                  <Clock className="h-4 w-4" />
+                  {initialPost.readingTimeMinutes} min read
+                </span>
+              ) : null}
+            </div>
+
+            <SocialShareControls
+              url={`/insights/${encodeURIComponent(slug)}`}
+              title={initialPost?.title || "Insight from SSP Group"}
+              className="mt-5 [&_a]:border-white/35 [&_a]:bg-white/10 [&_a]:text-white [&_a:hover]:bg-white/20 [&_button]:border-white/35 [&_button]:bg-white/10 [&_button]:text-white [&_button:hover]:bg-white/20 [&>span]:text-white/85"
+            />
           </div>
-
-          <div>
-            <SectionSignalEyebrow label="Insights" light />
-          </div>
-
-          <h1 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            {initialPost?.title}
-          </h1>
-
-          <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-white/80">
-            {initialPost?.author?.name ? <span>By {initialPost.author.name}</span> : null}
-            {initialPost?.publishedAt ? (
-              <span className="inline-flex items-center gap-1.5">
-                <Calendar className="h-4 w-4" />
-                {fmtDate(initialPost.publishedAt)}
-              </span>
-            ) : null}
-            {initialPost?.readingTimeMinutes ? (
-              <span className="inline-flex items-center gap-1.5">
-                <Clock className="h-4 w-4" />
-                {initialPost.readingTimeMinutes} min read
-              </span>
-            ) : null}
-          </div>
-
-          <SocialShareControls
-            url={`/insights/${encodeURIComponent(slug)}`}
-            title={initialPost?.title || "Insight from SSP Group"}
-            className="mt-5 [&_a]:border-white/35 [&_a]:bg-white/10 [&_a]:text-white [&_a:hover]:bg-white/20 [&_button]:border-white/35 [&_button]:bg-white/10 [&_button]:text-white [&_button:hover]:bg-white/20 [&>span]:text-white/85"
-          />
         </Container>
       </div>
 

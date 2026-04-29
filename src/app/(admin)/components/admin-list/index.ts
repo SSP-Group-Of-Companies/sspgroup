@@ -8,6 +8,7 @@ export { AdminListPaginationBar } from "./AdminListPaginationBar";
 export { AdminListResultsHint } from "./AdminListResultsHint";
 export { AdminListSearchInput } from "./AdminListSearchInput";
 export { AdminListTableShell } from "./AdminListTableShell";
+export { AdminRowMenu, type AdminRowMenuAction } from "./AdminRowMenu";
 export { useAdminUrlSyncedFilters } from "./useAdminUrlSyncedFilters";
 export {
   useAdminConfirmRun,

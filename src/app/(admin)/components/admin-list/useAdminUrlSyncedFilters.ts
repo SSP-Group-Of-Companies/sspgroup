@@ -46,7 +46,9 @@ export function useAdminUrlSyncedFilters(basePath: string) {
       latestFilterRequestRef.current = null;
     }
 
-    if (q !== urlQ) setQ(urlQ);
+    // Preserve in-progress user whitespace (e.g., trailing space while typing).
+    // If URL and input differ only by trim-normalization, keep the current input text.
+    if (q.trim() !== urlQ.trim()) setQ(urlQ);
     if (status !== urlStatus) setStatus(urlStatus);
     // Sync when URL changes only; q/status are compared intentionally without listing them as deps.
   }, [sp]);

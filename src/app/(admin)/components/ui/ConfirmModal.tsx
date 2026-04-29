@@ -76,7 +76,7 @@ export function ConfirmModal({
             <div className="flex items-start gap-3">
               <div
                 className={cn(
-                  "mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-2xl border",
+                  "mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-xl border",
                   "border-[var(--dash-border)] bg-[var(--dash-bg)]",
                   tone === "danger" ? "text-[var(--dash-red)]" : "text-[var(--dash-text)]",
                 )}
@@ -95,7 +95,7 @@ export function ConfirmModal({
                 type="button"
                 onClick={onClose}
                 className={cn(
-                  "cursor-pointer rounded-2xl p-2 transition",
+                  "cursor-pointer rounded-xl p-2 transition",
                   "text-[var(--dash-muted)] hover:bg-[var(--dash-surface-2)] hover:text-[var(--dash-text)]",
                 )}
                 aria-label="Close"
@@ -111,7 +111,7 @@ export function ConfirmModal({
               onClick={onClose}
               disabled={busy}
               className={cn(
-                "inline-flex h-9 cursor-pointer items-center justify-center rounded-2xl border px-3 text-sm font-semibold transition",
+                "inline-flex h-9 cursor-pointer items-center justify-center rounded-xl border px-3 text-sm font-semibold transition",
                 "border-[var(--dash-border)] bg-[var(--dash-bg)] text-[var(--dash-text)]",
                 "hover:bg-[var(--dash-surface-2)]",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
@@ -126,7 +126,7 @@ export function ConfirmModal({
               onClick={onConfirm}
               disabled={busy}
               className={cn(
-                "inline-flex h-9 cursor-pointer items-center justify-center rounded-2xl px-3 text-sm font-semibold transition",
+                "inline-flex h-9 cursor-pointer items-center justify-center rounded-xl px-3 text-sm font-semibold transition",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--dash-accent-soft)]",
                 "disabled:cursor-not-allowed disabled:opacity-50",
                 confirmBtn,

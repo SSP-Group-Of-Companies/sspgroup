@@ -19,7 +19,7 @@ export function AdminListSearchInput({
   return (
     <div
       className={cn(
-        "group flex items-center gap-2 rounded-2xl border px-3 py-2 transition",
+        "group flex items-center gap-2 rounded-xl border px-3 py-2 transition",
         "border-[var(--dash-border)] bg-[var(--dash-bg)]",
         "focus-within:ring-2 focus-within:ring-[var(--dash-accent-soft)]",
         disabled && "pointer-events-none opacity-60",
@@ -39,7 +39,7 @@ export function AdminListSearchInput({
           type="button"
           onClick={() => onChange("")}
           className={cn(
-            "cursor-pointer rounded-2xl p-1.5 text-[var(--dash-muted)] transition disabled:cursor-not-allowed",
+            "cursor-pointer rounded-xl p-1.5 text-[var(--dash-muted)] transition disabled:cursor-not-allowed",
             "hover:bg-[var(--dash-surface-2)] hover:text-[var(--dash-text)]",
           )}
           aria-label="Clear search"
