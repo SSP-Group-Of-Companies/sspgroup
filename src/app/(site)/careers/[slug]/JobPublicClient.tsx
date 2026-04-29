@@ -886,13 +886,7 @@ export default function JobPublicClient({ job }: { job: IJobPosting }) {
                 >
                   {NEXT_PUBLIC_SSP_HR_EMAIL}
                 </a>
-                .
-              </div>
-              <div className="mt-3 flex min-w-0 items-center gap-2 text-xs text-[color:var(--color-muted-light)]">
-                <Phone className="h-3.5 w-3.5 shrink-0" />
-                <span className="min-w-0 break-words">
-                  Please include the job title in your message.
-                </span>
+
               </div>
             </div>
           </aside>
