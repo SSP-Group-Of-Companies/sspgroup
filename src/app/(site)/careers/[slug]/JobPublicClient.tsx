@@ -10,7 +10,6 @@ import {
   Briefcase,
   Building2,
   Mail,
-  Phone,
   UploadCloud,
   CheckCircle2,
   AlertTriangle,
