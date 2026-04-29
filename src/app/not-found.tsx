@@ -2,6 +2,10 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { SITE_NAME } from "@/lib/seo/site";
 
+/**
+ * Fallback when no nested `not-found` applies (e.g. rare framework edge cases).
+ * Unknown marketing URLs should hit `(site)/[...slug]` → `(site)/not-found.tsx` with full site chrome.
+ */
 export const metadata: Metadata = {
   title: "Page not found",
   description: `The page you were looking for couldn't be found on ${SITE_NAME}.`,
