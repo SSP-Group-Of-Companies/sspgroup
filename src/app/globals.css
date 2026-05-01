@@ -65,11 +65,9 @@ html {
    * evergreen browser since 2023 (Chrome 111 / Safari 16.2 / Firefox 113). */
   ::selection {
     background-color: color-mix(in srgb, var(--color-ssp-cyan-500) 28%, transparent);
-    color: var(--color-text-strong);
   }
   ::-moz-selection {
     background-color: color-mix(in srgb, var(--color-ssp-cyan-500) 28%, transparent);
-    color: var(--color-text-strong);
   }
 
   /* Brand the few native form controls we render directly. Almost every
